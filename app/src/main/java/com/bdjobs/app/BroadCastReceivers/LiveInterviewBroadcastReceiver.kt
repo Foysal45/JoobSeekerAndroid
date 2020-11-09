@@ -1,0 +1,64 @@
+package com.bdjobs.app.BroadCastReceivers
+
+import android.app.AlarmManager
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
+import com.bdjobs.app.Notification.NotificationHelper
+import timber.log.Timber
+
+class LiveInterviewBroadcastReceiver : BroadcastReceiver() {
+
+    var NOTIFICATION_ID = "notification-id"
+    var NOTIFICATION = "notification"
+
+    lateinit var context: Context
+
+    override fun onReceive(ctx: Context, intent: Intent?) {
+
+        Timber.d("called broadcast")
+
+        context = ctx
+
+        if (intent?.action == "android.intent.action.BOOT_COMPLETED" || intent?.action == "android.intent.action.LOCKED_BOOT_COMPLETED"){
+            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+//            val notification: Notification? = intent.getParcelableExtra(NOTIFICATION)
+//            val id = intent.getIntExtra(NOTIFICATION_ID, 0)
+//
+//            notificationManager.notify(id,notification)
+        } else{
+            Timber.d("called broadcast else")
+
+            Toast.makeText(context, "Enjoy More", Toast.LENGTH_LONG).show()
+//            NotificationHelper(context).mNotificationManager.notify(
+//            )
+        }
+    }
+
+    private fun scheduleNotification(notification: Notification, delay: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            val notificationIntent = Intent(context, LiveInterviewBroadcastReceiver::class.java)
+            notificationIntent.putExtra(LiveInterviewBroadcastReceiver().NOTIFICATION_ID, 1)
+            notificationIntent.putExtra(LiveInterviewBroadcastReceiver().NOTIFICATION, notification)
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val futureInMillis = System.currentTimeMillis() + delay
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE)  as AlarmManager
+
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent)
+        }
+
+    }
+}
