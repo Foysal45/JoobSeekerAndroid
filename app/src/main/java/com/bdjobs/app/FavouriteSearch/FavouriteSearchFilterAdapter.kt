@@ -581,9 +581,9 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 workPlace = "Work From Home"
         }
 
-        favouriteSearch.retiredarmy?.let { string ->
+        favouriteSearch.personWithDisability?.let { string ->
             if (string == "1")
-                personWithDisability = "Preferred Retired Army"
+                personWithDisability = "Person With Disability"
         }
 
         var gender = ""
@@ -598,7 +598,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
         //Log.d("gender", "genderb: ${favouriteSearch.genderb}")
 
-        var allValues = ("$keyword,$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper")
+        var allValues = ("$keyword,$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability")
         //Log.d("allValuesN", allValues)
         allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")

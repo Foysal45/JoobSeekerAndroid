@@ -165,7 +165,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                                     jobType.isNullOrBlank() &&
                                     army.isNullOrBlank() &&
                                     age.isNullOrBlank() &&
-                                    newspaper.isNullOrBlank()
+                                    newspaper.isNullOrBlank() &&
+                                    workPlace.isNullOrBlank() &&
+                                    personWithDisability.isNullOrBlank()
                             ) {
                                 toast("Please apply at least one filter to update the search")
                             } else {
@@ -272,6 +274,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         getDataFromChipGroup(deadlineCG)
         getDataFromChipGroup(ageRangeCG)
         getDataFromChipGroup(armyCG)
+        getDataFromChipGroup(chip_group_workplace)
+        getDataFromChipGroup(chip_group_person_with_disability)
 
 
         maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -552,7 +556,6 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 //                    location = filterData.location!!
                     industry = filterData.industrialCat!!
                     newspaper = filterData.newspaper!!
-
 
 
                     newsPaperET?.setText(dataStorage.getNewspaperNameById(filterData.newspaper))
