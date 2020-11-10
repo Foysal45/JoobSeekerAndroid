@@ -195,4 +195,10 @@
         <item name="iconTint">@color/color_states_materialbutton</item>
     </style>
 
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#BDBDBD</item>
+        <item name="colorControlActivated">#FF6F00</item>
+    </style>
+
 </resources>
