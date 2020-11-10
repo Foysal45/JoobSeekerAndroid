@@ -146,6 +146,6 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="com.bdjobs.app.videoInterview.ui.rating.RatingFragment" />
+            type="com.bdjobs.app.videoInterview.ui.rating.RatingViewModel" />
     </data>
 </layout>

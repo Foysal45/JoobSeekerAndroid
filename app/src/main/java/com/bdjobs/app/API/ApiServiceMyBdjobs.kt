@@ -15,6 +15,7 @@ import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.transaction.data.model.TransactionList
 import com.bdjobs.app.sms.data.model.SMSSettings
 import com.bdjobs.app.videoInterview.data.models.CommonResponse
+import com.bdjobs.app.videoInterview.data.models.InterviewFeedback
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.gson.GsonBuilder
@@ -800,6 +801,20 @@ interface ApiServiceMyBdjobs {
             @Field("decodeId") decodeID: String? = "",
             @Field("jobId") jobId: String? = ""
     ): Call<VideoInterviewDetails>
+
+    @FormUrlEncoded
+    @POST("app_submit_feedback.asp")
+    suspend fun submitInterviewFeedback(
+            @Field("userId") userID: String?,
+            @Field("decodeId") decodeID: String?,
+            @Field("jobId") jobId: String?,
+            @Field("applyId") applyId: String?,
+            @Field("rating") rating: String?,
+            @Field("feedbackComment") feedbackComment: String?,
+            @Field("featureName") featureName: String?,
+            @Field("appId") appId: String?,
+    ) : InterviewFeedback
+
 
     @FormUrlEncoded
     @POST("apps_salary_edit.asp")

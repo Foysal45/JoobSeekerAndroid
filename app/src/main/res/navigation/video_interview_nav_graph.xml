@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/video_interview_nav_graph"
-    app:startDestination="@id/videoInterviewListFragment">
+    app:startDestination="@id/ratingFragment">
 
     <fragment
         android:id="@+id/videoInterviewListFragment"
@@ -146,4 +146,9 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/ratingFragment"
+        android:name="com.bdjobs.app.videoInterview.ui.rating.RatingFragment"
+        android:label="RatingFragment"
+        tools:layout="@layout/fragment_rating"/>
 </navigation>
