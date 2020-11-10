@@ -30,6 +30,7 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.util.*
 
 
@@ -58,8 +59,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private var createdOn: Date? = null
     private var gender:String? = ""
 
-    private var workPlace : String? = ""
-    private var personWithDisability : String ? = ""
+    private var workPlace : String? = "0"
+    private var personWithDisability : String ? = "0"
 
     val genderList: MutableList<String> = ArrayList<String>()
 
@@ -77,7 +78,6 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         filterID = favCommunicator.getFilterID()
         onClicks()
         setData()
-
     }
 
 
@@ -150,6 +150,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                             filterNameTIL.showError("This filter name is already exists.")
                             activity.requestFocus(filterNameET)
                         } else {
+                            Timber.d("$workPlace $personWithDisability")
                             if (
                                     industry.isNullOrBlank() &&
                                     category.isNullOrBlank() &&
@@ -350,7 +351,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 filterName = filterNameET.getString().trim(),
                 qAge = age,
                 newspaper = newspaper,
-                encoded = Constants.ENCODED_JOBS
+                encoded = Constants.ENCODED_JOBS,
+                workPlace = workPlace,
+                personWithDisability = personWithDisability
 
         ).enqueue(object : Callback<SaveUpdateFavFilterModel> {
             override fun onFailure(call: Call<SaveUpdateFavFilterModel>, t: Throwable) {
@@ -476,7 +479,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                         age = ""
                     }
                     R.id.armyCG -> {
-                        army = "1"
+                        army = "0"
                     }
                     R.id.chip_group_workplace ->{
                         workPlace = "0"

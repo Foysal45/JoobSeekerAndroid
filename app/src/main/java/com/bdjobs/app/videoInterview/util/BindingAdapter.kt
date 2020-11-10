@@ -188,16 +188,20 @@ fun bindQuestionNotAnsweredButtonVisibility(button: MaterialButton, status: Stri
         button.hide()
 }
 
-@BindingAdapter("submitButtonTotalAnswers", "submitButtonIsInterested", "submitButtonEnableAfterTimer", "submitButtonTotalQuestions", "submitButtonRemainingTime")
-fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested: Boolean, enableAfterTimer: Boolean, totalQuestions: Int?, remainingTime: String?) {
-    totalAnswers?.let {
-        totalQuestions?.let {
-            //Log.d("rakib", "total answers $totalAnswers total questions $totalQuestions")
-            try {
-                if (totalAnswers.toInt() >= totalQuestions) {
-                    button.alpha = 1f
-                    button.isEnabled = true
-                } else {
+@BindingAdapter("submitButtonTotalAnswers", "submitButtonIsNotInterested", "submitButtonEnableAfterTimer", "submitButtonTotalQuestions", "submitButtonRemainingTime")
+fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isNotInterested: Boolean, enableAfterTimer: Boolean, totalQuestions: Int?, remainingTime: String?) {
+    if (isNotInterested){
+        button.alpha = 1f
+        button.isEnabled = true
+    } else{
+        totalAnswers?.let {
+            totalQuestions?.let {
+                //Log.d("rakib", "total answers $totalAnswers total questions $totalQuestions")
+                try {
+                    if (totalAnswers.toInt() >= totalQuestions) {
+                        button.alpha = 1f
+                        button.isEnabled = true
+                    } else {
 //                    button.isEnabled = (isInterested || enableAfterTimer).also { enabled ->
 //                        //Log.d("rakib", "is Interested $isInterested enable after timer $enableAfterTimer")
 //                        if (enabled)
@@ -206,13 +210,15 @@ fun bindSubmitButton(button: MaterialButton, totalAnswers: String?, isInterested
 //                            button.alpha = .5f
 //
 //                    }
-                    button.alpha = .5f
-                    button.isEnabled = false
+                        button.alpha = .5f
+                        button.isEnabled = false
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
         }
+
     }
 //    remainingTime?.let {
 //        if (it.toInt() == 0 && totalAnswers!!.toInt() > 0) {

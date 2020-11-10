@@ -61,9 +61,9 @@ data class FavouritSearchFilterData(
         @SerializedName("isSubscribed")
         val isSubscribed: String?="",
         @SerializedName("workplace")
-        val workPlace: Int?,
+        val workPlace: String?,
         @SerializedName("pwd")
-        val personWithDisability: Int?
+        val personWithDisability: String?
 
 )
 @Keep

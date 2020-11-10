@@ -122,8 +122,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                     updatedon = updatedOn,
                                     totaljobs = item?.totaljobs,
                                     isSubscribed = item?.isSubscribed,
-                                    workPlace = item?.workPlace.toString(),
-                                    personWithDisability = item?.personWithDisability.toString()
+                                    workPlace = item?.workPlace,
+                                    personWithDisability = item?.personWithDisability
 
                             )
                             bdjobsInternalDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)

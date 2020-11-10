@@ -303,8 +303,7 @@
                         android:layout_marginTop="20dp"
                         android:background="@drawable/background_video_interview_question_total_time"
                         android:padding="15dp"
-                        app:visibilityWhenTimerShowing="@{viewModel.questionCommonData.remaingTime}"
-                        app:visibilityWhenSubmitted="@{viewModel.questionCommonData.userSubmittedAnswer}"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toStartOf="@id/guideline_end"
                         app:layout_constraintStart_toEndOf="@id/guideline_start"
                         app:layout_constraintTop_toBottomOf="@id/rv_question">
@@ -368,7 +367,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
                         android:clipToPadding="false"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/guideline_end"
                         app:layout_constraintStart_toEndOf="@id/guideline_start"
                         app:layout_constraintTop_toBottomOf="@id/rl_question_number"
@@ -598,7 +596,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideline_middle"
                 app:submitButtonEnableAfterTimer="@{viewModel.shouldEnableSubmitButtonAfterTimerEnd}"
-                app:submitButtonIsInterested="@{viewModel.isNotInterestedToSubmitChecked}"
+                app:submitButtonIsNotInterested="@{viewModel.isNotInterestedToSubmitChecked}"
                 app:submitButtonTotalAnswers="@{viewModel.questionCommonData.VUserTotalAnswerequestion}"
                 app:submitButtonTotalQuestions="@{viewModel.questionListData.size()}"
                 app:submitButtonRemainingTime="@{viewModel.questionCommonData.remaingTime}"/>
