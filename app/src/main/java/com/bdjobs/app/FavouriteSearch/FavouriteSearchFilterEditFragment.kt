@@ -391,7 +391,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                                     updatedon = Date(),
                                     totaljobs = "",
                                     createdon = createdOn,
-                                    genderb = ""
+                                    genderb = "",
+                                    workPlace = workPlace,
+                                    personWithDisability = personWithDisability
 
                             )
                             bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
@@ -479,7 +481,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                         age = ""
                     }
                     R.id.armyCG -> {
-                        army = "0"
+                        army = ""
                     }
                     R.id.chip_group_workplace ->{
                         workPlace = "0"

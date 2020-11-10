@@ -114,11 +114,11 @@ class VideoInterviewRepository(val application: Application) {
             ApiServiceMyBdjobs.create().submitInterviewFeedback(
                     userID = session.userId,
                     decodeID = session.decodId,
-                    applyId = "",
-                    jobId = "",
-                    rating = "",
-                    feedbackComment = "",
-                    featureName = "Live Interview",
+                    applyId = applyId,
+                    jobId = jobId,
+                    rating = rating,
+                    feedbackComment = feedbackComment,
+                    featureName = "Video Interview",
                     appId = Constants.APP_ID
             )
         }

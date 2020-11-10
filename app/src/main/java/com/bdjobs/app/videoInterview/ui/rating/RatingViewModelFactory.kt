@@ -8,8 +8,8 @@ import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 @Suppress("UNCHECKED_CAST")
 class RatingViewModelFactory (
         private val repository: VideoInterviewRepository,
-        val applyId: String,
-        val jobId: String
+        val applyId: String?,
+        val jobId: String?
 
 ) : ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

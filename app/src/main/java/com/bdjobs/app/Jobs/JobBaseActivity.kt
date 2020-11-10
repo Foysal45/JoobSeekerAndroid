@@ -372,6 +372,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                             setDeadline(favSearch.deadline)
                             setAge(favSearch.age)
                             setArmy(favSearch.retiredarmy)
+                            setWorkPlace(favSearch.workPlace)
+                            setPersonWithDisability(favSearch.personWithDisability)
                         } catch (e: Exception) {
                             logException(e)
                         }

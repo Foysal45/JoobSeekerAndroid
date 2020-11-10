@@ -34,6 +34,9 @@ class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepos
     private val _applyId = MutableLiveData<String>()
     val applyId: LiveData<String> = _applyId
 
+    private val _jobTitle = MutableLiveData<String>()
+    val jobTitle: LiveData<String> = _jobTitle
+
 //    init {
 //        getVideoInterviewDetails()
 //    }
@@ -47,6 +50,7 @@ class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepos
                 _commonData.value = response.common
                 _applyId.value = response.common?.applyId
                 _jobId.value = response.common?.jobId
+                _jobTitle.value = response.common?.jobTitle
                 _dataLoading.value = false
             } catch (e: Exception) {
                 e.printStackTrace()

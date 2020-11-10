@@ -28,6 +28,8 @@ data class VideoInterviewDetails(
         var jobId: String?, // 175024003
         @Json(name = "companyName")
         var companyName: String?, // Utopia Test Company
+        @Json(name = "jobTitle")
+        var jobTitle: String?, // Senior Software Engineer
         @Json(name = "showUndo")
         var showUndo: String?,
         @Json(name = "strVideoSubmitMessage")

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/video_interview_nav_graph"
-    app:startDestination="@id/ratingFragment">
+    app:startDestination="@id/videoInterviewListFragment">
 
     <fragment
         android:id="@+id/videoInterviewListFragment"
@@ -101,6 +101,14 @@
             app:popUpToInclusive="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_questionListFragment_to_ratingFragment"
+            app:destination="@id/ratingFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
 
     </fragment>
     <fragment
@@ -150,5 +158,10 @@
         android:id="@+id/ratingFragment"
         android:name="com.bdjobs.app.videoInterview.ui.rating.RatingFragment"
         android:label="RatingFragment"
-        tools:layout="@layout/fragment_rating"/>
+        tools:layout="@layout/fragment_rating">
+        <action
+            android:id="@+id/action_ratingFragment_to_videoInterviewListFragment"
+            app:destination="@id/videoInterviewListFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

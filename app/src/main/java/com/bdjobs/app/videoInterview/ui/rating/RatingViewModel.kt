@@ -5,13 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
+import com.bdjobs.app.videoInterview.util.Event
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class RatingViewModel(
         val repository: VideoInterviewRepository,
-        val applyId: String,
-        val jobId: String
+        val applyId: String?,
+        val jobId: String?
 ) : ViewModel() {
 
     val feedback = MutableLiveData<String>().apply {
@@ -25,6 +26,8 @@ class RatingViewModel(
     val enableSubmitButton = MutableLiveData<Boolean>().apply {
         value = false
     }
+
+    val navigateToListEvent = MutableLiveData<Event<Boolean>>()
 
     fun afterFeedbackTextChanged(editable: Editable) {
         checkValidation()
@@ -57,7 +60,7 @@ class RatingViewModel(
                     rating = rating.value.toString()
             )
             if(resposne.statuscode == "4"){
-
+                navigateToListEvent.value = Event(true)
             }
         }
     }

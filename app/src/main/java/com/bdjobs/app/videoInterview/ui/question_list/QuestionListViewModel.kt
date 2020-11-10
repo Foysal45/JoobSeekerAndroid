@@ -79,6 +79,8 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
     }
     val shouldShowOneHourInfo: LiveData<Boolean> = _shouldShowOneHourInfo
 
+    val navigateToFeedbackEvent = MutableLiveData<Event<Boolean>>()
+
     init {
         //getQuestionList()
     }

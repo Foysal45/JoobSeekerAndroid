@@ -196,6 +196,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                     ApiServiceMyBdjobs.create().getFavFilterCount(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intFId = filterId).enqueue(object : Callback<FavouriteSearchCountModel> {
                         override fun onFailure(call: Call<FavouriteSearchCountModel>, t: Throwable) {
                             error("onFailure", t)
+                            holder.favcounter1BTN.text = "0"
                         }
 
                         override fun onResponse(call: Call<FavouriteSearchCountModel>, response: Response<FavouriteSearchCountModel>) {
@@ -366,6 +367,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                     ApiServiceMyBdjobs.create().getFavFilterCount(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intFId = filterId).enqueue(object : Callback<FavouriteSearchCountModel> {
                         override fun onFailure(call: Call<FavouriteSearchCountModel>, t: Throwable) {
                             error("onFailure", t)
+                            holder.favcounter1BTN.text = "0"
                         }
 
                         override fun onResponse(call: Call<FavouriteSearchCountModel>, response: Response<FavouriteSearchCountModel>) {

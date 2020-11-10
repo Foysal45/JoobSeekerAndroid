@@ -161,7 +161,8 @@ class QuestionListFragment : Fragment() {
 //                    cb_not_interested?.hide()
 //                    btn_submit?.hide()
 //                    btn_submit_later?.hide()
-                    findNavController().popBackStack()
+                    //findNavController().popBackStack()
+                    findNavController().navigate(R.id.action_questionListFragment_to_ratingFragment)
                 }
             })
 

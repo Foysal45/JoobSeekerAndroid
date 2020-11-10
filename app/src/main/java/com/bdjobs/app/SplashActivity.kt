@@ -246,10 +246,10 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 //                }
 //                DatabaseUpdateJob.runJobImmediately()
 
-                scheduleNotification()
+                //scheduleNotification()
 
-                WorkManager.getInstance(applicationContext).cancelAllWorkByTag("test")
-                WorkManager.getInstance(applicationContext).cancelAllWorkByTag("live")
+//                WorkManager.getInstance(applicationContext).cancelAllWorkByTag("test")
+//                WorkManager.getInstance(applicationContext).cancelAllWorkByTag("live")
 
                 val constraints = Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.CONNECTED)
