@@ -2,14 +2,11 @@ package com.bdjobs.app.Employers
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.MessageDataModel
 import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.InterviewInvitation.InterveiwInvitationListFragment
-import com.bdjobs.app.InterviewInvitation.InterviewInvitationDetailsFragment
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants

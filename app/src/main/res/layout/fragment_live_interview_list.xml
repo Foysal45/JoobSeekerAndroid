@@ -94,7 +94,7 @@
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="#13A10E"
                     android:textSize="14sp"
-                    android:text='@{viewModel.commonData.totalLiveInterview ?? "0"}'
+                    android:text='@{String.valueOf(viewModel.list.size()) ?? "0"}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

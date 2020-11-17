@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -16,66 +15,41 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.provider.Settings
 import android.util.Base64
-import android.util.Log
 import android.view.Window
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
 import androidx.work.*
-import com.bdjobs.app.API.ApiServiceJobs
-import com.bdjobs.app.API.ModelClasses.DatabaseUpdateModel
 //import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
-import com.bdjobs.app.BroadCastReceivers.LiveInterviewBroadcastReceiver
 import com.bdjobs.app.BroadCastReceivers.TestBroadcastReceiver
-import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_NAME
-import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_PATH
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
-import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
-import com.bdjobs.app.Workmanager.AlertJobWorker
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
-import com.bdjobs.app.Workmanager.LiveInterviewAlertWorker
-import com.facebook.internal.WebDialog
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.PermissionRequest
-import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.inappmessaging.internal.injection.qualifiers.Analytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoTools
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.no_internet.*
-import okhttp3.ResponseBody
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.*
 import java.security.MessageDigest
-import java.util.concurrent.TimeUnit
 
 
 class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityReceiverListener {
@@ -246,7 +220,7 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 //                }
 //                DatabaseUpdateJob.runJobImmediately()
 
-                //scheduleNotification()
+                scheduleNotification()
 
 //                WorkManager.getInstance(applicationContext).cancelAllWorkByTag("test")
 //                WorkManager.getInstance(applicationContext).cancelAllWorkByTag("live")

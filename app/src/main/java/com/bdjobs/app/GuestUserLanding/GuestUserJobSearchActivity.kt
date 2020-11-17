@@ -10,12 +10,10 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.MotionEvent
 import android.widget.Button
 import android.widget.EditText
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
-import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.Login2.Login2BaseActivity
@@ -34,7 +32,6 @@ import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener {
 

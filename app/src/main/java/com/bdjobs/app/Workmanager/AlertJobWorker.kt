@@ -1,11 +1,9 @@
 package com.bdjobs.app.Workmanager
 
 import android.content.Context
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
@@ -14,7 +12,6 @@ import org.jetbrains.anko.uiThread
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class AlertJobWorker(val appContext: Context, workerParams: WorkerParameters): Worker(appContext,workerParams) {
     override fun doWork(): Result {

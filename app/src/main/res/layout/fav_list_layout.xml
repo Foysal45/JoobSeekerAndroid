@@ -105,7 +105,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/favcounter1BTN"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="56dp"
+            android:layout_width="60dp"
             android:layout_height="64dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="16dp"

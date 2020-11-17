@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationCommunicator
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R

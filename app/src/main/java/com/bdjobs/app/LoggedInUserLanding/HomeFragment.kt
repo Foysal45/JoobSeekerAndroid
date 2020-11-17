@@ -14,40 +14,31 @@ import android.view.Window
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationManagerCompat
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
 import com.bdjobs.app.API.ModelClasses.LastUpdateModel
-import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.Internal.*
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.*
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchFilterAdapter
 import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
-import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_ALERT_NOTIFICATION
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
 import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.liveInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
-import com.bdjobs.app.assessment.AssesmentBaseActivity
 
-import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
-import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
-import com.google.android.material.button.MaterialButton
-import kotlinx.android.synthetic.main.applied_jobs.*
 import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.layout_all_interview_invitation.*
 import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
@@ -58,7 +49,6 @@ import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_video_interview_invitations_layout.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
@@ -69,6 +59,11 @@ import java.util.*
 
 
 class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        Timber.d("called onSaveInstanceState")
+    }
 
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
@@ -322,7 +317,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
             val followedEmployerJobCount = bdjobsDB.followedEmployerDao().getJobCountOfFollowedEmployer()
             uiThread {
-                showBlankLayout()
+//                showBlankLayout()
                 followedEmployerView?.hide()
                 if (!followedEmployerList.isNullOrEmpty()) {
                     followEmplowercounterTV?.text = followedEmployerJobCount.toString()
@@ -347,7 +342,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             jobInvitations = bdjobsDB.jobInvitationDao().getAllJobInvitation()
             uiThread {
                 try {
-                    showBlankLayout()
+//                    showBlankLayout()
                     jobInvitationView?.hide()
                     if (!jobInvitations.isNullOrEmpty()) {
                         var companyNames = ""
@@ -398,7 +393,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getLatest2FavouriteSearchFilter()
             val allfavsearch = bdjobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
             uiThread {
-                showBlankLayout()
+//                showBlankLayout()
                 favSearchView?.hide()
                 if (!favouriteSearchFilters.isNullOrEmpty()) {
                     try {
@@ -445,24 +440,24 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     private fun showBlankLayout() {
-        if (followedEmployerList.isNullOrEmpty()
-                && jobInvitations.isNullOrEmpty()
-                && favouriteSearchFilters.isNullOrEmpty()
-                && b2CCertificationList.isNullOrEmpty()
-                && lastSearch.isNullOrEmpty()
-                && (Constants.liveInvitation == "0" && Constants.videoInvitation == "0" && Constants.generalInvitation == "0")
-        ) {
-            mainLL?.hide()
-            blankCL?.show()
-            newSearchBTN?.hide()
-        }
+//        if (followedEmployerList.isNullOrEmpty()
+//                && jobInvitations.isNullOrEmpty()
+//                && favouriteSearchFilters.isNullOrEmpty()
+//                && b2CCertificationList.isNullOrEmpty()
+//                && lastSearch.isNullOrEmpty()
+//                && (Constants.liveInvitation == "0" && Constants.videoInvitation == "0" && Constants.generalInvitation == "0")
+//        ) {
+//            mainLL?.hide()
+//            blankCL?.show()
+//            newSearchBTN?.hide()
+//        }
     }
 
     private fun showLastSearch() {
         doAsync {
             lastSearch = bdjobsDB.lastSearchDao().getLastSearch()
             uiThread {
-                showBlankLayout()
+//                showBlankLayout()
                 lastSearchView?.hide()
                 if (!lastSearch.isNullOrEmpty()) {
 

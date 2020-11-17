@@ -21,10 +21,10 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
-import com.bdjobs.app.Databases.Internal.AppliedJobs
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.FollowedEmployer
-import com.bdjobs.app.Databases.Internal.ShortListedJobs
+import com.bdjobs.app.databases.internal.AppliedJobs
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.FollowedEmployer
+import com.bdjobs.app.databases.internal.ShortListedJobs
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R

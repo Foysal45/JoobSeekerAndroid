@@ -2,16 +2,14 @@ package com.bdjobs.app.Notification
 
 import android.content.Intent
 import android.util.Log
-import androidx.annotation.UiThread
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 //import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.Notification
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.Notification.Models.CommonNotificationModel
-import com.bdjobs.app.Notification.Models.InterviewInvitationNotificationModel
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
@@ -21,7 +19,6 @@ import com.google.gson.Gson
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
-import kotlin.system.exitProcess
 
 class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
 

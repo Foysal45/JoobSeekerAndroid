@@ -2,12 +2,11 @@ package com.bdjobs.app.Registration.blue_collar_registration
 
 import android.app.Fragment
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.InviteCode.InviteCodeBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator

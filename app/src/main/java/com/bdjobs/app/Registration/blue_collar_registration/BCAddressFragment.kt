@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.External.LocationModel
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.External.LocationModel
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.*

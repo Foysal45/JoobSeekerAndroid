@@ -5,13 +5,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.bdjobs.app.Databases.Internal.BdjobsDB
 import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.Utilities.Constants
-import com.skydoves.balloon.Balloon
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 
