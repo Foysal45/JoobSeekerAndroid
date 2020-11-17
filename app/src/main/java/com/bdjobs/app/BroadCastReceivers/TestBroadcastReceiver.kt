@@ -12,7 +12,10 @@ import android.os.SystemClock
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,14 +46,22 @@ class TestBroadcastReceiver : BroadcastReceiver() {
         val cal = Calendar.getInstance()
         val sdf = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
         val test: String = sdf.format(cal.time)
-        var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
-                .setSmallIcon(R.drawable.bdjobs_app_logo)
-                .setContentTitle("Test")
-                .setContentText("$test serial $data")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        with(NotificationManagerCompat.from(ctx)) {
-            notify(100, builder.build())
+
+        doAsync {
+            val totalInvitations = BdjobsDB.getInstance(ctx).liveInvitationDao().getAllLiveInvitationByDate(Date())
+            uiThread {
+                var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
+                        .setSmallIcon(R.drawable.bdjobs_app_logo)
+                        .setContentTitle("Test")
+                        .setContentText("You have total ${totalInvitations.size} live interview invitations")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                with(NotificationManagerCompat.from(ctx)) {
+                    notify(100, builder.build())
+                }
+            }
         }
+
+
     }
 
     private fun createNotificationChannel() {
