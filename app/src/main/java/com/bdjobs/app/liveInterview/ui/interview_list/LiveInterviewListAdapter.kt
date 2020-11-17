@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.databases.internal.LiveInvitation
 import com.bdjobs.app.databinding.LayoutItemLiveInterviewBinding
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
 
 class LiveInterviewListAdapter(val context: Context, val clickListener: ClickListener) :
-        ListAdapter<LiveInterviewList.Data, LiveInterviewListAdapter.LiveInterviewHolder>(
+        ListAdapter<LiveInvitation, LiveInterviewListAdapter.LiveInterviewHolder>(
                 DiffUtilCallback
         ) {
 
@@ -28,12 +29,12 @@ class LiveInterviewListAdapter(val context: Context, val clickListener: ClickLis
         holder.bind(getItem(position), clickListener)
     }
 
-    companion object DiffUtilCallback : DiffUtil.ItemCallback<LiveInterviewList.Data>() {
-        override fun areItemsTheSame(oldItem: LiveInterviewList.Data, newItem: LiveInterviewList.Data): Boolean {
+    companion object DiffUtilCallback : DiffUtil.ItemCallback<LiveInvitation>() {
+        override fun areItemsTheSame(oldItem: LiveInvitation, newItem: LiveInvitation): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: LiveInterviewList.Data, newItem: LiveInterviewList.Data): Boolean {
+        override fun areContentsTheSame(oldItem: LiveInvitation, newItem: LiveInvitation): Boolean {
             return oldItem.jobId == newItem.jobId
         }
     }
@@ -49,7 +50,7 @@ class LiveInterviewListAdapter(val context: Context, val clickListener: ClickLis
             }
         }
 
-        fun bind(liveInterviewData: LiveInterviewList.Data, clickListener: ClickListener) {
+        fun bind(liveInterviewData: LiveInvitation, clickListener: ClickListener) {
             binding.data = liveInterviewData
             binding.clickListener = clickListener
             binding.executePendingBindings()
@@ -58,8 +59,8 @@ class LiveInterviewListAdapter(val context: Context, val clickListener: ClickLis
 }
 
 
-class ClickListener(val clickListener: (liveInterviewData: LiveInterviewList.Data) -> Unit) {
-    fun onClick(liveInterviewData: LiveInterviewList.Data) {
+class ClickListener(val clickListener: (liveInterviewData: LiveInvitation) -> Unit) {
+    fun onClick(liveInterviewData: LiveInvitation) {
         clickListener(liveInterviewData)
     }
 }

@@ -1,4 +1,4 @@
-package com.bdjobs.app.Databases.Internal
+package com.bdjobs.app.databases.internal
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -13,7 +13,6 @@ interface LiveInvitationDao {
 
     @Query("SELECT * FROM LiveInvitation WHERE liveInterviewDate>=:dt")
     fun getAllLiveInvitationByDate(dt:Date): List<LiveInvitation>
-
 
     @Query("DELETE FROM LiveInvitation")
     fun deleteAllLiveInvitation()

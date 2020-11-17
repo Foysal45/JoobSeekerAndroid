@@ -12,8 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.databinding.FragmentLiveInterviewListBinding
+import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import kotlinx.android.synthetic.main.fragment_live_interview_list.*
+import okio.ByteString.Companion.toByteString
 
 class LiveInterviewListFragment : Fragment() {
 
@@ -44,7 +46,7 @@ class LiveInterviewListFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
-        liveInterviewListViewModel.getLiveInterviewList(time)
+        //liveInterviewListViewModel.getLiveInterviewList(time)
 
         val adapter = LiveInterviewListAdapter(requireContext(),ClickListener{
             findNavController().navigate(LiveInterviewListFragmentDirections.actionLiveInterviewListFragmentToLiveInterviewDetailsFragment(it.jobId!!,it.jobTitle!!))
@@ -53,7 +55,11 @@ class LiveInterviewListFragment : Fragment() {
         rv_live_interview?.adapter = adapter
 
         liveInterviewListViewModel.apply {
-            liveInterviewListData.observe(viewLifecycleOwner, Observer {
+//            liveInterviewListData.observe(viewLifecycleOwner, Observer {
+//                adapter.submitList(it)
+//            })
+
+            list.observe(viewLifecycleOwner, Observer {
                 adapter.submitList(it)
             })
         }

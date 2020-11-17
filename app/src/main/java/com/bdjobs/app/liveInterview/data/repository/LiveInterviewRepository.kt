@@ -2,19 +2,18 @@ package com.bdjobs.app.liveInterview.data.repository
 
 import android.app.Application
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.LiveInvitation
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
-import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
-import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
-import com.bdjobs.app.videoInterview.data.remote.VideoInterviewApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 class LiveInterviewRepository(val application: Application)  {
 
     val session = BdjobsUserSession(application)
+    val bdjobsDB = BdjobsDB.getInstance(application.applicationContext)
 
     suspend fun getLiveInterviewDetailsFromRemote(jobId: String?): LiveInterviewDetails {
         return withContext(Dispatchers.IO) {
@@ -35,6 +34,12 @@ class LiveInterviewRepository(val application: Application)  {
                     pageNumber = "1",
                     itemsPerPage = "50"
             )
+        }
+    }
+
+    suspend fun getLiveInterviewListFromDatabase() : List<LiveInvitation>{
+        return withContext(Dispatchers.IO){
+            bdjobsDB.liveInvitationDao().getAllLiveInvitation()
         }
     }
 
