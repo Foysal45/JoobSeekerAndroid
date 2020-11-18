@@ -108,13 +108,13 @@
             android:id="@+id/rv_live_interview_details"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="@{viewModel.dataLoading ? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/cl_bottom"
             app:layout_constraintTop_toBottomOf="@id/cl_company_info"
             app:layout_constraintVertical_bias="0.0"
             tools:itemCount="5"
-            android:visibility="@{viewModel.dataLoading ? View.GONE : View.VISIBLE}"
-            tools:layout_editor_absoluteX="123dp"
+            tools:layout_editor_absoluteX="0dp"
             tools:listitem="@layout/layout_item_live_interview_details" />
 
         <com.facebook.shimmer.ShimmerFrameLayout
@@ -160,7 +160,7 @@
         </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:visibility="visible"
+            android:visibility="@{viewModel.showBlackInfoSection ? View.VISIBLE : View.GONE}"
             android:id="@+id/cl_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -306,6 +306,7 @@
                 app:layout_constraintVertical_bias="0.82" />
 
             <com.google.android.material.button.MaterialButton
+                android:visibility="gone"
                 android:id="@+id/btn_add_to_calendar"
                 style="@style/MaterialButtonStyle"
                 android:onClick="@{()->viewModel.onAddToCalendarButtonClick()}"

@@ -2,8 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/live_interview_nav_graph"
-    app:startDestination="@id/liveInterviewListFragment">
+    android:id="@+id/live_interview_nav_graph">
 
     <fragment
         android:id="@+id/liveInterviewDetailsFragment"

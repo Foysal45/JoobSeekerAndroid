@@ -305,8 +305,9 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                             liveInterviewStatus = item?.liveInterviewStatus,
                                             userSeenLiveInterview = item?.userSeenLiveInterview,
                                             liveInterviewDate = liveInterviewDate,
+                                            liveInterviewDateString = item?.liveInterviewDate,
                                             liveInterviewTime = item?.liveInterviewTime,
-                                            dateStringForInvitaion = dateStringForInvitaion)
+                                            dateStringForInvitation = item?.dateStringForInvitaion)
 
                                     bdjobsInternalDB.liveInvitationDao().insertLiveInvitation(liveInvitation)
 

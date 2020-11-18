@@ -142,17 +142,12 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             Constants.NOTIFICATION_TYPE_LIVE_INTERVIEW -> {
 
-//                val intent = Intent(this, LiveInterviewActivity::class.java)?.apply {
-//                    putExtra("from", "notification")
-//                    putExtra("jobid", jobid)
-//                    putExtra("companyname", companyName)
-//                    putExtra("jobtitle", jobTitle)
-//                    putExtra("type", type)
-//                    putExtra("nid", nId)
-//                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                }
-
-                val intent = Intent(this, LiveInterviewActivity::class.java)
+                val intent = Intent(this, LiveInterviewActivity::class.java)?.apply {
+                    putExtra("from", "notification")
+                    putExtra("jobId", jobid)
+                    putExtra("jobTitle", jobTitle)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
 
                 val liveInterviewInvitationPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 

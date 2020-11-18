@@ -21,7 +21,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
     B2CCertification::class,
     LastSearch::class,
     InviteCodeInfo::class,
-    Notification::class], version = 19, exportSchema = false)
+    Notification::class], version = 21, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
@@ -164,6 +164,20 @@ abstract class BdjobsDB : RoomDatabase() {
             }
         }
 
+        val MIGRATION_19_20 = object : Migration(19,20){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE IF EXISTS LiveInvitation")
+                database.execSQL("CREATE TABLE LiveInvitation (id INTEGER, companyName TEXT, jobTitle TEXT, jobId TEXT, liveInterviewStatusCode TEXT, liveInterviewStatus TEXT, userSeenLiveInterview TEXT, liveInterviewDate INTEGER ,liveInterviewTime TEXT, dateStringForInvitation TEXT, PRIMARY KEY(id))")
+                database.execSQL("CREATE UNIQUE INDEX `index_LiveInvitation_jobId` ON `LiveInvitation` (`jobId`)")
+            }
+        }
+
+        val MIGRATION_20_21 = object : Migration(20, 21) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LiveInvitation ADD COLUMN `liveInterviewDateString` TEXT")
+            }
+        }
+
         fun getInstance(context: Context): BdjobsDB =
                 INSTANCE ?: synchronized(this) {
                     INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
@@ -188,7 +202,9 @@ abstract class BdjobsDB : RoomDatabase() {
                         MIGRATION_15_16,
                         MIGRATION_16_17,
                         MIGRATION_17_18,
-                        MIGRATION_18_19
+                        MIGRATION_18_19,
+                        MIGRATION_19_20,
+                        MIGRATION_20_21
                 ).build()
     }
 }

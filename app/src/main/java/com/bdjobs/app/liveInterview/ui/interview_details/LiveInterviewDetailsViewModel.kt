@@ -110,7 +110,11 @@ class LiveInterviewDetailsViewModel(
                 applyId = commonData.value?.applyId.toString()
                 invitationId = liveInterviewDetailsData.value?.get(0)?.invitationId.toString()
 
-                eventAlreadyAdded("Live Interview - ${commonData.value?.jobTitle}")
+                try {
+                    eventAlreadyAdded("Live Interview - ${commonData.value?.jobTitle}")
+                } catch (e:Exception){
+                    e.printStackTrace()
+                }
 
                 if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "1")
                     setTimer(interviewDateTime)
@@ -151,7 +155,6 @@ class LiveInterviewDetailsViewModel(
             getAllCalendarInfoFromProvider()
         }
     }
-
 
     private fun setTimer(interviewDateTime: String) {
         Timber.tag("live").d("came here $interviewDateTime")

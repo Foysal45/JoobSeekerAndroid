@@ -9,7 +9,9 @@ import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import kotlinx.coroutines.launch
 
-class LiveInterviewListViewModel(private val repository: LiveInterviewRepository) : ViewModel() {
+class LiveInterviewListViewModel(
+        private val repository: LiveInterviewRepository,
+        private val activity : String) : ViewModel() {
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -26,14 +28,17 @@ class LiveInterviewListViewModel(private val repository: LiveInterviewRepository
         getLiveInterviewList()
     }
 
-    fun getLiveInterviewList(time : String = "0") {
+    fun getLiveInterviewList() {
         _dataLoading.value = true
         viewModelScope.launch {
             try {
-                val response = repository.getLiveInterviewListFromRemote(time)
+                //val response = repository.getLiveInterviewListFromRemote(time)
 //                _liveInterviewListData.value = response.data
 //                _commonData.value = response.common
-                list.value = repository.getLiveInterviewListFromDatabase()
+                if (activity == "0")
+                    list.value = repository.getAllTimeLiveInterviewListFromDatabase()
+                else
+                    list.value = repository.getThisMonthLiveInterviewListFromDatabase()
                 _dataLoading.value = false
             } catch (e: Exception) {
                 e.printStackTrace()

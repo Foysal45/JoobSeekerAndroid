@@ -342,12 +342,15 @@ class NotificationListAdapter(private val context: Context, private val items: M
 //                            "jobtitle" to items[position].jobTitle,
 //                            "seen" to items[position].seen,
 //                            "nid" to items[position].notificationId
-//
 //                    )
-                    context.startActivity<LiveInterviewActivity>()
+
+                    context.startActivity<LiveInterviewActivity>(
+                            "from" to "notificationList",
+                            "jobId" to items[position].serverId,
+                            "jobTitle" to items[position].jobTitle,
+                    )
                 }
             }
-
 
             TYPE_CV_VIEWED -> {
 

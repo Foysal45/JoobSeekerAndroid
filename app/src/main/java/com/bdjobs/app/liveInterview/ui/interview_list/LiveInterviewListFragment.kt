@@ -16,14 +16,24 @@ import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import kotlinx.android.synthetic.main.fragment_live_interview_list.*
 import okio.ByteString.Companion.toByteString
+import timber.log.Timber
 
 class LiveInterviewListFragment : Fragment() {
 
+    lateinit var time : String
 
     private val liveInterviewListViewModel: LiveInterviewListViewModel by viewModels {
         LiveInterviewListViewModelFactory(
-                LiveInterviewRepository(requireActivity().application as Application)
+                LiveInterviewRepository(requireActivity().application as Application),
+                time
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        time = requireArguments().getString("activityDate", "0")
+
     }
 
     lateinit var binding: FragmentLiveInterviewListBinding
@@ -40,7 +50,7 @@ class LiveInterviewListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val time: String = requireArguments().getString("activityDate", "0")
+        Timber.d("$time")
 
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()

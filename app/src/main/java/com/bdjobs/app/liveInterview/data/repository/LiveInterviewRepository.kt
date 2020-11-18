@@ -9,6 +9,7 @@ import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class LiveInterviewRepository(val application: Application)  {
 
@@ -37,9 +38,18 @@ class LiveInterviewRepository(val application: Application)  {
         }
     }
 
-    suspend fun getLiveInterviewListFromDatabase() : List<LiveInvitation>{
+    suspend fun getAllTimeLiveInterviewListFromDatabase() : List<LiveInvitation>{
         return withContext(Dispatchers.IO){
             bdjobsDB.liveInvitationDao().getAllLiveInvitation()
+        }
+    }
+
+    suspend fun getThisMonthLiveInterviewListFromDatabase() : List<LiveInvitation>{
+        return withContext(Dispatchers.IO){
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.DAY_OF_MONTH, 1)
+            val firstDateOfMonth = calendar.time
+            bdjobsDB.liveInvitationDao().getAllLiveInvitationByDate(firstDateOfMonth)
         }
     }
 
@@ -62,7 +72,6 @@ class LiveInterviewRepository(val application: Application)  {
                     otherComment = otherComment,
                     rescheduleComment = rescheduleComment
             )
-
         }
     }
 }

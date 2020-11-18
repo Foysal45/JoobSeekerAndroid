@@ -121,7 +121,6 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 
         agreedBtn?.setOnClickListener {
 
-
             request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
             request.send()
             request.listeners {

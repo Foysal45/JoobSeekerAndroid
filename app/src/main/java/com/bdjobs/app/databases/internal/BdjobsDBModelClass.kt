@@ -183,10 +183,12 @@ data class LiveInvitation(@ColumnInfo(name = "companyName")
                           val userSeenLiveInterview: String?,
                           @ColumnInfo(name = "liveInterviewDate")
                           val liveInterviewDate: Date?,
+                          @ColumnInfo(name = "liveInterviewDateString")
+                          val liveInterviewDateString: String?,
                           @ColumnInfo(name = "liveInterviewTime")
                           val liveInterviewTime: String?,
-                          @ColumnInfo(name = "dateStringForInvitaion")
-                          val dateStringForInvitaion: Date?
+                          @ColumnInfo(name = "dateStringForInvitation")
+                          val dateStringForInvitation: String?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
