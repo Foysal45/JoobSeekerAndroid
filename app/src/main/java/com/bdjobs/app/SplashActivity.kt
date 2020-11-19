@@ -50,6 +50,7 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.no_internet.*
 import org.jetbrains.anko.startActivity
 import java.security.MessageDigest
+import java.util.*
 
 
 class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityReceiverListener {
@@ -296,12 +297,18 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         val alarmIntent = Intent(this, TestBroadcastReceiver::class.java).apply {
             putExtra(TestBroadcastReceiver.serial, TestBroadcastReceiver.value.plus(1))
         }.let {
-            PendingIntent.getBroadcast(this, 0, it, PendingIntent.FLAG_ONE_SHOT)
+            PendingIntent.getBroadcast(this, 100, it, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 18)
+            set(Calendar.MINUTE, 10)
         }
 
         alarmManager?.setExactAndAllowWhileIdle(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 60 * 1000,
+                calendar.timeInMillis,
                 alarmIntent
         )
     }

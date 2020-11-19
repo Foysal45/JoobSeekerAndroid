@@ -93,6 +93,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     var postedDate = ""
     var applyStatus = false
     var workPlace = ""
+    var minSalary = ""
+    var maxSalary = ""
     private lateinit var dialog: Dialog
     private val applyonlinePostions = ArrayList<Int>()
     private var language = ""
@@ -226,8 +228,8 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             applyOnline = jobDetailResponseAll.onlineApply!!
                             postedDate = jobDetailResponseAll.postedOn!!
                             workPlace = jobDetailResponseAll.jobWorkPlace!!
-//                            minSalary = jobDetailResponseAll.minSalary!!
-//                            maxSalary = jobDetailResponseAll.maxSalary!!
+                            minSalary = jobDetailResponseAll.minSalary!!
+                            maxSalary = jobDetailResponseAll.maxSalary!!
 //
 //                            Log.d("rakib", "$minSalary $maxSalary ${jobDetailResponseAll.jobTitle}" )
 

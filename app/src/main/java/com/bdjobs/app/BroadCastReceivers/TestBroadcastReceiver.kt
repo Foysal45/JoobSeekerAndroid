@@ -14,6 +14,12 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.databases.internal.LiveInvitation
+import com.bdjobs.app.databases.internal.Notification
+import com.bdjobs.app.liveInterview.LiveInterviewActivity
+import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import timber.log.Timber
@@ -38,8 +44,8 @@ class TestBroadcastReceiver : BroadcastReceiver() {
         createNotificationChannel()
         showNotification(data)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            scheduleNotification()
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            //scheduleNotification()
     }
 
     private fun showNotification(data: Int?) {
@@ -50,18 +56,35 @@ class TestBroadcastReceiver : BroadcastReceiver() {
         doAsync {
             val totalInvitations = BdjobsDB.getInstance(ctx).liveInvitationDao().getAllLiveInvitationByDate(Date())
             uiThread {
-                var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
-                        .setSmallIcon(R.drawable.bdjobs_app_logo)
-                        .setContentTitle("Test")
-                        .setContentText("You have total ${totalInvitations.size} live interview invitations")
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                with(NotificationManagerCompat.from(ctx)) {
-                    notify(100, builder.build())
+                Timber.d("$totalInvitations")
+
+                for (i in 0..totalInvitations.size.minus(1)) {
+
+                    val intent = Intent(ctx, LiveInterviewActivity::class.java).apply {
+                        putExtra("from", "notification")
+                        putExtra("jobId", totalInvitations[i].jobId)
+                        putExtra("jobTitle", totalInvitations[i].jobTitle)
+                    }
+
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i, intent, PendingIntent.FLAG_ONE_SHOT)
+
+                    var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
+                            .setSmallIcon(R.drawable.bdjobs_app_logo)
+                            .setContentTitle("Test")
+                            .setContentIntent(pendingIntent)
+                            .setGroup("500")
+                            .setStyle(NotificationCompat.BigTextStyle().bigText("You have a Live Interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].liveInterviewTime.toString())}"))
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    with(NotificationManagerCompat.from(ctx)) {
+                        Timber.d("value of i = $i")
+                        Timber.d("value of i = ${totalInvitations[i].companyName}")
+                        notify(i.plus(100), builder.build())
+                    }
+
+                    insertNotificationInToDatabase(totalInvitations[i])
                 }
             }
         }
-
-
     }
 
     private fun createNotificationChannel() {
@@ -87,12 +110,50 @@ class TestBroadcastReceiver : BroadcastReceiver() {
             PendingIntent.getBroadcast(ctx, 1, it, PendingIntent.FLAG_ONE_SHOT)
         }
 
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 17)
+            set(Calendar.MINUTE, 10)
+        }
+
         alarmManager?.setExactAndAllowWhileIdle(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 60 * 1000,
+                calendar.timeInMillis,
                 alarmIntent
         )
     }
 
+    fun getTimeAsAMPM(time: String): String {
+        if (time != "") {
+            try {
+                val dateFormatter = SimpleDateFormat("HH:mm:ss")
+                val date: Date = dateFormatter.parse(time)
+
+                // Get time from date
+                val timeFormatter = SimpleDateFormat("h:mm a")
+                return timeFormatter.format(date)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return time
+    }
+
+    private fun insertNotificationInToDatabase(data: LiveInvitation) {
+        val bdjobsUserSession = BdjobsUserSession(ctx)
+        val bdjobsInternalDB = BdjobsDB.getInstance(ctx)
+
+        val date: Date? = Date()
+        val notificationText = "You have a Live Interview with ${data.companyName} at ${getTimeAsAMPM(data.liveInterviewTime.toString())}"
+
+        doAsync {
+            bdjobsInternalDB.notificationDao().insertNotification(Notification(type = "li", serverId = data.jobId, seen = false, arrivalTime = date, seenTime = date, payload = "", imageLink = "", link = "", isDeleted = false, jobTitle = data.jobTitle, title = "", body = notificationText, companyName = data.companyName, notificationId = "", lanType = "", deadline = data.liveInterviewDateString))
+            uiThread {
+                val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+                intent.putExtra("notification", "insertOrUpdateNotification")
+                ctx.sendBroadcast(intent)
+            }
+        }
+    }
 
 }

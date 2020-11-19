@@ -58,89 +58,94 @@ fun bindLiveInterviewDateAndTime(textView: TextView, date: String?, time: String
     }
 }
 
-@BindingAdapter("date", "time","status")
+@BindingAdapter("date", "time", "status")
 fun bindLiveInterviewTimer(textView: TextView, date: String?, time: String?, statusCode: String?) {
 
     statusCode?.let {
-       when(it){
-           "1","2"->{
-               var interviewDateTime = "$date $time"
+        when (it) {
+            "1", "2" -> {
+                var interviewDateTime = "$date $time"
 
-               var remainingDays = ""
-               var remainingHours = ""
-               var remainingMinutes = ""
-               var remainingSeconds = ""
+                var remainingDays = ""
+                var remainingHours = ""
+                var remainingMinutes = ""
+                var remainingSeconds = ""
 
-               Timber.tag("live").d("came here $interviewDateTime")
-               val start_calendar: Calendar = Calendar.getInstance()
-               val end_calendar: Calendar = Calendar.getInstance()
+                Timber.tag("live").d("came here $interviewDateTime")
+                val start_calendar: Calendar = Calendar.getInstance()
+                val end_calendar: Calendar = Calendar.getInstance()
 
-               val simpleDateFormat: SimpleDateFormat = SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale.ENGLISH)
-               end_calendar.time = simpleDateFormat.parse(interviewDateTime)
+                val simpleDateFormat: SimpleDateFormat = SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale.ENGLISH)
+                end_calendar.time = simpleDateFormat.parse(interviewDateTime)
 
-               //end_calendar.set(2020, 8, 15) // 10 = November, month start at 0 = January
+                //end_calendar.set(2020, 8, 15) // 10 = November, month start at 0 = January
 
-               val start_millis: Long = start_calendar.getTimeInMillis() //get the start time in milliseconds
+                val start_millis: Long = start_calendar.getTimeInMillis() //get the start time in milliseconds
 
-               val end_millis: Long = end_calendar.getTimeInMillis() //get the end time in milliseconds
+                val end_millis: Long = end_calendar.getTimeInMillis() //get the end time in milliseconds
 
-               val total_millis = end_millis - start_millis //total time in milliseconds
+                val total_millis = end_millis - start_millis //total time in milliseconds
 
-               Timber.tag("live").d("came here total ${total_millis}")
+                Timber.tag("live").d("came here total ${total_millis}")
 
-               //1000 = 1 second interval
+                //1000 = 1 second interval
 
-               //1000 = 1 second interval
+                //1000 = 1 second interval
 
-               var millisUntilFinished = total_millis
-               val days: Long = TimeUnit.MILLISECONDS.toDays(millisUntilFinished)
-               millisUntilFinished -= TimeUnit.DAYS.toMillis(days)
-               val hours: Long = TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
-               millisUntilFinished -= TimeUnit.HOURS.toMillis(hours)
-               val minutes: Long = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-               millisUntilFinished -= TimeUnit.MINUTES.toMillis(minutes)
-               val seconds: Long = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                var millisUntilFinished = total_millis
+                val days: Long = TimeUnit.MILLISECONDS.toDays(millisUntilFinished)
+                millisUntilFinished -= TimeUnit.DAYS.toMillis(days)
+                val hours: Long = TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+                millisUntilFinished -= TimeUnit.HOURS.toMillis(hours)
+                val minutes: Long = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                millisUntilFinished -= TimeUnit.MINUTES.toMillis(minutes)
+                val seconds: Long = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
 
-               remainingDays = DecimalFormat("0").format(days).toString()
-               remainingHours = DecimalFormat("0").format(hours).toString()
-               remainingMinutes = DecimalFormat("0").format(minutes).toString()
-               remainingSeconds = DecimalFormat("0").format(seconds).toString()
+                remainingDays = DecimalFormat("0").format(days).toString()
+                remainingHours = DecimalFormat("0").format(hours).toString()
+                remainingMinutes = DecimalFormat("0").format(minutes).toString()
+                remainingSeconds = DecimalFormat("0").format(seconds).toString()
 
-               Timber.d("${remainingDays} ${remainingHours} ${remainingMinutes} ${remainingSeconds}")
+                Timber.d("${remainingDays} ${remainingHours} ${remainingMinutes} ${remainingSeconds}")
 
-               if (remainingDays.toInt() > 1) {
-                   textView.text = "$remainingDays days remaining"
-               } else if (remainingDays.toInt() == 1) {
-                   textView.text = "$remainingDays day remaining"
-               } else if (remainingDays.toInt() < 1) {
-                   if (remainingHours.toInt() <= 1){
-                       if (remainingMinutes.toInt() > 1) {
-                           textView.text = "${remainingMinutes.toInt().plus(1)} mins remaining"
-                       } else {
-                           textView.text = "${remainingMinutes.toInt().plus(1)} min remaining"
-                       }
-                   } else{
-                       if (remainingMinutes.toInt() > 1) {
-                           textView.text = "$remainingHours hrs ${remainingMinutes.toInt().plus(1)} mins remaining"
-                       } else {
-                           textView.text = "$remainingHours hrs ${remainingMinutes.toInt().plus(1)} min remaining"
-                       }
-                   }
+                if (remainingDays.toInt() > 1) {
+                    textView.text = "$remainingDays days remaining"
+                } else if (remainingDays.toInt() == 1) {
+                    textView.text = "$remainingDays day remaining"
+                } else if (remainingDays.toInt() < 1) {
+                    if (remainingHours.toInt() < 1) {
+                        if (remainingMinutes.toInt() > 1) {
+                            textView.text = "${remainingMinutes.toInt().plus(1)} mins remaining"
+                        } else {
+                            textView.text = "${remainingMinutes.toInt().plus(1)} min remaining"
+                        }
+                    } else if (remainingHours.toInt() == 1) {
+                        if (remainingMinutes.toInt() > 1) {
+                            textView.text = "$remainingHours hr ${remainingMinutes.toInt().plus(1)} mins remaining"
+                        } else {
+                            textView.text = "$remainingHours hr ${remainingMinutes.toInt().plus(1)} min remaining"
+                        }
+                    } else {
+                        if (remainingMinutes.toInt() > 1) {
+                            textView.text = "$remainingHours hrs ${remainingMinutes.toInt().plus(1)} mins remaining"
+                        } else {
+                            textView.text = "$remainingHours hrs ${remainingMinutes.toInt().plus(1)} min remaining"
+                        }
+                    }
 
-               } else {
-                   if (remainingMinutes.toInt() > 1) {
-                       textView.text = "$remainingHours hrs $remainingMinutes mins remaining"
-                   } else {
-                       textView.text = "$remainingHours hrs $remainingMinutes min remaining"
-                   }
-               }
-           }
-           "4" ->{
-               textView.text = "Expired"
-           }
-       }
+                } else {
+                    if (remainingMinutes.toInt() > 1) {
+                        textView.text = "$remainingHours hrs $remainingMinutes mins remaining"
+                    } else {
+                        textView.text = "$remainingHours hrs $remainingMinutes min remaining"
+                    }
+                }
+            }
+            "4" -> {
+                textView.text = "Expired"
+            }
+        }
     }
-
 
 
     //textView.text = "$remainingHours hours $remainingMinutes minutes remaining"
@@ -199,7 +204,7 @@ fun bindLiveInterviewTime(textView: TextView, time: String?) {
 }
 
 fun getTimeAsAMPM(time: String): String {
-    if (time != ""){
+    if (time != "") {
         try {
             val dateFormatter = SimpleDateFormat("HH:mm:ss")
             val date: Date = dateFormatter.parse(time)

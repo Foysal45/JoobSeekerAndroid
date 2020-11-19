@@ -81,6 +81,8 @@ class LiveInterviewDetailsViewModel(
     val addToCalendarClickEvent = MutableLiveData<Event<Boolean>>()
     val onAddedToCalendarEvent = MutableLiveData<Event<Boolean>>()
 
+    lateinit var timer: CountDownTimer
+
     init {
         getAllCalendars()
         getLiveInterviewDetails()
@@ -112,7 +114,7 @@ class LiveInterviewDetailsViewModel(
 
                 try {
                     eventAlreadyAdded("Live Interview - ${commonData.value?.jobTitle}")
-                } catch (e:Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
 
@@ -124,23 +126,19 @@ class LiveInterviewDetailsViewModel(
 
                 //for black section
 
-                if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "6" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "7"){
+                if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "6" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "7") {
                     showBlackInfoSection.value = false
                     delay(1000)
                     showTooltip.value = Event(false)
-                }
-
-                else if (liveInterviewDetailsData.value?.get(0)?.activity == "3" && (liveInterviewDetailsData.value?.get(0)?.confimationStatus != "6" || liveInterviewDetailsData.value?.get(0)?.confimationStatus != "7")){
+                } else if (liveInterviewDetailsData.value?.get(0)?.activity == "3" && (liveInterviewDetailsData.value?.get(0)?.confimationStatus != "6" || liveInterviewDetailsData.value?.get(0)?.confimationStatus != "7")) {
                     showBlackInfoSection.value = true
                     delay(1000)
                     showTooltip.value = Event(true)
-                }
-                else{
+                } else {
                     showBlackInfoSection.value = false
                     delay(1000)
                     showTooltip.value = Event(false)
                 }
-
 
 
             } catch (e: Exception) {
@@ -179,7 +177,7 @@ class LiveInterviewDetailsViewModel(
         //1000 = 1 second interval
 
         //1000 = 1 second interval
-        val timer = object : CountDownTimer(total_millis, 1000) {
+        timer = object : CountDownTimer(total_millis, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 Timber.tag("live").d("came here tick")
@@ -303,12 +301,12 @@ class LiveInterviewDetailsViewModel(
         }
     }
 
-    fun onAddToCalendarButtonClick(){
+    fun onAddToCalendarButtonClick() {
         addToCalendarClickEvent.value = Event(true)
 
     }
 
-    fun insert(){
+    fun insert() {
         viewModelScope.launch {
             insertCalendarEvent(commonData.value)
         }
@@ -316,7 +314,7 @@ class LiveInterviewDetailsViewModel(
 
 
     private suspend fun getAllCalendarInfoFromProvider() {
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             try {
                 val cur = contentResolver.query(CalendarContract.Calendars.CONTENT_URI, EVENT_PROJECTION, null, null, null)
 
@@ -340,14 +338,14 @@ class LiveInterviewDetailsViewModel(
                     return@withContext
                 }
                 cur.close()
-            } catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
 
-    private suspend fun eventAlreadyAdded(invitationId : String?) {
-        return withContext(Dispatchers.IO){
+    private suspend fun eventAlreadyAdded(invitationId: String?) {
+        return withContext(Dispatchers.IO) {
             val INSTANCE_PROJECTION = arrayOf(
                     CalendarContract.Instances.EVENT_ID,  // 0
                     CalendarContract.Instances.BEGIN,  // 1
@@ -362,7 +360,7 @@ class LiveInterviewDetailsViewModel(
             val startMillis: Long = calendar.timeInMillis
 
             val endMillis: Long = calendar.run {
-                calendar.add(Calendar.HOUR,1)
+                calendar.add(Calendar.HOUR, 1)
                 timeInMillis
             }
 
@@ -378,16 +376,16 @@ class LiveInterviewDetailsViewModel(
             // Submit the query
             val cur: Cursor? = contentResolver.query(builder.build(), INSTANCE_PROJECTION, selection, selectionArgs, null)
 
-            if (cur == null){
+            if (cur == null) {
                 Timber.d("cursor null")
                 onAddedToCalendarEvent.postValue(Event(false))
-            } else{
-                if (cur.count > 0){
+            } else {
+                if (cur.count > 0) {
                     Timber.d("cursor > 0")
                     onAddedToCalendarEvent.postValue(Event(true))
                     cur.close()
 
-                } else{
+                } else {
                     Timber.d("cursor == 0")
                     onAddedToCalendarEvent.postValue(Event(false))
                     cur.close()
@@ -397,11 +395,10 @@ class LiveInterviewDetailsViewModel(
 
     }
 
-    private suspend fun insertCalendarEvent(data : LiveInterviewDetails.Common?){
+    private suspend fun insertCalendarEvent(data: LiveInterviewDetails.Common?) {
 
 
-
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
 
             val calendar = Calendar.getInstance()
             val simpleDateFormat = SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale.ENGLISH)
@@ -411,7 +408,7 @@ class LiveInterviewDetailsViewModel(
             val startMillis: Long = calendar.timeInMillis
 
             val endMillis: Long = calendar.run {
-                calendar.add(Calendar.HOUR,1)
+                calendar.add(Calendar.HOUR, 1)
                 timeInMillis
             }
 
@@ -432,7 +429,7 @@ class LiveInterviewDetailsViewModel(
         }
     }
 
-    companion object{
+    companion object {
 
         private const val PROJECTION_ID_INDEX: Int = 0
         private const val PROJECTION_ACCOUNT_NAME_INDEX: Int = 1
@@ -445,6 +442,15 @@ class LiveInterviewDetailsViewModel(
                 CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,   // 2
                 CalendarContract.Calendars.OWNER_ACCOUNT            // 3
         )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        try {
+            timer.cancel()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }
