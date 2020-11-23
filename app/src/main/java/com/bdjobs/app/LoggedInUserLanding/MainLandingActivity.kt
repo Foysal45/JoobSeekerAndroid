@@ -1,7 +1,10 @@
 package com.bdjobs.app.LoggedInUserLanding
 
 import android.app.Activity
+import android.app.AlarmManager
 import android.app.Dialog
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
@@ -19,6 +22,8 @@ import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
+import com.bdjobs.app.BroadCastReceivers.LiveInterviewNightReceiver
+import com.bdjobs.app.BroadCastReceivers.LiveInterviewReceiver
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.InviteCodeInfo
 import com.bdjobs.app.databases.internal.Notification
@@ -67,6 +72,7 @@ import timber.log.Timber
 import java.util.*
 
 class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
+
 
     override fun onUpdateNotification() {
         //Log.d("rakib", "in Main Landing Activity")
@@ -318,6 +324,9 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         setContentView(R.layout.activity_main_landing)
         bdjobsDB = BdjobsDB.getInstance(this@MainLandingActivity)
 
+        scheduleMorningNotification()
+        scheduleNightNotification()
+
         broadcastReceiver = BackgroundJobBroadcastReceiver()
         mNotificationHelper = NotificationHelper(this)
         session = BdjobsUserSession(applicationContext)
@@ -326,7 +335,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         bottom_navigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation?.selectedItemId = R.id.navigation_home
 
-        if (intent.getStringExtra("from") == "notification"){
+        if (intent.getStringExtra("from") == "notification") {
             Timber.d("came here ")
             setShortListFilter("Next 2 days")
             goToShortListedFragment(2)
@@ -916,8 +925,57 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
         } catch (e: Exception) {
         }
-
     }
 
+    private fun scheduleMorningNotification() {
+        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, LiveInterviewReceiver::class.java).apply {
+            putExtra("type","morning")
+        }.let {
+            PendingIntent.getBroadcast(this, 0, it, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
 
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 8)
+//            set(Calendar.MINUTE, 0)
+        }
+
+        if (calendar.timeInMillis < System.currentTimeMillis()){
+            calendar.add(Calendar.DATE,1)
+        }
+
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                1000 * 60 * 60 * 24,
+                alarmIntent
+        )
+    }
+
+    private fun scheduleNightNotification() {
+        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, LiveInterviewNightReceiver::class.java).apply {
+            putExtra("type","night")
+        }.let {
+            PendingIntent.getBroadcast(this, 1, it, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 20)
+//            set(Calendar.MINUTE, 6)
+        }
+
+        if (calendar.timeInMillis < System.currentTimeMillis()){
+            calendar.add(Calendar.DATE,1)
+        }
+
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                1000 * 60 * 60 * 24,
+                alarmIntent
+        )
+    }
 }

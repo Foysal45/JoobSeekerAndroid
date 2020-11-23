@@ -31,7 +31,7 @@ class LiveInterviewBroadcastReceiver : BroadcastReceiver() {
 
         if (intent?.action == "android.intent.action.BOOT_COMPLETED" || intent?.action == "android.intent.action.LOCKED_BOOT_COMPLETED") {
 
-                scheduleNotification()
+                //scheduleNotification()
 
 //            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
 //            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
@@ -51,27 +51,27 @@ class LiveInterviewBroadcastReceiver : BroadcastReceiver() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun scheduleNotification() {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(context, TestBroadcastReceiver::class.java).apply {
-            putExtra(TestBroadcastReceiver.serial, TestBroadcastReceiver.value.plus(1))
-        }.let {
-            PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_ONE_SHOT)
-        }
-
-        val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 7)
-            set(Calendar.MINUTE, 30)
-        }
-
-        alarmManager?.setRepeating(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                calendar.timeInMillis,
-                SystemClock.elapsedRealtime() + 60 * 1000,
-                alarmIntent
-        )
-    }
+//    @RequiresApi(Build.VERSION_CODES.M)
+//    private fun scheduleNotification() {
+//        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        val alarmIntent = Intent(context, TestBroadcastReceiver::class.java).apply {
+//            putExtra(TestBroadcastReceiver.serial, TestBroadcastReceiver.value.plus(1))
+//        }.let {
+//            PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_ONE_SHOT)
+//        }
+//
+//        val calendar: Calendar = Calendar.getInstance().apply {
+//            timeInMillis = System.currentTimeMillis()
+//            set(Calendar.HOUR_OF_DAY, 7)
+//            set(Calendar.MINUTE, 30)
+//        }
+//
+//        alarmManager?.setRepeating(
+//                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                calendar.timeInMillis,
+//                SystemClock.elapsedRealtime() + 60 * 1000,
+//                alarmIntent
+//        )
+//    }
 
 }

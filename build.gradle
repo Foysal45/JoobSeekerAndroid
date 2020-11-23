@@ -4,8 +4,8 @@ buildscript {
     ext.kotlin_version = '1.4.10'
     ext.anko_version='0.10.8'
     ext.retrofit_version = '2.9.0'
-    ext.room_version = '2.1.0'
-    ext.nav_version = '2.3.0'
+    ext.room_version = '2.2.5'
+    ext.nav_version = '2.3.1'
 
     ext.moshi_version = "1.9.2"
     ext.lifecycle_extensions_version = "2.2.0"

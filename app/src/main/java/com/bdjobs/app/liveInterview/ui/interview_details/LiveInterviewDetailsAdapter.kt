@@ -14,7 +14,6 @@ class LiveInterviewDetailsAdapter(val context: Context, val clickListener: Click
                 DiffUtilCallback
         ) {
 
-
     override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
@@ -56,7 +55,6 @@ class LiveInterviewDetailsAdapter(val context: Context, val clickListener: Click
         }
     }
 }
-
 
 class ClickListener(val clickListener: (liveInterviewDetailsData: LiveInterviewDetails.Data) -> Unit) {
     fun onClick(liveInterviewDetailsData: LiveInterviewDetails.Data) {

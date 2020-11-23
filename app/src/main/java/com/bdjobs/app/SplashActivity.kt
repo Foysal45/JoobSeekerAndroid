@@ -12,18 +12,15 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import android.provider.Settings
 import android.util.Base64
 import android.view.Window
 import android.widget.Button
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.work.*
 //import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
-import com.bdjobs.app.BroadCastReceivers.TestBroadcastReceiver
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
@@ -50,7 +47,6 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.no_internet.*
 import org.jetbrains.anko.startActivity
 import java.security.MessageDigest
-import java.util.*
 
 
 class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityReceiverListener {
@@ -220,7 +216,7 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 //                }
 //                DatabaseUpdateJob.runJobImmediately()
 
-                scheduleNotification()
+//                scheduleNotification()
 
 //                WorkManager.getInstance(applicationContext).cancelAllWorkByTag("test")
 //                WorkManager.getInstance(applicationContext).cancelAllWorkByTag("live")
@@ -291,27 +287,29 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun scheduleNotification() {
-        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(this, TestBroadcastReceiver::class.java).apply {
-            putExtra(TestBroadcastReceiver.serial, TestBroadcastReceiver.value.plus(1))
-        }.let {
-            PendingIntent.getBroadcast(this, 100, it, PendingIntent.FLAG_UPDATE_CURRENT)
-        }
-
-        val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 18)
-            set(Calendar.MINUTE, 10)
-        }
-
-        alarmManager?.setExactAndAllowWhileIdle(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                calendar.timeInMillis,
-                alarmIntent
-        )
-    }
+//    @RequiresApi(Build.VERSION_CODES.M)
+//    private fun scheduleNotification() {
+//        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        val alarmIntent = Intent(this, TestBroadcastReceiver::class.java).let {
+//            PendingIntent.getBroadcast(this, 50, it, PendingIntent.FLAG_ONE_SHOT)
+//        }
+//
+//        val calendar: Calendar = Calendar.getInstance().apply {
+////            timeInMillis = System.currentTimeMillis()
+//            set(Calendar.HOUR_OF_DAY, 11)
+//            set(Calendar.MINUTE, 16)
+//        }
+//
+////        if (calendar.timeInMillis < System.currentTimeMillis()){
+////            calendar.add(Calendar.DATE,1)
+////        }
+//
+//        alarmManager.setExactAndAllowWhileIdle(
+//                AlarmManager.RTC_WAKEUP,
+//                calendar.timeInMillis,
+//                alarmIntent
+//        )
+//    }
 
 //    fun downloadDatabase(dbDownloadLink: String, updateDate: String) {
 //

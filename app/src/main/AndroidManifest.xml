@@ -277,7 +277,8 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".BroadCastReceivers.TestBroadcastReceiver"/>
+        <receiver android:name=".BroadCastReceivers.LiveInterviewReceiver"/>
+        <receiver android:name=".BroadCastReceivers.LiveInterviewNightReceiver"/>
 
         <service
             android:name=".Notification.BdjobsFirebaseMessagingService"

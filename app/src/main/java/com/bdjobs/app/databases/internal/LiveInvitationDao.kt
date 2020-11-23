@@ -11,7 +11,7 @@ interface LiveInvitationDao {
     @Query("SELECT * FROM LiveInvitation")
     fun getAllLiveInvitation(): List<LiveInvitation>
 
-    @Query("SELECT * FROM LiveInvitation WHERE liveInterviewDate>=:dt")
+    @Query("SELECT * FROM LiveInvitation WHERE liveInterviewDate==:dt")
     fun getAllLiveInvitationByDate(dt:Date): List<LiveInvitation>
 
     @Query("DELETE FROM LiveInvitation")
@@ -20,5 +20,7 @@ interface LiveInvitationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLiveInvitation(liveInvitation: LiveInvitation):Long
 
+    @Query("SELECT * FROM liveinvitation WHERE liveInterviewDate BETWEEN :from AND :to")
+    fun getTodaysInvitation(from : Date, to : Date): List<LiveInvitation>
 
 }
