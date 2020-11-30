@@ -137,6 +137,7 @@ class BdjobsUserSession(val context: Context) {
             bdjobsDB.b2CCertificationDao().deleteAllB2CCertification()
             bdjobsDB.jobInvitationDao().deleteAllJobInvitation()
             bdjobsDB.videoInvitationDao().deleteAllVideoInvitation()
+            bdjobsDB.liveInvitationDao().deleteAllLiveInvitation()
             bdjobsDB.lastSearchDao().deleteAllLastSearch()
             bdjobsDB.suggestionDAO().deleteAllSuggestion()
             bdjobsDB.notificationDao().deleteAllNotifications()

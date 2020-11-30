@@ -537,22 +537,25 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     loacationET?.setText(locationString)
                     //Log.d("catTest", "category : ${filterData.keyword}")
 
-                    if (filterData.functionalCat?.isNotBlank()!!) {
-                        if (filterData.functionalCat.toInt() < 30) {
-                            generalCatET?.setText(dataStorage.getCategoryNameByID(filterData.functionalCat))
-                            specialCatET?.text?.clear()
-                        } else {
-                            generalCatET?.text?.clear()
-                        }
+                    try {
+                        if (filterData.functionalCat?.isNotBlank()!!) {
+                            if (filterData.functionalCat.toInt() < 30) {
+                                generalCatET?.setText(dataStorage.getCategoryNameByID(filterData.functionalCat))
+                                specialCatET?.text?.clear()
+                            } else {
+                                generalCatET?.text?.clear()
+                            }
 
-                        if (filterData.functionalCat.toInt() > 60) {
-                            specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(filterData.functionalCat))
-                            generalCatET?.text?.clear()
-                        } else {
-                            specialCatET?.text?.clear()
+                            if (filterData.functionalCat.toInt() > 60) {
+                                specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(filterData.functionalCat))
+                                generalCatET?.text?.clear()
+                            } else {
+                                specialCatET?.text?.clear()
+                            }
                         }
+                    } catch (e:Exception){
+                        e.printStackTrace()
                     }
-
 
                     keyword = filterData.keyword!!
                     category = filterData.functionalCat
@@ -581,6 +584,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                         selectChip(chip_group_person_with_disability, "Yes")
                     }
                 } catch (e: Exception) {
+                    e.printStackTrace()
                     logException(e)
                 }
             }

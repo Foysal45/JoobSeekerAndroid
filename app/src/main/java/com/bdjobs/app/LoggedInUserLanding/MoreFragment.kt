@@ -182,7 +182,7 @@ class MoreFragment : Fragment() {
             populateData()
         }
         horizontalAdapter?.addAll(horizontaList)
-        shakeHorizontaList()
+//        shakeHorizontaList()
     }
 
     private fun populateData() {

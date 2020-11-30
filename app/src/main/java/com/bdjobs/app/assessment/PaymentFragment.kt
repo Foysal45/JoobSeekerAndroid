@@ -30,7 +30,6 @@ class PaymentFragment : Fragment() {
     lateinit var homeViewModel : HomeViewModel
     lateinit var snackbar: Snackbar
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 

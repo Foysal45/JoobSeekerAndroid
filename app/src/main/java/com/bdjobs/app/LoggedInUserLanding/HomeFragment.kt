@@ -234,10 +234,21 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         try {
             blankCL?.hide()
             mainLL?.show()
-            allInterview?.show()
-            tv_live_interview_count.text = Constants.liveInvitation
-            tv_video_interview_count.text = Constants.videoInvitation
-            tv_general_interview_count.text = Constants.generalInvitation
+
+            if (Constants.liveInvitation == "0" && Constants.videoInvitation == "0" && Constants.generalInvitation == "0"){
+                allInterview?.hide()
+                blankCL?.show()
+                newSearchBTN?.hide()
+            } else{
+                allInterview?.show()
+                tv_live_interview_count.text = Constants.liveInvitation
+                tv_video_interview_count.text = Constants.videoInvitation
+                tv_general_interview_count.text = Constants.generalInvitation
+            }
+
+
+
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -634,6 +645,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
             } catch (e: Exception) {
             }
+            interviewInvitationDialog?.cancel()
+
         }
 
         VideoInterviewCV?.setOnClickListener {
@@ -643,6 +656,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
             } catch (e: Exception) {
             }
+            interviewInvitationDialog?.cancel()
+
         }
 
         LiveInterviewCV?.setOnClickListener {
@@ -652,6 +667,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 //                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
 //            } catch (e: Exception) {
 //            }
+            interviewInvitationDialog?.cancel()
         }
 
 

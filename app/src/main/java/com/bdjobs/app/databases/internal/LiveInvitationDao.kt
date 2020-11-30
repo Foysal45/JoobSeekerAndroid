@@ -11,7 +11,7 @@ interface LiveInvitationDao {
     @Query("SELECT * FROM LiveInvitation")
     fun getAllLiveInvitation(): List<LiveInvitation>
 
-    @Query("SELECT * FROM LiveInvitation WHERE liveInterviewDate==:dt")
+    @Query("SELECT * FROM LiveInvitation WHERE liveInterviewDate>=:dt")
     fun getAllLiveInvitationByDate(dt:Date): List<LiveInvitation>
 
     @Query("DELETE FROM LiveInvitation")
