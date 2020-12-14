@@ -19,7 +19,6 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
 
             //Log.d("rakib", "Broadcast $job $notification")
 
-
             if (backgroundJobListener != null) {
                 if(job=="insertFavouriteSearchFilter"){
                     backgroundJobListener!!.favSearchFilterSyncComplete()
@@ -49,7 +48,6 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
                     //Log.d("rakib", "inside broadcast")
                     notificationUpdateListener!!.onUpdateNotification()
                 }
-
             }
         }
 

@@ -666,6 +666,7 @@ class JoblistFragment : Fragment() {
 
     private fun onClick() {
         backIV?.setOnClickListener {
+            Timber.tag("job rakib").d("back button in fragment")
             communicator.backButtonPressesd()
         }
         filterIMGV?.setOnClickListener {

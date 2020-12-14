@@ -256,6 +256,9 @@ class Constants {
 
         const val NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE = "bpm"
 
+        const val GENERAL_INTERVIEW_COUNT = "general_interview_count"
+        const val VIDEO_INTERVIEW_COUNT = "video_interview_count"
+        const val LIVE_INTERVIEW_COUNT = "live_interview_count"
 
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)

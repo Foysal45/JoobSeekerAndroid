@@ -27,6 +27,7 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.util.*
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
@@ -598,15 +599,15 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 }
 
                 "generalsearch" -> {
-                    transitFragment(generalSearch, R.id.jobFragmentHolder)
+                    transitFragment(generalSearch, R.id.jobFragmentHolder,false)
                 }
 
-                else -> transitFragment(joblistFragment, R.id.jobFragmentHolder)
+                else -> transitFragment(joblistFragment, R.id.jobFragmentHolder,false)
             }
 
         } catch (e: Exception) {
             logException(e)
-            transitFragment(joblistFragment, R.id.jobFragmentHolder)
+            //transitFragment(joblistFragment, R.id.jobFragmentHolder)
         }
 
     }
@@ -682,7 +683,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
 
     override fun backButtonPressesd() {
-        onBackPressed()
+        Timber.tag("job rakib").d("back button in activity")
+        onBackPress()
     }
 
     override fun goToLoginPage() {
@@ -909,23 +911,29 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         this.newsPaper = value
     }
 
-    override fun onBackPressed() {
+     fun onBackPress() {
         try {
             val bdjobsUserSession = BdjobsUserSession(applicationContext)
             //Log.d("wreiifb", "From: $from")
             if (bdjobsUserSession.isLoggedIn!! && !from.isNullOrBlank() && from?.equalIgnoreCase("guestuser")!!) {
+                Timber.tag("job rakib").d("if")
                 val joblistFragment = fragmentManager.findFragmentByTag(simpleClassName(joblistFragment))
                 if (joblistFragment != null && joblistFragment.isVisible) {
+                    Timber.tag("job rakib").d("inner if")
                     val intent = Intent(this@JobBaseActivity, MainLandingActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     finishAffinity()
                 } else {
+                    Timber.tag("job rakib").d("inner else")
                     super.onBackPressed()
                 }
             }else if (bdjobsUserSession.isLoggedIn!! && !from.isNullOrBlank() && from?.equalIgnoreCase("employer")!!) {
+                Timber.tag("job rakib").d("else if")
                 finish()
             } else {
+                Timber.tag("job rakib").d("else")
+//                finish()
                 super.onBackPressed()
             }
         } catch (e: Exception) {

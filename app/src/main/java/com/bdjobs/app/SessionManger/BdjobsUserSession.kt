@@ -112,6 +112,9 @@ class BdjobsUserSession(val context: Context) {
     val jobApplyThreshold = pref?.getString(Constants.session_job_apply_threshold, "25")
     var notificationCount = pref?.getInt(Constants.notification_count, 0)
 
+    var generalInterviewCount = pref?.getInt(Constants.GENERAL_INTERVIEW_COUNT,0)
+    var videoInterviewCount = pref?.getInt(Constants.VIDEO_INTERVIEW_COUNT,0)
+    var liveInterviewCount = pref?.getInt(Constants.LIVE_INTERVIEW_COUNT,0)
 
     private fun killCurrentApp(context: Context) {
         val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
@@ -163,6 +166,27 @@ class BdjobsUserSession(val context: Context) {
 
             }
         }
+    }
+
+    fun insertGeneralInterviewCount(count : Int){
+        pref?.edit {
+            putInt(Constants.GENERAL_INTERVIEW_COUNT, count)
+        }
+        pref?.edit()?.apply()
+    }
+
+    fun insertVideoInterviewCount(count : Int){
+        pref?.edit {
+            putInt(Constants.VIDEO_INTERVIEW_COUNT, count)
+        }
+        pref?.edit()?.apply()
+    }
+
+    fun insertLiveInterviewCount(count : Int){
+        pref?.edit {
+            putInt(Constants.LIVE_INTERVIEW_COUNT, count)
+        }
+        pref?.edit()?.apply()
     }
 
     fun insertShortlListedPopupDate(dt: String) {

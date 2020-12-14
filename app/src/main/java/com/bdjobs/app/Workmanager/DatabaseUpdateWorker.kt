@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import androidx.work.ListenableWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.bdjobs.app.API.ApiServiceJobs
@@ -14,6 +15,7 @@ import com.bdjobs.app.databases.internal.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
+import com.bdjobs.app.Utilities.Constants.Companion.LIVE_INTERVIEW_COUNT
 import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
@@ -32,6 +34,7 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -68,6 +71,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
         ApiServiceJobs.create().getFavouriteSearchFilters(encoded = Constants.ENCODED_JOBS, userID = bdjobsUserSession.userId).enqueue(object : Callback<FavouritSearchFilterModelClass> {
             override fun onFailure(call: Call<FavouritSearchFilterModelClass>, t: Throwable) {
                 error("onFailure", t)
+                Timber.d("favourite search fail")
             }
 
             override fun onResponse(call: Call<FavouritSearchFilterModelClass>, response: Response<FavouritSearchFilterModelClass>) {
@@ -152,6 +156,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     if (status == api_request_result_code_ok) {
                         response.body()?.data?.let { items ->
                             Constants.generalInvitation = items.size.toString()
+                            bdjobsUserSession.insertGeneralInterviewCount(items.size)
                             doAsync {
                                 for (item in items) {
                                     var inviteDate: Date? = null
@@ -166,7 +171,6 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                             jobTitle = item?.jobTitle)
 
                                     bdjobsInternalDB.jobInvitationDao().insertJobInvitation(jobInvitation)
-
                                 }
                                 uiThread {
                                     val intent = Intent(BROADCAST_DATABASE_UPDATE_JOB)
@@ -180,9 +184,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     }
                 }
             }
-
         })
-
     }
 
     private fun insertVideoInvitation() {
@@ -199,6 +201,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                             doAsync {
                                 for (item in items) {
                                     Constants.videoInvitation = items.size.toString()
+                                    bdjobsUserSession.insertVideoInterviewCount(items.size)
                                     var dateStringForInvitaion: Date? = null
                                     try {
                                         if (item?.dateStringForInvitaion != "") {
@@ -229,7 +232,6 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                     } catch (e: Exception) {
                                         e.printStackTrace()
                                     }
-
 
                                     val videoInvitation = VideoInvitation(companyName = item?.companyName,
                                             jobTitle = item?.jobTitle,
@@ -272,6 +274,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     if (status == api_request_result_code_ok) {
                         response.body()?.data?.let { items ->
                             Constants.liveInvitation = items.size.toString()
+                            bdjobsUserSession.insertLiveInterviewCount(items.size)
                             doAsync {
                                 bdjobsInternalDB.liveInvitationDao().deleteAllLiveInvitation()
                                 for (item in items) {

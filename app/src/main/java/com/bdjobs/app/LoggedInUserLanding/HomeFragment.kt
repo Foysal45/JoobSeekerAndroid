@@ -240,10 +240,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 blankCL?.show()
                 newSearchBTN?.hide()
             } else{
+                bdjobsUserSession = BdjobsUserSession(activity)
                 allInterview?.show()
-                tv_live_interview_count.text = Constants.liveInvitation
-                tv_video_interview_count.text = Constants.videoInvitation
-                tv_general_interview_count.text = Constants.generalInvitation
+                tv_live_interview_count.text = bdjobsUserSession.liveInterviewCount.toString()
+                tv_video_interview_count.text = bdjobsUserSession.videoInterviewCount.toString()
+                tv_general_interview_count.text = bdjobsUserSession.generalInterviewCount.toString()
             }
 
 
@@ -859,8 +860,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         } else {
             notificationCountTV?.hide()
         }
+    }
 
-
+    fun updateInvitationCountView(){
+        showAllInvitations()
     }
 
 

@@ -83,6 +83,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
             shortListedJobFragment.updateNotificationView(count)
             mybdjobsFragment.updateNotificationView(count)
             moreFragment.updateNotificationView(count)
+
+            homeFragment.updateInvitationCountView()
         }
     }
 
@@ -937,7 +939,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
         val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 8)
+//            set(Calendar.HOUR_OF_DAY, 8)
 //            set(Calendar.MINUTE, 0)
         }
 

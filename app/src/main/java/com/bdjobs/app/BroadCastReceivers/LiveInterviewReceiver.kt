@@ -43,8 +43,53 @@ class LiveInterviewReceiver : BroadcastReceiver() {
         if (bdjobsUserSession.isLoggedIn!!){
             createNotificationChannel()
             showMorningNotification()
+            showMorningNotificationForGeneralInterview()
 //            showNightNotification()
         }
+    }
+
+    private fun showMorningNotificationForGeneralInterview() {
+        val cal = Calendar.getInstance()
+        val sdf = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
+        val test: String = sdf.format(cal.time)
+
+        val today = cal.time
+
+        cal.add(Calendar.DAY_OF_YEAR,1)
+
+        val tomorrow = cal.time
+
+//        doAsync {
+//            val totalInvitations = BdjobsDB.getInstance(ctx).jobInvitationDao().getTodaysInvitation(today,tomorrow)
+//            uiThread {
+//                Timber.d("$type ${totalInvitations.size}")
+//
+//                for (i in 0..totalInvitations.size.minus(1)) {
+//
+//                    val intent = Intent(ctx, LiveInterviewActivity::class.java).apply {
+//                        putExtra("from", "notification")
+//                        putExtra("jobId", totalInvitations[i].jobId)
+//                        putExtra("jobTitle", totalInvitations[i].jobTitle)
+//                    }
+//
+//                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i, intent, PendingIntent.FLAG_ONE_SHOT)
+//
+//                    var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
+//                            .setSmallIcon(R.drawable.bdjobs_app_logo)
+//                            .setContentTitle("Live Interview")
+//                            .setContentIntent(pendingIntent)
+//                            .setGroup("500")
+//                            .setStyle(NotificationCompat.BigTextStyle().bigText("You have a Live Interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].liveInterviewTime.toString())}"))
+//                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//                    with(NotificationManagerCompat.from(ctx)) {
+////                        Timber.d("value of i = $i")
+////                        Timber.d("value of i = ${totalInvitations[i].companyName}")
+//                        notify(i.plus(100), builder.build())
+//                    }
+//                    insertNotificationInToDatabase(totalInvitations[i])
+//                }
+//            }
+//        }
     }
 
     private fun showMorningNotification() {
