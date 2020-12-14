@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
@@ -16,6 +17,7 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.databinding.FragmentVideoInterviewDetailsBinding
+import com.bdjobs.app.videoInterview.VideoInterviewViewModel
 import com.bdjobs.app.videoInterview.ui.interview_list.VideoInterviewListViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
@@ -31,8 +33,8 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
     private val videoInterviewDetailsViewModel: VideoInterviewDetailsViewModel by navGraphViewModels(R.id.videoInterviewDetailsFragment) {
         ViewModelFactoryUtil.provideVideoInterviewInvitationDetailsViewModelFactory(this, args.jobId)
     }
-
     private val videoInterListViewModel: VideoInterviewListViewModel by navGraphViewModels(R.id.videoInterviewListFragment)
+    private val baseViewModel: VideoInterviewViewModel by activityViewModels()
 
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var bdjobsDB: BdjobsDB
@@ -70,19 +72,25 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
             getVideoInterviewDetails()
 
             displayQuestionListEvent.observe(viewLifecycleOwner, EventObserver {
+                baseViewModel.jobId = videoInterviewDetailsViewModel.jobID!!
+                baseViewModel.applyId = videoInterviewDetailsViewModel.applyId.value!!
                 //findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment("854375", "182982535"))
                 findNavController().navigate(R.id.questionListFragment)
             })
 
             displayGuidelineEvent.observe(viewLifecycleOwner, EventObserver {
+                baseViewModel.jobId = videoInterviewDetailsViewModel.jobID!!
+                baseViewModel.applyId = videoInterviewDetailsViewModel.applyId.value!!
                 videoInterListViewModel.commonData.value?.totalVideoInterview?.toInt()?.let {
-                    if (it < 4)
-                        if (videoInterviewDetailsViewModel.detailsData.value?.vStatuCode == "3")
-                            findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment())
-                        else
-                            findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToGuidelineLandingFragment())
-                    else
-                        findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment())
+//                    if (it < 4)
+//                        if (videoInterviewDetailsViewModel.detailsData.value?.vStatuCode == "3")
+//                            findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment())
+//                        else
+//                            findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToGuidelineLandingFragment())
+//                    else
+//                        findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment())
+                    findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToGuidelineLandingFragment())
+
                 }
             })
         }

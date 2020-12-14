@@ -1,7 +1,6 @@
 package com.bdjobs.app.transaction.ui
 
 import android.app.DatePickerDialog
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.bdjobs.app.R
@@ -34,7 +34,7 @@ class TransactionFilterFragment : Fragment() {
 
     private val typeArray = arrayOf("Employability Assessment", "SMS Job Alert")
     private lateinit var now: Calendar
-    private lateinit var viewModel: TransactionFilterViewModel
+    private val  viewModel: TransactionFilterViewModel by activityViewModels()
     private var date: Date? = null
     private val startDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         now.set(Calendar.YEAR, year)
@@ -65,7 +65,7 @@ class TransactionFilterFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(TransactionFilterViewModel::class.java)
+        //viewModel = ViewModelProvider get(TransactionFilterViewModel::class.java)
         // TODO: Use the ViewModel
         now = Calendar.getInstance()
 

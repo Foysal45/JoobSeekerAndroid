@@ -65,6 +65,7 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
     private val _statusCode = MutableLiveData<String>()
     val statusCode : LiveData<String> = _statusCode
 
+    var availedSMS = MutableLiveData<Int>()
 
     fun onViewSMSJobAlertButtonClick() {
             _navigateToHome.value = Event(true)
@@ -111,11 +112,16 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
                 _limit.value = data?.dailySmsLimit
                 _isAlertOn.value = data?.smsAlertOn
 
-                _totalProgress.value = remainingSMS.value?.toInt()
+                try {
+                    availedSMS.value = _totalSMS.value!!.toInt() - _remainingSMS.value!!.toInt()
+                } catch (e:Exception){
+                    e.printStackTrace()
+                }
+
+                _totalProgress.value = availedSMS.value?.toInt()
                 _maxProgress.value = totalSMS.value?.toInt()
 
                 _statusCode.value = response.statuscode
-
 
             } catch (e: Exception) {
                 e.printStackTrace()

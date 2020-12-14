@@ -8,6 +8,7 @@ import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepository, val jobID: String?) : ViewModel() {
 
@@ -37,9 +38,10 @@ class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepos
     private val _jobTitle = MutableLiveData<String>()
     val jobTitle: LiveData<String> = _jobTitle
 
-//    init {
+    init {
 //        getVideoInterviewDetails()
-//    }
+        Timber.d("details init called")
+    }
 
     fun getVideoInterviewDetails() {
         _dataLoading.value = true

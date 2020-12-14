@@ -3,10 +3,14 @@ package com.bdjobs.app.videoInterview
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import com.bdjobs.app.R
 
 class VideoInterviewActivity : AppCompatActivity() {
+
+    private val baseViewModel : VideoInterviewViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_interview)
