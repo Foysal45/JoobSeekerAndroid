@@ -13,10 +13,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
 import com.bdjobs.app.Notification.NotificationHelper
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import timber.log.Timber
 import java.util.*
 
-class LiveInterviewBroadcastReceiver : BroadcastReceiver() {
+class RestartBroadcastReceiver : BroadcastReceiver() {
 
     var NOTIFICATION_ID = "notification-id"
     var NOTIFICATION = "notification"
@@ -25,12 +26,17 @@ class LiveInterviewBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(ctx: Context, intent: Intent?) {
 
+        val session : BdjobsUserSession = BdjobsUserSession(ctx)
+
         Timber.d("called broadcast")
 
         context = ctx
 
         if (intent?.action == "android.intent.action.BOOT_COMPLETED" || intent?.action == "android.intent.action.LOCKED_BOOT_COMPLETED") {
 
+            if (session.isLoggedIn!!){
+
+            }
                 //scheduleNotification()
 
 //            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()

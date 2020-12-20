@@ -101,11 +101,20 @@ class InterveiwInvitationListFragment : Fragment() {
                                         } catch (e: Exception) {
                                             e.printStackTrace()
                                         }
+
+                                        var interviewDate : Date? = null
+                                        try {
+                                            interviewDate = SimpleDateFormat("d MMM yyyy h:mm:ss a").parse("${item?.inviterviewDate} ${item?.inviterviewTime}")
+                                        } catch (e: Exception) {
+                                            e.printStackTrace()
+                                        }
+
                                         val jobInvitation = JobInvitation(companyName = item?.companyName,
                                                 inviteDate = inviteDate,
                                                 jobId = item?.jobId,
                                                 jobTitle = item?.jobTitle,
-                                                seen = item?.seen)
+                                                seen = item?.seen,
+                                                interviewDate = interviewDate)
                                         bdjobsDB.jobInvitationDao().insertJobInvitation(jobInvitation)
                                     }
                                     uiThread {

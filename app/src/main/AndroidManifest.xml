@@ -267,7 +267,7 @@
         </receiver>
 
         <receiver
-            android:name=".BroadCastReceivers.LiveInterviewBroadcastReceiver"
+            android:name=".BroadCastReceivers.RestartBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:directBootAware="true">
@@ -277,8 +277,8 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".BroadCastReceivers.LiveInterviewReceiver"/>
-        <receiver android:name=".BroadCastReceivers.LiveInterviewNightReceiver"/>
+        <receiver android:name=".BroadCastReceivers.MorningNotificationReceiver"/>
+        <receiver android:name=".BroadCastReceivers.NightNotificationReceiver"/>
 
         <service
             android:name=".Notification.BdjobsFirebaseMessagingService"

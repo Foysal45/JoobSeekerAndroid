@@ -151,6 +151,7 @@ class LogoutFragment : Fragment() {
                         }
                         Ads.mInterstitialAd?.show()
                     } else {
+                        bdjobsUserSession.cancelAlarms()
                         bdjobsUserSession.logoutUser()
 
                     }

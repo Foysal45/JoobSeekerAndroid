@@ -59,6 +59,7 @@ class LiveInterviewListFragment : Fragment() {
         //liveInterviewListViewModel.getLiveInterviewList(time)
 
         val adapter = LiveInterviewListAdapter(requireContext(),ClickListener{
+            it.userSeenLiveInterview = "True"
             findNavController().navigate(LiveInterviewListFragmentDirections.actionLiveInterviewListFragmentToLiveInterviewDetailsFragment(it.jobId!!,it.jobTitle!!))
         })
 

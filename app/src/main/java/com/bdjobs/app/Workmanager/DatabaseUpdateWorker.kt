@@ -161,14 +161,24 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                 for (item in items) {
                                     var inviteDate: Date? = null
                                     try {
-                                        inviteDate = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item?.inviteDate)
+                                        inviteDate = SimpleDateFormat("dd MMM yyyy h:mm:ss a").parse(item?.inviteDate)
                                     } catch (e: Exception) {
                                         e.printStackTrace()
                                     }
+
+                                    var interviewDate: Date? = null
+                                    try {
+                                        interviewDate = SimpleDateFormat("d MMM yyyy h:mm:ss a").parse("${item?.inviterviewDate} ${item?.inviterviewTime}")
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+
                                     val jobInvitation = JobInvitation(companyName = item?.companyName,
                                             inviteDate = inviteDate,
                                             jobId = item?.jobId,
-                                            jobTitle = item?.jobTitle)
+                                            jobTitle = item?.jobTitle,
+                                            interviewDate = interviewDate
+                                    )
 
                                     bdjobsInternalDB.jobInvitationDao().insertJobInvitation(jobInvitation)
                                 }

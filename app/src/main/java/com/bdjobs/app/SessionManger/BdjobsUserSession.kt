@@ -2,21 +2,28 @@ package com.bdjobs.app.SessionManger
 
 import android.app.Activity
 import android.app.ActivityManager
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.edit
 import com.bdjobs.app.API.ModelClasses.DataLoginPasswordModel
-import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.BroadCastReceivers.MorningNotificationReceiver
+import com.bdjobs.app.BroadCastReceivers.NightNotificationReceiver
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.isDeviceInfromationSent
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.databases.internal.BdjobsDB
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import timber.log.Timber
 import kotlin.system.exitProcess
+
 
 class BdjobsUserSession(val context: Context) {
     private var pref: SharedPreferences? = null
@@ -112,9 +119,9 @@ class BdjobsUserSession(val context: Context) {
     val jobApplyThreshold = pref?.getString(Constants.session_job_apply_threshold, "25")
     var notificationCount = pref?.getInt(Constants.notification_count, 0)
 
-    var generalInterviewCount = pref?.getInt(Constants.GENERAL_INTERVIEW_COUNT,0)
-    var videoInterviewCount = pref?.getInt(Constants.VIDEO_INTERVIEW_COUNT,0)
-    var liveInterviewCount = pref?.getInt(Constants.LIVE_INTERVIEW_COUNT,0)
+    var generalInterviewCount = pref?.getInt(Constants.GENERAL_INTERVIEW_COUNT, 0)
+    var videoInterviewCount = pref?.getInt(Constants.VIDEO_INTERVIEW_COUNT, 0)
+    var liveInterviewCount = pref?.getInt(Constants.LIVE_INTERVIEW_COUNT, 0)
 
     private fun killCurrentApp(context: Context) {
         val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
@@ -125,6 +132,30 @@ class BdjobsUserSession(val context: Context) {
                 appTask.finishAndRemoveTask()
             }
         }
+    }
+
+    fun cancelAlarms(){
+        try {
+            Timber.d("cancel method called")
+            //morning alarms
+            val morningIntent = Intent(context, MorningNotificationReceiver::class.java)
+            val morningPendingIntent = PendingIntent.getBroadcast(context, 0, morningIntent, PendingIntent.FLAG_NO_CREATE)
+            val morningAlarmManager: AlarmManager? = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
+            if (morningPendingIntent != null) {
+                morningAlarmManager?.cancel(morningPendingIntent)
+            }
+
+            //night alarms
+            val nightIntent = Intent(context, NightNotificationReceiver::class.java)
+            val nightPendingIntent = PendingIntent.getBroadcast(context, 0, nightIntent, PendingIntent.FLAG_NO_CREATE)
+            val nightAlarmManager: AlarmManager? = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
+            if (nightPendingIntent != null) {
+                nightAlarmManager?.cancel(nightPendingIntent)
+            }
+        } catch (e:Exception){
+            e.printStackTrace()
+        }
+
     }
 
     fun logoutUser(exitApp: Boolean = false) {
@@ -168,21 +199,21 @@ class BdjobsUserSession(val context: Context) {
         }
     }
 
-    fun insertGeneralInterviewCount(count : Int){
+    fun insertGeneralInterviewCount(count: Int){
         pref?.edit {
             putInt(Constants.GENERAL_INTERVIEW_COUNT, count)
         }
         pref?.edit()?.apply()
     }
 
-    fun insertVideoInterviewCount(count : Int){
+    fun insertVideoInterviewCount(count: Int){
         pref?.edit {
             putInt(Constants.VIDEO_INTERVIEW_COUNT, count)
         }
         pref?.edit()?.apply()
     }
 
-    fun insertLiveInterviewCount(count : Int){
+    fun insertLiveInterviewCount(count: Int){
         pref?.edit {
             putInt(Constants.LIVE_INTERVIEW_COUNT, count)
         }

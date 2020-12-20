@@ -22,8 +22,8 @@ import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
-import com.bdjobs.app.BroadCastReceivers.LiveInterviewNightReceiver
-import com.bdjobs.app.BroadCastReceivers.LiveInterviewReceiver
+import com.bdjobs.app.BroadCastReceivers.NightNotificationReceiver
+import com.bdjobs.app.BroadCastReceivers.MorningNotificationReceiver
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.InviteCodeInfo
 import com.bdjobs.app.databases.internal.Notification
@@ -931,7 +931,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     private fun scheduleMorningNotification() {
         val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(this, LiveInterviewReceiver::class.java).apply {
+        val alarmIntent = Intent(this, MorningNotificationReceiver::class.java).apply {
             putExtra("type","morning")
         }.let {
             PendingIntent.getBroadcast(this, 0, it, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -957,7 +957,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     private fun scheduleNightNotification() {
         val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(this, LiveInterviewNightReceiver::class.java).apply {
+        val alarmIntent = Intent(this, NightNotificationReceiver::class.java).apply {
             putExtra("type","night")
         }.let {
             PendingIntent.getBroadcast(this, 1, it, PendingIntent.FLAG_UPDATE_CURRENT)
