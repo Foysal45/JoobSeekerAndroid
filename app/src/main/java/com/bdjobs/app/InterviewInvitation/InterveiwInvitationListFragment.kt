@@ -114,7 +114,10 @@ class InterveiwInvitationListFragment : Fragment() {
                                                 jobId = item?.jobId,
                                                 jobTitle = item?.jobTitle,
                                                 seen = item?.seen,
-                                                interviewDate = interviewDate)
+                                                interviewDate = interviewDate,
+                                                interviewDateString = item?.inviterviewDate,
+                                                interviewTimeString = item?.inviterviewTime
+                                        )
                                         bdjobsDB.jobInvitationDao().insertJobInvitation(jobInvitation)
                                     }
                                     uiThread {

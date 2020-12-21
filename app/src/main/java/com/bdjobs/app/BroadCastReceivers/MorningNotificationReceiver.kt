@@ -82,7 +82,7 @@ class MorningNotificationReceiver : BroadcastReceiver() {
                             .setContentTitle("Live Interview")
                             .setContentIntent(pendingIntent)
                             .setGroup("500")
-                            .setStyle(NotificationCompat.BigTextStyle().bigText("You have an interview with ${totalInvitations[i].companyName} at ss"))
+                            .setStyle(NotificationCompat.BigTextStyle().bigText("You have an interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].interviewTimeString.toString())}"))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     with(NotificationManagerCompat.from(ctx)) {
 //                        Timber.d("value of i = $i")

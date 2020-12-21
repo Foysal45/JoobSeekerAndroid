@@ -139,6 +139,10 @@ data class JobInvitation(@ColumnInfo(name = "companyName")
                          val seen: String? = null,
                          @ColumnInfo(name = "interviewDate")
                          val interviewDate: Date?,
+                         @ColumnInfo(name = "interviewDateString")
+                         val interviewDateString: String?,
+                         @ColumnInfo(name = "interviewTimeString")
+                         val interviewTimeString: String?,
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

@@ -177,7 +177,9 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                             inviteDate = inviteDate,
                                             jobId = item?.jobId,
                                             jobTitle = item?.jobTitle,
-                                            interviewDate = interviewDate
+                                            interviewDate = interviewDate,
+                                            interviewDateString = item?.inviterviewDate,
+                                            interviewTimeString = item?.inviterviewTime
                                     )
 
                                     bdjobsInternalDB.jobInvitationDao().insertJobInvitation(jobInvitation)
