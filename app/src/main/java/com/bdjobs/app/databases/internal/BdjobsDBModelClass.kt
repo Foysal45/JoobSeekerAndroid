@@ -136,7 +136,9 @@ data class JobInvitation(@ColumnInfo(name = "companyName")
                          @ColumnInfo(name = "jobTitle")
                          val jobTitle: String? = null,
                          @ColumnInfo(name = "seen")
-                         val seen: String? = null
+                         val seen: String? = null,
+                         @ColumnInfo(name = "interviewDate")
+                         val interviewDate: Date?,
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
@@ -180,7 +182,7 @@ data class LiveInvitation(@ColumnInfo(name = "companyName")
                           @ColumnInfo(name = "liveInterviewStatus")
                           val liveInterviewStatus: String? = null,
                           @ColumnInfo(name = "userSeenLiveInterview")
-                          val userSeenLiveInterview: String?,
+                          var userSeenLiveInterview: String?,
                           @ColumnInfo(name = "liveInterviewDate")
                           val liveInterviewDate: Date?,
                           @ColumnInfo(name = "liveInterviewDateString")
