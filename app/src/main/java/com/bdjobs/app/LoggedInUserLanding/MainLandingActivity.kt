@@ -939,8 +939,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
         val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-//            set(Calendar.HOUR_OF_DAY, 8)
-//            set(Calendar.MINUTE, 0)
+            set(Calendar.HOUR_OF_DAY, 8)
+            set(Calendar.MINUTE, 0)
         }
 
         if (calendar.timeInMillis < System.currentTimeMillis()){
@@ -965,8 +965,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
         val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-//            set(Calendar.HOUR_OF_DAY, 20)
-//            set(Calendar.MINUTE, 6)
+            set(Calendar.HOUR_OF_DAY, 20)
+            set(Calendar.MINUTE, 6)
         }
 
         if (calendar.timeInMillis < System.currentTimeMillis()){

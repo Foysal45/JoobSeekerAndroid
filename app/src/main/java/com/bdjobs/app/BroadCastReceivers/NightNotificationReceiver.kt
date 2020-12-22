@@ -17,6 +17,7 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.LiveInvitation
 import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
+import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import timber.log.Timber
@@ -33,10 +34,7 @@ class NightNotificationReceiver : BroadcastReceiver() {
         Timber.d("called night receiver")
 
         ctx = context
-
         type = intent?.getStringExtra("type")!!
-
-        Timber.d("called $type")
 
         bdjobsUserSession = BdjobsUserSession(ctx)
 
@@ -44,6 +42,7 @@ class NightNotificationReceiver : BroadcastReceiver() {
             createNotificationChannel()
             showNightNotificationForLiveInterview()
             showNotificationForGeneralInterview()
+            showMorningNotificationForVideoInterview()
         }
     }
 
@@ -111,12 +110,6 @@ class NightNotificationReceiver : BroadcastReceiver() {
                         putExtra("companyname", totalInvitations[i].companyName)
                         putExtra("jobtitle", totalInvitations[i].jobTitle)
                         putExtra("type", Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION)
-
-//                        putExtra("from", "notification")
-//                        putExtra("jobId", totalInvitations[i].jobId)
-//                        putExtra("jobTitle", totalInvitations[i].jobTitle)
-//                        putExtra("companyName", totalInvitations[i].companyName)
-//                        putExtra("type", NOTIFICATION_TYPE_INTERVIEW_INVITATION)
                     }
 
                     val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i.plus(700), intent, PendingIntent.FLAG_ONE_SHOT)
@@ -153,13 +146,13 @@ class NightNotificationReceiver : BroadcastReceiver() {
 
                 for (i in 0..totalInvitations.size.minus(1)) {
 
-                    val intent = Intent(ctx, LiveInterviewActivity::class.java).apply {
+                    val intent = Intent(ctx, VideoInterviewActivity::class.java).apply {
                         putExtra("from", "notification")
                         putExtra("jobId", totalInvitations[i].jobId)
                         putExtra("jobTitle", totalInvitations[i].jobTitle)
                     }
 
-                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i, intent, PendingIntent.FLAG_ONE_SHOT)
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i.plus(800), intent, PendingIntent.FLAG_ONE_SHOT)
 
                     var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
                             .setSmallIcon(R.drawable.bdjobs_app_logo)
@@ -169,7 +162,7 @@ class NightNotificationReceiver : BroadcastReceiver() {
                             .setStyle(NotificationCompat.BigTextStyle().bigText("Submit your recorded Video Interview by before 12 at night"))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     with(NotificationManagerCompat.from(ctx)) {
-                        notify(i.plus(300), builder.build())
+                        notify(i.plus(800), builder.build())
                     }
                     //insertNotificationInToDatabase(totalInvitations[i])
 //                }
@@ -183,7 +176,7 @@ class NightNotificationReceiver : BroadcastReceiver() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = ("Test channel")
+            val name = ("Local channel")
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel("CHANNEL_ID", name, importance)
             // Register the channel with the system

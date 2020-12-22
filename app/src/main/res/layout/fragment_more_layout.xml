@@ -322,7 +322,6 @@
                 android:textSize="14sp"
                 app:icon="@drawable/ic_dashboard_black_24dp" />
 
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/uploadResumeBTN"
                 style="@style/more.button"

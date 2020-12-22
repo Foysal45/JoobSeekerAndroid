@@ -284,7 +284,6 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
             }
 
         })
-
     }
 
     fun insertLiveInvitation() {
@@ -312,7 +311,6 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                         e.printStackTrace()
                                     }
 
-
                                     var liveInterviewDate: Date? = null
                                     try {
                                         if (item?.liveInterviewDate != "") {
@@ -322,7 +320,6 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                     } catch (e: Exception) {
                                         e.printStackTrace()
                                     }
-
 
                                     val liveInvitation = LiveInvitation(
                                             companyName = item?.companyName,
@@ -351,9 +348,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     }
                 }
             }
-
         })
-
     }
 
     fun updateExternalDatabase() {
@@ -388,7 +383,6 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                 }
             }
         })
-
     }
 
     fun downloadDatabase(dbDownloadLink: String, updateDate: String) {
