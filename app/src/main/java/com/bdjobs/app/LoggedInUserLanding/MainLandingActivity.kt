@@ -960,12 +960,12 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         val alarmIntent = Intent(this, NightNotificationReceiver::class.java).apply {
             putExtra("type","night")
         }.let {
-            PendingIntent.getBroadcast(this, 1, it, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(this, 100, it, PendingIntent.FLAG_UPDATE_CURRENT)
         }
 
         val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 20)
+//            set(Calendar.HOUR_OF_DAY, 20)
 //            set(Calendar.MINUTE, 6)
         }
 

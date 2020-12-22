@@ -161,7 +161,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                 for (item in items) {
                                     var inviteDate: Date? = null
                                     try {
-                                        inviteDate = SimpleDateFormat("dd MMM yyyy h:mm:ss a").parse(item?.inviteDate)
+                                        inviteDate = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item?.inviteDate)
                                     } catch (e: Exception) {
                                         e.printStackTrace()
                                     }
@@ -245,6 +245,16 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                         e.printStackTrace()
                                     }
 
+                                    var deadline: Date? = null
+                                    try {
+                                        if (item?.videoSubmittedDeadline != "") {
+                                            deadline = SimpleDateFormat("dd MMM yyyy").parse(item?.videoSubmittedDeadline)
+                                        }
+
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+
                                     val videoInvitation = VideoInvitation(companyName = item?.companyName,
                                             jobTitle = item?.jobTitle,
                                             jobId = item?.jobId,
@@ -253,7 +263,9 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                                             userSeenInterview = item?.userSeenInterview,
                                             employerSeenDate = employerSeenDate,
                                             dateStringForSubmission = dateStringForSubmission,
-                                            dateStringForInvitaion = dateStringForInvitaion)
+                                            dateStringForInvitaion = dateStringForInvitaion,
+                                            deadline = deadline
+                                    )
 
                                     bdjobsInternalDB.videoInvitationDao().insertVideoInvitation(videoInvitation)
 

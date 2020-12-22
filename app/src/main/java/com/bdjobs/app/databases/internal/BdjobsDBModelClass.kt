@@ -167,7 +167,9 @@ data class VideoInvitation(@ColumnInfo(name = "companyName")
                            @ColumnInfo(name = "dateStringForSubmission")
                            val dateStringForSubmission: Date?,
                            @ColumnInfo(name = "dateStringForInvitaion")
-                           val dateStringForInvitaion: Date?
+                           val dateStringForInvitaion: Date?,
+                           @ColumnInfo(name = "deadline")
+                           val deadline: Date?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

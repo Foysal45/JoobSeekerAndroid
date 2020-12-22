@@ -21,5 +21,7 @@ interface VideoInvitationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertVideoInvitation(videoInvitation: VideoInvitation):Long
 
+    @Query("SELECT * FROM VideoInvitation WHERE videoStatusCode = :statusCode AND deadline BETWEEN :from AND :to")
+    fun getTodaysInvitation(from : Date, to : Date, statusCode : Int = 2): List<VideoInvitation>
 
 }

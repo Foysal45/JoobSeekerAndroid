@@ -28,56 +28,76 @@ class RestartBroadcastReceiver : BroadcastReceiver() {
 
         val session : BdjobsUserSession = BdjobsUserSession(ctx)
 
-        Timber.d("called broadcast")
-
         context = ctx
 
         if (intent?.action == "android.intent.action.BOOT_COMPLETED" || intent?.action == "android.intent.action.LOCKED_BOOT_COMPLETED") {
 
             if (session.isLoggedIn!!){
-
+                scheduleMorningNotification()
+                scheduleNightNotification()
             }
-                //scheduleNotification()
-
-//            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
-//            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
-//            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
-//            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
-//            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
-//            Toast.makeText(context, "Enjoy", Toast.LENGTH_LONG).show()
-//            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//            val notification: Notification? = intent.getParcelableExtra(NOTIFICATION)
-//            val id = intent.getIntExtra(NOTIFICATION_ID, 0)
-//            notificationManager.notify(id,notification)
         } else {
             Timber.d("called broadcast else")
-            Toast.makeText(context, "Enjoy More", Toast.LENGTH_LONG).show()
-//            NotificationHelper(context).mNotificationManager.notify(
-//            )
         }
     }
 
-//    @RequiresApi(Build.VERSION_CODES.M)
-//    private fun scheduleNotification() {
-//        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        val alarmIntent = Intent(context, TestBroadcastReceiver::class.java).apply {
-//            putExtra(TestBroadcastReceiver.serial, TestBroadcastReceiver.value.plus(1))
-//        }.let {
-//            PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_ONE_SHOT)
-//        }
-//
-//        val calendar: Calendar = Calendar.getInstance().apply {
-//            timeInMillis = System.currentTimeMillis()
-//            set(Calendar.HOUR_OF_DAY, 7)
-//            set(Calendar.MINUTE, 30)
-//        }
-//
-//        alarmManager?.setRepeating(
-//                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//                calendar.timeInMillis,
-//                SystemClock.elapsedRealtime() + 60 * 1000,
-//                alarmIntent
-//        )
-//    }
+    private fun scheduleMorningNotification() {
+        try {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val alarmIntent = Intent(context, MorningNotificationReceiver::class.java).apply {
+                putExtra("type","morning")
+            }.let {
+                PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_UPDATE_CURRENT)
+            }
 
+            val calendar: Calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, 8)
+                set(Calendar.MINUTE, 0)
+            }
+
+            if (calendar.timeInMillis < System.currentTimeMillis()){
+                calendar.add(Calendar.DATE,1)
+            }
+
+            alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    1000 * 60 * 60 * 24,
+                    alarmIntent
+            )
+        } catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+
+    private fun scheduleNightNotification() {
+        try {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val alarmIntent = Intent(context, NightNotificationReceiver::class.java).apply {
+                putExtra("type","night")
+            }.let {
+                PendingIntent.getBroadcast(context, 100, it, PendingIntent.FLAG_UPDATE_CURRENT)
+            }
+
+            val calendar: Calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, 20)
+                set(Calendar.MINUTE, 0)
+            }
+
+            if (calendar.timeInMillis < System.currentTimeMillis()){
+                calendar.add(Calendar.DATE,1)
+            }
+
+            alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    1000 * 60 * 60 * 24,
+                    alarmIntent
+            )
+        } catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
 }

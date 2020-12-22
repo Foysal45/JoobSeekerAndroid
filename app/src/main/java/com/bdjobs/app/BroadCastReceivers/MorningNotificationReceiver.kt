@@ -9,13 +9,16 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_INTERVIEW_INVITATION
 import com.bdjobs.app.databases.internal.LiveInvitation
 import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
+import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import timber.log.Timber
@@ -26,7 +29,7 @@ class MorningNotificationReceiver : BroadcastReceiver() {
 
     lateinit var ctx: Context
     lateinit var bdjobsUserSession: BdjobsUserSession
-    lateinit var type : String
+    lateinit var type: String
 
     override fun onReceive(context: Context, intent: Intent?) {
 
@@ -40,54 +43,45 @@ class MorningNotificationReceiver : BroadcastReceiver() {
 
         bdjobsUserSession = BdjobsUserSession(ctx)
 
-        if (bdjobsUserSession.isLoggedIn!!){
+        if (bdjobsUserSession.isLoggedIn!!) {
             createNotificationChannel()
-            showMorningNotification()
+            showMorningNotificationForLiveInterview()
             showMorningNotificationForGeneralInterview()
-//            showNightNotification()
+            showMorningNotificationForVideoInterview()
         }
     }
 
-    private fun showMorningNotificationForGeneralInterview() {
+    private fun showMorningNotificationForVideoInterview() {
         val cal = Calendar.getInstance()
-        val sdf = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
-        val test: String = sdf.format(cal.time)
-
         val today = cal.time
 
         cal.add(Calendar.DAY_OF_YEAR, 30)
-
         val tomorrow = cal.time
 
-        Timber.d("tomorrow $tomorrow")
-
-
         doAsync {
-            val totalInvitations = BdjobsDB.getInstance(ctx).jobInvitationDao().getTodaysInvitation(today, tomorrow)
+            val totalInvitations = BdjobsDB.getInstance(ctx).videoInvitationDao().getTodaysInvitation(today, tomorrow)
             uiThread {
-                Timber.d("$type ${totalInvitations.size}")
+                Timber.d("morning video ${totalInvitations.size}")
 
                 for (i in 0..totalInvitations.size.minus(1)) {
 
-                    val intent = Intent(ctx, LiveInterviewActivity::class.java).apply {
+                    val intent = Intent(ctx, VideoInterviewActivity::class.java).apply {
                         putExtra("from", "notification")
                         putExtra("jobId", totalInvitations[i].jobId)
                         putExtra("jobTitle", totalInvitations[i].jobTitle)
                     }
 
-                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i, intent, PendingIntent.FLAG_ONE_SHOT)
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i.plus(300), intent, PendingIntent.FLAG_ONE_SHOT)
 
                     var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
                             .setSmallIcon(R.drawable.bdjobs_app_logo)
-                            .setContentTitle("Live Interview")
+                            .setContentTitle("Video Interview")
                             .setContentIntent(pendingIntent)
                             .setGroup("500")
-                            .setStyle(NotificationCompat.BigTextStyle().bigText("You have an interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].interviewTimeString.toString())}"))
+                            .setStyle(NotificationCompat.BigTextStyle().bigText("Submit your recorded Video Interview by before 12 at night"))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     with(NotificationManagerCompat.from(ctx)) {
-//                        Timber.d("value of i = $i")
-//                        Timber.d("value of i = ${totalInvitations[i].companyName}")
-                        notify(i.plus(100), builder.build())
+                        notify(i.plus(300), builder.build())
                     }
                     //insertNotificationInToDatabase(totalInvitations[i])
 //                }
@@ -96,21 +90,62 @@ class MorningNotificationReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun showMorningNotification() {
+    private fun showMorningNotificationForGeneralInterview() {
         val cal = Calendar.getInstance()
-        val sdf = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
-        val test: String = sdf.format(cal.time)
-
         val today = cal.time
 
-        cal.add(Calendar.DAY_OF_YEAR,1)
+        cal.add(Calendar.DAY_OF_YEAR, 1)
+        val tomorrow = cal.time
 
+        Timber.d("tomorrow $tomorrow")
+
+        doAsync {
+            val totalInvitations = BdjobsDB.getInstance(ctx).jobInvitationDao().getTodaysInvitation(today, tomorrow)
+            uiThread {
+                Timber.d("morning general ${totalInvitations.size}")
+
+                for (i in 0..totalInvitations.size.minus(1)) {
+
+                    val intent = Intent(ctx, InterviewInvitationBaseActivity::class.java).apply {
+
+                        putExtra("from", "notification")
+                        putExtra("jobid", totalInvitations[i].jobId)
+                        putExtra("nid", totalInvitations[i].jobId)
+                        putExtra("companyname", totalInvitations[i].companyName)
+                        putExtra("jobtitle", totalInvitations[i].jobTitle)
+                        putExtra("type", NOTIFICATION_TYPE_INTERVIEW_INVITATION)
+                    }
+
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i.plus(200), intent, PendingIntent.FLAG_ONE_SHOT)
+
+                    var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
+                            .setSmallIcon(R.drawable.bdjobs_app_logo)
+                            .setContentTitle("General Interview")
+                            .setContentIntent(pendingIntent)
+                            .setGroup("500")
+                            .setAutoCancel(true)
+                            .setStyle(NotificationCompat.BigTextStyle().bigText("Today you have an interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].interviewTimeString.toString())}"))
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    with(NotificationManagerCompat.from(ctx)) {
+                        notify(i.plus(200), builder.build())
+                    }
+                    //insertNotificationInToDatabase(totalInvitations[i])
+                }
+            }
+        }
+    }
+
+    private fun showMorningNotificationForLiveInterview() {
+        val cal = Calendar.getInstance()
+        val today = cal.time
+
+        cal.add(Calendar.DAY_OF_YEAR, 1)
         val tomorrow = cal.time
 
         doAsync {
-            val totalInvitations = BdjobsDB.getInstance(ctx).liveInvitationDao().getTodaysInvitation(today,tomorrow)
+            val totalInvitations = BdjobsDB.getInstance(ctx).liveInvitationDao().getTodaysInvitation(today, tomorrow)
             uiThread {
-                Timber.d("$type ${totalInvitations.size}")
+                Timber.d("morning live ${totalInvitations.size}")
 
                 for (i in 0..totalInvitations.size.minus(1)) {
 
@@ -120,18 +155,17 @@ class MorningNotificationReceiver : BroadcastReceiver() {
                         putExtra("jobTitle", totalInvitations[i].jobTitle)
                     }
 
-                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i, intent, PendingIntent.FLAG_ONE_SHOT)
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i.plus(100), intent, PendingIntent.FLAG_ONE_SHOT)
 
                     var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
                             .setSmallIcon(R.drawable.bdjobs_app_logo)
                             .setContentTitle("Live Interview")
                             .setContentIntent(pendingIntent)
                             .setGroup("500")
-                            .setStyle(NotificationCompat.BigTextStyle().bigText("You have a Live Interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].liveInterviewTime.toString())}"))
+                            .setAutoCancel(true)
+                            .setStyle(NotificationCompat.BigTextStyle().bigText("Today you have a Live Interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].liveInterviewTime.toString())}"))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     with(NotificationManagerCompat.from(ctx)) {
-//                        Timber.d("value of i = $i")
-//                        Timber.d("value of i = ${totalInvitations[i].companyName}")
                         notify(i.plus(100), builder.build())
                     }
                     insertNotificationInToDatabase(totalInvitations[i])
@@ -147,12 +181,12 @@ class MorningNotificationReceiver : BroadcastReceiver() {
 
         val today = cal.time
 
-        cal.add(Calendar.DAY_OF_YEAR,2)
+        cal.add(Calendar.DAY_OF_YEAR, 2)
 
         val tomorrow = cal.time
 
         doAsync {
-            val totalInvitations = BdjobsDB.getInstance(ctx).liveInvitationDao().getTodaysInvitation(today,tomorrow)
+            val totalInvitations = BdjobsDB.getInstance(ctx).liveInvitationDao().getTodaysInvitation(today, tomorrow)
             uiThread {
                 Timber.d("$type ${totalInvitations.size}")
 
@@ -184,12 +218,11 @@ class MorningNotificationReceiver : BroadcastReceiver() {
         }
     }
 
-
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = ("Test channel")
+            val name = ("Local channel")
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel("CHANNEL_ID", name, importance)
             // Register the channel with the system
@@ -198,28 +231,6 @@ class MorningNotificationReceiver : BroadcastReceiver() {
             notificationManager.createNotificationChannel(channel)
         }
     }
-
-//    @RequiresApi(Build.VERSION_CODES.M)
-//    private fun scheduleNotification() {
-//        val alarmManager = ctx.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        val alarmIntent = Intent(ctx, TestBroadcastReceiver::class.java).apply {
-//            putExtra(serial, value.plus(1))
-//        }.let {
-//            PendingIntent.getBroadcast(ctx, 1, it, PendingIntent.FLAG_ONE_SHOT)
-//        }
-//
-//        val calendar: Calendar = Calendar.getInstance().apply {
-//            timeInMillis = System.currentTimeMillis()
-//            set(Calendar.HOUR_OF_DAY, 17)
-//            set(Calendar.MINUTE, 10)
-//        }
-//
-//        alarmManager?.setExactAndAllowWhileIdle(
-//                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//                calendar.timeInMillis,
-//                alarmIntent
-//        )
-//    }
 
     fun getTimeAsAMPM(time: String): String {
         if (time != "") {
