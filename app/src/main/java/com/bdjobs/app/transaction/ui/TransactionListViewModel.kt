@@ -27,6 +27,10 @@ class TransactionListViewModel(private val repository: TransactionRepository) : 
     }
 
     fun getTransactionList(startDate :String,endDate :String,type:String) {
+
+        Log.d("TransactionTest"," On TransactionListViewModel  startDate ${startDate}  endDate ${endDate}  type ${type}")
+
+
         _dataLoading.value = true
         viewModelScope.launch {
             try {
@@ -46,7 +50,10 @@ class TransactionListViewModel(private val repository: TransactionRepository) : 
                 } catch (e: Exception) {
                     e.printStackTrace()
 
-                }
+                Log.d("TransactionTest"," On TransactionListViewModel  GetException")
+
+
+            }
 
 
         }

@@ -1,7 +1,18 @@
 package com.bdjobs.app.transaction.ui
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.text.Editable
+import androidx.lifecycle.AndroidViewModel
 
-class TransactionFilterViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+
+
+class TransactionFilterViewModel(application: Application) : AndroidViewModel(application) {
+    var startDateNTime = String()
+    var endDateNTime = String()
+    var transactionType = String()
+    fun onTextChangeType(editable: Editable?) {
+        transactionType = editable.toString()
+    }
+
+
 }
