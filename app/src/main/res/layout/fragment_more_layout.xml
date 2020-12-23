@@ -314,6 +314,15 @@
                 app:icon="@drawable/ic_cam" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/live_interviewinvitation_MBTN"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Live Interview"
+                android:textSize="14sp"
+                app:icon="@drawable/ic_live_more" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/training_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
