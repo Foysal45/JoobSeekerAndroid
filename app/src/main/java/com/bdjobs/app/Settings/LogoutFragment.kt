@@ -19,6 +19,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.changePassword_Eligibility
+import com.bdjobs.app.sms.BaseActivity
 import com.google.android.gms.ads.AdListener
 import kotlinx.android.synthetic.main.fragment_logout.*
 import org.jetbrains.anko.*
@@ -68,6 +69,10 @@ class LogoutFragment : Fragment() {
                 activity.startActivity(intent)
             } catch (e: Exception) {
             }
+        }
+
+        smsSettingsBTN?.setOnClickListener {
+            startActivity<BaseActivity>("from" to "settings")
         }
 
         signOutBTN.setOnClickListener {

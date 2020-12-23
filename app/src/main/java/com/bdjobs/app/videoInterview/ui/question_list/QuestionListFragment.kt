@@ -49,7 +49,7 @@ const val NUM_BYTES_NEEDED = 1024 * 1024 * 500L
 class QuestionListFragment : Fragment() {
 
     private val baseViewModel : VideoInterviewViewModel by activityViewModels()
-    private val detailsViewModel: VideoInterviewDetailsViewModel by navGraphViewModels(R.id.videoInterviewDetailsFragment)
+    //private val detailsViewModel: VideoInterviewDetailsViewModel by navGraphViewModels(R.id.videoInterviewDetailsFragment)
     private val questionListViewModel: QuestionListViewModel by navGraphViewModels(R.id.questionListFragment) { ViewModelFactoryUtil.provideVideoInterviewQuestionListViewModelFactory(this, baseViewModel.jobId, baseViewModel.applyId) }
 
     private var permissionGranted: Boolean = false
