@@ -10,13 +10,11 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
-import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_INTERVIEW_INVITATION
-import com.bdjobs.app.databases.internal.LiveInvitation
-import com.bdjobs.app.databases.internal.Notification
+import com.bdjobs.app.databases.internal.*
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import org.jetbrains.anko.doAsync
@@ -51,40 +49,40 @@ class MorningNotificationReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun showMorningNotificationForVideoInterview() {
+    private fun showMorningNotificationForLiveInterview() {
         val cal = Calendar.getInstance()
         val today = cal.time
 
-        cal.add(Calendar.DAY_OF_YEAR, 30)
+        cal.add(Calendar.DAY_OF_YEAR, 1)
         val tomorrow = cal.time
 
         doAsync {
-            val totalInvitations = BdjobsDB.getInstance(ctx).videoInvitationDao().getTodaysInvitation(today, tomorrow)
+            val totalInvitations = BdjobsDB.getInstance(ctx).liveInvitationDao().getTodaysInvitation(today, tomorrow)
             uiThread {
-                Timber.d("morning video ${totalInvitations.size}")
+                Timber.d("morning live ${totalInvitations.size}")
 
                 for (i in 0..totalInvitations.size.minus(1)) {
 
-                    val intent = Intent(ctx, VideoInterviewActivity::class.java).apply {
+                    val intent = Intent(ctx, LiveInterviewActivity::class.java).apply {
                         putExtra("from", "notification")
                         putExtra("jobId", totalInvitations[i].jobId)
                         putExtra("jobTitle", totalInvitations[i].jobTitle)
                     }
 
-                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i.plus(300), intent, PendingIntent.FLAG_ONE_SHOT)
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i.plus(100), intent, PendingIntent.FLAG_ONE_SHOT)
 
                     var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
                             .setSmallIcon(R.drawable.bdjobs_app_logo)
-                            .setContentTitle("Video Interview")
+                            .setContentTitle("Live Interview")
                             .setContentIntent(pendingIntent)
                             .setGroup("500")
-                            .setStyle(NotificationCompat.BigTextStyle().bigText("Submit your recorded Video Interview by before 12 at night"))
+                            .setAutoCancel(true)
+                            .setStyle(NotificationCompat.BigTextStyle().bigText("Today you have a Live Interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].liveInterviewTime.toString())}"))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     with(NotificationManagerCompat.from(ctx)) {
-                        notify(i.plus(300), builder.build())
+                        notify(i.plus(100), builder.build())
                     }
-                    //insertNotificationInToDatabase(totalInvitations[i])
-//                }
+                    insertNotificationInToDatabase(totalInvitations[i])
                 }
             }
         }
@@ -129,13 +127,13 @@ class MorningNotificationReceiver : BroadcastReceiver() {
                     with(NotificationManagerCompat.from(ctx)) {
                         notify(i.plus(200), builder.build())
                     }
-                    //insertNotificationInToDatabase(totalInvitations[i])
+                    insertNotificationInToDatabase(totalInvitations[i])
                 }
             }
         }
     }
 
-    private fun showMorningNotificationForLiveInterview() {
+    private fun showMorningNotificationForVideoInterview() {
         val cal = Calendar.getInstance()
         val today = cal.time
 
@@ -143,76 +141,32 @@ class MorningNotificationReceiver : BroadcastReceiver() {
         val tomorrow = cal.time
 
         doAsync {
-            val totalInvitations = BdjobsDB.getInstance(ctx).liveInvitationDao().getTodaysInvitation(today, tomorrow)
+            val totalInvitations = BdjobsDB.getInstance(ctx).videoInvitationDao().getTodaysInvitation(today, tomorrow)
             uiThread {
-                Timber.d("morning live ${totalInvitations.size}")
+                Timber.d("morning video ${totalInvitations.size}")
 
                 for (i in 0..totalInvitations.size.minus(1)) {
 
-                    val intent = Intent(ctx, LiveInterviewActivity::class.java).apply {
+                    val intent = Intent(ctx, VideoInterviewActivity::class.java).apply {
                         putExtra("from", "notification")
                         putExtra("jobId", totalInvitations[i].jobId)
                         putExtra("jobTitle", totalInvitations[i].jobTitle)
                     }
 
-                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i.plus(100), intent, PendingIntent.FLAG_ONE_SHOT)
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i.plus(300), intent, PendingIntent.FLAG_ONE_SHOT)
 
                     var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
                             .setSmallIcon(R.drawable.bdjobs_app_logo)
-                            .setContentTitle("Live Interview")
+                            .setContentTitle("Video Interview")
                             .setContentIntent(pendingIntent)
                             .setGroup("500")
-                            .setAutoCancel(true)
-                            .setStyle(NotificationCompat.BigTextStyle().bigText("Today you have a Live Interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].liveInterviewTime.toString())}"))
+                            .setStyle(NotificationCompat.BigTextStyle().bigText("Submit your recorded Video Interview by before 12 at night"))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     with(NotificationManagerCompat.from(ctx)) {
-                        notify(i.plus(100), builder.build())
+                        notify(i.plus(300), builder.build())
                     }
                     insertNotificationInToDatabase(totalInvitations[i])
-                }
-            }
-        }
-    }
-
-    private fun showNightNotification() {
-        val cal = Calendar.getInstance()
-        val sdf = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
-        val test: String = sdf.format(cal.time)
-
-        val today = cal.time
-
-        cal.add(Calendar.DAY_OF_YEAR, 2)
-
-        val tomorrow = cal.time
-
-        doAsync {
-            val totalInvitations = BdjobsDB.getInstance(ctx).liveInvitationDao().getTodaysInvitation(today, tomorrow)
-            uiThread {
-                Timber.d("$type ${totalInvitations.size}")
-
-                for (i in 0..totalInvitations.size.minus(1)) {
-
-                    val intent = Intent(ctx, LiveInterviewActivity::class.java).apply {
-                        putExtra("from", "notification")
-                        putExtra("jobId", totalInvitations[i].jobId)
-                        putExtra("jobTitle", totalInvitations[i].jobTitle)
-                    }
-
-                    val pendingIntent: PendingIntent = PendingIntent.getActivity(ctx, i, intent, PendingIntent.FLAG_ONE_SHOT)
-
-                    var builder = NotificationCompat.Builder(ctx, "CHANNEL_ID")
-                            .setSmallIcon(R.drawable.bdjobs_app_logo)
-                            .setContentTitle("Interview Invitation")
-                            .setContentIntent(pendingIntent)
-                            .setGroup("500")
-                            .setStyle(NotificationCompat.BigTextStyle().bigText("You have a Live Interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].liveInterviewTime.toString())}"))
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    with(NotificationManagerCompat.from(ctx)) {
-//                        Timber.d("value of i = $i")
-//                        Timber.d("value of i = ${totalInvitations[i].companyName}")
-                        notify(i.plus(100), builder.build())
-                    }
-                    insertNotificationInToDatabase(totalInvitations[i])
+//                }
                 }
             }
         }
@@ -248,17 +202,49 @@ class MorningNotificationReceiver : BroadcastReceiver() {
         return time
     }
 
-    private fun insertNotificationInToDatabase(data: LiveInvitation) {
+    private fun insertNotificationInToDatabase(data: Any) {
         val bdjobsInternalDB = BdjobsDB.getInstance(ctx)
         val date: Date? = Date()
-        val notificationText = "You have a Live Interview with ${data.companyName} at ${getTimeAsAMPM(data.liveInterviewTime.toString())}"
 
-        doAsync {
-            bdjobsInternalDB.notificationDao().insertNotification(Notification(type = "li", serverId = data.jobId, seen = false, arrivalTime = date, seenTime = date, payload = "", imageLink = "", link = "", isDeleted = false, jobTitle = data.jobTitle, title = "", body = notificationText, companyName = data.companyName, notificationId = "", lanType = "", deadline = data.liveInterviewDateString))
-            uiThread {
-                val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
-                intent.putExtra("notification", "insertOrUpdateNotification")
-                ctx.sendBroadcast(intent)
+        when (data) {
+            is LiveInvitation -> {
+                val notificationText = "Today you have a Live Interview with ${data.companyName} at ${getTimeAsAMPM(data.liveInterviewTime.toString())}"
+                doAsync {
+                    bdjobsInternalDB.notificationDao().insertNotification(Notification(type = "li", serverId = data.jobId, seen = false, arrivalTime = date, seenTime = date, payload = "", imageLink = "", link = "", isDeleted = false, jobTitle = data.jobTitle, title = "", body = notificationText, companyName = data.companyName, notificationId = "", lanType = "", deadline = data.liveInterviewDateString))
+                    uiThread {
+                        val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+                        intent.putExtra("notification", "insertOrUpdateNotification")
+                        ctx.sendBroadcast(intent)
+                    }
+                }
+            }
+            is JobInvitation -> {
+                val notificationText = "Today you have an interview with ${data.companyName} at ${getTimeAsAMPM(data.interviewTimeString.toString())}"
+                doAsync {
+                    bdjobsInternalDB.notificationDao().insertNotification(Notification(type = "ii", serverId = data.jobId, seen = false, arrivalTime = date, seenTime = date, payload = "", imageLink = "", link = "", isDeleted = false, jobTitle = data.jobTitle, title = "", body = notificationText, companyName = data.companyName, notificationId = "", lanType = "", deadline = data.interviewDateString))
+                    uiThread {
+                        val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+                        intent.putExtra("notification", "insertOrUpdateNotification")
+                        ctx.sendBroadcast(intent)
+                    }
+                }
+            }
+            is VideoInvitation -> {
+                try {
+                    val simpleDateFormat = SimpleDateFormat("d MMM yyyy", Locale.ENGLISH)
+                    val deadlineString = simpleDateFormat.format(data?.deadline)
+                    val notificationText = "Submit your recorded Video Interview by before 12 at night, $deadlineString"
+                    doAsync {
+                        bdjobsInternalDB.notificationDao().insertNotification(Notification(type = "vi", serverId = data.jobId, seen = false, arrivalTime = date, seenTime = date, payload = "", imageLink = "", link = "", isDeleted = false, jobTitle = data.jobTitle, title = "", body = notificationText, companyName = data.companyName, notificationId = "", lanType = "", deadline = data.dateStringForSubmission.toString()))
+                        uiThread {
+                            val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
+                            intent.putExtra("notification", "insertOrUpdateNotification")
+                            ctx.sendBroadcast(intent)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }

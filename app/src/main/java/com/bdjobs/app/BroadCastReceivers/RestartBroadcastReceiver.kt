@@ -47,7 +47,7 @@ class RestartBroadcastReceiver : BroadcastReceiver() {
             val alarmIntent = Intent(context, MorningNotificationReceiver::class.java).apply {
                 putExtra("type","morning")
             }.let {
-                PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_UPDATE_CURRENT)
+                PendingIntent.getBroadcast(context, 0, it, 0)
             }
 
             val calendar: Calendar = Calendar.getInstance().apply {
@@ -77,7 +77,7 @@ class RestartBroadcastReceiver : BroadcastReceiver() {
             val alarmIntent = Intent(context, NightNotificationReceiver::class.java).apply {
                 putExtra("type","night")
             }.let {
-                PendingIntent.getBroadcast(context, 100, it, PendingIntent.FLAG_UPDATE_CURRENT)
+                PendingIntent.getBroadcast(context, 1, it, 0)
             }
 
             val calendar: Calendar = Calendar.getInstance().apply {

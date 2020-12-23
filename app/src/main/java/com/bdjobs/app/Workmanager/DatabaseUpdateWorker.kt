@@ -168,7 +168,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
 
                                     var interviewDate: Date? = null
                                     try {
-                                        interviewDate = SimpleDateFormat("d MMM yyyy h:mm:ss a").parse("${item?.inviterviewDate} ${item?.inviterviewTime}")
+                                        interviewDate = SimpleDateFormat("d MMM yyyy hh:mm:ss").parse("${item?.inviterviewDate} ${item?.inviterviewTime}")
                                     } catch (e: Exception) {
                                         e.printStackTrace()
                                     }
