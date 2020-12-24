@@ -4,12 +4,11 @@ package com.bdjobs.app.editResume.personalInfo.fragments.contactDetails
 import android.app.Fragment
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*

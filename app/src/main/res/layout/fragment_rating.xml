@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_root"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+        </androidx.appcompat.widget.Toolbar>
+
+        <ScrollView
+            app:layout_constraintTop_toBottomOf="@id/tool_bar"
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_submit">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:paddingTop="40dp"
+                android:paddingBottom="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_rate"
+                    app:srcCompat="@drawable/ic_rate_interview"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_heading"
+                    android:textColor="#2D3748"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:text="You have submitted Video Interview successfully."
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_rate"
+                    android:layout_marginTop="18dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Rate this Interview"
+                    android:textColor="#393939"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_heading" />
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/rating"
+                    android:layout_marginTop="5dp"
+                    android:stepSize="1"
+                    tools:rating="3"
+                    android:isIndicator="false"
+                    android:theme="@style/RatingBar"
+                    style="?android:attr/ratingBarStyleIndicator"
+                    app:layout_constraintStart_toStartOf="@id/tv_rate"
+                    app:layout_constraintTop_toBottomOf="@id/tv_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/edit_text_border"
+                    android:gravity="top|left"
+                    android:inputType="textMultiLine"
+                    android:hint="Write Feedback"
+                    android:maxLines="15"
+                    android:minLines="5"
+                    android:text="@={viewModel.feedback}"
+                    android:afterTextChanged="@{(feedback)->viewModel.afterFeedbackTextChanged(feedback)}"
+                    android:paddingStart="10dp"
+                    android:paddingTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/tv_rate"
+                    app:layout_constraintStart_toStartOf="@id/tv_rate"
+                    app:layout_constraintTop_toBottomOf="@id/rating" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:paddingLeft="55dp"
+            android:paddingRight="55dp"
+            android:fontFamily="@font/roboto_medium"
+            android:letterSpacing="0"
+            android:layout_marginBottom="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:text="Submit"
+            android:enabled="@{viewModel.enableSubmitButton ? true : false}"
+            android:alpha="@{viewModel.enableSubmitButton ? 1f : .7f}"
+            android:onClick="@{()->viewModel.onSubmitButtonClick()}"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/green"
+            app:cornerRadius="23dp"
+            app:elevation="0dp"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeWidth="1dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.videoInterview.ui.rating.RatingViewModel" />
+    </data>
+</layout>

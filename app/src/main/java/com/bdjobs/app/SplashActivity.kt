@@ -1,12 +1,10 @@
 package com.bdjobs.app
 
-import android.app.Activity
-import android.app.Dialog
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -16,62 +14,38 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Base64
-import android.util.Log
 import android.view.Window
 import android.widget.Button
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import com.bdjobs.app.API.ApiServiceJobs
-import com.bdjobs.app.API.ModelClasses.DatabaseUpdateModel
+import androidx.work.*
 //import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
-import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_NAME
-import com.bdjobs.app.Databases.External.DBHelper.Companion.DB_PATH
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.dfault_date_db_update
-import com.bdjobs.app.Utilities.Constants.Companion.key_db_update
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
-import com.facebook.internal.WebDialog
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.PermissionRequest
-import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.inappmessaging.internal.injection.qualifiers.Analytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoTools
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.no_internet.*
-import okhttp3.ResponseBody
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.*
 import java.security.MessageDigest
 
 
@@ -143,8 +117,6 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         }
 
         agreedBtn?.setOnClickListener {
-
-
 
             request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
             request.send()
@@ -244,6 +216,10 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 //                }
 //                DatabaseUpdateJob.runJobImmediately()
 
+//                scheduleNotification()
+
+//                WorkManager.getInstance(applicationContext).cancelAllWorkByTag("test")
+//                WorkManager.getInstance(applicationContext).cancelAllWorkByTag("live")
 
                 val constraints = Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -254,6 +230,15 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
                         .build()
 
                 WorkManager.getInstance(applicationContext).enqueue(databaseUpdateRequest)
+
+//                val request = PeriodicWorkRequestBuilder<AlertJobWorker>(5, TimeUnit.MINUTES)
+//                        .build()
+//                WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork("test", ExistingPeriodicWorkPolicy.KEEP, request)
+
+//                val liveInterviewRequest = OneTimeWorkRequestBuilder<LiveInterviewAlertWorker>()
+//                        .addTag("live")
+//                        .build()
+//                WorkManager.getInstance(applicationContext).enqueue(liveInterviewRequest)
 
             }
             try {
@@ -302,6 +287,30 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         }
     }
 
+//    @RequiresApi(Build.VERSION_CODES.M)
+//    private fun scheduleNotification() {
+//        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        val alarmIntent = Intent(this, TestBroadcastReceiver::class.java).let {
+//            PendingIntent.getBroadcast(this, 50, it, PendingIntent.FLAG_ONE_SHOT)
+//        }
+//
+//        val calendar: Calendar = Calendar.getInstance().apply {
+////            timeInMillis = System.currentTimeMillis()
+//            set(Calendar.HOUR_OF_DAY, 11)
+//            set(Calendar.MINUTE, 16)
+//        }
+//
+////        if (calendar.timeInMillis < System.currentTimeMillis()){
+////            calendar.add(Calendar.DATE,1)
+////        }
+//
+//        alarmManager.setExactAndAllowWhileIdle(
+//                AlarmManager.RTC_WAKEUP,
+//                calendar.timeInMillis,
+//                alarmIntent
+//        )
+//    }
+
 //    fun downloadDatabase(dbDownloadLink: String, updateDate: String) {
 //
 //        ApiServiceJobs.create().downloadDatabaseFile(dbDownloadLink).enqueue(object : Callback<ResponseBody> {
@@ -337,6 +346,14 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 
     fun showAdAndGoToNextActivity() {
         checkUpdate()
+    }
+
+    private fun getNotification(content: String): Notification {
+        val builder = Notification.Builder(this)
+        builder.setContentTitle("Scheduled Notification")
+        builder.setContentText(content)
+        builder.setSmallIcon(R.drawable.bdjobs_app_logo)
+        return builder.build()
     }
 
     private fun goToNextActivity() {
@@ -392,6 +409,7 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         //Log.d("UpdateCheck", "requestCode= $requestCode\nresultCode= $resultCode ")
         if (requestCode == APP_UPDATE_REQUEST_CODE && resultCode != RESULT_OK) {
             //Log.d("UpdateCheck", "UPDATE_AGAIN OR GO_TO_NEXT_ACTIVITY")

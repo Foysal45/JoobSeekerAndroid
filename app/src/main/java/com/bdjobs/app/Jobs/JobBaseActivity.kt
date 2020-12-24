@@ -6,13 +6,12 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
@@ -28,6 +27,7 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.util.*
 
 class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
@@ -120,6 +120,9 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private var from: String? = ""
     private var nId = ""
     private var seen = false
+
+    private var workPlace: String? = ""
+    private var personWithDisability: String? = ""
 
 
     lateinit var dataStorage: DataStorage
@@ -342,7 +345,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     setDeadline(lastSearch.deadline)
                     setAge(lastSearch.age)
                     setArmy(lastSearch.armyp)
-
+                    setWorkPlace(lastSearch.workPlace)
+                    setPersonWithDisability(lastSearch.personWithDisability)
                     uiThread {
                         transitFragment(joblistFragment, R.id.jobFragmentHolder)
                     }
@@ -368,6 +372,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                             setDeadline(favSearch.deadline)
                             setAge(favSearch.age)
                             setArmy(favSearch.retiredarmy)
+                            setWorkPlace(favSearch.workPlace)
+                            setPersonWithDisability(favSearch.personWithDisability)
                         } catch (e: Exception) {
                             logException(e)
                         }
@@ -593,15 +599,15 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 }
 
                 "generalsearch" -> {
-                    transitFragment(generalSearch, R.id.jobFragmentHolder)
+                    transitFragment(generalSearch, R.id.jobFragmentHolder,false)
                 }
 
-                else -> transitFragment(joblistFragment, R.id.jobFragmentHolder)
+                else -> transitFragment(joblistFragment, R.id.jobFragmentHolder,false)
             }
 
         } catch (e: Exception) {
             logException(e)
-            transitFragment(joblistFragment, R.id.jobFragmentHolder)
+            //transitFragment(joblistFragment, R.id.jobFragmentHolder)
         }
 
     }
@@ -677,7 +683,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
 
     override fun backButtonPressesd() {
-        onBackPressed()
+        Timber.tag("job rakib").d("back button in activity")
+        onBackPress()
     }
 
     override fun goToLoginPage() {
@@ -820,6 +827,14 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         return this.army
     }
 
+    override fun getWorkPlace(): String? {
+        return this.workPlace
+    }
+
+    override fun getPersonWithDisability(): String? {
+        return this.personWithDisability
+    }
+
     override fun setOrganization(value: String?) {
         this.organization = value
     }
@@ -860,6 +875,14 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         this.army = value
     }
 
+    override fun setWorkPlace(value: String?) {
+        this.workPlace = value
+    }
+
+    override fun setPersonWithDisability(value: String?) {
+        this.personWithDisability = value
+    }
+
     override fun getNewsPaper(): String? {
         return this.newsPaper
     }
@@ -888,23 +911,29 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         this.newsPaper = value
     }
 
-    override fun onBackPressed() {
+     fun onBackPress() {
         try {
             val bdjobsUserSession = BdjobsUserSession(applicationContext)
             //Log.d("wreiifb", "From: $from")
             if (bdjobsUserSession.isLoggedIn!! && !from.isNullOrBlank() && from?.equalIgnoreCase("guestuser")!!) {
+                Timber.tag("job rakib").d("if")
                 val joblistFragment = fragmentManager.findFragmentByTag(simpleClassName(joblistFragment))
                 if (joblistFragment != null && joblistFragment.isVisible) {
+                    Timber.tag("job rakib").d("inner if")
                     val intent = Intent(this@JobBaseActivity, MainLandingActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     finishAffinity()
                 } else {
+                    Timber.tag("job rakib").d("inner else")
                     super.onBackPressed()
                 }
             }else if (bdjobsUserSession.isLoggedIn!! && !from.isNullOrBlank() && from?.equalIgnoreCase("employer")!!) {
+                Timber.tag("job rakib").d("else if")
                 finish()
             } else {
+                Timber.tag("job rakib").d("else")
+//                finish()
                 super.onBackPressed()
             }
         } catch (e: Exception) {

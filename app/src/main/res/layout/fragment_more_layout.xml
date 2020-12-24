@@ -31,7 +31,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
-                android:ems="10"
                 android:fontFamily="@font/roboto"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
@@ -315,6 +314,15 @@
                 app:icon="@drawable/ic_cam" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/live_interviewinvitation_MBTN"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Live Interview"
+                android:textSize="14sp"
+                app:icon="@drawable/ic_live_more" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/training_MBTN"
                 style="@style/more.button"
                 android:layout_width="match_parent"
@@ -322,7 +330,6 @@
                 android:text="Upcoming Training"
                 android:textSize="14sp"
                 app:icon="@drawable/ic_dashboard_black_24dp" />
-
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/uploadResumeBTN"
@@ -346,7 +353,6 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/transaction_overview_MBTN"
                 style="@style/more.button"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Transaction Overview"

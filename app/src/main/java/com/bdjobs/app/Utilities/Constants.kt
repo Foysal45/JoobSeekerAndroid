@@ -66,12 +66,12 @@ class Constants {
         var matchedTraining = true
         var timesEmailedResumeLast = true
         var cvUploadStatus = ""
-        var favSearchFiltersSynced = false
-        var jobInvitationSynced = false
-        var videoInvitationSynced = false
-        var liveInvitationSynced = false
-        var certificationSynced = false
-        var followedEmployerSynced = false
+        var favSearchFiltersSynced = true
+        var jobInvitationSynced = true
+        var videoInvitationSynced = true
+        var liveInvitationSynced = true
+        var certificationSynced = true
+        var followedEmployerSynced = true
         var isDirectCall = false
         var appliedJobsCount = 0
         var appliedJobsThreshold = 25
@@ -216,6 +216,7 @@ class Constants {
         const val NOTIFICATION_MATCHED_JOB = 104
         const val NOTIFICATION_VIDEO_INTERVIEW = 105
         const val NOTIFICATION_LIVE_INTERVIEW = 106
+        const val NOTIFICATION_ALERT = 111
 
 
         const val internal_database_name = "BdjobsInternal.db"
@@ -251,9 +252,13 @@ class Constants {
         const val NOTIFICATION_TYPE_SMS = "sj"
         const val NOTIFICATION_TYPE_APPLIED_JOBS = "aj"
         const val NOTIFICATION_TYPE_LIVE_INTERVIEW = "li"
+        const val NOTIFICATION_TYPE_ALERT_NOTIFICATION = "an"
 
         const val NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE = "bpm"
 
+        const val GENERAL_INTERVIEW_COUNT = "general_interview_count"
+        const val VIDEO_INTERVIEW_COUNT = "video_interview_count"
+        const val LIVE_INTERVIEW_COUNT = "live_interview_count"
 
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)

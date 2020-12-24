@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants

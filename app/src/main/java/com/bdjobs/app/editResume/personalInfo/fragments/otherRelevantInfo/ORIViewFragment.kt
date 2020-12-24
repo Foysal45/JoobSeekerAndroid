@@ -3,13 +3,12 @@ package com.bdjobs.app.editResume.personalInfo.fragments.otherRelevantInfo
 
 import android.app.Fragment
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -18,7 +17,6 @@ import com.bdjobs.app.editResume.adapters.models.ORIdataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
-import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_ori_view.*
 import org.jetbrains.anko.toast
 import retrofit2.Call

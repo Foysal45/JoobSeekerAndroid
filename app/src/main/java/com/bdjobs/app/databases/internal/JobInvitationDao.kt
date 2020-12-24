@@ -1,4 +1,4 @@
-package com.bdjobs.app.Databases.Internal
+package com.bdjobs.app.databases.internal
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -21,5 +21,7 @@ interface JobInvitationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertJobInvitation(jobInvitation: JobInvitation):Long
 
+    @Query("SELECT * FROM JobInvitation WHERE interviewDate BETWEEN :from AND :to")
+    fun getTodaysInvitation(from : Date, to : Date): List<JobInvitation>
 
 }

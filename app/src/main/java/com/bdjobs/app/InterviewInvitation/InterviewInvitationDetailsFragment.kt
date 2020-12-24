@@ -5,7 +5,6 @@ import android.app.Fragment
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.InvitationDetailModels
 import com.bdjobs.app.API.ModelClasses.InvitationDetailModelsCommon
 import com.bdjobs.app.API.ModelClasses.InvitationDetailModelsData
-import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession

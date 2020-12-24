@@ -1,4 +1,4 @@
-package com.bdjobs.app.Databases.Internal
+package com.bdjobs.app.databases.internal
 
 import androidx.room.TypeConverter
 import java.util.*

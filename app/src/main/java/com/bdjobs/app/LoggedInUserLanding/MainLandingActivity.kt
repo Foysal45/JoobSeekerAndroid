@@ -1,13 +1,15 @@
 package com.bdjobs.app.LoggedInUserLanding
 
 import android.app.Activity
+import android.app.AlarmManager
 import android.app.Dialog
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
@@ -20,9 +22,11 @@ import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.InviteCodeInfo
-import com.bdjobs.app.Databases.Internal.Notification
+import com.bdjobs.app.BroadCastReceivers.NightNotificationReceiver
+import com.bdjobs.app.BroadCastReceivers.MorningNotificationReceiver
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.InviteCodeInfo
+import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
@@ -47,16 +51,15 @@ import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
-import com.crashlytics.android.Crashlytics
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.doAsync
@@ -65,9 +68,11 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.util.*
 
 class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
+
 
     override fun onUpdateNotification() {
         //Log.d("rakib", "in Main Landing Activity")
@@ -78,6 +83,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
             shortListedJobFragment.updateNotificationView(count)
             mybdjobsFragment.updateNotificationView(count)
             moreFragment.updateNotificationView(count)
+
+            homeFragment.updateInvitationCountView()
         }
     }
 
@@ -319,12 +326,22 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         setContentView(R.layout.activity_main_landing)
         bdjobsDB = BdjobsDB.getInstance(this@MainLandingActivity)
 
+        scheduleMorningNotification()
+        scheduleNightNotification()
+
         broadcastReceiver = BackgroundJobBroadcastReceiver()
         mNotificationHelper = NotificationHelper(this)
         session = BdjobsUserSession(applicationContext)
-        Crashlytics.setUserIdentifier(session.userId)
+        val crashlytics = FirebaseCrashlytics.getInstance()
+        crashlytics.setUserId(session.userId.toString())
         bottom_navigation?.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottom_navigation?.selectedItemId = R.id.navigation_home
+
+        if (intent.getStringExtra("from") == "notification") {
+            Timber.d("came here ")
+            setShortListFilter("Next 2 days")
+            goToShortListedFragment(2)
+        }
 
         try {
             createShortcut(this@MainLandingActivity)
@@ -437,6 +454,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                 }
             }
         }
+
+
     }
 
     private fun updateInviteCodeOwnerInformation() {
@@ -908,8 +927,57 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
         } catch (e: Exception) {
         }
-
     }
 
+    private fun scheduleMorningNotification() {
+        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, MorningNotificationReceiver::class.java).apply {
+            putExtra("type","morning")
+        }.let {
+            PendingIntent.getBroadcast(this, 0, it, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
 
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 8)
+            set(Calendar.MINUTE, 0)
+        }
+
+        if (calendar.timeInMillis < System.currentTimeMillis()){
+            calendar.add(Calendar.DATE,1)
+        }
+
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                1000 * 60 * 60 * 24,
+                alarmIntent
+        )
+    }
+
+    private fun scheduleNightNotification() {
+        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, NightNotificationReceiver::class.java).apply {
+            putExtra("type","night")
+        }.let {
+            PendingIntent.getBroadcast(this, 1, it, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 20)
+            set(Calendar.MINUTE, 0)
+        }
+
+        if (calendar.timeInMillis < System.currentTimeMillis()){
+            calendar.add(Calendar.DATE,1)
+        }
+
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                1000 * 60 * 60 * 24,
+                alarmIntent
+        )
+    }
 }

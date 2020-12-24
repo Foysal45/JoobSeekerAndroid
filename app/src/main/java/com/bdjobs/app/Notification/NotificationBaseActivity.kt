@@ -1,42 +1,24 @@
 package com.bdjobs.app.Notification
 
-import android.annotation.TargetApi
-import android.content.Intent
 import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
-import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-import com.google.android.gms.ads.AdRequest
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_notification_base.*
 import kotlinx.android.synthetic.main.activity_notification_base.backIV
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import java.util.Arrays.asList
-import io.fabric.sdk.android.services.settings.IconRequest.build
-import android.content.Intent.ACTION_VIEW
-import android.content.pm.ShortcutInfo
-import android.content.pm.ShortcutManager
-import android.graphics.drawable.Icon
-import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.net.Uri
-import android.os.Build
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.Databases.Internal.Notification
+import com.bdjobs.app.databases.internal.Notification
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 
 class NotificationBaseActivity : FragmentActivity(), NotificationCommunicatior, BackgroundJobBroadcastReceiver.NotificationUpdateListener {

@@ -1,15 +1,14 @@
 package com.bdjobs.app.InviteCode.InviteCodeUser
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PaymentTypeInsertModel
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.InviteCodeInfo
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.InviteCodeInfo
 import com.bdjobs.app.InviteCode.InviteCodeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession

@@ -3,15 +3,13 @@ package com.bdjobs.app.InterviewInvitation
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.JobInvitationListModel
-import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.JobInvitation
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.JobInvitation
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -20,7 +18,6 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import kotlinx.android.synthetic.main.fragment_interview_invitation_list.*
 //import kotlinx.android.synthetic.main.fragment_interview_invitation_list.adView
 import kotlinx.android.synthetic.main.fragment_interview_invitation_list.backIMV
-import kotlinx.android.synthetic.main.fragment_times_emailed_my_resume.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
@@ -104,11 +101,23 @@ class InterveiwInvitationListFragment : Fragment() {
                                         } catch (e: Exception) {
                                             e.printStackTrace()
                                         }
+
+                                        var interviewDate : Date? = null
+                                        try {
+                                            interviewDate = SimpleDateFormat("d MMM yyyy hh:mm:ss").parse("${item?.inviterviewDate} ${item?.inviterviewTime}")
+                                        } catch (e: Exception) {
+                                            e.printStackTrace()
+                                        }
+
                                         val jobInvitation = JobInvitation(companyName = item?.companyName,
                                                 inviteDate = inviteDate,
                                                 jobId = item?.jobId,
                                                 jobTitle = item?.jobTitle,
-                                                seen = item?.seen)
+                                                seen = item?.seen,
+                                                interviewDate = interviewDate,
+                                                interviewDateString = item?.inviterviewDate,
+                                                interviewTimeString = item?.inviterviewTime
+                                        )
                                         bdjobsDB.jobInvitationDao().insertJobInvitation(jobInvitation)
                                     }
                                     uiThread {

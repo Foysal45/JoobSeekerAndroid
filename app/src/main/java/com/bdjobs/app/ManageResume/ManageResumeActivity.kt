@@ -34,21 +34,25 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
 
         try {
             from = intent.getStringExtra("from").toString()
+            from = intent.getStringExtra("from") ?: ""
         } catch (e: Exception) {
             logException(e)
         }
         try {
             subject  = intent.getStringExtra("subject").toString()
+            subject  = intent.getStringExtra("subject") ?: ""
         } catch (e: Exception) {
             logException(e)
         }
         try {
             toEmail  = intent.getStringExtra("emailAddress").toString()
+            toEmail  = intent.getStringExtra("emailAddress") ?: ""
         } catch (e: Exception) {
             logException(e)
         }
         try {
             jobID  = intent.getStringExtra("jobid").toString()
+            jobID  = intent.getStringExtra("jobid") ?: ""
         } catch (e: Exception) {
             logException(e)
         }

@@ -2,6 +2,7 @@ package com.bdjobs.app.videoInterview.data.repository
 
 import android.app.Application
 import android.util.Log
+import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.videoInterview.data.models.*
@@ -102,5 +103,27 @@ class VideoInterviewRepository(val application: Application) {
             )
         }
     }
+
+    suspend fun submitVideoInterviewFeedback(
+            applyId: String?,
+            jobId: String?,
+            rating : String?,
+            feedbackComment : String?
+    ) : InterviewFeedback {
+        return withContext(Dispatchers.IO){
+            ApiServiceMyBdjobs.create().submitInterviewFeedback(
+                    userID = session.userId,
+                    decodeID = session.decodId,
+                    applyId = applyId,
+                    jobId = jobId,
+                    rating = rating,
+                    feedbackComment = feedbackComment,
+                    featureName = "Video Interview",
+                    appId = Constants.APP_ID
+            )
+        }
+    }
+
+
 
 }

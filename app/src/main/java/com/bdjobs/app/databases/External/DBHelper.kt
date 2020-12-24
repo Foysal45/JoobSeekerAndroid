@@ -1,4 +1,4 @@
-package com.bdjobs.app.Databases.External
+package com.bdjobs.app.databases.External
 
 import android.content.Context
 import android.database.Cursor

@@ -7,10 +7,9 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
-import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
-import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
@@ -23,7 +22,6 @@ import com.bdjobs.app.editResume.educationInfo.fragments.professionalQualificati
 import com.bdjobs.app.editResume.educationInfo.fragments.professionalQualification.ProfessionalQLViewFragment
 import com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo.TrainingEditFragment
 import com.bdjobs.app.editResume.educationInfo.fragments.trainingInfo.TrainingViewFragment
-import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout

@@ -57,5 +57,27 @@
             app:popExitAnim="@anim/slide_out_left"
             android:id="@+id/action_transactionFilterFragment_to_transactionListFragment"
             app:destination="@id/transactionListFragment" />
+
+        <argument
+            android:name="from"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="default" />
+        <argument
+            android:name="startDate"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="default" />
+        <argument
+            android:name="endDate"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="default" />
+        <argument
+            android:name="transactionType"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="default" />
     </fragment>
 </navigation>
+

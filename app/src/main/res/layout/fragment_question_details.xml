@@ -303,8 +303,7 @@
                         android:layout_marginTop="20dp"
                         android:background="@drawable/background_video_interview_question_total_time"
                         android:padding="15dp"
-                        app:visibilityWhenTimerShowing="@{viewModel.questionCommonData.remaingTime}"
-                        app:visibilityWhenSubmitted="@{viewModel.questionCommonData.userSubmittedAnswer}"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toStartOf="@id/guideline_end"
                         app:layout_constraintStart_toEndOf="@id/guideline_start"
                         app:layout_constraintTop_toBottomOf="@id/rv_question">
@@ -368,7 +367,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
                         android:clipToPadding="false"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/guideline_end"
                         app:layout_constraintStart_toEndOf="@id/guideline_start"
                         app:layout_constraintTop_toBottomOf="@id/rl_question_number"
@@ -479,7 +477,7 @@
                 android:background="@drawable/background_video_interview_question_remaining_time"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:visibility="@{viewModel.shouldShowRemainingTime ? View.VISIBLE : View.GONE}"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <ImageView
@@ -487,7 +485,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:src="@drawable/ic_notification_time"
-                    android:tint="#0D47A1"
+                    app:tint="#0D47A1"
                     app:layout_constraintBottom_toBottomOf="@id/tv_remaining_submit_time"
                     app:layout_constraintEnd_toStartOf="@id/tv_remaining_submit_time"
                     app:layout_constraintTop_toTopOf="@id/tv_remaining_submit_time"
@@ -522,7 +520,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:src="@drawable/ic_calender_interview_invitation"
-                    android:tint="#0D47A1"
+                    app:tint="#0D47A1"
                     app:layout_constraintBottom_toBottomOf="@id/tv_submission_date"
                     app:layout_constraintEnd_toStartOf="@id/tv_submission_date"
                     app:layout_constraintTop_toTopOf="@id/tv_submission_date"
@@ -598,7 +596,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideline_middle"
                 app:submitButtonEnableAfterTimer="@{viewModel.shouldEnableSubmitButtonAfterTimerEnd}"
-                app:submitButtonIsInterested="@{viewModel.isNotInterestedToSubmitChecked}"
+                app:submitButtonIsNotInterested="@{viewModel.isNotInterestedToSubmitChecked}"
                 app:submitButtonTotalAnswers="@{viewModel.questionCommonData.VUserTotalAnswerequestion}"
                 app:submitButtonTotalQuestions="@{viewModel.questionListData.size()}"
                 app:submitButtonRemainingTime="@{viewModel.questionCommonData.remaingTime}"/>

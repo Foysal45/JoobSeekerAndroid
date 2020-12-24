@@ -14,17 +14,16 @@ import android.view.Window
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationManagerCompat
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
 import com.bdjobs.app.API.ModelClasses.LastUpdateModel
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.Internal.*
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.*
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchFilterAdapter
+import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -34,9 +33,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.liveInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
-import com.bdjobs.app.assessment.AssesmentBaseActivity
 
-import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
@@ -44,8 +41,6 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
-import com.google.android.material.button.MaterialButton
-import kotlinx.android.synthetic.main.applied_jobs.*
 import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.layout_all_interview_invitation.*
 import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
@@ -56,7 +51,6 @@ import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_video_interview_invitations_layout.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
@@ -67,6 +61,11 @@ import java.util.*
 
 
 class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        Timber.d("called onSaveInstanceState")
+    }
 
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
@@ -83,6 +82,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private var inviteInterviview: String? = ""
     private var videoInterviview: String? = ""
     private var liveInterview: String? = ""
+    lateinit var notificationHelper: NotificationHelper
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -234,11 +234,23 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         try {
             blankCL?.hide()
             mainLL?.show()
-            allInterview?.show()
-            tv_live_interview_count.text = Constants.liveInvitation
-            tv_video_interview_count.text = Constants.videoInvitation
-            tv_general_interview_count.text = Constants.generalInvitation
-        } catch (e:Exception){
+
+            if (Constants.liveInvitation == "0" && Constants.videoInvitation == "0" && Constants.generalInvitation == "0"){
+                allInterview?.hide()
+                blankCL?.show()
+                newSearchBTN?.hide()
+            } else{
+                bdjobsUserSession = BdjobsUserSession(activity)
+                allInterview?.show()
+                tv_live_interview_count.text = bdjobsUserSession.liveInterviewCount.toString()
+                tv_video_interview_count.text = bdjobsUserSession.videoInterviewCount.toString()
+                tv_general_interview_count.text = bdjobsUserSession.generalInterviewCount.toString()
+            }
+
+
+
+
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -319,7 +331,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
             val followedEmployerJobCount = bdjobsDB.followedEmployerDao().getJobCountOfFollowedEmployer()
             uiThread {
-                showBlankLayout()
+//                showBlankLayout()
                 followedEmployerView?.hide()
                 if (!followedEmployerList.isNullOrEmpty()) {
                     followEmplowercounterTV?.text = followedEmployerJobCount.toString()
@@ -344,7 +356,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             jobInvitations = bdjobsDB.jobInvitationDao().getAllJobInvitation()
             uiThread {
                 try {
-                    showBlankLayout()
+//                    showBlankLayout()
                     jobInvitationView?.hide()
                     if (!jobInvitations.isNullOrEmpty()) {
                         var companyNames = ""
@@ -395,7 +407,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getLatest2FavouriteSearchFilter()
             val allfavsearch = bdjobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
             uiThread {
-                showBlankLayout()
+//                showBlankLayout()
                 favSearchView?.hide()
                 if (!favouriteSearchFilters.isNullOrEmpty()) {
                     try {
@@ -442,24 +454,24 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     private fun showBlankLayout() {
-        if (followedEmployerList.isNullOrEmpty()
-                && jobInvitations.isNullOrEmpty()
-                && favouriteSearchFilters.isNullOrEmpty()
-                && b2CCertificationList.isNullOrEmpty()
-                && lastSearch.isNullOrEmpty()
-                && (Constants.liveInvitation == "0" && Constants.videoInvitation == "0" && Constants.generalInvitation == "0")
-        ) {
-            mainLL?.hide()
-            blankCL?.show()
-            newSearchBTN?.hide()
-        }
+//        if (followedEmployerList.isNullOrEmpty()
+//                && jobInvitations.isNullOrEmpty()
+//                && favouriteSearchFilters.isNullOrEmpty()
+//                && b2CCertificationList.isNullOrEmpty()
+//                && lastSearch.isNullOrEmpty()
+//                && (Constants.liveInvitation == "0" && Constants.videoInvitation == "0" && Constants.generalInvitation == "0")
+//        ) {
+//            mainLL?.hide()
+//            blankCL?.show()
+//            newSearchBTN?.hide()
+//        }
     }
 
     private fun showLastSearch() {
         doAsync {
             lastSearch = bdjobsDB.lastSearchDao().getLastSearch()
             uiThread {
-                showBlankLayout()
+//                showBlankLayout()
                 lastSearchView?.hide()
                 if (!lastSearch.isNullOrEmpty()) {
 
@@ -491,7 +503,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             qAge = searchData?.age,
                             rpp = searchData?.rpp,
                             slno = searchData?.slno,
-                            version = searchData?.version
+                            version = searchData?.version,
+                            workPlace = searchData?.workPlace,
+                            personWithDisability = searchData?.personWithDisability
                     ).enqueue(object : Callback<LastSearchCountModel> {
                         override fun onFailure(call: Call<LastSearchCountModel>, t: Throwable) {
                             error("onFailure", t)
@@ -547,10 +561,22 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         val jobtype = dataStorage.getJobTypeByID(search.jobType)
         val genderb = dataStorage.getGenderByID(search.genderB)
         var retiredArmy = ""
+        var workPlace = ""
+        var personWithDisability = ""
 
         search.armyp?.let { string ->
             if (string == "1")
                 retiredArmy = "Preferred Retired Army"
+        }
+
+        search.workPlace?.let {
+            if (it == "1")
+                workPlace = "Work From Home"
+        }
+
+        search.personWithDisability?.let {
+            if (it == "1")
+                personWithDisability = "Person With Disability"
         }
 
         var gender = ""
@@ -565,7 +591,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
         //Log.d("gender", "genderb: ${search.genderB}")
 
-        var allValues = ("$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper")
+        var allValues = ("$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability")
         //Log.d("allValuesN", allValues)
         allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")
@@ -620,6 +646,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
             } catch (e: Exception) {
             }
+            interviewInvitationDialog?.cancel()
+
         }
 
         VideoInterviewCV?.setOnClickListener {
@@ -629,6 +657,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
             } catch (e: Exception) {
             }
+            interviewInvitationDialog?.cancel()
+
         }
 
         LiveInterviewCV?.setOnClickListener {
@@ -638,6 +668,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 //                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
 //            } catch (e: Exception) {
 //            }
+            interviewInvitationDialog?.cancel()
         }
 
 
@@ -755,6 +786,17 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                 try {
                     if (shortlistedjobs.isNotEmpty()) {
+
+//                        notificationHelper = NotificationHelper(activity)
+//                        notificationHelper.notify(
+//                                Constants.NOTIFICATION_ALERT,
+//                                notificationHelper.prepareNotification(
+//                                        "test title",
+//                                        "You have ${shortlistedjobs.size} shortlisted jobs",
+//                                        type = NOTIFICATION_TYPE_ALERT_NOTIFICATION
+//                                )
+//                        )
+
                         val dialog = Dialog(activity)
                         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
                         dialog?.setCancelable(true)
@@ -818,9 +860,12 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         } else {
             notificationCountTV?.hide()
         }
-
-
     }
+
+    fun updateInvitationCountView(){
+        showAllInvitations()
+    }
+
 
 
 }

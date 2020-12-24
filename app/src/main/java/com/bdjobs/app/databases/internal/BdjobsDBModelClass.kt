@@ -1,4 +1,4 @@
-package com.bdjobs.app.Databases.Internal
+package com.bdjobs.app.databases.internal
 
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
@@ -114,7 +114,11 @@ data class FavouriteSearch(
         @ColumnInfo(name = "totaljobs")
         val totaljobs: String? = "",
         @ColumnInfo(name = "isSubscribed")
-        var isSubscribed : String? = ""
+        var isSubscribed: String? = "",
+        @ColumnInfo(name = "workPlace")
+        val workPlace: String? = "",
+        @ColumnInfo(name = "personWithDisability")
+        val personWithDisability : String? = ""
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
@@ -132,7 +136,13 @@ data class JobInvitation(@ColumnInfo(name = "companyName")
                          @ColumnInfo(name = "jobTitle")
                          val jobTitle: String? = null,
                          @ColumnInfo(name = "seen")
-                         val seen: String? = null
+                         val seen: String? = null,
+                         @ColumnInfo(name = "interviewDate")
+                         val interviewDate: Date?,
+                         @ColumnInfo(name = "interviewDateString")
+                         val interviewDateString: String?,
+                         @ColumnInfo(name = "interviewTimeString")
+                         val interviewTimeString: String?,
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
@@ -157,7 +167,36 @@ data class VideoInvitation(@ColumnInfo(name = "companyName")
                            @ColumnInfo(name = "dateStringForSubmission")
                            val dateStringForSubmission: Date?,
                            @ColumnInfo(name = "dateStringForInvitaion")
-                           val dateStringForInvitaion: Date?
+                           val dateStringForInvitaion: Date?,
+                           @ColumnInfo(name = "deadline")
+                           val deadline: Date?
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}
+
+@Entity(tableName = "LiveInvitation", indices = [(Index(value = ["jobId"], unique = true))])
+@Keep
+data class LiveInvitation(@ColumnInfo(name = "companyName")
+                          val companyName: String?,
+                          @ColumnInfo(name = "jobTitle")
+                          val jobTitle: String? = null,
+                          @ColumnInfo(name = "jobId")
+                          val jobId: String? = null,
+                          @ColumnInfo(name = "liveInterviewStatusCode")
+                          val liveInterviewStatusCode: String? = null,
+                          @ColumnInfo(name = "liveInterviewStatus")
+                          val liveInterviewStatus: String? = null,
+                          @ColumnInfo(name = "userSeenLiveInterview")
+                          var userSeenLiveInterview: String?,
+                          @ColumnInfo(name = "liveInterviewDate")
+                          val liveInterviewDate: Date?,
+                          @ColumnInfo(name = "liveInterviewDateString")
+                          val liveInterviewDateString: String?,
+                          @ColumnInfo(name = "liveInterviewTime")
+                          val liveInterviewTime: String?,
+                          @ColumnInfo(name = "dateStringForInvitation")
+                          val dateStringForInvitation: String?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
@@ -245,7 +284,11 @@ data class LastSearch(
         @ColumnInfo(name = "slno")
         val slno: String? = "",
         @ColumnInfo(name = "version")
-        val version: String? = ""
+        val version: String? = "",
+        @ColumnInfo(name = "workPlace")
+        val workPlace: String? = "",
+        @ColumnInfo(name = "personWithDisability")
+        val personWithDisability : String? = ""
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

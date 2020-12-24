@@ -24,5 +24,9 @@ data class JobInvitationListData(
     @SerializedName("jobTitle")
     val jobTitle: String?,
     @SerializedName("seen")
-    val seen: String?
+    val seen: String?,
+    @SerializedName("inviterviewDate")
+    val inviterviewDate: String?,
+    @SerializedName("inviterviewTime")
+    val inviterviewTime: String?
 )

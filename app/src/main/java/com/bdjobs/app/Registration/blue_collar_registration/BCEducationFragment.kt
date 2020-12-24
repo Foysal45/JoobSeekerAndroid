@@ -13,7 +13,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.CompoundButton
 import androidx.core.view.isVisible
-import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.*
@@ -22,7 +22,6 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_education.*
 import org.jetbrains.anko.selector
-import org.jetbrains.anko.toast
 import java.util.*
 import kotlin.collections.ArrayList
 

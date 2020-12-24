@@ -231,7 +231,6 @@
                             android:text="@{viewModel.detailsData.VTotalAttempt}"
                             android:textColor="#303030"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/guideline"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="@id/attempts_heading_text"
                             app:layout_constraintTop_toBottomOf="@id/attempts_heading_text"
@@ -295,7 +294,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_done_double"
-                            android:tint="#0D47A1"
+                            app:tint="#0D47A1"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -383,12 +382,14 @@
                     android:id="@+id/btn_job_detail"
                     style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="wrap_content"
+                    android:paddingTop="-10dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/roboto"
                     android:gravity="center_vertical"
                     android:letterSpacing="0"
+                    android:minHeight="0dp"
                     android:text="View Job Details"
                     android:textAllCaps="false"
                     android:textColor="#007FE3"
@@ -396,7 +397,8 @@
                     app:icon="@drawable/ic_keyboard_arrow_right_black_24dp"
                     app:iconGravity="textEnd"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/companyNameTV" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -436,11 +438,11 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/roboto_medium"
-                android:includeFontPadding="false"
                 android:onClick="@{()->viewModel.onViewButtonClick()}"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:text="View Video"
+                android:letterSpacing="0"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:visibility="gone"

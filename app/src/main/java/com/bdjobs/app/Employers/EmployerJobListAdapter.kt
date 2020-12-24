@@ -2,21 +2,19 @@ package com.bdjobs.app.Employers
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.EmployerJobListsModelData
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.singleTop
-import org.jetbrains.anko.startActivity
 
 class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapter<EmployerJobListViewHolder>() {
 

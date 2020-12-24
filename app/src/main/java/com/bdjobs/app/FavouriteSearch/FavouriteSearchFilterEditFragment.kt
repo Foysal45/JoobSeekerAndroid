@@ -4,16 +4,15 @@ import android.app.Activity
 import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.SaveUpdateFavFilterModel
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.FavouriteSearch
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.FavouriteSearch
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
@@ -21,7 +20,6 @@ import com.bdjobs.app.Utilities.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_edit.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -30,6 +28,7 @@ import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.util.*
 
 
@@ -57,6 +56,10 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private var filterName:String? = ""
     private var createdOn: Date? = null
     private var gender:String? = ""
+
+    private var workPlace : String? = "0"
+    private var personWithDisability : String ? = "0"
+
     val genderList: MutableList<String> = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -73,7 +76,6 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         filterID = favCommunicator.getFilterID()
         onClicks()
         setData()
-
     }
 
 
@@ -146,6 +148,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                             filterNameTIL.showError("This filter name is already exists.")
                             activity.requestFocus(filterNameET)
                         } else {
+                            Timber.d("$workPlace $personWithDisability")
                             if (
                                     industry.isNullOrBlank() &&
                                     category.isNullOrBlank() &&
@@ -161,7 +164,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                                     jobType.isNullOrBlank() &&
                                     army.isNullOrBlank() &&
                                     age.isNullOrBlank() &&
-                                    newspaper.isNullOrBlank()
+                                    newspaper.isNullOrBlank() &&
+                                    workPlace.isNullOrBlank() &&
+                                    personWithDisability.isNullOrBlank()
                             ) {
                                 toast("Please apply at least one filter to update the search")
                             } else {
@@ -268,6 +273,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         getDataFromChipGroup(deadlineCG)
         getDataFromChipGroup(ageRangeCG)
         getDataFromChipGroup(armyCG)
+        getDataFromChipGroup(chip_group_workplace)
+        getDataFromChipGroup(chip_group_person_with_disability)
 
 
         maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -342,7 +349,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 filterName = filterNameET.getString().trim(),
                 qAge = age,
                 newspaper = newspaper,
-                encoded = Constants.ENCODED_JOBS
+                encoded = Constants.ENCODED_JOBS,
+                workPlace = workPlace,
+                personWithDisability = personWithDisability
 
         ).enqueue(object : Callback<SaveUpdateFavFilterModel> {
             override fun onFailure(call: Call<SaveUpdateFavFilterModel>, t: Throwable) {
@@ -380,7 +389,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                                     updatedon = Date(),
                                     totaljobs = "",
                                     createdon = createdOn,
-                                    genderb = ""
+                                    genderb = "",
+                                    workPlace = workPlace,
+                                    personWithDisability = personWithDisability
 
                             )
                             bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
@@ -434,6 +445,12 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     R.id.armyCG -> {
                         army = "1"
                     }
+                    R.id.chip_group_workplace ->{
+                        workPlace = "1"
+                    }
+                    R.id.chip_group_person_with_disability ->{
+                        personWithDisability = "1"
+                    }
                 }
             } else {
                 when (chipGroup.id) {
@@ -462,7 +479,13 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                         age = ""
                     }
                     R.id.armyCG -> {
-                        army = "1"
+                        army = ""
+                    }
+                    R.id.chip_group_workplace ->{
+                        workPlace = "0"
+                    }
+                    R.id.chip_group_person_with_disability ->{
+                        personWithDisability = "0"
                     }
                 }
             }
@@ -514,29 +537,31 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     loacationET?.setText(locationString)
                     //Log.d("catTest", "category : ${filterData.keyword}")
 
-                    if (filterData.functionalCat?.isNotBlank()!!) {
-                        if (filterData.functionalCat.toInt() < 30) {
-                            generalCatET?.setText(dataStorage.getCategoryNameByID(filterData.functionalCat))
-                            specialCatET?.text?.clear()
-                        } else {
-                            generalCatET?.text?.clear()
-                        }
+                    try {
+                        if (filterData.functionalCat?.isNotBlank()!!) {
+                            if (filterData.functionalCat.toInt() < 30) {
+                                generalCatET?.setText(dataStorage.getCategoryNameByID(filterData.functionalCat))
+                                specialCatET?.text?.clear()
+                            } else {
+                                generalCatET?.text?.clear()
+                            }
 
-                        if (filterData.functionalCat.toInt() > 60) {
-                            specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(filterData.functionalCat))
-                            generalCatET?.text?.clear()
-                        } else {
-                            specialCatET?.text?.clear()
+                            if (filterData.functionalCat.toInt() > 60) {
+                                specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(filterData.functionalCat))
+                                generalCatET?.text?.clear()
+                            } else {
+                                specialCatET?.text?.clear()
+                            }
                         }
+                    } catch (e:Exception){
+                        e.printStackTrace()
                     }
-
 
                     keyword = filterData.keyword!!
                     category = filterData.functionalCat
 //                    location = filterData.location!!
                     industry = filterData.industrialCat!!
                     newspaper = filterData.newspaper!!
-
 
 
                     newsPaperET?.setText(dataStorage.getNewspaperNameById(filterData.newspaper))
@@ -552,7 +577,14 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     if (filterData.retiredarmy == "1") {
                         selectChip(armyCG, "Yes")
                     }
+                    if (filterData.workPlace == "1") {
+                        selectChip(chip_group_workplace, "Yes")
+                    }
+                    if (filterData.personWithDisability == "1") {
+                        selectChip(chip_group_person_with_disability, "Yes")
+                    }
                 } catch (e: Exception) {
+                    e.printStackTrace()
                     logException(e)
                 }
             }

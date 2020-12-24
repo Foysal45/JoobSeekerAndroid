@@ -10,7 +10,7 @@ import android.text.TextUtils
 import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
-import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.adapters.models.LanguageDataModel
@@ -24,14 +24,12 @@ import com.bdjobs.app.editResume.otherInfo.fragments.referances.ReferenceEditFra
 import com.bdjobs.app.editResume.otherInfo.fragments.referances.ReferencesViewFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationNewEditFragment
 import com.bdjobs.app.editResume.otherInfo.fragments.specializations.SpecializationNewViewFragment
-import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_other_info_base.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 
 class OtherInfoBaseActivity : Activity(), OtherInfo,

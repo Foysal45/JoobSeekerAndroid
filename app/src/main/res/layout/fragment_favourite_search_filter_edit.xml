@@ -1001,7 +1001,7 @@
                 android:id="@+id/armyCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="100dp"
+                android:layout_marginBottom="16dp"
                 app:chipSpacing="10dp"
                 app:singleSelection="true">
 
@@ -1012,6 +1012,70 @@
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:text="Yes"
+                    android:textColor="@drawable/bg_chip_text_state_list"
+                    app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                    app:chipCornerRadius="8dp"
+                    app:chipStrokeColor="#D9D9D9"
+                    app:chipStrokeWidth="1dp" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Work From Home"
+                android:textColor="#2F64A3"
+                android:textSize="16sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_workplace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:chipSpacing="10dp"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="Yes"
+                    android:gravity="center_vertical"
+                    android:textColor="@drawable/bg_chip_text_state_list"
+                    app:chipBackgroundColor="@drawable/bg_chip_state_list"
+                    app:chipCornerRadius="8dp"
+                    app:chipStrokeColor="#D9D9D9"
+                    app:chipStrokeWidth="1dp" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Person With Disability"
+                android:textColor="#2F64A3"
+                android:textSize="16sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_person_with_disability"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:chipSpacing="10dp"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="Yes"
+                    android:gravity="center_vertical"
                     android:textColor="@drawable/bg_chip_text_state_list"
                     app:chipBackgroundColor="@drawable/bg_chip_state_list"
                     app:chipCornerRadius="8dp"

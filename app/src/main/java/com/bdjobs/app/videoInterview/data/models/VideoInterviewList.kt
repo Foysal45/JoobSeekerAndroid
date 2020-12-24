@@ -44,6 +44,8 @@ data class VideoInterviewList(
                 @Json(name = "dateStringForSubmission")
                 val dateStringForSubmission: String?, //
                 @Json(name = "dateStringForInvitaion")
-                val dateStringForInvitaion: String? // Invited on: 16 Jun 2020
+                val dateStringForInvitaion: String?, // Invited on: 16 Jun 2020
+                @Json(name = "videoSubmittedDeadline")
+                val videoSubmittedDeadline: String? // 16 Jun 2020
         )
 }

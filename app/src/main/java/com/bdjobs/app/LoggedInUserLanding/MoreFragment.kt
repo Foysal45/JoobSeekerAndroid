@@ -16,6 +16,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.transaction.TransactionBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
@@ -131,6 +132,11 @@ class MoreFragment : Fragment() {
         video_interviewinvitation_MBTN?.setOnClickListener {
             startActivity<VideoInterviewActivity>()
         }
+
+        live_interviewinvitation_MBTN?.setOnClickListener {
+            startActivity<LiveInterviewActivity>("from" to "homePage")
+        }
+
         training_MBTN?.setOnClickListener {
             startActivity<TrainingListAcitivity>()
         }
@@ -182,7 +188,7 @@ class MoreFragment : Fragment() {
             populateData()
         }
         horizontalAdapter?.addAll(horizontaList)
-        //shakeHorizontaList()
+//        shakeHorizontaList()
     }
 
     private fun populateData() {

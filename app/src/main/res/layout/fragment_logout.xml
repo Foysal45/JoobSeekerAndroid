@@ -78,6 +78,22 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar2"/>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/smsSettingsBTN"
+        android:layout_width="0dp"
+        style="@style/more.button"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="14sp"
+        android:text="SMS Settings"
+        android:textAllCaps="false"
+        android:textColor="#212121"
+        app:icon="@drawable/ic_sms_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notificationSettingsBTN"/>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/changepass"
         style="@style/more.button"
         android:layout_width="0dp"
@@ -92,7 +108,7 @@
         app:icon="@drawable/ic_change_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notificationSettingsBTN" />
+        app:layout_constraintTop_toBottomOf="@+id/smsSettingsBTN" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signOutBTN"

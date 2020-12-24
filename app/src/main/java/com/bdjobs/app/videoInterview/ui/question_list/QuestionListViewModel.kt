@@ -12,8 +12,13 @@ import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
-class QuestionListViewModel(val videoInterviewRepository: VideoInterviewRepository, val jobId: String?, val applyId: String?) : ViewModel() {
+class QuestionListViewModel(
+        val videoInterviewRepository: VideoInterviewRepository,
+        var jobId: String?,
+        var applyId: String?
+) : ViewModel() {
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -79,15 +84,28 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
     }
     val shouldShowOneHourInfo: LiveData<Boolean> = _shouldShowOneHourInfo
 
+    val navigateToFeedbackEvent = MutableLiveData<Event<Boolean>>()
+
+    val jobID = MutableLiveData<String>().apply {
+        value = jobId
+    }
+
+    val applyID = MutableLiveData<String>().apply {
+        value = applyId
+    }
+
+
     init {
-        //getQuestionList()
+        //getQuestionList(this.jobId,this.applyId)
+        Timber.d("init called")
     }
 
     fun getQuestionList() {
+        Timber.d("viewmodel called jobId $jobId applyId $applyId")
         _dataLoading.value = true
         viewModelScope.launch {
             try {
-                val response = videoInterviewRepository.getQuestionListFromRemote(jobId, applyId)
+                val response = videoInterviewRepository.getQuestionListFromRemote(jobID.value, applyID.value)
                 _questionListData.value = response.data
                 _questionCommonData.value = response.common
 
@@ -152,31 +170,35 @@ class QuestionListViewModel(val videoInterviewRepository: VideoInterviewReposito
     private fun startTimer(remainingSeconds: String) {
 
         _shouldShowOneHourInfo.value = false
+        _shouldEnableSubmitButtonAfterTimerEnd.value = true
 
-        timer = object : CountDownTimer(remainingSeconds.toLong().times(1000), 1000) {
-            override fun onFinish() {
-                _shouldShowRemainingTime.value = false
-                _shouldEnableSubmitButtonAfterTimerEnd.value = true
-            }
-
-            override fun onTick(millisUntilFinished: Long) {
-                secondsRemaining = millisUntilFinished / 1000
-
-                minutes = (secondsRemaining % 3600) / 60
-                seconds = secondsRemaining % 60
-
-                _remainingTimeInString.value = "$minutes min $seconds sec"
-            }
-
-        }.start()
+//        timer = object : CountDownTimer(remainingSeconds.toLong().times(1000), 1000) {
+//            override fun onFinish() {
+//                _shouldShowRemainingTime.value = false
+//                _shouldEnableSubmitButtonAfterTimerEnd.value = true
+//            }
+//
+//            override fun onTick(millisUntilFinished: Long) {
+//                secondsRemaining = millisUntilFinished / 1000
+//
+//                minutes = (secondsRemaining % 3600) / 60
+//                seconds = secondsRemaining % 60
+//
+//                _remainingTimeInString.value = "$minutes min $seconds sec"
+//            }
+//
+//        }.start()
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        try {
-            timer.cancel()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+
+
+//    override fun onCleared() {
+//        super.onCleared()
+//        try {
+//            timer?.cancel()
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//    }
+
 }

@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import com.google.android.material.button.MaterialButton
-import com.loopj.android.http.AsyncHttpClient.log
 
 
 class ModuleListAdapter(private val context: Context, private val items : Array<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

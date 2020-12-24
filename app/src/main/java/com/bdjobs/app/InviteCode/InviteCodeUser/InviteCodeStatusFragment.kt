@@ -1,7 +1,6 @@
 package com.bdjobs.app.InviteCode.InviteCodeUser
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +8,13 @@ import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.InviteCodePaymentMethodModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
-import com.bdjobs.app.Databases.External.DataStorage
+import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.InviteCode.InviteCodeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
-import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.google.android.gms.maps.CameraUpdateFactory

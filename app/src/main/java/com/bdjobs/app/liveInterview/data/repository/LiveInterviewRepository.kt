@@ -2,19 +2,19 @@ package com.bdjobs.app.liveInterview.data.repository
 
 import android.app.Application
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.LiveInvitation
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
-import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
-import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
-import com.bdjobs.app.videoInterview.data.remote.VideoInterviewApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
+import java.util.*
 
 class LiveInterviewRepository(val application: Application)  {
 
     val session = BdjobsUserSession(application)
+    val bdjobsDB = BdjobsDB.getInstance(application.applicationContext)
 
     suspend fun getLiveInterviewDetailsFromRemote(jobId: String?): LiveInterviewDetails {
         return withContext(Dispatchers.IO) {
@@ -38,6 +38,21 @@ class LiveInterviewRepository(val application: Application)  {
         }
     }
 
+    suspend fun getAllTimeLiveInterviewListFromDatabase() : List<LiveInvitation>{
+        return withContext(Dispatchers.IO){
+            bdjobsDB.liveInvitationDao().getAllLiveInvitation()
+        }
+    }
+
+    suspend fun getThisMonthLiveInterviewListFromDatabase() : List<LiveInvitation>{
+        return withContext(Dispatchers.IO){
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.DAY_OF_MONTH, 1)
+            val firstDateOfMonth = calendar.time
+            bdjobsDB.liveInvitationDao().getAllLiveInvitationByDate(firstDateOfMonth)
+        }
+    }
+
     suspend fun sendLiveInterviewConfirmation(
             applyId : String,
             activity: String,
@@ -57,7 +72,6 @@ class LiveInterviewRepository(val application: Application)  {
                     otherComment = otherComment,
                     rescheduleComment = rescheduleComment
             )
-
         }
     }
 }

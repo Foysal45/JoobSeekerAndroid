@@ -2,14 +2,11 @@ package com.bdjobs.app.Utilities
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import com.bdjobs.app.Databases.Internal.BdjobsDB
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import java.util.*
-import kotlin.math.log
 
 fun logDataForAnalytics(type: String, context: Context, jobID: String, nId: String) {
 

@@ -7,7 +7,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +19,9 @@ import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
 import com.bdjobs.app.API.ModelClasses.SMSSubscribeModel
 import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.FavouriteSearch
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.FavouriteSearch
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
@@ -144,11 +143,10 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         }.show()
                     }
 
-                    if (items[position].isSubscribed!!.equalIgnoreCase("True"))
-                    {
+                    if (items[position].isSubscribed!!.equalIgnoreCase("True")) {
                         holder.subscribeButton.hide()
                         holder.unsubscribeButton.show()
-                    } else{
+                    } else {
                         holder.subscribeButton.show()
                         holder.unsubscribeButton.hide()
                     }
@@ -197,6 +195,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                     ApiServiceMyBdjobs.create().getFavFilterCount(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intFId = filterId).enqueue(object : Callback<FavouriteSearchCountModel> {
                         override fun onFailure(call: Call<FavouriteSearchCountModel>, t: Throwable) {
                             error("onFailure", t)
+                            holder.favcounter1BTN.text = "0"
                         }
 
                         override fun onResponse(call: Call<FavouriteSearchCountModel>, response: Response<FavouriteSearchCountModel>) {
@@ -322,11 +321,10 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         }
                     }
 
-                    if (items[position].isSubscribed!!.equalIgnoreCase("True"))
-                    {
+                    if (items[position].isSubscribed!!.equalIgnoreCase("True")) {
                         holder.subscribeButton.hide()
                         holder.unsubscribeButton.show()
-                    } else{
+                    } else {
                         holder.subscribeButton.show()
                         holder.unsubscribeButton.hide()
                     }
@@ -368,6 +366,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                     ApiServiceMyBdjobs.create().getFavFilterCount(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, intFId = filterId).enqueue(object : Callback<FavouriteSearchCountModel> {
                         override fun onFailure(call: Call<FavouriteSearchCountModel>, t: Throwable) {
                             error("onFailure", t)
+                            holder.favcounter1BTN.text = "0"
                         }
 
                         override fun onResponse(call: Call<FavouriteSearchCountModel>, response: Response<FavouriteSearchCountModel>) {
@@ -436,14 +435,13 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         response.body()?.statuscode?.let { status ->
                             if (status.equalIgnoreCase(api_request_result_code_ok)) {
                                 isNewPurchaseNeeded = response.body()?.data?.get(0)?.isNewSMSPurchaseNeeded
-                                if (type == 1){
+                                if (type == 1) {
                                     openSubscribeInfoDialog()
                                     item.isSubscribed = "True"
                                     doAsync {
                                         bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(item)
                                     }
-                                }
-                                else{
+                                } else {
                                     item.isSubscribed = "False"
                                     Toast.makeText(context, "Successfully unsubscribed", Toast.LENGTH_SHORT).show()
                                     doAsync {
@@ -571,10 +569,22 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
         val jobtype = dataStorage.getJobTypeByID(favouriteSearch.jobtype)
         val genderb = dataStorage.getGenderByID(favouriteSearch.genderb)
         var retiredArmy = ""
+        var workPlace = ""
+        var personWithDisability = ""
 
         favouriteSearch.retiredarmy?.let { string ->
             if (string == "1")
                 retiredArmy = "Preferred Retired Army"
+        }
+
+        favouriteSearch.workPlace?.let { string ->
+            if (string == "1")
+                workPlace = "Work From Home"
+        }
+
+        favouriteSearch.personWithDisability?.let { string ->
+            if (string == "1")
+                personWithDisability = "Person With Disability"
         }
 
         var gender = ""
@@ -589,7 +599,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
         //Log.d("gender", "genderb: ${favouriteSearch.genderb}")
 
-        var allValues = ("$keyword,$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper")
+        var allValues = ("$keyword,$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability")
         //Log.d("allValuesN", allValues)
         allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")

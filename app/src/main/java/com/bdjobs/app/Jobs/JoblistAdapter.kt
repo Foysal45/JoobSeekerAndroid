@@ -3,9 +3,7 @@ package com.bdjobs.app.Jobs
 
 import android.app.Activity
 import android.content.Context
-import android.opengl.Visibility
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +16,8 @@ import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.ShortlistJobModel
 import com.bdjobs.app.Ads.Ads
 //import com.bdjobs.app.BackgroundJob.ShortListedJobDeleteJob
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.ShortListedJobs
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.ShortListedJobs
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R

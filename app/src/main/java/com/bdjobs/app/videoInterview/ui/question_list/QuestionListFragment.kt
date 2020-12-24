@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -22,15 +23,16 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentQuestionDetailsBinding
+import com.bdjobs.app.videoInterview.VideoInterviewViewModel
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
 import com.bdjobs.app.videoInterview.data.models.VideoManager
+import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel
-import com.bdjobs.app.videoInterview.util.CustomLinearLayoutManager
+import com.bdjobs.app.videoInterview.ui.interview_list.VideoInterviewListViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.fondesa.kpermissions.*
@@ -39,18 +41,19 @@ import com.fondesa.kpermissions.extension.send
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_question_details.*
 import org.jetbrains.anko.startActivity
+import timber.log.Timber
 import java.io.File
 
 const val NUM_BYTES_NEEDED = 1024 * 1024 * 500L
 
 class QuestionListFragment : Fragment() {
 
-    private val questionDetailsViewModel: VideoInterviewDetailsViewModel by navGraphViewModels(R.id.videoInterviewDetailsFragment)
-    private val questionListViewModel: QuestionListViewModel by navGraphViewModels(R.id.questionListFragment) { ViewModelFactoryUtil.provideVideoInterviewQuestionListViewModelFactory(this, questionDetailsViewModel.jobId.value, questionDetailsViewModel.applyId.value) }
+    private val baseViewModel : VideoInterviewViewModel by activityViewModels()
+    //private val detailsViewModel: VideoInterviewDetailsViewModel by navGraphViewModels(R.id.videoInterviewDetailsFragment)
+    private val questionListViewModel: QuestionListViewModel by navGraphViewModels(R.id.questionListFragment) { ViewModelFactoryUtil.provideVideoInterviewQuestionListViewModelFactory(this, baseViewModel.jobId, baseViewModel.applyId) }
 
     private var permissionGranted: Boolean = false
     lateinit var binding: FragmentQuestionDetailsBinding
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -62,6 +65,11 @@ class QuestionListFragment : Fragment() {
         return binding.root
     }
 
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        questionListViewModel.getQuestionList(baseViewModel.jobId, baseViewModel.applyId)
+//    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -69,14 +77,11 @@ class QuestionListFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
-        questionListViewModel.getQuestionList()
-
-
         val adapter = QuestionListAdapter(requireContext(), ClickListener {
 
             val videoManager = VideoManager(
-                    jobId = questionDetailsViewModel.jobId.value,
-                    applyId = questionDetailsViewModel.applyId.value,
+                    jobId = baseViewModel.jobId,
+                    applyId = baseViewModel.applyId,
                     questionId = it.questionId,
                     questionSerial = it.questionSerialNo,
                     questionText = it.questionText,
@@ -97,7 +102,6 @@ class QuestionListFragment : Fragment() {
         })
 
         rv_question?.adapter = adapter
-        rv_question?.requestLayout()
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(rv_question)
 
@@ -111,6 +115,9 @@ class QuestionListFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 val snapPosition = (layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
                 Log.d("rakib", "snap position $snapPosition")
+
+                adapter.notifyDataSetChanged()
+
                 questionListViewModel._selectedItemPosition.value = snapPosition
                 updateStepperText(snapPosition)
                 updateIndicators(snapPosition)
@@ -119,12 +126,14 @@ class QuestionListFragment : Fragment() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                layoutManager?.requestLayout()
+                //layoutManager?.requestLayout()
                 //cl_root.invalidate()
             }
         })
 
         questionListViewModel.apply {
+
+            getQuestionList()
 
             questionListData.observe(viewLifecycleOwner, Observer {
                 it?.let {
@@ -157,11 +166,12 @@ class QuestionListFragment : Fragment() {
 
             onSubmissionDoneEvent.observe(viewLifecycleOwner, EventObserver { submitted ->
                 if (submitted) {
-                    Toast.makeText(requireContext(),"Your video interview has been submitted successfully",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Your video interview has been submitted successfully", Toast.LENGTH_SHORT).show()
 //                    cb_not_interested?.hide()
 //                    btn_submit?.hide()
 //                    btn_submit_later?.hide()
-                    findNavController().popBackStack()
+                    //findNavController().popBackStack()
+                    findNavController().navigate(R.id.action_questionListFragment_to_ratingFragment)
                 }
             })
 
@@ -187,7 +197,7 @@ class QuestionListFragment : Fragment() {
 
         binding.btnGuide.setOnClickListener {
             //findNavController().navigate(R.id.action_questionListFragment_to_guidelineLandingFragment)
-            context?.startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/AppUserGuideFor_videoInterview.asp","from" to "video")
+            context?.startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/AppUserGuideFor_videoInterview.asp", "from" to "video")
         }
     }
 
@@ -534,6 +544,7 @@ class QuestionListFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
+        Timber.d("onPause called")
         //Log.d("rakib", "onPause called")
     }
 
@@ -542,6 +553,9 @@ class QuestionListFragment : Fragment() {
         //Log.d("rakib position value " ,"${questionListViewModel.selectedItemPosition.value!!}")
         updateStepperText(questionListViewModel.selectedItemPosition.value!!)
         updateIndicators(questionListViewModel.selectedItemPosition.value!!)
+
+//        questionListViewModel.applyId = baseViewModel.applyId.value
+//        questionListViewModel.jobId = baseViewModel.jobId.value
 
     }
 

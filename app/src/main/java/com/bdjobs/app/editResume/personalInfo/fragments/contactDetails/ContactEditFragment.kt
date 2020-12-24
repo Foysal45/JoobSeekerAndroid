@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.Fragment
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +13,8 @@ import androidx.core.text.trimmedLength
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.Databases.External.DataStorage
-import com.bdjobs.app.Databases.External.LocationModel
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.External.LocationModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -27,7 +26,6 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_contact_edit.*
-import kotlinx.android.synthetic.main.jobdetail_item_list.*
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
 import retrofit2.Call

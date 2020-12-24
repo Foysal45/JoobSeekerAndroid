@@ -32,32 +32,6 @@
             android:background="@drawable/ic_shape_white">
 
             <ImageView
-                android:id="@+id/employerView_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <ImageView
-                android:id="@+id/employerInteraction_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="10dp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.05" />
-
-            <ImageView
                 android:id="@+id/edit_SalaryIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,7 +73,7 @@
 
             <TextView
                 android:id="@+id/textViewPositionName"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
@@ -212,7 +186,7 @@
             <TextView
                 android:id="@+id/deadline_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="13dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="16dp"
@@ -250,6 +224,7 @@
                 android:layout_marginStart="8dp"
                 android:text="Interview Invitation"
                 android:textAllCaps="false"
+                android:letterSpacing="0"
                 android:textColor="#AC016D"
                 android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@+id/interactionBTN"
@@ -268,6 +243,34 @@
                 android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@+id/interactionBTN"
                 app:layout_constraintTop_toTopOf="@+id/interactionBTN" />
+
+            <ImageView
+                tools:visibility="visible"
+                android:id="@+id/employerView_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:src="@drawable/ic_done_appliedadap"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/employerInteraction_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.05" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@{viewModel.remainingSMS}"
+                    android:text="@{viewModel.availedSMS.toString()}"
                     android:textColor="@color/colorBlack"
                     android:visibility="@{viewModel.isDataLoading() ? View.GONE : View.VISIBLE}"
                     android:textSize="24sp"

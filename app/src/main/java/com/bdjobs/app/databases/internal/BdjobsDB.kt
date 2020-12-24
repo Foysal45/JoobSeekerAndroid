@@ -1,4 +1,4 @@
-package com.bdjobs.app.Databases.Internal
+package com.bdjobs.app.databases.internal
 
 import androidx.room.Database
 import androidx.room.Room
@@ -17,10 +17,11 @@ import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
     AppliedJobs::class,
     JobInvitation::class,
     VideoInvitation::class,
+    LiveInvitation::class,
     B2CCertification::class,
     LastSearch::class,
     InviteCodeInfo::class,
-    Notification::class], version = 14, exportSchema = false)
+    Notification::class], version = 24, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
@@ -31,11 +32,11 @@ abstract class BdjobsDB : RoomDatabase() {
     abstract fun appliedJobDao(): AppliedJobDao
     abstract fun jobInvitationDao(): JobInvitationDao
     abstract fun videoInvitationDao(): VideoInvitationDao
+    abstract fun liveInvitationDao() : LiveInvitationDao
     abstract fun b2CCertificationDao(): B2CCertificationDao
     abstract fun lastSearchDao(): LastSearchDao
     abstract fun inviteCodeUserInfoDao(): InviteCodeUserInfoDao
     abstract fun notificationDao(): NotificationDao
-
 
     companion object {
         @Volatile
@@ -127,6 +128,74 @@ abstract class BdjobsDB : RoomDatabase() {
             }
         }
 
+        val MIGRATION_14_15 = object : Migration(14, 15) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE LiveInvitation (id INTEGER, companyName TEXT, jobTitle TEXT, jobId TEXT, liveInterviewStatusCode TEXT, liveInterviewStatus TEXT, userSeenInterview TEXT, liveInterviewDate INTEGER ,liveInterviewTime TEXT, dateStringForInvitaion INTEGER, PRIMARY KEY(id))")
+                database.execSQL("CREATE UNIQUE INDEX `index_LiveInvitation_jobId` ON `LiveInvitation` (`jobId`)")
+            }
+        }
+
+        val MIGRATION_15_16 = object : Migration(15,16){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE LiveInvitation")
+            }
+        }
+
+        val MIGRATION_16_17 = object : Migration(16,17){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE IF EXISTS LiveInvitation")
+                database.execSQL("CREATE TABLE LiveInvitation (id INTEGER, companyName TEXT, jobTitle TEXT, jobId TEXT, liveInterviewStatusCode TEXT, liveInterviewStatus TEXT, userSeenLiveInterview TEXT, liveInterviewDate INTEGER ,liveInterviewTime TEXT, dateStringForInvitaion INTEGER, PRIMARY KEY(id))")
+                database.execSQL("CREATE UNIQUE INDEX `index_LiveInvitation_jobId` ON `LiveInvitation` (`jobId`)")
+            }
+        }
+
+        val MIGRATION_17_18 = object : Migration(17, 18) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LastSearch ADD COLUMN `workPlace` TEXT")
+                database.execSQL("ALTER TABLE LastSearch ADD COLUMN `personWithDisability` TEXT")
+            }
+        }
+
+        val MIGRATION_18_19 = object : Migration(18, 19) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE FavouriteSearch ADD COLUMN `workPlace` TEXT")
+                database.execSQL("ALTER TABLE FavouriteSearch ADD COLUMN `personWithDisability` TEXT")
+            }
+        }
+
+        val MIGRATION_19_20 = object : Migration(19,20){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE IF EXISTS LiveInvitation")
+                database.execSQL("CREATE TABLE LiveInvitation (id INTEGER, companyName TEXT, jobTitle TEXT, jobId TEXT, liveInterviewStatusCode TEXT, liveInterviewStatus TEXT, userSeenLiveInterview TEXT, liveInterviewDate INTEGER ,liveInterviewTime TEXT, dateStringForInvitation TEXT, PRIMARY KEY(id))")
+                database.execSQL("CREATE UNIQUE INDEX `index_LiveInvitation_jobId` ON `LiveInvitation` (`jobId`)")
+            }
+        }
+
+        val MIGRATION_20_21 = object : Migration(20, 21) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LiveInvitation ADD COLUMN `liveInterviewDateString` TEXT")
+            }
+        }
+
+        val MIGRATION_21_22 = object : Migration(21, 22) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE JobInvitation ADD COLUMN `interviewDate` INTEGER")
+            }
+        }
+
+        val MIGRATION_22_23 = object : Migration(22, 23) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE JobInvitation ADD COLUMN `interviewDateString` TEXT")
+                database.execSQL("ALTER TABLE JobInvitation ADD COLUMN `interviewTimeString` TEXT")
+            }
+        }
+
+        val MIGRATION_23_24 = object : Migration(23, 24) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE VideoInvitation ADD COLUMN `deadline` INTEGER")
+            }
+        }
+
         fun getInstance(context: Context): BdjobsDB =
                 INSTANCE ?: synchronized(this) {
                     INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
@@ -146,7 +215,17 @@ abstract class BdjobsDB : RoomDatabase() {
                         MIGRATION_10_11,
                         MIGRATION_11_12,
                         MIGRATION_12_13,
-                        MIGRATION_13_14
+                        MIGRATION_13_14,
+                        MIGRATION_14_15,
+                        MIGRATION_15_16,
+                        MIGRATION_16_17,
+                        MIGRATION_17_18,
+                        MIGRATION_18_19,
+                        MIGRATION_19_20,
+                        MIGRATION_20_21,
+                        MIGRATION_21_22,
+                        MIGRATION_22_23,
+                        MIGRATION_23_24
                 ).build()
     }
 }

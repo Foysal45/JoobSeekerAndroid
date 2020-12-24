@@ -2,10 +2,6 @@ package com.bdjobs.app.Notification
 
 import android.os.Bundle
 import android.app.Fragment
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,19 +12,16 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
-import com.bdjobs.app.Databases.Internal.BdjobsDB
-import com.bdjobs.app.Databases.Internal.Notification
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_joblist_layout.backIV
 import kotlinx.android.synthetic.main.fragment_notification_list.*
-import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 

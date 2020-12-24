@@ -35,7 +35,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SplashActivity
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -530,7 +530,8 @@ fun Activity.requestFocus(view: View) {
 }
 
 fun Any.logException(e: java.lang.Exception) {
-    Crashlytics.logException(e)
+    val crashlytics = FirebaseCrashlytics.getInstance()
+    //crashlytics.logException(e)
     Log.e(this::class.java.simpleName, e.toString())
 }
 
@@ -626,7 +627,8 @@ fun View.makeUnClickable() {
 
 fun Any.debug(message: String) {
     //Log.d(this::class.java.simpleName, message)
-    Crashlytics.log(Log.DEBUG, this::class.java.simpleName, message)
+    val crashlytics = FirebaseCrashlytics.getInstance()
+    //crashlytics.log(Log.DEBUG, this::class.java.simpleName, message)
 }
 
 fun Any.d(message: String) {
@@ -640,7 +642,7 @@ fun Any.debug(message: String, tr: Throwable) {
 
 fun Any.error(message: String) {
     Log.e(this::class.java.simpleName, message)
-    Crashlytics.log(Log.ERROR, this::class.java.simpleName, message)
+    //Crashlytics.log(Log.ERROR, this::class.java.simpleName, message)
 }
 
 fun Any.error(message: String, tr: Throwable) {
