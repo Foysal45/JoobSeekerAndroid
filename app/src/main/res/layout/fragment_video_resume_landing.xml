@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".videoResume.ui.landing.VideoResumeLandingFragment">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            app:layout_constraintTop_toBottomOf="@id/tool_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="30dp"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/background_violet"
+                    android:padding="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/img_banner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_video_resume_banner_main"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:textColor="#9D0191"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@id/img_banner"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/img_banner"
+                        app:layout_constraintTop_toTopOf="@id/img_banner"
+                        tools:text="A Video Resume is a short video you to introduce yourself to the hiring manager or recruiter." />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/background_white_grey_border"
+                    android:padding="10dp"
+                    app:layout_constraintEnd_toEndOf="@id/cl_banner"
+                    app:layout_constraintStart_toStartOf="@id/cl_banner"
+                    app:layout_constraintTop_toBottomOf="@id/cl_banner">
+
+                    <ProgressBar
+
+                        android:id="@+id/circularProgressbar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_centerInParent="true"
+                        android:indeterminate="false"
+                        android:padding="-10dp"
+                        android:progressDrawable="@drawable/circular_progress_bar"
+                        android:secondaryProgress="100"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:max="100"
+                        tools:progress="60" />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="#E6E6E6"
+                        app:layout_constraintTop_toBottomOf="@id/circularProgressbar" />
+
+                    <TextView
+                        android:id="@+id/tv_last_update"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Last Update"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view" />
+
+                    <TextView
+                        android:id="@+id/tv_total_viewed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Total Viewed"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_last_update" />
+
+                    <TextView
+                        android:id="@+id/tv_total_company_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Total company View"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_viewed" />
+
+                    <TextView
+                        android:id="@+id/tv_overall_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Overall Ratings"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_company_view" />
+
+                    <TextView
+                        android:id="@+id/tv_last_update_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Overall Ratings"
+                        android:textColor="#4D4D4D"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_last_update"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_last_update"
+                        tools:text="30 Jun 2020" />
+
+                    <TextView
+                        android:id="@+id/tv_total_viewed_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Overall Ratings"
+                        android:textColor="#4D4D4D"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_total_viewed"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_total_viewed"
+                        tools:text="100" />
+
+                    <TextView
+                        android:id="@+id/tv_total_company_view_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Overall Ratings"
+                        android:textColor="#4D4D4D"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_total_company_view"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_total_company_view"
+                        tools:text="500" />
+
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/rating"
+                        android:layout_marginTop="5dp"
+                        android:stepSize="1"
+                        tools:rating="3"
+                        android:isIndicator="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:theme="@style/RatingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        app:layout_constraintTop_toTopOf="@id/tv_overall_rating"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_overall_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_create_video"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:letterSpacing="0"
+                    android:textColor="#212121"
+                    android:text="Create Now"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/roboto_medium"
+                    app:icon="@drawable/ic_create_video"
+                    app:iconPadding="32dp"
+                    app:iconTint="#666666"
+                    app:layout_constraintStart_toStartOf="@id/cl_banner"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_data" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_view_video"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0"
+                    android:textColor="#212121"
+                    android:text="Create Now"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/roboto_medium"
+                    app:icon="@drawable/ic_create_video"
+                    app:iconPadding="32dp"
+                    app:iconTint="#666666"
+                    app:layout_constraintStart_toStartOf="@id/cl_banner"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_create_video" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_edit_video"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0"
+                    android:text="Edit Now"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="#212121"
+                    app:icon="@drawable/ic_edit_video"
+                    app:iconPadding="32dp"
+                    app:iconTint="#666666"
+                    app:layout_constraintStart_toStartOf="@id/cl_banner"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_view_video" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_guidelines"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0"
+                    android:text="Guidelines"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="#212121"
+                    app:icon="@drawable/ic_video_resume_guideline"
+                    app:iconPadding="32dp"
+                    app:iconTint="#666666"
+                    app:layout_constraintStart_toStartOf="@id/cl_banner"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_edit_video" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_view_questions"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0"
+                    android:text="View Questions"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="#212121"
+                    app:icon="@drawable/ic_video_resume_questions"
+                    app:iconPadding="32dp"
+                    app:iconTint="#666666"
+                    app:layout_constraintStart_toStartOf="@id/cl_banner"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_guidelines" />
+
+                <TextView
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="1dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/background_new_question"
+                    tools:text="1 NEW"
+                    app:layout_constraintTop_toTopOf="@id/btn_view_questions"
+                    app:layout_constraintStart_toEndOf="@id/btn_view_questions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

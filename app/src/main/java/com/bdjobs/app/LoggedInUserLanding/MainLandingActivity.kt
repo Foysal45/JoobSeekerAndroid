@@ -51,6 +51,7 @@ import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
+import com.bdjobs.app.videoResume.VideoResumeActivity
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -98,6 +99,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         val editResume = dialog.findViewById<Button>(R.id.editResume)
         val viewResume = dialog.findViewById<Button>(R.id.viewResume)
         val uploadResume = dialog.findViewById<Button>(R.id.uploadResume)
+        val videoResume = dialog.findViewById<Button>(R.id.videoResume)
         val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
 
         val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
@@ -140,6 +142,10 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         }
         cancelIV?.setOnClickListener {
             dialog.dismiss()
+        }
+
+        videoResume?.setOnClickListener {
+            startActivity<VideoResumeActivity>()
         }
 
 
