@@ -54,7 +54,7 @@
                     android:layout_marginEnd="40dp"
                     android:textSize="18sp"
                     android:gravity="center"
-                    android:text="You have attended Online interview successfully."
+                    android:text="You have submitted Video Interview successfully."
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/img_rate"
