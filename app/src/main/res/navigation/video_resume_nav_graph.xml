@@ -9,5 +9,22 @@
         android:id="@+id/videoResumeLandingFragment"
         android:name="com.bdjobs.app.videoResume.ui.landing.VideoResumeLandingFragment"
         android:label="VideoResumeLandingFragment"
-        tools:layout="@layout/fragment_video_resume_landing"/>
+        tools:layout="@layout/fragment_video_resume_landing">
+        <action
+            android:id="@+id/action_videoResumeLandingFragment_to_publicVisibilityFragment"
+            app:destination="@id/publicVisibilityFragment" />
+        <action
+            android:id="@+id/action_videoResumeLandingFragment_to_guidelineFragment"
+            app:destination="@id/guidelineFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/publicVisibilityFragment"
+        android:name="com.bdjobs.app.videoResume.ui.landing.PublicVisibilityFragment"
+        android:label="fragment_public_visibility"
+        tools:layout="@layout/fragment_public_visibility" />
+    <fragment
+        android:id="@+id/guidelineFragment"
+        android:name="com.bdjobs.app.videoResume.ui.guideline.GuidelineFragment"
+        android:label="GuidelineFragment"
+        tools:layout="@layout/fragment_guideline"/>
 </navigation>

@@ -20,16 +20,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
-            app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tool_bar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="30dp"
-                >
+                android:layout_height="wrap_content"
+                android:paddingBottom="30dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_banner"
@@ -56,13 +56,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:text="@string/video_resume_intro"
                         android:textColor="#9D0191"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/img_banner"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/img_banner"
                         app:layout_constraintTop_toTopOf="@id/img_banner"
-                        tools:text="A Video Resume is a short video you to introduce yourself to the hiring manager or recruiter." />
+                        tools:text="@string/video_resume_intro" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,22 +78,49 @@
                     app:layout_constraintTop_toBottomOf="@id/cl_banner">
 
                     <ProgressBar
-
                         android:id="@+id/circularProgressbar"
                         style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:layout_centerInParent="true"
                         android:indeterminate="false"
+                        android:max="100"
                         android:padding="-10dp"
-                        android:progressDrawable="@drawable/circular_progress_bar"
+                        android:progress="60"
+                        android:progressDrawable="@drawable/circular_progressbar_video_resume"
                         android:secondaryProgress="100"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tv_total_completion"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:max="100"
                         tools:progress="60" />
+
+                    <TextView
+                        android:id="@+id/tv_total_completion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="60%"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="@id/circularProgressbar"
+                        app:layout_constraintEnd_toEndOf="@id/circularProgressbar"
+                        app:layout_constraintStart_toStartOf="@id/circularProgressbar"
+                        app:layout_constraintTop_toTopOf="@id/circularProgressbar"
+                        tools:text="60%" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Completed 60% of Video Resume"
+                        android:textColor="#9D0191"
+                        app:layout_constraintBottom_toBottomOf="@id/circularProgressbar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/circularProgressbar"
+                        app:layout_constraintTop_toTopOf="@id/circularProgressbar"
+                        tools:text="Completed 60% of Video Resume" />
 
                     <View
                         android:id="@+id/view"
@@ -149,10 +177,23 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_total_company_view" />
 
                     <TextView
+                        android:id="@+id/tv_public"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Make public"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_overall_rating"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
                         android:id="@+id/tv_last_update_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Overall Ratings"
+                        android:text="30 Jun 2020"
                         android:textColor="#4D4D4D"
                         app:layout_constraintBottom_toBottomOf="@id/tv_last_update"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -163,7 +204,7 @@
                         android:id="@+id/tv_total_viewed_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Overall Ratings"
+                        android:text="100"
                         android:textColor="#4D4D4D"
                         app:layout_constraintBottom_toBottomOf="@id/tv_total_viewed"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -174,7 +215,7 @@
                         android:id="@+id/tv_total_company_view_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Overall Ratings"
+                        android:text="500"
                         android:textColor="#4D4D4D"
                         app:layout_constraintBottom_toBottomOf="@id/tv_total_company_view"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -183,17 +224,28 @@
 
                     <androidx.appcompat.widget.AppCompatRatingBar
                         android:id="@+id/rating"
-                        android:layout_marginTop="5dp"
-                        android:stepSize="1"
-                        tools:rating="3"
-                        android:isIndicator="false"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:theme="@style/RatingBar"
                         style="?android:attr/ratingBarStyleSmall"
-                        app:layout_constraintTop_toTopOf="@id/tv_overall_rating"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_overall_rating"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:isIndicator="false"
+                        android:stepSize="1"
+                        android:theme="@style/RatingBar"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_overall_rating"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_overall_rating"
+                        tools:rating="3" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switch_public"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_public"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_public"
+                        app:thumbTint="@color/green"
+                        app:useMaterialThemeColors="false" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -203,11 +255,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
+                    android:fontFamily="@font/roboto_medium"
                     android:letterSpacing="0"
-                    android:textColor="#212121"
                     android:text="Create Now"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="#212121"
                     app:icon="@drawable/ic_create_video"
                     app:iconPadding="32dp"
                     app:iconTint="#666666"
@@ -219,11 +271,11 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0"
-                    android:textColor="#212121"
-                    android:text="Create Now"
-                    android:textAllCaps="false"
                     android:fontFamily="@font/roboto_medium"
+                    android:letterSpacing="0"
+                    android:text="View Now"
+                    android:textAllCaps="false"
+                    android:textColor="#212121"
                     app:icon="@drawable/ic_create_video"
                     app:iconPadding="32dp"
                     app:iconTint="#666666"
@@ -235,10 +287,10 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
                     android:letterSpacing="0"
                     android:text="Edit Now"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/roboto_medium"
                     android:textColor="#212121"
                     app:icon="@drawable/ic_edit_video"
                     app:iconPadding="32dp"
@@ -251,10 +303,10 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
                     android:letterSpacing="0"
                     android:text="Guidelines"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/roboto_medium"
                     android:textColor="#212121"
                     app:icon="@drawable/ic_video_resume_guideline"
                     app:iconPadding="32dp"
@@ -267,10 +319,10 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
                     android:letterSpacing="0"
                     android:text="View Questions"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/roboto_medium"
                     android:textColor="#212121"
                     app:icon="@drawable/ic_video_resume_questions"
                     app:iconPadding="32dp"
@@ -279,17 +331,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/btn_guidelines" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/background_new_question"
                     android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
                     android:paddingTop="1dp"
+                    android:paddingEnd="4dp"
+                    android:text="1 NEW"
                     android:paddingBottom="1dp"
                     android:textColor="@color/white"
-                    android:background="@drawable/background_new_question"
-                    tools:text="1 NEW"
-                    app:layout_constraintTop_toTopOf="@id/btn_view_questions"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_view_questions"
                     app:layout_constraintStart_toEndOf="@id/btn_view_questions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    app:layout_constraintTop_toTopOf="@id/btn_view_questions"
+                    tools:text="1 NEW" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -26,6 +26,14 @@ class VideoResumeLandingFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
+
+        btn_view_questions?.setOnClickListener {
+            findNavController().navigate(R.id.publicVisibilityFragment)
+        }
+
+        btn_guidelines?.setOnClickListener {
+            findNavController().navigate(R.id.guidelineFragment)
+        }
     }
 
 }
