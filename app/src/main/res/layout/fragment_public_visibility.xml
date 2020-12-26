@@ -3,8 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="20dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="20dp"
+    android:background="@drawable/dialog_background"
     tools:context=".videoResume.ui.landing.PublicVisibilityFragment">
 
     <TextView

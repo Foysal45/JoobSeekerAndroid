@@ -252,7 +252,8 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_create_video"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:gravity="center_vertical"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:fontFamily="@font/roboto_medium"
@@ -263,13 +264,15 @@
                     app:icon="@drawable/ic_create_video"
                     app:iconPadding="32dp"
                     app:iconTint="#666666"
+                    app:layout_constraintEnd_toEndOf="@+id/cl_data"
                     app:layout_constraintStart_toStartOf="@id/cl_banner"
                     app:layout_constraintTop_toBottomOf="@+id/cl_data" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_view_video"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:gravity="center_vertical"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:letterSpacing="0"
@@ -279,15 +282,17 @@
                     app:icon="@drawable/ic_create_video"
                     app:iconPadding="32dp"
                     app:iconTint="#666666"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_create_video"
                     app:layout_constraintStart_toStartOf="@id/cl_banner"
                     app:layout_constraintTop_toBottomOf="@+id/btn_create_video" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_edit_video"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_vertical"
                     android:letterSpacing="0"
                     android:text="Edit Now"
                     android:textAllCaps="false"
@@ -295,15 +300,17 @@
                     app:icon="@drawable/ic_edit_video"
                     app:iconPadding="32dp"
                     app:iconTint="#666666"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_create_video"
                     app:layout_constraintStart_toStartOf="@id/cl_banner"
                     app:layout_constraintTop_toBottomOf="@+id/btn_view_video" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_guidelines"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_vertical"
                     android:letterSpacing="0"
                     android:text="Guidelines"
                     android:textAllCaps="false"
@@ -311,15 +318,17 @@
                     app:icon="@drawable/ic_video_resume_guideline"
                     app:iconPadding="32dp"
                     app:iconTint="#666666"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_create_video"
                     app:layout_constraintStart_toStartOf="@id/cl_banner"
                     app:layout_constraintTop_toBottomOf="@+id/btn_edit_video" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_view_questions"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_vertical"
                     android:letterSpacing="0"
                     android:text="View Questions"
                     android:textAllCaps="false"
@@ -327,6 +336,7 @@
                     app:icon="@drawable/ic_video_resume_questions"
                     app:iconPadding="32dp"
                     app:iconTint="#666666"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_create_video"
                     app:layout_constraintStart_toStartOf="@id/cl_banner"
                     app:layout_constraintTop_toBottomOf="@+id/btn_guidelines" />
 
@@ -338,11 +348,13 @@
                     android:paddingStart="4dp"
                     android:paddingTop="1dp"
                     android:paddingEnd="4dp"
-                    android:text="1 NEW"
                     android:paddingBottom="1dp"
+                    android:text="1 NEW"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_view_questions"
-                    app:layout_constraintStart_toEndOf="@id/btn_view_questions"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_view_questions"
+                    app:layout_constraintHorizontal_bias="0.55"
+                    app:layout_constraintStart_toStartOf="@+id/btn_view_questions"
                     app:layout_constraintTop_toTopOf="@id/btn_view_questions"
                     tools:text="1 NEW" />
 

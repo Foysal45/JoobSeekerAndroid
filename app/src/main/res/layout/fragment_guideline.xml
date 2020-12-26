@@ -29,23 +29,28 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="30dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_change_language"
-                    style="@style/Widget.MaterialComponents.Button"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/noto_sans"
                     android:letterSpacing="0"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:text="Banglay Dekhun"
+                    android:text="বাংলায় দেখুন"
                     android:textAllCaps="false"
                     android:textColor="#2962FF"
                     app:backgroundTint="#F2F2F2"
                     app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_bn"
+                    app:iconGravity="textStart"
+                    app:iconTintMode="multiply"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -54,6 +59,7 @@
                     android:id="@+id/img_step"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="25dp"
                     android:src="@drawable/ic_guideline_step"
                     app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +84,7 @@
                     android:id="@+id/img_step_expand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginEnd="16dp"
                     android:backgroundTint="@color/black"
                     android:padding="10dp"
                     android:src="@drawable/ic_drop_arrow"
@@ -92,10 +98,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="18dp"
+                    android:nestedScrollingEnabled="false"
                     android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toTopOf="@+id/tv_tips"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/img_step_expand"
                     app:layout_constraintStart_toStartOf="@id/tv_step"
                     app:layout_constraintTop_toBottomOf="@id/tv_step"
                     app:layout_constraintVertical_bias="0.0"
@@ -136,7 +143,7 @@
                     android:padding="10dp"
                     android:src="@drawable/ic_drop_arrow"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_tips"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/img_step_expand"
                     app:layout_constraintTop_toTopOf="@id/tv_tips" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -144,14 +151,69 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/img_tips_expand"
                     app:layout_constraintStart_toStartOf="@id/tv_tips"
                     app:layout_constraintTop_toBottomOf="@id/tv_tips"
                     tools:itemCount="3"
-                    tools:listitem="@layout/layout_item_video_resume_guideline" />
+                    tools:listitem="@layout/layout_item_video_resume_guideline"
+                    tools:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/img_benefits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/ic_benefits"
+                    app:layout_constraintStart_toStartOf="@id/img_tips"
+                    app:layout_constraintTop_toBottomOf="@id/rv_tips" />
+
+                <TextView
+                    android:id="@+id/tv_benefits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="17dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Benefits"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_benefits"
+                    app:layout_constraintEnd_toStartOf="@+id/img_tips_expand"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/img_benefits"
+                    app:layout_constraintTop_toTopOf="@id/img_benefits" />
+
+                <ImageView
+                    android:id="@+id/img_benefits_expand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:backgroundTint="@color/black"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_drop_arrow"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_benefits"
+                    app:layout_constraintEnd_toEndOf="@id/img_step_expand"
+                    app:layout_constraintTop_toTopOf="@id/tv_benefits" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_benefits"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="@+id/img_benefits_expand"
+                    app:layout_constraintStart_toStartOf="@id/tv_benefits"
+                    app:layout_constraintTop_toBottomOf="@id/tv_benefits"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/layout_item_video_resume_guideline"
+                    tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </ScrollView>
 

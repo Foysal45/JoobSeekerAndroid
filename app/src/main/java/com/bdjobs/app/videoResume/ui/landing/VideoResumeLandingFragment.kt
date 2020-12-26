@@ -28,11 +28,11 @@ class VideoResumeLandingFragment : Fragment() {
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
         btn_view_questions?.setOnClickListener {
-            findNavController().navigate(R.id.publicVisibilityFragment)
+            findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToPublicVisibilityFragment())
         }
 
         btn_guidelines?.setOnClickListener {
-            findNavController().navigate(R.id.guidelineFragment)
+            findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToGuidelineFragment())
         }
     }
 

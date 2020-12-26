@@ -8,14 +8,22 @@
     <fragment
         android:id="@+id/videoResumeLandingFragment"
         android:name="com.bdjobs.app.videoResume.ui.landing.VideoResumeLandingFragment"
-        android:label="VideoResumeLandingFragment"
+        android:label="Video Resume"
         tools:layout="@layout/fragment_video_resume_landing">
         <action
             android:id="@+id/action_videoResumeLandingFragment_to_publicVisibilityFragment"
-            app:destination="@id/publicVisibilityFragment" />
+            app:destination="@id/publicVisibilityFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
         <action
             android:id="@+id/action_videoResumeLandingFragment_to_guidelineFragment"
-            app:destination="@id/guidelineFragment" />
+            app:destination="@id/guidelineFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <dialog
         android:id="@+id/publicVisibilityFragment"
@@ -25,6 +33,6 @@
     <fragment
         android:id="@+id/guidelineFragment"
         android:name="com.bdjobs.app.videoResume.ui.guideline.GuidelineFragment"
-        android:label="GuidelineFragment"
+        android:label="Guidelines"
         tools:layout="@layout/fragment_guideline"/>
 </navigation>

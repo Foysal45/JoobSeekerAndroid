@@ -235,7 +235,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             blankCL?.hide()
             mainLL?.show()
 
-            if (Constants.liveInvitation == "0" && Constants.videoInvitation == "0" && Constants.generalInvitation == "0"){
+            bdjobsUserSession = BdjobsUserSession(activity)
+
+            if (bdjobsUserSession.liveInterviewCount == 0 && bdjobsUserSession.videoInterviewCount == 0 && bdjobsUserSession.generalInterviewCount == 0){
                 allInterview?.hide()
                 blankCL?.show()
                 newSearchBTN?.hide()

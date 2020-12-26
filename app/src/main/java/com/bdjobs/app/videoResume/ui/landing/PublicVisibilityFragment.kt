@@ -1,12 +1,14 @@
 package com.bdjobs.app.videoResume.ui.landing
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.Window
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.bdjobs.app.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,7 +37,14 @@ class PublicVisibilityFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_public_visibility, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_public_visibility, container, false)
+        // Set transparent background and no title
+        // Set transparent background and no title
+        if (dialog != null && dialog!!.window != null) {
+            dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE)
+        }
+        return view
     }
 
     companion object {
