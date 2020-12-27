@@ -23,11 +23,11 @@ import kotlinx.android.synthetic.main.fragment_video_resume_landing.*
 
 class GuidelineFragment : Fragment() {
 
-    enum class Language{
-        BN,EN
+    enum class Language {
+        BN, EN
     }
 
-    var defaultLanguage : Language = Language.EN
+    var defaultLanguage: Language = Language.EN
 
     var stepsRotationAngle = 0
     var tipsRotationAngle = 0
@@ -122,7 +122,7 @@ class GuidelineFragment : Fragment() {
         }
 
         btn_change_language?.setOnClickListener {
-            defaultLanguage = if (defaultLanguage == Language.EN){
+            defaultLanguage = if (defaultLanguage == Language.EN) {
                 Language.BN
             } else {
                 Language.EN
@@ -144,7 +144,20 @@ class GuidelineFragment : Fragment() {
     }
 
     private fun changeButtonIconAndText() {
-
+        when (defaultLanguage) {
+            Language.BN -> {
+                btn_change_language.apply {
+                    text = "View in English"
+                    setIconResource(R.drawable.ic_en)
+                }
+            }
+            else -> {
+                btn_change_language.apply {
+                    text = "বাংলায় দেখুন"
+                    setIconResource(R.drawable.ic_bn)
+                }
+            }
+        }
     }
 
     private fun changeLanguage() {
@@ -152,11 +165,15 @@ class GuidelineFragment : Fragment() {
             Language.BN -> {
                 tv_tips.text = "টিপস"
                 rv_tips.adapter = GuidelineAdapter(tipsInBangla)
+
+                tv_benefits.text = "উপকারিতা"
             }
             else -> {
-                btn_change_language.text = "View in English"
                 tv_tips.text = "Tips"
                 rv_tips.adapter = GuidelineAdapter(tipsInEnglish)
+
+                tv_benefits.text = "Benefits"
+                rv_benefits.adapter = GuidelineAdapter(tipsInBangla)
             }
         }
     }
