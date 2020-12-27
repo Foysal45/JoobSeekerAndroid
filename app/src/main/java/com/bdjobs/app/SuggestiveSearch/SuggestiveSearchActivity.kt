@@ -92,7 +92,13 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
                     historyViewCL.hide()
                 }
             }
-            suggestionAdapter?.filter?.filter(e)
+
+            try {
+                suggestionAdapter?.filter?.filter(e)
+            } catch (e:Exception){
+                e.printStackTrace()
+            }
+
         }
         suggestiveSearchET?.setText(textData)
         suggestiveSearchET?.setSelection(suggestiveSearchET?.text?.length!!)
@@ -151,9 +157,14 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
             suggestionList.add(item)
         }
         //adapter = SuggestionAdapter(suggestionList, this)
-        suggestionAdapter = SuggestionListAdapter(suggestionList, this@SuggestiveSearchActivity)
+        suggestionAdapter = SuggestionListAdapter(suggestionList, this)
+
         filterRV.adapter = suggestionAdapter
-        suggestionAdapter.notifyDataSetChanged()
+        try {
+            suggestionAdapter.notifyDataSetChanged()
+        } catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 
     private fun getIntentData() {
