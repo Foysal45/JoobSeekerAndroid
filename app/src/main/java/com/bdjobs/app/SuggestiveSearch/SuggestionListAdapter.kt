@@ -20,10 +20,11 @@ class SuggestionListAdapter(var itemList: ArrayList<String>, private val context
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): Filter.FilterResults {
 
-                //Log.d("aaa", "Size:e")
+                Log.d("aaa", "Size:e ${charSequence.length}")
                 val charString = charSequence.toString()
                 filteredItems = if (charString.isEmpty()) {
                     itemList
+
                 } else {
                     val filteredList = ArrayList<String>()
                     for (row in itemList) {
@@ -32,21 +33,44 @@ class SuggestionListAdapter(var itemList: ArrayList<String>, private val context
                         }
                     }
                     filteredList
+
                 }
                 val filterResults = Filter.FilterResults()
                 filterResults.values = filteredItems
+                notifyDataSetChanged()
                 return filterResults
             }
 
-            override fun publishResults(charSequence: CharSequence, filterResults: Filter.FilterResults) {
-                filteredItems = filterResults.values as ArrayList<String>
-                //Log.d("aaa", "Size: ${filterResults.count}")
+            override fun publishResults(charSequence: CharSequence?, filterResults: Filter.FilterResults) {
+
+                try {
+                    if (filterResults.values == null)
+                        filteredItems = arrayListOf()
+                    else
+                        filteredItems = filterResults.values as? ArrayList<String>?
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+//                try {
+//                    filteredItems = filterResults.values as ArrayList<String>
+//                    if(filterResults != null && filterResults.count > 0) {
+//                        notifyDataSetChanged()
+//                    } else {
+//                        notifyDataSetInvalidated()
+//                    }
+//                    notifyDataSetChanged()
+//                } catch (e: Exception){
+//                    e.printStackTrace()
+//                }
                 notifyDataSetChanged()
+                //Log.d("aaa", "Size: ${filterResults.count}")
+
             }
         }
     }
 
-    var filteredItems: ArrayList<String>? = null
+    var filteredItems: ArrayList<String>? = arrayListOf()
     var communicator: SuggestionCommunicator? = null
     private val mInflator: LayoutInflater = LayoutInflater.from(context)
 
@@ -73,7 +97,7 @@ class SuggestionListAdapter(var itemList: ArrayList<String>, private val context
         }
 
         try {
-            vh.itemTV?.text =  filteredItems?.get(position)
+            vh.itemTV?.text = filteredItems?.get(position)
             vh.itemTV?.setOnClickListener {
                 communicator?.suggestionSelected(vh?.itemTV?.text.toString())
             }
