@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -79,6 +80,7 @@ class MorningNotificationReceiver : BroadcastReceiver() {
                             .setAutoCancel(true)
                             .setStyle(NotificationCompat.BigTextStyle().bigText("Today you have a Live Interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].liveInterviewTime.toString())}"))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setColor(ContextCompat.getColor(ctx, R.color.colorBdjobsMajenta))
                     with(NotificationManagerCompat.from(ctx)) {
                         notify(i.plus(100), builder.build())
                     }
@@ -124,6 +126,7 @@ class MorningNotificationReceiver : BroadcastReceiver() {
                             .setAutoCancel(true)
                             .setStyle(NotificationCompat.BigTextStyle().bigText("Today you have an interview with ${totalInvitations[i].companyName} at ${getTimeAsAMPM(totalInvitations[i].interviewTimeString.toString())}"))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setColor(ContextCompat.getColor(ctx, R.color.colorBdjobsMajenta))
                     with(NotificationManagerCompat.from(ctx)) {
                         notify(i.plus(200), builder.build())
                     }
@@ -162,6 +165,7 @@ class MorningNotificationReceiver : BroadcastReceiver() {
                             .setGroup("500")
                             .setStyle(NotificationCompat.BigTextStyle().bigText("Submit your recorded Video Interview by before 12 at night"))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setColor(ContextCompat.getColor(ctx, R.color.colorBdjobsMajenta))
                     with(NotificationManagerCompat.from(ctx)) {
                         notify(i.plus(300), builder.build())
                     }
