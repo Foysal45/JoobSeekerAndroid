@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.videoResume.ui.landing.VideoResumeLandingViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_root"
         android:layout_width="match_parent"
@@ -182,12 +191,24 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="Make public"
+                        android:text="Make visible to Employer"
                         android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_overall_rating"
                         app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:id="@+id/img_info"
+                        android:backgroundTint="@color/black"
+                        android:src="@drawable/ic_info_black_12dp"
+                        android:layout_marginStart="5dp"
+                        app:layout_constraintTop_toTopOf="@id/tv_public"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_public"
+                        app:layout_constraintStart_toEndOf="@id/tv_public"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"/>
 
                     <TextView
                         android:id="@+id/tv_last_update_value"
@@ -228,7 +249,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:isIndicator="false"
+                        android:isIndicator="true"
                         android:stepSize="1"
                         android:theme="@style/RatingBar"
                         app:layout_constraintBottom_toBottomOf="@id/tv_overall_rating"
@@ -241,9 +262,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minHeight="0dp"
+                        android:checked='@{viewModel.isAlertOn() ? true : false}'
+                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"
                         app:layout_constraintBottom_toBottomOf="@id/tv_public"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_public"
+                        app:layout_constraintTop_toTopOf="@id/img_info"
                         app:thumbTint="@color/green"
                         app:useMaterialThemeColors="false" />
 

@@ -24,6 +24,16 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_videoResumeLandingFragment_to_questionListDialogFragment"
+            app:destination="@id/questionListDialogFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_videoResumeLandingFragment_to_createVideoResumeFragment"
+            app:destination="@id/createVideoResumeFragment" />
     </fragment>
     <dialog
         android:id="@+id/publicVisibilityFragment"
@@ -35,4 +45,18 @@
         android:name="com.bdjobs.app.videoResume.ui.guideline.GuidelineFragment"
         android:label="Guidelines"
         tools:layout="@layout/fragment_guideline"/>
+    <dialog
+        android:id="@+id/questionListDialogFragment"
+        android:name="com.bdjobs.app.videoResume.ui.landing.QuestionListDialogFragment"
+        android:label="fragment_question_list"
+        tools:layout="@layout/fragment_question_list" >
+        <argument
+            android:name="questions"
+            app:argType="com.bdjobs.app.videoResume.data.models.Question[]" />
+    </dialog>
+    <fragment
+        android:id="@+id/createVideoResumeFragment"
+        android:name="com.bdjobs.app.videoResume.ui.create.CreateVideoResumeFragment"
+        android:label="CreateVideoResumeFragment"
+        tools:layout="@layout/fragment_create_video_resume"/>
 </navigation>

@@ -73,6 +73,16 @@ class GuidelineFragment : Fragment() {
             "Mark yourself unique to the recruiters ",
     )
 
+    private val benefitsInBangla = listOf(
+            "ইন্টারভিউ তে দক্ষতার নিজের সাথে পার্সোনালিটি তুলে ধরুন",
+            "স্বল্প সময়ে উত্তর প্রাসঙ্গিক রেখে আপনার স্কিল গুলো তুলে ধরুন",
+            "আপনার টেকনোলজি বেসড স্কিলগুলো তুলে ধরুন",
+            "টেকনোলজি ব্যবহার করে আই ক্যাচিং কনটেন্ট তৈরী করুন",
+            "যে সফটওয়্যার দিয়ে ভিডিও রেজ্যুমি রেকর্ড করবেন সেই সফটওয়্যার সম্পর্কে জানুন",
+            "নিজেকে উপস্থাপনমূলক করে তুলুন",
+            "আপনি কেন ডিফারেন্ট বা কিভাবে একটা কোম্পানির জন্য ভ্যালুএবল এসেট হতে পারেন তা সাবলীল ভাষায় উপস্থাপন করুন"
+    )
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -163,17 +173,25 @@ class GuidelineFragment : Fragment() {
     private fun changeLanguage() {
         when (defaultLanguage) {
             Language.BN -> {
+                tv_step?.text = "ভিডিও রিজ্যুমে রেকর্ড করার ধাপসমূহ"
+                rv_step?.adapter = GuidelineAdapter(stepsInEnglish)
+
                 tv_tips.text = "টিপস"
                 rv_tips.adapter = GuidelineAdapter(tipsInBangla)
 
                 tv_benefits.text = "উপকারিতা"
+                rv_benefits.adapter = GuidelineAdapter(benefitsInBangla)
             }
             else -> {
+                tv_step?.text = "Steps of creating Video Resume"
+                rv_step?.adapter = GuidelineAdapter(stepsInEnglish)
+
                 tv_tips.text = "Tips"
                 rv_tips.adapter = GuidelineAdapter(tipsInEnglish)
 
+
                 tv_benefits.text = "Benefits"
-                rv_benefits.adapter = GuidelineAdapter(tipsInBangla)
+                rv_benefits.adapter = GuidelineAdapter(benefitsInEnglish)
             }
         }
     }
