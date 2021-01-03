@@ -59,4 +59,9 @@
         android:name="com.bdjobs.app.videoResume.ui.create.CreateVideoResumeFragment"
         android:label="CreateVideoResumeFragment"
         tools:layout="@layout/fragment_create_video_resume"/>
+    <fragment
+        android:id="@+id/recordVideoResumeFragment"
+        android:name="com.bdjobs.app.videoResume.ui.record.RecordVideoResumeFragment"
+        android:label="RecordVideoResumeFragment"
+        tools:layout="@layout/fragment_record_video_resume"/>
 </navigation>
