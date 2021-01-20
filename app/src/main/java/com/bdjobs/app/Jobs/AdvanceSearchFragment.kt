@@ -137,7 +137,7 @@ class AdvanceSearchFragment : Fragment() {
         getDataFromChipGroup(armyCG)
         getDataFromChipGroup(chip_group_workplace)
         getDataFromChipGroup(chip_group_person_with_disability)
-
+        getDataFromChipGroup(chip_group_facilities_for_pwd)
 
         maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
 
@@ -229,6 +229,9 @@ class AdvanceSearchFragment : Fragment() {
                     R.id.chip_group_person_with_disability -> {
                         jobCommunicator.setPersonWithDisability("1")
                     }
+                    R.id.chip_group_facilities_for_pwd -> {
+                        jobCommunicator.setFacilitiesForPWD("1")
+                    }
                 }
             } else {
                 when (chipGroup.id) {
@@ -264,6 +267,9 @@ class AdvanceSearchFragment : Fragment() {
                     }
                     R.id.chip_group_person_with_disability -> {
                         jobCommunicator.setPersonWithDisability("0")
+                    }
+                    R.id.chip_group_facilities_for_pwd -> {
+                        jobCommunicator.setFacilitiesForPWD("0")
                     }
                 }
             }
@@ -320,6 +326,9 @@ class AdvanceSearchFragment : Fragment() {
 
         if (jobCommunicator.getPersonWithDisability() == "1") {
             selectChip(chip_group_person_with_disability, "Yes")
+        }
+        if (jobCommunicator.getFacilitiesForPWD() == "1") {
+            selectChip(chip_group_facilities_for_pwd, "Yes")
         }
 
     }

@@ -72,6 +72,7 @@ class JoblistFragment : Fragment() {
     private var army: String? = ""
     private var workPlace : String? = ""
     private var personWithDisability : String? = ""
+    private var facilitiesForPWD : String? = ""
     private var filterName: String? = ""
     private var filterID: String? = ""
     lateinit var bdjobsDB: BdjobsDB
@@ -113,6 +114,7 @@ class JoblistFragment : Fragment() {
         army = communicator.getArmy()
         workPlace= communicator.getWorkPlace()
         personWithDisability = communicator.getPersonWithDisability()
+        facilitiesForPWD = communicator.getFacilitiesForPWD()
 
         isLastPages = false
 
@@ -190,7 +192,8 @@ class JoblistFragment : Fragment() {
                 slno = "",
                 version = "",
                 workPlace = workPlace,
-                personWithDisability = personWithDisability
+                personWithDisability = personWithDisability,
+                facilitiesForPWD = facilitiesForPWD
         )
     }
 
@@ -309,7 +312,8 @@ class JoblistFragment : Fragment() {
                             slno = "",
                             version = "",
                             workPlace = workPlace,
-                            personWithDisability = personWithDisability
+                            personWithDisability = personWithDisability,
+                            facilitiesForPWD = facilitiesForPWD
                     )
             }
         })
@@ -381,6 +385,7 @@ class JoblistFragment : Fragment() {
         army = communicator.getArmy()
         workPlace = communicator.getWorkPlace()
         personWithDisability = communicator.getPersonWithDisability()
+        facilitiesForPWD = communicator.getFacilitiesForPWD()
 
         saveSearchDicission()
 
@@ -424,7 +429,7 @@ class JoblistFragment : Fragment() {
     }
 
 
-    private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?,workPlace: String?, personWithDisability: String?) {
+    private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?,workPlace: String?, personWithDisability: String?, facilitiesForPWD: String?) {
 
         //Log.d("rakib","${session.userId}")
 
@@ -462,7 +467,8 @@ class JoblistFragment : Fragment() {
                 slno = slno,
                 version = version,
                 workPlace = workPlace ,
-                personWithDisability = personWithDisability)
+                personWithDisability = personWithDisability,
+                facilitiesForPWD = facilitiesForPWD)
         call.enqueue(object : Callback<ResponseBody> {
 
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
@@ -556,7 +562,7 @@ class JoblistFragment : Fragment() {
         })
     }
 
-    private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?, workPlace: String?, personWithDisability: String?) {
+    private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?, workPlace: String?, personWithDisability: String?, facilitiesForPWD: String?) {
         //Log.d(TAG, " loadNextPage called")
 
         ////Log.d("${TAG} Param", "jobLevel: $jobLevel")
@@ -587,7 +593,8 @@ class JoblistFragment : Fragment() {
                 slno = slno,
                 version = version,
                 workPlace = workPlace,
-                personWithDisability = personWithDisability
+                personWithDisability = personWithDisability,
+                facilitiesForPWD = facilitiesForPWD
         )
         call.enqueue(object : Callback<ResponseBody> {
 
@@ -823,6 +830,7 @@ class JoblistFragment : Fragment() {
                 encoded = Constants.ENCODED_JOBS,
                 personWithDisability = personWithDisability,
                 workPlace = workPlace
+
 
 
         ).enqueue(object : Callback<SaveUpdateFavFilterModel> {

@@ -81,7 +81,9 @@ interface ApiServiceJobs {
             @Query("version") version: String? = "",
             @Query("appId") appId :String? = Constants.APP_ID,
             @Query("workplace") workPlace : String? = "",
-            @Query("pwd") personWithDisability : String? = ""
+            @Query("pwd") personWithDisability : String? = "",
+            @Query("facilitiesForPWD") facilitiesForPWD : String? = ""
+
 
     ): Call<ResponseBody>
 

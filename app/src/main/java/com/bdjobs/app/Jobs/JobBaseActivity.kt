@@ -123,6 +123,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     private var workPlace: String? = ""
     private var personWithDisability: String? = ""
+    private var facilitiesForPWD: String? = ""
+
 
 
     lateinit var dataStorage: DataStorage
@@ -835,6 +837,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         return this.personWithDisability
     }
 
+    override fun getFacilitiesForPWD(): String? {
+        return this.facilitiesForPWD
+    }
+
     override fun setOrganization(value: String?) {
         this.organization = value
     }
@@ -881,6 +887,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     override fun setPersonWithDisability(value: String?) {
         this.personWithDisability = value
+    }
+
+    override fun setFacilitiesForPWD(value: String?) {
+        this.facilitiesForPWD = value
     }
 
     override fun getNewsPaper(): String? {
