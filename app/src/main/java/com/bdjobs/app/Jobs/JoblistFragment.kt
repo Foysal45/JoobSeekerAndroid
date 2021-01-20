@@ -157,7 +157,8 @@ class JoblistFragment : Fragment() {
                     slno = "",
                     version = "",
                     workPlace = workPlace,
-                    personWithDisability = personWithDisability
+                    personWithDisability = personWithDisability,
+                    facilitiesForPWD = facilitiesForPWD
             )
 
             doAsync {

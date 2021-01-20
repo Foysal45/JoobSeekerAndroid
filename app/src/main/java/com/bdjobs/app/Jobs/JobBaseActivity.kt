@@ -349,6 +349,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     setArmy(lastSearch.armyp)
                     setWorkPlace(lastSearch.workPlace)
                     setPersonWithDisability(lastSearch.personWithDisability)
+                    setFacilitiesForPWD(lastSearch.facilitiesForPWD)
+
                     uiThread {
                         transitFragment(joblistFragment, R.id.jobFragmentHolder)
                     }

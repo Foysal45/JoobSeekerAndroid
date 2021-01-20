@@ -21,7 +21,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
     B2CCertification::class,
     LastSearch::class,
     InviteCodeInfo::class,
-    Notification::class], version = 24, exportSchema = false)
+    Notification::class], version = 25, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class BdjobsDB : RoomDatabase() {
 
@@ -195,6 +195,11 @@ abstract class BdjobsDB : RoomDatabase() {
                 database.execSQL("ALTER TABLE VideoInvitation ADD COLUMN `deadline` INTEGER")
             }
         }
+        val MIGRATION_24_25 = object : Migration(24, 25) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE LastSearch ADD COLUMN `facilitiesForPWD` TEXT")
+            }
+        }
 
         fun getInstance(context: Context): BdjobsDB =
                 INSTANCE ?: synchronized(this) {
@@ -225,7 +230,8 @@ abstract class BdjobsDB : RoomDatabase() {
                         MIGRATION_20_21,
                         MIGRATION_21_22,
                         MIGRATION_22_23,
-                        MIGRATION_23_24
+                        MIGRATION_23_24,
+                        MIGRATION_24_25
                 ).build()
     }
 }

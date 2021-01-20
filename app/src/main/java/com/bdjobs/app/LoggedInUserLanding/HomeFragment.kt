@@ -506,7 +506,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             slno = searchData?.slno,
                             version = searchData?.version,
                             workPlace = searchData?.workPlace,
-                            personWithDisability = searchData?.personWithDisability
+                            personWithDisability = searchData?.personWithDisability,
+                            facilitiesForPWD = searchData?.facilitiesForPWD
                     ).enqueue(object : Callback<LastSearchCountModel> {
                         override fun onFailure(call: Call<LastSearchCountModel>, t: Throwable) {
                             error("onFailure", t)

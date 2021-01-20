@@ -230,7 +230,8 @@ interface ApiServiceJobs {
             @Query("appId") appId :String? = Constants.APP_ID,
             @Query("workplace") workPlace: String? = "",
             @Query("pwd") personWithDisability: String? = "",
-    ): Call<LastSearchCountModel>
+            @Query("facilitiesForPWD") facilitiesForPWD: String? = "",
+            ): Call<LastSearchCountModel>
 
     @FormUrlEncoded
     @POST("savefilter.asp")
