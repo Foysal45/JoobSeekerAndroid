@@ -125,8 +125,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
     private var personWithDisability: String? = ""
     private var facilitiesForPWD: String? = ""
 
-
-
     lateinit var dataStorage: DataStorage
     lateinit var bdjobsDB: BdjobsDB
     lateinit var bdjobsUserSession: BdjobsUserSession
@@ -148,12 +146,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         val deadline = ArrayList<String>()
 
         val inte  = getIntent().data
-        try {
-            //Log.d("rakib" , "${inte?.getQueryParameter("id")}")
-            //Log.d("rakib" , "${inte?.getQueryParameter("ln")}")
-        } catch (e: Exception) {
-        }
-
 
         clickedPosition = intent.getIntExtra("position", 0)
         val jobList: MutableList<JobListModelData> = java.util.ArrayList()
@@ -187,26 +179,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         } catch (e: Exception) {
             getData()
         }
-
-
-
-        /*
-        try {
-            adView?.hide()
-            val deviceInfo = getDeviceInformation()
-            val screenSize = deviceInfo[Constants.KEY_SCREEN_SIZE]
-
-            screenSize?.let{it->
-                if(it.toFloat()>5.0){
-                    val adRequest = AdRequest.Builder().build()
-                    adView?.loadAd(adRequest)
-                    adView?.show()
-                }
-            }
-        } catch (e: Exception) {
-            logException(e)
-        }*/
-
 
         Ads.loadAdaptiveBanner(this@JobBaseActivity,adView_container)
 
@@ -378,6 +350,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                             setArmy(favSearch.retiredarmy)
                             setWorkPlace(favSearch.workPlace)
                             setPersonWithDisability(favSearch.personWithDisability)
+                            setFacilitiesForPWD(favSearch.facilitiesForPWD)
                         } catch (e: Exception) {
                             logException(e)
                         }

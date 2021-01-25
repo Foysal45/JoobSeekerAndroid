@@ -224,8 +224,8 @@ class JoblistFragment : Fragment() {
                             qAge = age,
                             newspaper = newsPaper,
                             workPlace = workPlace,
-                            personWithDisability = personWithDisability
-
+                            personWithDisability = personWithDisability,
+                            facilitiesForPWD = facilitiesForPWD
                     )
 
                     uiThread {
@@ -830,9 +830,8 @@ class JoblistFragment : Fragment() {
                 newspaper = newsPaper,
                 encoded = Constants.ENCODED_JOBS,
                 personWithDisability = personWithDisability,
-                workPlace = workPlace
-
-
+                workPlace = workPlace,
+                facilitiesForPWD = facilitiesForPWD
 
         ).enqueue(object : Callback<SaveUpdateFavFilterModel> {
             override fun onFailure(call: Call<SaveUpdateFavFilterModel>, t: Throwable) {
@@ -873,7 +872,8 @@ class JoblistFragment : Fragment() {
                                         totaljobs = "",
                                         genderb = "",
                                         workPlace = workPlace,
-                                        personWithDisability = personWithDisability
+                                        personWithDisability = personWithDisability,
+                                        facilitiesForPWD = facilitiesForPWD
                                 )
 
                                 bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)

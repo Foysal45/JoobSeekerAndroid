@@ -571,6 +571,8 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
         var retiredArmy = ""
         var workPlace = ""
         var personWithDisability = ""
+        var facilitiesForPWD = ""
+
 
         favouriteSearch.retiredarmy?.let { string ->
             if (string == "1")
@@ -586,6 +588,12 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
             if (string == "1")
                 personWithDisability = "Person With Disability"
         }
+        favouriteSearch.facilitiesForPWD?.let { string ->
+            if (string == "1")
+                facilitiesForPWD = "Person With Disability"
+        }
+
+        facilitiesForPWD
 
         var gender = ""
         favouriteSearch.gender?.let { string ->

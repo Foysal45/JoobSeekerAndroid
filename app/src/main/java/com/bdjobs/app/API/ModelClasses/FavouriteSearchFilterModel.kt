@@ -63,8 +63,9 @@ data class FavouritSearchFilterData(
         @SerializedName("workplace")
         val workPlace: String?,
         @SerializedName("pwd")
-        val personWithDisability: String?
-
+        val personWithDisability: String?,
+        @SerializedName("facilityForPWD")
+        val facilityForPWD: String?
 )
 @Keep
 data class FavouriteSearchCountModel(
