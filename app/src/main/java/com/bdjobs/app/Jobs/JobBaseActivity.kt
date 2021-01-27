@@ -579,6 +579,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     transitFragment(generalSearch, R.id.jobFragmentHolder,false)
                 }
 
+                "alljobsearch" -> {
+                    transitFragment(joblistFragment, R.id.jobFragmentHolder,false)
+                }
+
                 else -> transitFragment(joblistFragment, R.id.jobFragmentHolder,false)
             }
 

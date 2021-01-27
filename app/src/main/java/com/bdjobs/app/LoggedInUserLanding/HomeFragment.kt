@@ -184,10 +184,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
 
         searchBTN?.setOnClickListener {
-            homeCommunicator.gotoJobSearch()
+            homeCommunicator.gotoAllJobSearch()
         }
         newSearchBTN?.setOnClickListener {
-            homeCommunicator.gotoJobSearch()
+            homeCommunicator.gotoAllJobSearch()
         }
         notificationIMGV?.setOnClickListener {
             homeCommunicator.goToNotifications()
