@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,7 @@ import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 
 class FavouriteSearchFilterAdapter(private val context: Context, private val items: MutableList<FavouriteSearch>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -556,6 +558,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
         //Log.d("favouriteSearch", "favouriteSearch.filterid= ${favouriteSearch.filterid}")
 
+
         val age = dataStorage.getAgeRangeNameByID(favouriteSearch.age)
         val keyword = favouriteSearch.keyword
         val newsPaper = dataStorage.getNewspaperNameById(favouriteSearch.newspaper)
@@ -586,14 +589,12 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
         favouriteSearch.personWithDisability?.let { string ->
             if (string == "1")
-                personWithDisability = "Person With Disability"
+                personWithDisability = "Jobs prefer person with disability"
         }
         favouriteSearch.facilitiesForPWD?.let { string ->
             if (string == "1")
-                facilitiesForPWD = "Person With Disability"
+                facilitiesForPWD = "Companies provide facilities for person with disability"
         }
-
-        facilitiesForPWD
 
         var gender = ""
         favouriteSearch.gender?.let { string ->
@@ -603,11 +604,9 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
             }
         }
 
-        //Log.d("gender", "gender:  ${favouriteSearch.gender}")
-
         //Log.d("gender", "genderb: ${favouriteSearch.genderb}")
 
-        var allValues = ("$keyword,$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability")
+        var allValues = ("$keyword,$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability $facilitiesForPWD")
         //Log.d("allValuesN", allValues)
         allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")

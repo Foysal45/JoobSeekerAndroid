@@ -704,7 +704,8 @@ class JoblistFragment : Fragment() {
                 age.isNullOrBlank() &&
                 newsPaper.isNullOrBlank() &&
                 workPlace.isNullOrBlank() &&
-                personWithDisability.isNullOrBlank()
+                personWithDisability.isNullOrBlank() &&
+                facilitiesForPWD.isNullOrBlank()
         ) {
             Snackbar.make(parentCL, "Please apply at least one filter to save the search", Snackbar.LENGTH_LONG).show()
         } else {

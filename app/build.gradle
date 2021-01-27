@@ -99,7 +99,6 @@ dependencies {
     //------permission related
     implementation 'com.github.fondesa:kpermissions:3.1.2'
 
-
     //-----network communicator and json parsing
     implementation "com.google.code.gson:gson:2.8.6"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -120,10 +119,9 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     //----facebook
-//    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'com.facebook.android:facebook-login:8.1.0'
 
-    implementation 'com.facebook.android:facebook-login:5.8.0'
 
     //-----background service
 //    implementation 'com.evernote:android-job:1.3.0-rc1'
