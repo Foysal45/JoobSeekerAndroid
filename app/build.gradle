@@ -13,7 +13,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 109 //725 //108
-        versionName "2.7.0.2"  //709.0.1 internal test // 2.7.0.1
+        versionName "2.7.0.2h"  //709.0.1 internal test // 2.7.0.1
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
