@@ -123,7 +123,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     private var workPlace: String? = ""
     private var personWithDisability: String? = ""
-
+    private var facilitiesForPWD: String? = ""
 
     lateinit var dataStorage: DataStorage
     lateinit var bdjobsDB: BdjobsDB
@@ -146,12 +146,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         val deadline = ArrayList<String>()
 
         val inte  = getIntent().data
-        try {
-            //Log.d("rakib" , "${inte?.getQueryParameter("id")}")
-            //Log.d("rakib" , "${inte?.getQueryParameter("ln")}")
-        } catch (e: Exception) {
-        }
-
 
         clickedPosition = intent.getIntExtra("position", 0)
         val jobList: MutableList<JobListModelData> = java.util.ArrayList()
@@ -185,26 +179,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         } catch (e: Exception) {
             getData()
         }
-
-
-
-        /*
-        try {
-            adView?.hide()
-            val deviceInfo = getDeviceInformation()
-            val screenSize = deviceInfo[Constants.KEY_SCREEN_SIZE]
-
-            screenSize?.let{it->
-                if(it.toFloat()>5.0){
-                    val adRequest = AdRequest.Builder().build()
-                    adView?.loadAd(adRequest)
-                    adView?.show()
-                }
-            }
-        } catch (e: Exception) {
-            logException(e)
-        }*/
-
 
         Ads.loadAdaptiveBanner(this@JobBaseActivity,adView_container)
 
@@ -347,6 +321,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     setArmy(lastSearch.armyp)
                     setWorkPlace(lastSearch.workPlace)
                     setPersonWithDisability(lastSearch.personWithDisability)
+                    setFacilitiesForPWD(lastSearch.facilitiesForPWD)
+
                     uiThread {
                         transitFragment(joblistFragment, R.id.jobFragmentHolder)
                     }
@@ -374,6 +350,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                             setArmy(favSearch.retiredarmy)
                             setWorkPlace(favSearch.workPlace)
                             setPersonWithDisability(favSearch.personWithDisability)
+                            setFacilitiesForPWD(favSearch.facilitiesForPWD)
                         } catch (e: Exception) {
                             logException(e)
                         }
@@ -600,6 +577,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
                 "generalsearch" -> {
                     transitFragment(generalSearch, R.id.jobFragmentHolder,false)
+                }
+
+                "alljobsearch" -> {
+                    transitFragment(joblistFragment, R.id.jobFragmentHolder,false)
                 }
 
                 else -> transitFragment(joblistFragment, R.id.jobFragmentHolder,false)
@@ -835,6 +816,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         return this.personWithDisability
     }
 
+    override fun getFacilitiesForPWD(): String? {
+        return this.facilitiesForPWD
+    }
+
     override fun setOrganization(value: String?) {
         this.organization = value
     }
@@ -881,6 +866,10 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     override fun setPersonWithDisability(value: String?) {
         this.personWithDisability = value
+    }
+
+    override fun setFacilitiesForPWD(value: String?) {
+        this.facilitiesForPWD = value
     }
 
     override fun getNewsPaper(): String? {

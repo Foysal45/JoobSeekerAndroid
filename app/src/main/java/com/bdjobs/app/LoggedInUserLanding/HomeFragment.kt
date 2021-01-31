@@ -184,10 +184,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
 
         searchBTN?.setOnClickListener {
-            homeCommunicator.gotoJobSearch()
+            homeCommunicator.gotoAllJobSearch()
         }
         newSearchBTN?.setOnClickListener {
-            homeCommunicator.gotoJobSearch()
+            homeCommunicator.gotoAllJobSearch()
         }
         notificationIMGV?.setOnClickListener {
             homeCommunicator.goToNotifications()
@@ -506,7 +506,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             slno = searchData?.slno,
                             version = searchData?.version,
                             workPlace = searchData?.workPlace,
-                            personWithDisability = searchData?.personWithDisability
+                            personWithDisability = searchData?.personWithDisability,
+                            facilitiesForPWD = searchData?.facilitiesForPWD
                     ).enqueue(object : Callback<LastSearchCountModel> {
                         override fun onFailure(call: Call<LastSearchCountModel>, t: Throwable) {
                             error("onFailure", t)
@@ -564,6 +565,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         var retiredArmy = ""
         var workPlace = ""
         var personWithDisability = ""
+        var facilitiesForPWD = ""
 
         search.armyp?.let { string ->
             if (string == "1")
@@ -577,7 +579,12 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
         search.personWithDisability?.let {
             if (it == "1")
-                personWithDisability = "Person With Disability"
+                personWithDisability = "Jobs prefer person with disability"
+        }
+
+        search.facilitiesForPWD?.let{
+            if(it =="1")
+                facilitiesForPWD = "Companies provide facilities for person with disability"
         }
 
         var gender = ""
@@ -592,7 +599,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
         //Log.d("gender", "genderb: ${search.genderB}")
 
-        var allValues = ("$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability")
+        var allValues = ("$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability,$facilitiesForPWD")
         //Log.d("allValuesN", allValues)
         allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")
@@ -633,8 +640,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         if (inviteInterviview.equals("0")) InterviewCV.visibility = View.GONE
         if (videoInterviview.equals("0")) VideoInterviewCV.visibility = View.GONE
         if (liveInterview.equals("0")) LiveInterviewCV.visibility = View.GONE
-
-
 
         cancelBTN?.setOnClickListener {
             interviewInvitationDialog?.dismiss()

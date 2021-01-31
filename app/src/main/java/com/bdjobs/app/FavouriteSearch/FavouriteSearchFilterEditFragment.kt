@@ -59,6 +59,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
     private var workPlace : String? = "0"
     private var personWithDisability : String ? = "0"
+    private var facilitiesForPWD : String ? = "0"
+
 
     val genderList: MutableList<String> = ArrayList<String>()
 
@@ -148,7 +150,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                             filterNameTIL.showError("This filter name is already exists.")
                             activity.requestFocus(filterNameET)
                         } else {
-                            Timber.d("$workPlace $personWithDisability")
+                            Timber.d("$workPlace $personWithDisability $facilitiesForPWD")
                             if (
                                     industry.isNullOrBlank() &&
                                     category.isNullOrBlank() &&
@@ -166,7 +168,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                                     age.isNullOrBlank() &&
                                     newspaper.isNullOrBlank() &&
                                     workPlace.isNullOrBlank() &&
-                                    personWithDisability.isNullOrBlank()
+                                    personWithDisability.isNullOrBlank() &&
+                                    facilitiesForPWD.isNullOrBlank()
                             ) {
                                 toast("Please apply at least one filter to update the search")
                             } else {
@@ -275,6 +278,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         getDataFromChipGroup(armyCG)
         getDataFromChipGroup(chip_group_workplace)
         getDataFromChipGroup(chip_group_person_with_disability)
+        getDataFromChipGroup(chip_group_facilities_for_pwd)
 
 
         maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -351,7 +355,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                 newspaper = newspaper,
                 encoded = Constants.ENCODED_JOBS,
                 workPlace = workPlace,
-                personWithDisability = personWithDisability
+                personWithDisability = personWithDisability,
+                facilitiesForPWD = facilitiesForPWD
 
         ).enqueue(object : Callback<SaveUpdateFavFilterModel> {
             override fun onFailure(call: Call<SaveUpdateFavFilterModel>, t: Throwable) {
@@ -391,8 +396,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                                     createdon = createdOn,
                                     genderb = "",
                                     workPlace = workPlace,
-                                    personWithDisability = personWithDisability
-
+                                    personWithDisability = personWithDisability,
+                                    facilitiesForPWD = facilitiesForPWD
                             )
                             bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
 
@@ -451,6 +456,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     R.id.chip_group_person_with_disability ->{
                         personWithDisability = "1"
                     }
+                    R.id.chip_group_facilities_for_pwd ->{
+                        facilitiesForPWD = "1"
+                    }
                 }
             } else {
                 when (chipGroup.id) {
@@ -486,6 +494,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     }
                     R.id.chip_group_person_with_disability ->{
                         personWithDisability = "0"
+                    }
+                    R.id.chip_group_facilities_for_pwd ->{
+                        facilitiesForPWD = "0"
                     }
                 }
             }
@@ -582,6 +593,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     }
                     if (filterData.personWithDisability == "1") {
                         selectChip(chip_group_person_with_disability, "Yes")
+                    }
+                    if (filterData.facilitiesForPWD == "1") {
+                        selectChip(chip_group_facilities_for_pwd, "Yes")
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

@@ -164,6 +164,10 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         startActivity<JobBaseActivity>("from" to "generalsearch")
     }
 
+    override fun gotoAllJobSearch() {
+        startActivity<JobBaseActivity>("from" to "alljobsearch")
+    }
+
     override fun gotoEditresume() {
         startActivity<EditResLandingActivity>()
     }

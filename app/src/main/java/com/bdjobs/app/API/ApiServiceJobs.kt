@@ -81,7 +81,9 @@ interface ApiServiceJobs {
             @Query("version") version: String? = "",
             @Query("appId") appId :String? = Constants.APP_ID,
             @Query("workplace") workPlace : String? = "",
-            @Query("pwd") personWithDisability : String? = ""
+            @Query("pwd") personWithDisability : String? = "",
+            @Query("facilitiesForPWD") facilitiesForPWD : String? = ""
+
 
     ): Call<ResponseBody>
 
@@ -228,7 +230,8 @@ interface ApiServiceJobs {
             @Query("appId") appId :String? = Constants.APP_ID,
             @Query("workplace") workPlace: String? = "",
             @Query("pwd") personWithDisability: String? = "",
-    ): Call<LastSearchCountModel>
+            @Query("facilitiesForPWD") facilitiesForPWD: String? = "",
+            ): Call<LastSearchCountModel>
 
     @FormUrlEncoded
     @POST("savefilter.asp")
@@ -255,9 +258,9 @@ interface ApiServiceJobs {
             @Field("encoded") encoded: String? = "",
             @Field("qPWD") personWithDisability: String? = "",
             @Field("qworkstation") workPlace: String? = "",
+            @Field("qFacilityForPWD") facilitiesForPWD: String? = "",
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<SaveUpdateFavFilterModel>
-
 
     @GET("store.asp")
     fun insertShortListJob(
