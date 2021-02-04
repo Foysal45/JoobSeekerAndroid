@@ -22,7 +22,7 @@ class VideoResumeLandingViewModel(
     }
 
     fun getAllQuestions() : List<Question>{
-        return videoResumeRepository.getAllQuestions()
+        return videoResumeRepository.getAllQuestionsFromDB()
     }
 
 }

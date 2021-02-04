@@ -9,18 +9,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.bdjobs.app.R
-import com.bdjobs.app.databinding.FragmentSettingsBinding
 import com.bdjobs.app.databinding.FragmentVideoResumeLandingBinding
-import com.bdjobs.app.sms.ui.settings.SettingsViewModel
-import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
-import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
 import kotlinx.android.synthetic.main.fragment_video_resume_landing.*
 
 class VideoResumeLandingFragment : Fragment() {
 
-    private val videoResumeLandingViewModel: VideoResumeLandingViewModel by viewModels { VideoResumeLandingViewModelFactory(VideoResumeRepository(requireContext())) }
+    private val videoResumeLandingViewModel: VideoResumeLandingViewModel by viewModels {
+        ViewModelFactoryUtil.provideVideoResumeLandingViewModelFactory(this)
+    }
     lateinit var binding: FragmentVideoResumeLandingBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
