@@ -34,7 +34,7 @@ class LiveInterviewActivity : AppCompatActivity() {
         }
 
         when (from) {
-            "homePage","mybdjobs" -> {
+            "homePage","mybdjobs","popup" -> {
                 graph.startDestination = R.id.liveInterviewListFragment
             }
             else -> {

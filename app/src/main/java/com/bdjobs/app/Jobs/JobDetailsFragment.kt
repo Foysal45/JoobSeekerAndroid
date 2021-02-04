@@ -55,6 +55,8 @@ class JobDetailsFragment : Fragment() {
     private var army: String? = ""
     private var workPlace : String? = ""
     private var personWithDisability : String ? = ""
+    private var facilitiesForPWD : String ? = ""
+
 
     var currentJobPosition = 0
     var shareJobPosition = 0
@@ -169,7 +171,8 @@ class JobDetailsFragment : Fragment() {
                         slno = "",
                         version = "",
                         workPlace = workPlace,
-                        personWithDisability = personWithDisability
+                        personWithDisability = personWithDisability,
+                        facilitiesForPWD = facilitiesForPWD
 
                 )
 
@@ -240,11 +243,12 @@ class JobDetailsFragment : Fragment() {
         army = communicator.getArmy()
         workPlace = communicator.getWorkPlace()
         personWithDisability = communicator.getPersonWithDisability()
+        facilitiesForPWD = communicator.getFacilitiesForPWD()
 
 
     }
 
-    private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?, workPlace: String?, personWithDisability : String?) {
+    private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?, workPlace: String?, personWithDisability : String?, facilitiesForPWD : String?) {
         //Log.d("ArrayTestJobdetail", " loadNextPage called\n ")
 
 
@@ -274,7 +278,8 @@ class JobDetailsFragment : Fragment() {
                 slno = slno,
                 version = version,
                 workPlace = workPlace,
-                personWithDisability = personWithDisability)
+                personWithDisability = personWithDisability,
+                facilitiesForPWD = facilitiesForPWD)
         call.enqueue(object : Callback<ResponseBody> {
 
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
@@ -440,6 +445,7 @@ class JobDetailsFragment : Fragment() {
             communicator.setArmy(army)
             communicator.setWorkPlace(workPlace)
             communicator.setPersonWithDisability(personWithDisability)
+            communicator.setFacilitiesForPWD(facilitiesForPWD)
         } catch (e: Exception) {
             logException(e)
         }

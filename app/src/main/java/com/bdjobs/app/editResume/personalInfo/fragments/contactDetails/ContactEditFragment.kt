@@ -31,6 +31,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 
 class ContactEditFragment : Fragment() {
@@ -66,9 +67,7 @@ class ContactEditFragment : Fragment() {
         d("onActivityCreated")
         contactInfo.setTitle(getString(R.string.title_contact))
         contactInfo.setEditButton(false, "dd")
-        initViews()
-        hideAllError()
-        doWork()
+
 
 
     }
@@ -77,9 +76,14 @@ class ContactEditFragment : Fragment() {
         super.onResume()
         d("onResume")
 
+        initViews()
+
         updateViewsData()
         preloadedData()
 
+
+        doWork()
+        hideAllError()
 
     }
 
@@ -243,6 +247,19 @@ class ContactEditFragment : Fragment() {
         addTextChangedListener(pmContactAddressTIETPRM, contactAddressTILPRM)
         addTextChangedListener(permanentContactCountryTIETP, permanentContactCountryTILP)
 
+
+        if (contactInfo.getPresentDistrict() == ""){
+            contactDistrictTIL1.hideError()
+        }
+
+//        prContactDistrictTIET?.addTextChangedListener {
+//            Timber.d("editable ${it.toString()}")
+//            if (it.toString().isEmpty()){
+//                contactDistrictTIL1.isErrorEnabled = true
+//            } else{
+//                contactDistrictTIL1?.hideError()
+//            }
+//        }
         //addTextChangedListener(contactMobileNumber1TIET, contactEmailAddressTIL1)
 
         contactMobileNumberTIET.easyOnTextChangedListener {
@@ -449,7 +466,9 @@ class ContactEditFragment : Fragment() {
                 validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
             }
             if (presentInOutBD == "") {
-                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
+                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh for Present Address")
+                cgPresent?.requestFocus()
+                scroll?.scrollTo(cgPresent.height,0)
             }
             if (pmContactAddressTIETPRM.getString().isNotEmpty() && permanentInOutBD == "") {
                 //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
@@ -530,7 +549,7 @@ class ContactEditFragment : Fragment() {
                                 updateData()
                             }
                         } else {
-                            toast("Please select inside Bangladesh or outside Bangladesh")
+                            toast("Please select inside Bangladesh or outside Bangladesh for Permanent Address")
                         }
                     }
                 }
@@ -902,20 +921,20 @@ class ContactEditFragment : Fragment() {
     private fun hideAllError() {
         //Log.d("rakib error", "called main")
 
-//        if (permanentInOutBD == "" && pmContactDistrictTIET.getString().isEmpty() && pmContactThanaTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) {
-//            contactDistrictTIL.hideError()
-//            contactThanaTIL.hideError()
-//            //Log.d("rakib error", "called if")
-//            contactAddressTILPRM.hideError()
-//            permanentContactCountryTILP.hideError()
-//        } else {
-//            contactDistrictTIL.setError()
-//            contactThanaTIL.setError()
-//            contactAddressTILPRM.setError()
-//            //Log.d("rakib error", "called else ")
-//
-//            permanentContactCountryTILP.setError()
-//        }
+        if (permanentInOutBD == "" && pmContactDistrictTIET.getString().isEmpty() && pmContactThanaTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) {
+            contactDistrictTIL.hideError()
+            contactThanaTIL.hideError()
+            //Log.d("rakib error", "called if")
+            contactAddressTILPRM.hideError()
+            permanentContactCountryTILP.hideError()
+        } else {
+            contactDistrictTIL.setError()
+            contactThanaTIL.setError()
+            contactAddressTILPRM.setError()
+            //Log.d("rakib error", "called else ")
+
+            permanentContactCountryTILP.setError()
+        }
         if (permanentInOutBD == "0" && pmContactDistrictTIET.getString().isNotEmpty() && pmContactThanaTIETP.getString().isNotEmpty() && pmContactAddressTIETPRM.getString().isNotEmpty()) {
             contactDistrictTIL.hideError()
             contactThanaTIL.hideError()

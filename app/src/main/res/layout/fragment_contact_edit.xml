@@ -8,6 +8,7 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -132,6 +133,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint.contactDistrict"
+                            android:focusableInTouchMode="true"
                             android:focusable="false"
                             android:longClickable="false"
                             android:inputType="text|textMultiLine"
@@ -167,6 +169,8 @@
                                 android:layout_height="wrap_content"
                                 android:focusable="false"
                                 android:longClickable="false"
+                                android:focusableInTouchMode="true"
+                                android:focusedByDefault="false"
                                 android:hint="@string/hint.contactThana"
                                 android:inputType="text|textMultiLine"
                                 android:maxLength="50"
@@ -245,7 +249,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/prContactAddressTIETPR"
                         android:layout_width="match_parent"
-
+                        android:focusableInTouchMode="true"
+                        android:focusedByDefault="false"
                         android:layout_height="wrap_content"
                         android:importantForAutofill="noExcludeDescendants"
                         android:hint="@string/hint.contactAddress"
@@ -550,6 +555,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint.contactMobileNumber"
                     android:inputType="number"
+                    android:focusableInTouchMode="true"
                     android:fontFamily="@font/roboto"
                     android:singleLine="true"
                     android:maxLength="14"
@@ -574,6 +580,7 @@
                     android:id="@+id/contactMobileNumber1TIET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:hint="@string/hint.officePhone"
                     android:inputType="number"
                     android:maxLength="50"
@@ -626,6 +633,8 @@
                     android:hint="@string/hint.contactEmailadress"
                     android:inputType="text"
                     android:maxLength="50"
+                    android:focusableInTouchMode="true"
+                    android:focusedByDefault="false"
                     android:textColor="#212121"
                     android:layout_marginBottom="3dp"/>
             </com.google.android.material.textfield.TextInputLayout>

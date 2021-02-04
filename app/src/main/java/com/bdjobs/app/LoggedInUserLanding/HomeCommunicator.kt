@@ -30,6 +30,7 @@ interface HomeCommunicator {
     fun getShortListFilter():String
     fun gotoTimesEmailedResume(times_last : Boolean)
     fun gotoJobSearch()
+    fun gotoAllJobSearch()
     fun gotoEditresume()
     fun showManageResumePopup()
     fun goToMessageByEmployers(value: String)

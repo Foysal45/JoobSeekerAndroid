@@ -95,6 +95,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
     var workPlace = ""
     var minSalary = ""
     var maxSalary = ""
+    var showSalary = ""
     private lateinit var dialog: Dialog
     private val applyonlinePostions = ArrayList<Int>()
     private var language = ""
@@ -230,6 +231,7 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                             workPlace = jobDetailResponseAll.jobWorkPlace!!
                             minSalary = jobDetailResponseAll.minSalary!!
                             maxSalary = jobDetailResponseAll.maxSalary!!
+                            showSalary = jobDetailResponseAll.jobShowSalary!!
 //
 //                            Log.d("rakib", "$minSalary $maxSalary ${jobDetailResponseAll.jobTitle}" )
 
@@ -554,7 +556,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                 }
 
 
-
                                 if (educationData.isBlank() && experienceData.isBlank() && requirmentsData.isBlank()) {
 
                                     jobsVH.tvEducationalRequirmentsValue.visibility = View.GONE
@@ -644,6 +645,10 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
 
                                 }
 
+                                if(showSalary.equals("0")){
+                                    jobsVH.tvSalaryRangeData.visibility = View.GONE
+                                    jobsVH.tvSalaryRange.visibility = View.GONE
+                                }
 
                                 if (readApplyData.isNullOrBlank()) {
                                     jobsVH.tvReadBefApply.visibility = View.GONE
@@ -699,9 +704,6 @@ class JobDetailAdapter(private val context: Context) : RecyclerView.Adapter<Recy
                                     jobsVH.tvJobSourceHeading.show()
                                     jobsVH.tvJobSource.text = jobSourceData
                                 }
-
-
-
 
 
                                 if (companyAddress.isNullOrBlank() || companyAddress.isNullOrEmpty()) {

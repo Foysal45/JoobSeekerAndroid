@@ -69,6 +69,8 @@ interface JobCommunicator {
     fun getArmy(): String?
     fun getWorkPlace(): String?
     fun getPersonWithDisability() : String?
+    fun getFacilitiesForPWD() : String?
+
 
     fun setOrganization(value: String?)
     fun setGender(value: String?)
@@ -82,6 +84,7 @@ interface JobCommunicator {
     fun setArmy(value: String?)
     fun setWorkPlace(value: String?)
     fun setPersonWithDisability(value: String?)
+    fun setFacilitiesForPWD(value: String?)
 
     fun setFilterID(filterID: String?)
     fun setFilterName(filterName: String?)

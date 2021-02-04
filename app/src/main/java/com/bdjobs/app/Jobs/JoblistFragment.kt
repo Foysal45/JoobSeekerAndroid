@@ -72,6 +72,7 @@ class JoblistFragment : Fragment() {
     private var army: String? = ""
     private var workPlace : String? = ""
     private var personWithDisability : String? = ""
+    private var facilitiesForPWD : String? = ""
     private var filterName: String? = ""
     private var filterID: String? = ""
     lateinit var bdjobsDB: BdjobsDB
@@ -113,6 +114,7 @@ class JoblistFragment : Fragment() {
         army = communicator.getArmy()
         workPlace= communicator.getWorkPlace()
         personWithDisability = communicator.getPersonWithDisability()
+        facilitiesForPWD = communicator.getFacilitiesForPWD()
 
         isLastPages = false
 
@@ -155,7 +157,8 @@ class JoblistFragment : Fragment() {
                     slno = "",
                     version = "",
                     workPlace = workPlace,
-                    personWithDisability = personWithDisability
+                    personWithDisability = personWithDisability,
+                    facilitiesForPWD = facilitiesForPWD
             )
 
             doAsync {
@@ -190,7 +193,8 @@ class JoblistFragment : Fragment() {
                 slno = "",
                 version = "",
                 workPlace = workPlace,
-                personWithDisability = personWithDisability
+                personWithDisability = personWithDisability,
+                facilitiesForPWD = facilitiesForPWD
         )
     }
 
@@ -220,8 +224,8 @@ class JoblistFragment : Fragment() {
                             qAge = age,
                             newspaper = newsPaper,
                             workPlace = workPlace,
-                            personWithDisability = personWithDisability
-
+                            personWithDisability = personWithDisability,
+                            facilitiesForPWD = facilitiesForPWD
                     )
 
                     uiThread {
@@ -309,7 +313,8 @@ class JoblistFragment : Fragment() {
                             slno = "",
                             version = "",
                             workPlace = workPlace,
-                            personWithDisability = personWithDisability
+                            personWithDisability = personWithDisability,
+                            facilitiesForPWD = facilitiesForPWD
                     )
             }
         })
@@ -381,6 +386,7 @@ class JoblistFragment : Fragment() {
         army = communicator.getArmy()
         workPlace = communicator.getWorkPlace()
         personWithDisability = communicator.getPersonWithDisability()
+        facilitiesForPWD = communicator.getFacilitiesForPWD()
 
         saveSearchDicission()
 
@@ -424,7 +430,7 @@ class JoblistFragment : Fragment() {
     }
 
 
-    private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?,workPlace: String?, personWithDisability: String?) {
+    private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?,workPlace: String?, personWithDisability: String?, facilitiesForPWD: String?) {
 
         //Log.d("rakib","${session.userId}")
 
@@ -462,7 +468,8 @@ class JoblistFragment : Fragment() {
                 slno = slno,
                 version = version,
                 workPlace = workPlace ,
-                personWithDisability = personWithDisability)
+                personWithDisability = personWithDisability,
+                facilitiesForPWD = facilitiesForPWD)
         call.enqueue(object : Callback<ResponseBody> {
 
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
@@ -556,7 +563,7 @@ class JoblistFragment : Fragment() {
         })
     }
 
-    private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?, workPlace: String?, personWithDisability: String?) {
+    private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?, workPlace: String?, personWithDisability: String?, facilitiesForPWD: String?) {
         //Log.d(TAG, " loadNextPage called")
 
         ////Log.d("${TAG} Param", "jobLevel: $jobLevel")
@@ -587,7 +594,8 @@ class JoblistFragment : Fragment() {
                 slno = slno,
                 version = version,
                 workPlace = workPlace,
-                personWithDisability = personWithDisability
+                personWithDisability = personWithDisability,
+                facilitiesForPWD = facilitiesForPWD
         )
         call.enqueue(object : Callback<ResponseBody> {
 
@@ -696,7 +704,8 @@ class JoblistFragment : Fragment() {
                 age.isNullOrBlank() &&
                 newsPaper.isNullOrBlank() &&
                 workPlace.isNullOrBlank() &&
-                personWithDisability.isNullOrBlank()
+                personWithDisability.isNullOrBlank() &&
+                facilitiesForPWD.isNullOrBlank()
         ) {
             Snackbar.make(parentCL, "Please apply at least one filter to save the search", Snackbar.LENGTH_LONG).show()
         } else {
@@ -822,8 +831,8 @@ class JoblistFragment : Fragment() {
                 newspaper = newsPaper,
                 encoded = Constants.ENCODED_JOBS,
                 personWithDisability = personWithDisability,
-                workPlace = workPlace
-
+                workPlace = workPlace,
+                facilitiesForPWD = facilitiesForPWD
 
         ).enqueue(object : Callback<SaveUpdateFavFilterModel> {
             override fun onFailure(call: Call<SaveUpdateFavFilterModel>, t: Throwable) {
@@ -864,7 +873,8 @@ class JoblistFragment : Fragment() {
                                         totaljobs = "",
                                         genderb = "",
                                         workPlace = workPlace,
-                                        personWithDisability = personWithDisability
+                                        personWithDisability = personWithDisability,
+                                        facilitiesForPWD = facilitiesForPWD
                                 )
 
                                 bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
