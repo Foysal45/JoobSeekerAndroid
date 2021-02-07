@@ -18,6 +18,7 @@ import com.bdjobs.app.videoInterview.ui.interview_list.VideoInterviewListModelFa
 import com.bdjobs.app.videoInterview.ui.record_video.RecordVideoViewModelFactory
 import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
 import com.bdjobs.app.videoResume.ui.home.VideoResumeLandingViewModelFactory
+import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModelFactory
 
 object ViewModelFactoryUtil {
 
@@ -92,6 +93,12 @@ object ViewModelFactoryUtil {
         val repository = VideoResumeRepository(fragment.requireContext().applicationContext as Application)
         return VideoResumeLandingViewModelFactory(repository)
     }
+
+    fun provideVideoResumeQuestionsViewModelFactory(fragment: Fragment) : VideoResumeQuestionsViewModelFactory {
+        val repository = VideoResumeRepository(fragment.requireContext().applicationContext as Application)
+        return VideoResumeQuestionsViewModelFactory(repository)
+    }
+
     //-------Video Resume-------//
 
 

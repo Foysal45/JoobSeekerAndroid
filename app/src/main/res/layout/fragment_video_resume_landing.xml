@@ -357,7 +357,7 @@
                     app:icon="@drawable/ic_video_resume_questions"
                     app:iconPadding="32dp"
                     app:iconTint="#666666"
-                    app:layout_constraintEnd_toEndOf="@+id/btn_create_video"
+                    app:layout_constraintEnd_toEndOf="@+id/cl_data"
                     app:layout_constraintStart_toStartOf="@id/cl_banner"
                     app:layout_constraintTop_toBottomOf="@+id/btn_guidelines" />
 
@@ -374,7 +374,7 @@
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_view_questions"
                     app:layout_constraintEnd_toEndOf="@+id/btn_view_questions"
-                    app:layout_constraintHorizontal_bias="0.55"
+                    app:layout_constraintHorizontal_bias="0.6"
                     app:layout_constraintStart_toStartOf="@+id/btn_view_questions"
                     app:layout_constraintTop_toTopOf="@id/btn_view_questions"
                     tools:text="1 NEW" />

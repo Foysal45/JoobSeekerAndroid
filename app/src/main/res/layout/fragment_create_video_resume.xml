@@ -7,7 +7,7 @@
         android:id="@+id/cl_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".videoInterview.ui.question_list.QuestionListFragment">
+        tools:context=".videoResume.ui.home.VideoResumeQuestionsFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar"
