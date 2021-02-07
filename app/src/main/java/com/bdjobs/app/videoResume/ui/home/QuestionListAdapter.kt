@@ -1,4 +1,4 @@
-package com.bdjobs.app.videoResume.ui.landing
+package com.bdjobs.app.videoResume.ui.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,6 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.videoResume.data.models.Question
-import kotlinx.android.synthetic.main.layout_item_video_resume_guideline.view.*
 import kotlinx.android.synthetic.main.layout_video_resume_question_item.view.*
 
 class QuestionListAdapter(var question: List<Question>) : RecyclerView.Adapter<QuestionListAdapter.QuestionViewHolder>() {

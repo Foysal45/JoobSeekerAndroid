@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/videoResumeLandingFragment"
-        android:name="com.bdjobs.app.videoResume.ui.landing.VideoResumeLandingFragment"
+        android:name="com.bdjobs.app.videoResume.ui.home.VideoResumeLandingFragment"
         android:label="Video Resume"
         tools:layout="@layout/fragment_video_resume_landing">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <dialog
         android:id="@+id/publicVisibilityFragment"
-        android:name="com.bdjobs.app.videoResume.ui.landing.PublicVisibilityFragment"
+        android:name="com.bdjobs.app.videoResume.ui.home.PublicVisibilityFragment"
         android:label="fragment_public_visibility"
         tools:layout="@layout/fragment_public_visibility" />
     <fragment
@@ -47,7 +47,7 @@
         tools:layout="@layout/fragment_guideline"/>
     <dialog
         android:id="@+id/questionListDialogFragment"
-        android:name="com.bdjobs.app.videoResume.ui.landing.QuestionListDialogFragment"
+        android:name="com.bdjobs.app.videoResume.ui.home.QuestionListDialogFragment"
         android:label="fragment_question_list"
         tools:layout="@layout/fragment_question_list" >
         <argument

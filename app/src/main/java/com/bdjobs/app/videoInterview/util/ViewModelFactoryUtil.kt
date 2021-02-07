@@ -17,7 +17,7 @@ import com.bdjobs.app.videoInterview.ui.question_list.QuestionListViewModelFacto
 import com.bdjobs.app.videoInterview.ui.interview_list.VideoInterviewListModelFactory
 import com.bdjobs.app.videoInterview.ui.record_video.RecordVideoViewModelFactory
 import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
-import com.bdjobs.app.videoResume.ui.landing.VideoResumeLandingViewModelFactory
+import com.bdjobs.app.videoResume.ui.home.VideoResumeLandingViewModelFactory
 
 object ViewModelFactoryUtil {
 

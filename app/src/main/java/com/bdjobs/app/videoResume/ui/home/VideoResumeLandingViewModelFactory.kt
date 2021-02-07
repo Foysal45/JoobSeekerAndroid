@@ -1,9 +1,7 @@
-package com.bdjobs.app.videoResume.ui.landing
+package com.bdjobs.app.videoResume.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
-import com.bdjobs.app.videoInterview.ui.question_list.QuestionListViewModel
 import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
 
 @Suppress("UNCHECKED_CAST")

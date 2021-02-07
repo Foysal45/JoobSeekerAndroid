@@ -1,4 +1,4 @@
-package com.bdjobs.app.videoResume.ui.landing
+package com.bdjobs.app.videoResume.ui.home
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

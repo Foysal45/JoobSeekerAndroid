@@ -9,7 +9,7 @@
     android:paddingBottom="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/dialog_background"
-    tools:context=".videoResume.ui.landing.PublicVisibilityFragment">
+    tools:context=".videoResume.ui.home.PublicVisibilityFragment">
 
     <TextView
         android:fontFamily="@font/roboto_medium"

@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:id="@+id/cl_main"
     android:background="@drawable/dialog_background"
-    tools:context=".videoResume.ui.landing.QuestionListDialogFragment">
+    tools:context=".videoResume.ui.home.QuestionListDialogFragment">
 
 
     <TextView
