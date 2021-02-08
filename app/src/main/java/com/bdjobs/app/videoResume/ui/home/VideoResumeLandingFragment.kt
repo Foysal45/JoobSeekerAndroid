@@ -73,7 +73,11 @@ class VideoResumeLandingFragment : Fragment() {
             })
 
             btn_create_video?.setOnClickListener {
-                findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToCreateVideoResumeFragment())
+                findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToVideoResumeQuestionsFragment())
+            }
+
+            btn_edit_video?.setOnClickListener {
+                findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToVideoResumeQuestionsFragment())
             }
         }
     }

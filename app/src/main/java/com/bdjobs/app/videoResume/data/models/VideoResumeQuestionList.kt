@@ -19,23 +19,27 @@ data class VideoResumeQuestionList(
     @Keep
     @JsonClass(generateAdapter = true)
     data class Data(
+            @Json(name = "slNo")
+            var slNo: String?,
             @Json(name = "questionSerialNo")
-            var questionSerialNo: String?, // 1
+            var questionSerialNo: String?,
             @Json(name = "questionId")
-            var questionId: String?, // 918
+            var questionId: String?,
             @Json(name = "questionDuration")
-            var questionDuration: String?, // 20
+            var questionDuration: String?,
             @Json(name = "questionText")
-            var questionText: String?, // Question 1
+            var questionText: String?,
             @Json(name = "questionStatus")
-            var questionStatus: String?, // 1
+            var questionStatus: String?,
             @Json(name = "videoUrl")
-            var videoUrl: String?, // https://vdo.bdjobs.com/Videos/Corporate//854375/182982535/182982535_1.webm
+            var videoUrl: String?,
             @Json(name = "buttonStatus")
-            var buttonStatus: String?, // 1
+            var buttonStatus: String?,
             @Json(name = "buttonName")
-            var buttonName: String?, // View Video
+            var buttonName: String?,
+            @Json(name = "aID")
+            var aID: String?,
             @Json(name = "totalView")
-            var totalView: String?, // View Video
+            var totalView: String?,
     )
 }

@@ -33,7 +33,7 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
         <action
             android:id="@+id/action_videoResumeLandingFragment_to_videoResumeQuestionsFragment"
-            app:destination="@id/createVideoResumeFragment" />
+            app:destination="@id/videoResumeQuestionsFragment" />
     </fragment>
     <dialog
         android:id="@+id/publicVisibilityFragment"
@@ -55,10 +55,10 @@
             app:argType="com.bdjobs.app.videoResume.data.models.Question[]" />
     </dialog>
     <fragment
-        android:id="@+id/createVideoResumeFragment"
+        android:id="@+id/videoResumeQuestionsFragment"
         android:name="com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsFragment"
         android:label="VideoResumeQuestionsFragment"
-        tools:layout="@layout/fragment_create_video_resume"/>
+        tools:layout="@layout/fragment_video_resume_questions"/>
     <fragment
         android:id="@+id/recordVideoResumeFragment"
         android:name="com.bdjobs.app.videoResume.ui.record.RecordVideoResumeFragment"
