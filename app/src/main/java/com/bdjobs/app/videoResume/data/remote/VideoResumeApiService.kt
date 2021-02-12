@@ -54,18 +54,21 @@ interface VideoResumeApiService {
             @Field("lang") lang: String?
     ): VideoResumeQuestionList
 
-//    @Multipart
-//    @POST("https://vdo.bdjobs.com/apps/mybdjobs/app_video_interview_invitation_upload_answer.asp")
-//    suspend fun uploadVideo(
-//            @Part("userId") userID: RequestBody?,
-//            @Part("decodeId") decodeID: RequestBody?,
-//            @Part("jobId") jobId: RequestBody?,
-//            @Part("applyId") applyId: RequestBody?,
-//            @Part("quesId") quesId: RequestBody?,
-//            @Part("duration") duration: RequestBody?,
-//            @Part("questionSerialNo") questionSerialNo: RequestBody?,
-//            @Part file: MultipartBody.Part?
-//    ): CommonResponse
+    @Multipart
+    @POST("https://vdo.bdjobs.com/apps/mybdjobs/app_video_resume_upload_answer.asp")
+    suspend fun uploadVideo(
+            @Part("userId") userID: RequestBody?,
+            @Part("decodeId") decodeID: RequestBody?,
+            @Part("questionId") quesId: RequestBody?,
+            @Part("questionDuration") duration: RequestBody?,
+            @Part("questionSerialNo") questionSerialNo: RequestBody?,
+            @Part("deviceType") deviceType: RequestBody?,
+            @Part("browserInfo") browserInfo: RequestBody?,
+            @Part("appId") appId: RequestBody?,
+            @Part("lang") lang: RequestBody?,
+            @Part file: MultipartBody.Part?
+    ): CommonResponse
+
 //
 //    @FormUrlEncoded
 //    @POST("app_video_interview_invitation_delete_submit.asp")

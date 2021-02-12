@@ -16,6 +16,7 @@ import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.videoInterview.data.models.VideoManager
+import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import retrofit2.Call
 import retrofit2.Callback
@@ -405,6 +406,13 @@ class Constants {
             quesSerialNo = videoManager?.questionSerial
             duration = videoManager?.questionDuration
             file = videoManager?.file
+        }
+
+        fun createVideoResumeManagerDataForUpload(videoResumeManager: VideoResumeManager?) {
+            quesId = videoResumeManager?.questionId
+            duration = videoResumeManager?.questionDuration
+            quesSerialNo = videoResumeManager?.questionSerialNo
+            file = videoResumeManager?.file
         }
     }
 }

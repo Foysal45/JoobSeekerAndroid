@@ -1,6 +1,7 @@
 package com.bdjobs.app.videoResume.data.repository
 
 import android.app.Application
+import android.util.Log
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.videoResume.data.models.CommonResponse
@@ -10,6 +11,11 @@ import com.bdjobs.app.videoResume.data.models.VideoResumeStatistics
 import com.bdjobs.app.videoResume.data.remote.VideoResumeApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 class VideoResumeRepository(private val application: Application) {
 
@@ -55,6 +61,39 @@ class VideoResumeRepository(private val application: Application) {
                     appId = Constants.APP_ID,
                     lang = "EN",
                     statusVisibility = isVisible
+            )
+        }
+    }
+
+    suspend fun postVideoResumeToRemote(): CommonResponse {
+        val file: File? = Constants?.file?.absoluteFile
+        Log.d("salvin-resume", "$file")
+        val userId = session.userId?.toRequestBody()
+        val decodeId = session.decodId?.toRequestBody()
+        val questionId = Constants.quesId?.toRequestBody()
+        val questionSerialNo = Constants.quesSerialNo?.toRequestBody()
+        val questionDuration = Constants.duration?.toRequestBody()
+        val deviceType = "Android".toRequestBody()
+        val browserInfo = "".toRequestBody()
+        val appId = Constants.APP_ID.toRequestBody()
+        val lang = "EN".toRequestBody()
+
+
+        val requestFileBody = file?.asRequestBody("file/*".toMediaType())
+        val requestFile = MultipartBody.Part.createFormData("file", file!!.name, requestFileBody!!)
+
+        return withContext(Dispatchers.IO) {
+            VideoResumeApiService.create(application, 1).uploadVideo(
+                    userID = userId,
+                    decodeID = decodeId,
+                    duration = questionDuration,
+                    quesId = questionId,
+                    questionSerialNo = questionSerialNo,
+                    deviceType = deviceType,
+                    browserInfo = browserInfo,
+                    appId = appId,
+                    lang = lang,
+                    file = requestFile
             )
         }
     }
