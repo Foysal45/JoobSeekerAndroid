@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class VideoResumeQuestionsViewModel(
-        private val videoResumeRepository: VideoResumeRepository
+         val videoResumeRepository: VideoResumeRepository
 ) : ViewModel()  {
 
     private val _dataLoading = MutableLiveData<Boolean>()

@@ -35,7 +35,7 @@ class RecordVideoResumeFragment : Fragment() {
     lateinit var snackbar: Snackbar
     lateinit var videoFile: File
 
-    private val questionListViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
+    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
     private val recordVideoResumeViewModel: RecordVideoResumeViewModel by viewModels { ViewModelFactoryUtil.provideVideoResumeRecordVideoViewModelFactory(this) }
     lateinit var binding: FragmentRecordVideoResumeBinding
 
@@ -123,9 +123,9 @@ class RecordVideoResumeFragment : Fragment() {
 
 
     private fun initializeUI() {
-        recordVideoResumeViewModel.prepareData(questionListViewModel.videoResumeManagerData.value)
-        tv_question_heading?.text = "Question ${questionListViewModel.videoResumeManagerData.value?.questionSerialNo} of 5"
-        tv_time_value?.text = "${questionListViewModel.videoResumeManagerData.value?.questionDuration?.toFormattedSeconds()}"
+        recordVideoResumeViewModel.prepareData(videoResumeQuestionsViewModel.videoResumeManagerData.value)
+        tv_question_heading?.text = "Question ${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionSerialNo} of 5"
+        tv_time_value?.text = "${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionDuration?.toFormattedSeconds()}"
     }
 
     private fun initializeCamera() {

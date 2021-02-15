@@ -36,7 +36,7 @@ class RecordVideoFragment : Fragment() {
     lateinit var snackbar: Snackbar
     lateinit var videoFile: File
 
-    private val questionListViewModel: QuestionListViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
+    private val questionListViewModel: QuestionListViewModel by navGraphViewModels(R.id.questionListFragment)
     private val recordVideoViewModel: RecordVideoViewModel by viewModels { ViewModelFactoryUtil.provideVideoInterviewRecordVideoViewModelFactory(this) }
     lateinit var binding: FragmentRecordVideoBinding
 
