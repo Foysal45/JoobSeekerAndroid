@@ -29,6 +29,7 @@ import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
+import com.bdjobs.app.videoResume.ui.home.VideoResumeLandingFragmentDirections
 import com.fondesa.kpermissions.*
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.extension.send
@@ -390,6 +391,9 @@ class VideoResumeQuestionsFragment : Fragment() {
 //
 //                    questionListViewModel._videoManagerData.postValue(videoManager)
 //                    findNavController().navigate(QuestionListFragmentDirections.actionQuestionDetailsFragmentToRecordViedeoFragment())
+
+                    findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToRecordVideoResumeFragment())
+
 
                 }
                 result.allDenied() || result.anyDenied() -> {

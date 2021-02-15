@@ -15,8 +15,23 @@
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_question_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@{`Question ` + question.questionSerialNo + ` of 5`}"
+        tools:text="1 out of 5 "
+       />
 
     <TextView
         android:id="@+id/tv_question"
@@ -24,10 +39,11 @@
         android:layout_height="wrap_content"
         android:textColor="#9D0191"
         android:textSize="24sp"
+        android:textAlignment="center"
         android:text="@{question.questionText}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_question_heading"
         tools:text="Introduce yourself" />
 
     <com.google.android.material.button.MaterialButton
@@ -43,10 +59,10 @@
         android:paddingTop="12dp"
         android:paddingRight="10dp"
         android:paddingBottom="12dp"
-        android:text="Record Video"
+        android:text="@{question.buttonName}"
+        tools:text="Record Button"
         android:textAllCaps="false"
         android:textSize="16sp"
-        app:questionSubmitButtonVisibility='@{question.buttonStatus}'
         app:backgroundTint="#9D0191"
         app:cornerRadius="23dp"
         app:icon="@drawable/ic_arrow_video_interview_end"
@@ -64,25 +80,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@{`Time : ` + question.questionDuration}"
+        android:text="@{`Time : 00:` + question.questionDuration}"
+        tools:text="00:60"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.448"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_record" />
 
-    <TextView
-        android:id="@+id/textView64"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:fontFamily="@font/roboto_bold"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/tv_time"
-        app:layout_constraintTop_toTopOf="@id/tv_time"
-        tools:text="00:60" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

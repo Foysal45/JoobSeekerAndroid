@@ -57,8 +57,18 @@
     <fragment
         android:id="@+id/videoResumeQuestionsFragment"
         android:name="com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsFragment"
-        android:label="VideoResumeQuestionsFragment"
-        tools:layout="@layout/fragment_video_resume_questions"/>
+        android:label="Questions "
+        tools:layout="@layout/fragment_video_resume_questions">
+        <action
+            android:id="@+id/action_videoResumeQuestionsFragment_to_recordVideoResumeFragment"
+            app:destination="@id/recordVideoResumeFragment"
+            app:popUpTo="@id/video_resume_nav_graph"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
     <fragment
         android:id="@+id/recordVideoResumeFragment"
         android:name="com.bdjobs.app.videoResume.ui.record.RecordVideoResumeFragment"
