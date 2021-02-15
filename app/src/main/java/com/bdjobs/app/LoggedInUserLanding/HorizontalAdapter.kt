@@ -61,7 +61,7 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
 
                 "Manage\nResume"->{
                     //context.startActivity<EditResLandingActivity>()
-                    homeCommunicator.showManageResumePopup()
+                    homeCommunicator.goToResumeManager()
                 }
 
                 "ইনভাইট &\nআর্ন"->{

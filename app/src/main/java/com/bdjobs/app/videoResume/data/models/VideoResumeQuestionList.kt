@@ -40,6 +40,6 @@ data class VideoResumeQuestionList(
             @Json(name = "aID")
             var aID: String?,
             @Json(name = "totalView")
-            var totalView: String?,
+            var totalView: String?
     )
 }

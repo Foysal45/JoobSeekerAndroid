@@ -51,6 +51,7 @@ import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
+import com.bdjobs.app.videoResume.ResumeManagerActivity
 import com.bdjobs.app.videoResume.VideoResumeActivity
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
@@ -328,6 +329,10 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                 "from" to from,
                 "time" to time
         )
+    }
+
+    override fun goToResumeManager(){
+        startActivity<ResumeManagerActivity>()
     }
 
 
