@@ -35,8 +35,8 @@ class RecordVideoResumeFragment : Fragment() {
     lateinit var snackbar: Snackbar
     lateinit var videoFile: File
 
-    private val questionListViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.questionListFragment)
-    private val recordVideoViewModel: RecordVideoResumeViewModel by viewModels { ViewModelFactoryUtil.provideVideoResumeRecordVideoViewModelFactory(this) }
+    private val questionListViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
+    private val recordVideoResumeViewModel: RecordVideoResumeViewModel by viewModels { ViewModelFactoryUtil.provideVideoResumeRecordVideoViewModelFactory(this) }
     lateinit var binding: FragmentRecordVideoResumeBinding
 
 
@@ -44,7 +44,7 @@ class RecordVideoResumeFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = FragmentRecordVideoResumeBinding.inflate(inflater).apply {
-            viewModel = recordVideoViewModel
+            viewModel = recordVideoResumeViewModel
             lifecycleOwner = viewLifecycleOwner
         }
         return binding.root
@@ -61,7 +61,7 @@ class RecordVideoResumeFragment : Fragment() {
 
         initializeUI()
 
-        recordVideoViewModel.apply {
+        recordVideoResumeViewModel.apply {
             onVideoRecordingStartedEvent.observe(viewLifecycleOwner, EventObserver {
                 updateUI(it)
                 captureVideo()
@@ -117,13 +117,13 @@ class RecordVideoResumeFragment : Fragment() {
     private fun captureVideo() {
         val dir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_resume")
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
+        val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
         camera_view?.takeVideoSnapshot(newFile)
     }
 
 
     private fun initializeUI() {
-        recordVideoViewModel.prepareData(questionListViewModel.videoResumeManagerData.value)
+        recordVideoResumeViewModel.prepareData(questionListViewModel.videoResumeManagerData.value)
         tv_question_heading?.text = "Question ${questionListViewModel.videoResumeManagerData.value?.questionSerialNo} of 5"
         tv_time_value?.text = "${questionListViewModel.videoResumeManagerData.value?.questionDuration?.toFormattedSeconds()}"
     }
@@ -158,10 +158,10 @@ class RecordVideoResumeFragment : Fragment() {
 
             override fun onVideoTaken(result: VideoResult) {
                 super.onVideoTaken(result)
-                if (recordVideoViewModel.onVideoDoneEvent.value == true) {
+                if (recordVideoResumeViewModel.onVideoDoneEvent.value == true) {
                     videoFile = result.file
-                    recordVideoViewModel.videoResumeManagerData.value?.file = result.file
-                    recordVideoViewModel.uploadSingleVideoToServer(recordVideoViewModel.videoResumeManagerData.value)
+                    recordVideoResumeViewModel.videoResumeManagerData.value?.file = result.file
+                    recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
                     showSnackbar()
                 }
 
@@ -192,7 +192,7 @@ class RecordVideoResumeFragment : Fragment() {
                 }
             })
 
-            tool_bar?.title = "Recording Question ${recordVideoViewModel.videoResumeManagerData.value?.questionSerialNo}"
+            tool_bar?.title = "Recording Question ${recordVideoResumeViewModel.videoResumeManagerData.value?.questionSerialNo}"
 
         } else {
 
@@ -207,7 +207,7 @@ class RecordVideoResumeFragment : Fragment() {
             e.printStackTrace()
         }
         try {
-            findNavController().popBackStack(R.id.questionListFragment, false)
+            findNavController().popBackStack(R.id.videoResumeQuestionsFragment, false)
         } catch (e: Exception) {
             e.printStackTrace()
         }

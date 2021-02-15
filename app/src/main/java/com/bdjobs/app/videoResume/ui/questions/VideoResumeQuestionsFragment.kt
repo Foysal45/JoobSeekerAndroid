@@ -67,13 +67,13 @@ class VideoResumeQuestionsFragment : Fragment() {
 
         val adapter = VideoResumeQuestionsAdapter(requireContext(), ClickListener {
             val videoResumeManager = VideoResumeManager(
-                //    slNo = it.slNo,
+                    slNo = it.slNo,
                     questionSerialNo = it.questionSerialNo,
                     questionId = it.questionId,
                     questionText = it.questionText,
                     questionDuration = it.questionDuration,
-//                    aID = it.aID,
-//                    totalView = it.totalView
+                    aID = it.aID,
+                    totalView = it.totalView
                     )
 
             videoResumeQuestionsViewModel._videoResumeManagerData.postValue(videoResumeManager)
