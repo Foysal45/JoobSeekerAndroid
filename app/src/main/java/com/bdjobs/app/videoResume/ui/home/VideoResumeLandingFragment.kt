@@ -23,7 +23,9 @@ import com.bdjobs.app.databinding.FragmentVideoResumeLandingBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.google.android.material.button.MaterialButton
+import kotlinx.android.synthetic.main.fragment_video_interview_list.*
 import kotlinx.android.synthetic.main.fragment_video_resume_landing.*
+import kotlinx.android.synthetic.main.fragment_video_resume_landing.tool_bar
 import org.jetbrains.anko.startActivity
 
 class VideoResumeLandingFragment : Fragment() {
@@ -46,8 +48,7 @@ class VideoResumeLandingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-
+        val appBarConfiguration = AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
         btn_view_questions?.setOnClickListener {
@@ -102,5 +103,10 @@ class VideoResumeLandingFragment : Fragment() {
         }
         builder.show()
 
+    }
+
+    private fun onNavigateUp(): Boolean {
+        activity?.onBackPressed()
+        return true
     }
 }
