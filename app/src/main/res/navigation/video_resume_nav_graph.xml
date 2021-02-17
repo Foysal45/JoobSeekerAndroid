@@ -66,10 +66,43 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+        <action
+            android:id="@+id/action_videoResumeQuestionsFragment_to_viewVideoResumeFragment"
+            app:destination="@id/viewVideoResumeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
     </fragment>
     <fragment
         android:id="@+id/recordVideoResumeFragment"
         android:name="com.bdjobs.app.videoResume.ui.record.RecordVideoResumeFragment"
         android:label="RecordVideoResumeFragment"
         tools:layout="@layout/fragment_record_video_resume"/>
+    <fragment
+        android:id="@+id/viewVideoResumeFragment"
+        android:name="com.bdjobs.app.videoResume.ui.view.ViewVideoResumeFragment"
+        android:label="ViewVideoResumeFragment"
+        tools:layout="@layout/fragment_view_video_resume">
+        <action
+            android:id="@+id/action_viewVideoResumeFragment_to_recordVideoResumeFragment"
+            app:destination="@id/recordVideoResumeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_viewVideoResumeFragment_to_videoResumeQuestionsFragment"
+            app:destination="@id/videoResumeQuestionsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <argument
+            android:name="url"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>
