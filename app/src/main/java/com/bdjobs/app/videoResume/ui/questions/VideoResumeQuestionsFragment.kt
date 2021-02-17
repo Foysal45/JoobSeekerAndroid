@@ -14,9 +14,11 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,10 +40,14 @@ import kotlinx.android.synthetic.main.fragment_video_resume_questions.*
 import timber.log.Timber
 import java.io.File
 
+class VideoResumeViewModel {
+}
 
 class VideoResumeQuestionsFragment : Fragment() {
 
-    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by viewModels {
+    private val baseVideoResumeViewModel : VideoResumeViewModel by activityViewModels()
+
+    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment) {
         ViewModelFactoryUtil.provideVideoResumeQuestionsViewModelFactory(this)
     }
    lateinit var binding: FragmentVideoResumeQuestionsBinding
@@ -453,3 +459,5 @@ class VideoResumeQuestionsFragment : Fragment() {
     }
 
 }
+
+

@@ -19,6 +19,11 @@ class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) 
     }
     val onVideoRecordingStartedEvent: LiveData<Event<Boolean>> = _onVideoRecordingStartedEvent
 
+    private val _onVideoStarted = MutableLiveData<Boolean>().apply{
+        value = false
+    }
+    val onVideoStarted : LiveData<Boolean> = _onVideoStarted
+
     private val _progressPercentage = MutableLiveData<Double>()
     val progressPercentage: LiveData<Double> = _progressPercentage
 
@@ -56,6 +61,7 @@ class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) 
 
     fun onStartRecordingButtonClick() {
         _onVideoRecordingStartedEvent.value = Event(true)
+        _onVideoStarted.value = true
         startTimer()
     }
 

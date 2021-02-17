@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -27,7 +28,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <com.otaliastudios.cameraview.CameraView
-            android:visibility="invisible"
+            android:visibility="@{viewModel.onVideoStarted ? View.VISIBLE : View.INVISIBLE}"
             android:id="@+id/camera_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -40,7 +41,6 @@
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
             app:layout_constraintVertical_bias="0.0" />
 
-
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_question_heading"
             android:layout_width="wrap_content"
@@ -50,6 +50,7 @@
             android:layout_marginEnd="15dp"
             android:fontFamily="@font/roboto_bold"
             android:text="Question 1 of 5"
+            android:visibility="@{viewModel.onVideoStarted ? View.GONE : View.VISIBLE}"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,6 +68,7 @@
             android:layout_marginEnd="15dp"
             android:gravity="center"
             android:text="Why do you think this job is a good match for you?"
+            android:visibility="@{viewModel.onVideoStarted ? View.GONE : View.VISIBLE}"
             android:textColor="#9D0191"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -117,6 +119,7 @@
             android:id="@+id/img"
             android:layout_marginTop="23dp"
             app:layout_constraintTop_toBottomOf="@id/tv_question_title"
+            android:visibility="@{viewModel.onVideoStarted ? View.GONE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_record_video_avatar"
@@ -162,8 +165,8 @@
             android:paddingEnd="8dp"
             android:paddingBottom="5dp"
             android:text="REC"
+            android:visibility="@{viewModel.onVideoStarted ? View.GONE : View.VISIBLE}"
             android:textColor="@android:color/white"
-            android:visibility="visible"
             app:drawableStartCompat="@drawable/ic_rec"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar" />
