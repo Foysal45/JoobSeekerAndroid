@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/videoResumeQuestionsFragment"
         android:name="com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsFragment"
-        android:label="Questions"
+        android:label="Video Resume"
         tools:layout="@layout/fragment_video_resume_questions">
         <action
             android:id="@+id/action_videoResumeQuestionsFragment_to_recordVideoResumeFragment"
@@ -79,12 +79,12 @@
     <fragment
         android:id="@+id/recordVideoResumeFragment"
         android:name="com.bdjobs.app.videoResume.ui.record.RecordVideoResumeFragment"
-        android:label="RecordVideoResumeFragment"
+        android:label="Record Answer"
         tools:layout="@layout/fragment_record_video_resume"/>
     <fragment
         android:id="@+id/viewVideoResumeFragment"
         android:name="com.bdjobs.app.videoResume.ui.view.ViewVideoResumeFragment"
-        android:label="ViewVideoResumeFragment"
+        android:label="Video Resume"
         tools:layout="@layout/fragment_view_video_resume">
         <action
             android:id="@+id/action_viewVideoResumeFragment_to_recordVideoResumeFragment"

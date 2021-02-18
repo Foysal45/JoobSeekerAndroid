@@ -49,7 +49,6 @@
             android:layout_marginTop="50dp"
             android:layout_marginEnd="15dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="Question 1 of 5"
             android:visibility="@{viewModel.onVideoStarted ? View.GONE : View.VISIBLE}"
             android:textColor="@color/black"
             android:textSize="18sp"
@@ -67,7 +66,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="15dp"
             android:gravity="center"
-            android:text="Why do you think this job is a good match for you?"
             android:visibility="@{viewModel.onVideoStarted ? View.GONE : View.VISIBLE}"
             android:textColor="#9D0191"
             android:textSize="24sp"
@@ -165,7 +163,7 @@
             android:paddingEnd="8dp"
             android:paddingBottom="5dp"
             android:text="REC"
-            android:visibility="@{viewModel.onVideoStarted ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.onVideoStarted ? View.VISIBLE : View.GONE}"
             android:textColor="@android:color/white"
             app:drawableStartCompat="@drawable/ic_rec"
             app:layout_constraintStart_toStartOf="parent"
@@ -177,7 +175,7 @@
             android:layout_height="40dp"
             android:alpha=".4"
             android:background="@android:color/black"
-            android:visibility="visible"
+            android:visibility="@{viewModel.onVideoStarted ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -188,7 +186,7 @@
             android:layout_height="40dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:visibility="visible"
+            android:visibility="@{viewModel.onVideoStarted ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <com.google.android.material.textview.MaterialTextView

@@ -74,6 +74,22 @@
 
     <com.google.android.material.textview.MaterialTextView
         app:drawableTint="@color/black"
+        android:drawableStart="@drawable/ic_video_resume_viewed"
+        android:id="@+id/tv_resume_total_view"
+        android:drawablePadding="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@{`Total Viewed : ` + question.totalView}"
+        tools:text="Total Viewed : 100000000"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_record" />
+
+    <com.google.android.material.textview.MaterialTextView
+        app:drawableTint="@color/black"
         android:drawableStart="@drawable/ic_clock_red"
         android:id="@+id/tv_time"
         android:drawablePadding="3dp"
@@ -81,12 +97,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@{`Time : 00:` + question.questionDuration}"
-        tools:text="00:60"
+        tools:text="Time : 00:60"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.448"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_record" />
+        app:layout_constraintTop_toBottomOf="@id/tv_resume_total_view" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

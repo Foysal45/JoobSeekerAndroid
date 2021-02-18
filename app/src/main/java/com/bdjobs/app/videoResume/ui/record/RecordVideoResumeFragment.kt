@@ -126,6 +126,7 @@ class RecordVideoResumeFragment : Fragment() {
     private fun initializeUI() {
         recordVideoResumeViewModel.prepareData(videoResumeQuestionsViewModel.videoResumeManagerData.value)
         tv_question_heading?.text = "Question ${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionSerialNo} of 5"
+        tv_question_title?.text = videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionText
         tv_time_value?.text = "${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionDuration?.toFormattedSeconds()}"
     }
 
