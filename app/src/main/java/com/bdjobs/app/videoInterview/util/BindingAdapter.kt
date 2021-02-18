@@ -15,6 +15,8 @@ import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
+import com.bdjobs.app.videoResume.data.models.VideoResumeManager
+import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
 import com.google.android.material.button.MaterialButton
 
 @BindingAdapter("submitButtonStatus")
@@ -350,6 +352,17 @@ fun bindOneHourInfoVisibility(view: ConstraintLayout, remainingTime: String?, us
                     view.visibility = View.VISIBLE
                 }
             }
+        }
+    }
+}
+
+@BindingAdapter("videoResumeButtonStatus")
+fun bindVRButton(button: Button, videoResumeQuestionList: VideoResumeQuestionList.Data) {
+    videoResumeQuestionList?.let {
+        if (it.buttonStatus == "1") {
+            button.setBackgroundColor(Color.parseColor("#9D0191"))
+        } else {
+            button.setBackgroundColor(Color.parseColor("#000000"))
         }
     }
 }

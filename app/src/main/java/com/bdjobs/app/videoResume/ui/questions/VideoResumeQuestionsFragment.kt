@@ -2,6 +2,7 @@ package com.bdjobs.app.videoResume.ui.questions
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -37,6 +38,7 @@ import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.extension.send
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_video_resume_questions.*
+import kotlinx.android.synthetic.main.item_video_resume_question.*
 import timber.log.Timber
 import java.io.File
 
@@ -87,6 +89,7 @@ class VideoResumeQuestionsFragment : Fragment() {
             if (it.buttonStatus == "1") {
                 createDirectory()
                 askForPermission(it)
+
             } else {
                 findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToViewVideoResumeFragment(it.videoUrl))
             }
