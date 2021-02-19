@@ -60,6 +60,7 @@
             <TextView
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                visibility="GONE"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:fontFamily="@font/roboto_bold"
                 android:textSize="12sp"

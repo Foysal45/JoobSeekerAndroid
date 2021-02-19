@@ -32,8 +32,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="none"
+            android:visibility="@{viewModel.dataLoading ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar">
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -305,7 +307,6 @@
                     app:layout_constraintStart_toStartOf="@id/cl_banner"
                     app:layout_constraintTop_toBottomOf="@+id/cl_data" />
 
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_edit_video"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -382,6 +383,48 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/view_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.dataLoading ? View.VISIBLE : View.GONE}"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            tools:visibility="gone"
+            app:shimmer_auto_start="true"
+            app:layout_constraintTop_toBottomOf="@+id/tool_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shimmer_duration="1200">
+
+            <!-- Adding 7 rows of placeholders -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/view_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+
+                <include layout="@layout/list_shimmer_layout" />
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

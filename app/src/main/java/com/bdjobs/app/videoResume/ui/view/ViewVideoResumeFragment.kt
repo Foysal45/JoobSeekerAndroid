@@ -56,8 +56,6 @@ class ViewVideoResumeFragment : Fragment() {
 
         medialController = MediaController(requireContext())
 
-        viewVideoResumeViewModel.prepareData(videoResumeQuestionsViewModel.videoResumeManagerData.value)
-
 
         btn_record_again?.setOnClickListener {
             findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToRecordVideoResumeFragment())
@@ -68,8 +66,11 @@ class ViewVideoResumeFragment : Fragment() {
         }
 
         viewVideoResumeViewModel.apply {
+
+            prepareData(videoResumeQuestionsViewModel.videoResumeManagerData.value)
+
             onDeleteDoneEvent.observe(viewLifecycleOwner, EventObserver {
-                findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToVideoResumeQuestionsFragment())
+                findNavController().popBackStack()
             })
         }
     }
