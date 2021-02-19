@@ -20,6 +20,7 @@ import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
 import com.bdjobs.app.videoResume.ui.home.VideoResumeLandingViewModelFactory
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModelFactory
 import com.bdjobs.app.videoResume.ui.record.VideoResumeRecordVideoViewModelFactory
+import com.bdjobs.app.videoResume.ui.view.VideoResumeViewVideoViewModelFactory
 
 object ViewModelFactoryUtil {
 
@@ -103,6 +104,11 @@ object ViewModelFactoryUtil {
     fun provideVideoResumeRecordVideoViewModelFactory(fragment: Fragment) : VideoResumeRecordVideoViewModelFactory {
         val repository = VideoResumeRepository(fragment.requireContext().applicationContext as Application)
         return VideoResumeRecordVideoViewModelFactory(repository)
+    }
+
+    fun provideVideoResumeViewVideoViewModelFactory(fragment: Fragment) : VideoResumeViewVideoViewModelFactory {
+        val repository = VideoResumeRepository(fragment.requireContext().applicationContext as Application)
+        return VideoResumeViewVideoViewModelFactory(repository)
     }
 
     //-------Video Resume-------//

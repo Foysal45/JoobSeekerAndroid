@@ -69,17 +69,18 @@ interface VideoResumeApiService {
             @Part file: MultipartBody.Part?
     ): CommonResponse
 
-//
-//    @FormUrlEncoded
-//    @POST("app_video_interview_invitation_delete_submit.asp")
-//    suspend fun submitAnswer(
-//            @Field("userId") userID: String?,
-//            @Field("decodeId") decodeID: String?,
-//            @Field("jobId") jobId: String?,
-//            @Field("applyId") applyId: String?,
-//            @Field("type") type: String?,
-//            @Field("totalAnsCount") totalAnswerCount: String?
-//    ): CommonResponse
+
+    @FormUrlEncoded
+    @POST("https://vdo.bdjobs.com/apps/mybdjobs/app_video_resume_delete_answer.asp")
+    suspend fun deleteSingleVideoOfResume(
+            @Field("userId") userID: String?,
+            @Field("decodeId") decodeID: String?,
+            @Field("appId") appId: String?,
+            @Field("lang") lang: String?,
+            @Field("aID") aID: String?,
+            @Field("questionId") questionId: String?,
+            ): CommonResponse
+
 
 
     companion object Factory {

@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
-import androidx.core.text.HtmlCompat
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
@@ -17,6 +17,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.databinding.FragmentViewVideoResumeBinding
+import com.bdjobs.app.videoInterview.util.EventObserver
+import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModel
 import kotlinx.android.synthetic.main.fragment_view_video.*
 import kotlinx.android.synthetic.main.fragment_view_video_resume.*
@@ -28,8 +31,13 @@ import kotlinx.android.synthetic.main.fragment_view_video_resume.video_view
 
 
 class ViewVideoResumeFragment : Fragment() {
+
+
     val args: ViewVideoResumeFragmentArgs by navArgs()
     private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
+    private val viewVideoResumeViewModel: ViewVideoResumeViewModel by viewModels { ViewModelFactoryUtil.provideVideoResumeViewVideoViewModelFactory(this) }
+
+    lateinit var binding: FragmentViewVideoResumeBinding
 
     lateinit var medialController : MediaController
 
@@ -48,8 +56,21 @@ class ViewVideoResumeFragment : Fragment() {
 
         medialController = MediaController(requireContext())
 
+        viewVideoResumeViewModel.prepareData(videoResumeQuestionsViewModel.videoResumeManagerData.value)
+
+
         btn_record_again?.setOnClickListener {
             findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToRecordVideoResumeFragment())
+        }
+
+        btn_delete_video?.setOnClickListener {
+            viewVideoResumeViewModel.onDeleteResumeButtonClick()
+        }
+
+        viewVideoResumeViewModel.apply {
+            onDeleteDoneEvent.observe(viewLifecycleOwner, EventObserver {
+                findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToVideoResumeQuestionsFragment())
+            })
         }
     }
 

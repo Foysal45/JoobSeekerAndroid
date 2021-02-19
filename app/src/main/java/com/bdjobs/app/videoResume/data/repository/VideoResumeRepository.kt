@@ -4,10 +4,7 @@ import android.app.Application
 import android.util.Log
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.videoResume.data.models.CommonResponse
-import com.bdjobs.app.videoResume.data.models.Question
-import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
-import com.bdjobs.app.videoResume.data.models.VideoResumeStatistics
+import com.bdjobs.app.videoResume.data.models.*
 import com.bdjobs.app.videoResume.data.remote.VideoResumeApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -61,6 +58,19 @@ class VideoResumeRepository(private val application: Application) {
                     appId = Constants.APP_ID,
                     lang = "EN",
                     statusVisibility = isVisible
+            )
+        }
+    }
+
+    suspend fun deleteSingleVideoOfResume(videoResumeManager: VideoResumeManager): CommonResponse {
+        return withContext(Dispatchers.IO) {
+            VideoResumeApiService.create(application,1).deleteSingleVideoOfResume(
+                    userID = session.userId,
+                    decodeID = session.decodId,
+                    appId = Constants.APP_ID,
+                    lang = "EN",
+                    aID = videoResumeManager.aID,
+                    questionId = videoResumeManager.questionId
             )
         }
     }
