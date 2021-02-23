@@ -34,11 +34,19 @@ class GuidelineFragment : Fragment() {
     var benefitsRotationAngle = 0
 
     private val stepsInEnglish = listOf<String>(
-            "Prepare & Setup Recording Place",
-            "Prepare Answers",
-            "Record & submit answers for video resume",
-            "Add to Resume Profile"
+            "Prepare & Setup Recording environment",
+            "View questions & Prepare answers",
+            "Record & submit answers",
+            "Add Video Resume to Profile"
     )
+
+    private val stepsInBangla = listOf<String>(
+            "রেকর্ডিং এর পরিবেশ ঠিক করে প্রস্তুতি নিন",
+            "প্রশ্ন দেখুন এবং উত্তর প্রস্তুত করুন",
+            "রেকর্ড করুন এবং উত্তর জমা দিন",
+            "প্র্রোফাইলে ভিডিও রিজ্যুমে যুক্ত করুন"
+    )
+
 
     private val tipsInEnglish = listOf<String>(
             "Prepare your device (charge , audio/ video)",
@@ -174,7 +182,7 @@ class GuidelineFragment : Fragment() {
         when (defaultLanguage) {
             Language.BN -> {
                 tv_step?.text = "ভিডিও রিজ্যুমে রেকর্ড করার ধাপসমূহ"
-                rv_step?.adapter = GuidelineAdapter(stepsInEnglish)
+                rv_step?.adapter = GuidelineAdapter(stepsInBangla)
 
                 tv_tips.text = "টিপস"
                 rv_tips.adapter = GuidelineAdapter(tipsInBangla)
