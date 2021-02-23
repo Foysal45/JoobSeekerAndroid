@@ -140,10 +140,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Go To Video Resume"
+                android:text="Go To Video Manager"
                 android:textSize="14sp"
                 android:visibility="visible"
-                app:icon="@drawable/ic_create_video" />
+                app:icon="@drawable/ic_video_manager" />
 
             <com.google.android.ads.nativetemplates.TemplateView
                 android:id="@+id/ad_small_template"

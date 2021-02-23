@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/dialog_background">
+
+
+    <ImageView
+        android:id="@+id/deleteIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#000000"
+        android:layout_marginTop="30dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_white_delete_red_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/deleteTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Are you sure you want to delete the video?"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="#212121"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/deleteIV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_delete_video_yes"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:includeFontPadding="false"
+        android:layout_marginTop="32dp"
+        android:text="YES"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:textColor="#757575"
+        app:backgroundTint="#FFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteTV"
+     />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_delete_video_no"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:includeFontPadding="false"
+        android:layout_marginTop="32dp"
+        android:text="NO"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:textColor="#1565C0"
+        app:backgroundTint="#FFF"
+        app:layout_constraintEnd_toStartOf="@+id/btn_delete_video_yes"
+        app:layout_constraintTop_toBottomOf="@+id/deleteTV"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

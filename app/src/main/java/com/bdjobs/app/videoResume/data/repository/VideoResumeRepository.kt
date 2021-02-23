@@ -24,7 +24,7 @@ class VideoResumeRepository(private val application: Application) {
                 Question(2,"Lorem ipsum dolor sit amet, consectetur elit. Maecenas venenatis euismod ante. non egestas. Nulla ornare rhoncus felis vitae dictum. Curabitur in euismod ligula.","00:50", isNew = false, isSubmitted = false),
                 Question(3,"Lorem ipsum dolor sit amet, consectetur elit. Maecenas venenatis euismod ante. non egestas. Nulla ornare rhoncus felis vitae dictum. Curabitur in euismod ligula.","00:40", isNew = false, isSubmitted = false),
                 Question(4,"Lorem ipsum dolor sit amet, consectetur elit. Maecenas venenatis euismod ante. non egestas. Nulla ornare rhoncus felis vitae dictum. Curabitur in euismod ligula.","00:30", isNew = false, isSubmitted = false),
-                Question(5,"Lorem ipsum dolor sit amet, consectetur elit. Maecenas venenatis euismod ante. non egestas. Nulla ornare rhoncus felis vitae dictum. Curabitur in euismod ligula.","00:20", isNew = true, isSubmitted = false),
+                Question(5,"Lorem ipsum dolor sit amet, consectetur elit. Maecenas venenatis euismod ante. non egestas. Nulla ornare rhoncus felis vitae dictum. Curabitur in euismod ligula.","00:20", isNew = false, isSubmitted = false),
         )
     }
 

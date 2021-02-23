@@ -1,5 +1,8 @@
 package com.bdjobs.app.videoResume.ui.view
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +10,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
 import android.widget.MediaController
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,8 +21,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.databinding.FragmentViewVideoResumeBinding
+import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModel
@@ -28,6 +35,8 @@ import kotlinx.android.synthetic.main.fragment_view_video_resume.img_play
 import kotlinx.android.synthetic.main.fragment_view_video_resume.progress_bar
 import kotlinx.android.synthetic.main.fragment_view_video_resume.tool_bar
 import kotlinx.android.synthetic.main.fragment_view_video_resume.video_view
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.alert
 
 
 class ViewVideoResumeFragment : Fragment() {
@@ -43,7 +52,6 @@ class ViewVideoResumeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_view_video_resume, container, false)
     }
 
@@ -62,7 +70,33 @@ class ViewVideoResumeFragment : Fragment() {
         }
 
         btn_delete_video?.setOnClickListener {
-            viewVideoResumeViewModel.onDeleteResumeButtonClick()
+
+            try {
+
+                val dialog = Dialog(this.requireContext())
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                dialog.setCancelable(true)
+                dialog.setContentView(R.layout.layout_video_resume_delete_popup)
+                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                val noBTN = dialog.findViewById<Button>(R.id.btn_delete_video_no)
+                val yesBTN = dialog.findViewById<Button>(R.id.btn_delete_video_yes)
+
+                yesBTN?.setOnClickListener {
+                    viewVideoResumeViewModel.onDeleteResumeButtonClick()
+                    dialog.dismiss()
+                }
+
+                noBTN?.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialog.show()
+            } catch (e: Exception) {
+                logException(e)
+            }
+
+
         }
 
         viewVideoResumeViewModel.apply {

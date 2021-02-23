@@ -57,18 +57,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                visibility="GONE"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:fontFamily="@font/roboto_bold"
-                android:textSize="12sp"
-                android:text="02:40"
-                android:layout_marginBottom="15dp"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
 
             <ProgressBar
                 android:id="@+id/progress_bar"
