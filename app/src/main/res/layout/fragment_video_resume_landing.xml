@@ -199,7 +199,7 @@
                         android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:layout_marginTop="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="Make visible to Employer"
+                        android:text="Your video CV is visible to all"
                         android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

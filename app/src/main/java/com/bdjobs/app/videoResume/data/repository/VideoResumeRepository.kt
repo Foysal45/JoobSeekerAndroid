@@ -20,11 +20,11 @@ class VideoResumeRepository(private val application: Application) {
 
     fun getAllQuestionsFromDB() : List<Question> {
         return listOf(
-                Question(1,"Lorem ipsum dolor sit amet, consectetur elit. Maecenas venenatis euismod ante. non egestas. Nulla ornare rhoncus felis vitae dictum. Curabitur in euismod ligula.","00:60", isNew = false, isSubmitted = false),
-                Question(2,"Lorem ipsum dolor sit amet, consectetur elit. Maecenas venenatis euismod ante. non egestas. Nulla ornare rhoncus felis vitae dictum. Curabitur in euismod ligula.","00:50", isNew = false, isSubmitted = false),
-                Question(3,"Lorem ipsum dolor sit amet, consectetur elit. Maecenas venenatis euismod ante. non egestas. Nulla ornare rhoncus felis vitae dictum. Curabitur in euismod ligula.","00:40", isNew = false, isSubmitted = false),
-                Question(4,"Lorem ipsum dolor sit amet, consectetur elit. Maecenas venenatis euismod ante. non egestas. Nulla ornare rhoncus felis vitae dictum. Curabitur in euismod ligula.","00:30", isNew = false, isSubmitted = false),
-                Question(5,"Lorem ipsum dolor sit amet, consectetur elit. Maecenas venenatis euismod ante. non egestas. Nulla ornare rhoncus felis vitae dictum. Curabitur in euismod ligula.","00:20", isNew = false, isSubmitted = false),
+                Question(1,"Introduce Yourself.","00:30", isNew = false, isSubmitted = false),
+                Question(2,"Tell us about your academic qualification and trainings (if any).","00:30", isNew = false, isSubmitted = false),
+                Question(3,"Discuss about your skills (educational/job).","00:60", isNew = false, isSubmitted = false),
+                Question(4,"What are your strengths and  weaknesses ?","00:30", isNew = false, isSubmitted = false),
+                Question(5,"Describe about your career goals ?","00:30", isNew = false, isSubmitted = false),
         )
     }
 
