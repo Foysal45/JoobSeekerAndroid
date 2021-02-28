@@ -63,6 +63,7 @@ class VideoResumeLandingFragment : Fragment() {
             openPublicWarningDialog()
         }
 
+
         videoResumeLandingViewModel.apply {
             Log.d("Salvin", "Loaded")
             getStatistics()

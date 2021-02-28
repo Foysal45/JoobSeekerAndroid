@@ -199,8 +199,9 @@
                         android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:layout_marginTop="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="Your video CV is visible to all"
+                        android:text='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? "Your video cv is visible to all" : "Your video cv is hidden"}'
                         android:textColor="@color/black"
+                        tools:text="Your video cv is hidden"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_overall_rating"

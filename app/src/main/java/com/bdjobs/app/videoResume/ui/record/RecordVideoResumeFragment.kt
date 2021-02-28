@@ -105,7 +105,7 @@ class RecordVideoResumeFragment : Fragment() {
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-                    Toast.makeText(context, "Your video has been uploaded uploaded successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Your video has been uploaded successfully.", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
                 } else {
                     Toast.makeText(context, "There was an error", Toast.LENGTH_SHORT).show()
