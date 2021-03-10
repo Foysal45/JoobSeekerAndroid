@@ -261,6 +261,9 @@ class Constants {
         const val VIDEO_INTERVIEW_COUNT = "video_interview_count"
         const val LIVE_INTERVIEW_COUNT = "live_interview_count"
 
+        const val VIDEO_RESUME_THRESHOLD = "video_resume_threshold"
+
+
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)
 

@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.MediaController
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,6 +21,7 @@ import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
@@ -47,6 +49,7 @@ class ViewVideoResumeFragment : Fragment() {
     private val viewVideoResumeViewModel: ViewVideoResumeViewModel by viewModels { ViewModelFactoryUtil.provideVideoResumeViewVideoViewModelFactory(this) }
 
     lateinit var binding: FragmentViewVideoResumeBinding
+    private lateinit var session: BdjobsUserSession
 
     lateinit var medialController : MediaController
 
@@ -57,6 +60,7 @@ class ViewVideoResumeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        session = BdjobsUserSession(requireContext())
 
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -79,9 +83,16 @@ class ViewVideoResumeFragment : Fragment() {
                 dialog.setContentView(R.layout.layout_video_resume_delete_popup)
                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
+                val deleteTV = dialog.findViewById<TextView>(R.id.deleteTV)
                 val noBTN = dialog.findViewById<Button>(R.id.btn_delete_video_no)
                 val yesBTN = dialog.findViewById<Button>(R.id.btn_delete_video_yes)
 
+                if(session.videoResumeThreshold!!.toInt() <= 3){
+                    deleteTV.text = "If you delete it, employers won't be able to view your video. Do you want to delete this video?"
+                }else {
+                    deleteTV.text = "Are you sure you want to delete the video?"
+
+                }
                 yesBTN?.setOnClickListener {
                     viewVideoResumeViewModel.onDeleteResumeButtonClick()
                     dialog.dismiss()

@@ -60,6 +60,11 @@ class VideoResumeLandingViewModel(
     }
     val totalAnswered: LiveData<String?> = _totalAnswered
 
+    private val _threshold = MutableLiveData<String?>().apply {
+        value = "0"
+    }
+    val threshold: LiveData<String?> = _threshold
+
     private val _showStat = MutableLiveData<Boolean>()
     val showStat: LiveData<Boolean> = _showStat
 
@@ -71,17 +76,23 @@ class VideoResumeLandingViewModel(
     }
     val openTurnOffVisibilityDialogEvent: LiveData<Event<Boolean>> = _openTurnOffVisibilityDialogEvent
 
+    private val _openMessageDialogEvent = MutableLiveData<Event<Boolean>>().apply {
+        value = Event(false)
+    }
+    val openMessageDialogEvent: LiveData<Event<Boolean>> = _openMessageDialogEvent
 
     private val _statusCode = MutableLiveData<String>()
     val statusCode : LiveData<String> = _statusCode
 
     fun onCheckedChanged(checked: Boolean) {
-
         try {
-            if (!checked) {
+            if(totalAnswered.value!!.toInt() < threshold.value!!.toInt()){
+                _isAlertOn.value = "0"
+                _openMessageDialogEvent.value = Event(true)
+            }else if (!checked) {
                 _isAlertOn.value = "0"
                 _openTurnOffVisibilityDialogEvent.value = Event(true)
-            } else {
+            } else{
                 _isAlertOn.value = "1"
                 updateResumeVisibility()
             }
@@ -119,9 +130,9 @@ class VideoResumeLandingViewModel(
                 _isAlertOn.value = data?.resumeVisibility
                 _totalAnswered.value = data?.totalAnswered
                 _totalProgress.value = statusPercentage.value?.toInt()
+                _threshold.value = data?.threshold
                 _maxProgress.value = 100
                 _statusCode.value = response.statuscode
-
                 _showStat.value = !totalAnswered.value!!.equals("0")
 
             } catch (e: Exception) {

@@ -19,6 +19,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.databinding.FragmentVideoResumeLandingBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
@@ -34,6 +35,7 @@ class VideoResumeLandingFragment : Fragment() {
         ViewModelFactoryUtil.provideVideoResumeLandingViewModelFactory(this)
     }
     lateinit var binding: FragmentVideoResumeLandingBinding
+    private lateinit var session: BdjobsUserSession
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -46,6 +48,7 @@ class VideoResumeLandingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        session = BdjobsUserSession(requireContext())
 
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
@@ -74,6 +77,14 @@ class VideoResumeLandingFragment : Fragment() {
                 }
             })
 
+            openMessageDialogEvent.observe(viewLifecycleOwner, EventObserver {
+                if (it) {
+                    openMessageDialog()
+                }
+            })
+
+            threshold.value?.let { session.insertVideoResumeThresholdValue(it) }
+
             btn_create_video?.setOnClickListener {
                 findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToVideoResumeQuestionsFragment())
             }
@@ -93,7 +104,7 @@ class VideoResumeLandingFragment : Fragment() {
 
 
         builder.setTitle("Confirmation")
-        builder.setMessage("If you show to employers, they will be able to view your Video Resume. If you don't show to employers then they can no longer view your Video Resume.")
+        builder.setMessage("If you want to show Video Resume to employers, they can view your video. Do you want to show Video Resume?")
         builder.setPositiveButton("YES, CONTINUE") { dialog, which ->
             Log.d("Salvin", "yes please hide")
             this.videoResumeLandingViewModel.onHideResumeVisibility()
@@ -105,6 +116,18 @@ class VideoResumeLandingFragment : Fragment() {
         builder.show()
 
     }
+
+    private fun openMessageDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Message")
+        builder.setMessage("Please record atleast ${videoResumeLandingViewModel.threshold.value} answers for showing video resume to employers.")
+        builder.setPositiveButton("OK") { dialog, which ->
+            Log.d("Salvin", "yes")
+        }
+        builder.show()
+
+    }
+
 
     private fun onNavigateUp(): Boolean {
         activity?.onBackPressed()

@@ -31,7 +31,7 @@
         android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="If you enable the visibility of your recorded Video Resume from your Mybdjobs profile, employers will be able to view your Video Resume. If you hide then employers can no longer view your video resume. " />
+        android:text="If you want not to show Video Resume, employers won't be able to view video. Make your Video Resume visible to employers." />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_ok"
