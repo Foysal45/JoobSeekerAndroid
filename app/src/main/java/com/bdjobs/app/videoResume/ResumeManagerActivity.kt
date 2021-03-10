@@ -72,7 +72,23 @@ class ResumeManagerActivity : AppCompatActivity() {
         }
 
         videoResume?.setOnClickListener {
-            startActivity<VideoResumeActivity>()
+            if (!session.isCvPosted?.equalIgnoreCase("true")!!) {
+                try {
+                    val alertd = alert("To Access this feature please post your resume") {
+                        title = "Your resume is not posted!"
+                        positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
+                        negativeButton("Cancel") { dd ->
+                            dd.dismiss()
+                        }
+                    }
+                    alertd.isCancelable = false
+                    alertd.show()
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            } else {
+                startActivity<VideoResumeActivity>()
+            }
         }
 
         backIMV?.setOnClickListener {

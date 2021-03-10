@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="Edit Now"
+                android:text="Edit Bdjobs Resume"
                 android:textAllCaps="false"
                 android:textColor="#212121"
                 android:textSize="14sp"
@@ -103,7 +103,7 @@
                 android:textSize="14sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="View Now"
+                android:text="View Bdjobs Resume"
                 app:icon="@drawable/ic_view_resume_1" />
 
 
@@ -112,7 +112,7 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Upload Now"
+                android:text="Personalized Resume"
                 android:textSize="14sp"
                 app:icon="@drawable/ic_cloud_upload_black_24dp" />
 
