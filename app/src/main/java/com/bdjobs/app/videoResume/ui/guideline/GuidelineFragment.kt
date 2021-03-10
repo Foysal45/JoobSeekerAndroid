@@ -44,7 +44,7 @@ class GuidelineFragment : Fragment() {
             "রেকর্ডিং এর পরিবেশ ঠিক করে প্রস্তুতি নিন",
             "প্রশ্ন দেখুন এবং উত্তর প্রস্তুত করুন",
             "রেকর্ড করুন এবং উত্তর জমা দিন",
-            "প্র্রোফাইলে ভিডিও রিজ্যুমে যুক্ত করুন"
+            "প্র্রোফাইলে ভিডিও রিজিউমি যুক্ত করুন"
     )
 
 
@@ -181,7 +181,7 @@ class GuidelineFragment : Fragment() {
     private fun changeLanguage() {
         when (defaultLanguage) {
             Language.BN -> {
-                tv_step?.text = "ভিডিও রিজ্যুমে রেকর্ড করার ধাপসমূহ"
+                tv_step?.text = "ভিডিও রিজিউমি রেকর্ড করার ধাপসমূহ"
                 rv_step?.adapter = GuidelineAdapter(stepsInBangla)
 
                 tv_tips.text = "টিপস"

@@ -93,7 +93,7 @@ class VideoResumeLandingFragment : Fragment() {
 
 
         builder.setTitle("Confirmation")
-        builder.setMessage("If you hide, employers can no longer view your video resume. Do you really want to hide resume from profile?")
+        builder.setMessage("If you show to employers, they will be able to view your Video Resume. If you don't show to employers then they can no longer view your Video Resume.")
         builder.setPositiveButton("YES, CONTINUE") { dialog, which ->
             Log.d("Salvin", "yes please hide")
             this.videoResumeLandingViewModel.onHideResumeVisibility()
