@@ -162,7 +162,7 @@ class  MyBdjobsFragment : Fragment() {
         }
 
         nextButtonFAB?.setOnClickListener {
-            communicator.showManageResumePopup()
+            communicator.goToResumeManager()
         }
 
         //Log.d("sagor", "sagor= " + Constants.myBdjobsStatsLastMonth)
