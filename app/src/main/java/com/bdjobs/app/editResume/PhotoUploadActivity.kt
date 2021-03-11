@@ -96,10 +96,11 @@ class PhotoUploadActivity : Activity() {
         bdjobsUserSession = BdjobsUserSession(this@PhotoUploadActivity)
         progressDialog = ProgressDialog(this@PhotoUploadActivity)
         if (!bdjobsUserSession.userPicUrl.isNullOrEmpty()) {
-            editResPhotoUploadImageView.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
-            //Log.d("dgdsgdghjOnRes", "Session url ${bdjobsUserSession.userPicUrl}")
+            Log.d("Salvin", "Session url ${bdjobsUserSession.userPicUrl}")
+
+            editResPhotoUploadImageView.loadCircularImageFromUrlWithoutCach(bdjobsUserSession.userPicUrl)
             noPhotoTV?.text = "You can change or delete your photo"
-            photoInfoTV?.hide()
+            photoInfoTV?.hide()         
             editResPhotoUploadButton?.hide()
             editResChangePhotoButton?.show()
             ic_edit_photo?.show()

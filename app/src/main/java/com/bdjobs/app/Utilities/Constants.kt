@@ -16,6 +16,7 @@ import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.videoInterview.data.models.VideoManager
+import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import retrofit2.Call
 import retrofit2.Callback
@@ -260,6 +261,10 @@ class Constants {
         const val VIDEO_INTERVIEW_COUNT = "video_interview_count"
         const val LIVE_INTERVIEW_COUNT = "live_interview_count"
 
+        const val VIDEO_RESUME_THRESHOLD = "video_resume_threshold"
+        const val VIDEO_RESUME_TOTAL_ANSWERED = "video_resume_total_answered"
+
+
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)
 
@@ -405,6 +410,13 @@ class Constants {
             quesSerialNo = videoManager?.questionSerial
             duration = videoManager?.questionDuration
             file = videoManager?.file
+        }
+
+        fun createVideoResumeManagerDataForUpload(videoResumeManager: VideoResumeManager?) {
+            quesId = videoResumeManager?.questionId
+            duration = videoResumeManager?.questionDuration
+            quesSerialNo = videoResumeManager?.questionSerialNo
+            file = videoResumeManager?.file
         }
     }
 }

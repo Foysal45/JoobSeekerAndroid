@@ -16,6 +16,11 @@ import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsV
 import com.bdjobs.app.videoInterview.ui.question_list.QuestionListViewModelFactory
 import com.bdjobs.app.videoInterview.ui.interview_list.VideoInterviewListModelFactory
 import com.bdjobs.app.videoInterview.ui.record_video.RecordVideoViewModelFactory
+import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
+import com.bdjobs.app.videoResume.ui.home.VideoResumeLandingViewModelFactory
+import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModelFactory
+import com.bdjobs.app.videoResume.ui.record.VideoResumeRecordVideoViewModelFactory
+import com.bdjobs.app.videoResume.ui.view.VideoResumeViewVideoViewModelFactory
 
 object ViewModelFactoryUtil {
 
@@ -83,5 +88,30 @@ object ViewModelFactoryUtil {
         var application = fragment.requireContext().applicationContext as Application
         return TransactionFilterModelFactory(application)
     }
+
+    //-------Video Resume-------//
+
+    fun provideVideoResumeLandingViewModelFactory(fragment: Fragment) : VideoResumeLandingViewModelFactory {
+        val repository = VideoResumeRepository(fragment.requireContext().applicationContext as Application)
+        return VideoResumeLandingViewModelFactory(repository)
+    }
+
+    fun provideVideoResumeQuestionsViewModelFactory(fragment: Fragment) : VideoResumeQuestionsViewModelFactory {
+        val repository = VideoResumeRepository(fragment.requireContext().applicationContext as Application)
+        return VideoResumeQuestionsViewModelFactory(repository)
+    }
+
+    fun provideVideoResumeRecordVideoViewModelFactory(fragment: Fragment) : VideoResumeRecordVideoViewModelFactory {
+        val repository = VideoResumeRepository(fragment.requireContext().applicationContext as Application)
+        return VideoResumeRecordVideoViewModelFactory(repository)
+    }
+
+    fun provideVideoResumeViewVideoViewModelFactory(fragment: Fragment) : VideoResumeViewVideoViewModelFactory {
+        val repository = VideoResumeRepository(fragment.requireContext().applicationContext as Application)
+        return VideoResumeViewVideoViewModelFactory(repository)
+    }
+
+    //-------Video Resume-------//
+
 
 }

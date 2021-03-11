@@ -93,6 +93,10 @@ class WebActivity : Activity() {
                 suggestiveSearchET.text = "Video Interview"
                 loadUrlWithCookie(url)
             }
+            "videoResume"->{
+                suggestiveSearchET.text = "Video Resume"
+                loadUrlWithCookie(url)
+            }
             "hotjobs" -> {
                 suggestiveSearchET.text = "Hot Jobs"
                 try {

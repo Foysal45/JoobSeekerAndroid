@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationManagerCompat
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -101,6 +102,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
+        showGeneralPopUp()
         //showAd()
     }
 
@@ -247,9 +249,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 tv_video_interview_count.text = bdjobsUserSession.videoInterviewCount.toString()
                 tv_general_interview_count.text = bdjobsUserSession.generalInterviewCount.toString()
             }
-
-
-
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -681,6 +680,38 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         interviewInvitationDialog?.show()
 
     }
+
+    private fun showGeneralPopUp() {
+        val generalDialog = Dialog(activity)
+
+        generalDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        generalDialog?.setCancelable(true)
+
+        generalDialog?.setContentView(R.layout.home_general_popup)
+        val mainCL = generalDialog?.findViewById<ConstraintLayout>(R.id.main_cl)
+        val cardview = generalDialog?.findViewById<CardView>(R.id.cv_video_resume)
+
+        val cancelBTN = generalDialog?.findViewById(R.id.cancel) as ImageView
+
+
+        cancelBTN?.setOnClickListener {
+            generalDialog?.dismiss()
+        }
+
+        cardview?.setOnClickListener {
+            generalDialog?.dismiss()
+            homeCommunicator.goToResumeManager()
+        }
+
+        mainCL?.setOnClickListener {
+            generalDialog?.dismiss()
+            homeCommunicator.goToResumeManager()
+
+        }
+        generalDialog?.show()
+
+    }
+
 
     private fun showVideoInterviewSlider() {
 

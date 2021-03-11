@@ -13,10 +13,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<!--    <uses-permission android:name="android.permission.READ_CALENDAR"/>-->
-<!--    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>-->
-<!--    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>-->
-
 
     <application
         android:name=".application.App"
@@ -29,20 +25,25 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
-        <activity android:name=".liveInterview.LiveInterviewActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
+        <activity android:name="com.bdjobs.app.videoResume.VideoResumeActivity"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".transaction.TransactionBaseActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".sms.BaseActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".liveInterview.LiveInterviewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".transaction.TransactionBaseActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".sms.BaseActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".videoInterview.VideoInterviewActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".assessment.AssesmentBaseActivity"
             android:label="@string/title_activity_assesment_base"
@@ -231,6 +232,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
 
+        <activity
+            android:name="com.bdjobs.app.videoResume.ResumeManagerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
             android:value="true" />
@@ -265,20 +272,18 @@
                 <action android:name="com.bdjobs.dataBaseUpdateJob.jobComplete" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".BroadCastReceivers.RestartBroadcastReceiver"
+            android:directBootAware="true"
             android:enabled="true"
-            android:exported="true"
-            android:directBootAware="true">
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".BroadCastReceivers.MorningNotificationReceiver"/>
-        <receiver android:name=".BroadCastReceivers.NightNotificationReceiver"/>
+        <receiver android:name=".BroadCastReceivers.MorningNotificationReceiver" />
+        <receiver android:name=".BroadCastReceivers.NightNotificationReceiver" />
 
         <service
             android:name=".Notification.BdjobsFirebaseMessagingService"

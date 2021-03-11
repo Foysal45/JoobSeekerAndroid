@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="question"
+            type="com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList.Data" />
+
+        <variable
+            name="clickListener"
+            type="com.bdjobs.app.videoResume.ui.questions.ClickListener" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_question_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@{`Question ` + question.questionSerialNo + ` of 5`}"
+        tools:text="1 out of 5 "
+       />
+
+    <TextView
+        android:id="@+id/tv_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#9D0191"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="@{question.questionText}"
+        android:layout_marginTop="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_question_heading"
+        tools:text="Introduce yourself" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_record"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:fontFamily="@font/roboto_medium"
+        android:letterSpacing="0"
+        videoResumeButtonStatus="@{question}"
+        android:onClick="@{()->clickListener.onClick(question)}"
+        android:paddingLeft="20dp"
+        android:paddingTop="12dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="12dp"
+        android:text="@{question.buttonName}"
+        tools:text="Record Button"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="23dp"
+        app:icon="@drawable/ic_arrow_video_interview_end"
+        app:iconGravity="end"
+        app:iconPadding="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_question" />
+
+    <com.google.android.material.textview.MaterialTextView
+        app:drawableTint="@color/black"
+        android:drawableStart="@drawable/ic_video_resume_viewed"
+        android:id="@+id/tv_resume_total_view"
+        android:drawablePadding="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@{`Viewed by Employers: ` + question.totalView}"
+        tools:text="Viewed by Employers: 100000000"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_bold"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_record" />
+
+    <com.google.android.material.textview.MaterialTextView
+        app:drawableTint="@color/black"
+        android:drawableStart="@drawable/ic_clock_red"
+        android:id="@+id/tv_time"
+        android:drawablePadding="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@{`Time : 00:` + question.questionDuration}"
+        tools:text="Time : 00:60"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_bold"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_resume_total_view" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

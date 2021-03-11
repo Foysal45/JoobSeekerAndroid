@@ -124,6 +124,4 @@ class VideoInterviewRepository(val application: Application) {
         }
     }
 
-
-
 }

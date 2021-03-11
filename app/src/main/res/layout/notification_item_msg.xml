@@ -72,7 +72,7 @@
         app:layout_constraintTop_toBottomOf="@id/message_text">
 
         <ImageView
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:id="@+id/message_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -90,6 +90,7 @@
         android:backgroundTint="#F2F2F2"
         android:letterSpacing="0"
         android:text="Learn More"
+        android:visibility="gone"
         android:textAllCaps="false"
         android:textColor="#000"
         app:layout_constraintBottom_toBottomOf="parent"

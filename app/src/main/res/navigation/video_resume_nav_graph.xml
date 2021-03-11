@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/video_resume_nav_graph"
+    app:startDestination="@id/videoResumeLandingFragment">
+
+    <fragment
+        android:id="@+id/videoResumeLandingFragment"
+        android:name="com.bdjobs.app.videoResume.ui.home.VideoResumeLandingFragment"
+        android:label="Video Resume"
+        tools:layout="@layout/fragment_video_resume_landing">
+        <action
+            android:id="@+id/action_videoResumeLandingFragment_to_publicVisibilityFragment"
+            app:destination="@id/publicVisibilityFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_videoResumeLandingFragment_to_guidelineFragment"
+            app:destination="@id/guidelineFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_videoResumeLandingFragment_to_questionListDialogFragment"
+            app:destination="@id/questionListDialogFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_videoResumeLandingFragment_to_videoResumeQuestionsFragment"
+            app:destination="@id/videoResumeQuestionsFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/publicVisibilityFragment"
+        android:name="com.bdjobs.app.videoResume.ui.home.PublicVisibilityFragment"
+        android:label="fragment_public_visibility"
+        tools:layout="@layout/fragment_public_visibility" />
+    <fragment
+        android:id="@+id/guidelineFragment"
+        android:name="com.bdjobs.app.videoResume.ui.guideline.GuidelineFragment"
+        android:label="Guidelines"
+        tools:layout="@layout/fragment_guideline"/>
+    <dialog
+        android:id="@+id/questionListDialogFragment"
+        android:name="com.bdjobs.app.videoResume.ui.home.QuestionListDialogFragment"
+        android:label="fragment_question_list"
+        tools:layout="@layout/fragment_question_list" >
+        <argument
+            android:name="questions"
+            app:argType="com.bdjobs.app.videoResume.data.models.Question[]" />
+    </dialog>
+    <fragment
+        android:id="@+id/videoResumeQuestionsFragment"
+        android:name="com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsFragment"
+        android:label="Video Resume"
+        tools:layout="@layout/fragment_video_resume_questions">
+        <action
+            android:id="@+id/action_videoResumeQuestionsFragment_to_recordVideoResumeFragment"
+            app:destination="@id/recordVideoResumeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+        <action
+            android:id="@+id/action_videoResumeQuestionsFragment_to_viewVideoResumeFragment"
+            app:destination="@id/viewVideoResumeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/recordVideoResumeFragment"
+        android:name="com.bdjobs.app.videoResume.ui.record.RecordVideoResumeFragment"
+        android:label="Record Answer"
+        tools:layout="@layout/fragment_record_video_resume"/>
+    <fragment
+        android:id="@+id/viewVideoResumeFragment"
+        android:name="com.bdjobs.app.videoResume.ui.view.ViewVideoResumeFragment"
+        android:label="Video Resume"
+        tools:layout="@layout/fragment_view_video_resume">
+        <action
+            android:id="@+id/action_viewVideoResumeFragment_to_recordVideoResumeFragment"
+            app:destination="@id/recordVideoResumeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_viewVideoResumeFragment_to_videoResumeQuestionsFragment"
+            app:destination="@id/videoResumeQuestionsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <argument
+            android:name="url"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+</navigation>
