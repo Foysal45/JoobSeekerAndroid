@@ -47,8 +47,8 @@ class MessageListFragment : Fragment() {
         doAsync {
             notificationList = bdjobsDB.notificationDao().getMessage() as? MutableList
             notificationList?.add(0, Notification(
-                    title = "SMS Job Alert",
-                    body = "You can get personalized job alert daily in pocket",
+                    title = "Video Resume",
+                    body = "",
                     type = "bpm",
                     imageLink = "https://images.app.goo.gl/Ebvz1hPuphafQrZr6",
                     link = "www.google.com"))

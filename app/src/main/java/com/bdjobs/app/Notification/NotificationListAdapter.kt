@@ -33,6 +33,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.getDateTimeAsAgo
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
+import com.bdjobs.app.videoResume.ResumeManagerActivity
 import com.google.android.material.button.MaterialButton
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
@@ -639,7 +640,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
             TYPE_BANNER_PROMOTIONAL_MESSAGE -> {
                 val promotionalMessageViewHolder = holder as BannerPromotionalViewHolder
 
-                promotionalMessageViewHolder.headerImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_sms_msg))
+                promotionalMessageViewHolder.headerImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_video_resume_popup))
 
 //                val packageManager = context.packageManager
 //                val appInfo: ApplicationInfo = packageManager.getApplicationInfo("com.bdjobs.app", 0)
@@ -695,7 +696,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 }
 
                 promotionalMessageViewHolder.messageButton.setOnClickListener {
-                    context.startActivity<BaseActivity>()
+                    context.startActivity<ResumeManagerActivity>()
                 }
 
 
@@ -703,19 +704,23 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     promotionalMessageViewHolder?.card?.show()
                     promotionalMessageViewHolder?.messageImage.show()
                     try {
-                        Picasso.get().load(R.drawable.banner_sms).into(promotionalMessageViewHolder?.messageImage)
+                        Picasso.get().load(R.drawable.banner_video_resume).into(promotionalMessageViewHolder?.messageImage)
                     } catch (e: Exception) {
                     }
                 } else {
                     promotionalMessageViewHolder?.card?.show()
                     promotionalMessageViewHolder?.messageImage.show()
                     try {
-                        Picasso.get().load(R.drawable.banner_sms).into(promotionalMessageViewHolder?.messageImage)
+                        Picasso.get().load(R.drawable.banner_video_resume).into(promotionalMessageViewHolder?.messageImage)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
                     promotionalMessageViewHolder?.card?.hide()
                     promotionalMessageViewHolder?.messageImage.hide()
+                }
+
+                promotionalMessageViewHolder.card.setOnClickListener {
+                    context.startActivity<ResumeManagerActivity>()
                 }
             }
         }

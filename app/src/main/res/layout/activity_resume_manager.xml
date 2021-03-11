@@ -131,8 +131,6 @@
                 android:textSize="14sp"
                 app:icon="@drawable/ic_cloud_upload_black_24dp" />
 
-
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -154,7 +152,6 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:text="Manage Video Resume"
                 android:textSize="14sp"
                 android:visibility="visible"
