@@ -2,7 +2,6 @@ package com.bdjobs.app.videoResume.ui.questions
 
 import android.Manifest
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -27,18 +26,18 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentVideoResumeQuestionsBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
-import com.bdjobs.app.videoResume.ui.home.VideoResumeLandingFragmentDirections
 import com.fondesa.kpermissions.*
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.extension.send
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_video_resume_questions.*
-import kotlinx.android.synthetic.main.item_video_resume_question.*
+import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import java.io.File
 
@@ -145,6 +144,10 @@ class VideoResumeQuestionsFragment : Fragment() {
             onPreviousQuestionClickEvent.observe(viewLifecycleOwner, EventObserver {
                 rv_question?.smoothScrollToPosition(layoutManager.findFirstCompletelyVisibleItemPosition() - 1)
             })
+        }
+
+        binding.btnGuide.setOnClickListener {
+            context?.startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/bdjobs-app-user-guide-for-video-resume.asp", "from" to "videoResume")
         }
     }
 

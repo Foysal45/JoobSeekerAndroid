@@ -84,6 +84,7 @@ class VideoResumeLandingFragment : Fragment() {
             })
 
             threshold.value?.let { session.insertVideoResumeThresholdValue(it) }
+            totalAnswered.value?.let { session.insertVideoResumeTotalAnswered(it) }
 
             btn_create_video?.setOnClickListener {
                 findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToVideoResumeQuestionsFragment())
@@ -102,9 +103,8 @@ class VideoResumeLandingFragment : Fragment() {
     private fun openTurnOffVisibilityDialog() {
         val builder = AlertDialog.Builder(requireContext())
 
-
         builder.setTitle("Confirmation")
-        builder.setMessage("If you don't show Video Resume to employers, they can no longer view your video. Do you want not showing to employers?")
+        builder.setMessage("If you don't show Video Resume to employers, they can no longer view your video. Do you not want to showing employers?")
         builder.setPositiveButton("YES, CONTINUE") { dialog, which ->
             Log.d("Salvin", "yes please hide")
             this.videoResumeLandingViewModel.onHideResumeVisibility()
@@ -120,7 +120,7 @@ class VideoResumeLandingFragment : Fragment() {
     private fun openMessageDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Message")
-        builder.setMessage("Please record atleast ${videoResumeLandingViewModel.threshold.value} answers for showing video resume to employers.")
+        builder.setMessage("Please record at least ${videoResumeLandingViewModel.threshold.value} answers for showing video resume to employers.")
         builder.setPositiveButton("OK") { dialog, which ->
             Log.d("Salvin", "yes")
         }

@@ -29,9 +29,9 @@ class GuidelineFragment : Fragment() {
 
     var defaultLanguage: Language = Language.EN
 
-    var stepsRotationAngle = 0
-    var tipsRotationAngle = 0
-    var benefitsRotationAngle = 0
+    var stepsRotationAngle = 180
+    var tipsRotationAngle = 180
+    var benefitsRotationAngle = 180
 
     private val stepsInEnglish = listOf<String>(
             "Prepare & Setup Recording environment",
@@ -104,6 +104,9 @@ class GuidelineFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
+        rv_step?.show()
+        rv_tips?.show()
+        rv_benefits?.show()
 
         img_step_expand?.setOnClickListener {
 

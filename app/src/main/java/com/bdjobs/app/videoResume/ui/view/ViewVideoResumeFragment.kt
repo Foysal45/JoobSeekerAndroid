@@ -87,7 +87,7 @@ class ViewVideoResumeFragment : Fragment() {
                 val noBTN = dialog.findViewById<Button>(R.id.btn_delete_video_no)
                 val yesBTN = dialog.findViewById<Button>(R.id.btn_delete_video_yes)
 
-                if(session.videoResumeThreshold!!.toInt() <= 3){
+                if(session.videoResumeTotalAnswered!!.toInt() < session.videoResumeThreshold!!.toInt()){
                     deleteTV.text = "If you delete it, employers won't be able to view your video. Do you want to delete this video?"
                 }else {
                     deleteTV.text = "Are you sure you want to delete the video?"

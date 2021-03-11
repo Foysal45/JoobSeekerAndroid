@@ -113,6 +113,7 @@ class BdjobsUserSession(val context: Context) {
     val cvUploadStatus = pref?.getString(Constants.session_key_cvuploadstatus, "1")
     val shortListedDate = pref?.getString(Constants.KEY_SHORTLISTED_DATE, "19-Mar-1919")
     val videoResumeThreshold = pref?.getString(Constants.VIDEO_RESUME_THRESHOLD, "0")
+    val videoResumeTotalAnswered = pref?.getString(Constants.VIDEO_RESUME_TOTAL_ANSWERED, "0")
 
     //val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
     //val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"0")
@@ -198,6 +199,13 @@ class BdjobsUserSession(val context: Context) {
 
             }
         }
+    }
+
+    fun insertVideoResumeTotalAnswered(count: String){
+        pref?.edit {
+            putString(Constants.VIDEO_RESUME_TOTAL_ANSWERED, count)
+        }
+        pref?.edit()?.apply()
     }
 
     fun insertVideoResumeThresholdValue(count: String){

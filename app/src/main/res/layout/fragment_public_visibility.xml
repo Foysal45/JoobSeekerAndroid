@@ -31,7 +31,7 @@
         android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="If you enable the visibility of your Video Resume, employers will be able to view your Video Resume. If you don't show to employers, they can no longer able to view your Vidoe Resume." />
+        android:text="If you enable the visibility of your Video Resume, employers will be able to view your Video Resume. If you don't show to employers, they can no longer able to view your Video Resume." />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_ok"

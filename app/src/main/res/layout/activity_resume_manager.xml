@@ -106,13 +106,28 @@
                 android:text="View Bdjobs Resume"
                 app:icon="@drawable/ic_view_resume_1" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="#E0E0E0"
+                android:visibility="visible" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="20dp"
+                android:text="Personalized Resume"
+                android:textColor="#999999" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/uploadResume"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Personalized Resume"
+                android:text="Upload Resume"
                 android:textSize="14sp"
                 app:icon="@drawable/ic_cloud_upload_black_24dp" />
 

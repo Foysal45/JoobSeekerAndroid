@@ -262,6 +262,7 @@ class Constants {
         const val LIVE_INTERVIEW_COUNT = "live_interview_count"
 
         const val VIDEO_RESUME_THRESHOLD = "video_resume_threshold"
+        const val VIDEO_RESUME_TOTAL_ANSWERED = "video_resume_total_answered"
 
 
         fun sendDeviceInformation(token: String? = "", context: Context) {
