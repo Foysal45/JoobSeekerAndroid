@@ -69,7 +69,6 @@ class ContactEditFragment : Fragment() {
         contactInfo.setEditButton(false, "dd")
 
 
-
     }
 
     override fun onResume() {
@@ -144,15 +143,14 @@ class ContactEditFragment : Fragment() {
         setDialog("Please select your district", pmContactDistrictTIET, districtNameList.toTypedArray())
         setDialog("Please select your thana", prContactThanaTIET, thanaNameList.toTypedArray())
         setDialog("Please select your thana", pmContactThanaTIETP, permanentThanaList.toTypedArray())
-        if (pstOfficeNameList!!.size != 0)
-        {
+        if (pstOfficeNameList!!.size != 0) {
             try {
                 setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
             } catch (e: Exception) {
             }
 
         }
-        if (permanentPostOfficeList!!.size != 0){
+        if (permanentPostOfficeList!!.size != 0) {
             try {
                 setDialog("Please select your post office", pmContactPostOfficeTIET, permanentPostOfficeList.toTypedArray())
             } catch (e: Exception) {
@@ -248,7 +246,7 @@ class ContactEditFragment : Fragment() {
         addTextChangedListener(permanentContactCountryTIETP, permanentContactCountryTILP)
 
 
-        if (contactInfo.getPresentDistrict() == ""){
+        if (contactInfo.getPresentDistrict() == "") {
             contactDistrictTIL1.hideError()
         }
 
@@ -468,7 +466,7 @@ class ContactEditFragment : Fragment() {
             if (presentInOutBD == "") {
                 activity?.toast("Please select Inside Bangladesh or Outside Bangladesh for Present Address")
                 cgPresent?.requestFocus()
-                scroll?.scrollTo(cgPresent.height,0)
+                scroll?.scrollTo(cgPresent.height, 0)
             }
             if (pmContactAddressTIETPRM.getString().isNotEmpty() && permanentInOutBD == "") {
                 //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
@@ -502,7 +500,6 @@ class ContactEditFragment : Fragment() {
                 var numberOfValidations = 0
 
                 //Log.d("check", "entered")
-
 
 
                 if (contactEmailAddressTIET?.text.toString().isNullOrEmpty() && contactMobileNumberTIET.getString().trim() != "") {
@@ -1142,7 +1139,7 @@ class ContactEditFragment : Fragment() {
                                     postOfficeList?.forEach { dt ->
                                         pstOfficeNameList.add(dt.locationName)
                                     }
-                                    if (postOfficeList!!.size != 0){
+                                    if (postOfficeList!!.size != 0) {
                                         try {
                                             setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
                                         } catch (e: Exception) {
@@ -1201,7 +1198,7 @@ class ContactEditFragment : Fragment() {
                                 postOfficeListPm?.forEach { dt ->
                                     pstOfficeNameList.add(dt.locationName)
                                 }
-                                if (postOfficeListPm!!.size != 0){
+                                if (postOfficeListPm!!.size != 0) {
                                     try {
                                         setDialog("Please select your post office", pmContactPostOfficeTIET, pstOfficeNameList.toTypedArray())
                                     } catch (e: Exception) {
@@ -1308,15 +1305,17 @@ class ContactEditFragment : Fragment() {
     private fun validateMobileNumber(): Boolean {
         //Log.d("rakib", "country code ${countryCodeTIET.text.toString()}")
         if (!TextUtils.isEmpty(countryCodeTIET?.text.toString()) && !TextUtils.isEmpty(contactMobileNumberTIET?.text.toString())) {
-            if (Patterns.PHONE.matcher(contactMobileNumberTIET?.text.toString()).matches()) {
-                if (countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length == 11) {
-                    //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
-                    return true
-                } else if (!countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length + getCountryCode().length >= 6 && contactMobileNumberTIET?.text.toString().length + getCountryCode().length <= 15) {
-                    //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
-                    return true
-                }
+//            if (Patterns.PHONE.matcher(contactMobileNumberTIET?.text.toString()).matches()) {
+            if (countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length in 6..14) {
+                //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
+                return true
             }
+//            else if (!countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length + getCountryCode().length >= 6 && contactMobileNumberTIET?.text.toString().length + getCountryCode().length <= 15) {
+//                //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
+//                Timber.d("Mobile length: ${contactMobileNumberTIET?.text.toString().length} .. Country code: ${getCountryCode().length}")
+//                return true
+//            }
+//            }
         }
         //Log.d("rakib", "validate number function false")
         return false
@@ -1324,7 +1323,7 @@ class ContactEditFragment : Fragment() {
 
     private fun getCountryCode(): String {
         val inputData = countryCodeTIET?.text.toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-        return inputData[inputData.size - 1].trim({ it <= ' ' })
+        return inputData[inputData.size - 1].trim { it <= ' ' }
     }
 
 }
