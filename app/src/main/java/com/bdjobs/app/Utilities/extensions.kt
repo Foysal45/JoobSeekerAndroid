@@ -577,6 +577,12 @@ fun EditText.clearText() {
     text?.clear()
 }
 
+fun EditText.showKeyboard(activity: Activity?) {
+    this.requestFocus()
+    val imm: InputMethodManager? = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+    imm?.showSoftInput(this, InputMethodManager.SHOW_FORCED)
+}
+
 fun ChipGroup.radioCheckableChip(chip: Chip) {
     for (item in 0 until this.childCount) {
         this.getChildAt(item).isClickable = true
@@ -594,7 +600,7 @@ fun EditText.clearTextOnDrawableRightClick() {
             if (event.action == MotionEvent.ACTION_UP) {
                 if (event.rawX >= right - compoundDrawables[DRAWABLE_RIGHT]?.bounds?.width()!!) {
                     clearText()
-                    return@OnTouchListener true
+                    return@OnTouchListener false
                 }
             }
         } catch (e: Exception) {

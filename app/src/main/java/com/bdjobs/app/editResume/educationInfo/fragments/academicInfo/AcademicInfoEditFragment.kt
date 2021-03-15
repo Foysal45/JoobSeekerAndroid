@@ -161,13 +161,7 @@ class AcademicInfoEditFragment : Fragment() {
         acaPassingYearTIL?.isErrorEnabled = false
 
         majorSubACTV?.clearFocus()
-        if (etLevelEdu.getString().equalIgnoreCase("Bachelor/Honors") || etLevelEdu.getString().equalIgnoreCase("Masters")) {
-            instSuggession = true
-            //Log.d("instSuggession", "in suggession condition")
-        } else {
-            //Log.d("instSuggession", "in  not suggession condition")
-            instSuggession = false
-        }
+        instSuggession = etLevelEdu.getString().equalIgnoreCase("Bachelor/Honors") || etLevelEdu.getString().equalIgnoreCase("Masters")
 
         try {
 

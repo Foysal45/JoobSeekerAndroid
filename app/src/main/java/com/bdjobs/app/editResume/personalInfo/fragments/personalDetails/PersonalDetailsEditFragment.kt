@@ -3,17 +3,21 @@ package com.bdjobs.app.editResume.personalInfo.fragments.personalDetails
 
 import android.app.DatePickerDialog
 import android.app.Fragment
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.core.content.ContextCompat.getSystemService
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.personalUpdate
+import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.adapters.models.P_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
@@ -27,9 +31,11 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class PersonalDetailsEditFragment : Fragment() {
 
@@ -87,7 +93,7 @@ class PersonalDetailsEditFragment : Fragment() {
 
     private fun initViews() {
         etPerFirstName?.addTextChangedListener(TW.CrossIconBehave(etPerFirstName))
-        //etPerDob?.addTextChangedListener(TW.CrossIconBehave(etPerDob))
+        etPerDob?.addTextChangedListener(TW.CrossIconBehave(etPerDob))
         etPerNationality?.addTextChangedListener(TW.CrossIconBehave(etPerNationality))
     }
 
@@ -116,7 +122,7 @@ class PersonalDetailsEditFragment : Fragment() {
         }
 
         etPerReligion.setOnClickListener {
-            val religions = listOf("Buddhism", "Christianity", "Hinduism", "Islam","Jainism","Judaism","Sikhism","Others")
+            val religions = listOf("Buddhism", "Christianity", "Hinduism", "Islam", "Jainism", "Judaism", "Sikhism", "Others")
             selector("Please select your religion", religions) { dialogInterface, i ->
                 etPerReligion?.setText(religions[i])
             }
@@ -126,10 +132,10 @@ class PersonalDetailsEditFragment : Fragment() {
             var validation = 0
             validation = isValidate(etPerFirstName, firstNameTIL, etPerFirstName, true, validation)
             validation = isValidate(etPerDob, dobTIL, etPerDob, true, validation)
-            if (etPerNationality?.text?.trim().isNullOrEmpty()){
+            if (etPerNationality?.text?.trim().isNullOrEmpty()) {
 //                etPerNationality?.error = "This field can not be empty"
                 etPerNationality?.requestFocus()
-            } else{
+            } else {
                 validation++
             }
             if (!isNotBangladeshi) {

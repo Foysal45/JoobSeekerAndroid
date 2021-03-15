@@ -27,6 +27,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 class ORIEditFragment : Fragment() {
     private lateinit var oriEditCB: PersonalInfo
@@ -96,11 +97,20 @@ class ORIEditFragment : Fragment() {
 //                oriEditCB.validateField(charSequence.toString(), etOriKeywords, textInputLayout4)
 //        }
 
-        etOriKeywords?.addTextChangedListener(TW.CrossIconBehave(etOriKeywords))
+//        etOriKeywords?.addTextChangedListener(TW.CrossIconBehave(etOriKeywords))
+
+        textInputLayout4.setEndIconOnClickListener {
+            etOriKeywords?.apply {
+                clearText()
+                showKeyboard(activity)
+            }
+        }
 
         //Log.d("ORIData", "data: ${data?.keywords}")
 
-       // val keywords = data?.keywords
+        val keywords = data?.keywords
+
+        Timber.d("KeyWords: $keywords")
 
         keywords?.let {
             toatalLength = keywords!!.length

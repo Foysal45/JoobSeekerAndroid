@@ -22,6 +22,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_close_ash"
                 android:layout_marginEnd="16dp"
                 android:textColorHint="#757575"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -257,6 +259,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_close_ash"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_example_objective">
@@ -282,6 +286,8 @@
                 android:layout_marginEnd="16dp"
                 android:paddingBottom="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_close_ash"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilPresentSal">
 

@@ -53,9 +53,27 @@ class CareerEditFragment : Fragment() {
     }
 
     private fun initViews() {
-        etCrObj?.addTextChangedListener(TW.CrossIconBehave(etCrObj))
-        etCrPresentSalary?.addTextChangedListener(TW.CrossIconBehave(etCrPresentSalary))
-        etCrExpSalary?.addTextChangedListener(TW.CrossIconBehave(etCrExpSalary))
+//        etCrObj?.addTextChangedListener(TW.CrossIconBehave(etCrObj))
+        crObjTIL.setEndIconOnClickListener {
+            etCrObj?.apply {
+                clearText()
+                showKeyboard(activity)
+            }
+        }
+//        etCrPresentSalary?.addTextChangedListener(TW.CrossIconBehave(etCrPresentSalary))
+        tilPresentSal.setEndIconOnClickListener {
+            etCrPresentSalary?.apply {
+                clearText()
+                showKeyboard(activity)
+            }
+        }
+//        etCrExpSalary?.addTextChangedListener(TW.CrossIconBehave(etCrExpSalary))
+        tilExpected.setEndIconOnClickListener {
+            etCrExpSalary?.apply {
+                clearText()
+                showKeyboard(activity)
+            }
+        }
     }
 
     private fun doWork() {

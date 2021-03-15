@@ -37,6 +37,8 @@
                     style="@style/EHTextInputLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_close_ash"
                     android:layout_weight="1"
                     android:textColorHint="#757575">
 
@@ -323,6 +325,8 @@
                 android:id="@+id/nationalityTIL"
                 style="@style/EHTextInputLayout"
                 android:layout_width="match_parent"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_close_ash"
                 android:layout_height="wrap_content"
                 android:textColorHint="#757575"
                 >
