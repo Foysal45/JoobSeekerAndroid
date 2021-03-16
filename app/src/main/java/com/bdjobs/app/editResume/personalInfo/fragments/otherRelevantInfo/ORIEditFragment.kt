@@ -315,6 +315,7 @@ class ORIEditFragment : Fragment() {
     }
 
     private fun updateData() {
+        Timber.d("Keywords: $exps")
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateORIData(session.userId, session.decodId, session.IsResumeUpdate,
                 etOriCareerSummary.getString(), etOriSpecialQualification.getString(), exps)
@@ -360,6 +361,7 @@ class ORIEditFragment : Fragment() {
         exps = TextUtils.join(",", idArr)
         checkIfEmpty()
 
+        Timber.d("Keywords: $exps :: Length: $toatalLength")
         d("ORIcount: count = $keywordsCount ")
 
     }
