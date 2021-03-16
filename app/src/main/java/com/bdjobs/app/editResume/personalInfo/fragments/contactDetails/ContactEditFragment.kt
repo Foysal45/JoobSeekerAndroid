@@ -13,11 +13,11 @@ import androidx.core.text.trimmedLength
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.databases.External.DataStorage
-import com.bdjobs.app.databases.External.LocationModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.External.LocationModel
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
@@ -31,7 +31,6 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import timber.log.Timber
 
 
 class ContactEditFragment : Fragment() {
@@ -1272,6 +1271,7 @@ class ContactEditFragment : Fragment() {
     private fun isValidEmail(target: CharSequence): Boolean {
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
+
 
     private fun mobileNumberValidityCheck(mobileNumber: String): Boolean {
         when {

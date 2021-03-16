@@ -24,6 +24,7 @@ import retrofit2.Response
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
+import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -418,5 +419,15 @@ class Constants {
             quesSerialNo = videoResumeManager?.questionSerialNo
             file = videoResumeManager?.file
         }
+
+        val EMAIL_ADDRESS = Pattern.compile(
+                "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                        "\\@" +
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                        "(" +
+                        "\\." +
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{1,25}" +
+                        ")+"
+        )
     }
 }
