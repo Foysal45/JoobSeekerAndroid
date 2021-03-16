@@ -86,6 +86,13 @@ class ContactEditFragment : Fragment() {
 
     }
 
+    override fun onPause() {
+        contactDistrictTIL.hideError()
+        contactThanaTIL1.hideError()
+        prContactAddressTILPR.hideError()
+        super.onPause()
+    }
+
     private fun updateViewsData() {
 
         districtList = dataStorage.getAllEnglishDistrictList()
@@ -464,7 +471,7 @@ class ContactEditFragment : Fragment() {
                 validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
             }
             if (presentInOutBD == "") {
-                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh for Present Address")
+                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh for Present Address") //Please select Inside Bangladesh or Outside Bangladesh for Present Address
                 cgPresent?.requestFocus()
                 scroll?.scrollTo(cgPresent.height, 0)
             }
@@ -546,7 +553,7 @@ class ContactEditFragment : Fragment() {
                                 updateData()
                             }
                         } else {
-                            toast("Please select inside Bangladesh or outside Bangladesh for Permanent Address")
+                            toast("Please select Inside Bangladesh or Outside Bangladesh for Permanent Address")//Please select inside Bangladesh or outside Bangladesh for Permanent Address
                         }
                     }
                 }
