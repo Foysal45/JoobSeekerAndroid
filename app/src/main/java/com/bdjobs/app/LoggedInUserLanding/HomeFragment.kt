@@ -530,6 +530,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     })
 
 
+                    Timber.d("Filter Location: ${getFilterString(searchData!!)}")
                     searchFilterTV?.text = getFilterString(searchData!!)
                     if (!searchData.keyword.isNullOrBlank()) {
                         keywordTV?.text = searchData.keyword
@@ -549,6 +550,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     private fun getFilterString(search: LastSearch): String? {
+        Timber.d("Search Filter: $search")
         val dataStorage = DataStorage(activity)
         val age = dataStorage.getAgeRangeNameByID(search.age)
         val newsPaper = dataStorage.getNewspaperNameById(search.newsPaper)
@@ -600,7 +602,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
         var allValues = ("$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability,$facilitiesForPWD")
         //Log.d("allValuesN", allValues)
-        allValues = allValues.replace("Any".toRegex(), "")
+//        allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")
         //Log.d("allValues", allValues)
         for (i in 0..15) {

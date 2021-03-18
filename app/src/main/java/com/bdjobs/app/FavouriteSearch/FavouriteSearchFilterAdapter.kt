@@ -608,7 +608,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
         var allValues = ("$keyword,$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability $facilitiesForPWD")
         //Log.d("allValuesN", allValues)
-        allValues = allValues.replace("Any".toRegex(), "")
+//        allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")
         //Log.d("allValues", allValues)
         for (i in 0..15) {
