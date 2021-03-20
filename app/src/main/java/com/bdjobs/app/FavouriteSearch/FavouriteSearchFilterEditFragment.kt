@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.SaveUpdateFavFilterModel
 import com.bdjobs.app.databases.External.DataStorage
@@ -371,44 +372,54 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     //Log.d("rakib", response.body().toString())
                     //Log.d("rakib", Gson().toJson(call.request().body()))
 
-                    if (response.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
-                        doAsync {
-                            val favouriteSearch = FavouriteSearch(
-                                    filterid = filterID,
-                                    filtername = filterName?.trim(),
-                                    industrialCat = industry,
-                                    functionalCat = category,
-                                    location = location,
-                                    organization = organization,
-                                    jobnature = jobNature,
-                                    joblevel = jobLevel,
-                                    postedon = postedWithin,
-                                    deadline = deadline,
-                                    keyword = keyword,
-                                    newspaper = newspaper,
-                                    gender = gender,
-                                    experience = experience,
-                                    age = age,
-                                    jobtype = jobType,
-                                    retiredarmy = army,
-                                    updatedon = Date(),
-                                    totaljobs = "",
-                                    createdon = createdOn,
-                                    genderb = "",
-                                    workPlace = workPlace,
-                                    personWithDisability = personWithDisability,
-                                    facilitiesForPWD = facilitiesForPWD
-                            )
-                            bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
+                    // response code verified because it was loading infinitely whenever response is not 200
+                    if (response.code()==200) {
+                        if (response.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
+                            doAsync {
+                                // making sure it gets location data
+                                location = dataStorage.getLocationIDByName(loacationET.text.toString())
 
-                            uiThread {
-                                loadingDialog.dismiss()
-                                toast("${response.body()?.data?.get(0)?.message}")
-                                favCommunicator.backButtonPressed()
+                                val favouriteSearch = FavouriteSearch(
+                                        filterid = filterID,
+                                        filtername = filterName?.trim(),
+                                        industrialCat = industry,
+                                        functionalCat = category,
+                                        location = location,
+                                        organization = organization,
+                                        jobnature = jobNature,
+                                        joblevel = jobLevel,
+                                        postedon = postedWithin,
+                                        deadline = deadline,
+                                        keyword = keyword,
+                                        newspaper = newspaper,
+                                        gender = gender,
+                                        experience = experience,
+                                        age = age,
+                                        jobtype = jobType,
+                                        retiredarmy = army,
+                                        updatedon = Date(),
+                                        totaljobs = "",
+                                        createdon = createdOn,
+                                        genderb = "",
+                                        workPlace = workPlace,
+                                        personWithDisability = personWithDisability,
+                                        facilitiesForPWD = facilitiesForPWD
+                                )
+                                bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
+
+                                uiThread {
+                                    loadingDialog.dismiss()
+                                    toast("${response.body()?.data?.get(0)?.message}")
+                                    favCommunicator.backButtonPressed()
+                                }
                             }
-                        }
 
+                        }
+                    } else {
+                        loadingDialog.dismiss()
+                        Toast.makeText(activity, "Something went wrong! please try again", Toast.LENGTH_SHORT).show()
                     }
+
                 } catch (e: Exception) {
                     logException(e)
                 }
