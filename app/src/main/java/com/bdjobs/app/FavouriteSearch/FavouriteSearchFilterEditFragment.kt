@@ -39,31 +39,31 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private lateinit var bdjobsDB: BdjobsDB
     private lateinit var favCommunicator: FavCommunicator
     private lateinit var dataStorage: DataStorage
-    private var filterID:String? = ""
-    private var organization:String? = ""
-    private var experience:String? = ""
-    private var jobType:String? = ""
-    private var jobLevel:String? = ""
-    private var jobNature:String? = ""
-    private var postedWithin:String? = ""
-    private var deadline:String? = ""
-    private var age:String? = ""
-    private var army:String? = ""
-    private var location:String? = ""
-    private var keyword:String? = ""
-    private var newspaper:String? = ""
-    private var category:String? = ""
-    private var industry:String? = ""
-    private var filterName:String? = ""
+    private var filterID: String? = ""
+    private var organization: String? = ""
+    private var experience: String? = ""
+    private var jobType: String? = ""
+    private var jobLevel: String? = ""
+    private var jobNature: String? = ""
+    private var postedWithin: String? = ""
+    private var deadline: String? = ""
+    private var age: String? = ""
+    private var army: String? = ""
+    private var location: String? = ""
+    private var keyword: String? = ""
+    private var newspaper: String? = ""
+    private var category: String? = ""
+    private var industry: String? = ""
+    private var filterName: String? = ""
     private var createdOn: Date? = null
-    private var gender:String? = ""
+    private var gender: String? = ""
 
-    private var workPlace : String? = "0"
-    private var personWithDisability : String ? = "0"
-    private var facilitiesForPWD : String ? = "0"
+    private var workPlace: String? = "0"
+    private var personWithDisability: String? = "0"
+    private var facilitiesForPWD: String? = "0"
 
 
-    val genderList: MutableList<String> = ArrayList<String>()
+    val genderList: MutableList<String> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_favourite_search_filter_edit, container, false)!!
@@ -174,14 +174,32 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                             ) {
                                 toast("Please apply at least one filter to update the search")
                             } else {
-                                updateFavSearch()
+
+                                if (industry.isNullOrBlank() &&
+                                        category.isNullOrBlank() &&
+                                        location.isNullOrBlank() &&
+                                        organization.isNullOrBlank() &&
+                                        jobNature.isNullOrBlank() &&
+                                        jobLevel.isNullOrBlank() &&
+                                        postedWithin.isNullOrBlank() &&
+                                        deadline.isNullOrBlank() &&
+                                        keyword.isNullOrBlank() &&
+                                        experience.isNullOrBlank() &&
+                                        gender.isNullOrBlank() &&
+                                        jobType.isNullOrBlank() &&
+                                        army.isNullOrBlank() &&
+                                        age.isNullOrBlank() &&
+                                        newspaper.isNullOrBlank() &&
+                                        workPlace == "0" &&
+                                        personWithDisability == "0" &&
+                                        facilitiesForPWD == "0") toast("Please apply at least one filter to update the search")
+                                else updateFavSearch()
                             }
                         }
                     }
                 }
             }
         }
-
 
         filterNameET.easyOnTextChangedListener {
             validateFilterName(filterNameET.getString(), filterNameTIL)
@@ -373,7 +391,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     //Log.d("rakib", Gson().toJson(call.request().body()))
 
                     // response code verified because it was loading infinitely whenever response is not 200
-                    if (response.code()==200) {
+                    if (response.code() == 200) {
                         if (response.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
                             doAsync {
                                 // making sure it gets location data
@@ -461,13 +479,13 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     R.id.armyCG -> {
                         army = "1"
                     }
-                    R.id.chip_group_workplace ->{
+                    R.id.chip_group_workplace -> {
                         workPlace = "1"
                     }
-                    R.id.chip_group_person_with_disability ->{
+                    R.id.chip_group_person_with_disability -> {
                         personWithDisability = "1"
                     }
-                    R.id.chip_group_facilities_for_pwd ->{
+                    R.id.chip_group_facilities_for_pwd -> {
                         facilitiesForPWD = "1"
                     }
                 }
@@ -500,13 +518,13 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     R.id.armyCG -> {
                         army = ""
                     }
-                    R.id.chip_group_workplace ->{
+                    R.id.chip_group_workplace -> {
                         workPlace = "0"
                     }
-                    R.id.chip_group_person_with_disability ->{
+                    R.id.chip_group_person_with_disability -> {
                         personWithDisability = "0"
                     }
-                    R.id.chip_group_facilities_for_pwd ->{
+                    R.id.chip_group_facilities_for_pwd -> {
                         facilitiesForPWD = "0"
                     }
                 }
@@ -575,7 +593,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                                 specialCatET?.text?.clear()
                             }
                         }
-                    } catch (e:Exception){
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
 
