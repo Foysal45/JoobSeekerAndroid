@@ -14,6 +14,8 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.AutoSuggestionModel
+import com.bdjobs.app.API.ModelClasses.DataAutoSuggestion
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -25,12 +27,14 @@ import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
 import org.jetbrains.anko.sdk27.coroutines.onFocusChange
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -45,6 +49,7 @@ class EmpHistoryEditFragment : Fragment() {
     private var hID: String = ""
     private var hExpID: String? = ""
     private var currentlyWorking: String = "OFF"
+
     //private var companyBusinessID = ""
     private var workExperienceID = ""
     private var idArr: ArrayList<String> = ArrayList()
@@ -216,7 +221,7 @@ class EmpHistoryEditFragment : Fragment() {
         experiencesMACTV.onFocusChange { _, hasFocus ->
             if (hasFocus) {
                 val workExperineceList: Array<String> = dataStorage.allWorkDiscipline
-                Log.d("rakib","$workExperineceList")
+                Log.d("rakib", "$workExperineceList")
                 val expsAdapter = ArrayAdapter<String>(activity!!,
                         android.R.layout.simple_dropdown_item_1line, workExperineceList)
                 experiencesMACTV.setAdapter(expsAdapter)
@@ -411,13 +416,50 @@ class EmpHistoryEditFragment : Fragment() {
         }
     }
 
+    private fun fetchAutoSuggestion(query: String?): Array<String> {
+        Timber.d("Query: $query")
+        val suggestions = ArrayList<String>()
+        ApiServiceMyBdjobs.create().fetchAutoSuggestion(query, "3").enqueue(object : Callback<AutoSuggestionModel> {
+            override fun onFailure(call: Call<AutoSuggestionModel>, t: Throwable) {
+                Timber.e("Failed Fetching Auto Suggestion: ${t.localizedMessage}")
+            }
+
+            override fun onResponse(call: Call<AutoSuggestionModel>, response: Response<AutoSuggestionModel>) {
+                Timber.d("Response: ${Gson().toJson(response.body())}")
+                try {
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> {
+                                val body = response.body()
+
+                                val list = body?.data
+
+                                if (list.isNullOrEmpty()) Timber.d("List is empty / null")
+                                else {
+                                    for (i in list.indices) {
+                                        suggestions.add(i, list[i].subName!!)
+                                    }
+                                }
+                            }
+                            else -> Timber.e("Response not fetched: Error: ${response.code()}")
+                        }
+                    } else Timber.e("Unsuccessful response: ${response.code()}")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Timber.e("Exception: ${e.localizedMessage}")
+                }
+            }
+
+        })
+
+        return suggestions.toTypedArray()
+    }
+
     private fun updateData() {
-        if (!experiencesMACTV.text.toString().isNullOrEmpty()){
+        if (!experiencesMACTV.text.toString().isNullOrEmpty()) {
             toast("Area of Experience is not available ")
             experiencesMACTV?.requestFocus()
-        }
-
-        else {
+        } else {
             activity?.showProgressBar(loadingProgressBar)
             val exps = TextUtils.join(",", idArr)
 
