@@ -148,7 +148,7 @@ class EmpHistoryEditFragment : Fragment() {
                 dt.areaofExperience?.forEach {
                     if (it?.id?.let { it1 -> it.expsName } == "") {
                         addAsString(id)
-                        val c1 = getChip(entry_chip_group, it.expsName.toString(), R.xml.chip_entry,id)
+                        val c1 = getChip(entry_chip_group, it.expsName.toString(), R.xml.chip_entry, id)
                         entry_chip_group.addView(c1)
                     }
                 }
@@ -158,7 +158,7 @@ class EmpHistoryEditFragment : Fragment() {
             when {
                 entry_chip_group.childCount < 3 -> {
                     addAsString(id)
-                    val c1 = getChip(entry_chip_group, input, R.xml.chip_entry,id)
+                    val c1 = getChip(entry_chip_group, input, R.xml.chip_entry, id)
                     entry_chip_group.addView(c1)
                 }
                 else -> {
@@ -175,7 +175,7 @@ class EmpHistoryEditFragment : Fragment() {
         experiencesMACTV?.closeKeyboard(activity)
     }
 
-    private fun getChip(entryChipGroup: ChipGroup, text: String, item: Int,id:String): Chip {
+    private fun getChip(entryChipGroup: ChipGroup, text: String, item: Int, id: String): Chip {
         val chip = Chip(activity)
         chip.setChipDrawable(ChipDrawable.createFromResource(activity, item))
         val paddingDp = TypedValue.applyDimension(
@@ -186,14 +186,14 @@ class EmpHistoryEditFragment : Fragment() {
         chip.text = text
         chip.setOnCloseIconClickListener {
             entryChipGroup.removeView(chip)
-            removeItem(chip.text.toString(),id)
+            removeItem(chip.text.toString(), id)
             //experiencesMACTV.isEnabled = true
             //experiencesMACTV.requestFocus()
         }
         return chip
     }
 
-    private fun removeItem(s: String,id: String) {
+    private fun removeItem(s: String, id: String) {
 //        val id = dataStorage.workDisciplineIDByWorkDiscipline(s)
         if (idArr.contains(id))
             idArr.remove(id)
@@ -278,36 +278,37 @@ class EmpHistoryEditFragment : Fragment() {
 
             fetchAutoSuggestion(char.toString(), expsAdapter)
 
-            experiencesMACTV.setOnItemClickListener { _, _, position, id ->
+        }
+
+        experiencesMACTV.setOnItemClickListener { _, _, position, id ->
 //                    d("Array size : pos : $position id : $id")
 //                    activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
 //                    d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
 //                workExperienceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
-                workExperienceID = list[position].subCatId!!
-                Timber.d("List: ${list.size} :: Position: $position :: WorkExpID: $workExperienceID")
+            workExperienceID = list[position].subCatId!!
+            Timber.d("List: ${list.size} :: Position: $position :: WorkExpID: $workExperienceID")
 
-                if (idArr.size in 0..2) {
-                    //experiencesMACTV.isEnabled = true
-                    if (idArr.contains(workExperienceID)) {
+            if (idArr.size in 0..2) {
+                //experiencesMACTV.isEnabled = true
+                if (idArr.contains(workExperienceID)) {
 //                            Log.d("rakib", "if called")
-                        experiencesMACTV.closeKeyboard(activity)
-                        activity.toast("Experience already added")
-                        experiencesMACTV.setText("")
-                        experiencesMACTV.clearFocus()
-                    } else {
-//                            Log.d("rakib", "else called")
-                        addChip(list[position].subName!!, workExperienceID)
-                    }
-                    experiencesTIL.hideError()
-                } else if (idArr.size >= 3) {
-                    //addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!, workExperienceID)
-                    d("Array_size : ${idArr.size} and exps and id : $id")
-                    //experiencesMACTV.isEnabled = false
+                    experiencesMACTV.closeKeyboard(activity)
+                    activity.toast("Experience already added")
                     experiencesMACTV.setText("")
                     experiencesMACTV.clearFocus()
-                    activity?.toast("Maximum 3 experiences can be added.")
-                    experiencesTIL.hideError()
+                } else {
+//                            Log.d("rakib", "else called")
+                    addChip(list[position].subName!!, workExperienceID)
                 }
+                experiencesTIL.hideError()
+            } else if (idArr.size >= 3) {
+                //addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!, workExperienceID)
+                d("Array_size : ${idArr.size} and exps and id : $id")
+                //experiencesMACTV.isEnabled = false
+                experiencesMACTV.setText("")
+                experiencesMACTV.clearFocus()
+                activity?.toast("Maximum 3 experiences can be added.")
+                experiencesTIL.hideError()
             }
         }
 

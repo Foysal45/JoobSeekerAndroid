@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AddExpModel
+import com.bdjobs.app.API.ModelClasses.AutoSuggestionModel
+import com.bdjobs.app.API.ModelClasses.DataAutoSuggestion
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -35,6 +37,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.util.regex.Pattern
 
 
@@ -63,6 +66,11 @@ class SpecializationNewViewFragment : Fragment() {
     var updateNewSkilledBy = ""
 
     var currentDialogValue: String? = null
+
+    var suggestionMap = HashMap<String?,String?>()
+
+
+    private var list = ArrayList<DataAutoSuggestion>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -186,7 +194,7 @@ class SpecializationNewViewFragment : Fragment() {
 
 
 
-            layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+            layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             skillListView?.layoutManager = layoutManager
             specializationSkillAdapter = SpecializationSkillAdapter(activity, array)
             skillListView.adapter = specializationSkillAdapter
@@ -308,10 +316,10 @@ class SpecializationNewViewFragment : Fragment() {
 
         refnameATCTV?.setSelection(refnameATCTV.getString().length)
         whereSkillText?.text = "Skill you learned from"
-        val list = item?.skillBy!!
+        val listLearned = item?.skillBy!!
         skilledBy = "${item.skillBy},"
 
-        for (each in list) {
+        for (each in listLearned) {
             when (each.toString()) {
                 "1" -> {
                     firstCheckbox?.isChecked = true
@@ -342,14 +350,16 @@ class SpecializationNewViewFragment : Fragment() {
         //set data start
         NTVQF = item.ntvqfLevel.toString()
 
-        val skillList: Array<String> = dataStorage.allSkills
+//        val skillList: Array<String> = dataStorage.allSkills
+        val skillList: ArrayList<String> = ArrayList()
         val skillAdapter = ArrayAdapter<String>(activity!!,
                 android.R.layout.simple_dropdown_item_1line, skillList)
         refnameATCTV?.setAdapter(skillAdapter)
         refnameATCTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
         refnameATCTV?.setOnItemClickListener { _, _, position, id ->
 
-            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV?.getString().trim())!!
+//            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV?.getString().trim())!!
+            workSkillID = list[position].subCatId!!
 
             refnameATCTV?.setText(refnameATCTV?.getString())
 
@@ -468,6 +478,7 @@ class SpecializationNewViewFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
+                fetchAutoSuggestion(s.toString(),refnameATCTV)
 
                 if (s.toString().length > 2) {
 
@@ -554,7 +565,8 @@ class SpecializationNewViewFragment : Fragment() {
 
             skillSourceNotEmptyStatus = stringContainsNumber(skil.trim())
 
-            updateSkill = dataStorage.getSkillIDBySkillType(addItem.workExp.toString()).toString()
+//            updateSkill = dataStorage.getSkillIDBySkillType(addItem.workExp.toString()).toString()
+            updateSkill = suggestionMap[addItem.workExp].toString()
             updateNtvqf = getNtvqfLevel(NTVQF)
 
             arr!!.forEachIndexed { index, element ->
@@ -567,7 +579,6 @@ class SpecializationNewViewFragment : Fragment() {
 
 
             }
-
 
             if (updateSkill.isEmpty() && refnameATCTV.getString().length == 2) {
 
@@ -672,14 +683,16 @@ class SpecializationNewViewFragment : Fragment() {
         saveButton?.isEnabled = false
 
 
-        val skillList: Array<String> = dataStorage.allSkills
+//        val skillList: Array<String> = dataStorage.allSkills
+        val skillList: ArrayList<String> = ArrayList()
         val skillAdapter = ArrayAdapter<String>(activity!!,
                 android.R.layout.simple_dropdown_item_1line, skillList)
         refnameATCTV?.setAdapter(skillAdapter)
         refnameATCTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
         refnameATCTV?.setOnItemClickListener { _, _, position, id ->
 
-            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.getString().trim())!!
+//            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV.getString().trim())!!
+            workSkillID = list[position].subCatId!!
 
             refnameATCTV.setText(refnameATCTV.getString())
 
@@ -720,6 +733,9 @@ class SpecializationNewViewFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                fetchAutoSuggestion(s.toString(),refnameATCTV)
+
                 if (s.toString().length > 2) {
 
                     d("popup showing ${refnameATCTV.isPopupShowing}")
@@ -858,7 +874,8 @@ class SpecializationNewViewFragment : Fragment() {
 
                 updateNewSkilledBy = skilledBy.removeSuffix(",")
 
-                skill = dataStorage.getSkillIDBySkillType(item.workExp.toString()).toString()
+//                skill = dataStorage.getSkillIDBySkillType(item.workExp.toString()).toString()
+                skill = suggestionMap[item.workExp]!!
                 ntvqf = getNtvqfLevel(NTVQF)
 
 
@@ -926,6 +943,53 @@ class SpecializationNewViewFragment : Fragment() {
         }
         dialog?.show()
 
+    }
+
+    private fun fetchAutoSuggestion(query: String?,textView:AutoCompleteTextView) {
+        Timber.d("Query: $query")
+        ApiServiceMyBdjobs.create().fetchAutoSuggestion(query, "4").enqueue(object : Callback<AutoSuggestionModel> {
+            override fun onFailure(call: Call<AutoSuggestionModel>, t: Throwable) {
+                Timber.e("Failed Fetching Auto Suggestion: ${t.localizedMessage}")
+            }
+
+            override fun onResponse(call: Call<AutoSuggestionModel>, response: Response<AutoSuggestionModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> {
+                                val body = response.body()
+
+                                if (body?.statuscode == "0") {
+
+                                    list = body.data as ArrayList<DataAutoSuggestion>
+
+                                    if (list.isNullOrEmpty()) Timber.d("List is empty / null")
+                                    else {
+                                        val suggestion = ArrayList<String>()
+                                        for (i in list.indices) {
+                                            suggestion.add(list[i].subName!!)
+
+                                            if (!suggestionMap.containsKey(list[i].subName)) suggestionMap[list[i].subName] = list[i].subCatId
+                                        }
+
+                                        val a = ArrayAdapter<String>(activity!!, android.R.layout.simple_dropdown_item_1line, suggestion)
+                                        textView.setAdapter(a)
+                                        a.notifyDataSetChanged()
+                                    }
+                                }
+
+
+                            }
+                            else -> Timber.e("Response not fetched: Error: ${response.code()}")
+                        }
+                    } else Timber.e("Unsuccessful response: ${response.code()}")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Timber.e("Exception: ${e.localizedMessage}")
+                }
+            }
+
+        })
     }
 
     private fun onClick() {
