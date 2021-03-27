@@ -361,13 +361,13 @@ class SpecializationNewViewFragment : Fragment() {
 //            workSkillID = dataStorage.getSkillIDBySkillType(refnameATCTV?.getString().trim())!!
             workSkillID = list[position].subCatId!!
 
-            refnameATCTV?.setText(refnameATCTV?.getString())
+            refnameATCTV.setText(refnameATCTV.getString())
 
-            currentDialogValue = refnameATCTV?.text.toString().slice(0 until refnameATCTV?.text.length - 1)
+            currentDialogValue = refnameATCTV.text.toString().slice(0 until refnameATCTV.text.length - 1)
 
             saveButton.isEnabled = true
 
-            refnameATCTV?.setSelection(refnameATCTV.getString().length)
+            refnameATCTV.setSelection(refnameATCTV.getString().length)
             workExp = refnameATCTV.getString()
             whereSkillText?.show()
             firstCheckbox?.show()
@@ -500,7 +500,7 @@ class SpecializationNewViewFragment : Fragment() {
 
 
                         saveButton?.isEnabled = false
-                        refnameATCTV?.clearText()
+                        refnameATCTV.clearText()
                         whereSkillText?.hide()
                         firstCheckbox?.hide()
                         secondCheckBox?.hide()
@@ -529,7 +529,7 @@ class SpecializationNewViewFragment : Fragment() {
 
             activity.selector("Select NTVQF level", levelList.toList()) { dialogInterface, i ->
 
-                experienceLevelTIET?.setText(levelList[i])
+                experienceLevelTIET.setText(levelList[i])
 
                 NTVQF = levelList[i]
 
