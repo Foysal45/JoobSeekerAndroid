@@ -352,10 +352,11 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         val loadingDialog = indeterminateProgressDialog("Saving")
         loadingDialog.setCancelable(false)
         loadingDialog.show()
+        val uLocation = dataStorage.getLocationIDByName(loacationET.text.toString())
         ApiServiceJobs.create().saveOrUpdateFilter(
                 icat = industry,
                 fcat = category,
-                location = location,
+                location = uLocation,
                 qOT = organization,
                 qJobNature = jobNature,
                 qJobLevel = jobLevel,
