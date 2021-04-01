@@ -77,6 +77,13 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         favCommunicator = activity as FavCommunicator
         filterID = favCommunicator.getFilterID()
+
+        workPlace = "0"
+        personWithDisability = "0"
+        facilitiesForPWD = "0"
+        army = "0"
+
+
         onClicks()
         setData()
     }
@@ -299,7 +306,6 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         getDataFromChipGroup(chip_group_person_with_disability)
         getDataFromChipGroup(chip_group_facilities_for_pwd)
 
-
         maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 if ("M" !in genderList) {
@@ -353,6 +359,11 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         loadingDialog.setCancelable(false)
         loadingDialog.show()
         val uLocation = dataStorage.getLocationIDByName(loacationET.text.toString())
+
+//        Timber.d("Values: IN: $industry :: CAT: $category :: LOC: $uLocation :: ORG: $organization :: JN: $jobNature :: JL: $jobLevel :: POSTED: $postedWithin :: DEADLINE: $deadline :: KEY: $keyword" +
+//                " :: EXP: $experience :: GENDER: $gender :: JOB_TYPE: $jobType :: ARMY: $army :: FILTERID: $filterID :: FILTER_NAME: $filterName :: AGE: $age :: NEWS: $newspaper" +
+//                "ENCODE: ${Constants.ENCODED_JOBS} :: WORK: $workPlace :: PWD: $personWithDisability :: FAC: $facilitiesForPWD")
+
         ApiServiceJobs.create().saveOrUpdateFilter(
                 icat = industry,
                 fcat = category,
@@ -448,6 +459,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
     private fun getDataFromChipGroup(chipGroup: ChipGroup) {
         chipGroup.setOnCheckedChangeListener { chipGroup, i ->
+
             if (i > 0) {
                 val chip = chipGroup?.findViewById(i) as Chip
                 //Log.d("chip", "text: ${chip.text}")
@@ -638,10 +650,10 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
 
         if (typedData.trim().isNullOrBlank()) {
-            textInputLayout?.showError(getString(R.string.field_empty_error_message_common))
+            textInputLayout.showError(getString(R.string.field_empty_error_message_common))
             return false
         }
-        textInputLayout?.hideError()
+        textInputLayout.hideError()
         return true
     }
 
