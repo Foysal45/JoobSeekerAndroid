@@ -122,9 +122,6 @@ class OtherInfoBaseActivity : Activity(), OtherInfo,
     private val refernceEditFragment = ReferenceEditFragment()
     private val referenceViewFrgament = ReferencesViewFragment()
 
-    /*  private val specializationEditFragment = SpecializationEditFragment()
-      private val specializationViewFragment = SpecializationViewFragment()*/
-
     private val specializationNewEditFragment = SpecializationNewEditFragment()
     private val specializationNewViewFragment = SpecializationNewViewFragment()
 

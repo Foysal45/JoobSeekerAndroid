@@ -374,6 +374,23 @@ interface ApiServiceMyBdjobs {
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<AddorUpdateModel>
 
+    /**
+     * Param: 1 -> Preferred location (inside BD / outside BD)
+     * Param: 2 -> Organisation
+     * Param: 3 -> Work Area
+     * Param: 4 -> Skill
+     * Param: 5 -> Institution
+     * Param: 6 -> Concentration/Major/Group
+     */
+    @GET("apps_auto_suggestion.asp")
+    fun fetchAutoSuggestion(
+            @Query("term") term:String? = "",
+            @Query("param") param:String? = "",
+            @Query("con") con:String? = "",
+            @Query("ver") ver:String? = "EN/BN",
+            @Query("examTitleVal") examTitleVal:String? = "",
+    ) : Call<AutoSuggestionModel>
+
     @FormUrlEncoded
     @POST("apps_step_03_update_rai.asp")
     fun updateArmyExpsList(
