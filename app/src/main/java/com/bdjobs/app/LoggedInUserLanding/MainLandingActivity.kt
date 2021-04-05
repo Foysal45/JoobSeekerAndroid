@@ -534,6 +534,12 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         startActivity<NotificationBaseActivity>()
     }
 
+    override fun goToMessages() {
+        startActivity<NotificationBaseActivity>(
+                "from" to "message"
+        )
+    }
+
     override fun goToFavSearchFilters() {
         startActivity<FavouriteSearchBaseActivity>()
     }

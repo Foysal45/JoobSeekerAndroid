@@ -194,7 +194,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         notificationIMGV?.setOnClickListener {
             homeCommunicator.goToNotifications()
         }
-
+        messageIMGV?.setOnClickListener {
+            homeCommunicator.goToMessages()
+        }
     }
 
     private fun showData() {

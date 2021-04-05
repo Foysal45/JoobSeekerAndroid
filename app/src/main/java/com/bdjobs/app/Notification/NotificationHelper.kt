@@ -246,7 +246,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
             Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
 
                 val intent = Intent(this, NotificationBaseActivity::class.java)?.apply {
-                    putExtra("from", "notification")
+                    putExtra("from", "message")
                     putExtra("id", jobid)
                     putExtra("nid", nId)
                     putExtra("seen", true)
