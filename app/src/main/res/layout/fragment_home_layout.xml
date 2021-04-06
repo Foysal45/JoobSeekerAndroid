@@ -68,10 +68,10 @@
             android:background="@drawable/notification_count_circle"
             android:gravity="center"
             android:paddingBottom="1dp"
-            android:text="2"
+            tools:text="2"
             android:textColor="#FFF"
             android:textSize="12sp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="@id/messageIMGV"
             app:layout_constraintTop_toTopOf="@id/messageIMGV" />
 

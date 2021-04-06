@@ -31,7 +31,6 @@ import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_SMS
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_VIDEO_INTERVIEW
 import com.bdjobs.app.Utilities.Constants.Companion.getDateTimeAsAgo
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
-import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.bdjobs.app.videoResume.ResumeManagerActivity
 import com.google.android.material.button.MaterialButton
@@ -40,6 +39,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
+import timber.log.Timber
 import java.util.*
 
 
@@ -613,11 +613,23 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 if (!items[position].link.isNullOrEmpty()) {
                     promotionalMessageViewHolder?.messageButton?.show()
-                    promotionalMessageViewHolder?.messageButton?.onClick {
+                    promotionalMessageViewHolder?.messageButton?.setOnClickListener {
+
                         try {
-                            context?.openUrlInBrowser(items[position].link)
+                            if (!items[position].seen!!) {
+                                doAsync {
+                                    bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                    val count = bdjobsDB.notificationDao().getMessageCount()
+                                    bdjobsUserSession.updateMessageCount(count)
+                                }
+                            }
                         } catch (e: Exception) {
+                            logException(e)
                         }
+
+                        try {
+                            context?.launchUrl(items[position].link)
+                        } catch (e: Exception) {}
                         notificationCommunicatior.positionClickedMessage(position)
                     }
                 } else {

@@ -120,6 +120,7 @@ class BdjobsUserSession(val context: Context) {
     val jobApplyLimit = pref?.getString(Constants.session_job_apply_limit, "50")
     val jobApplyThreshold = pref?.getString(Constants.session_job_apply_threshold, "25")
     var notificationCount = pref?.getInt(Constants.notification_count, 0)
+    var messageCount = pref?.getInt(Constants.message_count, 0)
 
     var generalInterviewCount = pref?.getInt(Constants.GENERAL_INTERVIEW_COUNT, 0)
     var videoInterviewCount = pref?.getInt(Constants.VIDEO_INTERVIEW_COUNT, 0)
@@ -368,6 +369,12 @@ class BdjobsUserSession(val context: Context) {
     fun updateNotificationCount(count: Int?) {
         pref?.edit {
             putInt(Constants.notification_count, count!!)
+        }
+    }
+
+    fun updateMessageCount(count: Int?) {
+        pref?.edit {
+            putInt(Constants.message_count, count!!)
         }
     }
 

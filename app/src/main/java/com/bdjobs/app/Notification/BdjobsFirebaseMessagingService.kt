@@ -248,6 +248,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                 bdjobsInternalDB.notificationDao().deleteNotificationBecauseServerToldMe(commonNotificationModel?.jobId!!, commonNotificationModel?.deleteType!!)
                 bdjobsUserSession = BdjobsUserSession(applicationContext)
                 bdjobsUserSession.updateNotificationCount(bdjobsInternalDB.notificationDao().getNotificationCount())
+                bdjobsUserSession.updateMessageCount(bdjobsInternalDB.notificationDao().getMessageCount())
             }
 
         } catch (e: Exception) {
@@ -274,6 +275,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
         } else if (commonNotificationModel.type == "pm") {
             doAsync {
                 bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName, notificationId = commonNotificationModel.notificationId, lanType = commonNotificationModel.lanType, deadline = commonNotificationModel.deadlineDB))
+                bdjobsUserSession.updateMessageCount(bdjobsUserSession.messageCount!! + 1)
                 uiThread {
                     val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
                     intent.putExtra("notification", "insertOrUpdateNotification")
