@@ -102,7 +102,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
-        showGeneralPopUp()
+       // showGeneralPopUp()
         //showAd()
     }
 
