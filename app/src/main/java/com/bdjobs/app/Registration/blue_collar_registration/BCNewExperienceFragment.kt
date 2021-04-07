@@ -188,7 +188,7 @@ class BCNewExperienceFragment : Fragment() {
         registrationCommunicator = activity as RegistrationCommunicator
         categoryTV?.text = category
         dataStorage = DataStorage(activity!!)
-        subCategories = fetchSubCategories(bcCategoryId)
+//        subCategories = fetchSubCategories(bcCategoryId)
 //        subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(bcCategoryId)
         dataStorage = DataStorage(activity!!)
         bcCategories = dataStorage.allBlueCollarCategoriesInBangla
@@ -240,7 +240,7 @@ class BCNewExperienceFragment : Fragment() {
         val saveButton = dialog?.findViewById<MaterialButton>(R.id.saveButton)
         saveButton?.isEnabled = false
 
-        subCategories = fetchSubCategories(bcCategoryId)
+//        subCategories = fetchSubCategories(bcCategoryId)
 //        subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(bcCategoryId)
 
 
@@ -742,7 +742,7 @@ class BCNewExperienceFragment : Fragment() {
                 skillTIET.setText(bcCategories[i])
 
                 this.bcCategoryId = dataStorage.getCategoryIDByBanglaName(bcCategories[i])!!
-                this.subCategories = fetchSubCategories(bcCategoryId)
+//                this.subCategories = fetchSubCategories(bcCategoryId)
 //                this.subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(bcCategoryId)
 
 
