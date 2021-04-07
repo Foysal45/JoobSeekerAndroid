@@ -4,7 +4,6 @@ package com.bdjobs.app.LoggedInUserLanding
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,18 +13,19 @@ import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.internal.BdjobsDB
 import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.*
-import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.notificationIMGV
-import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.profilePicIMGV
-import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.searchIMGV
+import org.jetbrains.anko.doAsync
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 
 class HotJobsFragmentNew : Fragment() {
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
+    private lateinit var bdjobsDB: BdjobsDB
     private var hotjobsAdapterNew: HotjobsAdapterNew? = null
     lateinit var homeCommunicator: HomeCommunicator
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +39,7 @@ class HotJobsFragmentNew : Fragment() {
         homeCommunicator = activity as HomeCommunicator
         hotjobsAdapterNew = HotjobsAdapterNew(activity!!)
         bdjobsUserSession = BdjobsUserSession(activity)
+        bdjobsDB = BdjobsDB.getInstance(activity)
         loadHotJobsData()
         onclick()
     }
@@ -66,6 +67,8 @@ class HotJobsFragmentNew : Fragment() {
 //        }
     }
 
+
+
     private fun onclick() {
         searchIMGV.setOnClickListener {
             homeCommunicator.gotoJobSearch()
@@ -77,6 +80,10 @@ class HotJobsFragmentNew : Fragment() {
 
         notificationIMGV?.setOnClickListener {
             homeCommunicator.goToNotifications()
+        }
+
+        messageIMGV?.setOnClickListener {
+            homeCommunicator.goToMessages()
         }
 
         profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
@@ -155,6 +162,7 @@ class HotJobsFragmentNew : Fragment() {
     override fun onResume() {
         super.onResume()
         showNotificationCount()
+        showMessageCount()
     }
 
     private fun showNotificationCount() {
@@ -169,6 +177,45 @@ class HotJobsFragmentNew : Fragment() {
 
                 } else {
                     notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+                }
+            }
+        } catch (e: Exception) {
+        }
+    }
+
+    fun updateMessageView(count: Int?) {
+        //Log.d("rakib", "in home fragment $count")
+        if (count!! > 0) {
+            messageCountTV?.show()
+            if (count <= 99)
+                messageCountTV?.text = "$count"
+            else
+                messageCountTV?.text = "99+"
+        } else {
+            messageCountTV?.hide()
+        }
+    }
+
+    private fun showMessageCount() {
+        try {
+
+            doAsync {
+                bdjobsUserSession = BdjobsUserSession(activity)
+                val count = bdjobsDB.notificationDao().getMessageCount()
+                Timber.d("Messages count: $count")
+                bdjobsUserSession.updateMessageCount(count)
+            }
+
+            if (bdjobsUserSession.messageCount!! <= 0) {
+                messageCountTV?.hide()
+            } else {
+                messageCountTV?.show()
+                if (bdjobsUserSession.messageCount!! > 99) {
+                    messageCountTV?.text = "99+"
+
+                } else {
+                    messageCountTV?.text = "${bdjobsUserSession.messageCount!!}"
 
                 }
             }

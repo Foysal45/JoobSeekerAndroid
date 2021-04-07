@@ -19,10 +19,12 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_shortlisted_job_layout.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.selector
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 class
 ShortListedJobFragment : Fragment() {
@@ -70,6 +72,10 @@ ShortListedJobFragment : Fragment() {
             homeCommunicator.goToNotifications()
         }
 
+        messageIMGV?.setOnClickListener {
+            homeCommunicator.goToMessages()
+        }
+
         val shortListFilter = homeCommunicator.getShortListFilter()
         showShortListFIlterList(shortListFilter)
     }
@@ -77,6 +83,46 @@ ShortListedJobFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         showNotificationCount()
+        showMessageCount()
+    }
+
+    fun updateMessageView(count: Int?) {
+        //Log.d("rakib", "in home fragment $count")
+        if (count!! > 0) {
+            messageCountTV?.show()
+            if (count <= 99)
+                messageCountTV?.text = "$count"
+            else
+                messageCountTV?.text = "99+"
+        } else {
+            messageCountTV?.hide()
+        }
+    }
+
+    private fun showMessageCount() {
+        try {
+
+            doAsync {
+                bdjobsUserSession = BdjobsUserSession(activity)
+                val count = bdjobsDB.notificationDao().getMessageCount()
+                Timber.d("Messages count: $count")
+                bdjobsUserSession.updateMessageCount(count)
+            }
+
+            if (bdjobsUserSession.messageCount!! <= 0) {
+                messageCountTV?.hide()
+            } else {
+                messageCountTV?.show()
+                if (bdjobsUserSession.messageCount!! > 99) {
+                    messageCountTV?.text = "99+"
+
+                } else {
+                    messageCountTV?.text = "${bdjobsUserSession.messageCount!!}"
+
+                }
+            }
+        } catch (e: Exception) {
+        }
     }
 
     private fun showNotificationCount() {

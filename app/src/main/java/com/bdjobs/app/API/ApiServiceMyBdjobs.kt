@@ -392,6 +392,12 @@ interface ApiServiceMyBdjobs {
     ) : Call<AutoSuggestionModel>
 
     @FormUrlEncoded
+    @POST("apps_skill_list.asp")
+    fun workSkillSuggestionsBC(
+            @Field("cat_id") categoryID:String? = ""
+    ) : Call<BCWorkSkillModel>
+
+    @FormUrlEncoded
     @POST("apps_step_03_update_rai.asp")
     fun updateArmyExpsList(
             @Field("userId") userId: String? = "",

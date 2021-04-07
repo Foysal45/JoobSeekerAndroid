@@ -35,12 +35,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SplashActivity
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.MemoryPolicy
@@ -150,6 +150,13 @@ fun Context.getBlueCollarUserId(): Int {
     return blueCollarId
 }
 
+fun Context.launchUrl( url: String?) {
+    val formattedUrl = if (!url!!.startsWith("http://") && !url.startsWith("https://")) {
+        "http://$url"
+    } else url
+    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(formattedUrl))
+    this.startActivity(browserIntent)
+}
 
 fun Context.openUrlInBrowser(url: String?) {
     try {

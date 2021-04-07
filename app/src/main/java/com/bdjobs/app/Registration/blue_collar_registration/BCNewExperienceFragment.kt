@@ -1,5 +1,6 @@
 package com.bdjobs.app.Registration.blue_collar_registration
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.app.Fragment
@@ -15,7 +16,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AddExpModel
+import com.bdjobs.app.API.ModelClasses.BCWorkSkillModel
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
@@ -23,6 +26,7 @@ import com.bdjobs.app.Utilities.*
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_experience.*
 import kotlinx.android.synthetic.main.fragment_bc_experience.bcExperinceFAButton
@@ -31,7 +35,12 @@ import kotlinx.android.synthetic.main.fragment_bc_new_experience.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class BCNewExperienceFragment : Fragment() {
@@ -40,7 +49,8 @@ class BCNewExperienceFragment : Fragment() {
     private lateinit var registrationCommunicator: RegistrationCommunicator
     private var bcCategoryId: String = ""
     private var category: String = ""
-    private lateinit var subCategories: Array<String>
+//    private lateinit var subCategories: Array<String>
+    private lateinit var subCategories: ArrayList<String>
     private lateinit var levelList: Array<String>
     internal var count: Int = 0
     private lateinit var dataStorage: DataStorage
@@ -178,7 +188,8 @@ class BCNewExperienceFragment : Fragment() {
         registrationCommunicator = activity as RegistrationCommunicator
         categoryTV?.text = category
         dataStorage = DataStorage(activity!!)
-        subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(bcCategoryId)
+//        subCategories = fetchSubCategories(bcCategoryId)
+//        subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(bcCategoryId)
         dataStorage = DataStorage(activity!!)
         bcCategories = dataStorage.allBlueCollarCategoriesInBangla
 
@@ -187,7 +198,7 @@ class BCNewExperienceFragment : Fragment() {
                 "NTVQF Level 2", "NTVQF Level 3", "NTVQF Level 4", "NTVQF Level 5", "NTVQF Level 6"
         )
 
-        layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         skillListView?.layoutManager = layoutManager
         bcSkillAdapter = BCSkillAdapter(activity, addExpList)
         skillListView.adapter = bcSkillAdapter
@@ -202,6 +213,7 @@ class BCNewExperienceFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun showDialog(activity: Activity) {
         val workSource = ArrayList<String>()
         workSource.add(0, "-1")
@@ -211,8 +223,8 @@ class BCNewExperienceFragment : Fragment() {
         workSource.add(4, "-5")
 
         dialog = Dialog(activity)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog?.setCancelable(true)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
         dialog?.setContentView(R.layout.add_skill_dialog_layout)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val addExperienceTIET = dialog?.findViewById<TextInputEditText>(R.id.addExperienceTIET)
@@ -228,7 +240,8 @@ class BCNewExperienceFragment : Fragment() {
         val saveButton = dialog?.findViewById<MaterialButton>(R.id.saveButton)
         saveButton?.isEnabled = false
 
-        subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(bcCategoryId)
+//        subCategories = fetchSubCategories(bcCategoryId)
+//        subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(bcCategoryId)
 
 
         addExperienceTIET?.setOnClickListener {
@@ -438,7 +451,6 @@ class BCNewExperienceFragment : Fragment() {
         dialog.show()
 
     }
-
 
     fun showEditDialog(item: AddExpModel) {
 
@@ -724,13 +736,14 @@ class BCNewExperienceFragment : Fragment() {
         skillTIET?.setOnClickListener {
 
 
-            activity.selector("ক্যাটাগরি নির্বাচন করুন", bcCategories.toList()) { dialogInterface, i ->
+            activity.selector("ক্যাটাগরি নির্বাচন করুন", bcCategories.toList()) { _, i ->
 
 
                 skillTIET.setText(bcCategories[i])
 
                 this.bcCategoryId = dataStorage.getCategoryIDByBanglaName(bcCategories[i])!!
-                this.subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(bcCategoryId)
+//                this.subCategories = fetchSubCategories(bcCategoryId)
+//                this.subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(bcCategoryId)
 
 
                 d("kflgflk ${bcCategories[i]} categoryId $bcCategoryId  subCategories ${subCategories.size}")
@@ -772,6 +785,37 @@ class BCNewExperienceFragment : Fragment() {
 
     }
 
+    private fun fetchSubCategories(categoryID: String):ArrayList<String> {
+
+        Timber.d("Fetch subCategories called!")
+        val subCategories = ArrayList<String> ()
+        ApiServiceMyBdjobs.create().workSkillSuggestionsBC(categoryID).enqueue(object: Callback<BCWorkSkillModel>{
+            override fun onFailure(call: Call<BCWorkSkillModel>, t: Throwable) {
+                Timber.e("Sub category fetch failed: ${t.localizedMessage}")
+            }
+
+            override fun onResponse(call: Call<BCWorkSkillModel>, response: Response<BCWorkSkillModel>) {
+
+                if (response.isSuccessful) {
+                    if (response.code()==200) {
+                        val body = response.body()
+
+                        if (body?.statuscode=="0") {
+                            for (i in body.data?.indices!!) {
+                                if (body.data[i].skillNameBn!="")
+                                    subCategories.add(body.data[i].skillNameBn!!)
+                            }
+                        }
+
+                    } else Timber.e("Failed_ code: ${response.code()}")
+                } else Timber.e("Unsuccessful response")
+            }
+
+        })
+
+        return subCategories
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -779,7 +823,8 @@ class BCNewExperienceFragment : Fragment() {
         try {
 
             categoryTV?.text = registrationCommunicator.getCategory()
-            this.subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(registrationCommunicator.getCategoryId())
+            this.subCategories = fetchSubCategories(registrationCommunicator.getCategoryId())
+//            this.subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(registrationCommunicator.getCategoryId())
 
             if (addExpList!!.size > 0) {
 

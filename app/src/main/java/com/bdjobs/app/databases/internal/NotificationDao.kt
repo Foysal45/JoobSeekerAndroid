@@ -39,6 +39,9 @@ interface NotificationDao {
     @Query("SELECT COUNT(id) FROM Notification WHERE seen = 0 AND type != :type")
     fun getNotificationsCount(type: String): Int
 
+    @Query("SELECT COUNT(id) FROM Notification WHERE seen = 0 AND type = :type")
+    fun getMessagesCount(type: String):Int
+
     @Transaction
     fun getMessage(): List<Notification> {
         return getMessages(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE)
@@ -63,6 +66,11 @@ interface NotificationDao {
     @Transaction
     fun getNotificationCount(): Int {
         return getNotificationsCount(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE)
+    }
+
+    @Transaction
+    fun getMessageCount():Int{
+        return getMessagesCount(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE)
     }
 
     @Transaction

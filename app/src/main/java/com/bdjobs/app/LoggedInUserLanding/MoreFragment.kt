@@ -16,16 +16,15 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.transaction.TransactionBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import kotlinx.android.synthetic.main.fragment_more_layout.*
-import kotlinx.android.synthetic.main.fragment_more_layout.notificationCountTV
-import kotlinx.android.synthetic.main.fragment_more_layout.notificationIMGV
-import kotlinx.android.synthetic.main.fragment_more_layout.profilePicIMGV
-import kotlinx.android.synthetic.main.fragment_more_layout.searchIMGV
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
+import timber.log.Timber
 
 class MoreFragment : Fragment() {
 
@@ -34,6 +33,7 @@ class MoreFragment : Fragment() {
     private var horizontaList: ArrayList<MoreHorizontalData> = ArrayList()
     lateinit var homeCommunicator: HomeCommunicator
     var cvUploadMore: String = ""
+    private lateinit var bdjobsDB: BdjobsDB
     private var dialog: Dialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,6 +44,7 @@ class MoreFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         homeCommunicator = activity as HomeCommunicator
         bdjobsUserSession = BdjobsUserSession(activity)
+        bdjobsDB = BdjobsDB.getInstance(activity)
         initializeViews()
         clearAddPopulateData()
         getIfCVuploaded()
@@ -174,6 +175,10 @@ class MoreFragment : Fragment() {
         transaction_overview_MBTN?.setOnClickListener {
             startActivity<TransactionBaseActivity>()
         }
+
+        messageIMGV?.setOnClickListener {
+            homeCommunicator.goToMessages()
+        }
     }
 
 
@@ -221,6 +226,7 @@ class MoreFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         showNotificationCount()
+        showMessageCount()
     }
 
     private fun showNotificationCount() {
@@ -235,6 +241,45 @@ class MoreFragment : Fragment() {
 
                 } else {
                     notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+                }
+            }
+        } catch (e: Exception) {
+        }
+    }
+
+    fun updateMessageView(count: Int?) {
+        //Log.d("rakib", "in home fragment $count")
+        if (count!! > 0) {
+            messageCountTV?.show()
+            if (count <= 99)
+                messageCountTV?.text = "$count"
+            else
+                messageCountTV?.text = "99+"
+        } else {
+            messageCountTV?.hide()
+        }
+    }
+
+    private fun showMessageCount() {
+        try {
+
+            doAsync {
+                bdjobsUserSession = BdjobsUserSession(activity)
+                val count = bdjobsDB.notificationDao().getMessageCount()
+                Timber.d("Messages count: $count")
+                bdjobsUserSession.updateMessageCount(count)
+            }
+
+            if (bdjobsUserSession.messageCount!! <= 0) {
+                messageCountTV?.hide()
+            } else {
+                messageCountTV?.show()
+                if (bdjobsUserSession.messageCount!! > 99) {
+                    messageCountTV?.text = "99+"
+
+                } else {
+                    messageCountTV?.text = "${bdjobsUserSession.messageCount!!}"
 
                 }
             }

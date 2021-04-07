@@ -194,7 +194,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         notificationIMGV?.setOnClickListener {
             homeCommunicator.goToNotifications()
         }
-
+        messageIMGV?.setOnClickListener {
+            homeCommunicator.goToMessages()
+        }
     }
 
     private fun showData() {
@@ -274,12 +276,40 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
     }
 
+    private fun showMessageCount() {
+        try {
+
+            doAsync {
+                bdjobsUserSession = BdjobsUserSession(activity)
+                val count = bdjobsDB.notificationDao().getMessageCount()
+                Timber.d("Messages count: $count")
+                bdjobsUserSession.updateMessageCount(count)
+            }
+
+            if (bdjobsUserSession.messageCount!! <= 0) {
+                messageCountTV?.hide()
+            } else {
+                messageCountTV?.show()
+                if (bdjobsUserSession.messageCount!! > 99) {
+                    messageCountTV?.text = "99+"
+
+                } else {
+                    messageCountTV?.text = "${bdjobsUserSession.messageCount!!}"
+
+                }
+            }
+        } catch (e: Exception) {
+        }
+    }
+
     override fun onResume() {
         super.onResume()
 //        activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
         //BackgroundJobBroadcastReceiver.notificationUpdateListener = this
+        Timber.d("onResume Triggered")
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
         showNotificationCount()
+        showMessageCount()
         showData()
         alertAboutShortlistedJobs()
 
@@ -550,7 +580,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     private fun getFilterString(search: LastSearch): String? {
-        Timber.d("Search Filter: $search")
         val dataStorage = DataStorage(activity)
         val age = dataStorage.getAgeRangeNameByID(search.age)
         val newsPaper = dataStorage.getNewspaperNameById(search.newsPaper)
@@ -898,6 +927,19 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 notificationCountTV?.text = "99+"
         } else {
             notificationCountTV?.hide()
+        }
+    }
+
+    fun updateMessageView(count: Int?) {
+        //Log.d("rakib", "in home fragment $count")
+        if (count!! > 0) {
+            messageCountTV?.show()
+            if (count <= 99)
+                messageCountTV?.text = "$count"
+            else
+                messageCountTV?.text = "99+"
+        } else {
+            messageCountTV?.hide()
         }
     }
 

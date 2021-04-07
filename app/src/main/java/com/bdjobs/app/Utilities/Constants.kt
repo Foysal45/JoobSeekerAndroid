@@ -181,6 +181,7 @@ class Constants {
         const val session_job_apply_limit = "jobApplyLimit"
         const val session_job_apply_threshold = "jobApplyThreshold"
         const val notification_count = "notificationCount"
+        const val message_count = "messageCount"
 
 
         const val session_key_mybdjobscount_jobs_applied_thismonth = "jobs_applied_thismonth"

@@ -78,13 +78,18 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     override fun onUpdateNotification() {
         //Log.d("rakib", "in Main Landing Activity")
-        BdjobsUserSession(this@MainLandingActivity)?.let {
+        BdjobsUserSession(this@MainLandingActivity).let {
             val count = it.notificationCount
             homeFragment.updateNotificationView(count)
+            homeFragment.updateMessageView(it.messageCount)
             hotJobsFragmentnew.updateNotificationView(count)
+            hotJobsFragmentnew.updateMessageView(it.messageCount)
             shortListedJobFragment.updateNotificationView(count)
+            shortListedJobFragment.updateMessageView(it.messageCount)
             mybdjobsFragment.updateNotificationView(count)
+            mybdjobsFragment.updateMessageView(it.messageCount)
             moreFragment.updateNotificationView(count)
+            moreFragment.updateMessageView(it.messageCount)
 
             homeFragment.updateInvitationCountView()
         }
@@ -405,6 +410,59 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         tetsLog()
     }
 
+    /**
+     * this fun is just for testing purpose
+     */
+    private fun insertTempMessage() {
+        doAsync {
+            bdjobsDB.notificationDao().insertNotification(
+                    Notification(
+                            title = "Test",
+                            body = "This is a test notification",
+                            type = "pm",
+                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+                            link = "www.google.com",
+                            notificationId = "001"
+                    )
+            )
+
+            bdjobsDB.notificationDao().insertNotification(
+                    Notification(
+                            title = "Test2",
+                            body = "This is a test notification",
+                            type = "pm",
+                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+                            link = "www.google.com",
+                            notificationId = "002"
+                    )
+            )
+
+            bdjobsDB.notificationDao().insertNotification(
+                    Notification(
+                            title = "Test3",
+                            body = "This is a test notification",
+                            type = "pm",
+                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+                            link = "www.google.com",
+                            notificationId = "003"
+                    )
+            )
+
+            bdjobsDB.notificationDao().insertNotification(
+                    Notification(
+                            title = "Test4",
+                            body = "This is a test notification",
+                            type = "pm",
+                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+                            link = "www.google.com",
+                            notificationId = "004"
+                    )
+            )
+
+            BdjobsUserSession(this@MainLandingActivity).updateMessageCount(bdjobsDB.notificationDao().getMessageCount())
+        }
+    }
+
     private fun loadAd() {
         try {
             Ads.mInterstitialAd = InterstitialAd(this@MainLandingActivity)
@@ -532,6 +590,12 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     override fun goToNotifications() {
         startActivity<NotificationBaseActivity>()
+    }
+
+    override fun goToMessages() {
+        startActivity<NotificationBaseActivity>(
+                "from" to "message"
+        )
     }
 
     override fun goToFavSearchFilters() {

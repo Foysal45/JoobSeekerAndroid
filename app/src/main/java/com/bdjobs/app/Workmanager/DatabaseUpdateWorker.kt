@@ -469,8 +469,10 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
     private fun getUnSeenNotificationsCount() {
         doAsync {
             val count = bdjobsInternalDB.notificationDao().getNotificationCount()
+            val messageCount = bdjobsInternalDB.notificationDao().getMessageCount()
             //Log.d("rakib", "notification count $count")
             bdjobsUserSession.updateNotificationCount(count)
+            bdjobsUserSession.updateMessageCount(messageCount)
         }
 
 //        doAsync {

@@ -35,6 +35,7 @@ interface HomeCommunicator {
     fun showManageResumePopup()
     fun goToMessageByEmployers(value: String)
     fun goToNotifications()
+    fun goToMessages()
     fun goToResumeManager()
 
 }

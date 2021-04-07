@@ -4,7 +4,6 @@ import android.app.Fragment
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +14,15 @@ import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.internal.BdjobsDB
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
+import org.jetbrains.anko.doAsync
+import timber.log.Timber
 
 class  MyBdjobsFragment : Fragment() {
     private lateinit var bdjobsUserSession : BdjobsUserSession
+
+    private lateinit var bdjobsDB: BdjobsDB
     private var mybdjobsAdapter: MybdjobsAdapter? = null
     private var bdjobsList: ArrayList<MybdjobsData> = ArrayList()
     private lateinit var communicator: HomeCommunicator
@@ -73,6 +77,7 @@ class  MyBdjobsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         communicator = activity as HomeCommunicator
         bdjobsUserSession = BdjobsUserSession(activity)
+        bdjobsDB = BdjobsDB.getInstance(activity)
 
     }
 
@@ -83,6 +88,7 @@ class  MyBdjobsFragment : Fragment() {
         onClick()
 
         showNotificationCount()
+        showMessageCount()
     }
 
     private fun showNotificationCount() {
@@ -104,6 +110,44 @@ class  MyBdjobsFragment : Fragment() {
         }
     }
 
+    fun updateMessageView(count: Int?) {
+        //Log.d("rakib", "in home fragment $count")
+        if (count!! > 0) {
+            messageCountTV?.show()
+            if (count <= 99)
+                messageCountTV?.text = "$count"
+            else
+                messageCountTV?.text = "99+"
+        } else {
+            messageCountTV?.hide()
+        }
+    }
+
+    private fun showMessageCount() {
+        try {
+
+            doAsync {
+                bdjobsUserSession = BdjobsUserSession(activity)
+                val count = bdjobsDB.notificationDao().getMessageCount()
+                Timber.d("Messages count: $count")
+                bdjobsUserSession.updateMessageCount(count)
+            }
+
+            if (bdjobsUserSession.messageCount!! <= 0) {
+                messageCountTV?.hide()
+            } else {
+                messageCountTV?.show()
+                if (bdjobsUserSession.messageCount!! > 99) {
+                    messageCountTV?.text = "99+"
+
+                } else {
+                    messageCountTV?.text = "${bdjobsUserSession.messageCount!!}"
+
+                }
+            }
+        } catch (e: Exception) {
+        }
+    }
 
 
     private fun initializeViews() {
@@ -127,6 +171,10 @@ class  MyBdjobsFragment : Fragment() {
 
         notificationIMGV?.setOnClickListener {
             communicator.goToNotifications()
+        }
+
+        messageIMGV?.setOnClickListener {
+            communicator.goToMessages()
         }
 
         profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
