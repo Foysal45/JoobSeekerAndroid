@@ -72,7 +72,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private lateinit var bdjobsDB: BdjobsDB
     private lateinit var backgroundJobBroadcastReceiver: BackgroundJobBroadcastReceiver
-    private val intentFilter = IntentFilter(Constants.BROADCAST_DATABASE_UPDATE_JOB)
     private var followedEmployerList: List<FollowedEmployer>? = null
     private var jobInvitations: List<JobInvitation>? = null
     private var videoInvitations: List<VideoInvitation>? = null
@@ -83,8 +82,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private var inviteInterviview: String? = ""
     private var videoInterviview: String? = ""
     private var liveInterview: String? = ""
-    lateinit var notificationHelper: NotificationHelper
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home_layout, container, false)!!
@@ -304,8 +301,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     override fun onResume() {
         super.onResume()
-//        activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
-        //BackgroundJobBroadcastReceiver.notificationUpdateListener = this
+
         Timber.d("onResume Triggered")
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
         showNotificationCount()
@@ -315,22 +311,14 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     }
 
-    override fun onPause() {
-        super.onPause()
-//        activity?.unregisterReceiver(backgroundJobBroadcastReceiver)
-    }
 
     override fun jobInvitationSyncComplete() {
-        //Log.d("broadCastCheck", "jobInvitationSyncComplete")
-        //showJobInvitation()
         Timber.tag("home").d("general complete override")
         showAllInvitations()
 
     }
 
     override fun videoInvitationSyncComplete() {
-//        Log.d("broadCastCheck", "videoInvitationSyncComplete")
-        //showVideoInvitation()
         Timber.tag("home").d("video complete override")
         showAllInvitations()
 
@@ -342,12 +330,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     override fun certificationSyncComplete() {
-        //Log.d("broadCastCheck", "certificationSyncComplete")
-        //showCertificationInfo()
     }
 
     override fun followedEmployerSyncComplete() {
-        //Log.d("broadCastCheck", "followedEmployerSyncComplete")
         showFollowedEmployers()
     }
 
@@ -361,11 +346,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
             val followedEmployerJobCount = bdjobsDB.followedEmployerDao().getJobCountOfFollowedEmployer()
             uiThread {
-//                showBlankLayout()
                 followedEmployerView?.hide()
                 if (!followedEmployerList.isNullOrEmpty()) {
                     followEmplowercounterTV?.text = followedEmployerJobCount.toString()
-                    //Log.d("followEmplowercounterTV", "followEmplowercounterTV: $followedEmployerJobCount")
                     var followedCompanyNames = ""
                     followedEmployerList?.forEach { item ->
                         followedCompanyNames += item.CompanyName + ","
@@ -381,63 +364,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     }
 
-    private fun showJobInvitation() {
-        doAsync {
-            jobInvitations = bdjobsDB.jobInvitationDao().getAllJobInvitation()
-            uiThread {
-                try {
-//                    showBlankLayout()
-                    jobInvitationView?.hide()
-                    if (!jobInvitations.isNullOrEmpty()) {
-                        var companyNames = ""
-                        jobInvitations?.forEach { item ->
-                            companyNames += item.companyName + ","
-                        }
-                        jobInvitedCompanyNameTV?.text = companyNames.removeLastComma()
-                        jobInvitationcounterTV?.text = jobInvitations?.size.toString()
-                        blankCL?.hide()
-                        mainLL?.show()
-                        newSearchBTN?.show()
-                        jobInvitationView?.show()
-                    }
-                } catch (e: Exception) {
-                }
-            }
-        }
-    }
-
-    private fun showVideoInvitation() {
-        doAsync {
-            videoInvitations = bdjobsDB.videoInvitationDao().getAllVideoInvitation()
-            uiThread {
-                try {
-                    showBlankLayout()
-                    videoInvitationView?.hide()
-                    if (!videoInvitations.isNullOrEmpty()) {
-                        var companyNames = ""
-                        videoInvitations?.forEach { item ->
-                            companyNames += item.companyName + ","
-                        }
-
-                        videoInvitationCompanyNameTV?.text = companyNames.removeLastComma()
-                        videoInvitationCounterTV?.text = videoInvitations?.size.toString()
-                        blankCL?.hide()
-                        mainLL?.show()
-                        newSearchBTN?.show()
-                        videoInvitationView?.show()
-                    }
-                } catch (e: Exception) {
-                }
-            }
-        }
-    }
-
     private fun showFavouriteSearchFilters() {
         doAsync {
             favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getLatest2FavouriteSearchFilter()
             val allfavsearch = bdjobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
             uiThread {
-//                showBlankLayout()
                 favSearchView?.hide()
                 if (!favouriteSearchFilters.isNullOrEmpty()) {
                     try {
@@ -457,51 +388,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     }
 
-    private fun showCertificationInfo() {
-        doAsync {
-            b2CCertificationList = bdjobsDB.b2CCertificationDao().getAllB2CCertification()
-            uiThread {
-                try {
-                    showBlankLayout()
-                    assesmentView?.hide()
-                    if (!b2CCertificationList.isNullOrEmpty()) {
-                        var jobRoles = ""
-                        b2CCertificationList?.forEach { item ->
-                            jobRoles += item.jobRole + ","
-                        }
-                        jobRolesTV?.text = jobRoles
-                        certificationCounterTV?.text = b2CCertificationList?.size.toString().removeLastComma()
-                        blankCL?.hide()
-                        mainLL?.show()
-                        newSearchBTN?.show()
-                        newSearchBTN?.show()
-                        assesmentView?.show()
-                    }
-                } catch (e: Exception) {
-                }
-            }
-        }
-    }
-
-    private fun showBlankLayout() {
-//        if (followedEmployerList.isNullOrEmpty()
-//                && jobInvitations.isNullOrEmpty()
-//                && favouriteSearchFilters.isNullOrEmpty()
-//                && b2CCertificationList.isNullOrEmpty()
-//                && lastSearch.isNullOrEmpty()
-//                && (Constants.liveInvitation == "0" && Constants.videoInvitation == "0" && Constants.generalInvitation == "0")
-//        ) {
-//            mainLL?.hide()
-//            blankCL?.show()
-//            newSearchBTN?.hide()
-//        }
-    }
 
     private fun showLastSearch() {
         doAsync {
             lastSearch = bdjobsDB.lastSearchDao().getLastSearch()
             uiThread {
-//                showBlankLayout()
                 lastSearchView?.hide()
                 if (!lastSearch.isNullOrEmpty()) {
 
@@ -700,13 +591,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         LiveInterviewCV?.setOnClickListener {
             interviewInvitationDialog?.dismiss()
             homeCommunicator.goToLiveInvitation("popup")
-//            try {
-//                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
-//            } catch (e: Exception) {
-//            }
             interviewInvitationDialog?.cancel()
         }
-
 
         interviewInvitationDialog?.show()
 
@@ -741,21 +627,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
         generalDialog?.show()
 
-    }
-
-
-    private fun showVideoInterviewSlider() {
-
-        videoInvitationSliderLayout.show()
-        videoInterviewTV.isSelected = true
-        videoInterviewTV.text = getString(R.string.homepage_slider_text, videoInterviview)
-        videoInvitationSliderLayout.onClick {
-            homeCommunicator.goToVideoInvitation("slider")
-            try {
-                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
-            } catch (e: Exception) {
-            }
-        }
     }
 
     private fun getLastUpdateFromServer() {
@@ -850,20 +721,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         doAsync {
             val shortlistedjobs = bdjobsDB.shortListedJobDao().getShortListedJobsBYDeadline(deadlineNext2Days)
             uiThread {
-                //Log.d("ShortListedJobPopup", "Job found: ${shortlistedjobs.size}")
-
                 try {
                     if (shortlistedjobs.isNotEmpty()) {
-
-//                        notificationHelper = NotificationHelper(activity)
-//                        notificationHelper.notify(
-//                                Constants.NOTIFICATION_ALERT,
-//                                notificationHelper.prepareNotification(
-//                                        "test title",
-//                                        "You have ${shortlistedjobs.size} shortlisted jobs",
-//                                        type = NOTIFICATION_TYPE_ALERT_NOTIFICATION
-//                                )
-//                        )
 
                         val dialog = Dialog(activity)
                         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -918,7 +777,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     fun updateNotificationView(count: Int?) {
-        //Log.d("rakib", "in home fragment $count")
         if (count!! > 0) {
             notificationCountTV?.show()
             if (count <= 99)
