@@ -5,6 +5,7 @@ import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
 import android.text.Html
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ModelClasses.ClientAdModel
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.SaveUpdateFavFilterModel
@@ -31,7 +33,10 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
+import kotlinx.android.synthetic.main.fragment_joblist_layout.adView_container
+import kotlinx.android.synthetic.main.fragment_joblist_layout.ivClientAd
 import okhttp3.ResponseBody
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -94,6 +99,7 @@ class JoblistFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bdjobsDB = BdjobsDB.getInstance(activity)
+
     }
 
     private fun getData() {
@@ -319,6 +325,7 @@ class JoblistFragment : Fragment() {
             }
         })
 
+        showClientAD()
     }
 
     private fun getDataNew() {
@@ -414,7 +421,6 @@ class JoblistFragment : Fragment() {
 
     }
 
-
     private fun loadFirstPageFromJobDetailBackButton() {
         //Log.d(TAG, "came here from loadFirstPageFromJobDetailBackButton")
         try {
@@ -428,7 +434,6 @@ class JoblistFragment : Fragment() {
             logException(e)
         }
     }
-
 
     private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?,workPlace: String?, personWithDisability: String?, facilitiesForPWD: String?) {
 
@@ -671,7 +676,6 @@ class JoblistFragment : Fragment() {
         })
     }
 
-
     private fun onClick() {
         backIV?.setOnClickListener {
             Timber.tag("job rakib").d("back button in fragment")
@@ -904,7 +908,6 @@ class JoblistFragment : Fragment() {
         })
     }
 
-
     private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout?): Boolean {
         if (typedData.trim().isNullOrBlank()) {
             textInputLayout?.showError(getString(R.string.field_empty_error_message_common))
@@ -912,6 +915,74 @@ class JoblistFragment : Fragment() {
         }
         textInputLayout?.hideError()
         return true
+    }
+
+    private fun showClientAD() {
+
+        try {
+            ApiServiceJobs.create().clientAdBanner("jobsearch")
+                    .enqueue(object : Callback<ClientAdModel> {
+                        override fun onResponse(call: Call<ClientAdModel>, response: Response<ClientAdModel>) {
+                            Timber.d("Client ad fetched!")
+
+                            try {
+                                if (response.isSuccessful) {
+                                    if (response.code() == 200) {
+                                        if (response.body()?.data!!.isNotEmpty()) {
+
+                                            ivClientAd.visibility = View.VISIBLE
+                                            adView_container.visibility = View.GONE
+
+                                            val dimensionInDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, response.body()!!.data[0].height.toFloat(),
+                                                    resources.displayMetrics).toInt()
+
+
+                                            ivClientAd.layoutParams.height = dimensionInDp
+
+                                            ivClientAd.requestLayout()
+
+                                            Picasso.get()
+                                                    .load(response.body()!!.data[0].imageurl)
+                                                    .into(ivClientAd)
+
+
+                                            ivClientAd.setOnClickListener {
+                                                activity.launchUrl(response.body()!!.data[0].adurl)
+                                            }
+
+                                        } else {
+                                            ivClientAd.visibility = View.GONE
+                                            adView_container.visibility = View.VISIBLE
+                                            Ads.loadAdaptiveBanner(activity, adView_container)
+                                        }
+                                    } else {
+                                        Timber.d("Response code: ${response.code()}")
+                                        ivClientAd.visibility = View.GONE
+                                        adView_container.visibility = View.VISIBLE
+                                        Ads.loadAdaptiveBanner(activity, adView_container)
+                                    }
+                                } else {
+                                    Timber.d("Unsuccessful response")
+                                    ivClientAd.visibility = View.GONE
+                                    adView_container.visibility = View.VISIBLE
+                                    Ads.loadAdaptiveBanner(activity, adView_container)
+                                }
+                            } catch (e: Exception) {
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ClientAdModel>, t: Throwable) {
+                            Timber.e("Client ad fetching failed due to: ${t.localizedMessage} .. Showing ADMob AD")
+
+                            try {
+                                ivClientAd.visibility = View.GONE
+                                adView_container.visibility = View.VISIBLE
+                                Ads.loadAdaptiveBanner(activity, adView_container)
+                            } catch (e: Exception) {
+                            }
+                        }
+                    })
+        } catch (e: Exception) {}
     }
 
 

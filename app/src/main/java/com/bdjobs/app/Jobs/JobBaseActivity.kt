@@ -184,7 +184,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             getData()
         }
 
-        showClientAD()
+//        showClientAD()
 //        Ads.loadAdaptiveBanner(this@JobBaseActivity,adView_container)
 
     }
