@@ -1,7 +1,9 @@
 package com.bdjobs.app.Notification
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.text.Html
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -18,6 +20,7 @@ import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
+import com.bdjobs.app.Notification.Models.CommonNotificationModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -34,6 +37,7 @@ import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.bdjobs.app.videoResume.ResumeManagerActivity
 import com.google.android.material.button.MaterialButton
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -568,6 +572,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 val hashMap = getDateTimeAsAgo(items[position].arrivalTime)
 
+                var commonNotificationModel : CommonNotificationModel?=null
 
                 try {
                     when {
@@ -611,30 +616,80 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     promotionalMessageViewHolder.messageText?.hide()
                 }
 
-                if (!items[position].link.isNullOrEmpty()) {
-                    promotionalMessageViewHolder?.messageButton?.show()
-                    promotionalMessageViewHolder?.messageButton?.setOnClickListener {
+                if (!items[position].payload.isNullOrEmpty()) {
 
-                        try {
-                            if (!items[position].seen!!) {
-                                doAsync {
-                                    bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
-                                    val count = bdjobsDB.notificationDao().getMessageCount()
-                                    bdjobsUserSession.updateMessageCount(count)
-                                }
+                    var intent:Intent ? =null
+                    try {
+                        commonNotificationModel  = Gson().fromJson(items[position].payload,CommonNotificationModel::class.java)
+                        val className = Class.forName(commonNotificationModel.activityNode!!)
+                        intent = Intent(context,className)
+
+                    } catch (e: Exception) {
+                        if (!commonNotificationModel?.link.isNullOrEmpty()) {
+                            try {
+                                val formattedUrl = if (!commonNotificationModel?.link?.startsWith("http://") !!
+                                        && !commonNotificationModel.link?.startsWith("https://")!!) {
+                                    "http://${commonNotificationModel.link}"
+                                } else commonNotificationModel.link
+                                intent = Intent(Intent.ACTION_VIEW, Uri.parse(formattedUrl))
+                            } catch (e: Exception) {
                             }
-                        } catch (e: Exception) {
-                            logException(e)
                         }
+                    }
 
-                        try {
-                            context?.launchUrl(items[position].link)
-                        } catch (e: Exception) {}
-                        notificationCommunicatior.positionClickedMessage(position)
+                    if (!items[position].link.isNullOrEmpty()) {
+                        promotionalMessageViewHolder?.messageButton?.show()
+                        promotionalMessageViewHolder?.messageButton?.setOnClickListener {
+
+                            try {
+                                if (!items[position].seen!!) {
+                                    doAsync {
+                                        bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                        val count = bdjobsDB.notificationDao().getMessageCount()
+                                        bdjobsUserSession.updateMessageCount(count)
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
+
+                            try {
+                                if (intent!=null) context.startActivity(intent)
+                                else context.launchUrl(items[position].link)
+                            } catch (e: Exception) {}
+                            notificationCommunicatior.positionClickedMessage(position)
+                        }
+                    } else {
+                        promotionalMessageViewHolder?.messageButton?.hide()
                     }
                 } else {
-                    promotionalMessageViewHolder?.messageButton?.hide()
+                    if (!items[position].link.isNullOrEmpty()) {
+                        promotionalMessageViewHolder?.messageButton?.show()
+                        promotionalMessageViewHolder?.messageButton?.setOnClickListener {
+
+                            try {
+                                if (!items[position].seen!!) {
+                                    doAsync {
+                                        bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                        val count = bdjobsDB.notificationDao().getMessageCount()
+                                        bdjobsUserSession.updateMessageCount(count)
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
+
+                            try {
+                                context?.launchUrl(items[position].link)
+                            } catch (e: Exception) {}
+                            notificationCommunicatior.positionClickedMessage(position)
+                        }
+                    } else {
+                        promotionalMessageViewHolder?.messageButton?.hide()
+                    }
                 }
+
+
 
                 if (!items[position].imageLink.isNullOrEmpty()) {
                     promotionalMessageViewHolder?.card?.show()
