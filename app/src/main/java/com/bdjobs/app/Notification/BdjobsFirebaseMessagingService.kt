@@ -322,7 +322,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                 //Log.d("rakib" ,"insdie noti")
                 try {
                     mNotificationHelper.notify(Constants.NOTIFICATION_PROMOTIONAL_MESSAGE, mNotificationHelper.prepareNotification(
-                            commonNotificationModel.title!!, commonNotificationModel.body!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imageLink, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB))
+                            commonNotificationModel.msgTitle!!, commonNotificationModel.msg!!, commonNotificationModel.jobId!!, commonNotificationModel.companyName!!, commonNotificationModel.jobTitle!!, commonNotificationModel.type!!, commonNotificationModel.link, commonNotificationModel.imgSrc, commonNotificationModel.notificationId, commonNotificationModel.lanType, commonNotificationModel.deadlineDB,commonNotificationModel.activityNode))
                 } catch (e: Exception) {
                 }
             }
