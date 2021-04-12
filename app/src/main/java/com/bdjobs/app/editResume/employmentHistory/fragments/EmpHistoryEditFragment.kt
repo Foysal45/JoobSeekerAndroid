@@ -523,7 +523,7 @@ class EmpHistoryEditFragment : Fragment() {
 
     private fun updateData() {
         if (!experiencesMACTV.text.toString().isNullOrEmpty()) {
-            toast("Area of Experience is not available ")
+            toast("No area of experience found! ")
             experiencesMACTV?.requestFocus()
         } else {
             activity?.showProgressBar(loadingProgressBar)
