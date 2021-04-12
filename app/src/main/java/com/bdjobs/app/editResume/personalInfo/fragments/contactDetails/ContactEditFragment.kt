@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.text.trimmedLength
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -438,12 +439,14 @@ class ContactEditFragment : Fragment() {
 
             if (contactEmailAddressTIET.getString().trim() == "") {
                 validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
+                Toast.makeText(activity, "Please fill at least a Primary Mobile No or Email Address.", Toast.LENGTH_SHORT).show()
                 //Log.d("CValidaiton", "email empty $validation")
             }
 
 
             if (contactMobileNumberTIET.getString().trim() == "") {
                 validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactMobileNumberTIET, true, validation)
+                Toast.makeText(activity, "Please fill at least a Primary Mobile No or Email Address.", Toast.LENGTH_SHORT).show()
                 //Log.d("CValidaiton", "mobile empty $validation")
             }
 
