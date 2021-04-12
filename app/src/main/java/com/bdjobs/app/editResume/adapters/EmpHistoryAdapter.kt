@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.databases.External.DataStorage
@@ -15,6 +16,8 @@ import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
 import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.editResume.adapters.models.DataItem
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
+import com.google.gson.Gson
+import timber.log.Timber
 
 class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context) : RecyclerView.Adapter<EmpHistoryAdapter.MyViewHolder>() {
 
@@ -38,6 +41,9 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val dModel = itemList?.get(position)!!
         //call.saveExpsArray(dModel.areaofExperience as ArrayList<AreaofExperienceItem>)
+
+        Timber.d("Data: ${Gson().toJson(dModel)}")
+
         if (position == itemList?.size!! - 1) {
             val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
             params.bottomMargin = 200
@@ -49,6 +55,9 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
         }
         holder.tvDes?.text = dModel.positionHeld
         holder.tvDate?.text = "From ${dModel.from} to ${dModel.to}"
+
+        Timber.d("Com: ${dModel.companyName} :: Add: ${dModel.companyLocation}")
+
         holder.tvCom?.text = dModel.companyName
         holder.tvAddress?.text = dModel.companyLocation
 
@@ -96,12 +105,15 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
         var visibility: Int = holder.moreActionDetails!!.visibility
         if (visibility == View.GONE) {
             visibility = View.VISIBLE
-            debug("iftoggleDetails: $visibility")
-            ExpandAndCollapseViewUtil.expand(holder.moreActionDetails!!, DURATION)
+            Timber.d("iftoggleDetails: $visibility")
+//            ExpandAndCollapseViewUtil.expand(holder.moreActionDetails!!, DURATION)
+            holder.moreActionDetails?.visibility = View.VISIBLE
             holder.imageViewExpand!!.setImageResource(R.drawable.ic_arrow_up)
         } else {
-            ExpandAndCollapseViewUtil.collapse(holder.moreActionDetails!!, DURATION)
-            debug("elsetoggleDetails: $visibility")
+//            ExpandAndCollapseViewUtil.collapse(holder.moreActionDetails!!, DURATION)
+
+            holder.moreActionDetails?.visibility = View.GONE
+            Timber.d("elsetoggleDetails: $visibility")
             holder.imageViewExpand!!.setImageResource(R.drawable.ic_arrow_down)
         }
     }
@@ -120,7 +132,7 @@ class EmpHistoryAdapter(arr: java.util.ArrayList<DataItem>, val context: Context
 
     class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
 
-        var moreActionDetails: ViewGroup? = itemView!!.findViewById(R.id.cl_expanded)
+        var moreActionDetails: RelativeLayout? = itemView!!.findViewById(R.id.cl_expanded)
         var imageViewExpand: ImageView? = itemView!!.findViewById(R.id.iv_details)
         var ivEdit: ImageView? = itemView!!.findViewById(R.id.iv_edit)
         var tvDes: TextView? = itemView?.findViewById(R.id.tvDes)
