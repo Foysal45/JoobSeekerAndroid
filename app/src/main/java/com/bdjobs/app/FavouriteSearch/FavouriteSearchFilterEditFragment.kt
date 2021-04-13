@@ -21,6 +21,7 @@ import com.bdjobs.app.Utilities.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_edit.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -78,10 +79,26 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         favCommunicator = activity as FavCommunicator
         filterID = favCommunicator.getFilterID()
 
+//        filterID = ""
+        filterName = ""
+        organization = ""
+        experience = ""
+        jobType = ""
+        jobLevel = ""
+        jobNature = ""
+        postedWithin = ""
+        deadline = ""
+        age = ""
+        location = ""
+        newspaper = ""
+        category = ""
+        industry = ""
+        gender = ""
+
         workPlace = "0"
         personWithDisability = "0"
         facilitiesForPWD = "0"
-        army = "0"
+        army = ""
 
 
         onClicks()
@@ -103,7 +120,6 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val typedData = data?.getStringExtra(Constants.key_typedData)
                 val from = data?.getStringExtra(Constants.key_from)
-
                 //Log.d("typedData", "typedData : $typedData")
 
                 when (from) {
@@ -360,9 +376,6 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         loadingDialog.show()
         val uLocation = dataStorage.getLocationIDByName(loacationET.text.toString())
 
-//        Timber.d("Values: IN: $industry :: CAT: $category :: LOC: $uLocation :: ORG: $organization :: JN: $jobNature :: JL: $jobLevel :: POSTED: $postedWithin :: DEADLINE: $deadline :: KEY: $keyword" +
-//                " :: EXP: $experience :: GENDER: $gender :: JOB_TYPE: $jobType :: ARMY: $army :: FILTERID: $filterID :: FILTER_NAME: $filterName :: AGE: $age :: NEWS: $newspaper" +
-//                "ENCODE: ${Constants.ENCODED_JOBS} :: WORK: $workPlace :: PWD: $personWithDisability :: FAC: $facilitiesForPWD")
 
         ApiServiceJobs.create().saveOrUpdateFilter(
                 icat = industry,
@@ -576,9 +589,12 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
     private fun setData() {
         //Log.d("filterID", "filterID= $filterID")
+        Timber.d("FilterID: $filterID")
         doAsync {
             val filterData = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterid = filterID)
             val locationString = dataStorage.getLocationNameByID(filterData.location)
+
+            Timber.d("FilterData: ${Gson().toJson(filterData)}")
 
             uiThread {
                 try {
@@ -591,8 +607,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     //Log.d("catTest", "category : ${filterData.keyword}")
 
                     try {
-                        if (filterData.functionalCat?.isNotBlank()!!) {
-                            if (filterData.functionalCat.toInt() < 30) {
+                        if (filterData.functionalCat!="") {
+                            if (filterData.functionalCat?.toInt()!! < 30) {
                                 generalCatET?.setText(dataStorage.getCategoryNameByID(filterData.functionalCat))
                                 specialCatET?.text?.clear()
                             } else {
@@ -605,6 +621,9 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                             } else {
                                 specialCatET?.text?.clear()
                             }
+                        } else {
+                            generalCatET?.text?.clear()
+                            specialCatET?.text?.clear()
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
