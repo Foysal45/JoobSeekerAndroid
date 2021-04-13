@@ -1,25 +1,29 @@
 package com.bdjobs.app.Jobs
 
+//import com.google.android.gms.ads.AdRequest
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
+import android.util.TypedValue
+import android.view.View
 import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ModelClasses.ClientAdModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
-import com.bdjobs.app.databases.External.DataStorage
-import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
 import com.bdjobs.app.Utilities.*
-//import com.google.android.gms.ads.AdRequest
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_job_landing.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
@@ -180,10 +184,72 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             getData()
         }
 
-        Ads.loadAdaptiveBanner(this@JobBaseActivity,adView_container)
+//        showClientAD()
+//        Ads.loadAdaptiveBanner(this@JobBaseActivity,adView_container)
 
     }
 
+    private fun showClientAD() {
+
+        try {
+            ApiServiceJobs.create().clientAdBanner("jobsearch")
+                    .enqueue(object : Callback<ClientAdModel> {
+                        override fun onResponse(call: Call<ClientAdModel>, response: Response<ClientAdModel>) {
+                            Timber.d("Client ad fetched!")
+
+                            if (response.isSuccessful) {
+                                if (response.code() == 200) {
+                                    if (response.body()?.data!!.isNotEmpty()) {
+
+                                        ivClientAd.visibility = View.VISIBLE
+                                        adView_container.visibility = View.GONE
+
+                                        val dimensionInDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, response.body()!!.data[0].height.toFloat(),
+                                                resources.displayMetrics).toInt()
+
+
+                                        ivClientAd.layoutParams.height = dimensionInDp
+
+                                        ivClientAd.requestLayout()
+
+                                        Picasso.get()
+                                                .load(response.body()!!.data[0].imageurl)
+                                                .into(ivClientAd)
+
+
+                                        ivClientAd.setOnClickListener {
+                                            this@JobBaseActivity.launchUrl(response.body()!!.data[0].adurl)
+                                        }
+
+                                    } else {
+                                        ivClientAd.visibility = View.GONE
+                                        adView_container.visibility = View.VISIBLE
+                                        Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
+                                    }
+                                } else {
+                                    Timber.d("Response code: ${response.code()}")
+                                    ivClientAd.visibility = View.GONE
+                                    adView_container.visibility = View.VISIBLE
+                                    Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
+                                }
+                            } else {
+                                Timber.d("Unsuccessful response")
+                                ivClientAd.visibility = View.GONE
+                                adView_container.visibility = View.VISIBLE
+                                Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ClientAdModel>, t: Throwable) {
+                            Timber.e("Client ad fetching failed due to: ${t.localizedMessage} .. Showing ADMob AD")
+
+                            ivClientAd.visibility = View.GONE
+                            adView_container.visibility = View.VISIBLE
+                            Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
+                        }
+                    })
+        } catch (e: Exception) {}
+    }
 
     override fun goToSuggestiveSearch(from: String, typedData: String?) {
         try {
@@ -293,7 +359,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
         }
 
         try {
-            seen = intent.getBooleanExtra("seen",false)
+            seen = intent.getBooleanExtra("seen", false)
         } catch (e: Exception) {
             logException(e)
         }
@@ -476,11 +542,11 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                     isLastPage = true
 
                     if (!seen) {
-                        jobids?.get(0)?.let { logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, it,nId) }
+                        jobids?.get(0)?.let { logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, it, nId) }
 
                         try {
                             ApiServiceJobs.create().sendDataForAnalytics(
-                                    userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_MATCHED_JOB, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                                    userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID = nId, notificationType = Constants.NOTIFICATION_TYPE_MATCHED_JOB, encode = Constants.ENCODED_JOBS, sentTo = "Android"
                             ).enqueue(
                                     object : Callback<String> {
                                         override fun onFailure(call: Call<String>, t: Throwable) {
@@ -539,13 +605,13 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
                     if (!seen) {
                         try {
-                            jobids?.get(0)?.let { logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, it,nId) }
+                            jobids?.get(0)?.let { logDataForAnalytics(Constants.NOTIFICATION_TYPE_MATCHED_JOB, applicationContext, it, nId) }
                         } catch (e: Exception) {
                         }
 
                         try {
                             ApiServiceJobs.create().sendDataForAnalytics(
-                                    userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID =  nId, notificationType = Constants.NOTIFICATION_TYPE_MATCHED_JOB, encode = Constants.ENCODED_JOBS, sentTo = "Android"
+                                    userID = bdjobsUserSession.userId, decodeID = bdjobsUserSession.decodId, uniqueID = nId, notificationType = Constants.NOTIFICATION_TYPE_MATCHED_JOB, encode = Constants.ENCODED_JOBS, sentTo = "Android"
                             ).enqueue(
                                     object : Callback<String> {
                                         override fun onFailure(call: Call<String>, t: Throwable) {
@@ -576,14 +642,14 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                 }
 
                 "generalsearch" -> {
-                    transitFragment(generalSearch, R.id.jobFragmentHolder,false)
+                    transitFragment(generalSearch, R.id.jobFragmentHolder, false)
                 }
 
                 "alljobsearch" -> {
-                    transitFragment(joblistFragment, R.id.jobFragmentHolder,false)
+                    transitFragment(joblistFragment, R.id.jobFragmentHolder, false)
                 }
 
-                else -> transitFragment(joblistFragment, R.id.jobFragmentHolder,false)
+                else -> transitFragment(joblistFragment, R.id.jobFragmentHolder, false)
             }
 
         } catch (e: Exception) {

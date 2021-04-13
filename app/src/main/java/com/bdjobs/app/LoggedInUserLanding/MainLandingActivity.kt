@@ -62,6 +62,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.doAsync
@@ -390,14 +391,47 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
      */
     private fun insertTempMessage() {
         doAsync {
+
+            val model = CommonNotificationModel(
+                    title = "Hello",
+                    body =  "Soumik",
+                    link = "https://www.bdjobs.com/",
+                    activityNode = "com.bdjobs.app.videoResume.VideoResumeActivity"
+            )
+
+            val model2 = CommonNotificationModel(
+                    title = "Hello",
+                    body =  "Soumik",
+                    link = "https://www.bdjobs.com/",
+            )
+
+            val model3 = CommonNotificationModel(
+                    title = "Hello",
+                    body =  "Soumik",
+                    link = "https://www.bdjobs.com/",
+                    activityNode = "com.bdjobs.app.videoResume.VideoResume"
+            )
+
+            val model4 = CommonNotificationModel(
+                    title = "Hello",
+                    body =  "Soumik",
+                    activityNode = "com.bdjobs.app.videoResume.VideoResumeActivity"
+            )
+
+            val model5 = CommonNotificationModel(
+                    title = "Hello",
+                    body =  "Soumik",
+            )
+
             bdjobsDB.notificationDao().insertNotification(
                     Notification(
                             title = "Test",
                             body = "This is a test notification",
                             type = "pm",
                             imageLink = "https://picsum.photos/seed/picsum/200/300",
-                            link = "www.google.com",
-                            notificationId = "001"
+                            link = "https://mybdjobs.bdjobs.com/mybdjobs/resume_view.asp?Notification=25561954",
+                            notificationId = "001",
+                            payload = Gson().toJson(model).replace("\\n", "\n")
                     )
             )
 
@@ -419,7 +453,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                             type = "pm",
                             imageLink = "https://picsum.photos/seed/picsum/200/300",
                             link = "www.google.com",
-                            notificationId = "003"
+                            notificationId = "003",
+                            payload = Gson().toJson(model2).replace("\\n", "\n")
                     )
             )
 
@@ -430,7 +465,47 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                             type = "pm",
                             imageLink = "https://picsum.photos/seed/picsum/200/300",
                             link = "www.google.com",
-                            notificationId = "004"
+                            notificationId = "004",
+                            payload = Gson().toJson(model3).replace("\\n", "\n")
+
+                    )
+            )
+
+            bdjobsDB.notificationDao().insertNotification(
+                    Notification(
+                            title = "Test5",
+                            body = "This is a test notification",
+                            type = "pm",
+                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+                            link = "www.google.com",
+                            notificationId = "005",
+                            payload = Gson().toJson(model4).replace("\\n", "\n")
+
+                    )
+            )
+
+            bdjobsDB.notificationDao().insertNotification(
+                    Notification(
+                            title = "Test6",
+                            body = "This is a test notification",
+                            type = "pm",
+                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+                            link = "www.google.com",
+                            notificationId = "006",
+                            payload = Gson().toJson(model5).replace("\\n", "\n")
+
+                    )
+            )
+
+            bdjobsDB.notificationDao().insertNotification(
+                    Notification(
+                            title = "Test7",
+                            body = "This is a test notification",
+                            type = "pm",
+                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+                            notificationId = "004",
+                            payload = Gson().toJson(model5).replace("\\n", "\n")
+
                     )
             )
 

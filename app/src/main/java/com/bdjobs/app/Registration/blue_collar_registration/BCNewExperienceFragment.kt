@@ -742,7 +742,7 @@ class BCNewExperienceFragment : Fragment() {
                 skillTIET.setText(bcCategories[i])
 
                 this.bcCategoryId = dataStorage.getCategoryIDByBanglaName(bcCategories[i])!!
-//                this.subCategories = fetchSubCategories(bcCategoryId)
+                this.subCategories = fetchSubCategories(bcCategoryId)
 //                this.subCategories = dataStorage.getSubCategoriesByBlueCollarCategoryID(bcCategoryId)
 
 

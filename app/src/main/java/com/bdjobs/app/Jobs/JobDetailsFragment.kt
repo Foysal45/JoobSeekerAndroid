@@ -3,6 +3,7 @@ package com.bdjobs.app.Jobs
 import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,18 +13,24 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.bdjobs.app.API.ApiServiceJobs
+import com.bdjobs.app.API.ModelClasses.ClientAdModel
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
+import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
+import kotlinx.android.synthetic.main.fragment_jobdetail_layout.adView_container
+import kotlinx.android.synthetic.main.fragment_jobdetail_layout.ivClientAd
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 
 class JobDetailsFragment : Fragment() {
@@ -184,6 +191,12 @@ class JobDetailsFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        showClientAD()
+    }
+
 
     private fun getCurrentItem(): Int {
         return (jobDetailRecyclerView.layoutManager as LinearLayoutManager)
@@ -196,6 +209,73 @@ class JobDetailsFragment : Fragment() {
         return layoutManager.getPosition(snapView)
     }
 
+    private fun showClientAD() {
+
+        try {
+            ApiServiceJobs.create().clientAdBanner("jobsearch")
+                    .enqueue(object : Callback<ClientAdModel> {
+                        override fun onResponse(call: Call<ClientAdModel>, response: Response<ClientAdModel>) {
+                            Timber.d("Client ad fetched!")
+
+                            try {
+                                if (response.isSuccessful) {
+                                    if (response.code() == 200) {
+                                        if (response.body()?.data!!.isNotEmpty()) {
+
+                                            ivClientAd.visibility = View.VISIBLE
+                                            adView_container.visibility = View.GONE
+
+                                            val dimensionInDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, response.body()!!.data[0].height.toFloat(),
+                                                    resources.displayMetrics).toInt()
+
+
+                                            ivClientAd.layoutParams.height = dimensionInDp
+
+                                            ivClientAd.requestLayout()
+
+                                            Picasso.get()
+                                                    .load(response.body()!!.data[0].imageurl)
+                                                    .into(ivClientAd)
+
+
+                                            ivClientAd.setOnClickListener {
+                                                activity.launchUrl(response.body()!!.data[0].adurl)
+                                            }
+
+                                        } else {
+                                            ivClientAd.visibility = View.GONE
+                                            adView_container.visibility = View.VISIBLE
+                                            Ads.loadAdaptiveBanner(activity, adView_container)
+                                        }
+                                    } else {
+                                        Timber.d("Response code: ${response.code()}")
+                                        ivClientAd.visibility = View.GONE
+                                        adView_container.visibility = View.VISIBLE
+                                        Ads.loadAdaptiveBanner(activity, adView_container)
+                                    }
+                                } else {
+                                    Timber.d("Unsuccessful response")
+                                    ivClientAd.visibility = View.GONE
+                                    adView_container.visibility = View.VISIBLE
+                                    Ads.loadAdaptiveBanner(activity, adView_container)
+                                }
+                            } catch (e: Exception) {
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ClientAdModel>, t: Throwable) {
+                            Timber.e("Client ad fetching failed due to: ${t.localizedMessage} .. Showing ADMob AD")
+
+                            try {
+                                ivClientAd.visibility = View.GONE
+                                adView_container.visibility = View.VISIBLE
+                                Ads.loadAdaptiveBanner(activity, adView_container)
+                            } catch (e: Exception) {
+                            }
+                        }
+                    })
+        } catch (e: Exception) {}
+    }
 
     private fun getData() {
 

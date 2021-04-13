@@ -841,7 +841,7 @@ class SpecializationNewViewFragment : Fragment() {
         try {
             saveButton?.setOnClickListener {
 
-                var skill = ""
+                var skill:String? = ""
                 var ntvqf = ""
                 updateNewSkilledBy = ""
                 var skilledBy = ""
@@ -875,15 +875,14 @@ class SpecializationNewViewFragment : Fragment() {
                 updateNewSkilledBy = skilledBy.removeSuffix(",")
 
 //                skill = dataStorage.getSkillIDBySkillType(item.workExp.toString()).toString()
-                skill = suggestionMap[item.workExp]!!
+                skill = suggestionMap[item.workExp]
+                
                 ntvqf = getNtvqfLevel(NTVQF)
 
 
-                if (skill.isEmpty() && refnameATCTV.getString().length == 2) {
-
-                    activity?.toast("Please type valid skill")
-
-                } else {
+                if (skill.isNullOrEmpty()) activity.toast("No skill found")
+                else if (refnameATCTV.getString().length == 2) activity.toast("Please type valid skill")
+                else {
 
                     if (skillDuplicateStatus) {
                         activity.toast("The skill is already exists!")
@@ -904,7 +903,7 @@ class SpecializationNewViewFragment : Fragment() {
                                             skillSourceNotEmptyStatus = false
                                         } else {
                                             NTVQF = ""
-                                            addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
+                                            addOrUpdateItem(skill!!, "", updateNewSkilledBy, ntvqf, "-1")
                                             skillDuplicateStatus = false
                                             skillSourceNotEmptyStatus = false
                                             ntvqfStatus = false
@@ -913,7 +912,7 @@ class SpecializationNewViewFragment : Fragment() {
 
                                     } else {
                                         NTVQF = ""
-                                        addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
+                                        addOrUpdateItem(skill!!, "", updateNewSkilledBy, ntvqf, "-1")
                                         skillDuplicateStatus = false
                                         skillSourceNotEmptyStatus = false
                                     }

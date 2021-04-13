@@ -320,6 +320,10 @@ interface ApiServiceJobs {
             @Field("appId") appId: String? = ""
     ) : Call<ResponseBody>
 
+    @POST("adClientBanner.asp")
+    fun clientAdBanner(@Query("screenname") screenName:String? = "") : Call<ClientAdModel>
+
+
 //    @FormUrlEncoded
 //    @POST("ResponseBroken_TestCase.asp")
 //    fun responseBrokenTestCase(

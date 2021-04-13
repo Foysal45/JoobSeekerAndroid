@@ -59,11 +59,13 @@ class ORIEditFragment : Fragment() {
         oriEditCB.setTitle(getString(R.string.title_ORI))
         oriEditCB.setEditButton(false, "dd")
 
+
+        doWork()
+
     }
 
     override fun onResume() {
         super.onResume()
-        doWork()
     }
 
     private fun doWork() {
@@ -138,25 +140,22 @@ class ORIEditFragment : Fragment() {
         fab_ori_update.setOnClickListener {
             clORIedit.closeKeyboard(activity)
 
-            if (true) {
+            Timber.d("Total len: $toatalLength ... keyWord length: ${etOriKeywords.text?.length}")
 
-                //Log.d("rakib", "total length $toatalLength")
-
-                if (etOriKeywords?.text.toString().length + toatalLength < 250) {
-                    if (etOriKeywords.text.toString() != "") {
-                        addChip(etOriKeywords.getString().removeLastComma())
-                    }
-                    val isEmpty = ori_entry_chip_group.childCount < 1
-                    if (!isEmpty) {
-                        textInputLayout4.hideError()
-                        updateData()
-                    } else {
-                        checkIfEmpty()
-                        //activity?.toast("Pgasdinkgyword")
-                    }
-                } else {
-                    activity?.toast("Reached max limit of keywords.\nPlease remove one first")
+            if (etOriKeywords?.text.toString().length + toatalLength < 250) {
+                if (etOriKeywords.text.toString() != "") {
+                    addChip(etOriKeywords.getString().removeLastComma())
                 }
+                val isEmpty = ori_entry_chip_group.childCount < 1
+                if (!isEmpty) {
+                    textInputLayout4.hideError()
+                    updateData()
+                } else {
+                    checkIfEmpty()
+                    //activity?.toast("Pgasdinkgyword")
+                }
+            } else {
+                activity?.toast("Reached max limit of keywords.\nPlease remove one first")
             }
 
 
@@ -273,6 +272,7 @@ class ORIEditFragment : Fragment() {
 
     private fun addChip(input: String) {
         //Log.d("rakib", "came here $keywordsCount ${data?.keywords?.length!!}")
+        Timber.d("Keyword count: ${data?.keywords?.length}")
         if (data?.keywords?.length!! <= 250) {
             keywordsCount += input.length
             //Log.d("ORIcount", "totalCount: ${data?.keywords}|<- ${data?.keywords?.countCommas()}")

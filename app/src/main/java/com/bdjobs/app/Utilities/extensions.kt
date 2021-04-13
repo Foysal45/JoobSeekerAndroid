@@ -151,11 +151,14 @@ fun Context.getBlueCollarUserId(): Int {
 }
 
 fun Context.launchUrl( url: String?) {
-    val formattedUrl = if (!url!!.startsWith("http://") && !url.startsWith("https://")) {
-        "http://$url"
-    } else url
-    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(formattedUrl))
-    this.startActivity(browserIntent)
+    try {
+        val formattedUrl = if (!url!!.startsWith("http://") && !url.startsWith("https://")) {
+            "http://$url"
+        } else url
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(formattedUrl))
+        this.startActivity(browserIntent)
+    } catch (e: Exception) {
+    }
 }
 
 fun Context.openUrlInBrowser(url: String?) {
