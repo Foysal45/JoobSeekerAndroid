@@ -928,7 +928,7 @@ class JoblistFragment : Fragment() {
                             try {
                                 if (response.isSuccessful) {
                                     if (response.code() == 200) {
-                                        if (response.body()?.data!!.isNotEmpty()) {
+                                        if (response.body()?.data!!.isNotEmpty() && response.body()!!.data[0].imageurl.isNotEmpty()) {
 
                                             ivClientAd.visibility = View.VISIBLE
                                             adView_container.visibility = View.GONE
