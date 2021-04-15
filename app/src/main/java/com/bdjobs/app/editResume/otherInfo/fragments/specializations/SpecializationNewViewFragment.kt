@@ -880,7 +880,7 @@ class SpecializationNewViewFragment : Fragment() {
                 ntvqf = getNtvqfLevel(NTVQF)
 
 
-                if (skill.isNullOrEmpty()) activity.toast("No skill found")
+                if (skill.isNullOrEmpty()) Toast.makeText(activity, "No skill found", Toast.LENGTH_LONG).show()
                 else if (refnameATCTV.getString().length == 2) activity.toast("Please type valid skill")
                 else {
 
