@@ -638,8 +638,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     }
 
                     if (!items[position].link.isNullOrEmpty()) {
-                        promotionalMessageViewHolder?.messageButton?.show()
-                        promotionalMessageViewHolder?.messageButton?.setOnClickListener {
+                     //   promotionalMessageViewHolder?.messageButton?.show()
+                        promotionalMessageViewHolder?.messageImage?.setOnClickListener {
 
                             try {
                                 if (!items[position].seen!!) {
@@ -664,8 +664,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     }
                 } else {
                     if (!items[position].link.isNullOrEmpty()) {
-                        promotionalMessageViewHolder?.messageButton?.show()
-                        promotionalMessageViewHolder?.messageButton?.setOnClickListener {
+                     //   promotionalMessageViewHolder?.messageButton?.show()
+                        promotionalMessageViewHolder?.messageImage?.setOnClickListener {
 
                             try {
                                 if (!items[position].seen!!) {
@@ -689,6 +689,12 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     }
                 }
 
+                if (!commonNotificationModel?.LogoSrc.isNullOrEmpty()){
+                    try {
+                        Picasso.get().load(commonNotificationModel?.LogoSrc).into(promotionalMessageViewHolder?.headerImage)
+                    }catch (e: Exception) {
+                    }
+                }
 
 
                 if (!items[position].imageLink.isNullOrEmpty()) {
@@ -709,39 +715,6 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 promotionalMessageViewHolder.headerImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_video_resume_popup))
 
-//                val packageManager = context.packageManager
-//                val appInfo: ApplicationInfo = packageManager.getApplicationInfo("com.bdjobs.app", 0)
-//                val appFile = appInfo.sourceDir
-//                val installed = File(appFile).lastModified()
-//
-//
-//                val hashMap = getDateTimeAsAgo(Date(TimeUnit.SECONDS.toMillis(installed)))
-
-
-//                try {
-//                    when {
-//                        hashMap.containsKey("seconds") -> promotionalMessageViewHolder.messageTime.text = "just now"
-//                        hashMap.containsKey("minutes") -> {
-//                            if (hashMap["minutes"]!! > 1)
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["minutes"]} minutes ago"
-//                            else
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["minutes"]} minute ago"
-//                        }
-//                        hashMap.containsKey("hours") -> {
-//                            if (hashMap["hours"]!! > 1)
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["hours"]} hours ago"
-//                            else
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["hours"]} hour ago"
-//                        }
-//                        else -> {
-//                            if (hashMap["days"]!! > 1)
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["days"]} days ago"
-//                            else
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["days"]} day ago"
-//                        }
-//                    }
-//                } catch (e: Exception) {
-//                }
                 promotionalMessageViewHolder.messageTime.hide()
                 promotionalMessageViewHolder.timeImage.hide()
 
@@ -871,6 +844,7 @@ class PromotionalMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val messageTime = view?.findViewById(R.id.message_time_text) as TextView
     val messageImage = view?.findViewById(R.id.message_image) as ImageView
     val card = view?.findViewById(R.id.card) as CardView
+    val headerImage = view?.findViewById(R.id.message_header_img) as ImageView
 
 }
 

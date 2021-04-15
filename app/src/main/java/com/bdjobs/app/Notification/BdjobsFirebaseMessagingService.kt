@@ -259,12 +259,26 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
     private fun insertNotificationInToDatabase(data: String) {
         bdjobsUserSession = BdjobsUserSession(applicationContext)
         bdjobsInternalDB = BdjobsDB.getInstance(applicationContext)
-
         val date: Date? = Date()
 
-        if (commonNotificationModel.type != "pm") {
+            if (commonNotificationModel.type != "pm") {
             doAsync {
-                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName, notificationId = commonNotificationModel.notificationId, lanType = commonNotificationModel.lanType, deadline = commonNotificationModel.deadlineDB))
+                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type,
+                        serverId = commonNotificationModel.jobId,
+                        seen = false,
+                        arrivalTime = date,
+                        seenTime = date,
+                        payload = data,
+                        imageLink = commonNotificationModel.imageLink,
+                        link = commonNotificationModel.link,
+                        isDeleted = false,
+                        jobTitle = commonNotificationModel.jobTitle,
+                        title = commonNotificationModel.title,
+                        body = commonNotificationModel.body,
+                        companyName = commonNotificationModel.companyName,
+                        notificationId = commonNotificationModel.notificationId,
+                        lanType = commonNotificationModel.lanType,
+                        deadline = commonNotificationModel.deadlineDB))
                 bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
                 uiThread {
                     val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
@@ -274,7 +288,22 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
             }
         } else if (commonNotificationModel.type == "pm") {
             doAsync {
-                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type, serverId = commonNotificationModel.jobId, seen = false, arrivalTime = date, seenTime = date, payload = data, imageLink = commonNotificationModel.imageLink, link = commonNotificationModel.link, isDeleted = false, jobTitle = commonNotificationModel.jobTitle, title = commonNotificationModel.title, body = commonNotificationModel.body, companyName = commonNotificationModel.companyName, notificationId = commonNotificationModel.notificationId, lanType = commonNotificationModel.lanType, deadline = commonNotificationModel.deadlineDB))
+                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type,
+                        serverId = "",
+                        seen = false,
+                        arrivalTime = date,
+                        seenTime = date,
+                        payload = data,
+                        imageLink = commonNotificationModel.imgSrc,
+                        link = commonNotificationModel.link,
+                        isDeleted = false,
+                        jobTitle = "",
+                        title = commonNotificationModel.msgTitle,
+                        body = commonNotificationModel.msg,
+                        companyName = "",
+                        notificationId = "",
+                        lanType = "",
+                        deadline = ""))
                 bdjobsUserSession.updateMessageCount(bdjobsUserSession.messageCount!! + 1)
                 uiThread {
                     val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)

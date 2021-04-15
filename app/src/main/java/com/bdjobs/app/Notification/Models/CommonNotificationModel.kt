@@ -39,5 +39,7 @@ data class CommonNotificationModel(
         val msg:String?= "",
         @SerializedName("imgSrc")
         val imgSrc:String?= "",
+        @SerializedName("LogoSrc")
+        val LogoSrc:String?= "",
 
 )

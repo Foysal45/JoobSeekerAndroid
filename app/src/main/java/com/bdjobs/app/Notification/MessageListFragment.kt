@@ -46,12 +46,12 @@ class MessageListFragment : Fragment() {
     private fun showDataFromDB() {
         doAsync {
             notificationList = bdjobsDB.notificationDao().getMessage() as? MutableList
-            notificationList?.add(0, Notification(
-                    title = "Video Resume",
-                    body = "",
-                    type = "bpm",
-                    imageLink = "https://images.app.goo.gl/Ebvz1hPuphafQrZr6",
-                    link = "www.google.com"))
+//            notificationList?.add(0, Notification(
+//                    title = "Video Resume",
+//                    body = "",
+//                    type = "bpm",
+//                    imageLink = "https://images.app.goo.gl/Ebvz1hPuphafQrZr6",
+//                    link = "www.google.com"))
             uiThread {
                 adapter = NotificationListAdapter(activity, notificationList as MutableList<Notification>)
                 notificationsRV?.also {
