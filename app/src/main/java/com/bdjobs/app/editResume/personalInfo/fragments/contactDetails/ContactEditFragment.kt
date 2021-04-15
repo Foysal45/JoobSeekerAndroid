@@ -1254,7 +1254,7 @@ class ContactEditFragment : Fragment() {
             }
             !isValidEmail(email) -> {
                 if (emailTextInputLayout == contactEmailAddressTIL) emailTextInputLayout?.showError("Please type a valid Primary Email Address.")
-                else emailTextInputLayout?.showError("Please type a valid Email Address.")
+                else emailTextInputLayout?.showError("Please type a valid Alternate Email Address.")
                 //Email Address not valid
                 try {
                     requestFocus(emailTextInputEditText)
