@@ -439,15 +439,19 @@ class ContactEditFragment : Fragment() {
 
             if (contactEmailAddressTIET.getString().trim() == "") {
                 validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
-                Toast.makeText(activity, "Please fill at least a Primary Mobile No or Email Address.", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(activity, "Please fill at least a Primary Mobile No or Email Address.", Toast.LENGTH_SHORT).show()
                 //Log.d("CValidaiton", "email empty $validation")
             }
 
 
             if (contactMobileNumberTIET.getString().trim() == "") {
                 validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactMobileNumberTIET, true, validation)
-                Toast.makeText(activity, "Please fill at least a Primary Mobile No or Email Address.", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(activity, "Please fill at least a Primary Mobile No or Email Address.", Toast.LENGTH_SHORT).show()
                 //Log.d("CValidaiton", "mobile empty $validation")
+            }
+
+            if (contactEmailAddressTIET.getString().trim() == ""&& contactMobileNumberTIET.getString().trim() == "") {
+                Toast.makeText(activity, "Please fill at least a Primary Mobile No or Email Address.", Toast.LENGTH_SHORT).show()
             }
 
             if (contactMobileNumberTIET.getString().trim() != "") {
