@@ -18,6 +18,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import timber.log.Timber
 import java.util.*
 
 class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
@@ -287,6 +288,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
                 }
             }
         } else if (commonNotificationModel.type == "pm") {
+                Timber.d("Arrival time: $date")
             doAsync {
                 bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type,
                         serverId = "",

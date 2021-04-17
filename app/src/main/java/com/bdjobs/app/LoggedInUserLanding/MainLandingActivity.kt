@@ -384,6 +384,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
             getInviteCodeInformation()
             getUserStatus(userId = session.userId!!, decodeId = session.decodId!!, invitedUserId = session.userId!!)
         }
+
+//        insertTempMessage()
     }
 
     /**
@@ -402,7 +404,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
             val model2 = CommonNotificationModel(
                     title = "Hello",
                     body =  "Soumik",
-                    link = "https://www.bdjobs.com/",
+                    link = "https://www.bdjobs.com/"
             )
 
             val model3 = CommonNotificationModel(
@@ -420,7 +422,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
             val model5 = CommonNotificationModel(
                     title = "Hello",
-                    body =  "Soumik",
+                    body =  "Soumik"
             )
 
             bdjobsDB.notificationDao().insertNotification(
@@ -442,7 +444,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                             type = "pm",
                             imageLink = "https://picsum.photos/seed/picsum/200/300",
                             link = "www.google.com",
-                            notificationId = "002"
+                            notificationId = "002",
+                            arrivalTime = Date()
                     )
             )
 
@@ -454,6 +457,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                             imageLink = "https://picsum.photos/seed/picsum/200/300",
                             link = "www.google.com",
                             notificationId = "003",
+                            arrivalTime = Date(),
                             payload = Gson().toJson(model2).replace("\\n", "\n")
                     )
             )
@@ -466,6 +470,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                             imageLink = "https://picsum.photos/seed/picsum/200/300",
                             link = "www.google.com",
                             notificationId = "004",
+                            arrivalTime = Date(),
                             payload = Gson().toJson(model3).replace("\\n", "\n")
 
                     )
@@ -479,6 +484,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                             imageLink = "https://picsum.photos/seed/picsum/200/300",
                             link = "www.google.com",
                             notificationId = "005",
+                            arrivalTime = Date(),
                             payload = Gson().toJson(model4).replace("\\n", "\n")
 
                     )

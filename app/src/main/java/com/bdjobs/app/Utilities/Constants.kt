@@ -367,9 +367,9 @@ class Constants {
             try {
 
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(Date().time - date!!.time)
-                val minutes = TimeUnit.MILLISECONDS.toMinutes(Date().time - date!!.time)
-                val hours = TimeUnit.MILLISECONDS.toHours(Date().time - date!!.time)
-                val days = TimeUnit.MILLISECONDS.toDays(Date().time - date!!.time)
+                val minutes = TimeUnit.MILLISECONDS.toMinutes(Date().time - date.time)
+                val hours = TimeUnit.MILLISECONDS.toHours(Date().time - date.time)
+                val days = TimeUnit.MILLISECONDS.toDays(Date().time - date.time)
 
                 when {
                     seconds < 60 -> {

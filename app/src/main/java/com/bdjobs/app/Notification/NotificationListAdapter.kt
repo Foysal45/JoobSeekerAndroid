@@ -352,7 +352,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     context.startActivity<LiveInterviewActivity>(
                             "from" to "notificationList",
                             "jobId" to items[position].serverId,
-                            "jobTitle" to items[position].jobTitle,
+                            "jobTitle" to items[position].jobTitle
                     )
                 }
             }
@@ -602,18 +602,18 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 val title = Html.fromHtml(items[position].title)
                 if (!items[position].title.isNullOrEmpty()) {
-                    promotionalMessageViewHolder.messageTitle?.show()
-                    promotionalMessageViewHolder.messageTitle?.text = title
+                    promotionalMessageViewHolder.messageTitle.show()
+                    promotionalMessageViewHolder.messageTitle.text = title
                 } else {
-                    promotionalMessageViewHolder.messageTitle?.hide()
+                    promotionalMessageViewHolder.messageTitle.hide()
                 }
 
                 val body = Html.fromHtml(items[position].body)
                 if (!items[position].body.isNullOrEmpty()) {
-                    promotionalMessageViewHolder.messageText?.show()
-                    promotionalMessageViewHolder.messageText?.text = body
+                    promotionalMessageViewHolder.messageText.show()
+                    promotionalMessageViewHolder.messageText.text = body
                 } else {
-                    promotionalMessageViewHolder.messageText?.hide()
+                    promotionalMessageViewHolder.messageText.hide()
                 }
 
                 if (!items[position].payload.isNullOrEmpty()) {
