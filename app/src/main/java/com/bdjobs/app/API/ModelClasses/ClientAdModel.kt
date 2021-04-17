@@ -21,7 +21,8 @@ data class ClientAdModel(
     val success: Int
 )
 
-@JsonClass(generateAdapter = true)
+//@JsonClass(generateAdapter = true)
+@Keep
 data class DataClientAd(
     @field:Json(name = "adurl")
     val adurl: String,
