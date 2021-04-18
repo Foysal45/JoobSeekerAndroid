@@ -18,6 +18,8 @@ import kotlinx.android.synthetic.main.fragment_notification_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -48,7 +50,7 @@ class MessageListFragment : Fragment() {
     private fun showDataFromDB() {
         doAsync {
             notificationList = bdjobsDB.notificationDao().getMessage() as? MutableList
-            Timber.d("Time: ${notificationList!![0].arrivalTime?.time}")
+
 //            notificationList?.add(0, Notification(
 //                    title = "Video Resume",
 //                    body = "",

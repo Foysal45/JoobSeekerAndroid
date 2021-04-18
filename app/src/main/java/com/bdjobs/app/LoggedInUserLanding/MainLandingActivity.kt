@@ -72,7 +72,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
 
@@ -425,95 +427,124 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                     body =  "Soumik"
             )
 
-            bdjobsDB.notificationDao().insertNotification(
-                    Notification(
-                            title = "Test",
-                            body = "This is a test notification",
-                            type = "pm",
-                            imageLink = "https://picsum.photos/seed/picsum/200/300",
-                            link = "https://mybdjobs.bdjobs.com/mybdjobs/resume_view.asp?Notification=25561954",
-                            notificationId = "001",
-                            payload = Gson().toJson(model).replace("\\n", "\n")
+            val list = bdjobsDB.notificationDao().getMessages("pm");
+            var timeList = ArrayList<String>()
+            val simpleDateFormat = SimpleDateFormat("HH:mm")
+
+            for (i in list.indices) {
+                Timber.d("Time: ${list[i].arrivalTime?.time}")
+
+                val formattedTime = simpleDateFormat.format(list[i].arrivalTime?.time)
+
+                timeList.add(formattedTime)
+
+                Timber.d("Formatted time: $formattedTime")
+            }
+
+            Timber.d("TimeList size: ${timeList.size} .. TimeList: ${Gson().toJson(timeList)}")
+
+            for (i in 0 until 5) {
+                Timber.d("Date: ${Date()}")
+                var time = simpleDateFormat.format(Date())
+                Timber.d("Time: $time")
+                if (time !in timeList) {
+                    bdjobsDB.notificationDao().insertNotification(
+                            Notification(
+                                    title = "Test",
+                                    body = "This is a test notification",
+                                    type = "pm",
+                                    imageLink = "https://picsum.photos/seed/picsum/200/300",
+                                    link = "https://mybdjobs.bdjobs.com/mybdjobs/resume_view.asp?Notification=25561954",
+                                    notificationId = "001",
+                                    arrivalTime = Date(),
+                                    payload = Gson().toJson(model).replace("\\n", "\n")
+                            )
                     )
-            )
 
-            bdjobsDB.notificationDao().insertNotification(
-                    Notification(
-                            title = "Test2",
-                            body = "This is a test notification",
-                            type = "pm",
-                            imageLink = "https://picsum.photos/seed/picsum/200/300",
-                            link = "www.google.com",
-                            notificationId = "002",
-                            arrivalTime = Date()
-                    )
-            )
+                    timeList.add(time)
+                }
 
-            bdjobsDB.notificationDao().insertNotification(
-                    Notification(
-                            title = "Test3",
-                            body = "This is a test notification",
-                            type = "pm",
-                            imageLink = "https://picsum.photos/seed/picsum/200/300",
-                            link = "www.google.com",
-                            notificationId = "003",
-                            arrivalTime = Date(),
-                            payload = Gson().toJson(model2).replace("\\n", "\n")
-                    )
-            )
+            }
 
-            bdjobsDB.notificationDao().insertNotification(
-                    Notification(
-                            title = "Test4",
-                            body = "This is a test notification",
-                            type = "pm",
-                            imageLink = "https://picsum.photos/seed/picsum/200/300",
-                            link = "www.google.com",
-                            notificationId = "004",
-                            arrivalTime = Date(),
-                            payload = Gson().toJson(model3).replace("\\n", "\n")
 
-                    )
-            )
 
-            bdjobsDB.notificationDao().insertNotification(
-                    Notification(
-                            title = "Test5",
-                            body = "This is a test notification",
-                            type = "pm",
-                            imageLink = "https://picsum.photos/seed/picsum/200/300",
-                            link = "www.google.com",
-                            notificationId = "005",
-                            arrivalTime = Date(),
-                            payload = Gson().toJson(model4).replace("\\n", "\n")
-
-                    )
-            )
-
-            bdjobsDB.notificationDao().insertNotification(
-                    Notification(
-                            title = "Test6",
-                            body = "This is a test notification",
-                            type = "pm",
-                            imageLink = "https://picsum.photos/seed/picsum/200/300",
-                            link = "www.google.com",
-                            notificationId = "006",
-                            payload = Gson().toJson(model5).replace("\\n", "\n")
-
-                    )
-            )
-
-            bdjobsDB.notificationDao().insertNotification(
-                    Notification(
-                            title = "Test7",
-                            body = "This is a test notification",
-                            type = "pm",
-                            imageLink = "https://picsum.photos/seed/picsum/200/300",
-                            notificationId = "004",
-                            payload = Gson().toJson(model5).replace("\\n", "\n")
-
-                    )
-            )
+//            bdjobsDB.notificationDao().insertNotification(
+//                    Notification(
+//                            title = "Test2",
+//                            body = "This is a test notification",
+//                            type = "pm",
+//                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+//                            link = "www.google.com",
+//                            notificationId = "002",
+//                            arrivalTime = Date()
+//                    )
+//            )
+//
+//            bdjobsDB.notificationDao().insertNotification(
+//                    Notification(
+//                            title = "Test3",
+//                            body = "This is a test notification",
+//                            type = "pm",
+//                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+//                            link = "www.google.com",
+//                            notificationId = "003",
+//                            arrivalTime = Date(),
+//                            payload = Gson().toJson(model2).replace("\\n", "\n")
+//                    )
+//            )
+//
+//            bdjobsDB.notificationDao().insertNotification(
+//                    Notification(
+//                            title = "Test4",
+//                            body = "This is a test notification",
+//                            type = "pm",
+//                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+//                            link = "www.google.com",
+//                            notificationId = "004",
+//                            arrivalTime = Date(),
+//                            payload = Gson().toJson(model3).replace("\\n", "\n")
+//
+//                    )
+//            )
+//
+//            bdjobsDB.notificationDao().insertNotification(
+//                    Notification(
+//                            title = "Test5",
+//                            body = "This is a test notification",
+//                            type = "pm",
+//                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+//                            link = "www.google.com",
+//                            notificationId = "005",
+//                            arrivalTime = Date(),
+//                            payload = Gson().toJson(model4).replace("\\n", "\n")
+//
+//                    )
+//            )
+//
+//            bdjobsDB.notificationDao().insertNotification(
+//                    Notification(
+//                            title = "Test6",
+//                            body = "This is a test notification",
+//                            type = "pm",
+//                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+//                            link = "www.google.com",
+//                            notificationId = "006",
+//                            payload = Gson().toJson(model5).replace("\\n", "\n")
+//
+//                    )
+//            )
+//
+//            bdjobsDB.notificationDao().insertNotification(
+//                    Notification(
+//                            title = "Test7",
+//                            body = "This is a test notification",
+//                            type = "pm",
+//                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+//                            notificationId = "004",
+//                            payload = Gson().toJson(model5).replace("\\n", "\n")
+//
+//                    )
+//            )
 
             BdjobsUserSession(this@MainLandingActivity).updateMessageCount(bdjobsDB.notificationDao().getMessageCount())
         }

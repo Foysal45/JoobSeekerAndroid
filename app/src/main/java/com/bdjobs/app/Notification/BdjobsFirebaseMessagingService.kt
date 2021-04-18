@@ -19,6 +19,7 @@ import com.google.gson.Gson
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.*
 
 class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
@@ -290,23 +291,44 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
         } else if (commonNotificationModel.type == "pm") {
                 Timber.d("Arrival time: $date")
             doAsync {
-                bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type,
-                        serverId = "",
-                        seen = false,
-                        arrivalTime = date,
-                        seenTime = date,
-                        payload = data,
-                        imageLink = commonNotificationModel.imgSrc,
-                        link = commonNotificationModel.link,
-                        isDeleted = false,
-                        jobTitle = "",
-                        title = commonNotificationModel.msgTitle,
-                        body = commonNotificationModel.msg,
-                        companyName = "",
-                        notificationId = "",
-                        lanType = "",
-                        deadline = ""))
-                bdjobsUserSession.updateMessageCount(bdjobsUserSession.messageCount!! + 1)
+
+                val list = bdjobsInternalDB.notificationDao().getMessages("pm");
+                val timeList = ArrayList<String>()
+                val simpleDateFormat = SimpleDateFormat("HH:mm")
+
+                for (i in list.indices) {
+                    Timber.d("Time: ${list[i].arrivalTime?.time}")
+
+                    val formattedTime = simpleDateFormat.format(list[i].arrivalTime?.time)
+
+                    timeList.add(formattedTime)
+
+                    Timber.d("Formatted time: $formattedTime")
+                }
+
+                val arrivalTime =  simpleDateFormat.format(date!!)
+
+                if (arrivalTime !in timeList) {
+                    bdjobsInternalDB.notificationDao().insertNotification(Notification(type = commonNotificationModel.type,
+                            serverId = "",
+                            seen = false,
+                            arrivalTime = date,
+                            seenTime = date,
+                            payload = data,
+                            imageLink = commonNotificationModel.imgSrc,
+                            link = commonNotificationModel.link,
+                            isDeleted = false,
+                            jobTitle = "",
+                            title = commonNotificationModel.msgTitle,
+                            body = commonNotificationModel.msg,
+                            companyName = "",
+                            notificationId = "",
+                            lanType = "",
+                            deadline = ""))
+                    timeList.add(arrivalTime)
+                    bdjobsUserSession.updateMessageCount(bdjobsUserSession.messageCount!! + 1)
+                }
+
                 uiThread {
                     val intent = Intent(Constants.BROADCAST_DATABASE_UPDATE_JOB)
                     intent.putExtra("notification", "insertOrUpdateNotification")
