@@ -35,6 +35,10 @@ class HomeFragment : Fragment() {
             findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(100,homeViewModel.price.value!!,"False"))
         }
 
+        img_buy?.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(100,homeViewModel.price.value!!,"False"))
+        }
+
         btn_start_trial?.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0,"True"))
         }
