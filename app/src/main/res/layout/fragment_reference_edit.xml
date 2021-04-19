@@ -59,7 +59,7 @@
                     android:hint="@string/hint.reference_organization"
                     android:imeOptions="actionNext"
                     android:inputType="text|textMultiLine"
-                    android:maxLength="50"
+                    android:maxLength="80"
                     android:textColor="#212121" />
 
             </com.google.android.material.textfield.TextInputLayout>
