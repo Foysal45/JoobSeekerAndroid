@@ -9,15 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.text.trimmedLength
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.databases.External.DataStorage
-import com.bdjobs.app.databases.External.LocationModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.External.LocationModel
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
@@ -31,7 +32,6 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import timber.log.Timber
 
 
 class ContactEditFragment : Fragment() {
@@ -69,7 +69,6 @@ class ContactEditFragment : Fragment() {
         contactInfo.setEditButton(false, "dd")
 
 
-
     }
 
     override fun onResume() {
@@ -85,6 +84,13 @@ class ContactEditFragment : Fragment() {
         doWork()
         hideAllError()
 
+    }
+
+    override fun onPause() {
+        contactDistrictTIL.hideError()
+        contactThanaTIL1.hideError()
+        prContactAddressTILPR.hideError()
+        super.onPause()
     }
 
     private fun updateViewsData() {
@@ -144,15 +150,14 @@ class ContactEditFragment : Fragment() {
         setDialog("Please select your district", pmContactDistrictTIET, districtNameList.toTypedArray())
         setDialog("Please select your thana", prContactThanaTIET, thanaNameList.toTypedArray())
         setDialog("Please select your thana", pmContactThanaTIETP, permanentThanaList.toTypedArray())
-        if (pstOfficeNameList!!.size != 0)
-        {
+        if (pstOfficeNameList!!.size != 0) {
             try {
                 setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
             } catch (e: Exception) {
             }
 
         }
-        if (permanentPostOfficeList!!.size != 0){
+        if (permanentPostOfficeList!!.size != 0) {
             try {
                 setDialog("Please select your post office", pmContactPostOfficeTIET, permanentPostOfficeList.toTypedArray())
             } catch (e: Exception) {
@@ -248,7 +253,7 @@ class ContactEditFragment : Fragment() {
         addTextChangedListener(permanentContactCountryTIETP, permanentContactCountryTILP)
 
 
-        if (contactInfo.getPresentDistrict() == ""){
+        if (contactInfo.getPresentDistrict() == "") {
             contactDistrictTIL1.hideError()
         }
 
@@ -434,13 +439,19 @@ class ContactEditFragment : Fragment() {
 
             if (contactEmailAddressTIET.getString().trim() == "") {
                 validation = isValidate(contactMobileNumberTIET, contactMobileNumberTIL, contactMobileNumberTIET, true, validation)
+//                Toast.makeText(activity, "Please fill at least a Primary Mobile No or Email Address.", Toast.LENGTH_SHORT).show()
                 //Log.d("CValidaiton", "email empty $validation")
             }
 
 
             if (contactMobileNumberTIET.getString().trim() == "") {
                 validation = isValidate(contactEmailAddressTIET, contactEmailAddressTIL, contactMobileNumberTIET, true, validation)
+//                Toast.makeText(activity, "Please fill at least a Primary Mobile No or Email Address.", Toast.LENGTH_SHORT).show()
                 //Log.d("CValidaiton", "mobile empty $validation")
+            }
+
+            if (contactEmailAddressTIET.getString().trim() == ""&& contactMobileNumberTIET.getString().trim() == "") {
+                Toast.makeText(activity, "Please fill at least a Primary Mobile No or Email Address.", Toast.LENGTH_SHORT).show()
             }
 
             if (contactMobileNumberTIET.getString().trim() != "") {
@@ -466,9 +477,9 @@ class ContactEditFragment : Fragment() {
                 validation = isValidate(permanentContactCountryTIETP, permanentContactCountryTILP, permanentContactCountryTIETP, true, validation)
             }
             if (presentInOutBD == "") {
-                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh for Present Address")
+                activity?.toast("Please select Inside Bangladesh or Outside Bangladesh for Present Address") //Please select Inside Bangladesh or Outside Bangladesh for Present Address
                 cgPresent?.requestFocus()
-                scroll?.scrollTo(cgPresent.height,0)
+                scroll?.scrollTo(cgPresent.height, 0)
             }
             if (pmContactAddressTIETPRM.getString().isNotEmpty() && permanentInOutBD == "") {
                 //activity?.toast("Please select Inside Bangladesh or Outside Bangladesh")
@@ -502,7 +513,6 @@ class ContactEditFragment : Fragment() {
                 var numberOfValidations = 0
 
                 //Log.d("check", "entered")
-
 
 
                 if (contactEmailAddressTIET?.text.toString().isNullOrEmpty() && contactMobileNumberTIET.getString().trim() != "") {
@@ -549,7 +559,7 @@ class ContactEditFragment : Fragment() {
                                 updateData()
                             }
                         } else {
-                            toast("Please select inside Bangladesh or outside Bangladesh for Permanent Address")
+                            toast("Please select Inside Bangladesh or Outside Bangladesh for Permanent Address")//Please select inside Bangladesh or outside Bangladesh for Permanent Address
                         }
                     }
                 }
@@ -1142,7 +1152,7 @@ class ContactEditFragment : Fragment() {
                                     postOfficeList?.forEach { dt ->
                                         pstOfficeNameList.add(dt.locationName)
                                     }
-                                    if (postOfficeList!!.size != 0){
+                                    if (postOfficeList!!.size != 0) {
                                         try {
                                             setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
                                         } catch (e: Exception) {
@@ -1201,7 +1211,7 @@ class ContactEditFragment : Fragment() {
                                 postOfficeListPm?.forEach { dt ->
                                     pstOfficeNameList.add(dt.locationName)
                                 }
-                                if (postOfficeListPm!!.size != 0){
+                                if (postOfficeListPm!!.size != 0) {
                                     try {
                                         setDialog("Please select your post office", pmContactPostOfficeTIET, pstOfficeNameList.toTypedArray())
                                     } catch (e: Exception) {
@@ -1247,7 +1257,9 @@ class ContactEditFragment : Fragment() {
                 return false
             }
             !isValidEmail(email) -> {
-                emailTextInputLayout?.showError("Email Address not valid")
+                if (emailTextInputLayout == contactEmailAddressTIL) emailTextInputLayout?.showError("Please type a valid Primary Email Address.")
+                else emailTextInputLayout?.showError("Please type a valid Alternate Email Address.")
+                //Email Address not valid
                 try {
                     requestFocus(emailTextInputEditText)
                 } catch (e: Exception) {
@@ -1268,6 +1280,7 @@ class ContactEditFragment : Fragment() {
     private fun isValidEmail(target: CharSequence): Boolean {
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
+
 
     private fun mobileNumberValidityCheck(mobileNumber: String): Boolean {
         when {
@@ -1308,15 +1321,17 @@ class ContactEditFragment : Fragment() {
     private fun validateMobileNumber(): Boolean {
         //Log.d("rakib", "country code ${countryCodeTIET.text.toString()}")
         if (!TextUtils.isEmpty(countryCodeTIET?.text.toString()) && !TextUtils.isEmpty(contactMobileNumberTIET?.text.toString())) {
-            if (Patterns.PHONE.matcher(contactMobileNumberTIET?.text.toString()).matches()) {
-                if (countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length == 11) {
-                    //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
-                    return true
-                } else if (!countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length + getCountryCode().length >= 6 && contactMobileNumberTIET?.text.toString().length + getCountryCode().length <= 15) {
-                    //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
-                    return true
-                }
+//            if (Patterns.PHONE.matcher(contactMobileNumberTIET?.text.toString()).matches()) {
+            if (countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length in 6..14) {
+                //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
+                return true
             }
+//            else if (!countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length + getCountryCode().length >= 6 && contactMobileNumberTIET?.text.toString().length + getCountryCode().length <= 15) {
+//                //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
+//                Timber.d("Mobile length: ${contactMobileNumberTIET?.text.toString().length} .. Country code: ${getCountryCode().length}")
+//                return true
+//            }
+//            }
         }
         //Log.d("rakib", "validate number function false")
         return false
@@ -1324,7 +1339,7 @@ class ContactEditFragment : Fragment() {
 
     private fun getCountryCode(): String {
         val inputData = countryCodeTIET?.text.toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-        return inputData[inputData.size - 1].trim({ it <= ' ' })
+        return inputData[inputData.size - 1].trim { it <= ' ' }
     }
 
 }

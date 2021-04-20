@@ -1,7 +1,9 @@
 package com.bdjobs.app.Notification
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.text.Html
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -18,6 +20,7 @@ import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
+import com.bdjobs.app.Notification.Models.CommonNotificationModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -31,15 +34,16 @@ import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_SMS
 import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_VIDEO_INTERVIEW
 import com.bdjobs.app.Utilities.Constants.Companion.getDateTimeAsAgo
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
-import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.bdjobs.app.videoResume.ResumeManagerActivity
 import com.google.android.material.button.MaterialButton
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
+import timber.log.Timber
 import java.util.*
 
 
@@ -348,7 +352,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     context.startActivity<LiveInterviewActivity>(
                             "from" to "notificationList",
                             "jobId" to items[position].serverId,
-                            "jobTitle" to items[position].jobTitle,
+                            "jobTitle" to items[position].jobTitle
                     )
                 }
             }
@@ -568,6 +572,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 val hashMap = getDateTimeAsAgo(items[position].arrivalTime)
 
+                var commonNotificationModel : CommonNotificationModel?=null
 
                 try {
                     when {
@@ -597,32 +602,100 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 val title = Html.fromHtml(items[position].title)
                 if (!items[position].title.isNullOrEmpty()) {
-                    promotionalMessageViewHolder.messageTitle?.show()
-                    promotionalMessageViewHolder.messageTitle?.text = title
+                    promotionalMessageViewHolder.messageTitle.show()
+                    promotionalMessageViewHolder.messageTitle.text = title
                 } else {
-                    promotionalMessageViewHolder.messageTitle?.hide()
+                    promotionalMessageViewHolder.messageTitle.hide()
                 }
 
                 val body = Html.fromHtml(items[position].body)
                 if (!items[position].body.isNullOrEmpty()) {
-                    promotionalMessageViewHolder.messageText?.show()
-                    promotionalMessageViewHolder.messageText?.text = body
+                    promotionalMessageViewHolder.messageText.show()
+                    promotionalMessageViewHolder.messageText.text = body
                 } else {
-                    promotionalMessageViewHolder.messageText?.hide()
+                    promotionalMessageViewHolder.messageText.hide()
                 }
 
-                if (!items[position].link.isNullOrEmpty()) {
-                    promotionalMessageViewHolder?.messageButton?.show()
-                    promotionalMessageViewHolder?.messageButton?.onClick {
-                        try {
-                            context?.openUrlInBrowser(items[position].link)
-                        } catch (e: Exception) {
+                if (!items[position].payload.isNullOrEmpty()) {
+
+                    var intent:Intent ? =null
+                    try {
+                        commonNotificationModel  = Gson().fromJson(items[position].payload,CommonNotificationModel::class.java)
+                        val className = Class.forName(commonNotificationModel.activityNode!!)
+                        intent = Intent(context,className)
+
+                    } catch (e: Exception) {
+                        if (!commonNotificationModel?.link.isNullOrEmpty()) {
+                            try {
+                                val formattedUrl = if (!commonNotificationModel?.link?.startsWith("http://") !!
+                                        && !commonNotificationModel.link?.startsWith("https://")!!) {
+                                    "http://${commonNotificationModel.link}"
+                                } else commonNotificationModel.link
+                                intent = Intent(Intent.ACTION_VIEW, Uri.parse(formattedUrl))
+                            } catch (e: Exception) {
+                            }
                         }
-                        notificationCommunicatior.positionClickedMessage(position)
+                    }
+
+                    if (!items[position].link.isNullOrEmpty()) {
+                     //   promotionalMessageViewHolder?.messageButton?.show()
+                        promotionalMessageViewHolder?.messageImage?.setOnClickListener {
+
+                            try {
+                                if (!items[position].seen!!) {
+                                    doAsync {
+                                        bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                        val count = bdjobsDB.notificationDao().getMessageCount()
+                                        bdjobsUserSession.updateMessageCount(count)
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
+
+                            try {
+                                if (intent!=null) context.startActivity(intent)
+                                else context.launchUrl(items[position].link)
+                            } catch (e: Exception) {}
+                            notificationCommunicatior.positionClickedMessage(position)
+                        }
+                    } else {
+                        promotionalMessageViewHolder?.messageButton?.hide()
                     }
                 } else {
-                    promotionalMessageViewHolder?.messageButton?.hide()
+                    if (!items[position].link.isNullOrEmpty()) {
+                     //   promotionalMessageViewHolder?.messageButton?.show()
+                        promotionalMessageViewHolder?.messageImage?.setOnClickListener {
+
+                            try {
+                                if (!items[position].seen!!) {
+                                    doAsync {
+                                        bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                        val count = bdjobsDB.notificationDao().getMessageCount()
+                                        bdjobsUserSession.updateMessageCount(count)
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
+
+                            try {
+                                context?.launchUrl(items[position].link)
+                            } catch (e: Exception) {}
+                            notificationCommunicatior.positionClickedMessage(position)
+                        }
+                    } else {
+                        promotionalMessageViewHolder?.messageButton?.hide()
+                    }
                 }
+
+                if (!commonNotificationModel?.LogoSrc.isNullOrEmpty()){
+                    try {
+                        Picasso.get().load(commonNotificationModel?.LogoSrc).into(promotionalMessageViewHolder?.headerImage)
+                    }catch (e: Exception) {
+                    }
+                }
+
 
                 if (!items[position].imageLink.isNullOrEmpty()) {
                     promotionalMessageViewHolder?.card?.show()
@@ -642,39 +715,6 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 promotionalMessageViewHolder.headerImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_video_resume_popup))
 
-//                val packageManager = context.packageManager
-//                val appInfo: ApplicationInfo = packageManager.getApplicationInfo("com.bdjobs.app", 0)
-//                val appFile = appInfo.sourceDir
-//                val installed = File(appFile).lastModified()
-//
-//
-//                val hashMap = getDateTimeAsAgo(Date(TimeUnit.SECONDS.toMillis(installed)))
-
-
-//                try {
-//                    when {
-//                        hashMap.containsKey("seconds") -> promotionalMessageViewHolder.messageTime.text = "just now"
-//                        hashMap.containsKey("minutes") -> {
-//                            if (hashMap["minutes"]!! > 1)
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["minutes"]} minutes ago"
-//                            else
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["minutes"]} minute ago"
-//                        }
-//                        hashMap.containsKey("hours") -> {
-//                            if (hashMap["hours"]!! > 1)
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["hours"]} hours ago"
-//                            else
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["hours"]} hour ago"
-//                        }
-//                        else -> {
-//                            if (hashMap["days"]!! > 1)
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["days"]} days ago"
-//                            else
-//                                promotionalMessageViewHolder.messageTime.text = "${hashMap["days"]} day ago"
-//                        }
-//                    }
-//                } catch (e: Exception) {
-//                }
                 promotionalMessageViewHolder.messageTime.hide()
                 promotionalMessageViewHolder.timeImage.hide()
 
@@ -804,6 +844,7 @@ class PromotionalMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val messageTime = view?.findViewById(R.id.message_time_text) as TextView
     val messageImage = view?.findViewById(R.id.message_image) as ImageView
     val card = view?.findViewById(R.id.card) as CardView
+    val headerImage = view?.findViewById(R.id.message_header_img) as ImageView
 
 }
 

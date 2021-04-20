@@ -24,6 +24,7 @@ import retrofit2.Response
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
+import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -180,6 +181,7 @@ class Constants {
         const val session_job_apply_limit = "jobApplyLimit"
         const val session_job_apply_threshold = "jobApplyThreshold"
         const val notification_count = "notificationCount"
+        const val message_count = "messageCount"
 
 
         const val session_key_mybdjobscount_jobs_applied_thismonth = "jobs_applied_thismonth"
@@ -365,9 +367,9 @@ class Constants {
             try {
 
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(Date().time - date!!.time)
-                val minutes = TimeUnit.MILLISECONDS.toMinutes(Date().time - date!!.time)
-                val hours = TimeUnit.MILLISECONDS.toHours(Date().time - date!!.time)
-                val days = TimeUnit.MILLISECONDS.toDays(Date().time - date!!.time)
+                val minutes = TimeUnit.MILLISECONDS.toMinutes(Date().time - date.time)
+                val hours = TimeUnit.MILLISECONDS.toHours(Date().time - date.time)
+                val days = TimeUnit.MILLISECONDS.toDays(Date().time - date.time)
 
                 when {
                     seconds < 60 -> {
@@ -418,5 +420,15 @@ class Constants {
             quesSerialNo = videoResumeManager?.questionSerialNo
             file = videoResumeManager?.file
         }
+
+        val EMAIL_ADDRESS = Pattern.compile(
+                "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                        "\\@" +
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                        "(" +
+                        "\\." +
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{1,25}" +
+                        ")+"
+        )
     }
 }

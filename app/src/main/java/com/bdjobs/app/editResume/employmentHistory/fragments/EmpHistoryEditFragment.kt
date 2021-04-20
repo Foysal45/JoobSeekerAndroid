@@ -4,7 +4,9 @@ package com.bdjobs.app.editResume.employmentHistory.fragments
 import android.app.DatePickerDialog
 import android.app.Fragment
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -14,6 +16,9 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.AutoSuggestionModel
+import com.bdjobs.app.API.ModelClasses.Data
+import com.bdjobs.app.API.ModelClasses.DataAutoSuggestion
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -25,12 +30,15 @@ import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
+import okhttp3.internal.notify
 import org.jetbrains.anko.sdk27.coroutines.onFocusChange
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -45,6 +53,7 @@ class EmpHistoryEditFragment : Fragment() {
     private var hID: String = ""
     private var hExpID: String? = ""
     private var currentlyWorking: String = "OFF"
+
     //private var companyBusinessID = ""
     private var workExperienceID = ""
     private var idArr: ArrayList<String> = ArrayList()
@@ -52,6 +61,8 @@ class EmpHistoryEditFragment : Fragment() {
     private lateinit var v: View
     private lateinit var dataStorage: DataStorage
     private var date: Date? = null
+
+    private var list = ArrayList<DataAutoSuggestion>()
 
     private val startDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         now.set(Calendar.YEAR, year)
@@ -129,25 +140,25 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun addChip(input: String, id: String) {
-        Log.i("getInput", "\n// |$input| and |$id|")
+        Timber.d("\n// |$input| and |$id|")
 
         if (input.trim().isBlank() || input.trim().isEmpty()) {
             val data = empHisCB.getExpsArray()
             data.forEach { dt ->
                 dt.areaofExperience?.forEach {
-                    if (it?.id?.let { it1 -> dataStorage.workDisciplineByWorkDisciplineID(it1) } == "") {
+                    if (it?.id?.let { it1 -> it.expsName } == "") {
                         addAsString(id)
-                        val c1 = getChip(entry_chip_group, it.expsName.toString(), R.xml.chip_entry)
+                        val c1 = getChip(entry_chip_group, it.expsName.toString(), R.xml.chip_entry, id)
                         entry_chip_group.addView(c1)
                     }
                 }
-                Log.i("getAreaOfExpsData", "\n ${dt.areaofExperience},// |$input| and |$id|")
+                Timber.d("\n ${dt.areaofExperience},// |$input| and |$id|")
             }
         } else {
             when {
                 entry_chip_group.childCount < 3 -> {
                     addAsString(id)
-                    val c1 = getChip(entry_chip_group, input, R.xml.chip_entry)
+                    val c1 = getChip(entry_chip_group, input, R.xml.chip_entry, id)
                     entry_chip_group.addView(c1)
                 }
                 else -> {
@@ -164,7 +175,7 @@ class EmpHistoryEditFragment : Fragment() {
         experiencesMACTV?.closeKeyboard(activity)
     }
 
-    private fun getChip(entryChipGroup: ChipGroup, text: String, item: Int): Chip {
+    private fun getChip(entryChipGroup: ChipGroup, text: String, item: Int, id: String): Chip {
         val chip = Chip(activity)
         chip.setChipDrawable(ChipDrawable.createFromResource(activity, item))
         val paddingDp = TypedValue.applyDimension(
@@ -175,18 +186,18 @@ class EmpHistoryEditFragment : Fragment() {
         chip.text = text
         chip.setOnCloseIconClickListener {
             entryChipGroup.removeView(chip)
-            removeItem(chip.text.toString())
+            removeItem(chip.text.toString(), id)
             //experiencesMACTV.isEnabled = true
             //experiencesMACTV.requestFocus()
         }
         return chip
     }
 
-    private fun removeItem(s: String) {
-        val id = dataStorage.workDisciplineIDByWorkDiscipline(s)
+    private fun removeItem(s: String, id: String) {
+//        val id = dataStorage.workDisciplineIDByWorkDiscipline(s)
         if (idArr.contains(id))
-            idArr.remove("$id")
-        d("selected rmv: exps and $idArr")
+            idArr.remove(id)
+        Timber.d("selected rmv: exps and $idArr")
     }
 
     private fun initViews() {
@@ -213,12 +224,22 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
     private fun doWork() {
-        experiencesMACTV.onFocusChange { _, hasFocus ->
+
+        val workExperineceList: ArrayList<String> = ArrayList()
+        val expsAdapter = ArrayAdapter<String>(activity!!,
+                android.R.layout.simple_dropdown_item_1line, workExperineceList)
+
+        experiencesMACTV.setAdapter(expsAdapter)
+        expsAdapter.setNotifyOnChange(true)
+//        experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+
+        /*experiencesMACTV.onFocusChange { _, hasFocus ->
             if (hasFocus) {
-                val workExperineceList: Array<String> = dataStorage.allWorkDiscipline
-                Log.d("rakib","$workExperineceList")
-                val expsAdapter = ArrayAdapter<String>(activity!!,
-                        android.R.layout.simple_dropdown_item_1line, workExperineceList)
+//                val workExperineceList: Array<String> = dataStorage.allWorkDiscipline
+//                val workExperineceList:ArrayList<String> = ArrayList()
+//                Log.d("rakib", "$workExperineceList")
+//                 val expsAdapter = ArrayAdapter<String>(activity!!,
+//                        android.R.layout.simple_dropdown_item_1line, workExperineceList)
                 experiencesMACTV.setAdapter(expsAdapter)
                 experiencesMACTV.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
                 experiencesMACTV.setOnItemClickListener { _, _, position, id ->
@@ -251,7 +272,46 @@ class EmpHistoryEditFragment : Fragment() {
                     }
                 }
             }
+        }*/
+
+        experiencesMACTV.easyOnTextChangedListener { char ->
+
+            fetchAutoSuggestion(char.toString(), expsAdapter)
+
         }
+
+        experiencesMACTV.setOnItemClickListener { _, _, position, id ->
+//                    d("Array size : pos : $position id : $id")
+//                    activity.toast("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+//                    d("Selected : ${workExperineceList[position + 1]} and gotStr : ${experiencesMACTV.text}")
+//                workExperienceID = dataStorage.workDisciplineIDByWorkDiscipline(experiencesMACTV.text.toString())!!
+            workExperienceID = list[position].subCatId!!
+            Timber.d("List: ${list.size} :: Position: $position :: WorkExpID: $workExperienceID")
+
+            if (idArr.size in 0..2) {
+                //experiencesMACTV.isEnabled = true
+                if (idArr.contains(workExperienceID)) {
+//                            Log.d("rakib", "if called")
+                    experiencesMACTV.closeKeyboard(activity)
+                    activity.toast("Experience already added")
+                    experiencesMACTV.setText("")
+                    experiencesMACTV.clearFocus()
+                } else {
+//                            Log.d("rakib", "else called")
+                    addChip(list[position].subName!!, workExperienceID)
+                }
+                experiencesTIL.hideError()
+            } else if (idArr.size >= 3) {
+                //addChip(dataStorage.workDisciplineByWorkDisciplineID(workExperienceID)!!, workExperienceID)
+                d("Array_size : ${idArr.size} and exps and id : $id")
+                //experiencesMACTV.isEnabled = false
+                experiencesMACTV.setText("")
+                experiencesMACTV.clearFocus()
+                activity?.toast("Maximum 3 experiences can be added.")
+                experiencesTIL.hideError()
+            }
+        }
+
         cb_present?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 currentlyWorking = "ON"
@@ -411,13 +471,61 @@ class EmpHistoryEditFragment : Fragment() {
         }
     }
 
-    private fun updateData() {
-        if (!experiencesMACTV.text.toString().isNullOrEmpty()){
-            toast("Area of Experience is not available ")
-            experiencesMACTV?.requestFocus()
-        }
+    private fun fetchAutoSuggestion(query: String?, adapter: ArrayAdapter<String>) {
+        Timber.d("Query: $query")
+        ApiServiceMyBdjobs.create().fetchAutoSuggestion(query, "3").enqueue(object : Callback<AutoSuggestionModel> {
+            override fun onFailure(call: Call<AutoSuggestionModel>, t: Throwable) {
+                Timber.e("Failed Fetching Auto Suggestion: ${t.localizedMessage}")
+            }
 
-        else {
+            override fun onResponse(call: Call<AutoSuggestionModel>, response: Response<AutoSuggestionModel>) {
+                Timber.d("Response: ${Gson().toJson(response.body())}")
+                try {
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> {
+                                val body = response.body()
+
+                                if (body?.statuscode == "0") {
+
+                                    list = body.data as ArrayList<DataAutoSuggestion>
+
+                                    Timber.d("List size: ${list.size}")
+                                    adapter.clear()
+
+                                    if (list.isNullOrEmpty()) Timber.d("List is empty / null")
+                                    else {
+                                        var suggestion = ArrayList<String>()
+                                        for (i in list.indices) {
+                                            suggestion.add(list[i].subName!!)
+//                                            adapter.add(list[i].subName!!)
+                                        }
+
+                                        val a = ArrayAdapter<String>(activity!!, android.R.layout.simple_dropdown_item_1line, suggestion)
+                                        experiencesMACTV.setAdapter(a)
+                                        a.notifyDataSetChanged()
+                                    }
+                                }
+
+
+                            }
+                            else -> Timber.e("Response not fetched: Error: ${response.code()}")
+                        }
+                    } else Timber.e("Unsuccessful response: ${response.code()}")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Timber.e("Exception: ${e.localizedMessage}")
+                }
+            }
+
+        })
+    }
+
+    private fun updateData() {
+        if (!experiencesMACTV.text.toString().isNullOrEmpty()) {
+            toast("No area of experience found! ")
+            experiencesMACTV?.requestFocus()
+        } else {
             activity?.showProgressBar(loadingProgressBar)
             val exps = TextUtils.join(",", idArr)
 
@@ -467,11 +575,13 @@ class EmpHistoryEditFragment : Fragment() {
     private fun preloadedData() {
         idArr.clear()
         val data = empHisCB.getData()
+        Timber.d("Data: $data")
         empHisCB.setIsFirst(false)
 
         val areaOfexps = data.areaofExperience
         areaOfexps?.forEach {
-            addChip(dataStorage.workDisciplineByWorkDisciplineID(it?.id!!).toString(), it.id)
+//            addChip(dataStorage.workDisciplineByWorkDisciplineID(it?.id!!).toString(), it.id)
+            addChip(it?.expsName!!, it.id!!)
         }
 
         hExpID = data.expId

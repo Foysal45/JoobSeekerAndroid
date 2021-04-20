@@ -230,7 +230,7 @@ interface ApiServiceJobs {
             @Query("appId") appId :String? = Constants.APP_ID,
             @Query("workplace") workPlace: String? = "",
             @Query("pwd") personWithDisability: String? = "",
-            @Query("facilitiesForPWD") facilitiesForPWD: String? = "",
+            @Query("facilitiesForPWD") facilitiesForPWD: String? = ""
             ): Call<LastSearchCountModel>
 
     @FormUrlEncoded
@@ -319,6 +319,10 @@ interface ApiServiceJobs {
             @Field("RResponse") response : String? = "",
             @Field("appId") appId: String? = ""
     ) : Call<ResponseBody>
+
+    @POST("adClientBanner.asp")
+    fun clientAdBanner(@Query("screenname") screenName:String? = "") : Call<ClientAdModel>
+
 
 //    @FormUrlEncoded
 //    @POST("ResponseBroken_TestCase.asp")

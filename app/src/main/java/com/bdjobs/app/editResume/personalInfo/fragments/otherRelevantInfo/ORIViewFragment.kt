@@ -22,6 +22,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 class ORIViewFragment : Fragment() {
     private lateinit var oriCallBack: PersonalInfo
@@ -96,6 +97,7 @@ class ORIViewFragment : Fragment() {
         //Log.d("rakib", "total commas ${data?.keywords?.countCommas()}")
         val keywords = data?.keywords?.removeLastComma()
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
+        Timber.d("Total Keywords: ${keyArray?.size}")
         removeChips()
         keyArray?.forEach {
             if (it.isNotBlank())

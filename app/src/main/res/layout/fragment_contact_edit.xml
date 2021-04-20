@@ -255,7 +255,7 @@
                         android:importantForAutofill="noExcludeDescendants"
                         android:hint="@string/hint.contactAddress"
                         android:inputType="text|textMultiLine"
-                        android:maxLength="250"
+                        android:maxLength="150"
                         android:textColor="#212121"
                         tools:targetApi="o" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -506,7 +506,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint.contactAddress"
                         android:inputType="text|textMultiLine"
-                        android:maxLength="250"
+                        android:maxLength="150"
                         android:textColor="#212121" />
                 </com.google.android.material.textfield.TextInputLayout>
 

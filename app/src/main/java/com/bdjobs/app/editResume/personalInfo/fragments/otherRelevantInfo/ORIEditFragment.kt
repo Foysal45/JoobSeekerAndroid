@@ -27,6 +27,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 class ORIEditFragment : Fragment() {
     private lateinit var oriEditCB: PersonalInfo
@@ -58,11 +59,13 @@ class ORIEditFragment : Fragment() {
         oriEditCB.setTitle(getString(R.string.title_ORI))
         oriEditCB.setEditButton(false, "dd")
 
+
+        doWork()
+
     }
 
     override fun onResume() {
         super.onResume()
-        doWork()
     }
 
     private fun doWork() {
@@ -96,11 +99,20 @@ class ORIEditFragment : Fragment() {
 //                oriEditCB.validateField(charSequence.toString(), etOriKeywords, textInputLayout4)
 //        }
 
-        etOriKeywords?.addTextChangedListener(TW.CrossIconBehave(etOriKeywords))
+//        etOriKeywords?.addTextChangedListener(TW.CrossIconBehave(etOriKeywords))
+
+        textInputLayout4.setEndIconOnClickListener {
+            etOriKeywords?.apply {
+                clearText()
+                showKeyboard(activity)
+            }
+        }
 
         //Log.d("ORIData", "data: ${data?.keywords}")
 
-       // val keywords = data?.keywords
+        val keywords = data?.keywords
+
+        Timber.d("KeyWords: $keywords")
 
         keywords?.let {
             toatalLength = keywords!!.length
@@ -128,25 +140,22 @@ class ORIEditFragment : Fragment() {
         fab_ori_update.setOnClickListener {
             clORIedit.closeKeyboard(activity)
 
-            if (true) {
+            Timber.d("Total len: $toatalLength ... keyWord length: ${etOriKeywords.text?.length}")
 
-                //Log.d("rakib", "total length $toatalLength")
-
-                if (etOriKeywords?.text.toString().length + toatalLength < 250) {
-                    if (etOriKeywords.text.toString() != "") {
-                        addChip(etOriKeywords.getString().removeLastComma())
-                    }
-                    val isEmpty = ori_entry_chip_group.childCount < 1
-                    if (!isEmpty) {
-                        textInputLayout4.hideError()
-                        updateData()
-                    } else {
-                        checkIfEmpty()
-                        //activity?.toast("Pgasdinkgyword")
-                    }
-                } else {
-                    activity?.toast("Reached max limit of keywords.\nPlease remove one first")
+            if (etOriKeywords?.text.toString().length + toatalLength < 250) {
+                if (etOriKeywords.text.toString() != "") {
+                    addChip(etOriKeywords.getString().removeLastComma())
                 }
+                val isEmpty = ori_entry_chip_group.childCount < 1
+                if (!isEmpty) {
+                    textInputLayout4.hideError()
+                    updateData()
+                } else {
+                    checkIfEmpty()
+                    //activity?.toast("Pgasdinkgyword")
+                }
+            } else {
+                activity?.toast("Reached max limit of keywords.\nPlease remove one first")
             }
 
 
@@ -263,6 +272,7 @@ class ORIEditFragment : Fragment() {
 
     private fun addChip(input: String) {
         //Log.d("rakib", "came here $keywordsCount ${data?.keywords?.length!!}")
+        Timber.d("Keyword count: ${data?.keywords?.length}")
         if (data?.keywords?.length!! <= 250) {
             keywordsCount += input.length
             //Log.d("ORIcount", "totalCount: ${data?.keywords}|<- ${data?.keywords?.countCommas()}")
@@ -305,6 +315,7 @@ class ORIEditFragment : Fragment() {
     }
 
     private fun updateData() {
+        Timber.d("Keywords: $exps")
         activity.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateORIData(session.userId, session.decodId, session.IsResumeUpdate,
                 etOriCareerSummary.getString(), etOriSpecialQualification.getString(), exps)
@@ -350,6 +361,7 @@ class ORIEditFragment : Fragment() {
         exps = TextUtils.join(",", idArr)
         checkIfEmpty()
 
+        Timber.d("Keywords: $exps :: Length: $toatalLength")
         d("ORIcount: count = $keywordsCount ")
 
     }

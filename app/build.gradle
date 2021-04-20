@@ -12,8 +12,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 110 //731 //109
-        versionName "2.8.0.0"  //710.0.6 internal test // 2.7.0.2
+        versionCode 111 //733 //110
+        versionName "2.8.0.1"  //711.0.1 internal test // 2.8.0.0
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -68,8 +68,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    testImplementation 'junit:junit:4.13.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
@@ -84,9 +84,9 @@ dependencies {
     //----firebase
     implementation 'com.google.firebase:firebase-core:18.0.2'
     implementation "com.google.firebase:firebase-messaging:21.0.1"
-    implementation 'com.google.firebase:firebase-perf:19.1.0'
-    implementation 'com.google.firebase:firebase-crashlytics:17.3.1'
-    implementation 'com.google.firebase:firebase-inappmessaging-display:19.1.4'
+    implementation 'com.google.firebase:firebase-perf:19.1.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.4.1'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:19.1.5'
     implementation 'com.google.firebase:firebase-analytics:18.0.2'
 
 
@@ -112,7 +112,7 @@ dependencies {
 
     //----jetbrains kotlin extension
     implementation "org.jetbrains.anko:anko:$anko_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
 
     //----room database
     implementation "androidx.room:room-runtime:$room_version"
@@ -149,11 +149,11 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:17.0.0"
 
     //----ad manager
-    implementation 'com.google.android.gms:play-services-ads:19.7.0'
+    implementation 'com.google.android.gms:play-services-ads:19.8.0'
     implementation project(':NativeTemplatesAndroid-1.0.0')
 
     //-----google play core for app update
-    implementation 'com.google.android.play:core:1.9.1'
+    implementation 'com.google.android.play:core:1.10.0'
 
     //calendar library for year
     implementation 'com.whiteelephant:monthandyearpicker:1.3.0'

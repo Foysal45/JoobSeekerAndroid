@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import java.io.FileOutputStream
 import java.io.IOException
+import kotlin.jvm.Throws
 
 
 internal class DBHelper(private val myContext: Context) : SQLiteOpenHelper(myContext, DB_NAME, null, DATABASE_VERSION) {

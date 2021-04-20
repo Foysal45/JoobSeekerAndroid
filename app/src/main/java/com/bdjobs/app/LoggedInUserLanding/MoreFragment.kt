@@ -2,6 +2,10 @@ package com.bdjobs.app.LoggedInUserLanding
 
 import android.app.Dialog
 import android.app.Fragment
+import android.content.ComponentName
+import android.content.Intent
+import android.content.pm.ResolveInfo
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -16,16 +20,15 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.transaction.TransactionBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import kotlinx.android.synthetic.main.fragment_more_layout.*
-import kotlinx.android.synthetic.main.fragment_more_layout.notificationCountTV
-import kotlinx.android.synthetic.main.fragment_more_layout.notificationIMGV
-import kotlinx.android.synthetic.main.fragment_more_layout.profilePicIMGV
-import kotlinx.android.synthetic.main.fragment_more_layout.searchIMGV
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
+import timber.log.Timber
 
 class MoreFragment : Fragment() {
 
@@ -34,6 +37,7 @@ class MoreFragment : Fragment() {
     private var horizontaList: ArrayList<MoreHorizontalData> = ArrayList()
     lateinit var homeCommunicator: HomeCommunicator
     var cvUploadMore: String = ""
+    private lateinit var bdjobsDB: BdjobsDB
     private var dialog: Dialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,6 +48,7 @@ class MoreFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         homeCommunicator = activity as HomeCommunicator
         bdjobsUserSession = BdjobsUserSession(activity)
+        bdjobsDB = BdjobsDB.getInstance(activity)
         initializeViews()
         clearAddPopulateData()
         getIfCVuploaded()
@@ -97,7 +102,7 @@ class MoreFragment : Fragment() {
             activity?.openUrlInBrowser("https://bdjobs.com/apps/version2/guide.html")
         }
         rateUs_MBTN?.setOnClickListener {
-            activity?.openUrlInBrowser("https://play.google.com/store/apps/details?id=com.bdjobs.app")
+            goToRateApp()
         }
         feedback_MBTN?.setOnClickListener {
             activity?.openUrlInBrowser("https://jobs.bdjobs.com/feedback.asp")
@@ -174,9 +179,32 @@ class MoreFragment : Fragment() {
         transaction_overview_MBTN?.setOnClickListener {
             startActivity<TransactionBaseActivity>()
         }
+
+        messageIMGV?.setOnClickListener {
+            homeCommunicator.goToMessages()
+        }
     }
 
 
+    private fun goToRateApp(){
+        var intent = Intent(Intent.ACTION_VIEW, Uri.parse("appmarket://details?id=com.bdjobs.app"))
+        val otherApps: MutableList<ResolveInfo> = activity?.getPackageManager()!!.queryIntentActivities(intent, 0)
+        var agFound = false
+
+        for (app in otherApps) {
+            if (app.activityInfo.applicationInfo.packageName.equals("com.huawei.appmarket")) {
+                val psComponent = ComponentName(app.activityInfo.applicationInfo.packageName, app.activityInfo.name)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.component = psComponent
+                startActivity(intent)
+                agFound = true
+                break
+            }
+        }
+        if (!agFound) {
+            activity?.openUrlInBrowser("https://play.google.com/store/apps/details?id=com.bdjobs.app")
+        }
+    }
 
     private fun clearAddPopulateData() {
         /*this  function deletes duplicates data lists  */
@@ -221,6 +249,7 @@ class MoreFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         showNotificationCount()
+        showMessageCount()
     }
 
     private fun showNotificationCount() {
@@ -235,6 +264,45 @@ class MoreFragment : Fragment() {
 
                 } else {
                     notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+
+                }
+            }
+        } catch (e: Exception) {
+        }
+    }
+
+    fun updateMessageView(count: Int?) {
+        //Log.d("rakib", "in home fragment $count")
+        if (count!! > 0) {
+            messageCountTV?.show()
+            if (count <= 99)
+                messageCountTV?.text = "$count"
+            else
+                messageCountTV?.text = "99+"
+        } else {
+            messageCountTV?.hide()
+        }
+    }
+
+    private fun showMessageCount() {
+        try {
+
+            doAsync {
+                bdjobsUserSession = BdjobsUserSession(activity)
+                val count = bdjobsDB.notificationDao().getMessageCount()
+                Timber.d("Messages count: $count")
+                bdjobsUserSession.updateMessageCount(count)
+            }
+
+            if (bdjobsUserSession.messageCount!! <= 0) {
+                messageCountTV?.hide()
+            } else {
+                messageCountTV?.show()
+                if (bdjobsUserSession.messageCount!! > 99) {
+                    messageCountTV?.text = "99+"
+
+                } else {
+                    messageCountTV?.text = "${bdjobsUserSession.messageCount!!}"
 
                 }
             }

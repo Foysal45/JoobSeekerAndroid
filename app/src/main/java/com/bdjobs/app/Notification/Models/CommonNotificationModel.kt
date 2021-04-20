@@ -30,6 +30,16 @@ data class CommonNotificationModel(
         @SerializedName("lanType")
         val lanType: String? = "",
         @SerializedName("deadlineDB")
-        val deadlineDB: String? = ""
+        val deadlineDB: String? = "",
+        @SerializedName("activityNode")
+        val activityNode:String?= "",
+        @SerializedName("msgTitle")
+        val msgTitle:String?= "",
+        @SerializedName("msg")
+        val msg:String?= "",
+        @SerializedName("imgSrc")
+        val imgSrc:String?= "",
+        @SerializedName("LogoSrc")
+        val LogoSrc:String?= ""
 
 )

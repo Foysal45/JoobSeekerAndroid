@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.SaveUpdateFavFilterModel
 import com.bdjobs.app.databases.External.DataStorage
@@ -20,6 +21,7 @@ import com.bdjobs.app.Utilities.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_edit.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -38,31 +40,31 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private lateinit var bdjobsDB: BdjobsDB
     private lateinit var favCommunicator: FavCommunicator
     private lateinit var dataStorage: DataStorage
-    private var filterID:String? = ""
-    private var organization:String? = ""
-    private var experience:String? = ""
-    private var jobType:String? = ""
-    private var jobLevel:String? = ""
-    private var jobNature:String? = ""
-    private var postedWithin:String? = ""
-    private var deadline:String? = ""
-    private var age:String? = ""
-    private var army:String? = ""
-    private var location:String? = ""
-    private var keyword:String? = ""
-    private var newspaper:String? = ""
-    private var category:String? = ""
-    private var industry:String? = ""
-    private var filterName:String? = ""
+    private var filterID: String? = ""
+    private var organization: String? = ""
+    private var experience: String? = ""
+    private var jobType: String? = ""
+    private var jobLevel: String? = ""
+    private var jobNature: String? = ""
+    private var postedWithin: String? = ""
+    private var deadline: String? = ""
+    private var age: String? = ""
+    private var army: String? = ""
+    private var location: String? = ""
+    private var keyword: String? = ""
+    private var newspaper: String? = ""
+    private var category: String? = ""
+    private var industry: String? = ""
+    private var filterName: String? = ""
     private var createdOn: Date? = null
-    private var gender:String? = ""
+    private var gender: String? = ""
 
-    private var workPlace : String? = "0"
-    private var personWithDisability : String ? = "0"
-    private var facilitiesForPWD : String ? = "0"
+    private var workPlace: String? = "0"
+    private var personWithDisability: String? = "0"
+    private var facilitiesForPWD: String? = "0"
 
 
-    val genderList: MutableList<String> = ArrayList<String>()
+    val genderList: MutableList<String> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_favourite_search_filter_edit, container, false)!!
@@ -76,6 +78,29 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         dataStorage = DataStorage(activity)
         favCommunicator = activity as FavCommunicator
         filterID = favCommunicator.getFilterID()
+
+//        filterID = ""
+        filterName = ""
+        organization = ""
+        experience = ""
+        jobType = ""
+        jobLevel = ""
+        jobNature = ""
+        postedWithin = ""
+        deadline = ""
+        age = ""
+        location = ""
+        newspaper = ""
+        category = ""
+        industry = ""
+        gender = ""
+
+        workPlace = "0"
+        personWithDisability = "0"
+        facilitiesForPWD = "0"
+        army = ""
+
+
         onClicks()
         setData()
     }
@@ -95,7 +120,6 @@ class FavouriteSearchFilterEditFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val typedData = data?.getStringExtra(Constants.key_typedData)
                 val from = data?.getStringExtra(Constants.key_from)
-
                 //Log.d("typedData", "typedData : $typedData")
 
                 when (from) {
@@ -173,14 +197,32 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                             ) {
                                 toast("Please apply at least one filter to update the search")
                             } else {
-                                updateFavSearch()
+
+                                if (industry.isNullOrBlank() &&
+                                        category.isNullOrBlank() &&
+                                        location.isNullOrBlank() &&
+                                        organization.isNullOrBlank() &&
+                                        jobNature.isNullOrBlank() &&
+                                        jobLevel.isNullOrBlank() &&
+                                        postedWithin.isNullOrBlank() &&
+                                        deadline.isNullOrBlank() &&
+                                        keyword.isNullOrBlank() &&
+                                        experience.isNullOrBlank() &&
+                                        gender.isNullOrBlank() &&
+                                        jobType.isNullOrBlank() &&
+                                        army.isNullOrBlank() &&
+                                        age.isNullOrBlank() &&
+                                        newspaper.isNullOrBlank() &&
+                                        workPlace == "0" &&
+                                        personWithDisability == "0" &&
+                                        facilitiesForPWD == "0") toast("Please apply at least one filter to update the search")
+                                else updateFavSearch()
                             }
                         }
                     }
                 }
             }
         }
-
 
         filterNameET.easyOnTextChangedListener {
             validateFilterName(filterNameET.getString(), filterNameTIL)
@@ -280,7 +322,6 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         getDataFromChipGroup(chip_group_person_with_disability)
         getDataFromChipGroup(chip_group_facilities_for_pwd)
 
-
         maleChip?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 if ("M" !in genderList) {
@@ -333,10 +374,13 @@ class FavouriteSearchFilterEditFragment : Fragment() {
         val loadingDialog = indeterminateProgressDialog("Saving")
         loadingDialog.setCancelable(false)
         loadingDialog.show()
+        val uLocation = dataStorage.getLocationIDByName(loacationET.text.toString())
+
+
         ApiServiceJobs.create().saveOrUpdateFilter(
                 icat = industry,
                 fcat = category,
-                location = location,
+                location = uLocation,
                 qOT = organization,
                 qJobNature = jobNature,
                 qJobLevel = jobLevel,
@@ -371,44 +415,54 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     //Log.d("rakib", response.body().toString())
                     //Log.d("rakib", Gson().toJson(call.request().body()))
 
-                    if (response.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
-                        doAsync {
-                            val favouriteSearch = FavouriteSearch(
-                                    filterid = filterID,
-                                    filtername = filterName?.trim(),
-                                    industrialCat = industry,
-                                    functionalCat = category,
-                                    location = location,
-                                    organization = organization,
-                                    jobnature = jobNature,
-                                    joblevel = jobLevel,
-                                    postedon = postedWithin,
-                                    deadline = deadline,
-                                    keyword = keyword,
-                                    newspaper = newspaper,
-                                    gender = gender,
-                                    experience = experience,
-                                    age = age,
-                                    jobtype = jobType,
-                                    retiredarmy = army,
-                                    updatedon = Date(),
-                                    totaljobs = "",
-                                    createdon = createdOn,
-                                    genderb = "",
-                                    workPlace = workPlace,
-                                    personWithDisability = personWithDisability,
-                                    facilitiesForPWD = facilitiesForPWD
-                            )
-                            bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
+                    // response code verified because it was loading infinitely whenever response is not 200
+                    if (response.code() == 200) {
+                        if (response.body()?.data?.get(0)?.status?.equalIgnoreCase("0")!!) {
+                            doAsync {
+                                // making sure it gets location data
+                                location = dataStorage.getLocationIDByName(loacationET.text.toString())
 
-                            uiThread {
-                                loadingDialog.dismiss()
-                                toast("${response.body()?.data?.get(0)?.message}")
-                                favCommunicator.backButtonPressed()
+                                val favouriteSearch = FavouriteSearch(
+                                        filterid = filterID,
+                                        filtername = filterName?.trim(),
+                                        industrialCat = industry,
+                                        functionalCat = category,
+                                        location = location,
+                                        organization = organization,
+                                        jobnature = jobNature,
+                                        joblevel = jobLevel,
+                                        postedon = postedWithin,
+                                        deadline = deadline,
+                                        keyword = keyword,
+                                        newspaper = newspaper,
+                                        gender = gender,
+                                        experience = experience,
+                                        age = age,
+                                        jobtype = jobType,
+                                        retiredarmy = army,
+                                        updatedon = Date(),
+                                        totaljobs = "",
+                                        createdon = createdOn,
+                                        genderb = "",
+                                        workPlace = workPlace,
+                                        personWithDisability = personWithDisability,
+                                        facilitiesForPWD = facilitiesForPWD
+                                )
+                                bdjobsDB.favouriteSearchFilterDao().updateFavouriteSearchFilter(favouriteSearch)
+
+                                uiThread {
+                                    loadingDialog.dismiss()
+                                    toast("${response.body()?.data?.get(0)?.message}")
+                                    favCommunicator.backButtonPressed()
+                                }
                             }
-                        }
 
+                        }
+                    } else {
+                        loadingDialog.dismiss()
+                        Toast.makeText(activity, "Something went wrong! please try again", Toast.LENGTH_SHORT).show()
                     }
+
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -418,6 +472,7 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
     private fun getDataFromChipGroup(chipGroup: ChipGroup) {
         chipGroup.setOnCheckedChangeListener { chipGroup, i ->
+
             if (i > 0) {
                 val chip = chipGroup?.findViewById(i) as Chip
                 //Log.d("chip", "text: ${chip.text}")
@@ -450,13 +505,13 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     R.id.armyCG -> {
                         army = "1"
                     }
-                    R.id.chip_group_workplace ->{
+                    R.id.chip_group_workplace -> {
                         workPlace = "1"
                     }
-                    R.id.chip_group_person_with_disability ->{
+                    R.id.chip_group_person_with_disability -> {
                         personWithDisability = "1"
                     }
-                    R.id.chip_group_facilities_for_pwd ->{
+                    R.id.chip_group_facilities_for_pwd -> {
                         facilitiesForPWD = "1"
                     }
                 }
@@ -489,13 +544,13 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     R.id.armyCG -> {
                         army = ""
                     }
-                    R.id.chip_group_workplace ->{
+                    R.id.chip_group_workplace -> {
                         workPlace = "0"
                     }
-                    R.id.chip_group_person_with_disability ->{
+                    R.id.chip_group_person_with_disability -> {
                         personWithDisability = "0"
                     }
-                    R.id.chip_group_facilities_for_pwd ->{
+                    R.id.chip_group_facilities_for_pwd -> {
                         facilitiesForPWD = "0"
                     }
                 }
@@ -534,9 +589,12 @@ class FavouriteSearchFilterEditFragment : Fragment() {
 
     private fun setData() {
         //Log.d("filterID", "filterID= $filterID")
+        Timber.d("FilterID: $filterID")
         doAsync {
             val filterData = bdjobsDB.favouriteSearchFilterDao().getFavouriteSearchByID(filterid = filterID)
             val locationString = dataStorage.getLocationNameByID(filterData.location)
+
+            Timber.d("FilterData: ${Gson().toJson(filterData)}")
 
             uiThread {
                 try {
@@ -549,8 +607,8 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                     //Log.d("catTest", "category : ${filterData.keyword}")
 
                     try {
-                        if (filterData.functionalCat?.isNotBlank()!!) {
-                            if (filterData.functionalCat.toInt() < 30) {
+                        if (filterData.functionalCat!="") {
+                            if (filterData.functionalCat?.toInt()!! < 30) {
                                 generalCatET?.setText(dataStorage.getCategoryNameByID(filterData.functionalCat))
                                 specialCatET?.text?.clear()
                             } else {
@@ -563,8 +621,11 @@ class FavouriteSearchFilterEditFragment : Fragment() {
                             } else {
                                 specialCatET?.text?.clear()
                             }
+                        } else {
+                            generalCatET?.text?.clear()
+                            specialCatET?.text?.clear()
                         }
-                    } catch (e:Exception){
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
 
@@ -608,10 +669,10 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
 
         if (typedData.trim().isNullOrBlank()) {
-            textInputLayout?.showError(getString(R.string.field_empty_error_message_common))
+            textInputLayout.showError(getString(R.string.field_empty_error_message_common))
             return false
         }
-        textInputLayout?.hideError()
+        textInputLayout.hideError()
         return true
     }
 

@@ -1,23 +1,27 @@
 package com.bdjobs.app.Notification
 
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.databases.internal.Notification
-
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.Notification
 import kotlinx.android.synthetic.main.fragment_notification_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
+
 
 class MessageListFragment : Fragment() {
 
@@ -46,12 +50,13 @@ class MessageListFragment : Fragment() {
     private fun showDataFromDB() {
         doAsync {
             notificationList = bdjobsDB.notificationDao().getMessage() as? MutableList
-            notificationList?.add(0, Notification(
-                    title = "Video Resume",
-                    body = "",
-                    type = "bpm",
-                    imageLink = "https://images.app.goo.gl/Ebvz1hPuphafQrZr6",
-                    link = "www.google.com"))
+
+//            notificationList?.add(0, Notification(
+//                    title = "Video Resume",
+//                    body = "",
+//                    type = "bpm",
+//                    imageLink = "https://images.app.goo.gl/Ebvz1hPuphafQrZr6",
+//                    link = "www.google.com"))
             uiThread {
                 adapter = NotificationListAdapter(activity, notificationList as MutableList<Notification>)
                 notificationsRV?.also {

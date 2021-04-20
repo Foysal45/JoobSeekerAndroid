@@ -36,6 +36,7 @@ class TrainingEditFragment : Fragment() {
     private lateinit var hTrainingID: String
     private lateinit var hID: String
     private var calendar: Calendar? = null
+
     //private var yearSelected = false
     private var yearList = ArrayList<String>()
 

@@ -1,5 +1,6 @@
 package com.bdjobs.app.Notification
 
+import android.annotation.SuppressLint
 import android.content.IntentFilter
 import android.os.Bundle
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
@@ -116,7 +117,7 @@ class NotificationBaseActivity : FragmentActivity(), NotificationCommunicatior, 
         }
 
 
-        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        /*tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tabs.selectedTabPosition == 0) {
 
@@ -134,7 +135,7 @@ class NotificationBaseActivity : FragmentActivity(), NotificationCommunicatior, 
             override fun onTabReselected(tab: TabLayout.Tab) {
 
             }
-        })
+        })*/
 
 
         try {
@@ -166,8 +167,8 @@ class NotificationBaseActivity : FragmentActivity(), NotificationCommunicatior, 
                 } catch (e: Exception) {
                 }
                 try {
-                    val tab = tabs.getTabAt(1)
-                    tab!!.select()
+//                    val tab = tabs.getTabAt(1)
+//                    tab!!.select()
                     goToMessageListFragment()
                 } catch (e: Exception) {
                 }
@@ -175,6 +176,19 @@ class NotificationBaseActivity : FragmentActivity(), NotificationCommunicatior, 
             else->{
                 goToNotificationListFragment()
             }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onStart() {
+        super.onStart()
+
+        if (from=="message") {
+            notificationsTV.text = "Messages"
+            goToMessageListFragment()
+        } else {
+            notificationsTV.text = "Notifications"
+            goToNotificationListFragment()
         }
     }
 

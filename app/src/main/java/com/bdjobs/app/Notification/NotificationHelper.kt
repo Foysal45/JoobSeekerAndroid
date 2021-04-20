@@ -10,6 +10,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION_CODES.O
 import android.util.Log
@@ -28,6 +29,7 @@ import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
+import timber.log.Timber
 import java.lang.Exception
 
 class NotificationHelper(val context: Context) : ContextWrapper(context) {
@@ -80,7 +82,8 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
             imageLink: String? = "",
             nId: String? = "",
             lanType: String? = "",
-            deadlineDB: String? = ""
+            deadlineDB: String? = "",
+            activityName:String? = ""
     ): NotificationCompat.Builder {
 
         //Log.d("rakib noti helper", "$jobTitle $jobid $companyName")
@@ -245,14 +248,33 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE -> {
 
-                val intent = Intent(this, NotificationBaseActivity::class.java)?.apply {
-                    putExtra("from", "notification")
-                    putExtra("id", jobid)
-                    putExtra("nid", nId)
-                    putExtra("seen", true)
+                var intent = Intent()
 
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                try {
+                    val className = Class.forName(activityName!!)
+                    intent = Intent(this, className)
+                    intent. flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                } catch (e: Exception) {
+                    if (!link.isNullOrBlank()) {
+                        try {
+                            val formattedUrl = if (!link.startsWith("http://") && !link.startsWith("https://")) {
+                                "http://$link"
+                            } else link
+                            intent = Intent(Intent.ACTION_VIEW, Uri.parse(formattedUrl))
+                            intent. flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        } catch (e: Exception) {
+                        }
+                    }
                 }
+
+//                val intent = Intent(this, NotificationBaseActivity::class.java)?.apply {
+//                    putExtra("from", "message")
+//                    putExtra("id", jobid)
+//                    putExtra("nid", nId)
+//                    putExtra("seen", true)
+//
+//                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                }
 
 
                 val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)

@@ -26,28 +26,13 @@ import org.jetbrains.anko.uiThread
 
 
 class NotificationListFragment : Fragment() {
-//    override fun onUpdateNotification() {
-//        //Log.d("rakib", "came in noti list")
-//        doAsync {
-//            val noti = bdjobsDB.notificationDao().getSingleNotification()
-//            //Log.d("rakib", "${noti.type + noti.id}")
-//            uiThread {
-//                notificationListAdapter.addItem(noti)
-//                notificationListAdapter.notifyDataSetChanged()
-//            }
-//        }
-//
-//    }
-
 
     private lateinit var notificationCommunicator: NotificationCommunicatior
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var bdjobsDB: BdjobsDB
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var backgroundJobBroadcastReceiver: BackgroundJobBroadcastReceiver
     private lateinit var notificationListAdapter: NotificationListAdapter
     private lateinit var notificationHelper: NotificationHelper
-    //private val intentFilter = IntentFilter(Constants.BROADCAST_DATABASE_UPDATE_JOB)
 
 
     var notificationList: List<Notification>? = null
@@ -64,18 +49,10 @@ class NotificationListFragment : Fragment() {
         bdjobsUserSession = BdjobsUserSession(activity)
         linearLayoutManager = LinearLayoutManager(activity)
         notificationHelper = NotificationHelper(activity)
-        //backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
-        //activity?.registerReceiver(backgroundJobBroadcastReceiver, intentFilter)
-        //BackgroundJobBroadcastReceiver.notificationUpdateListener = this
 
         showDataFromDB()
         //Log.d("rakib", "${notificationCommunicator.getPositionClicked()}")
 
-    }
-
-    override fun onPause() {
-        super.onPause()
-        //activity?.unregisterReceiver(backgroundJobBroadcastReceiver)
     }
 
     private fun showDataFromDB() {

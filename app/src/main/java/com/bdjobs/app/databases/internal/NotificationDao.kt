@@ -18,7 +18,7 @@ interface NotificationDao {
     @Query("SELECT * FROM Notification WHERE type = :type ORDER BY arrival_time DESC")
     fun getNotificationsByType(type: String): List<Notification>
 
-    @Query("SELECT * FROM Notification WHERE type = :type ORDER BY arrival_time DESC")
+    @Query("SELECT DISTINCT * FROM Notification WHERE type = :type ORDER BY arrival_time DESC")
     fun getMessages(type: String): List<Notification>
 
     @Query("SELECT * FROM Notification WHERE type != :type AND is_deleted = 0 ORDER BY id DESC")
@@ -38,6 +38,12 @@ interface NotificationDao {
 
     @Query("SELECT COUNT(id) FROM Notification WHERE seen = 0 AND type != :type")
     fun getNotificationsCount(type: String): Int
+
+    @Query("SELECT COUNT(id) FROM Notification WHERE seen = 0 AND type = :type")
+    fun getMessagesCount(type: String):Int
+
+    @Query("SELECT COUNT(arrival_time) FROM Notification where arrival_time = :arrivalTime")
+    fun checkSameNotification(arrivalTime:Date?):Int
 
     @Transaction
     fun getMessage(): List<Notification> {
@@ -63,6 +69,11 @@ interface NotificationDao {
     @Transaction
     fun getNotificationCount(): Int {
         return getNotificationsCount(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE)
+    }
+
+    @Transaction
+    fun getMessageCount():Int{
+        return getMessagesCount(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE)
     }
 
     @Transaction

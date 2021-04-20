@@ -34,6 +34,7 @@ import com.bdjobs.app.sms.BaseActivity
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -229,10 +230,10 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         //Log.d("filterCount", "filterCount= $filterCount")
                         holder.progressBar.hide()
                         holder.favcounter1BTN.textSize = 18.0F
-                        if (filterCount.get(0)?.intCount?.length!! > 3) {
+                        if (filterCount.get(0).intCount?.length!! > 3) {
                             holder.favcounter1BTN.textSize = 14.0F
                         }
-                        holder.favcounter1BTN.text = filterCount.get(0)?.intCount
+                        holder.favcounter1BTN.text = filterCount.get(0).intCount
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -373,6 +374,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
                         override fun onResponse(call: Call<FavouriteSearchCountModel>, response: Response<FavouriteSearchCountModel>) {
                             try {
+                                Timber.d("Favourite count: ${Gson().toJson(response.body())}")
                                 response.body()?.statuscode?.let { status ->
                                     if (status.equalIgnoreCase(api_request_result_code_ok)) {
                                         holder.progressBar.hide()
@@ -400,10 +402,10 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         //Log.d("filterCount", "filterCount= $filterCount")
                         holder.progressBar.hide()
                         holder.favcounter1BTN.textSize = 18.0F
-                        if (filterCount.get(0)?.intCount?.length!! > 3) {
+                        if (filterCount.get(0).intCount?.length!! > 3) {
                             holder.favcounter1BTN.textSize = 14.0F
                         }
-                        holder.favcounter1BTN.text = filterCount.get(0)?.intCount
+                        holder.favcounter1BTN.text = filterCount.get(0).intCount
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -606,9 +608,9 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
         //Log.d("gender", "genderb: ${favouriteSearch.genderb}")
 
-        var allValues = ("$keyword,$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability $facilitiesForPWD")
+        var allValues = ("$keyword,$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability,$facilitiesForPWD")
         //Log.d("allValuesN", allValues)
-        allValues = allValues.replace("Any".toRegex(), "")
+//        allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")
         //Log.d("allValues", allValues)
         for (i in 0..15) {

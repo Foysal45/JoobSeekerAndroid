@@ -38,6 +38,7 @@ object TW {
         } else {
             editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
             editText.clearTextOnDrawableRightClick()
+//            editText.requestFocus()
         }
     }
 
