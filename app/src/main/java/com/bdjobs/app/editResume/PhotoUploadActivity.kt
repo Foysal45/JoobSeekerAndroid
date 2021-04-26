@@ -60,7 +60,6 @@ import java.io.InputStream
 class PhotoUploadActivity : Activity() {
 
 
-
     private val REQ_CAMERA_IMAGE = 40
     private val REQ_SELECT_IMAGE = 41
     private val MY_PERMISSIONS_REQUEST_CAMERA = 2
@@ -98,7 +97,7 @@ class PhotoUploadActivity : Activity() {
 
             editResPhotoUploadImageView.loadCircularImageFromUrlWithoutCach(bdjobsUserSession.userPicUrl)
             noPhotoTV?.text = "You can change or delete your photo"
-            photoInfoTV?.hide()         
+            photoInfoTV?.hide()
             editResPhotoUploadButton?.hide()
             editResChangePhotoButton?.show()
             ic_edit_photo?.show()
@@ -115,7 +114,7 @@ class PhotoUploadActivity : Activity() {
 //        val adRequest = AdRequest.Builder().build()
 //        adViewPhoto?.loadAd(adRequest)
 
-        Ads.loadAdaptiveBanner(this@PhotoUploadActivity,adViewPhoto)
+        Ads.loadAdaptiveBanner(this@PhotoUploadActivity, adViewPhoto)
 
     }
 
@@ -123,7 +122,7 @@ class PhotoUploadActivity : Activity() {
         super.onResume()
         setupToolbar(getString(R.string.hint_upload_photo))
         onClick()
-        Ads.showNativeAd(ad_small_template,this@PhotoUploadActivity)
+        Ads.showNativeAd(ad_small_template, this@PhotoUploadActivity)
     }
 
     private fun onClick() {
@@ -220,7 +219,7 @@ class PhotoUploadActivity : Activity() {
                         folderName = response.body()?.data?.get(0)?.folderName
                         folderId = response.body()?.data?.get(0)?.folderId
                         imageName = response.body()?.data?.get(0)?.imageName
-                        isResumeUpdate =response.body()?.data?.get(0)?.isResumeUpdate
+                        isResumeUpdate = response.body()?.data?.get(0)?.isResumeUpdate
                         params.put("Image", encodedString)
                         params.put("userid", bdjobsUserSession.userId)
                         params.put("decodeid", bdjobsUserSession.decodId)
@@ -456,7 +455,8 @@ class PhotoUploadActivity : Activity() {
                     val url = data.data!!.toString()
                     Timber.d("Url: $url") //content://com.miui.gallery.open/raw/%2Fstorage%2Femulated%2F0%2FDCIM%2FCamera%2FIMG_20210330_200426.jpg
                     if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.miui.gallery")
-                            || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external")) {
+                            || url.startsWith("content://com.sec.android.gallery3d") || url.startsWith("content://com.photogallery.galleryoppoapp")
+                            || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external") || url.startsWith("com.oneplus.gallery")) {
 
                         try {
                             val `is` = contentResolver.openInputStream(selectedImageUri!!)
@@ -492,8 +492,7 @@ class PhotoUploadActivity : Activity() {
                             Timber.e("Ex: $e")
                             e.printStackTrace()
                         }
-                    }
-                    else Timber.d("Not starts")
+                    } else Timber.d("Not starts")
 
                     val myDirectory = File("/sdcard/BDJOBS")
                     if (!myDirectory.exists()) {
@@ -559,8 +558,7 @@ class PhotoUploadActivity : Activity() {
                     }
 
 
-                }
-                else if (resultCode == UCrop.RESULT_ERROR) {
+                } else if (resultCode == UCrop.RESULT_ERROR) {
                     val cropError = UCrop.getError(data!!)
                 }
 
