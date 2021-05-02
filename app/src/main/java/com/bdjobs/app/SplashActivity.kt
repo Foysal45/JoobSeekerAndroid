@@ -391,7 +391,6 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
             if (it.isSuccessful) {
                 if (it.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
                         it.result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                    //Log.d("UpdateCheck", "UPDATE_AVAILABLE")
                     appUpdateManager?.startUpdateFlowForResult(
                             it.result,
                             AppUpdateType.IMMEDIATE,

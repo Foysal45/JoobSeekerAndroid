@@ -113,6 +113,7 @@ class RecordVideoFragment : Fragment() {
 
     private fun captureVideo() {
         val dir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_interview")
+        dir.mkdirs()
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoViewModel.videoManagerData.value?.applyId}_${recordVideoViewModel.videoManagerData.value?.questionId}_$timeStamp.mp4")
         camera_view?.takeVideoSnapshot(newFile)

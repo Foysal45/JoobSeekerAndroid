@@ -18,8 +18,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
-import android.view.Gravity
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
@@ -28,7 +26,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.BitmapCompat
 import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PhotoInfoModel
@@ -55,12 +52,12 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.InputStream
 
 class PhotoUploadActivity : Activity() {
-
 
 
     private val REQ_CAMERA_IMAGE = 40
@@ -100,7 +97,7 @@ class PhotoUploadActivity : Activity() {
 
             editResPhotoUploadImageView.loadCircularImageFromUrlWithoutCach(bdjobsUserSession.userPicUrl)
             noPhotoTV?.text = "You can change or delete your photo"
-            photoInfoTV?.hide()         
+            photoInfoTV?.hide()
             editResPhotoUploadButton?.hide()
             editResChangePhotoButton?.show()
             ic_edit_photo?.show()
@@ -117,7 +114,7 @@ class PhotoUploadActivity : Activity() {
 //        val adRequest = AdRequest.Builder().build()
 //        adViewPhoto?.loadAd(adRequest)
 
-        Ads.loadAdaptiveBanner(this@PhotoUploadActivity,adViewPhoto)
+        Ads.loadAdaptiveBanner(this@PhotoUploadActivity, adViewPhoto)
 
     }
 
@@ -125,7 +122,7 @@ class PhotoUploadActivity : Activity() {
         super.onResume()
         setupToolbar(getString(R.string.hint_upload_photo))
         onClick()
-        Ads.showNativeAd(ad_small_template,this@PhotoUploadActivity)
+        Ads.showNativeAd(ad_small_template, this@PhotoUploadActivity)
     }
 
     private fun onClick() {
@@ -181,8 +178,7 @@ class PhotoUploadActivity : Activity() {
 
                     ic_edit_photo?.show()
                 } catch (e: Exception) {
-
-                    logException(e)
+                    Timber.e(e)
 
                 }
 
@@ -192,7 +188,7 @@ class PhotoUploadActivity : Activity() {
                 try {
                     error?.message?.let { Log.e("photoAPI", it) }
                 } catch (e: Exception) {
-                    logException(e)
+                    Timber.e(e)
                 }
 
 
@@ -223,7 +219,7 @@ class PhotoUploadActivity : Activity() {
                         folderName = response.body()?.data?.get(0)?.folderName
                         folderId = response.body()?.data?.get(0)?.folderId
                         imageName = response.body()?.data?.get(0)?.imageName
-                        isResumeUpdate =response.body()?.data?.get(0)?.isResumeUpdate
+                        isResumeUpdate = response.body()?.data?.get(0)?.isResumeUpdate
                         params.put("Image", encodedString)
                         params.put("userid", bdjobsUserSession.userId)
                         params.put("decodeid", bdjobsUserSession.decodId)
@@ -236,7 +232,7 @@ class PhotoUploadActivity : Activity() {
 
                     }
                 } catch (e: Exception) {
-                    logException(e)
+                    Timber.e(e)
                 }
             }
         })
@@ -284,7 +280,7 @@ class PhotoUploadActivity : Activity() {
                                     toast("Failed ")
                                 }
                             } catch (e: Exception) {
-                                logException(e)
+                                Timber.e(e)
                             }
                         }
 
@@ -343,7 +339,7 @@ class PhotoUploadActivity : Activity() {
 
                     //Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")
                 } catch (e: Exception) {
-                    logException(e)
+                    Timber.e(e)
                 }
 
             }
@@ -354,15 +350,15 @@ class PhotoUploadActivity : Activity() {
                     try {
                         error.message?.let { Log.e("Deltete", it) }
                     } catch (e: Exception) {
-                        logException(e)
+                        Timber.e(e)
                     }
                     try {
                         toast(error.message!!)
                     } catch (e: Exception) {
-                        logException(e)
+                        Timber.e(e)
                     }
                 } catch (e: Exception) {
-                    logException(e)
+                    Timber.e(e)
                 }
             }
         })
@@ -452,12 +448,15 @@ class PhotoUploadActivity : Activity() {
         try {
             if (resultCode != RESULT_CANCELED) {
 
-                if (requestCode == REQ_SELECT_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
+                if (requestCode == REQ_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
 
                     var fileUri: Uri? = null
                     val selectedImageUri = data.data
                     val url = data.data!!.toString()
-                    if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external")) {
+                    Timber.d("Url: $url") //content://com.miui.gallery.open/raw/%2Fstorage%2Femulated%2F0%2FDCIM%2FCamera%2FIMG_20210330_200426.jpg
+                    if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.miui.gallery")
+                            || url.startsWith("content://com.sec.android.gallery3d") || url.startsWith("content://com.photogallery.galleryoppoapp")
+                            || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external") || url.startsWith("com.oneplus.gallery")) {
 
                         try {
                             val `is` = contentResolver.openInputStream(selectedImageUri!!)
@@ -478,9 +477,11 @@ class PhotoUploadActivity : Activity() {
                                     var finalFile: File? = null
                                     try {
                                         finalFile = File(getRealPathFromURI(tempUri))
+                                        Timber.d("FinalFile: $finalFile")
                                         fileUri = Uri.fromFile(finalFile)
                                     } catch (e: Exception) {
                                         e.printStackTrace()
+                                        Timber.e(e.localizedMessage)
                                     }
                                 } else {
                                     Toast.makeText(applicationContext, "Invalid Image has been selected! Please Choose image again", Toast.LENGTH_LONG).show()
@@ -488,9 +489,10 @@ class PhotoUploadActivity : Activity() {
 
                             }
                         } catch (e: Exception) {
+                            Timber.e("Ex: $e")
                             e.printStackTrace()
                         }
-                    }
+                    } else Timber.d("Not starts")
 
                     val myDirectory = File("/sdcard/BDJOBS")
                     if (!myDirectory.exists()) {
@@ -505,7 +507,7 @@ class PhotoUploadActivity : Activity() {
                     try {
                         UCrop.of(fileUri!!, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
                     } catch (e: Exception) {
-                        logException(e)
+                        Timber.e(e)
                     }
                 }
 
@@ -560,7 +562,7 @@ class PhotoUploadActivity : Activity() {
                     val cropError = UCrop.getError(data!!)
                 }
 
-                if (requestCode == REQ_CAMERA_IMAGE && resultCode == Activity.RESULT_OK) {
+                if (requestCode == REQ_CAMERA_IMAGE && resultCode == RESULT_OK) {
 
                     val path = getLastImagePath()
                     val SourceUri = Uri.fromFile(File(path))
@@ -579,7 +581,7 @@ class PhotoUploadActivity : Activity() {
 
             }
         } catch (e: Exception) {
-            logException(e)
+            Timber.e(e)
         }
 
 
@@ -657,6 +659,8 @@ class PhotoUploadActivity : Activity() {
         val cursor: Cursor? = contentResolver.query(uri, null, null, null, null)
         cursor!!.moveToFirst()
         val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+
+        Timber.d("Real path: ${cursor.getString(idx)}")
         return cursor.getString(idx)
     }
 

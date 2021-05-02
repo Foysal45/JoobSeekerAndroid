@@ -27,6 +27,7 @@ import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Facing
 import kotlinx.android.synthetic.main.fragment_record_video_resume.*
+import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -116,10 +117,16 @@ class RecordVideoResumeFragment : Fragment() {
     }
 
     private fun captureVideo() {
-        val dir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_resume")
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
-        camera_view?.takeVideoSnapshot(newFile)
+        Timber.d("Video capture start")
+        try {
+            val dir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_resume")
+            dir.mkdirs()
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
+            camera_view?.takeVideoSnapshot(newFile)
+        } catch (e: Exception) {
+            Timber.e("captureVideo: ${e.localizedMessage}")
+        }
     }
 
 

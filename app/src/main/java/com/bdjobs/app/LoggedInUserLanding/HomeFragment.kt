@@ -451,15 +451,15 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     })
 
 
-                    Timber.d("Filter Location: ${getFilterString(searchData!!)}")
-                    searchFilterTV?.text = getFilterString(searchData!!)
-                    if (!searchData.keyword.isNullOrBlank()) {
-                        keywordTV?.text = searchData.keyword
+                    Timber.d("Filter Location: ${searchData?.let { it1 -> getFilterString(it1) }}")
+                    searchFilterTV?.text = searchData?.let { it1 -> getFilterString(it1) }
+                    if (!searchData?.keyword.isNullOrBlank()) {
+                        keywordTV?.text = searchData?.keyword
                     } else {
                         keywordTV?.text = "-"
                     }
-                    srchDateTV?.text = searchData.searchTime?.toSimpleDateString()
-                    srchTimeTV?.text = searchData.searchTime?.toSimpleTimeString()
+                    srchDateTV?.text = searchData?.searchTime?.toSimpleDateString()
+                    srchTimeTV?.text = searchData?.searchTime?.toSimpleTimeString()
                     lastSearchView?.show()
                     blankCL?.hide()
                     mainLL?.show()
@@ -678,9 +678,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                     //Log.d("google", "google = $inviteInterviview")
 
-                    if (inviteInterviview?.toInt()!! > 0 || videoInterviview?.toInt()!! > 0 || liveInterview?.toInt()!! > 0) {
-                        showInterviewInvitationPop()
-                    }
+//                    if (inviteInterviview?.toInt()!! > 0 || videoInterviview?.toInt()!! > 0 || liveInterview?.toInt()!! > 0) {
+//                        showInterviewInvitationPop()
+//                    }
 
                     try {
                         Constants.changePassword_Eligibility = response.body()?.data?.get(0)?.changePassword_Eligibility!!
