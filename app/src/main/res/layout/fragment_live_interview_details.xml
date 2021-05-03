@@ -353,6 +353,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_prep"
                     android:drawableEnd="@drawable/ic_angle_right"
+                    android:onClick="@{()->viewModel.onTakePreparationButtonClick()}"
                     android:drawablePadding="8dp"
                     android:drawableTint="#13a10e"
                     android:padding="5dp"

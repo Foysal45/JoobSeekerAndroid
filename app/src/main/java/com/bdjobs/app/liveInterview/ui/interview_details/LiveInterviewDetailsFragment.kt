@@ -2,10 +2,13 @@ package com.bdjobs.app.liveInterview.ui.interview_details
 
 import android.Manifest
 import android.app.Application
+import android.app.Dialog
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
@@ -13,6 +16,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -31,8 +35,11 @@ import com.bdjobs.app.videoInterview.util.EventObserver
 import com.fondesa.kpermissions.*
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.extension.send
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textview.MaterialTextView
+import kotlinx.android.synthetic.main.dialog_preparation.*
 import kotlinx.android.synthetic.main.fragment_live_interview_details.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.startActivity
@@ -175,6 +182,12 @@ class LiveInterviewDetailsFragment : Fragment() {
                     }
                 }
             })
+
+            takePreparationClickEvent.observe(viewLifecycleOwner,EventObserver{
+                if (it) {
+                    showPreparationDialog()
+                }
+            })
         }
 
         img_web_info?.setOnClickListener {
@@ -194,6 +207,25 @@ class LiveInterviewDetailsFragment : Fragment() {
             deadline.add("")
             startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
         }
+    }
+
+    private fun showPreparationDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_preparation)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val recordVideoBtn:MaterialButton = dialog.findViewById(R.id.btn_record_video_prep)
+        val recordAudioBtn:MaterialButton = dialog.findViewById(R.id.btn_record_audio_prep)
+        val cancelText:MaterialTextView = dialog.findViewById(R.id.tv_cancel_prep)
+
+
+        cancelText.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun getAllCalendars() {

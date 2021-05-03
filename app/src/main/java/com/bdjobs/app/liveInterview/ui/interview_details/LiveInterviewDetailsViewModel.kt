@@ -81,6 +81,8 @@ class LiveInterviewDetailsViewModel(
     val addToCalendarClickEvent = MutableLiveData<Event<Boolean>>()
     val onAddedToCalendarEvent = MutableLiveData<Event<Boolean>>()
 
+    val takePreparationClickEvent = MutableLiveData<Event<Boolean>>()
+
     lateinit var timer: CountDownTimer
 
     init {
@@ -304,6 +306,10 @@ class LiveInterviewDetailsViewModel(
     fun onAddToCalendarButtonClick() {
         addToCalendarClickEvent.value = Event(true)
 
+    }
+
+    fun onTakePreparationButtonClick() {
+        takePreparationClickEvent.value = Event(true)
     }
 
     fun insert() {
