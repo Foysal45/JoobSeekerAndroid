@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="10dp"
-    tools:context=".videoInterview.ui.guidelines.GuidelinesViewpagerFragment">
+    tools:context=".liveInterview.ui.instructions.InstructionViewPageFragment">
 
     <LinearLayout
         android:id="@+id/ll_indicators"
@@ -65,6 +65,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
+        android:visibility="gone"
         android:background="@drawable/background_blue"
         android:padding="15dp"
         tools:text="@string/by_clicking_lets_start_now"
@@ -135,13 +136,12 @@
         android:includeFontPadding="false"
         android:paddingTop="13dp"
         android:paddingBottom="13dp"
-        android:text="Let's Start Now"
-        android:textAllCaps="false"
         android:visibility="gone"
-        app:backgroundTint="@color/green"
+        android:text="Go Back to Live Interview"
+        android:textAllCaps="false"
+        app:backgroundTint="@android:color/black"
         app:cornerRadius="23dp"
         app:elevation="0dp"
-        app:icon="@drawable/ic_baseline_arrow_forward_ios"
         app:iconGravity="end"
         app:iconPadding="2dp"
         app:iconSize="18dp"

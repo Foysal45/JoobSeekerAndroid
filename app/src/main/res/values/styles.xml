@@ -195,6 +195,12 @@
         <item name="iconTint">@color/color_states_materialbutton</item>
     </style>
 
+    <style name="MaterialButtonStyle2" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textColor">#13a10e</item>
+        <item name="iconTint">#13a10e</item>
+    </style>
+
 
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">#BDBDBD</item>

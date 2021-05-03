@@ -170,7 +170,7 @@ class LiveInterviewDetailsFragment : Fragment() {
                 if (it) {
                     btn_add_to_calendar?.apply {
                         text = "Added to Calendar"
-                        icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_check_circle_black_14dp)
+//                        icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_check_circle_black_14dp)
                         isEnabled = false
                     }
                 }

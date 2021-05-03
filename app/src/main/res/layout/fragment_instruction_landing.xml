@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    tools:context=".liveInterview.ui.instructions.InstructionLandingFragment">
 
     <data>
         <variable
             name="viewModel"
-            type="com.bdjobs.app.videoInterview.ui.guidelines.GuidelineVIewModel" />
+            type="com.bdjobs.app.liveInterview.ui.instructions.InstructionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".videoInterview.ui.guidelines.GuidelineLandingFragment">
+        android:layout_height="match_parent">
 
 
         <androidx.appcompat.widget.Toolbar
@@ -58,7 +58,7 @@
             android:layout_marginEnd="20dp"
             android:textSize="18sp"
             android:textColor="@android:color/black"
-            android:text="ভিডিও ইন্টারভিউ এর গাইডলাইনগুলো"
+            android:text="লাইভ ইন্টারভিউ এর গাইডলাইনগুলো"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
             android:layout_marginEnd="20dp"
             android:textSize="16sp"
             android:textColor="#4D4D4D"
-            android:text="ভিডিও রেকর্ডিং শুরু করার আগে প্রয়োজনীয় ডিভাইসগুলো এবং নির্দেশনাগুলো সম্পর্কে প্রথমেই জেনে নিন"
+            android:text="লাইভ ইন্টারভিউ শুরু করার আগে প্রয়োজনীয় ডিভাইসগুলো এবং নির্দেশনাগুলো সম্পর্কে জেনে নিন"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +101,7 @@
             android:layout_marginTop="20dp"
             android:text="বাংলাতে দেখুন"
             android:textColor="@color/colorBlack"
-            android:checked="@={viewModel._viewInBangla}"
+            android:checked="@={viewModel._viewInBengali}"
             app:buttonTint="@color/colorBlack"
             app:layout_constraintEnd_toStartOf="@id/guideline_middle"
             app:layout_constraintHorizontal_bias="0.8"
@@ -149,4 +149,6 @@
             android:layout_marginBottom="20dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>

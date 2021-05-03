@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/live_interview_nav_graph">
+    android:id="@+id/live_interview_nav_graph"
+    app:startDestination="@id/instructionLandingFragment">
 
     <fragment
         android:id="@+id/liveInterviewDetailsFragment"
@@ -14,6 +15,9 @@
         <argument
             android:name="jobTitle"
             app:argType="string" />
+        <action
+            android:id="@+id/action_liveInterviewDetailsFragment_to_instructionLandingFragment"
+            app:destination="@id/instructionLandingFragment" />
     </fragment>
     <fragment
         android:id="@+id/liveInterviewListFragment"
@@ -23,5 +27,24 @@
         <action
             android:id="@+id/action_liveInterviewListFragment_to_liveInterviewDetailsFragment"
             app:destination="@id/liveInterviewDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/instructionLandingFragment"
+        android:name="com.bdjobs.app.liveInterview.ui.instructions.InstructionLandingFragment"
+        android:label="fragment_instruction_landing"
+        tools:layout="@layout/fragment_instruction_landing" >
+        <action
+            android:id="@+id/action_instructionLandingFragment_to_instructionViewPageFragment"
+            app:destination="@id/instructionViewPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/instructionViewPageFragment"
+        android:name="com.bdjobs.app.liveInterview.ui.instructions.InstructionViewPageFragment"
+        android:label="fragment_instruction_view_page"
+        tools:layout="@layout/fragment_instruction_view_page" >
+        <argument
+            android:name="language"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>
