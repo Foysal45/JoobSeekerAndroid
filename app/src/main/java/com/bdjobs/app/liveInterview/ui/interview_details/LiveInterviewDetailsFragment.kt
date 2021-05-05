@@ -32,7 +32,6 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.BalloonFactory
 import com.bdjobs.app.databinding.FragmentLiveInterviewDetailsBinding
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
-import com.bdjobs.app.videoInterview.ui.question_list.QuestionListFragmentDirections
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.fondesa.kpermissions.*
 import com.fondesa.kpermissions.extension.permissionsBuilder
@@ -225,7 +224,12 @@ class LiveInterviewDetailsFragment : Fragment() {
         val cancelText:MaterialTextView = dialog.findViewById(R.id.tv_cancel_prep)
 
         recordVideoBtn.setOnClickListener {
-            askForCameraAndAudioPermission()
+            askForCameraAndAudioPermission("video")
+            dialog.dismiss()
+        }
+
+        recordAudioBtn.setOnClickListener {
+            askForCameraAndAudioPermission("audio")
             dialog.dismiss()
         }
 
@@ -461,13 +465,15 @@ class LiveInterviewDetailsFragment : Fragment() {
         }
     }
 
-    private fun askForCameraAndAudioPermission():Boolean {
+    private fun askForCameraAndAudioPermission(from:String):Boolean {
         permissionsBuilder(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO).build().send { result ->
             when {
                 result.allGranted() -> {
                     cameraAndAudioPermissionGranted = true
 //                    findNavController().navigate(LiveInterviewDetailsFragmentDirections)
-                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToRecordVideoFragment())
+                    if (from=="video") findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToRecordVideoFragment())
+                    else findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToAudioRecordFragment())
+//                    else requireContext().startActivity(Intent(requireContext(),RecordingActivity::class.java))
 
                 }
                 result.allDenied() || result.anyDenied() -> {

@@ -22,13 +22,16 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.toFormattedSeconds
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentVideoRecordBinding
+import com.bdjobs.app.liveInterview.data.models.LiveInterviewVideo
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Facing
 import kotlinx.android.synthetic.main.fragment_video_record.*
+import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
@@ -73,6 +76,10 @@ class RecordVideoFragment : Fragment() {
         initializeUI()
 
         setUpObservers()
+
+        binding.btnGuide.setOnClickListener {
+            context?.startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/bdjobs-app-user-guide-for-video-resume.asp", "from" to "liveInterview")
+        }
 
     }
 
@@ -144,6 +151,12 @@ class RecordVideoFragment : Fragment() {
                 if (videoRecordViewModel.onVideoDoneEvent.value == true) {
                     videoFile = result.file
                     Timber.d("Path: ${videoFile.path} :: AbsolutePath: ${videoFile.absolutePath}")
+
+//                    val liveInterviewData = LiveInterviewVideo(
+//                            videoFile,videoFile.path,videoFile.absolutePath,videoFile.toUri()
+//                    )
+//                    videoRecordViewModel._videoManagerData.postValue(liveInterviewData)
+//                    videoRecordViewModel._navigateToViewVideoEvent.postValue(true)
 
                     navigateToVideoView(videoFile)
 
@@ -222,18 +235,32 @@ class RecordVideoFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     private fun updateUI(recordingStarted: Boolean) {
         if (recordingStarted) {
-            view_intermediate?.hide()
-            cl_total_time?.hide()
-            btn_record_video?.hide()
-            view_timeline?.show()
-            cl_timeline?.show()
-            btn_stop_video.show()
+            binding.apply {
+                viewIntermediate.hide()
+                clTotalTime.hide()
+                btnRecordVideo.hide()
+                viewTimeline.hide()
+                clTimeline.show()
+                btnStopVideo.show()
+                tvRec.show()
 
-            tv_rec?.show()
+                seekbarVideoDuration.setOnTouchListener { _, _ -> true }
 
-            seekbar_video_duration.setOnTouchListener { _, _ -> true }
+                toolBar.title = "Test Recording"
+            }
 
-            tool_bar?.title = "Test Recording"
+//            view_intermediate?.hide()
+//            cl_total_time?.hide()
+//            btn_record_video?.hide()
+//            view_timeline?.show()
+//            cl_timeline?.show()
+//            btn_stop_video.show()
+//
+//            tv_rec?.show()
+//
+//            seekbar_video_duration.setOnTouchListener { _, _ -> true }
+//
+//            tool_bar?.title = "Test Recording"
 
         }
     }

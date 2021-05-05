@@ -34,10 +34,9 @@ class ViewRecordedVideoFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_view_recorded_video, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        Timber.d("Activity Created")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Timber.d("View Created")
 
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -51,6 +50,7 @@ class ViewRecordedVideoFragment : Fragment() {
 //        }
 
         showVideo()
+
     }
 
     private fun showVideo() {

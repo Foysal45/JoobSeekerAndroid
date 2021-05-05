@@ -30,6 +30,23 @@
                 app:title="Test Recording"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_guide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:includeFontPadding="false"
+                    android:letterSpacing="0"
+                    android:layout_gravity="end"
+                    android:text="User Guide"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    app:backgroundTint="#255691"
+                    app:icon="@drawable/ic_guide"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.appcompat.widget.Toolbar>
 
             <com.otaliastudios.cameraview.CameraView
