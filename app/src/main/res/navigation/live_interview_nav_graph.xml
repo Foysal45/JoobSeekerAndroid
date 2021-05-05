@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_liveInterviewDetailsFragment_to_instructionLandingFragment"
             app:destination="@id/instructionLandingFragment" />
+        <action
+            android:id="@+id/action_liveInterviewDetailsFragment_to_recordVideoFragment"
+            app:destination="@id/recordVideoFragment" />
     </fragment>
     <fragment
         android:id="@+id/liveInterviewListFragment"
@@ -47,4 +50,23 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/recordVideoFragment"
+        android:name="com.bdjobs.app.liveInterview.ui.record_video.RecordVideoFragment"
+        android:label="fragment_video_record"
+        tools:layout="@layout/fragment_video_record" >
+        <action
+            android:id="@+id/action_recordVideoFragment_to_viewRecordedVideoFragment"
+            app:destination="@id/viewRecordedVideoFragment" />
+        <action
+            android:id="@+id/action_recordVideoFragment_self"
+            app:popUpTo="@+id/recordVideoFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/recordVideoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewRecordedVideoFragment"
+        android:name="com.bdjobs.app.liveInterview.ui.view_video.ViewRecordedVideoFragment"
+        android:label="fragment_view_recorded_video"
+        tools:layout="@layout/fragment_view_recorded_video" />
 </navigation>

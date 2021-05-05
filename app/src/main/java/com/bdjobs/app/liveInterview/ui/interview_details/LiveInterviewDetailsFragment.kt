@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
+import android.provider.Settings
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.BalloonFactory
 import com.bdjobs.app.databinding.FragmentLiveInterviewDetailsBinding
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
+import com.bdjobs.app.videoInterview.ui.question_list.QuestionListFragmentDirections
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.fondesa.kpermissions.*
 import com.fondesa.kpermissions.extension.permissionsBuilder
@@ -57,6 +59,8 @@ private const val PROJECTION_OWNER_ACCOUNT_INDEX: Int = 3
 class LiveInterviewDetailsFragment : Fragment() {
 
     var eventID: Long? = 0
+
+    private var cameraAndAudioPermissionGranted: Boolean = false
 
     private val EVENT_PROJECTION: Array<String> = arrayOf(
             CalendarContract.Calendars._ID,                     // 0
@@ -219,6 +223,11 @@ class LiveInterviewDetailsFragment : Fragment() {
         val recordVideoBtn:MaterialButton = dialog.findViewById(R.id.btn_record_video_prep)
         val recordAudioBtn:MaterialButton = dialog.findViewById(R.id.btn_record_audio_prep)
         val cancelText:MaterialTextView = dialog.findViewById(R.id.tv_cancel_prep)
+
+        recordVideoBtn.setOnClickListener {
+            askForCameraAndAudioPermission()
+            dialog.dismiss()
+        }
 
 
         cancelText.setOnClickListener {
@@ -452,6 +461,48 @@ class LiveInterviewDetailsFragment : Fragment() {
         }
     }
 
+    private fun askForCameraAndAudioPermission():Boolean {
+        permissionsBuilder(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO).build().send { result ->
+            when {
+                result.allGranted() -> {
+                    cameraAndAudioPermissionGranted = true
+//                    findNavController().navigate(LiveInterviewDetailsFragmentDirections)
+                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToRecordVideoFragment())
+
+                }
+                result.allDenied() || result.anyDenied() -> {
+                    openSettingsDialog()
+                }
+
+                result.allPermanentlyDenied() || result.anyPermanentlyDenied() -> {
+                    openSettingsDialog()
+                }
+            }
+        }
+        return cameraAndAudioPermissionGranted
+    }
+
+    private fun openSettingsDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext()).create()
+        val view = layoutInflater.inflate(R.layout.dialog_enable_video_permissions, null)
+        view?.apply {
+            findViewById<Button>(R.id.dialog_btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            findViewById<Button>(R.id.dialog_btn_go_to_settings).setOnClickListener {
+                val intent = createAppSettingsIntent()
+                startActivity(intent)
+                dialog.dismiss()
+            }
+        }
+        dialog.setView(view)
+        dialog.show()
+    }
+
+    private fun createAppSettingsIntent() = Intent().apply {
+        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        data = Uri.fromParts("package", context?.packageName, null)
+    }
 
     override fun onPause() {
         super.onPause()

@@ -63,7 +63,7 @@
             app:iconTint="@android:color/black"
             android:gravity="start|center_vertical"
             android:paddingStart="10dp"
-            android:text="Record Audio"
+            android:text="Check Audio/Video"
             android:textAllCaps="false"
             android:textColor="@color/black_opacity"
             app:layout_constraintEnd_toEndOf="parent"
