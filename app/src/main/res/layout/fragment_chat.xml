@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.liveInterview.ui.chat.ChatViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.bdjobs.app.liveInterview.ui.chat.ChatAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".liveInterview.ui.chat.ChatFragment">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            app:title="Chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tool_bar"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_welcome_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@{viewModel.welcomeText}"
+                android:textColor="#2F64A3"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_another_interview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@{viewModel.anotherInterviewText}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_welcome_msg" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_waiting_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@{viewModel.waitingText}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_another_interview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_asked_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="@{viewModel.askedText}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_waiting_msg" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_messages"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                setAdapter="@{adapter}"
+                tools:listitem="@layout/item_chat_messages"
+                android:layout_marginVertical="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/et_write_message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_asked_msg" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/et_write_message"
+                android:text="@string/app_name"
+                android:visibility="gone"
+                android:layout_marginBottom="2dp"
+                android:id="@+id/tv_type_indicator"/>
+
+            <EditText
+                android:id="@+id/et_write_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_send_message"
+                android:background="@drawable/btn_rounded_bg"
+                android:backgroundTint="#F5F6FA"
+                android:layout_marginEnd="8dp"
+                android:minHeight="38dp"
+                android:inputType="textMultiLine"
+                android:hint="Write Messages"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat= "@drawable/ic_send"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/iv_send_message"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

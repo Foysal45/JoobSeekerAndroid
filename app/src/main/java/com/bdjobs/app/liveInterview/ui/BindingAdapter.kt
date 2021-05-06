@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.google.android.material.textview.MaterialTextView
@@ -273,3 +274,14 @@ fun bindLiveInterviewConfirmationStatus(textView: TextView, status: String?, pre
         }
     }
 }
+
+
+
+@BindingAdapter(value = ["setAdapter"])
+fun RecyclerView.bindRecyclerViewAdapter(adapter: RecyclerView.Adapter<*>) {
+    this.run {
+        this.setHasFixedSize(true)
+        this.adapter = adapter
+    }
+}
+

@@ -191,6 +191,13 @@ class LiveInterviewDetailsFragment : Fragment() {
                     showPreparationDialog()
                 }
             })
+
+            joinInterviewClickEvent.observe(viewLifecycleOwner,EventObserver{
+                if (it) {
+                    // do work here
+//                    findNavController().navigate(LiveInterviewDetailsFragmentDirections)
+                }
+            })
         }
 
         img_web_info?.setOnClickListener {

@@ -83,6 +83,8 @@ class LiveInterviewDetailsViewModel(
 
     val takePreparationClickEvent = MutableLiveData<Event<Boolean>>()
 
+    val joinInterviewClickEvent = MutableLiveData<Event<Boolean>> ()
+
     lateinit var timer: CountDownTimer
 
     init {
@@ -310,6 +312,10 @@ class LiveInterviewDetailsViewModel(
 
     fun onTakePreparationButtonClick() {
         takePreparationClickEvent.value = Event(true)
+    }
+
+    fun onJoinInterviewButtonClick() {
+        joinInterviewClickEvent.value = Event(true)
     }
 
     fun insert() {

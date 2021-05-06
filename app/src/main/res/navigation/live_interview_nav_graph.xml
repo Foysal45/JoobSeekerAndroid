@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_liveInterviewDetailsFragment_to_audioRecordFragment"
             app:destination="@id/audioRecordFragment" />
+        <action
+            android:id="@+id/action_liveInterviewDetailsFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/liveInterviewListFragment"
@@ -77,4 +80,9 @@
         android:name="com.bdjobs.app.liveInterview.ui.audio_record.AudioRecordFragment"
         android:label="fragment_audio_record"
         tools:layout="@layout/fragment_audio_record" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.bdjobs.app.liveInterview.ui.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat"/>
 </navigation>
