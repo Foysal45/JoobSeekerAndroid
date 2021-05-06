@@ -33,7 +33,7 @@
         <activity
             android:name=".liveInterview.LiveInterviewActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".transaction.TransactionBaseActivity"
             android:screenOrientation="portrait"

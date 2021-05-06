@@ -411,9 +411,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingStart="24dp"
             android:paddingTop="10dp"
-            android:paddingEnd="16dp"
             android:paddingBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
@@ -424,6 +422,7 @@
                 app:icon="@drawable/ic_prep"
                 android:textAllCaps="false"
                 android:textColor="#666666"
+                android:layout_marginStart="5dp"
                 app:iconTint="#666666"
                 android:onClick="@{()->viewModel.onTakePreparationButtonClick()}"
                 app:layout_constraintTop_toTopOf="parent"
@@ -443,7 +442,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:onClick="@{()->viewModel.onJoinInterviewButtonClick()}"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 app:backgroundTint="#13A10E"
                 android:text="Join Interview"
                 android:textAllCaps="false"

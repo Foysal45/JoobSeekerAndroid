@@ -200,6 +200,12 @@ dependencies {
 
     implementation "com.github.skydoves:balloon:1.2.3"
 
+    // socket.io
+    //compatible for node server 2 & 3 , 2.0.0 is compatible with node server 4
+    implementation ('io.socket:socket.io-client:1.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+
 
 }
 apply plugin: 'com.google.gms.google-services'
