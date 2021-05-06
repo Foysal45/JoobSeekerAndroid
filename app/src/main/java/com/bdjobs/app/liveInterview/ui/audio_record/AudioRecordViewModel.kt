@@ -38,10 +38,10 @@ class AudioRecordViewModel:ViewModel() {
     }
 
 
-    val _progressPercentage = MutableLiveData<Double>()
+    private val _progressPercentage = MutableLiveData<Double>()
     val progressPercentage: LiveData<Double> = _progressPercentage
 
-    fun startRecording() {
+    private fun startRecording() {
         _onVideoRecordingStartedEvent.value = Event(true)
         startTimer()
     }
@@ -83,6 +83,6 @@ class AudioRecordViewModel:ViewModel() {
     }
 
     companion object {
-        const val TOTAL_TIME = "10"
+        const val TOTAL_TIME = "60"
     }
 }

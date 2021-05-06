@@ -50,7 +50,7 @@ class AudioRecordFragment : Fragment() {
             handler.postDelayed(this, 1)
             val maxAmplitude: Int = recorder.maxAmplitude
             if (maxAmplitude != 0) {
-                binding.lvAudioVisualizer.addAmplitude(maxAmplitude)
+                binding.lvAudioVisualizer.progress = maxAmplitude
             }
         }
     }
