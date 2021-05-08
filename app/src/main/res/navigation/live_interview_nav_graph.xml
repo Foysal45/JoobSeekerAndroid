@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_liveInterviewDetailsFragment_to_feedbackFragment"
             app:destination="@id/feedbackFragment" />
+        <action
+            android:id="@+id/action_liveInterviewDetailsFragment_to_interviewSessionFragment"
+            app:destination="@id/interviewSessionFragment" />
     </fragment>
     <fragment
         android:id="@+id/liveInterviewListFragment"
@@ -106,5 +109,10 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/interviewSessionFragment"
+        android:name="com.bdjobs.app.liveInterview.ui.interview_session.InterviewSessionFragment"
+        android:label="fragment_interview_session"
+        tools:layout="@layout/fragment_interview_session" />
 
 </navigation>

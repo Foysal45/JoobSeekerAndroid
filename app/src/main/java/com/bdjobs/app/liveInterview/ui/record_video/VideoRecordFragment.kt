@@ -286,7 +286,7 @@ class RecordVideoFragment : Fragment() {
         try {
 //            snackbar.dismiss()
             binding.videoView.stopPlayback()
-            videoFile.delete()
+//            videoFile.delete()
         } catch (e: Exception) {
             e.printStackTrace()
         }

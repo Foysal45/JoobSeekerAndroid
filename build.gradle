@@ -14,7 +14,6 @@ buildscript {
 
     repositories {
         google()
-        maven { url 'https://jitpack.io' }
         gradlePluginPortal()
     }
     dependencies {
@@ -34,7 +33,9 @@ allprojects {
         maven {
             url 'https://maven.fabric.io/public'
         }
-
+        maven {
+            url 'https://raw.github.com/abdularis/libwebrtc-android/repo/'
+        }
         maven {
             url "https://jitpack.io"
         }

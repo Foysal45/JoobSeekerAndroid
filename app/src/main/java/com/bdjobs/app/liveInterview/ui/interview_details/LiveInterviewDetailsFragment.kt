@@ -196,7 +196,8 @@ class LiveInterviewDetailsFragment : Fragment() {
                 if (it) {
                     // do work here
 //                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToChatFragment())
-                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToFeedbackFragment(jobID.value,applyID.value))
+//                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToFeedbackFragment(jobID.value,applyID.value))
+                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToInterviewSessionFragment())
                 }
             })
         }
