@@ -57,6 +57,16 @@ class LiveInterviewDetailsViewModel(
         value = Event(false)
     }
 
+    private val _jobID = MutableLiveData<String>().apply {
+        value = jobId
+    }
+    val jobID: LiveData<String> = _jobID
+
+    private val _applyID = MutableLiveData<String>().apply {
+        value = applyId
+    }
+    val applyID: LiveData<String> = _applyID
+
     val examDate = MutableLiveData<String>()
     val examTime = MutableLiveData<String>()
 
@@ -114,6 +124,7 @@ class LiveInterviewDetailsViewModel(
                 interviewDateTime = "${liveInterviewDetailsData.value?.get(0)?.examDate} ${liveInterviewDetailsData.value?.get(0)?.examTime}"
 
                 applyId = commonData.value?.applyId.toString()
+                _applyID.value = commonData.value?.applyId.toString()
                 invitationId = liveInterviewDetailsData.value?.get(0)?.invitationId.toString()
 
                 try {

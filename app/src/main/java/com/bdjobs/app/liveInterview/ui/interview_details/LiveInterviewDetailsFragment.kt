@@ -195,7 +195,8 @@ class LiveInterviewDetailsFragment : Fragment() {
             joinInterviewClickEvent.observe(viewLifecycleOwner,EventObserver{
                 if (it) {
                     // do work here
-                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToChatFragment())
+//                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToChatFragment())
+                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToFeedbackFragment(jobID.value,applyID.value))
                 }
             })
         }
