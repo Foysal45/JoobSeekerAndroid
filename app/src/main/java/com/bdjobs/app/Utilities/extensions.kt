@@ -1,6 +1,7 @@
 package com.bdjobs.app.Utilities
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.DatePickerDialog
@@ -27,6 +28,7 @@ import android.view.View.OnTouchListener
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -35,6 +37,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SplashActivity
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -898,5 +901,10 @@ fun String.toFormattedSeconds(): String {
     }
 
 
+}
+
+@SuppressLint("RestrictedApi")
+fun MaterialButton.changeColor(color: Int) {
+    this.supportBackgroundTintList = AppCompatResources.getColorStateList(this.context,color)
 }
 

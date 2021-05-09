@@ -1,6 +1,7 @@
 package com.bdjobs.app.liveInterview.ui
 
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.CountDownTimer
 import android.text.TextUtils
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import timber.log.Timber
 import java.text.DecimalFormat
@@ -276,6 +278,15 @@ fun bindLiveInterviewConfirmationStatus(textView: TextView, status: String?, pre
 }
 
 
+@BindingAdapter("setBackgroundColor")
+fun MaterialButton.bindBackground(color: Int) {
+    val bgColor = if (color == 1) {
+        resources.getColor(R.color.btn_green)
+    } else resources.getColor(R.color.btn_ash)
+    this.run {
+        background.setTint(bgColor)
+    }
+}
 
 @BindingAdapter(value = ["setAdapter"])
 fun RecyclerView.bindRecyclerViewAdapter(adapter: RecyclerView.Adapter<*>) {

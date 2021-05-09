@@ -105,12 +105,14 @@ class InstructionViewPageFragment : Fragment() {
                 Toast.makeText(context, "finished", Toast.LENGTH_SHORT).show()
             }
         }
-//        btn_start?.setOnClickListener {
-//            findNavController().navigate(R.id.action_guidelinesViewpagerFragment_to_questionListFragment)
-//        }
-//        btn_skip?.setOnClickListener {
-//            findNavController().navigate(R.id.action_guidelinesViewpagerFragment_to_questionListFragment)
-//        }
+        btn_start?.setOnClickListener {
+            findNavController().navigate(InstructionViewPageFragmentDirections.actionInstructionViewPageFragmentToInterviewSessionFragment())
+            findNavController().popBackStack()
+        }
+        btn_skip?.setOnClickListener {
+            findNavController().navigate(InstructionViewPageFragmentDirections.actionInstructionViewPageFragmentToInterviewSessionFragment())
+            findNavController().popBackStack()
+        }
     }
 
 

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.liveInterview.ui.interview_session.InterviewSessionViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_ready_options"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:id="@+id/view_intermediate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha=".40"
+            android:background="@android:color/black" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_employer_ready"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="10dp"
+            android:drawableTint="#FFF387"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="Employer is available to take interview any time"
+            android:textColor="#FFF387"
+            app:drawableStartCompat="@drawable/ic_info_black_12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_local_ready"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Are you ready for the interview?"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_employer_ready" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_local_ready">
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/iv_yes_ready"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_btn_round_16_dp"
+                android:text="Yes"
+                android:onClick="@{()->viewModel.onYesButtonClicked()}"
+                setBackgroundColor="@{viewModel.yesClick ? 1 : 0}"
+                android:textAllCaps="false"
+                android:textColor="@{viewModel.yesClick ? @color/black : @color/white}"
+                android:textSize="14sp"
+                app:icon="@drawable/ic_right"
+                app:iconTint="@{viewModel.yesClick ? @color/black : @color/white}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_btn_round_16_dp"
+                android:text="No"
+                android:onClick="@{()->viewModel.onNoButtonClicked()}"
+                setBackgroundColor="@{viewModel.noClick ? 1 : 0}"
+                android:textAllCaps="false"
+                android:textColor="@{viewModel.noClick ? @color/black : @color/white}"
+                android:textSize="14sp"
+                app:icon="@drawable/account_cross_icon"
+                app:iconTint="@{viewModel.noClick ? @color/black : @color/white}"
+                app:layout_constraintStart_toEndOf="@id/iv_yes_ready"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

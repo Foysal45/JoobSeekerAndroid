@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".liveInterview.ui.interview_session.InterviewSessionFragment">
 
 
     <data>
+
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.bdjobs.app.liveInterview.ui.interview_session.InterviewSessionViewModel" />
@@ -13,9 +15,9 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/cl_root">
+        android:layout_height="match_parent">
 
 
         <androidx.appcompat.widget.Toolbar
@@ -30,103 +32,68 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_ready_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tool_bar"
+            android:visibility="@{viewModel.isShowParentReadyView() ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/cl_ready_view">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tool_bar">
+
+
+<!--            android:visibility="@{viewModel.isShowParentReadyView() ? View.VISIBLE : View.GONE}"-->
 
             <com.otaliastudios.cameraview.CameraView
+                android:id="@+id/camera_local_ready"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:cameraFacing="front"
-                app:cameraSnapshotMaxWidth="300"
                 app:cameraSnapshotMaxHeight="500"
-                android:id="@+id/camera_local_ready"
-                app:layout_constraintTop_toTopOf="parent"
+                app:cameraSnapshotMaxWidth="300"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- loading xml start-->
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <include
+                android:id="@+id/layout_waiting_counter"
+                layout="@layout/layout_waiting_counter"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:id="@+id/cl_loading"
-                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="@{viewModel.isShowLoadingCounter() ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-                <View
-                    android:id="@+id/view_intermediate_progress"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha=".6"
-                    android:background="@android:color/black" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:id="@+id/cl_loading_counter">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:id="@+id/anim_loading"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/loaing_counter"/>
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:id="@+id/tv_counter"
-                        android:text="5"
-                        android:textColor="@color/black"
-                        android:textSize="52dp"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/cl_loading_counter"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:text="Starting interview…"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="8dp"
-                    android:textSize="18sp"
-                    android:id="@+id/tv_starting"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
             <!-- loading xml end-->
+
+            <!-- no internet xml start -->
+            <include
+                android:id="@+id/layout_no_internet"
+                layout="@layout/layout_no_internet"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{viewModel.isNetworkAvailable() ? View.GONE : View.VISIBLE}"
+                tools:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+            <!-- no internet xml end -->
 
             <!-- bottom options xml start-->
             <LinearLayout
+                android:id="@+id/ll_options"
                 android:layout_width="0dp"
+                android:visibility="@{viewModel.isShowBottomOptionView() ? View.VISIBLE : View.GONE}"
                 android:layout_height="wrap_content"
-                tools:visibility="gone"
                 android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:id="@+id/ll_options">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <!-- buttons xml start-->
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -135,7 +102,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="10dp"
                     android:paddingHorizontal="5dp"
                     android:id="@+id/cl_option_buttons">
 
@@ -148,6 +115,7 @@
                         android:id="@+id/btn_message_emp"
                         android:textAllCaps="false"
                         android:textSize="12dp"
+                        android:onClick="@{()->viewModel.onMessageButtonClicked()}"
                         app:backgroundTint="#FFFFFF"
                         android:textColor="@color/black"
                         app:icon="@drawable/ic_msg_emp"
@@ -164,6 +132,7 @@
                         app:layout_constraintWidth_percent="0.35"
                         android:id="@+id/btn_instructions"
                         android:textAllCaps="false"
+                        android:onClick="@{()-> viewModel.onInstructionButtonClicked()}"
                         android:textSize="12dp"
                         app:backgroundTint="#FFFFFF"
                         android:textColor="@color/black"
@@ -182,9 +151,10 @@
                     android:id="@+id/cl_ready_options"
                     android:layout_width="match_parent"
                     android:layout_height="115dp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="@{viewModel.isShowReadyView() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintStart_toStartOf="parent">
 
                     <View
                         android:id="@+id/view_intermediate"
@@ -194,71 +164,72 @@
                         android:background="@android:color/black" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:gravity="center"
-                        android:layout_height="wrap_content"
                         android:id="@+id/tv_employer_ready"
-                        android:textColor="#FFF387"
-                        android:drawablePadding="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:drawablePadding="10dp"
+                        android:drawableTint="#FFF387"
+                        android:gravity="center"
                         android:padding="3dp"
                         android:text="Employer is available to take interview any time"
+                        android:textColor="#FFF387"
                         app:drawableStartCompat="@drawable/ic_info_black_12dp"
-                        android:drawableTint="#FFF387"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_local_ready"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:text="Are you ready for the interview?"
                         android:textColor="@android:color/white"
-                        app:layout_constraintTop_toBottomOf="@id/tv_employer_ready"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginTop="5dp"
-                        android:id="@+id/tv_local_ready"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_employer_ready" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:padding="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_local_ready">
 
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_yes_ready"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:text="Yes"
-                            android:id="@+id/iv_yes_ready"
-                            android:textAllCaps="false"
-                            android:textSize="14sp"
-                            app:backgroundTint="#0AF899"
-                            android:textColor="@color/black"
-                            app:icon="@drawable/ic_right"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
                             android:background="@drawable/bg_btn_round_16_dp"
-                            app:iconTint="@color/black"/>
+                            android:text="Yes"
+                            android:onClick="@{()->viewModel.onYesButtonClicked()}"
+                            android:textAllCaps="false"
+                            android:textColor="@{viewModel.yesClick ? @color/black : @color/white}"
+                            android:textSize="14sp"
+                            app:icon="@drawable/ic_right"
+                            app:iconTint="@{viewModel.yesClick ? @color/black : @color/white}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_no_ready"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:text="No"
-                            android:textAllCaps="false"
-                            android:textSize="14sp"
-                            app:backgroundTint="#757575"
-                            android:textColor="@color/white"
-                            app:icon="@drawable/account_cross_icon"
                             android:layout_marginStart="8dp"
-                            app:layout_constraintStart_toEndOf="@id/iv_yes_ready"
-                            app:layout_constraintTop_toTopOf="parent"
                             android:background="@drawable/bg_btn_round_16_dp"
-                            app:iconTint="@color/white"/>
+                            android:text="No"
+                            android:onClick="@{()->viewModel.onNoButtonClicked()}"
+                            android:textAllCaps="false"
+                            android:textColor="@{viewModel.noClick ? @color/black : @color/white}"
+                            android:textSize="14sp"
+                            app:icon="@drawable/account_cross_icon"
+                            app:iconTint="@{viewModel.noClick ? @color/black : @color/white}"
+                            app:layout_constraintStart_toEndOf="@id/btn_yes_ready"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -267,14 +238,13 @@
 
                 <!-- waiting xml start-->
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_waiting"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    tools:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="@{viewModel.isWaitingForEmployers() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_option_buttons"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_option_buttons">
 
                     <View
                         android:id="@+id/view_intermediate_waiting"
@@ -284,16 +254,16 @@
                         android:background="@android:color/black" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_waiting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tv_waiting"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:textStyle="bold"
                         android:text="Waiting for the employer response"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <!-- waiting xml start-->
@@ -303,6 +273,174 @@
             <!-- bottom options xml end-->
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tool_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/cl_room_view">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/top_peers">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:id="@+id/cv_remote_one"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="16dp">
+
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <org.webrtc.SurfaceViewRenderer
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/remote_one_surface_view"/>
+
+                        <LinearLayout
+                            android:id="@+id/ll_remote_one_controller"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/black"
+                            android:alpha="0.6"
+                            android:gravity="center"
+                            android:layout_gravity="bottom|center">
+
+                            <ImageView
+                                android:id="@+id/iv_remote_one_audio"
+                                android:layout_width="32dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_microphone_off"/>
+
+                            <ImageView
+                                android:id="@+id/iv_remote_one_video"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginStart="5dp"
+                                android:src="@drawable/ic_video_off"
+                                android:layout_gravity="bottom|center"/>
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/cv_remote_two"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="16dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <org.webrtc.SurfaceViewRenderer
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/remote_two_surface_view"/>
+
+                        <LinearLayout
+                            android:id="@+id/ll_remote_two_controller"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/black"
+                            android:alpha="0.6"
+                            android:gravity="center"
+                            android:layout_gravity="bottom|center">
+
+                            <ImageView
+                                android:id="@+id/iv_remote_two_audio"
+                                android:layout_width="32dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_microphone_off"/>
+
+                            <ImageView
+                                android:id="@+id/iv_remote_two_video"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginStart="5dp"
+                                android:src="@drawable/ic_video_off"
+                                android:layout_gravity="bottom|center"/>
+
+                        </LinearLayout>
+
+
+                    </FrameLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/cv_local_me"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="16dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <org.webrtc.SurfaceViewRenderer
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/local_me_surface_view"/>
+
+                        <LinearLayout
+                            android:id="@+id/ll_local_me_controller"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/black"
+                            android:alpha="0.6"
+                            android:gravity="center"
+                            android:layout_gravity="bottom|center">
+
+                            <ImageView
+                                android:id="@+id/iv_local_me_audio"
+                                android:layout_width="32dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_microphone_off"/>
+
+                            <ImageView
+                                android:id="@+id/iv_local_me_video"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginStart="5dp"
+                                android:src="@drawable/ic_video_off"
+                                android:layout_gravity="bottom|center"/>
+
+                        </LinearLayout>
+
+
+                    </FrameLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.liveInterview.ui.interview_session.InterviewSessionViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="10dp"
+        android:paddingHorizontal="5dp"
+        android:id="@+id/cl_option_buttons">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent="0.6"
+            android:text="Message with Employer"
+            android:id="@+id/btn_message_emp"
+            android:textAllCaps="false"
+            android:textSize="12dp"
+            android:onClick="@{()->viewModel.onMessageButtonClicked()}"
+            app:backgroundTint="#FFFFFF"
+            android:textColor="@color/black"
+            app:icon="@drawable/ic_msg_emp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/bg_btn_round_16_dp"
+            app:iconTint="@color/black"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Instruction"
+            app:layout_constraintWidth_percent="0.35"
+            android:id="@+id/btn_instructions"
+            android:textAllCaps="false"
+            android:onClick="@{()-> viewModel.onInstructionButtonClicked()}"
+            android:textSize="12dp"
+            app:backgroundTint="#FFFFFF"
+            android:textColor="@color/black"
+            app:icon="@drawable/ic_msg_emp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/bg_btn_round_16_dp"
+            app:iconTint="@color/black"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
