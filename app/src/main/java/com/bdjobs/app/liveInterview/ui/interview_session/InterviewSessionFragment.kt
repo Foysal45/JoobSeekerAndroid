@@ -1,12 +1,15 @@
 package com.bdjobs.app.liveInterview.ui.interview_session
 
+import android.annotation.SuppressLint
 import android.content.IntentFilter
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -18,6 +21,8 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.changeColor
 import com.bdjobs.app.databinding.FragmentInterviewSessionBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
@@ -26,11 +31,11 @@ import kotlinx.android.synthetic.main.fragment_interview_invitation_details.*
 import timber.log.Timber
 
 
-class InterviewSessionFragment : Fragment(),ConnectivityReceiver.ConnectivityReceiverListener {
+class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener {
 
-    private lateinit var binding:FragmentInterviewSessionBinding
+    private lateinit var binding: FragmentInterviewSessionBinding
     private val internetBroadCastReceiver = ConnectivityReceiver()
-    private val interviewSessionViewModel : InterviewSessionViewModel by navGraphViewModels(R.id.interviewSessionFragment)
+    private val interviewSessionViewModel: InterviewSessionViewModel by navGraphViewModels(R.id.interviewSessionFragment)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -55,6 +60,29 @@ class InterviewSessionFragment : Fragment(),ConnectivityReceiver.ConnectivityRec
         setUpObservers()
 
         initializeCamera()
+
+        createMsgCounter()
+    }
+
+    @SuppressLint("UnsafeExperimentalUsageError")
+    private fun createMsgCounter() {
+        binding.fabMessage.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val badgeDrawable: BadgeDrawable = BadgeDrawable.create(requireContext())
+                badgeDrawable.apply {
+                    number = 2
+                    horizontalOffset = 30
+                    verticalOffset = 20
+                    backgroundColor = Color.RED
+                }
+
+                BadgeUtils.attachBadgeDrawable(badgeDrawable, binding.fabMessage, null)
+
+                binding.fabMessage.viewTreeObserver.removeGlobalOnLayoutListener(this)
+            }
+        })
+
+
     }
 
     private fun setUpObservers() {
