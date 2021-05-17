@@ -120,7 +120,7 @@ fun bindLiveInterviewTimer(textView: TextView, date: String?, time: String?, sta
                         if (remainingMinutes.toInt() > 1) {
                             textView.text = "${remainingMinutes.toInt().plus(1)} mins remaining"
                         } else {
-                            textView.text = "${remainingMinutes.toInt().plus(1)} min remaining"
+//                            textView.text = "${remainingMinutes.toInt().plus(1)} min remaining"
                         }
                     } else if (remainingHours.toInt() == 1) {
                         if (remainingMinutes.toInt() > 1) {

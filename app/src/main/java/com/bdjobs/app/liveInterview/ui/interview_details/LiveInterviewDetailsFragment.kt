@@ -195,8 +195,6 @@ class LiveInterviewDetailsFragment : Fragment() {
             joinInterviewClickEvent.observe(viewLifecycleOwner,EventObserver{
                 if (it) {
                     // do work here
-//                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToChatFragment())
-//                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToFeedbackFragment(jobID.value,applyID.value))
                     findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToInterviewSessionFragment(jobId,args.jobTitle))
                 }
             })
@@ -318,6 +316,7 @@ class LiveInterviewDetailsFragment : Fragment() {
     }
 
     private fun insertEvent() {
+        Timber.d("Inserting event")
         doAsync {
             val calID: Long = 1
             val startMillis: Long = Calendar.getInstance().run {
@@ -458,17 +457,19 @@ class LiveInterviewDetailsFragment : Fragment() {
 
     private fun askForPermission() {
 
+        Timber.d("Asking for permission")
         permissionsBuilder(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR).build().send { result ->
             when {
                 result.allGranted() -> {
-                    insertEvent()
+                    Timber.d("All granted!!")
+                    liveInterviewDetailsViewModel.insert()
                 }
                 result.allDenied() || result.anyDenied() -> {
-
+                    Timber.d("Denied!!")
                 }
 
                 result.allPermanentlyDenied() || result.anyPermanentlyDenied() -> {
-
+                    Timber.d("Permanently denied!!")
                 }
             }
         }
