@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.bdjobs.app.R
 import com.bdjobs.app.databinding.FragmentInstructionLandingBinding
@@ -17,6 +18,7 @@ class InstructionLandingFragment : Fragment() {
 
     private val instructionViewModel : InstructionViewModel by navGraphViewModels(R.id.instructionLandingFragment)
     private lateinit var binding:FragmentInstructionLandingBinding
+    private val args: InstructionLandingFragmentArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -41,7 +43,7 @@ class InstructionLandingFragment : Fragment() {
 
             var language = if (instructionViewModel.viewInBengali.value!!) "bangla" else "english"
 
-            findNavController().navigate(InstructionLandingFragmentDirections.actionInstructionLandingFragmentToInstructionViewPageFragment(language))
+            findNavController().navigate(InstructionLandingFragmentDirections.actionInstructionLandingFragmentToInstructionViewPageFragment(language,args.jobID,args.jobTitle))
         }
 
         instructionViewModel.apply {

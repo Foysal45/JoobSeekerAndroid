@@ -73,6 +73,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:paddingStart="10dp"
+            android:visibility="gone"
             android:paddingTop="7dp"
             android:paddingEnd="10dp"
             android:paddingBottom="7dp"

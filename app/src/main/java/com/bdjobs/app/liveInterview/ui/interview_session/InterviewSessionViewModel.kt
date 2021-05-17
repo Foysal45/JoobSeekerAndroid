@@ -30,12 +30,18 @@ class InterviewSessionViewModel : ViewModel() {
     
     private val _isShowParentReadyView = MutableLiveData<Boolean> ()
     val isShowParentReadyView:LiveData<Boolean> = _isShowParentReadyView
+
+    private val _isShowInterviewRoomView = MutableLiveData<Boolean> ()
+    val isShowInterviewRoomView : LiveData<Boolean> = _isShowInterviewRoomView
     
     val yesButtonClickedEvent = MutableLiveData<Event<Boolean>> ()
     val yesClick = MutableLiveData<Boolean> ()
 
     val noButtonClickedEvent = MutableLiveData<Event<Boolean>> ()
     val noClick = MutableLiveData<Boolean> ()
+
+    val toggleAudioClickEvent = MutableLiveData<Event<Boolean>> ()
+    val toggleVideoClickEvent = MutableLiveData<Event<Boolean>> ()
     
     val messageButtonClickEvent = MutableLiveData<Event<Boolean>> ()
     
@@ -46,6 +52,7 @@ class InterviewSessionViewModel : ViewModel() {
         bottomOptionShowCheck(true)
         readyCheck(true)
         yesClick.value = true
+        noClick.value = false
     }
 
     fun networkCheck(isAvailable:Boolean) {
@@ -78,7 +85,16 @@ class InterviewSessionViewModel : ViewModel() {
         waitingCheck(false)
     }
     
-    fun parentReadyViewCheck(isShow: Boolean) = _isShowParentReadyView.postValue(isShow)
+    fun parentReadyViewCheck(isShow: Boolean) {
+        _isShowParentReadyView.postValue(isShow)
+//        interviewRoomViewCheck(false)
+    }
+
+    fun interviewRoomViewCheck(isShow: Boolean) {
+        _isShowInterviewRoomView.postValue(isShow)
+        parentReadyViewCheck(false)
+        loadingCounterShowCheck(false)
+    }
 
     fun onYesButtonClicked() {
         yesButtonClickedEvent.value = Event(true)
@@ -101,5 +117,14 @@ class InterviewSessionViewModel : ViewModel() {
     fun onInstructionButtonClicked() {
         instructionButtonClickEvent.value = Event(true)
     }
+
+    fun onToggleAudioClicked() {
+        toggleAudioClickEvent.value = Event(true)
+    }
+
+    fun onToggleVideoClicked() {
+        toggleVideoClickEvent.value = Event(true)
+    }
+
 
 }

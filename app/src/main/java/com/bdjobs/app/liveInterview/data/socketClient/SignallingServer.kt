@@ -1,10 +1,12 @@
-package com.bdjobs.app.liveInterview.ui.chat.socketClient
+package com.bdjobs.app.liveInterview.data.socketClient
 
 import com.bdjobs.app.liveInterview.utils.Constants
 import io.socket.client.IO
 import io.socket.client.Socket
 import org.json.JSONException
 import org.json.JSONObject
+import org.webrtc.IceCandidate
+import org.webrtc.SessionDescription
 import timber.log.Timber
 
 //
@@ -50,19 +52,19 @@ class SignalingServer {
                 signalingEvent.onEventIPADDR()
             }
 
-            socket?.on(Constants.EVENT_CREATED) {
-                signalingEvent.onEventCreated()
+            socket?.on(Constants.EVENT_CREATED) {args: Array<Any?>? ->
+                signalingEvent.onEventCreated(args)
             }
 
             socket?.on(Constants.EVENT_FULL) {
                 signalingEvent.onEventFull()
             }
 
-            socket?.on(Constants.EVENT_JOIN) {
-                signalingEvent.onEventJoin()
+            socket?.on(Constants.EVENT_JOIN) {args: Array<Any> ->
+                signalingEvent.onEventJoin(args)
             }
-            socket?.on(Constants.EVENT_JOINED) {
-               signalingEvent.onEventJoined()
+            socket?.on(Constants.EVENT_JOINED) {args: Array<Any> ->
+               signalingEvent.onEventJoined(args)
             }
             socket?.on(Constants.EVENT_LOG) { args: Array<Any> ->
                 signalingEvent.onEventLog(args)
@@ -109,7 +111,7 @@ class SignalingServer {
         socket?.close()
     }
 
- /*   fun sendSessionDescription(sessionDescription: SessionDescription) {
+    fun sendSessionDescription(sessionDescription: SessionDescription) {
 
         val sendingSDP = JSONObject()
         try {
@@ -140,7 +142,7 @@ class SignalingServer {
             Timber.d("onEmit IceCandidate: JSONException $e")
             e.printStackTrace()
         }
-    }*/
+    }
 
     fun sendMessage() {
         socket?.emit("message-salvin", "got user media")
@@ -152,5 +154,9 @@ class SignalingServer {
 
     fun messageDetection(nickname: String,message:String) {
         socket?.emit("messagedetection",nickname,message)
+    }
+
+    fun sendMedia() {
+        socket?.emit(Constants.EVENT_MESSAGE, "got user media")
     }
 }

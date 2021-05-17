@@ -103,13 +103,13 @@ class RecordVideoFragment : Fragment() {
                 // }
             })
 
-            navigateToViewVideoEvent.observe(viewLifecycleOwner, Observer {
+            /*navigateToViewVideoEvent.observe(viewLifecycleOwner, Observer {
                 Timber.d("Should I navigate: $it")
 
                 if (binding.cameraView.isOpened) binding.cameraView.close()
 
                 findNavController().navigate(RecordVideoFragmentDirections.actionRecordVideoFragmentToViewRecordedVideoFragment())
-            })
+            })*/
         }
     }
 
@@ -151,13 +151,6 @@ class RecordVideoFragment : Fragment() {
                 if (videoRecordViewModel.onVideoDoneEvent.value == true) {
                     videoFile = result.file
                     Timber.d("Path: ${videoFile.path} :: AbsolutePath: ${videoFile.absolutePath}")
-
-//                    val liveInterviewData = LiveInterviewVideo(
-//                            videoFile,videoFile.path,videoFile.absolutePath,videoFile.toUri()
-//                    )
-//                    videoRecordViewModel._videoManagerData.postValue(liveInterviewData)
-//                    videoRecordViewModel._navigateToViewVideoEvent.postValue(true)
-
                     navigateToVideoView(videoFile)
 
                 }
@@ -177,9 +170,11 @@ class RecordVideoFragment : Fragment() {
             try {
                 videoFile.delete()
 //                binding.videoView.stopPlayback()
-                findNavController().navigate(RecordVideoFragmentDirections.actionRecordVideoFragmentSelf())
 //                findNavController()
             } catch (e: Exception) {
+                Timber.e("Exception while navigating: ${e.localizedMessage}")
+            } finally {
+                findNavController().navigate(RecordVideoFragmentDirections.actionRecordVideoFragmentSelf())
             }
 //            binding.clViewVideo.hide()
 //            binding.clRecordVideo.show()

@@ -212,6 +212,8 @@ class Constants {
         const val session_key_mybdjobscount_video_invitation = "Video Interview\nInvitations"
         const val session_key_mybdjobscount_live_invitation = "Live Interview\nInvitations"
 
+        const val session_key_remoteview_initiliaze = "RemoteViewInitialized"
+
 
         const val NOTIFICATION_INTERVIEW_INVITATTION = 100
         const val NOTIFICATION_CV_VIEWED = 101

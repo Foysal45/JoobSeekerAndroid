@@ -92,6 +92,6 @@ class VideoRecordViewModel : ViewModel() {
     }
 
     companion object {
-        const val TOTAL_TIME = "10"
+        const val TOTAL_TIME = "180"
     }
 }

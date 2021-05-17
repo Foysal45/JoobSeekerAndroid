@@ -146,7 +146,7 @@ class AudioRecordFragment : Fragment() {
                 Timber.d("Camera Closed")
                 super.onCameraClosed()
 
-                showSnackBar()
+//                showSnackBar()
 
                 handler.removeCallbacks(updater)
                 recorder.stop()
@@ -159,7 +159,7 @@ class AudioRecordFragment : Fragment() {
                 super.onVideoTaken(result)
                 if (audioRecordViewModel.onVideoDoneEvent.value==true) {
 //                    audioRecordViewModel.stopRecording()
-                    showSnackBar()
+//                    showSnackBar()
 //                    Toast.makeText(requireContext(), "Audio testing time limit is over", Toast.LENGTH_LONG).show()
 //                    findNavController().popBackStack()
 //                    result.file.delete()
@@ -179,9 +179,9 @@ class AudioRecordFragment : Fragment() {
                 clTotalTime.hide()
 //                btnRecordVideo.hide()
 //                viewTimeline.hide()
-                clTimeline.show()
-//                btnStopVideo.show()
-                tvRec.show()
+//                clTimeline.show()
+////                btnStopVideo.show()
+//                tvRec.show()
 
                 seekbarVideoDuration.setOnTouchListener { _, _ -> true }
 

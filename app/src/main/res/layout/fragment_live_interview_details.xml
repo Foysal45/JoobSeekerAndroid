@@ -12,6 +12,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar"
             android:layout_width="match_parent"
+            android:transitionName="toolbar"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
@@ -414,6 +415,9 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent">
+
+
+<!--            android:visibility="@{viewModel.showJoinOrPreparationSection ? View.VISIBLE : View.GONE}"-->
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"

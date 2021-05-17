@@ -1,4 +1,4 @@
-package com.bdjobs.app.liveInterview.ui.chat.socketClient
+package com.bdjobs.app.liveInterview.data.socketClient
 
 //
 // Created by Soumik on 4/29/2021.
@@ -9,10 +9,10 @@ interface SignalingEvent {
 
     fun onEventConnected()
     fun onEventIPADDR()
-    fun onEventCreated()
+    fun onEventCreated(args: Array<Any?>?)
     fun onEventFull()
-    fun onEventJoin()
-    fun onEventJoined()
+    fun onEventJoin(args: Array<Any>)
+    fun onEventJoined(args: Array<Any>)
     fun onEventLog(args: Array<Any>)
     fun onEventMessage(args: Array<Any>)
     fun onEventMessage2(args: Array<Any?>?)

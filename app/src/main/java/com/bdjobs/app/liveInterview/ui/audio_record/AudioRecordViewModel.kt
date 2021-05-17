@@ -43,7 +43,7 @@ class AudioRecordViewModel:ViewModel() {
 
     private fun startRecording() {
         _onVideoRecordingStartedEvent.value = Event(true)
-        startTimer()
+//        startTimer()
     }
 
     fun stopRecording() {
@@ -83,6 +83,6 @@ class AudioRecordViewModel:ViewModel() {
     }
 
     companion object {
-        const val TOTAL_TIME = "60"
+        const val TOTAL_TIME = "180"
     }
 }

@@ -17,15 +17,31 @@
             app:argType="string" />
         <action
             android:id="@+id/action_liveInterviewDetailsFragment_to_recordVideoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/recordVideoFragment" />
         <action
             android:id="@+id/action_liveInterviewDetailsFragment_to_audioRecordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/audioRecordFragment" />
         <action
             android:id="@+id/action_liveInterviewDetailsFragment_to_feedbackFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/feedbackFragment" />
         <action
             android:id="@+id/action_liveInterviewDetailsFragment_to_interviewSessionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/interviewSessionFragment" />
     </fragment>
     <fragment
@@ -44,7 +60,19 @@
         tools:layout="@layout/fragment_instruction_landing" >
         <action
             android:id="@+id/action_instructionLandingFragment_to_instructionViewPageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/instructionViewPageFragment" />
+        <argument
+            android:name="jobID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="jobTitle"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/instructionViewPageFragment"
@@ -57,7 +85,19 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_instructionViewPageFragment_to_interviewSessionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/interviewSessionFragment" />
+        <argument
+            android:name="jobID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="jobTitle"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/recordVideoFragment"
@@ -70,6 +110,10 @@
         <action
             android:id="@+id/action_recordVideoFragment_self"
             app:popUpTo="@+id/recordVideoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="true"
             app:destination="@id/recordVideoFragment" />
     </fragment>
@@ -96,6 +140,10 @@
         tools:layout="@layout/fragment_feedback">
         <action
             android:id="@+id/action_feedbackFragment_to_chatFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/chatFragment" />
         <argument
             android:name="jobID"
@@ -113,10 +161,26 @@
         tools:layout="@layout/fragment_interview_session" >
         <action
             android:id="@+id/action_interviewSessionFragment_to_instructionLandingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/instructionLandingFragment" />
         <action
             android:id="@+id/action_interviewSessionFragment_to_chatFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/chatFragment" />
+        <argument
+            android:name="jobID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="jobTitle"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
 </navigation>

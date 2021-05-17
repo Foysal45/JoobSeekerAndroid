@@ -49,6 +49,8 @@ class LiveInterviewDetailsViewModel(
         value = false
     }
 
+    val showJoinOrPreparationSection = MutableLiveData<Boolean>().apply { value = false }
+
     val showBlackInfoSection = MutableLiveData<Boolean>().apply {
         value = false
     }

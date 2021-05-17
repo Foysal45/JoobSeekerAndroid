@@ -517,5 +517,10 @@ class BdjobsUserSession(val context: Context) {
         decrementCount(Constants.session_key_mybdjobscount_employers_followed_alltime)
     }
 
+    var isRemoteViewInitialized:Boolean
+    get() = pref!!.getBoolean(Constants.session_key_remoteview_initiliaze,false)
+    set(value) {
+        pref!!.edit().putBoolean(Constants.session_key_remoteview_initiliaze,value).apply()
+    }
 
 }

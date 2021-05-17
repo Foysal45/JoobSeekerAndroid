@@ -15,8 +15,8 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.databinding.FragmentChatBinding
 import com.bdjobs.app.liveInterview.data.models.Messages
-import com.bdjobs.app.liveInterview.ui.chat.socketClient.SignalingEvent
-import com.bdjobs.app.liveInterview.ui.chat.socketClient.SignalingServer
+import com.bdjobs.app.liveInterview.data.socketClient.SignalingEvent
+import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
 import com.bdjobs.app.videoInterview.util.EventObserver
 import org.jetbrains.anko.support.v4.runOnUiThread
 import org.json.JSONException
@@ -102,17 +102,23 @@ class ChatFragment : Fragment(), SignalingEvent {
 
 
     override fun onUserJoined(args: Array<Any>) {
-        runOnUiThread {
-            val data = args[0] as String
-            Toast.makeText(requireContext(), data, Toast.LENGTH_SHORT).show()
+        if (isAdded) {
+            runOnUiThread {
+                val data = args[0] as String
+                Toast.makeText(requireContext(), data, Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
 
     override fun onUserDisconnected(args: Array<Any>) {
-        runOnUiThread {
-            val data = args[0] as String
-            Toast.makeText(requireContext(), data, Toast.LENGTH_SHORT).show()
+        if (isAdded) {
+            runOnUiThread {
+                val data = args[0] as String
+                Toast.makeText(requireContext(), data, Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -148,16 +154,16 @@ class ChatFragment : Fragment(), SignalingEvent {
     override fun onEventIPADDR() {
     }
 
-    override fun onEventCreated() {
+    override fun onEventCreated(args: Array<Any?>?) {
     }
 
     override fun onEventFull() {
     }
 
-    override fun onEventJoin() {
+    override fun onEventJoin(args: Array<Any>) {
     }
 
-    override fun onEventJoined() {
+    override fun onEventJoined(args: Array<Any>) {
     }
 
     override fun onEventLog(args: Array<Any>) {

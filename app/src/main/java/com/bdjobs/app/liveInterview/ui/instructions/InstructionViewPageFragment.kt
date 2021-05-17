@@ -106,12 +106,12 @@ class InstructionViewPageFragment : Fragment() {
             }
         }
         btn_start?.setOnClickListener {
-            findNavController().navigate(InstructionViewPageFragmentDirections.actionInstructionViewPageFragmentToInterviewSessionFragment())
-            findNavController().popBackStack()
+            findNavController().navigate(InstructionViewPageFragmentDirections.actionInstructionViewPageFragmentToInterviewSessionFragment(args.jobID,args.jobTitle))
+//            findNavController().popBackStack()
         }
         btn_skip?.setOnClickListener {
-            findNavController().navigate(InstructionViewPageFragmentDirections.actionInstructionViewPageFragmentToInterviewSessionFragment())
-            findNavController().popBackStack()
+            findNavController().navigate(InstructionViewPageFragmentDirections.actionInstructionViewPageFragmentToInterviewSessionFragment(args.jobID,args.jobTitle))
+//            findNavController().popBackStack()
         }
     }
 
