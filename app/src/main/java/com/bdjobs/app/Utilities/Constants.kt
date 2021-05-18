@@ -143,6 +143,7 @@ class Constants {
         const val api_request_result_code_ok = "0"
         const val timer_countDownInterval = 1000
         const val baseUrlMyBdjobs = "https://my.bdjobs.com/apps/mybdjobs/v1/"
+        const val baseUrlMyBdjobsChat = "https://mybdjobs.bdjobs.com/mybdjobs/onlinechat/"
         const val baseUrlJobs = "https://jobs.bdjobs.com/apps/api/v1/"
         const val base_url_mybdjobs_photo = "https://my.bdjobs.com/photos"
         const val base_url_module_sample = "http://mybdjobs.bdjobs.com/mybdjobs/assessment/samples/"

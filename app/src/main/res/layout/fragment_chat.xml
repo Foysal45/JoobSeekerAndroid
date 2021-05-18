@@ -89,6 +89,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_waiting_msg" />
 
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pb_loading_msg"
+                app:layout_constraintBottom_toTopOf="@+id/et_write_message"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="@{viewModel.logLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_asked_msg"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_messages"
                 android:layout_width="0dp"
@@ -96,6 +106,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 setAdapter="@{adapter}"
                 tools:listitem="@layout/item_chat_messages"
+                android:visibility="@{viewModel.logLoading ? View.GONE : View.VISIBLE}"
                 android:layout_marginVertical="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/et_write_message"
                 app:layout_constraintEnd_toEndOf="parent"

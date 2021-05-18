@@ -6,8 +6,10 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.LiveInvitation
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.liveInterview.data.models.ChatLogModel
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
+import com.bdjobs.app.liveInterview.data.models.PostChatModel
 import com.bdjobs.app.videoInterview.data.models.InterviewFeedback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -94,6 +96,34 @@ class LiveInterviewRepository(val application: Application)  {
                     featureName = "Live Interview",
                     appId = Constants.APP_ID
             )
+        }
+    }
+
+    suspend fun postChatMessage(
+            processId:String?,
+            message:String?,
+            hostType:String?,
+            strUserID:Int?,
+            strTargetUser:Int?
+    ) : PostChatModel {
+        return withContext(Dispatchers.IO) {
+            ApiServiceMyBdjobs.create().postChatMessages(
+                    session.userId,
+                    session.decodId,
+                    processId,
+                    message,
+                    hostType,
+                    strUserID,
+                    strTargetUser
+            )
+        }
+    }
+
+    suspend fun chatLog(
+            processId: String?
+    ) : ChatLogModel {
+        return withContext(Dispatchers.IO) {
+            ApiServiceMyBdjobs.createChat().chatLog(processId)
         }
     }
 }

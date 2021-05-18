@@ -1,13 +1,16 @@
 package com.bdjobs.app.liveInterview.ui.chat
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -15,12 +18,15 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.databinding.FragmentChatBinding
 import com.bdjobs.app.liveInterview.data.models.Messages
+import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingEvent
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
+import com.bdjobs.app.liveInterview.ui.interview_details.LiveInterviewDetailsViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import org.jetbrains.anko.support.v4.runOnUiThread
 import org.json.JSONException
 import org.json.JSONObject
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -30,7 +36,15 @@ class ChatFragment : Fragment(), SignalingEvent {
 
     private lateinit var binding: FragmentChatBinding
     private var mAdapter: ChatAdapter = ChatAdapter()
-    private val chatViewModel: ChatViewModel by navGraphViewModels(R.id.chatFragment)
+
+    private val args: ChatFragmentArgs by navArgs()
+
+    private val chatViewModel: ChatViewModel by viewModels{
+        ChatViewModelFactory(
+                LiveInterviewRepository(requireActivity().application as Application),
+                args.processID
+        )
+    }
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private val messageList:ArrayList<Messages> = ArrayList()
 
@@ -60,6 +74,8 @@ class ChatFragment : Fragment(), SignalingEvent {
 
         initSocketClient()
 
+        Timber.d("Process ID: ${args.processID}")
+
         binding.ivSendMessage.setOnClickListener {
             chatViewModel.sendButtonClickedEvent()
         }
@@ -75,6 +91,8 @@ class ChatFragment : Fragment(), SignalingEvent {
                     sendMessage()
                 }
             })
+
+
         }
     }
 

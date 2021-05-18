@@ -111,7 +111,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         setUpObservers()
 
-        binding.fabMessage.setOnClickListener { findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment()) }
+        binding.fabMessage.setOnClickListener { findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID)) }
 
 //        createMsgCounter()
     }
@@ -140,11 +140,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private fun setUpObservers() {
         interviewSessionViewModel.apply {
             messageButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
-                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment())
+                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID))
             })
 
             instructionButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
-                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID,args.jobTitle))
+                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID,args.jobTitle,args.processID))
             })
 
             yesClick.observe(viewLifecycleOwner, Observer {

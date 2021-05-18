@@ -73,6 +73,10 @@
             android:name="jobTitle"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="processID"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/instructionViewPageFragment"
@@ -98,6 +102,10 @@
             app:nullable="true" />
         <argument
             android:name="jobTitle"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="processID"
             app:argType="string"
             app:nullable="true" />
     </fragment>
@@ -133,7 +141,12 @@
         android:id="@+id/chatFragment"
         android:name="com.bdjobs.app.liveInterview.ui.chat.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat"/>
+        tools:layout="@layout/fragment_chat">
+        <argument
+            android:name="processID"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/feedbackFragment"
@@ -153,6 +166,10 @@
             app:nullable="true" />
         <argument
             android:name="applyID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="processID"
             app:argType="string"
             app:nullable="true" />
     </fragment>
@@ -181,6 +198,10 @@
             app:nullable="true" />
         <argument
             android:name="jobTitle"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="processID"
             app:argType="string"
             app:nullable="true" />
     </fragment>

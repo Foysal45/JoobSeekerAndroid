@@ -64,7 +64,7 @@ class FeedbackFragment : Fragment() {
         feedbackViewModel.apply {
             messageButtonClickEvent.observe(viewLifecycleOwner,EventObserver{
                 if (it) {
-                    findNavController().navigate(FeedbackFragmentDirections.actionFeedbackFragmentToChatFragment())
+                    findNavController().navigate(FeedbackFragmentDirections.actionFeedbackFragmentToChatFragment(args.processID))
                 }
             })
 

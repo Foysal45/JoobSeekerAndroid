@@ -43,7 +43,7 @@ class InstructionLandingFragment : Fragment() {
 
             var language = if (instructionViewModel.viewInBengali.value!!) "bangla" else "english"
 
-            findNavController().navigate(InstructionLandingFragmentDirections.actionInstructionLandingFragmentToInstructionViewPageFragment(language,args.jobID,args.jobTitle))
+            findNavController().navigate(InstructionLandingFragmentDirections.actionInstructionLandingFragmentToInstructionViewPageFragment(language,args.jobID,args.jobTitle,args.processID))
         }
 
         instructionViewModel.apply {

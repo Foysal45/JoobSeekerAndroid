@@ -65,6 +65,8 @@ data class LiveInterviewDetails(
             val invitationDate: String?, // 7 Sep 2020
             @Json(name = "invitationId")
             val invitationId: String?, // 39413
+            @Json(name = "processId")
+            val processId:String?, // 6464177
             @Json(name = "previousScheduleDate")
             val previousScheduleDate: String?, // 7 Sep 2020
             @Json(name = "previousScheduleTime")

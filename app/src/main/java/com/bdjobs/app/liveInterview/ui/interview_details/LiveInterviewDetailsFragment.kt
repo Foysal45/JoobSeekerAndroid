@@ -195,7 +195,7 @@ class LiveInterviewDetailsFragment : Fragment() {
             joinInterviewClickEvent.observe(viewLifecycleOwner,EventObserver{
                 if (it) {
                     // do work here
-                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToInterviewSessionFragment(jobId,args.jobTitle))
+                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToInterviewSessionFragment(jobId,args.jobTitle,processID.value))
                 }
             })
         }
