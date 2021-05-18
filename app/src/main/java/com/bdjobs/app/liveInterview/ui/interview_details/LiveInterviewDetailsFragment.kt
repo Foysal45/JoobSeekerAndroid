@@ -195,7 +195,7 @@ class LiveInterviewDetailsFragment : Fragment() {
             joinInterviewClickEvent.observe(viewLifecycleOwner,EventObserver{
                 if (it) {
                     // do work here
-                    findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToInterviewSessionFragment(jobId,args.jobTitle,processID.value))
+                    askForCameraAndAudioPermission("session")
                 }
             })
         }
@@ -482,6 +482,7 @@ class LiveInterviewDetailsFragment : Fragment() {
                     cameraAndAudioPermissionGranted = true
 //                    findNavController().navigate(LiveInterviewDetailsFragmentDirections)
                     if (from=="video") findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToRecordVideoFragment())
+                    else if (from=="session") findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToInterviewSessionFragment(liveInterviewDetailsViewModel.jobId,args.jobTitle,liveInterviewDetailsViewModel.processID.value))
                     else findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToAudioRecordFragment())
 //                    else requireContext().startActivity(Intent(requireContext(),RecordingActivity::class.java))
 

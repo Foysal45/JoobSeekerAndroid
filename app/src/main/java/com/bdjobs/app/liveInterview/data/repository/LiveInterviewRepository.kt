@@ -103,8 +103,8 @@ class LiveInterviewRepository(val application: Application)  {
             processId:String?,
             message:String?,
             hostType:String?,
-            strUserID:Int?,
-            strTargetUser:Int?
+            strUserID:String?,
+            strTargetUser:String?
     ) : PostChatModel {
         return withContext(Dispatchers.IO) {
             ApiServiceMyBdjobs.create().postChatMessages(

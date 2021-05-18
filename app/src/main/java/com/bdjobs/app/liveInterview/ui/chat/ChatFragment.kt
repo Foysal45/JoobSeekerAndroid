@@ -92,14 +92,42 @@ class ChatFragment : Fragment(), SignalingEvent {
                 }
             })
 
+            chatLogFetchSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
+                if (it) {
+                    var messages: Messages?
+
+                    val data = chatLogData.value?.arrChatdata
+                    if (data!!.isNotEmpty()) {
+                        for (i in data.indices) {
+                            val d = data[i]
+                            if (d?.hostType=="A" || d?.hostType=="R") {
+                                val time = d.chatTime?.split(" ")!![1].split(":")[0] +
+                                        ":${d.chatTime.split(" ")[1].split(":")[1]} ${d.chatTime.split(" ")[2]}"
+                                messages = Messages(d.contactName,d.chatText, time,if (d.hostType =="A") 0 else 1)
+                                messageList.add(messages)
+                            }
+                        }
+
+
+                        mAdapter.differ.submitList(messageList)
+                        mAdapter.notifyDataSetChanged()
+                    }
+                }
+            })
+
+            postSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it) {
+                    SignalingServer.get()?.messageDetection(bdjobsUserSession.userName!!,postMessage.value.toString())
+                    binding.etWriteMessage.setText("")
+                }
+            })
 
         }
     }
 
     private fun sendMessage() {
         if (binding.etWriteMessage.text.isNotEmpty()) {
-            SignalingServer.get()?.messageDetection(bdjobsUserSession.userName!!,binding.etWriteMessage.text.toString())
-            binding.etWriteMessage.setText("")
+            chatViewModel.postChatMessage(binding.etWriteMessage.text.toString())
         }
     }
 
@@ -149,7 +177,7 @@ class ChatFragment : Fragment(), SignalingEvent {
                 val nickname = data.getString("senderNickname")
                 val message = data.getString("message")
 
-                val simpleDateFormat = SimpleDateFormat("HH:mm a")
+                val simpleDateFormat = SimpleDateFormat("h:mm a")
                 val formattedTime = simpleDateFormat.format(Date())
                 // make instance of message
                 val itemType = if (nickname==bdjobsUserSession.userName!!) 0 else 1

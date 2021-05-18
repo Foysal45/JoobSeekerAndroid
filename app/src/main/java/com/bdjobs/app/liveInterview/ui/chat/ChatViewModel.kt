@@ -34,7 +34,6 @@ class ChatViewModel(
     private val _logLoading = MutableLiveData<Boolean> ()
     val logLoading : LiveData<Boolean> = _logLoading
 
-
     private val _chatLogFetchSuccess = MutableLiveData<Boolean>()
     val chatLogFetchSuccess : LiveData<Boolean> = _chatLogFetchSuccess
 
@@ -43,6 +42,19 @@ class ChatViewModel(
 
     private val _chatLogFetchError = MutableLiveData<String?>()
     val chatLogFetchError : LiveData<String?> = _chatLogFetchError
+
+
+    private val _postLoading = MutableLiveData<Boolean> ()
+    val postLoading : LiveData<Boolean> = _postLoading
+
+    private val _postSuccess = MutableLiveData<Boolean> ()
+    val postSuccess : LiveData<Boolean> = _postSuccess
+
+    private val _postError = MutableLiveData<String> ()
+    val postError: LiveData<String> = _postError
+
+    private val _postMessage = MutableLiveData<String> ()
+    val postMessage: LiveData<String> = _postMessage
 
     val sendButtonClickEvent = MutableLiveData<Event<Boolean>> ()
 
@@ -59,24 +71,50 @@ class ChatViewModel(
         sendButtonClickEvent.value = Event(true)
     }
 
+    fun postChatMessage(message:String) {
+        _postLoading.value = true
+
+        viewModelScope.launch {
+            try {
+                val response = repository.postChatMessage(processID,message,"A","0","0")
+                _postLoading.value = false
+
+                if (response.statuscode=="4") {
+                    _postMessage.value = message
+                    _postSuccess.value = true
+                }
+            } catch (e:Exception) {
+                _postLoading.value = false
+                e.printStackTrace()
+                Timber.e("Exception: ${e.localizedMessage}")
+                _postError.value = e.localizedMessage
+            }
+        }
+    }
+
     private fun fetchChatLog() {
         _logLoading.value = true
 
         viewModelScope.launch {
             try {
-                Timber.d("Process ID: $processID")
                 val response = repository.chatLog(processID)
 
-                Timber.d("Chat log response: $response")
                 _logLoading.value = false
-                _chatLogFetchSuccess.value = true
-                _chatLogData.value = response
+
+                if (response.Message=="Success") {
+                    _chatLogData.value = response
+                    _chatLogFetchSuccess.value = true
+                }
 
                 val data = chatLogData.value?.arrChatdata
                 if (data!!.isNotEmpty()) {
                     for (i in data.indices) {
-                        if (data[i]?.hostType=="AC") _welcomeText.value = data[i]?.chatText!!
-                        else if (data[i]?.hostType=="AU") _waitingText.value = data[i]?.chatText!!
+                        when (data[i]?.hostType) {
+                            "AC" -> _welcomeText.value = data[i]?.chatText!!
+                            "AU" -> _waitingText.value = data[i]?.chatText!!
+                            "AA" -> _anotherInterviewText.value = data[i]?.chatText!!
+                            "AL" -> _askedText.value = data[i]?.chatText!!
+                        }
                     }
                 }
 
@@ -89,4 +127,6 @@ class ChatViewModel(
             }
         }
     }
+
+
 }

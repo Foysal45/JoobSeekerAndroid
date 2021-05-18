@@ -1268,8 +1268,8 @@ interface ApiServiceMyBdjobs {
             @Field("processId") processId: String? = "",
             @Field("chatText") chatText: String? = "",
             @Field("hostType") hostType: String? = "",
-            @Field("strUserId") strUserId: Int? = 0,
-            @Field("strTargetUser") strTargetUser: Int? = 0,
+            @Field("strUserId") strUserId: String? = "0",
+            @Field("strTargetUser") strTargetUser: String? = "0",
     ): PostChatModel
 
     @FormUrlEncoded

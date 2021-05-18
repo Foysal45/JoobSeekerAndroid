@@ -14,9 +14,9 @@ data class ChatLogModel(
     @Json(name = "arrChatdata")
     val arrChatdata: List<ArrChatdata?>?,
     @Json(name = "Error")
-    val error: String?,
+    val Error: String?,
     @Json(name = "Message")
-    val message: String?
+    val Message: String?
 )
 
 @Keep
