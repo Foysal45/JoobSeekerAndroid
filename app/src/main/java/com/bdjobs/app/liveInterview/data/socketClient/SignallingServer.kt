@@ -1,6 +1,6 @@
 package com.bdjobs.app.liveInterview.data.socketClient
 
-import com.bdjobs.app.liveInterview.utils.Constants
+import com.bdjobs.app.liveInterview.utils.EventConstants
 import io.socket.client.IO
 import io.socket.client.Socket
 import org.json.JSONException
@@ -44,39 +44,39 @@ class SignalingServer {
 
             socket?.on(Socket.EVENT_CONNECT) {
 
-                socket?.emit(Constants.EVENT_CREATE_OR_JOIN, roomName)
+                socket?.emit(EventConstants.EVENT_CREATE_OR_JOIN, roomName)
                 signalingEvent.onEventConnected()
             }
 
-            socket?.on(Constants.EVENT_IPADDR) {
+            socket?.on(EventConstants.EVENT_IPADDR) {
                 signalingEvent.onEventIPADDR()
             }
 
-            socket?.on(Constants.EVENT_CREATED) {args: Array<Any?>? ->
+            socket?.on(EventConstants.EVENT_CREATED) { args: Array<Any?>? ->
                 signalingEvent.onEventCreated(args)
             }
 
-            socket?.on(Constants.EVENT_FULL) {
+            socket?.on(EventConstants.EVENT_FULL) {
                 signalingEvent.onEventFull()
             }
 
-            socket?.on(Constants.EVENT_JOIN) {args: Array<Any> ->
+            socket?.on(EventConstants.EVENT_JOIN) { args: Array<Any> ->
                 signalingEvent.onEventJoin(args)
             }
-            socket?.on(Constants.EVENT_JOINED) {args: Array<Any> ->
+            socket?.on(EventConstants.EVENT_JOINED) { args: Array<Any> ->
                signalingEvent.onEventJoined(args)
             }
-            socket?.on(Constants.EVENT_LOG) { args: Array<Any> ->
+            socket?.on(EventConstants.EVENT_LOG) { args: Array<Any> ->
                 signalingEvent.onEventLog(args)
             }
-            socket?.on(Constants.EVENT_MESSAGE) { args: Array<Any?>? ->
+            socket?.on(EventConstants.EVENT_MESSAGE) { args: Array<Any?>? ->
                 if (args != null) {
                     signalingEvent.onEventMessage2(args)
                 }
                 Timber.d(": got a message")
 
             }
-            socket?.on(Constants.EVENT_MESSAGE) { args: Array<Any> ->
+            socket?.on(EventConstants.EVENT_MESSAGE) { args: Array<Any> ->
                 signalingEvent.onEventMessage(args)
             }
             socket?.on(Socket.EVENT_DISCONNECT) {
@@ -85,13 +85,13 @@ class SignalingServer {
             socket?.on(Socket.EVENT_CONNECT_ERROR) { args: Array<Any> ->
                 signalingEvent.onEventConnectionError(args)
             }
-            socket?.on(Constants.EVENT_USER_JOINED) { args: Array<Any> ->
+            socket?.on(EventConstants.EVENT_USER_JOINED) { args: Array<Any> ->
                 signalingEvent.onUserJoined(args)
             }
-            socket?.on(Constants.EVENT_USER_DISCONNECTED) { args : Array<Any> ->
+            socket?.on(EventConstants.EVENT_USER_DISCONNECTED) { args : Array<Any> ->
                 signalingEvent.onUserDisconnected(args)
             }
-            socket?.on(Constants.EVENT_MESSAGE_RECEIVED){args: Array<Any> ->
+            socket?.on(EventConstants.EVENT_MESSAGE_RECEIVED){ args: Array<Any> ->
                 signalingEvent.onMessageReceived(args)
             }
 
@@ -123,7 +123,7 @@ class SignalingServer {
         }
         Timber.d("sendingSDP string - $sendingSDP")
 
-        socket?.emit(Constants.EVENT_MESSAGE, sendingSDP)
+        socket?.emit(EventConstants.EVENT_MESSAGE, sendingSDP)
     }
 
     fun sendIceCandidate(iceCandidate: IceCandidate?) {
@@ -136,7 +136,7 @@ class SignalingServer {
             message.put("id", iceCandidate?.sdpMid)
             message.put("candidate", iceCandidate?.sdp)
 
-            socket?.emit(Constants.EVENT_MESSAGE, message)
+            socket?.emit(EventConstants.EVENT_MESSAGE, message)
 
         } catch (e: JSONException) {
             Timber.d("onEmit IceCandidate: JSONException $e")
@@ -157,6 +157,6 @@ class SignalingServer {
     }
 
     fun sendMedia() {
-        socket?.emit(Constants.EVENT_MESSAGE, "got user media")
+        socket?.emit(EventConstants.EVENT_MESSAGE, "got user media")
     }
 }

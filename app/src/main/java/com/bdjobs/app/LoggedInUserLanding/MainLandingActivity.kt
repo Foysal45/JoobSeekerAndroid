@@ -61,7 +61,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.alert
