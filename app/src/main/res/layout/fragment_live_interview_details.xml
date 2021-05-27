@@ -171,7 +171,7 @@
             android:paddingEnd="16dp"
             android:paddingBottom="10dp"
             tools:visibility="gone"
-            android:visibility="@{viewModel.showBlackInfoSection ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.showJoinOrPreparationSection ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -414,6 +414,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
+            tools:visibility="visible"
+            android:visibility="@{viewModel.showJoinOrPreparationSection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent">
 
 

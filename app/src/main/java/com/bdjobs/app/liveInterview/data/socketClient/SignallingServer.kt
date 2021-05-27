@@ -35,50 +35,80 @@ class SignalingServer {
 
 
     private var socket:Socket?=null
-    private var roomName:String = "salvin-demo"
-    private var serverURL:String = "https://lit-headland-35738.herokuapp.com/"
+    private var localSocketID:String = ""
+    private var roomName:String = "6606231"
+    private var TAG:String = "SS"
+    private var serverURL:String = "https://live.bdjobs.com/"
 
     fun init(signalingEvent: SignalingEvent) {
         try {
             socket = IO.socket(serverURL)
 
-            socket?.on(Socket.EVENT_CONNECT) {
-
-                socket?.emit(EventConstants.EVENT_CREATE_OR_JOIN, roomName)
-                signalingEvent.onEventConnected()
+            socket?.on(EventConstants.EVENT_SOCKET_CONNECT) {
+                localSocketID = socket?.id().toString()
+                Timber.d("TAG: Local socket id $localSocketID")
+                signalingEvent.setLocalSocketID(localSocketID)
+                socket?.emit(EventConstants.EVENT_SUBSCRIBE, roomName, localSocketID, "Salvin", "A")
             }
 
-            socket?.on(EventConstants.EVENT_IPADDR) {
-                signalingEvent.onEventIPADDR()
+            socket?.on(EventConstants.EVENT_PARTICIPANT_COUNT) {args: Array<Any?>? ->
+                val message = args?.get(0) as JSONObject
+                Timber.d("TAG: participant string - ${message.getString("participant")}")
             }
 
-            socket?.on(EventConstants.EVENT_CREATED) { args: Array<Any?>? ->
-                signalingEvent.onEventCreated(args)
+            socket?.on(EventConstants.EVENT_1ST_USER_CHECK) {args: Array<Any?>? ->
+                signalingEvent.on1stUserCheck(args)
             }
 
-            socket?.on(EventConstants.EVENT_FULL) {
-                signalingEvent.onEventFull()
+            socket?.on(EventConstants.EVENT_NEW_USER_START_NEW) {args: Array<Any?>? ->
+                signalingEvent.onNewUserStartNew(args)
             }
 
-            socket?.on(EventConstants.EVENT_JOIN) { args: Array<Any> ->
-                signalingEvent.onEventJoin(args)
-            }
-            socket?.on(EventConstants.EVENT_JOINED) { args: Array<Any> ->
-               signalingEvent.onEventJoined(args)
-            }
-            socket?.on(EventConstants.EVENT_LOG) { args: Array<Any> ->
-                signalingEvent.onEventLog(args)
-            }
-            socket?.on(EventConstants.EVENT_MESSAGE) { args: Array<Any?>? ->
+//            socket?.on(EventConstants.EVENT_CREATED) { args: Array<Any?>? ->
+//                signalingEvent.onEventCreated(args)
+//            }
+//
+//            socket?.on(EventConstants.EVENT_FULL) {
+//                signalingEvent.onEventFull()
+//            }
+//
+//            socket?.on(EventConstants.EVENT_JOIN) { args: Array<Any> ->
+//                signalingEvent.onEventJoin(args)
+//            }
+//            socket?.on(EventConstants.EVENT_JOINED) { args: Array<Any> ->
+//               signalingEvent.onEventJoined(args)
+//            }
+//            socket?.on(EventConstants.EVENT_LOG) { args: Array<Any> ->
+//                signalingEvent.onEventLog(args)
+//            }
+
+            socket?.on(EventConstants.EVENT_ICE_CANDIDATES) { args: Array<Any?>? ->
                 if (args != null) {
-                    signalingEvent.onEventMessage2(args)
+                    signalingEvent.onReceiveIceCandidate(args)
                 }
-                Timber.d(": got a message")
+            }
 
+            socket?.on(EventConstants.EVENT_INTERVIEW_CALL_RECIEVE) { args: Array<Any?>? ->
+                if (args != null) {
+                    signalingEvent.onReceiveIceCandidate(args)
+                }
             }
-            socket?.on(EventConstants.EVENT_MESSAGE) { args: Array<Any> ->
-                signalingEvent.onEventMessage(args)
+            socket?.on(EventConstants.EVENT_SDP) { args: Array<Any?>? ->
+                if (args != null) {
+                    signalingEvent.onReceiveSDP(args)
+                }
             }
+
+//            socket?.on(EventConstants.EVENT_MESSAGE) { args: Array<Any?>? ->
+//                if (args != null) {
+//                    signalingEvent.onEventMessage2(args)
+//                }
+//                Timber.d(": got a message")
+//
+//            }
+//            socket?.on(EventConstants.EVENT_MESSAGE) { args: Array<Any> ->
+//                signalingEvent.onEventMessage(args)
+//            }
             socket?.on(Socket.EVENT_DISCONNECT) {
                 signalingEvent.onEventDisconnected()
             }

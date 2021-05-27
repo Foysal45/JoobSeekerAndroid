@@ -194,37 +194,35 @@ class ChatFragment : Fragment(), SignalingEvent {
         }
     }
 
-    override fun onEventConnected() {
-    }
-
-    override fun onEventIPADDR() {
-    }
-
-    override fun onEventCreated(args: Array<Any?>?) {
-    }
-
-    override fun onEventFull() {
-    }
-
-    override fun onEventJoin(args: Array<Any>) {
-    }
-
-    override fun onEventJoined(args: Array<Any>) {
-    }
-
-    override fun onEventLog(args: Array<Any>) {
-    }
-
-    override fun onEventMessage(args: Array<Any>) {
-    }
-
-    override fun onEventMessage2(args: Array<Any?>?) {
-    }
 
     override fun onEventDisconnected() {
     }
 
     override fun onEventConnectionError(args: Array<Any>) {
+    }
+
+    override fun setLocalSocketID(id: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun on1stUserCheck(args: Array<Any?>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onNewUserStartNew(args: Array<Any?>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onReceiveIceCandidate(args: Array<Any?>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onReceiveCall(args: Array<Any?>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onReceiveSDP(args: Array<Any?>?) {
+        TODO("Not yet implemented")
     }
 
 }

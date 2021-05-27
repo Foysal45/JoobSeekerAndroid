@@ -101,16 +101,6 @@ class LiveInterviewDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //getAllCalendars()
-
-//        getPrimaryCalendar()
-
-//        modifyCalendar()
-
-        //insertEvent()
-
-        //sEventAlreadyExist()
-
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
@@ -148,18 +138,6 @@ class LiveInterviewDetailsFragment : Fragment() {
                     requireActivity().toast(it)
             })
 
-//            showUndoSnackbar.observe(viewLifecycleOwner, EventObserver {
-//                if (it) {
-//                    snackbar = Snackbar.make(cl_root, "Your request has been sent to the employer.", Snackbar.LENGTH_INDEFINITE).apply {
-//                        setAction("Undo") {
-//                            Timber.d("undo clicked")
-//                            onUndoButtonClick()
-//                        }.show()
-//                    }
-//                } else {
-//                    snackbar?.dismiss()
-//                }
-//            })
 
             showTooltip.observe(viewLifecycleOwner, EventObserver {
                 if (it)
@@ -180,7 +158,6 @@ class LiveInterviewDetailsFragment : Fragment() {
                 if (it) {
                     btn_add_to_calendar?.apply {
                         text = "Added to Calendar"
-//                        icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_check_circle_black_14dp)
                         isEnabled = false
                     }
                 }
@@ -246,101 +223,6 @@ class LiveInterviewDetailsFragment : Fragment() {
         }
 
         dialog.show()
-    }
-
-    private fun getAllCalendars() {
-        doAsync {
-            val contentResolver = requireContext().contentResolver
-            val selection = CalendarContract.Calendars.VISIBLE + " = 1 AND " + CalendarContract.Calendars.IS_PRIMARY + "=1"
-            val cur = contentResolver.query(CalendarContract.Calendars.CONTENT_URI, EVENT_PROJECTION, null, null, null)
-
-            if (cur != null) {
-                while (cur.moveToNext()) {
-                    var calID: Long = 0
-                    var displayName = ""
-                    var accountName = ""
-                    var ownerName = ""
-                    // Get the field values
-                    calID = cur.getLong(PROJECTION_ID_INDEX)
-                    displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX)
-                    accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX)
-                    ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX)
-                    val calendarInfo = String.format("Calendar ID: %s\nDisplay Name: %s\nAccount Name: %s\nOwner Name: %s", calID, displayName, accountName, ownerName)
-                    calendarInfos.add(calendarInfo)
-                }
-            } else {
-                Timber.d("cursor null")
-            }
-            cur?.close()
-        }
-    }
-
-    private fun getPrimaryCalendar() {
-        doAsync {
-            val contentResolver = requireContext().contentResolver
-            val selection = CalendarContract.Calendars.VISIBLE + " = 1 AND " + CalendarContract.Calendars.IS_PRIMARY + "=1"
-            val cur = contentResolver.query(CalendarContract.Calendars.CONTENT_URI, EVENT_PROJECTION, selection, null, null)
-
-            if (cur != null) {
-                while (cur.moveToNext()) {
-                    var calID: Long = 0
-                    var displayName = ""
-                    var accountName = ""
-                    var ownerName = ""
-                    // Get the field values
-                    calID = cur.getLong(PROJECTION_ID_INDEX)
-                    displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX)
-                    accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX)
-                    ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX)
-                    val calendarInfo = String.format("Calendar ID: %s\nDisplay Name: %s\nAccount Name: %s\nOwner Name: %s", calID, displayName, accountName, ownerName)
-                    primaryCalendarInfos.add(calendarInfo)
-                }
-            } else {
-                Timber.d("cursor null")
-            }
-            cur?.close()
-        }
-    }
-
-    private fun modifyCalendar() {
-        val calID: Long = 1
-        val values = ContentValues().apply {
-            // The new display name for the calendar
-            put(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, "Rakib's new Calendar")
-        }
-        val updateUri: Uri = ContentUris.withAppendedId(CalendarContract.Calendars.CONTENT_URI, calID)
-        val rows: Int = requireContext().contentResolver.update(updateUri, values, null, null)
-
-        if (rows > 0)
-            Timber.d("Modified")
-    }
-
-    private fun insertEvent() {
-        Timber.d("Inserting event")
-        doAsync {
-            val calID: Long = 1
-            val startMillis: Long = Calendar.getInstance().run {
-                set(2020, 11, 15, 7, 30)
-                timeInMillis
-            }
-            val endMillis: Long = Calendar.getInstance().run {
-                set(2020, 11, 15, 8, 45)
-                timeInMillis
-            }
-
-            val values = ContentValues().apply {
-                put(CalendarContract.Events.DTSTART, startMillis)
-                put(CalendarContract.Events.DTEND, endMillis)
-                put(CalendarContract.Events.TITLE, "Live Interview by Rakib")
-                put(CalendarContract.Events.DESCRIPTION, "Test Test Test")
-                put(CalendarContract.Events.CALENDAR_ID, calID)
-                put(CalendarContract.Events.ORIGINAL_ID, 5000)
-                put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles")
-            }
-            val uri: Uri? = requireContext().contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
-
-            eventID = uri?.lastPathSegment?.toLong()
-        }
     }
 
     private fun openCancelPopup() {
@@ -482,7 +364,7 @@ class LiveInterviewDetailsFragment : Fragment() {
                     cameraAndAudioPermissionGranted = true
 //                    findNavController().navigate(LiveInterviewDetailsFragmentDirections)
                     if (from=="video") findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToRecordVideoFragment())
-                    else if (from=="session") findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToInterviewSessionFragment(liveInterviewDetailsViewModel.jobId,args.jobTitle,liveInterviewDetailsViewModel.processID.value))
+                    else if (from=="session") findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToInterviewSessionFragment(liveInterviewDetailsViewModel.jobId,args.jobTitle, liveInterviewDetailsViewModel.processID.value))
                     else findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToAudioRecordFragment())
 //                    else requireContext().startActivity(Intent(requireContext(),RecordingActivity::class.java))
 
@@ -524,36 +406,6 @@ class LiveInterviewDetailsFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         snackbar?.dismiss()
-    }
-
-    private fun isEventAlreadyExist(id: Int): Boolean {
-        val INSTANCE_PROJECTION = arrayOf(
-                CalendarContract.Instances.EVENT_ID,  // 0
-                CalendarContract.Instances.BEGIN,  // 1
-                CalendarContract.Instances.TITLE, // 2
-                CalendarContract.Instances.ORIGINAL_ID
-        )
-        var startMillis: Long = 0
-        var endMillis: Long = 0
-        val beginTime = Calendar.getInstance()
-        beginTime[2017, 1, 15, 6] = 0
-        startMillis = beginTime.timeInMillis
-        val endTime = Calendar.getInstance()
-        endTime[2020, 11, 15, 8] = 0
-        endMillis = endTime.timeInMillis
-
-        // The ID of the recurring event whose instances you are searching for in the Instances table
-        val selection = CalendarContract.Instances.ORIGINAL_ID + " = ?"
-        val selectionArgs = arrayOf(id.toString())
-
-        // Construct the query with the desired date range.
-        val builder = CalendarContract.Instances.CONTENT_URI.buildUpon()
-        ContentUris.appendId(builder, startMillis)
-        ContentUris.appendId(builder, endMillis)
-
-        // Submit the query
-        val cur: Cursor? = requireContext().contentResolver.query(builder.build(), INSTANCE_PROJECTION, selection, selectionArgs, null)
-        return cur!!.count > 0
     }
 
 }

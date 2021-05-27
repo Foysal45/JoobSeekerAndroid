@@ -7,17 +7,25 @@ package com.bdjobs.app.liveInterview.data.socketClient
 
 interface SignalingEvent {
 
-    fun onEventConnected()
-    fun onEventIPADDR()
-    fun onEventCreated(args: Array<Any?>?)
-    fun onEventFull()
-    fun onEventJoin(args: Array<Any>)
-    fun onEventJoined(args: Array<Any>)
-    fun onEventLog(args: Array<Any>)
-    fun onEventMessage(args: Array<Any>)
-    fun onEventMessage2(args: Array<Any?>?)
+//    fun onEventConnected()
+//    fun onEventIPADDR()
+//    fun onEventCreated(args: Array<Any?>?)
+//    fun onEventFull()
+//    fun onEventJoin(args: Array<Any>)
+//    fun onEventJoined(args: Array<Any>)
+//    fun onEventLog(args: Array<Any>)
+//    fun onEventMessage(args: Array<Any>)
+//    fun onEventMessage2(args: Array<Any?>?)
     fun onEventDisconnected()
     fun onEventConnectionError(args: Array<Any>)
+
+    //According to Web
+    fun setLocalSocketID(id:String)
+    fun on1stUserCheck(args: Array<Any?>?)
+    fun onNewUserStartNew(args: Array<Any?>?)
+    fun onReceiveIceCandidate(args: Array<Any?>?)
+    fun onReceiveCall(args: Array<Any?>?)
+    fun onReceiveSDP(args: Array<Any?>?)
 
     // chatting socket
 
