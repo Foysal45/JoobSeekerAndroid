@@ -43,7 +43,6 @@ import java.util.HashMap
 
 class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener,SignalingEvent {
 
-    private var TAG: String = "InterviewSessionFragment"
     private var videoSource: VideoSource? = null
     private var audioSource: AudioSource? = null
 
@@ -110,11 +109,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         bdjobsUserSession = BdjobsUserSession(requireContext())
 
+        start()
         setUpObservers()
 
         binding.fabMessage.setOnClickListener { findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID)) }
 
-//        createMsgCounter()
     }
 
     @SuppressLint("UnsafeExperimentalUsageError")
@@ -185,30 +184,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            isShowLoadingCounter.observe(viewLifecycleOwner, Observer {
-                if (it) {
-
-                    startAudio()
-                    var secondsRemaining = 5
-                    val timer = object : CountDownTimer(5000,1000){
-                        override fun onFinish() {
-//                            binding.cameraLocalReady.close()
-//                            parentReadyViewCheck(false)
-                            mediaPlayer?.stop()
-                            interviewRoomViewCheck(true)
-                        }
-
-                        override fun onTick(millisUntilFinished: Long) {
-                            secondsRemaining--
-                            tv_counter.text = "$secondsRemaining"
-                        }
-
-                    }.start()
-                } else {
-                    mediaPlayer?.stop()
-                }
-            })
-
             isWaitingForEmployers.observe(viewLifecycleOwner, Observer {
                 if (it) {
                     Handler(Looper.myLooper()!!).postDelayed({
@@ -224,7 +199,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                         visibility = View.GONE
                     }
                     createMsgCounter()
-                    start()
                 }
             })
 
@@ -469,7 +443,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     @Synchronized
     private fun getOrCreatePeerConnection(socketId: String, role: String): PeerConnection {
 
-        Timber.d("getOrCreatePeerConnection socketId $socketId role $role")
+        Timber.d("TAG:getOrCreatePeerConnection socketId $socketId role $role")
 
 
         var peerConnection = peerConnectionMap[socketId]
@@ -486,6 +460,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                     override fun onIceCandidate(p0: IceCandidate?) {
                         super.onIceCandidate(p0)
 
+                        Timber.d("TAG:getOrCreatePeerConnection onIceCandidate${p0} ")
                         if (p0 != null) {
                             SignalingServer.get()?.sendIceCandidate(p0)
                         }
@@ -495,7 +470,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                     override fun onAddStream(p0: MediaStream?) {
                         super.onAddStream(p0)
 
-                        Timber.d("onAddStream  Remote MediaStream ${p0?.videoTracks?.size} ")
+                        Timber.d("TAG:onAddStream  Remote MediaStream ${p0?.videoTracks?.size} ")
 
                         gotRemoteStream(p0!!)
 
@@ -505,7 +480,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         peerConnection!!.addStream(localMediaStream)
         peerConnectionMap[socketId] = peerConnection
-        Timber.d("getOrCreatePeerConnection size $socketId ${peerConnectionMap.size} ,  ${peerConnectionMap.values} ")
+        Timber.d("TAG: getOrCreatePeerConnection size $socketId ${peerConnectionMap.size} ,  ${peerConnectionMap.values} ")
 
         return peerConnection
     }
@@ -521,7 +496,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     private fun doAnswer() {
-        val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "Jobseeker-Create-Answer")
+        val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "R")
 
         peerConnection?.createAnswer(object : CustomSdpObserver() {
             override fun onCreateSuccess(sessionDescription: SessionDescription?) {
@@ -759,16 +734,31 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     override fun on1stUserCheck(args: Array<Any?>?) {
         Timber.d("TAG: on1stUserCheck: %s", args?.get(0))
         val argument = args?.get(0) as JSONObject
-        val roleType = argument.getString("uType")
         mRemoteSocketId = argument.getString("firstUserId")
-        getOrCreatePeerConnection(mRemoteSocketId, roleType)
+        getOrCreatePeerConnection(mRemoteSocketId, "R")
     }
 
     override fun onNewUserStartNew(args: Array<Any?>?) {
         Timber.d("TAG: onNewUserStartNew: %s", args?.get(0))
+        val argument = args?.get(0) as JSONObject
+        mRemoteSocketId = argument.getString("sender")
+        getOrCreatePeerConnection(mRemoteSocketId, "R")
     }
     override fun onReceiveSDP(args: Array<Any?>?) {
         Timber.d("TAG: onReceiveSDP: %s", args?.get(0))
+        val argument = args?.get(0) as JSONObject
+        mRemoteSocketId = argument.getString("sender")
+        val sessionDescriptionJO = argument.getJSONObject("description")
+
+        val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "R")
+        peerConnection!!.setRemoteDescription(
+            CustomSdpObserver(),
+            SessionDescription(
+                SessionDescription.Type.OFFER,
+                sessionDescriptionJO.getString("sdp")
+            )
+        )
+        doAnswer()
     }
 
     override fun onReceiveIceCandidate(args: Array<Any?>?) {

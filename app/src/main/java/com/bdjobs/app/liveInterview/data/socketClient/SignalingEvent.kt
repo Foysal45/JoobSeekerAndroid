@@ -7,15 +7,6 @@ package com.bdjobs.app.liveInterview.data.socketClient
 
 interface SignalingEvent {
 
-//    fun onEventConnected()
-//    fun onEventIPADDR()
-//    fun onEventCreated(args: Array<Any?>?)
-//    fun onEventFull()
-//    fun onEventJoin(args: Array<Any>)
-//    fun onEventJoined(args: Array<Any>)
-//    fun onEventLog(args: Array<Any>)
-//    fun onEventMessage(args: Array<Any>)
-//    fun onEventMessage2(args: Array<Any?>?)
     fun onEventDisconnected()
     fun onEventConnectionError(args: Array<Any>)
 
