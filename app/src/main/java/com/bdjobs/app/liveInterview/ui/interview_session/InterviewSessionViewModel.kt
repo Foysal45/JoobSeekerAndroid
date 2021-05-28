@@ -48,9 +48,9 @@ class InterviewSessionViewModel : ViewModel() {
     val instructionButtonClickEvent = MutableLiveData<Event<Boolean>> ()
 
     init {
-        parentReadyViewCheck(true)
+      //  parentReadyViewCheck(true)
         bottomOptionShowCheck(true)
-        readyCheck(true)
+     //   readyCheck(true)
         yesClick.value = true
         noClick.value = false
     }
@@ -66,41 +66,41 @@ class InterviewSessionViewModel : ViewModel() {
         }
     }
     
-    fun waitingCheck(isWaiting:Boolean) {
-        _isWaitingForEmployers.postValue(isWaiting)
-        readyCheck(false)
-    }
-    
-    fun readyCheck(isReady:Boolean) {
-        _isShowReadyView.postValue(isReady)
-    }
-    
+//    fun waitingCheck(isWaiting:Boolean) {
+//        _isWaitingForEmployers.postValue(isWaiting)
+//        readyCheck(false)
+//    }
+//
+//    fun readyCheck(isReady:Boolean) {
+//        _isShowReadyView.postValue(isReady)
+//    }
+//
     fun bottomOptionShowCheck(isShow:Boolean) {
         _isShowBottomOptionView.postValue(isShow)
     }
     
-    fun loadingCounterShowCheck(isShow: Boolean) {
-        _isShowLoadingCounter.postValue(isShow)
-        bottomOptionShowCheck(false)
-        waitingCheck(false)
-    }
-    
-    fun parentReadyViewCheck(isShow: Boolean) {
-        _isShowParentReadyView.postValue(isShow)
-//        interviewRoomViewCheck(false)
-    }
-
-    fun interviewRoomViewCheck(isShow: Boolean) {
-        _isShowInterviewRoomView.postValue(isShow)
-        parentReadyViewCheck(false)
-        loadingCounterShowCheck(false)
-    }
+//    fun loadingCounterShowCheck(isShow: Boolean) {
+//        _isShowLoadingCounter.postValue(isShow)
+//        bottomOptionShowCheck(false)
+//        waitingCheck(false)
+//    }
+//
+//    fun parentReadyViewCheck(isShow: Boolean) {
+//        _isShowParentReadyView.postValue(false)
+////        interviewRoomViewCheck(false)
+//    }
+//
+//    fun interviewRoomViewCheck(isShow: Boolean) {
+//        _isShowInterviewRoomView.postValue(true)
+//        parentReadyViewCheck(false)
+//        loadingCounterShowCheck(false)
+//    }
 
     fun onYesButtonClicked() {
         yesButtonClickedEvent.value = Event(true)
         yesClick.value = true
         noClick.value= false
-        waitingCheck(true)
+   //     waitingCheck(true)
     }
 
     fun onNoButtonClicked() {

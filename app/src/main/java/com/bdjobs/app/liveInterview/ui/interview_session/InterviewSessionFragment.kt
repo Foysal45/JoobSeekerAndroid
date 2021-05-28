@@ -184,29 +184,29 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            isWaitingForEmployers.observe(viewLifecycleOwner, Observer {
-                if (it) {
-                    Handler(Looper.myLooper()!!).postDelayed({
-                        loadingCounterShowCheck(true)
-                    },1500)
-                }
-            })
-
-            isShowInterviewRoomView.observe(viewLifecycleOwner, Observer {
-                if (it) {
-                    binding.cameraLocalReady.apply {
-                        release()
-                        visibility = View.GONE
-                    }
-                    createMsgCounter()
-                }
-            })
-
-            isShowParentReadyView.observe(viewLifecycleOwner, Observer {
-                if (it) {
-                    initializeLocalCamera()
-                }
-            })
+//            isWaitingForEmployers.observe(viewLifecycleOwner, Observer {
+//                if (it) {
+//                    Handler(Looper.myLooper()!!).postDelayed({
+//                        loadingCounterShowCheck(true)
+//                    },1500)
+//                }
+//            })
+//
+//            isShowInterviewRoomView.observe(viewLifecycleOwner, Observer {
+//                if (it) {
+//                    binding.cameraLocalReady.apply {
+//                        release()
+//                        visibility = View.GONE
+//                    }
+//                    createMsgCounter()
+//                }
+//            })
+//
+//            isShowParentReadyView.observe(viewLifecycleOwner, Observer {
+//                if (it) {
+//                    initializeLocalCamera()
+//                }
+//            })
         }
     }
 
@@ -728,7 +728,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     override fun setLocalSocketID(id: String) {
         Timber.d("TAG: setLocalSocketID: %s", id)
         mSocketId = id
-        getOrCreatePeerConnection(mSocketId, "A")
+     //   getOrCreatePeerConnection(mSocketId, "A")
     }
 
     override fun on1stUserCheck(args: Array<Any?>?) {
