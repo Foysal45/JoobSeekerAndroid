@@ -51,7 +51,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private var peerConnectionFactory: PeerConnectionFactory? = null
     private val peerConnectionMap =  HashMap<String, PeerConnection>()
 
-    private var localView: SurfaceViewRenderer? = null
     private var localMediaStream: MediaStream? = null
 
     private var remoteViews =  ArrayList<SurfaceViewRenderer>()
@@ -217,7 +216,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         val initializationOptions = PeerConnectionFactory.InitializationOptions.builder(requireContext()).createInitializationOptions()
         PeerConnectionFactory.initialize(initializationOptions)
-
 
         //Create a new PeerConnectionFactory instance - using Hardware encoder and decoder.
         val options = PeerConnectionFactory.Options()
@@ -493,15 +491,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         return peerConnection
     }
 
-    private fun onIceCandidateReceived(data: JSONObject?) {
-        try {
-            val iceCandidateFromRemotePeer = data?.getInt("label")?.let { IceCandidate(data.getString("id"), it, data.getString("candidate")) }
-            val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "Jobseeker-Recieved-Ice")
-            peerConnection?.addIceCandidate(iceCandidateFromRemotePeer)
-        } catch (e: Exception) {
-            Timber.d("onIceCandidateReceived jsonobject error $e")
-        }
-    }
+
 
     private fun doAnswer() {
         val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "R")
@@ -514,38 +504,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             }
         }, pcConstraints)
-    }
-
-    private fun maybeStart() {
-        Timber.d("maybeStart: $isStarted $isChannelReady")
-        if (!isStarted && isChannelReady) {
-            isStarted = true
-            if (isHost) {
-                doCall()
-            }
-        }
-    }
-
-    private fun doCall() {
-        Timber.d("doCalled")
-
-        val sdpMediaConstraints = MediaConstraints()
-        sdpMediaConstraints.mandatory.add(
-                MediaConstraints.KeyValuePair("OfferToReceiveAudio", "true"))
-        sdpMediaConstraints.mandatory.add(
-                MediaConstraints.KeyValuePair("OfferToReceiveVideo", "true"))
-
-        val peerConnection = getOrCreatePeerConnection(mSocketId, "Host")
-
-        peerConnection?.createOffer(object : CustomSdpObserver() {
-            override fun onCreateSuccess(sessionDescription: SessionDescription?) {
-                Timber.d("onCreateSuccess: ")
-                peerConnection.setLocalDescription(CustomSdpObserver(), sessionDescription)
-                if (sessionDescription != null) {
-                    SignalingServer.get()?.sendSessionDescription(sessionDescription)
-                }
-            }
-        }, sdpMediaConstraints)
     }
 
 
@@ -602,135 +560,12 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         interviewSessionViewModel.networkCheck(isConnected)
     }
 
-//    override fun onEventConnected() {
-//        Timber.d("Connected")
-//    }
-//
-//    override fun onEventIPADDR() {
-//        Timber.d("Event IPADDR")
-//    }
-//
-//    override fun onEventCreated(args: Array<Any?>?) {
-//        Timber.d(": session created")
-//        if (args != null) {
-//            for(arg in args){
-//                Timber.d("Socket Ids : $arg")
-//                val id = args[1] as String
-//                isHost = true
-//                mSocketId = id
-//                getOrCreatePeerConnection(mSocketId, "Host")
-//            }
-//
-//        }
-//    }
-
-//    override fun onEventFull() {
-//        Timber.d("Event Full")
-//    }
-//
-//    override fun onEventJoin(args: Array<Any>) {
-//        Timber.d(": join")
-//        Timber.d(": Another peer made a request to join room")
-//        Timber.d(": This peer is the initiator of room")
-//        for(arg in args){
-//            Timber.d("Socket Ids : $arg")
-//            val id = args[0] as String // change here original was 0
-//            isChannelReady = true
-//            isApplicant = true
-//            mRemoteSocketId = id
-//            getOrCreatePeerConnection(mRemoteSocketId, "Jobseeker-Passing-Socket-Id")
-//        }
-//    }
-
-//    override fun onEventJoined(args: Array<Any>) {
-//        Timber.d(": joined")
-//        for(arg in args){
-//            Timber.d("Socket Ids : $arg")
-//            val id = args[1] as String
-//            isChannelReady = true
-//            isApplicant = true
-//            mRemoteSocketId = id
-//            getOrCreatePeerConnection(mRemoteSocketId, "Jobseeker-Passing-Socket-Id")
-//        }
-//    }
-//
-//    override fun onEventLog(args: Array<Any>) {
-//        for (arg in args) {
-//            Timber.d("Event Log : $arg")
-//        }
-//    }
-//
-//    override fun onEventMessage(args: Array<Any>) {
-//        try {
-//            if (args[0] is String) {
-//                val message = args[0] as String
-//                if (message == "got user media") {
-//                    maybeStart()
-//                }
-//            } else {
-//                val message = args[0] as JSONObject
-//                Timber.d(": got message $message")
-//                if (message.getString("type") == "offer") {
-//                    Timber.d(": received an offer $isHost $isStarted")
-//                    if (!isHost && !isStarted) {
-//                        maybeStart()
-//                    }
-//                    val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "Jobseeker-Recived-Offer")
-//                    peerConnection!!.setRemoteDescription(
-//                            CustomSdpObserver(),
-//                            SessionDescription(
-//                                    SessionDescription.Type.OFFER,
-//                                    message.getString("sdp")
-//                            )
-//                    )
-//                    doAnswer()
-//
-//                } else if (message.getString("type") == "answer" && isStarted) {
-//                    val peerConnection = getOrCreatePeerConnection(mSocketId, "Host-Recieved offer")
-//                    peerConnection!!.setRemoteDescription(
-//                            CustomSdpObserver(),
-//                            SessionDescription(
-//                                    SessionDescription.Type.ANSWER,
-//                                    message.getString("sdp")
-//                            )
-//                    )
-//                } else if (message.getString("type") == "candidate" && isStarted) {
-//                    Timber.d(": receiving candidates")
-//                    onIceCandidateReceived(message)
-//                }
-//            }
-//        } catch (e: JSONException) {
-//            e.printStackTrace()
-//        }
-//    }
-//
-//    override fun onEventMessage2(args: Array<Any?>?) {
-//        if (args != null) {
-//            for (arg in args) {
-//                Timber.d("MSG : $arg")
-//            }
-//        }
-//        Timber.d(": got a message")
-//    }
-
     override fun onEventDisconnected() {
         Timber.d("Disconnected")
     }
 
     override fun onEventConnectionError(args: Array<Any>) {
         Timber.d("ERROR: %s", args[0])
-    }
-
-    override fun onUserJoined(args: Array<Any>) {
-        
-    }
-
-    override fun onUserDisconnected(args: Array<Any>) {
-        
-    }
-
-    override fun onMessageReceived(args: Array<Any>) {
-        
     }
 
     override fun setLocalSocketID(id: String) {
