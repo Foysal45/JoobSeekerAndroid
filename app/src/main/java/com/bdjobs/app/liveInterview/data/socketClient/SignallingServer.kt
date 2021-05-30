@@ -37,7 +37,7 @@ class SignalingServer {
     private var socket:Socket?=null
     private var localSocketID:String = ""
     private var remoteSocketID:String = ""
-    private var roomName:String = "6606231"
+    private var roomName:String = "6117059"
     private var serverURL:String = "https://live.bdjobs.com/"
 
     fun init(signalingEvent: SignalingEvent) {

@@ -6,14 +6,11 @@ import android.graphics.Color
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -32,13 +29,12 @@ import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.demo_connect_employer.streaming.CustomPCObserver
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
-import kotlinx.android.synthetic.main.layout_waiting_counter.*
-import org.json.JSONException
 import org.json.JSONObject
 import org.webrtc.*
+import org.webrtc.PeerConnection
+import org.webrtc.PeerConnection.RTCConfiguration
 import timber.log.Timber
-import java.util.ArrayList
-import java.util.HashMap
+import java.util.*
 
 
 class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener,SignalingEvent {
@@ -86,6 +82,12 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private val interviewSessionViewModel: InterviewSessionViewModel by navGraphViewModels(R.id.interviewSessionFragment)
     private var mediaPlayer : MediaPlayer?=null
+
+    val pcConstraints = object : MediaConstraints() {
+        init {
+            optional.add(MediaConstraints.KeyValuePair("DtlsSrtpKeyAgreement", "true"))
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -290,6 +292,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private fun start() {
 
         SignalingServer.get()?.init(this)
+        initializeLocalCamera()
 
         iceServers.add(
                 PeerConnection.IceServer.builder("stun:stun.bdjobs.com")
@@ -453,9 +456,14 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             return peerConnection
         }
 
+        val rtcConfig = RTCConfiguration(iceServers)
+        rtcConfig.bundlePolicy = PeerConnection.BundlePolicy.MAXBUNDLE
+        rtcConfig.rtcpMuxPolicy = PeerConnection.RtcpMuxPolicy.REQUIRE
+        rtcConfig.keyType = PeerConnection.KeyType.ECDSA
+        rtcConfig.iceTransportsType = PeerConnection.IceTransportsType.ALL
 
         peerConnection =
-                peerConnectionFactory?.createPeerConnection(iceServers, object : CustomPCObserver() {
+                peerConnectionFactory?.createPeerConnection(rtcConfig, pcConstraints, object : CustomPCObserver() {
 
                     override fun onIceCandidate(p0: IceCandidate?) {
                         super.onIceCandidate(p0)
@@ -505,7 +513,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                     SignalingServer.get()?.sendSessionDescription(sessionDescription)
                 }
             }
-        }, MediaConstraints())
+        }, pcConstraints)
     }
 
     private fun maybeStart() {
@@ -763,6 +771,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onReceiveIceCandidate(args: Array<Any?>?) {
         Timber.d("TAG: onReceiveIceCandidate: %s", args?.get(0))
+        val argument = args?.get(0) as JSONObject
+        val candidate = argument.getJSONObject("candidate")
+        val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "R")
+        peerConnection.addIceCandidate(IceCandidate(candidate.getString("sdpMid"), candidate.getInt("sdpMLineIndex"), candidate.getString("candidate")))
     }
 
     override fun onReceiveCall(args: Array<Any?>?) {
