@@ -20,8 +20,4 @@ interface SignalingEvent {
 
     // chatting socket
 
-    fun onUserJoined(args: Array<Any>)
-    fun onUserDisconnected(args: Array<Any>)
-    fun onMessageReceived(args: Array<Any>)
-
 }

@@ -116,15 +116,6 @@ class SignalingServer {
             socket?.on(Socket.EVENT_CONNECT_ERROR) { args: Array<Any> ->
                 signalingEvent.onEventConnectionError(args)
             }
-            socket?.on(EventConstants.EVENT_USER_JOINED) { args: Array<Any> ->
-                signalingEvent.onUserJoined(args)
-            }
-            socket?.on(EventConstants.EVENT_USER_DISCONNECTED) { args : Array<Any> ->
-                signalingEvent.onUserDisconnected(args)
-            }
-            socket?.on(EventConstants.EVENT_MESSAGE_RECEIVED){ args: Array<Any> ->
-                signalingEvent.onMessageReceived(args)
-            }
 
             Timber.d("TAG: Connecting ... $socket")
 
@@ -197,7 +188,4 @@ class SignalingServer {
         socket?.emit("messagedetection",nickname,message)
     }
 
-    fun sendMedia() {
-        socket?.emit(EventConstants.EVENT_MESSAGE, "got user media")
-    }
 }
