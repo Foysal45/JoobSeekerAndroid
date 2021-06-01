@@ -65,7 +65,6 @@
                 android:textColor="#767676"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/jobDetailTv"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/companyNameTV"
@@ -170,8 +169,8 @@
             android:paddingTop="10dp"
             android:paddingEnd="16dp"
             android:paddingBottom="10dp"
-            tools:visibility="gone"
-            android:visibility="@{viewModel.showJoinOrPreparationSection ? View.GONE : View.VISIBLE}"
+            tools:visibility="visible"
+            android:visibility="@{viewModel.showPreparationSection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -374,11 +373,12 @@
             android:background="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingStart="24dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            tools:visibility="visible"
-            android:visibility="@{viewModel.showJoinOrPreparationSection ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone"
+            android:visibility="@{viewModel.showJoinSection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <com.google.android.material.button.MaterialButton
@@ -415,7 +415,6 @@
                 app:icon="@drawable/ic_live"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottom_confirmation_info"

@@ -63,16 +63,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private var audioConstraints: MediaConstraints? = null
     private var videoConstraints: MediaConstraints? = null
 
-
     var mSocketId = ""
     var mRemoteSocketId = ""
     var mic_switch: Boolean = true
     var video_switch: Boolean = true
-
-    var isHost = false
-    var isApplicant = false
-    var isChannelReady = false
-    var isStarted = false
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
 
@@ -113,7 +107,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         bdjobsUserSession = BdjobsUserSession(requireContext())
         processId = args.processID.toString()
 
-        start()
+        startSession()
         setUpObservers()
 
         binding.fabMessage.setOnClickListener { findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID)) }
@@ -208,7 +202,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
             isShowParentReadyView.observe(viewLifecycleOwner, Observer {
                 if (it) {
-                    initializeLocalCamera()
+                  //  initializeLocalCamera()
                 }
             })
         }
@@ -290,10 +284,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         mediaPlayer?.isLooping = true
     }
 
-    private fun start() {
+    private fun startSession() {
+        initializeLocalCamera()
 
         SignalingServer.get()?.init(this, processId)
-
         iceServers.add(
                 PeerConnection.IceServer.builder("stun:stun.bdjobs.com")
                         .setTlsCertPolicy(PeerConnection.TlsCertPolicy.TLS_CERT_POLICY_INSECURE_NO_CHECK).createIceServer()
@@ -539,9 +533,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onPause() {
         super.onPause()
-//        SignalingServer.get()?.destroy()
-//        binding.localMeSurfaceView.release()
-//        binding.cameraLocalReady.release()
+        SignalingServer.get()?.destroy()
     }
 
     override fun onDestroy() {
@@ -549,7 +541,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         binding.localMeSurfaceView.release()
         binding.cameraLocalReady.release()
         mediaPlayer?.release()
-        SignalingServer.get()?.destroy()
         super.onDestroy()
 
     }
@@ -561,6 +552,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onEventDisconnected() {
         Timber.tag("live").d("Disconnected")
+        binding.localMeSurfaceView.release()
+        binding.remoteHostSurfaceView.release()
+        binding.remoteOneSurfaceView.release()
+        binding.remoteTwoSurfaceView.release()
+        binding.cameraLocalReady.release()
     }
 
     override fun onEventConnectionError(args: Array<Any>) {
@@ -570,6 +566,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     override fun setLocalSocketID(id: String) {
         Timber.tag("live").d("setLocalSocketID: %s", id)
         mSocketId = id
+    }
+
+    override fun onNewUser(args: Array<Any?>?) {
+        Timber.tag("live").d("onNewUser: %s", args?.get(0))
+        val argument = args?.get(0) as JSONObject
+        mRemoteSocketId = argument.getString("socketId")
+        getOrCreatePeerConnection(mRemoteSocketId, "R")
     }
 
     override fun on1stUserCheck(args: Array<Any?>?) {
@@ -585,6 +588,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         mRemoteSocketId = argument.getString("sender")
         getOrCreatePeerConnection(mRemoteSocketId, "R")
     }
+
     override fun onReceiveSDP(args: Array<Any?>?) {
         Timber.tag("live").d("onReceiveSDP: %s", args?.get(0))
         val argument = args?.get(0) as JSONObject

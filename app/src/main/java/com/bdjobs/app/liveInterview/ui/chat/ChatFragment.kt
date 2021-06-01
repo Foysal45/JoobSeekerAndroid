@@ -198,6 +198,10 @@ class ChatFragment : Fragment(), SignalingEvent {
         Timber.d("TAG: on1stUserCheck: %s", args?.get(0))
     }
 
+    override fun onNewUser(args: Array<Any?>?) {
+        TODO("Not yet implemented")
+    }
+
     override fun onNewUserStartNew(args: Array<Any?>?) {
         Timber.d("TAG: onNewUserStartNew: %s", args?.get(0))
     }

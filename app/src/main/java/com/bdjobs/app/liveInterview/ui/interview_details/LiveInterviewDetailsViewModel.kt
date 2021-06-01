@@ -47,7 +47,8 @@ class LiveInterviewDetailsViewModel(
         value = false
     }
 
-    val showJoinOrPreparationSection = MutableLiveData<Boolean>().apply { value = false }
+    val showPreparationSection = MutableLiveData<Boolean>().apply { value = false }
+    val showJoinSection = MutableLiveData<Boolean>().apply { value = false }
     val showJoinInterviewSmallBTN = MutableLiveData<Boolean>().apply { value = false }
 
     private val _jobID = MutableLiveData<String>().apply {
@@ -122,7 +123,6 @@ class LiveInterviewDetailsViewModel(
                 examDate.value = liveInterviewDetailsData.value?.get(0)?.examDate
                 examTime.value = liveInterviewDetailsData.value?.get(0)?.examTime
                 interviewDateTime = "${liveInterviewDetailsData.value?.get(0)?.examDate} ${liveInterviewDetailsData.value?.get(0)?.examTime}"
-
                 _processID.value = liveInterviewDetailsData.value?.get(0)?.processId
                 _levelStatus.value = liveInterviewDetailsData.value?.get(0)?.levelstatus
 
@@ -138,8 +138,15 @@ class LiveInterviewDetailsViewModel(
                     e.printStackTrace()
                 }
 
-                if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "1")
+                if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "1"){
+                    showPreparationSection.value = true
                     setTimer(interviewDateTime)
+                }
+
+                if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "6"){
+                    showJoinSection.value = false
+                    showPreparationSection.value = false
+                }
 
 
             } catch (e: Exception) {
@@ -206,7 +213,7 @@ class LiveInterviewDetailsViewModel(
                 remainingHours.value = "00"
                 remainingMinutes.value = "00"
                 remainingSeconds.value = "00"
-                showJoinOrPreparationSection.value = true
+                showJoinSection.value = true
             }
         }.start()
     }
@@ -225,6 +232,7 @@ class LiveInterviewDetailsViewModel(
                 showToast.value = Event(response.message.toString())
                 getLiveInterviewDetails()
                 showConfirmationSection.value = false
+                showPreparationSection.value = true
             } else {
                 showToast.value = Event(response.message.toString())
             }
@@ -459,7 +467,6 @@ class LiveInterviewDetailsViewModel(
             e.printStackTrace()
         }
     }
-
 
 
 

@@ -35,13 +35,14 @@
             android:id="@+id/cl_ready_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            tools:visibility="gone"
-            android:visibility="@{viewModel.isShowParentReadyView() ? View.VISIBLE : View.GONE}"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar">
 
+
+            <!--            android:visibility="@{viewModel.isShowParentReadyView() ? View.VISIBLE : View.GONE}"-->
 
             <org.webrtc.SurfaceViewRenderer
                 android:id="@+id/camera_local_ready"
@@ -277,11 +278,14 @@
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:visibility="visible"
+            android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/cl_room_view">
+<!--
+            android:visibility="@{viewModel.isShowInterviewRoomView() ? View.VISIBLE : View.GONE}"
 
+-->
 
             <LinearLayout
                 android:layout_width="0dp"

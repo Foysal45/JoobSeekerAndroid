@@ -73,13 +73,26 @@ class SignalingServer {
             }
 
             socket?.on(EventConstants.EVENT_1ST_USER_CHECK) {args: Array<Any?>? ->
+                val argument = args?.get(0) as JSONObject
+                remoteSocketID = argument.getString("firstUserId")
                 signalingEvent.on1stUserCheck(args)
             }
 
+            socket?.on(EventConstants.EVENT_NEW_USER) {args: Array<Any?>? ->
+                val argument = args?.get(0) as JSONObject
+                remoteSocketID = argument.getString("socketId")
+                signalingEvent.onNewUser(args)
+                socket?.disconnect()
+                socket?.connect()
+            }
             socket?.on(EventConstants.EVENT_NEW_USER_START_NEW) {args: Array<Any?>? ->
                 val argument = args?.get(0) as JSONObject
                 remoteSocketID = argument.getString("sender")
                 signalingEvent.onNewUserStartNew(args)
+            }
+
+            socket?.on(EventConstants.EVENT_SEND_RELOAD_TO_FIRST_USER) {args: Array<Any?>? ->
+                Timber.tag("live").d("send reload to first: %s", args?.get(0))
             }
 
             socket?.on(EventConstants.EVENT_CALL_START) {args: Array<Any?>? ->
@@ -129,7 +142,6 @@ class SignalingServer {
     }
 
     fun destroy() {
-        socket?.emit("bye", "bye")
         socket?.disconnect()
         socket?.close()
     }
