@@ -30,12 +30,17 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.properties.Delegates
 
 class ChatFragment : Fragment(), SignalingEvent {
 
 
     private lateinit var binding: FragmentChatBinding
     private var mAdapter: ChatAdapter = ChatAdapter()
+    private lateinit var imageLocal: String
+    private lateinit var imageRemote: String
+    private var messageCount = 0
+
 
     private val args: ChatFragmentArgs by navArgs()
 
@@ -47,8 +52,6 @@ class ChatFragment : Fragment(), SignalingEvent {
     }
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private val messageList:ArrayList<Messages> = ArrayList()
-
-    private val testNickname = "Soumik"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -105,6 +108,7 @@ class ChatFragment : Fragment(), SignalingEvent {
                                         ":${d.chatTime.split(" ")[1].split(":")[1]} ${d.chatTime.split(" ")[2]}"
                                 messages = Messages(d.contactName,d.chatText, time,if (d.hostType =="A") 0 else 1)
                                 messageList.add(messages)
+                                messageCount++
                             }
                         }
 
@@ -117,7 +121,7 @@ class ChatFragment : Fragment(), SignalingEvent {
 
             postSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 if (it) {
-                    SignalingServer.get()?.messageDetection(bdjobsUserSession.userName!!,postMessage.value.toString())
+                    SignalingServer.get()?.sendChatMessage(postMessage.value.toString(), imageLocal, imageRemote, messageCount)
                     binding.etWriteMessage.setText("")
                 }
             })
@@ -147,35 +151,18 @@ class ChatFragment : Fragment(), SignalingEvent {
     }
 
 
-    override fun onUserJoined(args: Array<Any>) {
-        if (isAdded) {
-            runOnUiThread {
-                val data = args[0] as String
-                Toast.makeText(requireContext(), data, Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    }
-
-    override fun onUserDisconnected(args: Array<Any>) {
-        if (isAdded) {
-            runOnUiThread {
-                val data = args[0] as String
-                Toast.makeText(requireContext(), data, Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    }
-
     @SuppressLint("SimpleDateFormat")
-    override fun onMessageReceived(args: Array<Any>) {
+    override fun onReceiveChat(args: Array<Any?>?) {
 
         runOnUiThread {
-            val data = args[0] as JSONObject
+            val data = args?.get(0) as JSONObject
             try {
                 //extract data from fired event
-                val nickname = data.getString("senderNickname")
-                val message = data.getString("message")
+                val nickname = "Employer"
+                val message = data.getString("msg")
+                imageLocal = data.getString("imgLocal")
+                imageRemote = data.getString("imgRemote")
+                messageCount = data.getInt("newCount")
 
                 val simpleDateFormat = SimpleDateFormat("h:mm a")
                 val formattedTime = simpleDateFormat.format(Date())
@@ -202,27 +189,27 @@ class ChatFragment : Fragment(), SignalingEvent {
     }
 
     override fun setLocalSocketID(id: String) {
-        TODO("Not yet implemented")
+        Timber.d("TAG: setLocalSocketID: %s", id)
     }
 
     override fun on1stUserCheck(args: Array<Any?>?) {
-        TODO("Not yet implemented")
+        Timber.d("TAG: on1stUserCheck: %s", args?.get(0))
     }
 
     override fun onNewUserStartNew(args: Array<Any?>?) {
-        TODO("Not yet implemented")
+        Timber.d("TAG: onNewUserStartNew: %s", args?.get(0))
     }
 
     override fun onReceiveIceCandidate(args: Array<Any?>?) {
-        TODO("Not yet implemented")
+        Timber.d("TAG: onReceiveIceCandidate: %s", args?.get(0))
     }
 
     override fun onReceiveCall(args: Array<Any?>?) {
-        TODO("Not yet implemented")
+        Timber.d("TAG: onReceiveCall: %s", args?.get(0))
     }
 
     override fun onReceiveSDP(args: Array<Any?>?) {
-        TODO("Not yet implemented")
+        Timber.d("TAG: onReceiveSDP: %s", args?.get(0))
     }
 
 }

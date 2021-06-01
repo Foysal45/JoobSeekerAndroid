@@ -19,5 +19,7 @@ interface SignalingEvent {
     fun onReceiveSDP(args: Array<Any?>?)
 
     // chatting socket
+    fun onReceiveChat(args: Array<Any?>?)
+
 
 }

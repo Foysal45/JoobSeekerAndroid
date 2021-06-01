@@ -15,10 +15,10 @@ class InterviewSessionViewModel : ViewModel() {
 
     private val _isNetworkAvailable = MutableLiveData<Boolean>()
     val isNetworkAvailable: LiveData<Boolean> = _isNetworkAvailable
-    
+
     private val _isWaitingForEmployers = MutableLiveData<Boolean>()
     val isWaitingForEmployers : LiveData<Boolean> = _isWaitingForEmployers
-    
+
     private val _isShowReadyView = MutableLiveData<Boolean> ()
     val isShowReadyView:LiveData<Boolean> = _isShowReadyView
 
@@ -27,13 +27,13 @@ class InterviewSessionViewModel : ViewModel() {
 
     private val _isShowLoadingCounter = MutableLiveData<Boolean> ()
     val isShowLoadingCounter:LiveData<Boolean> = _isShowLoadingCounter
-    
+
     private val _isShowParentReadyView = MutableLiveData<Boolean> ()
     val isShowParentReadyView:LiveData<Boolean> = _isShowParentReadyView
 
     private val _isShowInterviewRoomView = MutableLiveData<Boolean> ()
     val isShowInterviewRoomView : LiveData<Boolean> = _isShowInterviewRoomView
-    
+
     val yesButtonClickedEvent = MutableLiveData<Event<Boolean>> ()
     val yesClick = MutableLiveData<Boolean> ()
 
@@ -42,15 +42,15 @@ class InterviewSessionViewModel : ViewModel() {
 
     val toggleAudioClickEvent = MutableLiveData<Event<Boolean>> ()
     val toggleVideoClickEvent = MutableLiveData<Event<Boolean>> ()
-    
+
     val messageButtonClickEvent = MutableLiveData<Event<Boolean>> ()
-    
+
     val instructionButtonClickEvent = MutableLiveData<Event<Boolean>> ()
 
     init {
-      //  parentReadyViewCheck(true)
+        parentReadyViewCheck(true)
         bottomOptionShowCheck(true)
-     //   readyCheck(true)
+        readyCheck(true)
         yesClick.value = true
         noClick.value = false
     }
@@ -65,42 +65,42 @@ class InterviewSessionViewModel : ViewModel() {
             bottomOptionShowCheck(false)
         }
     }
-    
-//    fun waitingCheck(isWaiting:Boolean) {
-//        _isWaitingForEmployers.postValue(isWaiting)
-//        readyCheck(false)
-//    }
-//
-//    fun readyCheck(isReady:Boolean) {
-//        _isShowReadyView.postValue(isReady)
-//    }
-//
+
+    fun waitingCheck(isWaiting:Boolean) {
+        _isWaitingForEmployers.postValue(isWaiting)
+        readyCheck(false)
+    }
+
+    fun readyCheck(isReady:Boolean) {
+        _isShowReadyView.postValue(isReady)
+    }
+
     fun bottomOptionShowCheck(isShow:Boolean) {
         _isShowBottomOptionView.postValue(isShow)
     }
-    
-//    fun loadingCounterShowCheck(isShow: Boolean) {
-//        _isShowLoadingCounter.postValue(isShow)
-//        bottomOptionShowCheck(false)
-//        waitingCheck(false)
-//    }
-//
-//    fun parentReadyViewCheck(isShow: Boolean) {
-//        _isShowParentReadyView.postValue(false)
-////        interviewRoomViewCheck(false)
-//    }
-//
-//    fun interviewRoomViewCheck(isShow: Boolean) {
-//        _isShowInterviewRoomView.postValue(true)
-//        parentReadyViewCheck(false)
-//        loadingCounterShowCheck(false)
-//    }
+
+    fun loadingCounterShowCheck(isShow: Boolean) {
+        _isShowLoadingCounter.postValue(isShow)
+        bottomOptionShowCheck(false)
+        waitingCheck(false)
+    }
+
+    fun parentReadyViewCheck(isShow: Boolean) {
+        _isShowParentReadyView.postValue(isShow)
+//        interviewRoomViewCheck(false)
+    }
+
+    fun interviewRoomViewCheck(isShow: Boolean) {
+        _isShowInterviewRoomView.postValue(isShow)
+        parentReadyViewCheck(false)
+        loadingCounterShowCheck(false)
+    }
 
     fun onYesButtonClicked() {
         yesButtonClickedEvent.value = Event(true)
         yesClick.value = true
         noClick.value= false
-   //     waitingCheck(true)
+        waitingCheck(true)
     }
 
     fun onNoButtonClicked() {
@@ -109,11 +109,11 @@ class InterviewSessionViewModel : ViewModel() {
         yesClick.value = false
 //        loadingCounterShowCheck(true)
     }
-    
+
     fun onMessageButtonClicked() {
         messageButtonClickEvent.value = Event(true)
     }
-    
+
     fun onInstructionButtonClicked() {
         instructionButtonClickEvent.value = Event(true)
     }

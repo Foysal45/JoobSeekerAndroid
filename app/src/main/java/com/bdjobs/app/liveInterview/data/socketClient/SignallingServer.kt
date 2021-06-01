@@ -176,16 +176,29 @@ class SignalingServer {
 
     }
 
-    fun sendMessage() {
-        socket?.emit("message-salvin", "got user media")
-    }
-
     fun joinToChatRoom(nickname:String) {
         socket?.emit("join",nickname)
     }
 
-    fun messageDetection(nickname: String,message:String) {
-        socket?.emit("messagedetection",nickname,message)
+    fun sendChatMessage(message:String, imageLocal: String, imageRemote: String, messageCount: Int) {
+        val sendingChat = JSONObject()
+
+        try {
+            sendingChat.put("room", roomName)
+            sendingChat.put("msg", message)
+            sendingChat.put("sender", localSocketID)
+            sendingChat.put("imgLocal", imageLocal)
+            sendingChat.put("imgRemote", imageRemote)
+            sendingChat.put("newCount", messageCount)
+
+            Timber.d("TAG:onEmit sendingChatJO $sendingChat")
+
+        } catch (e: JSONException) {
+            Timber.d("TAG:onEmit sendingChatJO: JSONException $e")
+            e.printStackTrace()
+        }
+        socket?.emit(EventConstants.EVENT_CHAT, sendingChat)
+
     }
 
 }

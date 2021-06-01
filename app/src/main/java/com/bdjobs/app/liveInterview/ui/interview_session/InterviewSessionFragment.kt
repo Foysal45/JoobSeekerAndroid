@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,7 +86,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     val pcConstraints = object : MediaConstraints() {
         init {
-            optional.add(MediaConstraints.KeyValuePair("DtlsSrtpKeyAgreement", "true"))
+            optional.add(KeyValuePair("DtlsSrtpKeyAgreement", "true"))
         }
     }
 
@@ -185,29 +187,29 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-//            isWaitingForEmployers.observe(viewLifecycleOwner, Observer {
-//                if (it) {
-//                    Handler(Looper.myLooper()!!).postDelayed({
-//                        loadingCounterShowCheck(true)
-//                    },1500)
-//                }
-//            })
-//
-//            isShowInterviewRoomView.observe(viewLifecycleOwner, Observer {
-//                if (it) {
-//                    binding.cameraLocalReady.apply {
-//                        release()
-//                        visibility = View.GONE
-//                    }
-//                    createMsgCounter()
-//                }
-//            })
-//
-//            isShowParentReadyView.observe(viewLifecycleOwner, Observer {
-//                if (it) {
-//                    initializeLocalCamera()
-//                }
-//            })
+            isWaitingForEmployers.observe(viewLifecycleOwner, Observer {
+                if (it) {
+                    Handler(Looper.myLooper()!!).postDelayed({
+                        loadingCounterShowCheck(true)
+                    },1500)
+                }
+            })
+
+            isShowInterviewRoomView.observe(viewLifecycleOwner, Observer {
+                if (it) {
+                    binding.cameraLocalReady.apply {
+                        release()
+                        visibility = View.GONE
+                    }
+                    createMsgCounter()
+                }
+            })
+
+            isShowParentReadyView.observe(viewLifecycleOwner, Observer {
+                if (it) {
+                    initializeLocalCamera()
+                }
+            })
         }
     }
 
@@ -290,7 +292,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private fun start() {
 
         SignalingServer.get()?.init(this)
-        initializeLocalCamera()
 
         iceServers.add(
                 PeerConnection.IceServer.builder("stun:stun.bdjobs.com")
@@ -392,8 +393,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 Timber.e("Exception: ${e.localizedMessage}")
             }
         }
-
-        SignalingServer.get()?.sendMedia()
     }
 
     private fun createVideoCapturer(): VideoCapturer? {
@@ -614,5 +613,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onReceiveCall(args: Array<Any?>?) {
         Timber.d("TAG: onReceiveCall: %s", args?.get(0))
+        //1st layout disappear + count down + then 2nd layout appear.
+    }
+
+    override fun onReceiveChat(args: Array<Any?>?) {
+        Timber.d("TAG: onReceiveChat: %s", args?.get(0))
     }
 }
