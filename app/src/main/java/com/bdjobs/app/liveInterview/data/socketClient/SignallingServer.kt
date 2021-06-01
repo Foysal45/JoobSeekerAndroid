@@ -37,38 +37,39 @@ class SignalingServer {
     private var socket:Socket?=null
     private var localSocketID:String = ""
     private var remoteSocketID:String = ""
-    private var roomName:String = "6117059"
+    private var processId:String = ""
     private var serverURL:String = "https://live.bdjobs.com/"
 
-    fun init(signalingEvent: SignalingEvent) {
+    fun init(signalingEvent: SignalingEvent, processId:String) {
         try {
+            this.processId = processId
             socket = IO.socket(serverURL)
 
             socket?.on(EventConstants.EVENT_SOCKET_CONNECT) {
                 localSocketID = socket?.id().toString()
-                Timber.d("TAG: Local socket id $localSocketID")
+                Timber.tag("live").d("Local socket id $localSocketID")
 
                 signalingEvent.setLocalSocketID(localSocketID)
 
                 val subscribeJO = JSONObject()
 
                 try {
-                    subscribeJO.put("room", roomName)
+                    subscribeJO.put("room", processId)
                     subscribeJO.put("socketId", localSocketID)
                     subscribeJO.put("username", "Salvin")
                     subscribeJO.put("uType", "A")
                     socket?.emit(EventConstants.EVENT_SUBSCRIBE, subscribeJO)
-                    Timber.d("TAG:onEmit subscribe: jsonObject $subscribeJO")
+                    Timber.tag("live").d("onEmit subscribe: jsonObject $subscribeJO")
 
                 } catch (e: JSONException) {
-                    Timber.d("TAG:onEmit subscribe: JSONException $e")
+                    Timber.tag("live").d("subscribe: JSONException $e")
                     e.printStackTrace()
                 }
             }
 
             socket?.on(EventConstants.EVENT_PARTICIPANT_COUNT) {args: Array<Any?>? ->
                 val message = args?.get(0) as JSONObject
-                Timber.d("TAG: participant string - ${message.getString("participant")}")
+                Timber.tag("live").d("participant string - ${message.getString("participant")}")
             }
 
             socket?.on(EventConstants.EVENT_1ST_USER_CHECK) {args: Array<Any?>? ->
@@ -82,15 +83,15 @@ class SignalingServer {
             }
 
             socket?.on(EventConstants.EVENT_CALL_START) {args: Array<Any?>? ->
-                Timber.d("TAG: call start: %s", args?.get(0))
+                Timber.tag("live").d("call start: %s", args?.get(0))
             }
 
             socket?.on(EventConstants.EVENT_CALL_RESUME_START) {args: Array<Any?>? ->
-                Timber.d("TAG: call resume: %s", args?.get(0))
+                Timber.tag("live").d("call resume: %s", args?.get(0))
             }
 
             socket?.on(EventConstants.EVENT_INTERVIEW_CALL_RECIEVE) {args: Array<Any?>? ->
-                Timber.d("TAG: interview recieve: %s", args?.get(0))
+                Timber.tag("live").d("interview recieve: %s", args?.get(0))
             }
 
             socket?.on(EventConstants.EVENT_ICE_CANDIDATES) { args: Array<Any?>? ->
@@ -117,12 +118,12 @@ class SignalingServer {
                 signalingEvent.onEventConnectionError(args)
             }
 
-            Timber.d("TAG: Connecting ... $socket")
+            Timber.tag("live").d("Connecting ... $socket")
 
             socket?.connect()
 
         } catch (e: Exception) {
-            Timber.d("TAG: Exception : $e")
+            Timber.tag("live").d("Exception : $e")
             e.printStackTrace()
         }
     }
@@ -146,9 +147,9 @@ class SignalingServer {
             sendingSDP.put("sender", localSocketID)
 
         } catch (e: Exception) {
-            Timber.d("TAG:SignallingServer: sendingSDP error - $e")
+            Timber.tag("live").d("SignallingServer: sendingSDP error - $e")
         }
-        Timber.d("TAG:sendingSDP string - $sendingSDP")
+        Timber.tag("live").d("sendingSDP string - $sendingSDP")
 
         socket?.emit(EventConstants.EVENT_SDP, sendingSDP)
     }
@@ -166,10 +167,10 @@ class SignalingServer {
             sendingIceCandidate.put("to", remoteSocketID)
             sendingIceCandidate.put("sender", localSocketID)
 
-            Timber.d("TAG:onEmit IceCandidateJO $sendingIceCandidate")
+            Timber.tag("live").d("onEmit IceCandidateJO $sendingIceCandidate")
 
         } catch (e: JSONException) {
-            Timber.d("TAG:onEmit IceCandidate: JSONException $e")
+            Timber.tag("live").d("onEmit IceCandidate: JSONException $e")
             e.printStackTrace()
         }
         socket?.emit(EventConstants.EVENT_ICE_CANDIDATES, sendingIceCandidate)
@@ -184,17 +185,17 @@ class SignalingServer {
         val sendingChat = JSONObject()
 
         try {
-            sendingChat.put("room", roomName)
+            sendingChat.put("room", processId)
             sendingChat.put("msg", message)
             sendingChat.put("sender", localSocketID)
             sendingChat.put("imgLocal", imageLocal)
             sendingChat.put("imgRemote", imageRemote)
             sendingChat.put("newCount", messageCount)
 
-            Timber.d("TAG:onEmit sendingChatJO $sendingChat")
+            Timber.tag("live").d("onEmit sendingChatJO $sendingChat")
 
         } catch (e: JSONException) {
-            Timber.d("TAG:onEmit sendingChatJO: JSONException $e")
+            Timber.tag("live").d("onEmit sendingChatJO: JSONException $e")
             e.printStackTrace()
         }
         socket?.emit(EventConstants.EVENT_CHAT, sendingChat)

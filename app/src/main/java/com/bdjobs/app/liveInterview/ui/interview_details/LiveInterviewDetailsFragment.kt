@@ -50,25 +50,11 @@ import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
-private const val PROJECTION_ID_INDEX: Int = 0
-private const val PROJECTION_ACCOUNT_NAME_INDEX: Int = 1
-private const val PROJECTION_DISPLAY_NAME_INDEX: Int = 2
-private const val PROJECTION_OWNER_ACCOUNT_INDEX: Int = 3
-
 class LiveInterviewDetailsFragment : Fragment() {
 
     var eventID: Long? = 0
 
     private var cameraAndAudioPermissionGranted: Boolean = false
-
-    private val EVENT_PROJECTION: Array<String> = arrayOf(
-            CalendarContract.Calendars._ID,                     // 0
-            CalendarContract.Calendars.ACCOUNT_NAME,            // 1
-            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,   // 2
-            CalendarContract.Calendars.OWNER_ACCOUNT            // 3
-    )
-
-    // The indices for the projection array above.
 
     val calendarInfos = arrayListOf<String>()
     val primaryCalendarInfos = arrayListOf<String>()
@@ -138,16 +124,6 @@ class LiveInterviewDetailsFragment : Fragment() {
                     requireActivity().toast(it)
             })
 
-
-            showTooltip.observe(viewLifecycleOwner, EventObserver {
-                if (it)
-                    try {
-                        balloon.showAlignTop(img_web_info)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-            })
-
             addToCalendarClickEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     askForPermission()
@@ -175,14 +151,6 @@ class LiveInterviewDetailsFragment : Fragment() {
                     askForCameraAndAudioPermission("session")
                 }
             })
-        }
-
-        img_web_info?.setOnClickListener {
-            try {
-                balloon.showAlignTop(it)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
         }
 
         btn_job_detail?.setOnClickListener {

@@ -43,6 +43,7 @@ class ChatFragment : Fragment(), SignalingEvent {
 
 
     private val args: ChatFragmentArgs by navArgs()
+    private var processId = ""
 
     private val chatViewModel: ChatViewModel by viewModels{
         ChatViewModelFactory(
@@ -75,9 +76,10 @@ class ChatFragment : Fragment(), SignalingEvent {
         binding.toolBar.setupWithNavController(navController, appBarConfiguration)
         binding.toolBar.title = "Chat"
 
-        initSocketClient()
 
         Timber.d("Process ID: ${args.processID}")
+        processId = args.processID.toString()
+        initSocketClient()
 
         binding.ivSendMessage.setOnClickListener {
             chatViewModel.sendButtonClickedEvent()
@@ -136,7 +138,7 @@ class ChatFragment : Fragment(), SignalingEvent {
     }
 
     private fun initSocketClient() {
-        SignalingServer.get()?.init(this)
+        SignalingServer.get()?.init(this, processId)
 
         try {
             SignalingServer.get()?.joinToChatRoom(bdjobsUserSession.userName!!)

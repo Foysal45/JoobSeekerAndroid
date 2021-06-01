@@ -77,7 +77,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private lateinit var bdjobsUserSession: BdjobsUserSession
 
     private val args : InterviewSessionFragmentArgs by navArgs()
-
+    private var processId = ""
 
     private lateinit var binding: FragmentInterviewSessionBinding
     private val internetBroadCastReceiver = ConnectivityReceiver()
@@ -111,6 +111,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         binding.toolBar.title = if (args.jobTitle!=null) args.jobTitle else ""
 
         bdjobsUserSession = BdjobsUserSession(requireContext())
+        processId = args.processID.toString()
 
         start()
         setUpObservers()
@@ -291,7 +292,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private fun start() {
 
-        SignalingServer.get()?.init(this)
+        SignalingServer.get()?.init(this, processId)
 
         iceServers.add(
                 PeerConnection.IceServer.builder("stun:stun.bdjobs.com")
@@ -443,8 +444,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     @Synchronized
     private fun getOrCreatePeerConnection(socketId: String, role: String): PeerConnection {
 
-        Timber.d("TAG:getOrCreatePeerConnection socketId $socketId role $role")
-
+        Timber.tag("live").d("getOrCreatePeerConnection socketId $socketId role $role")
 
         var peerConnection = peerConnectionMap[socketId]
 
@@ -465,7 +465,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                     override fun onIceCandidate(p0: IceCandidate?) {
                         super.onIceCandidate(p0)
 
-                        Timber.d("TAG:getOrCreatePeerConnection onIceCandidate${p0} ")
+                        Timber.tag("live").d("getOrCreatePeerConnection onIceCandidate${p0} ")
                         if (p0 != null) {
                             SignalingServer.get()?.sendIceCandidate(p0)
                         }
@@ -475,7 +475,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                     override fun onAddStream(p0: MediaStream?) {
                         super.onAddStream(p0)
 
-                        Timber.d("TAG:onAddStream  Remote MediaStream ${p0?.videoTracks?.size} ")
+                        Timber.tag("live").d("onAddStream  Remote MediaStream ${p0?.videoTracks?.size} ")
 
                         gotRemoteStream(p0!!)
 
@@ -485,7 +485,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         peerConnection!!.addStream(localMediaStream)
         peerConnectionMap[socketId] = peerConnection
-        Timber.d("TAG: getOrCreatePeerConnection size $socketId ${peerConnectionMap.size} ,  ${peerConnectionMap.values} ")
+        Timber.tag("live").d("getOrCreatePeerConnection size $socketId ${peerConnectionMap.size} ,  ${peerConnectionMap.values} ")
 
         return peerConnection
     }
@@ -560,34 +560,33 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     override fun onEventDisconnected() {
-        Timber.d("Disconnected")
+        Timber.tag("live").d("Disconnected")
     }
 
     override fun onEventConnectionError(args: Array<Any>) {
-        Timber.d("ERROR: %s", args[0])
+        Timber.tag("live").d("ERROR: %s", args[0])
     }
 
     override fun setLocalSocketID(id: String) {
-        Timber.d("TAG: setLocalSocketID: %s", id)
+        Timber.tag("live").d("setLocalSocketID: %s", id)
         mSocketId = id
-     //   getOrCreatePeerConnection(mSocketId, "A")
     }
 
     override fun on1stUserCheck(args: Array<Any?>?) {
-        Timber.d("TAG: on1stUserCheck: %s", args?.get(0))
+        Timber.tag("live").d("on1stUserCheck: %s", args?.get(0))
         val argument = args?.get(0) as JSONObject
         mRemoteSocketId = argument.getString("firstUserId")
         getOrCreatePeerConnection(mRemoteSocketId, "R")
     }
 
     override fun onNewUserStartNew(args: Array<Any?>?) {
-        Timber.d("TAG: onNewUserStartNew: %s", args?.get(0))
+        Timber.tag("live").d("onNewUserStartNew: %s", args?.get(0))
         val argument = args?.get(0) as JSONObject
         mRemoteSocketId = argument.getString("sender")
         getOrCreatePeerConnection(mRemoteSocketId, "R")
     }
     override fun onReceiveSDP(args: Array<Any?>?) {
-        Timber.d("TAG: onReceiveSDP: %s", args?.get(0))
+        Timber.tag("live").d("onReceiveSDP: %s", args?.get(0))
         val argument = args?.get(0) as JSONObject
         mRemoteSocketId = argument.getString("sender")
         val sessionDescriptionJO = argument.getJSONObject("description")
@@ -604,7 +603,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     override fun onReceiveIceCandidate(args: Array<Any?>?) {
-        Timber.d("TAG: onReceiveIceCandidate: %s", args?.get(0))
+        Timber.tag("live").d("onReceiveIceCandidate: %s", args?.get(0))
         val argument = args?.get(0) as JSONObject
         val candidate = argument.getJSONObject("candidate")
         val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "R")
@@ -612,11 +611,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     override fun onReceiveCall(args: Array<Any?>?) {
-        Timber.d("TAG: onReceiveCall: %s", args?.get(0))
+        Timber.tag("live").d("onReceiveCall: %s", args?.get(0))
         //1st layout disappear + count down + then 2nd layout appear.
     }
 
     override fun onReceiveChat(args: Array<Any?>?) {
-        Timber.d("TAG: onReceiveChat: %s", args?.get(0))
+        Timber.tag("live").d("onReceiveChat: %s", args?.get(0))
     }
 }

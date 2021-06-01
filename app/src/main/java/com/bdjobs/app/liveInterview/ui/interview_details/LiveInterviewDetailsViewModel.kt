@@ -48,14 +48,7 @@ class LiveInterviewDetailsViewModel(
     }
 
     val showJoinOrPreparationSection = MutableLiveData<Boolean>().apply { value = false }
-
-    val showBlackInfoSection = MutableLiveData<Boolean>().apply {
-        value = false
-    }
-
-    val showTooltip = MutableLiveData<Event<Boolean>>().apply {
-        value = Event(false)
-    }
+    val showJoinInterviewSmallBTN = MutableLiveData<Boolean>().apply { value = false }
 
     private val _jobID = MutableLiveData<String>().apply {
         value = jobId
@@ -148,20 +141,6 @@ class LiveInterviewDetailsViewModel(
                 if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "1")
                     setTimer(interviewDateTime)
 
-                if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "6" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "7") {
-                    showBlackInfoSection.value = false
-                    delay(1000)
-                    showTooltip.value = Event(false)
-                } else if (liveInterviewDetailsData.value?.get(0)?.activity == "3" && (liveInterviewDetailsData.value?.get(0)?.confimationStatus != "6" || liveInterviewDetailsData.value?.get(0)?.confimationStatus != "7")) {
-                    showBlackInfoSection.value = true
-                    delay(1000)
-                    showTooltip.value = Event(true)
-                } else {
-                    showBlackInfoSection.value = false
-                    delay(1000)
-                    showTooltip.value = Event(false)
-                }
-
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -195,6 +174,7 @@ class LiveInterviewDetailsViewModel(
 
         timer = object : CountDownTimer(total_millis, 1000) {
 
+
             override fun onTick(millisUntilFinished: Long) {
                 Timber.tag("live").d("came here tick")
 
@@ -213,6 +193,10 @@ class LiveInterviewDetailsViewModel(
                 remainingSeconds.value = DecimalFormat("00").format(seconds).toString()
 
                 Timber.d("${remainingDays.value} ${remainingHours.value} ${remainingMinutes.value} ${remainingSeconds.value}")
+
+                if(minutes < 30){
+                    showJoinInterviewSmallBTN.value = true
+                }
             }
 
             override fun onFinish() {

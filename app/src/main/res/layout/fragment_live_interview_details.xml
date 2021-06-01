@@ -176,29 +176,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-
-<!--            android:visibility="@{viewModel.showBlackInfoSection ? View.VISIBLE : View.GONE}"-->
-
-            <ImageView
-                android:id="@+id/img_web_info"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_error"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/img_web_info"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
@@ -208,7 +192,7 @@
                     android:text="Time left"
                     android:textColor="#595959"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toEndOf="@id/img_web_info"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -226,10 +210,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="2" />
-
-
-                    <!--                    app:layout_constraintStart_toStartOf="@id/tv_time_left_heading"-->
-                    <!--                    app:layout_constraintTop_toBottomOf="@id/tv_time_left_heading"-->
 
                     <TextView
                         android:id="@+id/tv_d"
@@ -346,10 +326,26 @@
                     android:drawableEnd="@drawable/ic_angle_right"
                     android:drawablePadding="8dp"
                     android:drawableTint="@color/color_states_materialbutton"
+                    android:visibility="@{viewModel.showJoinInterviewSmallBTN ? View.GONE : View.VISIBLE}"
                     android:onClick="@{()->viewModel.onAddToCalendarButtonClick()}"
                     android:padding="5dp"
                     android:text="Add to Calendar"
                     android:textColor="@color/color_states_materialbutton"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/btn_join_interview_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_add_black"
+                    android:drawableEnd="@drawable/ic_angle_right"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="#13a10e"
+                    android:visibility="@{viewModel.showJoinInterviewSmallBTN ? View.VISIBLE : View.GONE}"
+                    android:onClick="@{()->viewModel.onJoinInterviewButtonClick()}"
+                    android:padding="5dp"
+                    android:text="Join Interview"
+                    android:textColor="#13a10e"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -366,41 +362,6 @@
                     android:textColor="#13a10e"
                     android:textStyle="bold" />
 
-
-                <!--                <com.google.android.material.button.MaterialButton-->
-                <!--                    android:id="@+id/btn_add_to_calendar"-->
-                <!--                    style="@style/MaterialButtonStyle"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="40dp"-->
-                <!--                    android:letterSpacing="0"-->
-                <!--                    android:onClick="@{()->viewModel.onAddToCalendarButtonClick()}"-->
-                <!--                    android:text="Add to Calendar"-->
-                <!--                    android:textAllCaps="false"-->
-                <!--                    android:visibility="visible"-->
-                <!--                    app:icon="@drawable/ic_add_black"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintTop_toTopOf="parent"-->
-                <!--                    app:strokeWidth="0dp" />-->
-
-                <!--                <com.google.android.material.button.MaterialButton-->
-                <!--                    android:id="@+id/btn_take_preparation"-->
-                <!--                    style="@style/MaterialButtonStyle2"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="40dp"-->
-                <!--                    android:layout_marginTop="3dp"-->
-                <!--                    android:letterSpacing="0"-->
-                <!--                    android:onClick="@{()->viewModel.onAddToCalendarButtonClick()}"-->
-                <!--                    android:text="Take Preparation"-->
-                <!--                    android:textAllCaps="false"-->
-                <!--                    android:visibility="visible"-->
-                <!--                    app:icon="@drawable/ic_add_black"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--                    app:layout_constraintEnd_toEndOf="@id/btn_add_to_calendar"-->
-                <!--                    app:layout_constraintStart_toStartOf="@id/btn_add_to_calendar"-->
-                <!--                    app:layout_constraintTop_toBottomOf="@id/btn_add_to_calendar"-->
-                <!--                    app:strokeWidth="0dp" />-->
-
             </LinearLayout>
 
 
@@ -410,16 +371,15 @@
             android:id="@+id/cl_btn_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:paddingStart="24dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             tools:visibility="visible"
             android:visibility="@{viewModel.showJoinOrPreparationSection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent">
-
-
-<!--            android:visibility="@{viewModel.showJoinOrPreparationSection ? View.VISIBLE : View.GONE}"-->
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
@@ -428,7 +388,6 @@
                 app:icon="@drawable/ic_prep"
                 android:textAllCaps="false"
                 android:textColor="#666666"
-                android:layout_marginStart="5dp"
                 app:iconTint="#666666"
                 android:onClick="@{()->viewModel.onTakePreparationButtonClick()}"
                 app:layout_constraintTop_toTopOf="parent"
@@ -484,8 +443,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:liveInterviewDate="@{viewModel.examDate}"
                 app:liveInterviewTime="@{viewModel.examTime}"
-                tools:text="Do you want to present in the live
-live interview on 30 August 2020, at 05:45PM?" />
+                tools:text="Do you want to present in the live interview on 30 August 2020, at 05:45PM?" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_yes"
@@ -565,252 +523,6 @@ live interview on 30 August 2020, at 05:45PM?" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <!--        <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_countdown_timer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/background_white_grey"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="18dp"
-                android:visibility="@{viewModel.showBlackInfoSection ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toTopOf="@id/bottom_info"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:visibility="gone">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:drawablePadding="3dp"
-                    android:text="@{viewModel.examDate}"
-                    android:textColor="#333333"
-                    app:drawableStartCompat="@drawable/job_cal_ic"
-                    app:drawableTint="#333333"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text=" 30 Aug 2020" />
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:letterSpacing="0"
-                    android:minHeight="0dp"
-                    android:text="Add to Calendar"
-                    android:textAllCaps="false"
-                    android:textColor="#007FE3"
-                    android:visibility="gone"
-                    app:icon="@drawable/ic_add_white"
-                    app:iconTint="#007FE3"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_date"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_date" />
-
-                <TextView
-                    android:id="@+id/tv_time_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="23dp"
-                    android:text="Time left"
-                    android:textColor="#333333"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_date" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/drawable_time_left"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_time_left">
-
-                    <TextView
-                        android:id="@+id/remaining_days_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@{viewModel.remainingDays}"
-                        android:textColor="@android:color/white"
-                        android:textSize="34sp"
-                        app:layout_constraintEnd_toStartOf="@+id/remaining_hours_value"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:layout_editor_absoluteY="8dp"
-                        tools:text="02" />
-
-                    <TextView
-                        android:id="@+id/remaining_hours_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@{viewModel.remainingHours}"
-                        android:textColor="@android:color/white"
-                        android:textSize="34sp"
-                        app:layout_constraintEnd_toStartOf="@+id/remaining_minutes_value"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/remaining_days_value"
-                        app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                        tools:layout_editor_absoluteY="8dp"
-                        tools:text="17" />
-
-                    <TextView
-                        android:id="@+id/remaining_minutes_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@{viewModel.remainingMinutes}"
-                        android:textColor="@android:color/white"
-                        android:textSize="34sp"
-                        app:layout_constraintEnd_toStartOf="@+id/remaining_seconds_value"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/remaining_hours_value"
-                        app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                        tools:layout_editor_absoluteY="8dp"
-                        tools:text="20" />
-
-                    <TextView
-                        android:id="@+id/remaining_seconds_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@{viewModel.remainingSeconds}"
-                        android:textColor="@android:color/white"
-                        android:textSize="34sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/remaining_minutes_value"
-                        app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                        tools:layout_editor_absoluteY="8dp"
-                        tools:text="18" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@id/remaining_hours_value"
-                        app:layout_constraintEnd_toStartOf="@id/remaining_hours_value"
-                        app:layout_constraintStart_toEndOf="@id/remaining_days_value"
-                        app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                        app:srcCompat="@drawable/ic_time_dot" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@id/remaining_hours_value"
-                        app:layout_constraintEnd_toStartOf="@id/remaining_minutes_value"
-                        app:layout_constraintStart_toEndOf="@id/remaining_hours_value"
-                        app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                        app:srcCompat="@drawable/ic_time_dot" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@id/remaining_hours_value"
-                        app:layout_constraintEnd_toStartOf="@id/remaining_seconds_value"
-                        app:layout_constraintStart_toEndOf="@id/remaining_minutes_value"
-                        app:layout_constraintTop_toTopOf="@id/remaining_days_value"
-                        app:srcCompat="@drawable/ic_time_dot" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="Days"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/remaining_days_value"
-                        app:layout_constraintStart_toStartOf="@id/remaining_days_value"
-                        app:layout_constraintTop_toBottomOf="@id/remaining_days_value" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="Hours"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/remaining_hours_value"
-                        app:layout_constraintStart_toStartOf="@id/remaining_hours_value"
-                        app:layout_constraintTop_toBottomOf="@id/remaining_hours_value" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="Minutes"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/remaining_minutes_value"
-                        app:layout_constraintStart_toStartOf="@id/remaining_minutes_value"
-                        app:layout_constraintTop_toBottomOf="@id/remaining_minutes_value" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="Seconds"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/remaining_seconds_value"
-                        app:layout_constraintStart_toStartOf="@id/remaining_seconds_value"
-                        app:layout_constraintTop_toBottomOf="@id/remaining_seconds_value" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/bottom_info"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:background="@drawable/ic_rating_show_company_bg_shape"
-                android:visibility="@{viewModel.showBlackInfoSection ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/img_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/ic_error"
-                    android:tint="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:text="To participate in the online interview please use updated mobile browser(Chrome, Mozilla) or you can access web from desktop/laptop"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/img_info" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <data>
 
