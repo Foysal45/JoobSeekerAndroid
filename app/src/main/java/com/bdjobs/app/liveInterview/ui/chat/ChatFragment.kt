@@ -37,8 +37,8 @@ class ChatFragment : Fragment(), SignalingEvent {
 
     private lateinit var binding: FragmentChatBinding
     private var mAdapter: ChatAdapter = ChatAdapter()
-    private lateinit var imageLocal: String
-    private lateinit var imageRemote: String
+    private var imageLocal: String = ""
+    private var imageRemote: String = ""
     private var messageCount = 0
 
 
@@ -79,7 +79,6 @@ class ChatFragment : Fragment(), SignalingEvent {
 
         Timber.d("Process ID: ${args.processID}")
         processId = args.processID.toString()
-        initSocketClient()
 
         binding.ivSendMessage.setOnClickListener {
             chatViewModel.sendButtonClickedEvent()
@@ -136,22 +135,6 @@ class ChatFragment : Fragment(), SignalingEvent {
             chatViewModel.postChatMessage(binding.etWriteMessage.text.toString())
         }
     }
-
-    private fun initSocketClient() {
-        SignalingServer.get()?.init(this, processId)
-
-        try {
-            SignalingServer.get()?.joinToChatRoom(bdjobsUserSession.userName!!)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        SignalingServer.get()?.destroy()
-    }
-
 
     @SuppressLint("SimpleDateFormat")
     override fun onReceiveChat(args: Array<Any?>?) {

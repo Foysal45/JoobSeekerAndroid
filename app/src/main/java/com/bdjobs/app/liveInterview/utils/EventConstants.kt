@@ -22,9 +22,5 @@ object EventConstants {
     const val EVENT_CALL_RESUME_START = "callResumeStart"
     const val EVENT_INTERVIEW_CALL_END = "interviewcallEnd"
     const val EVENT_INTERVIEW_CALL_RECIEVE = "Interviewreceive"
-    const val EVENT_APPLICANT_STATUS = "applicantStatus"
-    const val EVENT_END_LOCAL = "endlocal"
-    const val EVENT_RE_INIT = "reinit"
-    const val EVENT_INACTIVE_USER = "inactiveUser"
 
 }

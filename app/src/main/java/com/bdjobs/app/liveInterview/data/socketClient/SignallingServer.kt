@@ -16,6 +16,11 @@ import timber.log.Timber
 
 class SignalingServer {
 
+    private var socket:Socket?=null
+    private var localSocketID:String = ""
+    private var remoteSocketID:String = ""
+    private var processId:String = ""
+    private var serverURL:String = "https://live.bdjobs.com/"
 
     companion object {
 
@@ -34,11 +39,7 @@ class SignalingServer {
     }
 
 
-    private var socket:Socket?=null
-    private var localSocketID:String = ""
-    private var remoteSocketID:String = ""
-    private var processId:String = ""
-    private var serverURL:String = "https://live.bdjobs.com/"
+
 
     fun init(signalingEvent: SignalingEvent, processId:String) {
         try {
@@ -47,6 +48,7 @@ class SignalingServer {
 
             socket?.on(EventConstants.EVENT_SOCKET_CONNECT) {
                 localSocketID = socket?.id().toString()
+
                 Timber.tag("live").d("Local socket id $localSocketID")
 
                 signalingEvent.setLocalSocketID(localSocketID)
@@ -68,8 +70,9 @@ class SignalingServer {
             }
 
             socket?.on(EventConstants.EVENT_PARTICIPANT_COUNT) {args: Array<Any?>? ->
-                val message = args?.get(0) as JSONObject
-                Timber.tag("live").d("participant string - ${message.getString("participant")}")
+                Timber.tag("live").d("participantCount: %s", args?.get(0))
+//                val message = args?.get(0) as JSONObject
+//                Timber.tag("live").d("participant string - ${message.getString("participant")}")
             }
 
             socket?.on(EventConstants.EVENT_1ST_USER_CHECK) {args: Array<Any?>? ->
@@ -82,6 +85,8 @@ class SignalingServer {
                 val argument = args?.get(0) as JSONObject
                 remoteSocketID = argument.getString("socketId")
                 signalingEvent.onNewUser(args)
+
+                // temp solution if browser reload , infinite loop on back navigation
                 socket?.disconnect()
                 socket?.connect()
             }
@@ -96,7 +101,7 @@ class SignalingServer {
             }
 
             socket?.on(EventConstants.EVENT_CALL_START) {args: Array<Any?>? ->
-                Timber.tag("live").d("call start: %s", args?.get(0))
+                signalingEvent.onReceiveCall(args)
             }
 
             socket?.on(EventConstants.EVENT_CALL_RESUME_START) {args: Array<Any?>? ->
@@ -124,8 +129,16 @@ class SignalingServer {
                 }
             }
 
+            socket?.on(EventConstants.EVENT_CHAT) { args: Array<Any?>? ->
+                Timber.tag("live").d("chat: %s", args?.get(0))
+                signalingEvent.onReceiveChat(args)
+            }
+            socket?.on(EventConstants.EVENT_SEEN_MSG) { args: Array<Any?>? ->
+                Timber.tag("live").d("seen message: %s", args?.get(0))
+            }
+
             socket?.on(Socket.EVENT_DISCONNECT) {
-                signalingEvent.onEventDisconnected()
+                Timber.tag("live").d("Socket Disconnected")
             }
             socket?.on(Socket.EVENT_CONNECT_ERROR) { args: Array<Any> ->
                 signalingEvent.onEventConnectionError(args)
@@ -187,10 +200,6 @@ class SignalingServer {
         }
         socket?.emit(EventConstants.EVENT_ICE_CANDIDATES, sendingIceCandidate)
 
-    }
-
-    fun joinToChatRoom(nickname:String) {
-        socket?.emit("join",nickname)
     }
 
     fun sendChatMessage(message:String, imageLocal: String, imageRemote: String, messageCount: Int) {

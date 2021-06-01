@@ -213,6 +213,7 @@ class LiveInterviewDetailsViewModel(
                 remainingHours.value = "00"
                 remainingMinutes.value = "00"
                 remainingSeconds.value = "00"
+                showPreparationSection.value = false
                 showJoinSection.value = true
             }
         }.start()

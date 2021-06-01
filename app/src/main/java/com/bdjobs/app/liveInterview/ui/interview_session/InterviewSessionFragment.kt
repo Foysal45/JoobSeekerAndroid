@@ -53,7 +53,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private var peerConnectionFactory: PeerConnectionFactory? = null
     private val peerConnectionMap =  HashMap<String, PeerConnection>()
 
+    private var mSocketId = ""
+    private var mRemoteSocketId = ""
+
     private var localMediaStream: MediaStream? = null
+    private var remoteMediaStream: MediaStream? = null
+
+    private var remoteVideoTrack: VideoTrack? = null
 
     private var remoteViews =  ArrayList<SurfaceViewRenderer>()
     private var remoteViewsIndex = 0
@@ -63,8 +69,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private var audioConstraints: MediaConstraints? = null
     private var videoConstraints: MediaConstraints? = null
 
-    var mSocketId = ""
-    var mRemoteSocketId = ""
+
     var mic_switch: Boolean = true
     var video_switch: Boolean = true
 
@@ -259,7 +264,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             videoSource = peerConnectionFactory?.createVideoSource(videoCapturerAndroid.isScreencast)
             videoCapturerAndroid.initialize(surfaceTextureHelper, requireActivity(), videoSource?.capturerObserver)
         }
-        videoCapturerAndroid?.startCapture(320, 240, 30)
+        videoCapturerAndroid?.startCapture(640, 480, 30)
 
 
         binding.cameraLocalReady.setMirror(true)
@@ -375,19 +380,21 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         }
 
         localVideoTrack?.addSink(binding.localMeSurfaceView)
-
-        remoteViews.add(binding.remoteHostSurfaceView)
-        remoteViews.add(binding.remoteOneSurfaceView)
-        remoteViews.add(binding.remoteTwoSurfaceView)
-
-        for (remoteView in remoteViews) {
-            remoteView.setMirror(false)
-            try {
-                remoteView.init(eglBaseContext, null)
-            } catch (e: Exception) {
-                Timber.e("Exception: ${e.localizedMessage}")
-            }
-        }
+//
+//        remoteViews.add(binding.remoteHostSurfaceView)
+//        remoteViews.add(binding.remoteOneSurfaceView)
+//        remoteViews.add(binding.remoteTwoSurfaceView)
+//
+//        for (remoteView in remoteViews) {
+//            remoteView.setMirror(false)
+//            try {
+//                remoteView.init(eglBaseContext, null)
+//            } catch (e: Exception) {
+//                Timber.e("Exception: ${e.localizedMessage}")
+//            }
+//        }
+        binding.remoteHostSurfaceView.setMirror(true)
+        binding.remoteHostSurfaceView.init(eglBaseContext, null)
     }
 
     private fun createVideoCapturer(): VideoCapturer? {
@@ -425,10 +432,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private fun gotRemoteStream(stream: MediaStream) {
         Timber.d("Got Remote Stream")
-        val videoTrack = stream.videoTracks[0]
+        remoteVideoTrack = stream.videoTracks[0]
         requireActivity().runOnUiThread {
             try {
-                videoTrack?.addSink(remoteViews[remoteViewsIndex++])
+                remoteVideoTrack?.addSink(binding.remoteHostSurfaceView)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -531,18 +538,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         ConnectivityReceiver.connectivityReceiverListener = this
     }
 
-    override fun onPause() {
-        super.onPause()
-        SignalingServer.get()?.destroy()
-    }
-
     override fun onDestroy() {
         requireActivity().unregisterReceiver(internetBroadCastReceiver)
-        binding.localMeSurfaceView.release()
-        binding.cameraLocalReady.release()
         mediaPlayer?.release()
         super.onDestroy()
-
     }
 
 
@@ -552,11 +551,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onEventDisconnected() {
         Timber.tag("live").d("Disconnected")
-        binding.localMeSurfaceView.release()
-        binding.remoteHostSurfaceView.release()
-        binding.remoteOneSurfaceView.release()
-        binding.remoteTwoSurfaceView.release()
-        binding.cameraLocalReady.release()
+        remoteVideoTrack?.removeSink(binding.remoteHostSurfaceView)
     }
 
     override fun onEventConnectionError(args: Array<Any>) {
