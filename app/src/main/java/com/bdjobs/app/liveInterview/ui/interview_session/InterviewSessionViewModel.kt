@@ -1,5 +1,6 @@
 package com.bdjobs.app.liveInterview.ui.interview_session
 
+import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,9 @@ import com.bdjobs.app.videoInterview.util.Event
 //
 
 class InterviewSessionViewModel : ViewModel() {
+
+
+    private var timer: CountDownTimer? = null
 
     private val _isNetworkAvailable = MutableLiveData<Boolean>()
     val isNetworkAvailable: LiveData<Boolean> = _isNetworkAvailable
@@ -27,6 +31,9 @@ class InterviewSessionViewModel : ViewModel() {
 
     private val _isShowLoadingCounter = MutableLiveData<Boolean> ()
     val isShowLoadingCounter:LiveData<Boolean> = _isShowLoadingCounter
+
+    private var _countDownFinish = MutableLiveData<Boolean>()
+    val countDownFinish : LiveData<Boolean> = _countDownFinish
 
     private val _isShowParentReadyView = MutableLiveData<Boolean> ()
     val isShowParentReadyView:LiveData<Boolean> = _isShowParentReadyView
@@ -47,12 +54,18 @@ class InterviewSessionViewModel : ViewModel() {
 
     val instructionButtonClickEvent = MutableLiveData<Event<Boolean>> ()
 
+
+    private var _counterText = MutableLiveData<String>()
+    val counterText: LiveData<String>
+        get() = _counterText
+
     init {
         parentReadyViewCheck(true)
         bottomOptionShowCheck(true)
         readyCheck(true)
         yesClick.value = true
         noClick.value = false
+        _counterText.value = "5"
     }
 
     fun networkCheck(isAvailable:Boolean) {
@@ -81,8 +94,11 @@ class InterviewSessionViewModel : ViewModel() {
 
     fun loadingCounterShowCheck(isShow: Boolean) {
         _isShowLoadingCounter.postValue(isShow)
-        bottomOptionShowCheck(false)
-        waitingCheck(false)
+        startLoadingTimer()
+        if (isShow) {
+            bottomOptionShowCheck(false)
+            waitingCheck(false)
+        }
     }
 
     fun parentReadyViewCheck(isShow: Boolean) {
@@ -95,6 +111,16 @@ class InterviewSessionViewModel : ViewModel() {
         parentReadyViewCheck(false)
         loadingCounterShowCheck(false)
     }
+
+    fun isCountDownFinished(value: Boolean) {
+        _countDownFinish.value = value
+
+        if (value) {
+
+            interviewRoomViewCheck(true)
+        }
+    }
+
 
     fun onYesButtonClicked() {
         yesButtonClickedEvent.value = Event(true)
@@ -126,5 +152,28 @@ class InterviewSessionViewModel : ViewModel() {
         toggleVideoClickEvent.value = Event(true)
     }
 
+    private fun startLoadingTimer() {
+        var totalSeconds = 5
+        timer = object : CountDownTimer(WAITING_TIME,1000) {
+            override fun onFinish() {
+                isCountDownFinished(true)
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                totalSeconds--
+                _counterText.value = "$totalSeconds"
+            }
+
+        }.start()
+    }
+
+    override fun onCleared() {
+        timer?.cancel()
+        super.onCleared()
+    }
+
+    companion object {
+        const val WAITING_TIME = 5000L
+    }
 
 }

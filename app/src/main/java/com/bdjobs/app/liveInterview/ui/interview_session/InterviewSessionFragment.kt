@@ -39,7 +39,7 @@ import timber.log.Timber
 import java.util.*
 
 
-class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener,SignalingEvent {
+class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener, SignalingEvent {
 
     private var videoSource: VideoSource? = null
     private var audioSource: AudioSource? = null
@@ -51,7 +51,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private var eglBaseContext: EglBase.Context? = null
     private var peerConnectionFactory: PeerConnectionFactory? = null
-    private val peerConnectionMap =  HashMap<String, PeerConnection>()
+    private val peerConnectionMap = HashMap<String, PeerConnection>()
 
     private var mSocketId = ""
     private var mRemoteSocketId = ""
@@ -61,7 +61,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private var remoteVideoTrack: VideoTrack? = null
 
-    private var remoteViews =  ArrayList<SurfaceViewRenderer>()
+    private var remoteViews = ArrayList<SurfaceViewRenderer>()
     private var remoteViewsIndex = 0
 
     val iceServers = ArrayList<PeerConnection.IceServer>()
@@ -75,13 +75,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
 
-    private val args : InterviewSessionFragmentArgs by navArgs()
+    private val args: InterviewSessionFragmentArgs by navArgs()
     private var processId = ""
 
     private lateinit var binding: FragmentInterviewSessionBinding
     private val internetBroadCastReceiver = ConnectivityReceiver()
     private val interviewSessionViewModel: InterviewSessionViewModel by navGraphViewModels(R.id.interviewSessionFragment)
-    private var mediaPlayer : MediaPlayer?=null
+    private var mediaPlayer: MediaPlayer? = null
 
     val pcConstraints = object : MediaConstraints() {
         init {
@@ -107,7 +107,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         binding.toolBar.setupWithNavController(navController, appBarConfiguration)
-        binding.toolBar.title = if (args.jobTitle!=null) args.jobTitle else ""
+        binding.toolBar.title = if (args.jobTitle != null) args.jobTitle else ""
 
         bdjobsUserSession = BdjobsUserSession(requireContext())
         processId = args.processID.toString()
@@ -147,7 +147,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             })
 
             instructionButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
-                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID,args.jobTitle,args.processID))
+                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID, args.jobTitle, args.processID))
             })
 
             yesClick.observe(viewLifecycleOwner, Observer {
@@ -174,24 +174,40 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            toggleVideoClickEvent.observe(viewLifecycleOwner,EventObserver{
+            toggleVideoClickEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     toggleVideo()
                 }
             })
 
 
-            toggleAudioClickEvent.observe(viewLifecycleOwner,EventObserver{
+            toggleAudioClickEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     toggleAudio()
                 }
             })
 
-            isWaitingForEmployers.observe(viewLifecycleOwner, Observer {
+            /* isWaitingForEmployers.observe(viewLifecycleOwner, Observer {
+                 if (it) {
+                     Handler(Looper.myLooper()!!).postDelayed({
+                         loadingCounterShowCheck(true)
+                         startAudio()
+                     },1500)
+                 }
+             })*/
+
+            isShowLoadingCounter.observe(viewLifecycleOwner, Observer {
                 if (it) {
-                    Handler(Looper.myLooper()!!).postDelayed({
-                        loadingCounterShowCheck(true)
-                    },1500)
+                    startAudio()
+                }
+            })
+
+            countDownFinish.observe(viewLifecycleOwner, Observer {
+                if (it) {
+                    try {
+                        mediaPlayer?.stop()
+                    } catch (e: Exception) {
+                    }
                 }
             })
 
@@ -207,7 +223,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
             isShowParentReadyView.observe(viewLifecycleOwner, Observer {
                 if (it) {
-                  //  initializeLocalCamera()
+                    initializeLocalCamera()
                 }
             })
         }
@@ -284,13 +300,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     private fun startAudio() {
-        mediaPlayer = MediaPlayer.create(requireContext(),R.raw.bdjobs_calling)
+        mediaPlayer = MediaPlayer.create(requireContext(), R.raw.bdjobs_calling)
         mediaPlayer?.start()
         mediaPlayer?.isLooping = true
     }
 
     private fun startSession() {
-        initializeLocalCamera()
+//        initializeLocalCamera()
 
         SignalingServer.get()?.init(this, processId)
         iceServers.add(
@@ -491,8 +507,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         return peerConnection
     }
 
-
-
     private fun doAnswer() {
         val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "R")
 
@@ -592,11 +606,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "R")
         peerConnection!!.setRemoteDescription(
-            CustomSdpObserver(),
-            SessionDescription(
-                SessionDescription.Type.OFFER,
-                sessionDescriptionJO.getString("sdp")
-            )
+                CustomSdpObserver(),
+                SessionDescription(
+                        SessionDescription.Type.OFFER,
+                        sessionDescriptionJO.getString("sdp")
+                )
         )
         doAnswer()
     }
@@ -611,6 +625,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onReceiveCall(args: Array<Any?>?) {
         Timber.tag("live").d("onReceiveCall: %s", args?.get(0))
+        interviewSessionViewModel.loadingCounterShowCheck(true)
         //1st layout disappear + count down + then 2nd layout appear.
     }
 

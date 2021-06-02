@@ -330,11 +330,9 @@ class LiveInterviewDetailsFragment : Fragment() {
             when {
                 result.allGranted() -> {
                     cameraAndAudioPermissionGranted = true
-//                    findNavController().navigate(LiveInterviewDetailsFragmentDirections)
                     if (from=="video") findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToRecordVideoFragment())
                     else if (from=="session") findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToInterviewSessionFragment(liveInterviewDetailsViewModel.jobId,args.jobTitle, liveInterviewDetailsViewModel.processID.value))
                     else findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToAudioRecordFragment())
-//                    else requireContext().startActivity(Intent(requireContext(),RecordingActivity::class.java))
 
                 }
                 result.allDenied() || result.anyDenied() -> {
