@@ -34,7 +34,7 @@
                 android:id="@+id/tv_local_message"
                 android:text="Hi, Bill"
                 android:minHeight="40dp"
-                android:gravity="center"
+                android:gravity="start"
                 android:padding="10dp"
                 android:layout_marginTop="5dp"
                 android:textColor="@android:color/black"

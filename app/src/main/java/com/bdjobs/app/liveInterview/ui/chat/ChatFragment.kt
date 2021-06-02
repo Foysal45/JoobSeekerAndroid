@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
@@ -22,6 +23,8 @@ import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingEvent
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
 import com.bdjobs.app.liveInterview.ui.interview_details.LiveInterviewDetailsViewModel
+import com.bdjobs.app.liveInterview.ui.interview_session.InterviewSessionViewModel
+import com.bdjobs.app.liveInterview.ui.interview_session.InterviewSessionViewModelFactory
 import com.bdjobs.app.videoInterview.util.EventObserver
 import org.jetbrains.anko.support.v4.runOnUiThread
 import org.json.JSONException
@@ -45,6 +48,7 @@ class ChatFragment : Fragment(), SignalingEvent {
     private val args: ChatFragmentArgs by navArgs()
     private var processId = ""
 
+    private lateinit var interviewSessionViewModel : InterviewSessionViewModel
     private val chatViewModel: ChatViewModel by viewModels{
         ChatViewModelFactory(
                 LiveInterviewRepository(requireActivity().application as Application),
@@ -71,6 +75,9 @@ class ChatFragment : Fragment(), SignalingEvent {
 
         bdjobsUserSession = BdjobsUserSession(requireContext())
 
+        val factory = InterviewSessionViewModelFactory(LiveInterviewRepository(requireActivity().application as Application),args.processID,"")
+        interviewSessionViewModel = ViewModelProvider(requireActivity(),factory).get(InterviewSessionViewModel::class.java)
+
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolBar.setupWithNavController(navController, appBarConfiguration)
@@ -87,11 +94,50 @@ class ChatFragment : Fragment(), SignalingEvent {
 
         Timber.d("Company Name: ${args.companyName}")
 
+//        try {
+//            SignalingServer.get()?.init(this, processId)
+//        } catch (e: Exception) {}
+
         setUpObservers()
 
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun setUpObservers() {
+
+        interviewSessionViewModel.apply {
+            try {
+                onChatReceived.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                    val data = it?.get(0) as JSONObject
+                    try {
+                        //extract data from fired event
+                        val nickname = "Employer"
+                        val message = data.getString("msg")
+                        imageLocal = data.getString("imgLocal")
+                        imageRemote = data.getString("imgRemote")
+                        messageCount = data.getInt("newCount")
+
+                        val simpleDateFormat = SimpleDateFormat("h:mm a")
+                        val formattedTime = simpleDateFormat.format(Date())
+                        // make instance of message
+                        val itemType = if (nickname==bdjobsUserSession.userName!!) 0 else 1
+                        val messages = Messages(nickname, message,formattedTime,itemType)
+
+                        messageList.add(messages)
+
+                        // notify the adapter to update the recycler view
+                        mAdapter.differ.submitList(messageList)
+                        mAdapter.notifyDataSetChanged()
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                })
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Timber.e("Error in receive: ${e.localizedMessage}")
+            }
+        }
+
         chatViewModel.apply {
             sendButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
@@ -126,6 +172,18 @@ class ChatFragment : Fragment(), SignalingEvent {
             postSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 if (it) {
                     SignalingServer.get()?.sendChatMessage(postMessage.value.toString(), imageLocal, imageRemote, messageCount)
+                    val nickname = bdjobsUserSession.userName
+                    val simpleDateFormat = SimpleDateFormat("h:mm a")
+                    val formattedTime = simpleDateFormat.format(Date())
+                    // make instance of message
+                    val itemType = if (nickname==bdjobsUserSession.userName!!) 0 else 1
+                    val messages = Messages(nickname, postMessage.value.toString(),formattedTime,itemType)
+
+                    messageList.add(messages)
+
+                    // notify the adapter to update the recycler view
+                    mAdapter.differ.submitList(messageList)
+                    mAdapter.notifyDataSetChanged()
                     binding.etWriteMessage.setText("")
                 }
             })
@@ -141,6 +199,8 @@ class ChatFragment : Fragment(), SignalingEvent {
 
     @SuppressLint("SimpleDateFormat")
     override fun onReceiveChat(args: Array<Any?>?) {
+
+        Timber.d("Chat received!")
 
         runOnUiThread {
             val data = args?.get(0) as JSONObject

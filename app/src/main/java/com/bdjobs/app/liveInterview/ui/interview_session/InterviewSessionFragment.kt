@@ -34,6 +34,7 @@ import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.demo_connect_employer.streaming.CustomPCObserver
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
+import org.jetbrains.anko.support.v4.runOnUiThread
 import org.json.JSONObject
 import org.webrtc.*
 import org.webrtc.PeerConnection
@@ -636,6 +637,16 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     override fun onReceiveChat(args: Array<Any?>?) {
-        Timber.tag("live").d("onReceiveChat: %s", args?.get(0))
+        Timber.d("onReceiveChat: %s", args?.get(0))
+        runOnUiThread {
+            try {
+                interviewSessionViewModel.onChatReceived.value = args
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Timber.e("Error in receive: ${e.localizedMessage}")
+            }
+        }
+
+//        Timber.tag("live").d("onReceiveChat: %s", args?.get(0))
     }
 }
