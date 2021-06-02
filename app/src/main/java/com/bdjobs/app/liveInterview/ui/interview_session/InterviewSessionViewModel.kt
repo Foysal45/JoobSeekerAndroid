@@ -61,6 +61,8 @@ class InterviewSessionViewModel(
 
     val instructionButtonClickEvent = MutableLiveData<Event<Boolean>> ()
 
+    val waitingText = MutableLiveData<String>()
+
 
     private var _counterText = MutableLiveData<String>()
     val counterText: LiveData<String>
@@ -88,7 +90,7 @@ class InterviewSessionViewModel(
 
     fun waitingCheck(isWaiting:Boolean) {
         _isWaitingForEmployers.postValue(isWaiting)
-        readyCheck(false)
+//        readyCheck(false)
     }
 
     fun readyCheck(isReady:Boolean) {
@@ -182,6 +184,8 @@ class InterviewSessionViewModel(
 
                 if (response.statuscode=="4") {
                     Timber.d("Applicant status updated")
+                    waitingText.value = response.message
+                    waitingCheck(true)
                 } else {
                     Timber.d("Response status code: ${response.statuscode}")
                 }

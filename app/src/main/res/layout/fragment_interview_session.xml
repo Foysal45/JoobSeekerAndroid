@@ -289,26 +289,31 @@
                 <!-- waiting xml start-->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="50dp"
                     android:visibility="@{viewModel.isWaitingForEmployers() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:background="@color/black"
+                    android:alpha=".40"
                     app:layout_constraintTop_toBottomOf="@id/cl_option_buttons">
 
-                    <View
-                        android:id="@+id/view_intermediate_waiting"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:alpha=".40"
-                        android:background="@android:color/black" />
+<!--                    <View-->
+<!--                        android:id="@+id/view_intermediate_waiting"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:alpha=".40"-->
+<!--                        android:background="@android:color/black" />-->
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_waiting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Waiting for the employer response"
+                        android:text="@{viewModel.waitingText}"
                         android:textColor="@color/white"
+                        android:gravity="center"
+                        android:padding="3dp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
