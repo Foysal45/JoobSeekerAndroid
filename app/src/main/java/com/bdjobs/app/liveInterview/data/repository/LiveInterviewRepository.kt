@@ -6,10 +6,7 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.LiveInvitation
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.liveInterview.data.models.ChatLogModel
-import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
-import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
-import com.bdjobs.app.liveInterview.data.models.PostChatModel
+import com.bdjobs.app.liveInterview.data.models.*
 import com.bdjobs.app.videoInterview.data.models.InterviewFeedback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -75,6 +72,18 @@ class LiveInterviewRepository(val application: Application)  {
                     invitationId = invitationId,
                     otherComment = otherComment,
                     rescheduleComment = rescheduleComment
+            )
+        }
+    }
+
+    suspend fun applicantStatus(
+            applyId:String?,
+            processId: String?,
+            applicantStatus:String?
+    ) : ApplicantStatusModel {
+        return withContext(Dispatchers.IO) {
+            ApiServiceMyBdjobs.create().applicantStatusInfo(
+                    session.userId,session.decodId,applyId,processId, applicantStatus
             )
         }
     }

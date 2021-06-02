@@ -77,6 +77,14 @@
             android:name="processID"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="applyID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="companyName"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/instructionViewPageFragment"
@@ -106,6 +114,14 @@
             app:nullable="true" />
         <argument
             android:name="processID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="applyID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="companyName"
             app:argType="string"
             app:nullable="true" />
     </fragment>
@@ -146,6 +162,10 @@
             android:name="processID"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="companyName"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -170,6 +190,10 @@
             app:nullable="true" />
         <argument
             android:name="processID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="companyName"
             app:argType="string"
             app:nullable="true" />
     </fragment>
@@ -202,6 +226,14 @@
             app:nullable="true" />
         <argument
             android:name="processID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="applyID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="companyName"
             app:argType="string"
             app:nullable="true" />
     </fragment>

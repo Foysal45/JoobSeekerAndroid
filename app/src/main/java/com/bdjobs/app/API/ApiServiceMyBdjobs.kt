@@ -8,10 +8,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
-import com.bdjobs.app.liveInterview.data.models.ChatLogModel
-import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
-import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
-import com.bdjobs.app.liveInterview.data.models.PostChatModel
+import com.bdjobs.app.liveInterview.data.models.*
 import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.transaction.data.model.TransactionList
@@ -390,7 +387,7 @@ interface ApiServiceMyBdjobs {
             @Query("param") param: String? = "",
             @Query("con") con: String? = "",
             @Query("ver") ver: String? = "EN/BN",
-            @Query("examTitleVal") examTitleVal: String? = "",
+            @Query("examTitleVal") examTitleVal: String? = ""
     ): Call<AutoSuggestionModel>
 
     @FormUrlEncoded
@@ -837,7 +834,7 @@ interface ApiServiceMyBdjobs {
             @Field("rating") rating: String?,
             @Field("feedbackComment") feedbackComment: String?,
             @Field("featureName") featureName: String?,
-            @Field("appId") appId: String?,
+            @Field("appId") appId: String?
     ): InterviewFeedback
 
 
@@ -1247,6 +1244,16 @@ interface ApiServiceMyBdjobs {
     ): LiveInterviewDetails
 
     @FormUrlEncoded
+    @POST("apps_live_interview_applicant_ready_status.asp")
+    suspend fun applicantStatusInfo(
+            @Field("userId") userID: String? = "",
+            @Field("decodeId") decodeID: String? = "",
+            @Field("applyId") applyId: String? = "",
+            @Field("processId") processId: String? = "",
+            @Field("applicantStatus") applicantStatus: String? = ""
+    ) : ApplicantStatusModel
+
+    @FormUrlEncoded
     @POST("app_invite_interview_confirmation.asp")
     suspend fun sendInterviewConfirmationLive(
             @Field("userId") userID: String? = "",
@@ -1269,7 +1276,7 @@ interface ApiServiceMyBdjobs {
             @Field("chatText") chatText: String? = "",
             @Field("hostType") hostType: String? = "",
             @Field("strUserId") strUserId: String? = "0",
-            @Field("strTargetUser") strTargetUser: String? = "0",
+            @Field("strTargetUser") strTargetUser: String? = "0"
     ): PostChatModel
 
     @FormUrlEncoded

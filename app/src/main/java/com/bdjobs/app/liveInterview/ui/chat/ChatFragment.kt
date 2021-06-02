@@ -84,6 +84,9 @@ class ChatFragment : Fragment(), SignalingEvent {
             chatViewModel.sendButtonClickedEvent()
         }
 
+
+        Timber.d("Company Name: ${args.companyName}")
+
         setUpObservers()
 
     }

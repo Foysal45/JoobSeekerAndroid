@@ -4,7 +4,11 @@ import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 //
 // Created by Soumik on 5/8/2021.
@@ -12,7 +16,10 @@ import com.bdjobs.app.videoInterview.util.Event
 // Copyright (c) 2021 BDJobs.com Ltd. All rights reserved.
 //
 
-class InterviewSessionViewModel : ViewModel() {
+class InterviewSessionViewModel(
+        private val repository: LiveInterviewRepository,
+        private val processID:String?,
+        private val applyID:String?) : ViewModel() {
 
 
     private var timer: CountDownTimer? = null
@@ -126,13 +133,14 @@ class InterviewSessionViewModel : ViewModel() {
         yesButtonClickedEvent.value = Event(true)
         yesClick.value = true
         noClick.value= false
-        waitingCheck(true)
+        applicantStatusUpdate("1")
     }
 
     fun onNoButtonClicked() {
         noButtonClickedEvent.value = Event(true)
         noClick.value = true
         yesClick.value = false
+        applicantStatusUpdate("2")
 //        loadingCounterShowCheck(true)
     }
 
@@ -165,6 +173,23 @@ class InterviewSessionViewModel : ViewModel() {
             }
 
         }.start()
+    }
+
+    private fun applicantStatusUpdate(status:String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.applicantStatus(applyID,processID,status)
+
+                if (response.statuscode=="4") {
+                    Timber.d("Applicant status updated")
+                } else {
+                    Timber.d("Response status code: ${response.statuscode}")
+                }
+            } catch (e:Exception) {
+                e.printStackTrace()
+                Timber.e("Exception while updating application status: ${e.localizedMessage}")
+            }
+        }
     }
 
     override fun onCleared() {

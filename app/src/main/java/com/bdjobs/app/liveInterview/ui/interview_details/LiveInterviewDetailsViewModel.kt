@@ -202,7 +202,7 @@ class LiveInterviewDetailsViewModel(
                 Timber.d("${remainingDays.value} ${remainingHours.value} ${remainingMinutes.value} ${remainingSeconds.value}")
 
                 Timber.d("Minutes: $minutes :: Hours: $hours")
-                if( hours<1 && minutes < 30){
+                if(minutes < 150){
                     showJoinInterviewSmallBTN.value = true
                 }
             }

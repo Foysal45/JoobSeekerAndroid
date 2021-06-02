@@ -1,6 +1,7 @@
 package com.bdjobs.app.liveInterview.ui.interview_session
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.IntentFilter
 import android.graphics.Color
 import android.media.MediaPlayer
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -24,6 +26,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.changeColor
 import com.bdjobs.app.databinding.FragmentInterviewSessionBinding
+import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.liveInterview.data.socketClient.CustomSdpObserver
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingEvent
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
@@ -80,7 +83,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private lateinit var binding: FragmentInterviewSessionBinding
     private val internetBroadCastReceiver = ConnectivityReceiver()
-    private val interviewSessionViewModel: InterviewSessionViewModel by navGraphViewModels(R.id.interviewSessionFragment)
+    private val interviewSessionViewModel: InterviewSessionViewModel by viewModels {
+        InterviewSessionViewModelFactory(LiveInterviewRepository(requireActivity().application as Application), args.processID, args.applyID)
+    }
     private var mediaPlayer: MediaPlayer? = null
 
     val pcConstraints = object : MediaConstraints() {
@@ -115,7 +120,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         startSession()
         setUpObservers()
 
-        binding.fabMessage.setOnClickListener { findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID)) }
+        Timber.d("Company Name: ${args.companyName}")
+
+        binding.fabMessage.setOnClickListener { findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID,args.companyName)) }
 
     }
 
@@ -143,11 +150,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private fun setUpObservers() {
         interviewSessionViewModel.apply {
             messageButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
-                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID))
+                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID,args.companyName))
             })
 
             instructionButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
-                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID, args.jobTitle, args.processID))
+                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID, args.jobTitle, args.processID, args.applyID,args.companyName))
             })
 
             yesClick.observe(viewLifecycleOwner, Observer {
@@ -179,7 +186,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                     toggleVideo()
                 }
             })
-
 
             toggleAudioClickEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {

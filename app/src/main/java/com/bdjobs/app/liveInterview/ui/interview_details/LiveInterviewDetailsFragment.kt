@@ -263,7 +263,6 @@ class LiveInterviewDetailsFragment : Fragment() {
         dialog.show()
     }
 
-
     private fun openReschedulePopup() {
         val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialog_Rounded).create()
         val view = layoutInflater.inflate(R.layout.job_invitaion_reschedule_pop_up_layout, null)
@@ -330,9 +329,11 @@ class LiveInterviewDetailsFragment : Fragment() {
             when {
                 result.allGranted() -> {
                     cameraAndAudioPermissionGranted = true
-                    if (from=="video") findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToRecordVideoFragment())
-                    else if (from=="session") findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToInterviewSessionFragment(liveInterviewDetailsViewModel.jobId,args.jobTitle, liveInterviewDetailsViewModel.processID.value))
-                    else findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToAudioRecordFragment())
+                    when (from) {
+                        "video" -> findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToRecordVideoFragment())
+                        "session" -> findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToInterviewSessionFragment(liveInterviewDetailsViewModel.jobId,args.jobTitle, liveInterviewDetailsViewModel.processID.value,liveInterviewDetailsViewModel.applyId,liveInterviewDetailsViewModel.commonData.value?.companyName))
+                        else -> findNavController().navigate(LiveInterviewDetailsFragmentDirections.actionLiveInterviewDetailsFragmentToAudioRecordFragment())
+                    }
 
                 }
                 result.allDenied() || result.anyDenied() -> {

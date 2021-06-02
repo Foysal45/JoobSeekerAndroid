@@ -26,19 +26,19 @@ class InstructionViewPageFragment : Fragment() {
     private val images = listOf(
             R.drawable.ic_video_guideline1,
             R.drawable.ic_video_guideline2,
-            R.drawable.ic_live_interview_3,
+            R.drawable.ic_live_interview_3
     )
 
     private val instructionsInBengali = listOf<String>(
             "লাইভ ইন্টারভিউ এর শুরুতে ডিভাইস এর মাইক্রোফোন এবং ক্যামেরা পারমিশন দিতে হবে",
             "লাইভ ইন্টারভিউ এর সময় মাউথ পিস / হেডফোন ব্যবহার করা অপরিহার্য, যেন নিয়োগকর্তা আপনার কথা সহজেই বুঝতে পারে",
-            "শান্ত এবং নিরিবিলি স্থানে অবস্থান করে লাইভ ইন্টারভিউ তে অংশগ্রহণ করুন যাতে নিয়োগকর্তা এবং আপনার যোগাযোগ এ বিঘ্ন না ঘটে",
+            "শান্ত এবং নিরিবিলি স্থানে অবস্থান করে লাইভ ইন্টারভিউ তে অংশগ্রহণ করুন যাতে নিয়োগকর্তা এবং আপনার যোগাযোগ এ বিঘ্ন না ঘটে"
     )
 
     private val instructionsInEnglish = listOf<String>(
             "Allow device's microphone and camera permission to start Live Interview.",
             "Use mouthpieces/ headphones during the Live Interview so that the employer can easily understand you.",
-            "Try to attend Live Interview in a quiet place & avoid interruption.",
+            "Try to attend Live Interview in a quiet place & avoid interruption."
     )
 
     private val instructions = mutableListOf<Instructions>()
@@ -106,11 +106,11 @@ class InstructionViewPageFragment : Fragment() {
             }
         }
         btn_start?.setOnClickListener {
-            findNavController().navigate(InstructionViewPageFragmentDirections.actionInstructionViewPageFragmentToInterviewSessionFragment(args.jobID,args.jobTitle,args.processID))
+            findNavController().navigate(InstructionViewPageFragmentDirections.actionInstructionViewPageFragmentToInterviewSessionFragment(args.jobID,args.jobTitle,args.processID,args.applyID,args.companyName))
 //            findNavController().popBackStack()
         }
         btn_skip?.setOnClickListener {
-            findNavController().navigate(InstructionViewPageFragmentDirections.actionInstructionViewPageFragmentToInterviewSessionFragment(args.jobID,args.jobTitle,args.processID))
+            findNavController().navigate(InstructionViewPageFragmentDirections.actionInstructionViewPageFragmentToInterviewSessionFragment(args.jobID,args.jobTitle,args.processID,args.applyID,args.companyName))
 //            findNavController().popBackStack()
         }
     }
