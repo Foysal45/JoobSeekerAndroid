@@ -106,7 +106,7 @@ class InterviewSessionViewModel(
         _isShowLoadingCounter.postValue(isShow)
         startLoadingTimer()
         if (isShow) {
-            parentReadyViewCheck(false)
+//            parentReadyViewCheck(false)
             bottomOptionShowCheck(false)
             waitingCheck(false)
         }
@@ -119,8 +119,12 @@ class InterviewSessionViewModel(
 
     fun interviewRoomViewCheck(isShow: Boolean) {
         _isShowInterviewRoomView.postValue(isShow)
-        parentReadyViewCheck(false)
-        loadingCounterShowCheck(false)
+        if (isShow) {
+            parentReadyViewCheck(false)
+            loadingCounterShowCheck(false)
+            bottomOptionShowCheck(false)
+            waitingCheck(false)
+        }
     }
 
     fun isCountDownFinished(value: Boolean) {

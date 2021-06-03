@@ -230,13 +230,14 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                         release()
                         visibility = View.GONE
                     }
+//                    startSession()
                     createMsgCounter()
                 }
             })
 
             isShowParentReadyView.observe(viewLifecycleOwner, Observer {
                 if (it) {
-                    initializeLocalCamera()
+//                    initializeLocalCamera()
                 }
             })
         }
@@ -341,7 +342,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                         .createIceServer()
         )
 
-        eglBaseContext = EglBase.create().getEglBaseContext()
+        eglBaseContext = EglBase.create().eglBaseContext
 
         val initializationOptions = PeerConnectionFactory.InitializationOptions.builder(requireContext()).createInitializationOptions()
         PeerConnectionFactory.initialize(initializationOptions)

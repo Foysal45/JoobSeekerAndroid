@@ -87,8 +87,8 @@ class SignalingServer {
                 signalingEvent.onNewUser(args)
 
                 // temp solution if browser reload , infinite loop on back navigation
-                socket?.disconnect()
-                socket?.connect()
+//                socket?.disconnect()
+//                socket?.connect()
             }
             socket?.on(EventConstants.EVENT_NEW_USER_START_NEW) {args: Array<Any?>? ->
                 val argument = args?.get(0) as JSONObject
