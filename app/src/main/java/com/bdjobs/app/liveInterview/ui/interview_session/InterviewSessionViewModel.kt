@@ -106,6 +106,7 @@ class InterviewSessionViewModel(
         _isShowLoadingCounter.postValue(isShow)
         startLoadingTimer()
         if (isShow) {
+            parentReadyViewCheck(false)
             bottomOptionShowCheck(false)
             waitingCheck(false)
         }

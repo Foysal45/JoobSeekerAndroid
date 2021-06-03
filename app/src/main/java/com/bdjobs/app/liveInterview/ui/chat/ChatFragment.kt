@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.databinding.FragmentChatBinding
+import com.bdjobs.app.liveInterview.SharedViewModel
 import com.bdjobs.app.liveInterview.data.models.Messages
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingEvent
@@ -48,15 +50,15 @@ class ChatFragment : Fragment(), SignalingEvent {
     private val args: ChatFragmentArgs by navArgs()
     private var processId = ""
 
-    private lateinit var interviewSessionViewModel : InterviewSessionViewModel
-    private val chatViewModel: ChatViewModel by viewModels{
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val chatViewModel: ChatViewModel by viewModels {
         ChatViewModelFactory(
                 LiveInterviewRepository(requireActivity().application as Application),
                 args.processID
         )
     }
     private lateinit var bdjobsUserSession: BdjobsUserSession
-    private val messageList:ArrayList<Messages> = ArrayList()
+    private val messageList: ArrayList<Messages> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -75,9 +77,6 @@ class ChatFragment : Fragment(), SignalingEvent {
 
         bdjobsUserSession = BdjobsUserSession(requireContext())
 
-        val factory = InterviewSessionViewModelFactory(LiveInterviewRepository(requireActivity().application as Application),args.processID,"")
-        interviewSessionViewModel = ViewModelProvider(requireActivity(),factory).get(InterviewSessionViewModel::class.java)
-
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolBar.setupWithNavController(navController, appBarConfiguration)
@@ -94,10 +93,6 @@ class ChatFragment : Fragment(), SignalingEvent {
 
         Timber.d("Company Name: ${args.companyName}")
 
-//        try {
-//            SignalingServer.get()?.init(this, processId)
-//        } catch (e: Exception) {}
-
         setUpObservers()
 
     }
@@ -105,11 +100,14 @@ class ChatFragment : Fragment(), SignalingEvent {
     @SuppressLint("SimpleDateFormat")
     private fun setUpObservers() {
 
-        interviewSessionViewModel.apply {
+        sharedViewModel.apply {
             try {
-                onChatReceived.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                    val data = it?.get(0) as JSONObject
+                receivedChatData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                     try {
+                        val s = it?.get(0).toString()
+                        Timber.d("Chat data: $s")
+                        val data = JSONObject(s)
+
                         //extract data from fired event
                         val nickname = "Employer"
                         val message = data.getString("msg")
@@ -120,8 +118,8 @@ class ChatFragment : Fragment(), SignalingEvent {
                         val simpleDateFormat = SimpleDateFormat("h:mm a")
                         val formattedTime = simpleDateFormat.format(Date())
                         // make instance of message
-                        val itemType = if (nickname==bdjobsUserSession.userName!!) 0 else 1
-                        val messages = Messages(nickname, message,formattedTime,itemType)
+                        val itemType = if (nickname == bdjobsUserSession.userName!!) 0 else 1
+                        val messages = Messages(nickname, message, formattedTime, itemType)
 
                         messageList.add(messages)
 
@@ -145,7 +143,7 @@ class ChatFragment : Fragment(), SignalingEvent {
                 }
             })
 
-            chatLogFetchSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
+            chatLogFetchSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 if (it) {
                     var messages: Messages?
 
@@ -153,10 +151,10 @@ class ChatFragment : Fragment(), SignalingEvent {
                     if (data!!.isNotEmpty()) {
                         for (i in data.indices) {
                             val d = data[i]
-                            if (d?.hostType=="A" || d?.hostType=="R") {
+                            if (d?.hostType == "A" || d?.hostType == "R") {
                                 val time = d.chatTime?.split(" ")!![1].split(":")[0] +
                                         ":${d.chatTime.split(" ")[1].split(":")[1]} ${d.chatTime.split(" ")[2]}"
-                                messages = Messages(d.contactName,d.chatText, time,if (d.hostType =="A") 0 else 1)
+                                messages = Messages(d.contactName, d.chatText, time, if (d.hostType == "A") 0 else 1)
                                 messageList.add(messages)
                                 messageCount++
                             }
@@ -176,8 +174,8 @@ class ChatFragment : Fragment(), SignalingEvent {
                     val simpleDateFormat = SimpleDateFormat("h:mm a")
                     val formattedTime = simpleDateFormat.format(Date())
                     // make instance of message
-                    val itemType = if (nickname==bdjobsUserSession.userName!!) 0 else 1
-                    val messages = Messages(nickname, postMessage.value.toString(),formattedTime,itemType)
+                    val itemType = if (nickname == bdjobsUserSession.userName!!) 0 else 1
+                    val messages = Messages(nickname, postMessage.value.toString(), formattedTime, itemType)
 
                     messageList.add(messages)
 
@@ -215,8 +213,8 @@ class ChatFragment : Fragment(), SignalingEvent {
                 val simpleDateFormat = SimpleDateFormat("h:mm a")
                 val formattedTime = simpleDateFormat.format(Date())
                 // make instance of message
-                val itemType = if (nickname==bdjobsUserSession.userName!!) 0 else 1
-                val messages = Messages(nickname, message,formattedTime,itemType)
+                val itemType = if (nickname == bdjobsUserSession.userName!!) 0 else 1
+                val messages = Messages(nickname, message, formattedTime, itemType)
 
                 messageList.add(messages)
 

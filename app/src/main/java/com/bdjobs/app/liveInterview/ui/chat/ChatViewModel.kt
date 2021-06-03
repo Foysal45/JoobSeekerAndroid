@@ -58,6 +58,11 @@ class ChatViewModel(
 
     val sendButtonClickEvent = MutableLiveData<Event<Boolean>> ()
 
+    val welcomeTextShow = MutableLiveData<Boolean>()
+    val anotherInterviewTextShow = MutableLiveData<Boolean>()
+    val waitingTextShow = MutableLiveData<Boolean>()
+    val askedTextShow = MutableLiveData<Boolean>()
+
     init {
 //        _welcomeText.value = "Welcome to the Live interview room."
 //        _anotherInterviewText.value = "Interviewer is taking another interview.\nPlease wait sometimes."
@@ -109,18 +114,41 @@ class ChatViewModel(
                 val data = chatLogData.value?.arrChatdata
                 if (data!!.isNotEmpty()) {
                     for (i in data.indices) {
-                        when (data[i]?.hostType) {
-                            "AC" -> _welcomeText.value = data[i]?.chatText!!
-                            "AU" -> _waitingText.value = data[i]?.chatText!!
-                            "AA" -> _anotherInterviewText.value = data[i]?.chatText!!
-                            "AL" -> _askedText.value = data[i]?.chatText!!
+
+                        if (data[i]?.chatText != null && data[i]?.chatText!!.isNotEmpty()) {
+                            when (data[i]?.hostType) {
+                                "AC" -> {
+                                    _welcomeText.value = data[i]?.chatText!!
+                                    welcomeTextShow.value = true
+                                }
+                                "AU" -> {
+                                    _waitingText.value = data[i]?.chatText!!
+                                    waitingTextShow.value = true
+                                }
+                                "AA" -> {
+                                    _anotherInterviewText.value = data[i]?.chatText!!
+                                    anotherInterviewTextShow.value = true
+                                }
+                                "AL" -> {
+                                    _askedText.value = data[i]?.chatText!!
+                                    askedTextShow.value = true
+                                }
+                            }
+                        }
+                        else {
+                            welcomeTextShow.value = false
+                            anotherInterviewTextShow.value = false
+                            askedTextShow.value = false
+                            waitingTextShow.value = false
                         }
                     }
                 }
-
-
             } catch (e:Exception) {
                 _logLoading.value = false
+                welcomeTextShow.value = false
+                anotherInterviewTextShow.value = false
+                askedTextShow.value = false
+                waitingTextShow.value = false
                 e.printStackTrace()
                 Timber.e("Exception: ${e.localizedMessage}")
                 _chatLogFetchError.value = e.localizedMessage

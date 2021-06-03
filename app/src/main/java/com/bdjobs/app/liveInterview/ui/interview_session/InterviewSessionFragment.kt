@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -26,6 +27,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.changeColor
 import com.bdjobs.app.databinding.FragmentInterviewSessionBinding
+import com.bdjobs.app.liveInterview.SharedViewModel
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.liveInterview.data.socketClient.CustomSdpObserver
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingEvent
@@ -87,6 +89,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private val interviewSessionViewModel: InterviewSessionViewModel by viewModels {
         InterviewSessionViewModelFactory(LiveInterviewRepository(requireActivity().application as Application), args.processID, args.applyID)
     }
+
+    private val sharedViewModel : SharedViewModel by activityViewModels()
+
     private var mediaPlayer: MediaPlayer? = null
 
     val pcConstraints = object : MediaConstraints() {
@@ -123,7 +128,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         Timber.d("Company Name: ${args.companyName}")
 
-        binding.fabMessage.setOnClickListener { findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID,args.companyName)) }
+        binding.fabMessage.setOnClickListener { findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID, args.companyName)) }
 
     }
 
@@ -151,11 +156,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private fun setUpObservers() {
         interviewSessionViewModel.apply {
             messageButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
-                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID,args.companyName))
+                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID, args.companyName))
             })
 
             instructionButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
-                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID, args.jobTitle, args.processID, args.applyID,args.companyName))
+                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID, args.jobTitle, args.processID, args.applyID, args.companyName))
             })
 
             yesClick.observe(viewLifecycleOwner, Observer {
@@ -213,6 +218,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 if (it) {
                     try {
                         mediaPlayer?.stop()
+                        interviewRoomViewCheck(true)
                     } catch (e: Exception) {
                     }
                 }
@@ -632,7 +638,15 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onReceiveCall(args: Array<Any?>?) {
         Timber.tag("live").d("onReceiveCall: %s", args?.get(0))
-        interviewSessionViewModel.loadingCounterShowCheck(true)
+        runOnUiThread {
+            try {
+                interviewSessionViewModel.loadingCounterShowCheck(true)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Timber.e("Error in call receive: ${e.localizedMessage}")
+            }
+        }
+
         //1st layout disappear + count down + then 2nd layout appear.
     }
 
@@ -640,7 +654,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         Timber.d("onReceiveChat: %s", args?.get(0))
         runOnUiThread {
             try {
-                interviewSessionViewModel.onChatReceived.value = args
+                sharedViewModel.receivedData(args)
             } catch (e: Exception) {
                 e.printStackTrace()
                 Timber.e("Error in receive: ${e.localizedMessage}")
