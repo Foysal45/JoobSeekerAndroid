@@ -109,7 +109,7 @@ class ChatFragment : Fragment() {
                         val data = JSONObject(s)
 
                         //extract data from fired event
-                        val nickname = "Employer"
+                        val nickname = args.companyName
                         val message = data.getString("msg")
                         imageLocal = data.getString("imgLocal")
                         imageRemote = data.getString("imgRemote")
@@ -154,7 +154,7 @@ class ChatFragment : Fragment() {
                             if (d?.hostType == "A" || d?.hostType == "R") {
                                 val time = d.chatTime?.split(" ")!![1].split(":")[0] +
                                         ":${d.chatTime.split(" ")[1].split(":")[1]} ${d.chatTime.split(" ")[2]}"
-                                messages = Messages(d.contactName, d.chatText, time, if (d.hostType == "A") 0 else 1)
+                                messages = Messages( if (d.hostType == "A") d.contactName else args.companyName, d.chatText, time, if (d.hostType == "A") 0 else 1)
                                 messageList.add(messages)
                                 messageCount++
                             }
