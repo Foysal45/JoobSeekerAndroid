@@ -90,7 +90,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         InterviewSessionViewModelFactory(LiveInterviewRepository(requireActivity().application as Application), args.processID, args.applyID)
     }
 
-    private val sharedViewModel : SharedViewModel by activityViewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     private var mediaPlayer: MediaPlayer? = null
 
@@ -102,6 +102,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        Timber.d("onCreateView")
         // Inflate the layout for this fragment
         binding = FragmentInterviewSessionBinding.inflate(inflater).apply {
             lifecycleOwner = viewLifecycleOwner
@@ -113,6 +114,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Timber.d("onViewCreated")
 
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -128,9 +130,12 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         Timber.d("Company Name: ${args.companyName}")
 
-        binding.fabMessage.setOnClickListener { findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID, args.companyName)) }
+        binding.fabMessage.setOnClickListener {
+            findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID, args.companyName))
+        }
 
     }
+
 
     @SuppressLint("UnsafeExperimentalUsageError")
     private fun createMsgCounter() {
@@ -323,6 +328,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 //        initializeLocalCamera()
 
         SignalingServer.get()?.init(this, processId)
+
         iceServers.add(
                 PeerConnection.IceServer.builder("stun:stun.bdjobs.com")
                         .setTlsCertPolicy(PeerConnection.TlsCertPolicy.TLS_CERT_POLICY_INSECURE_NO_CHECK).createIceServer()
@@ -534,7 +540,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         }, pcConstraints)
     }
 
-
     private fun toggleVideo() {
 
         if (localMediaStream != null && localMediaStream?.videoTracks?.size!! > 0) {
@@ -561,17 +566,28 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     override fun onResume() {
+        Timber.d("onResume")
         super.onResume()
         requireActivity().registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         ConnectivityReceiver.connectivityReceiverListener = this
     }
 
     override fun onDestroy() {
-        requireActivity().unregisterReceiver(internetBroadCastReceiver)
-        mediaPlayer?.release()
+        Timber.d("onDestroy")
+        try {
+            requireActivity().unregisterReceiver(internetBroadCastReceiver)
+            mediaPlayer?.release()
+            SignalingServer.get()?.destroy()
+            bdjobsUserSession.isSessionAlreadyStarted = false
+        } catch (e: Exception) {
+        }
         super.onDestroy()
     }
 
+    override fun onPause() {
+        super.onPause()
+        Timber.d("onPause")
+    }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
         interviewSessionViewModel.networkCheck(isConnected)
@@ -664,4 +680,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
 //        Timber.tag("live").d("onReceiveChat: %s", args?.get(0))
     }
+
+
 }

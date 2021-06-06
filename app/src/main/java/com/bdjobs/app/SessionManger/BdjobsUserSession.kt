@@ -523,4 +523,10 @@ class BdjobsUserSession(val context: Context) {
         pref!!.edit().putBoolean(Constants.session_key_remoteview_initiliaze,value).apply()
     }
 
+    var isSessionAlreadyStarted : Boolean
+    get() = pref!!.getBoolean(Constants.session_key_socket_session_started,false)
+    set(value) {
+        pref!!.edit().putBoolean(Constants.session_key_socket_session_started,value).apply()
+    }
+
 }

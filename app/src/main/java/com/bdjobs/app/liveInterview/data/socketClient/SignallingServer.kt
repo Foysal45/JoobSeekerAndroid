@@ -38,9 +38,6 @@ class SignalingServer {
         }
     }
 
-
-
-
     fun init(signalingEvent: SignalingEvent, processId:String) {
         try {
             this.processId = processId

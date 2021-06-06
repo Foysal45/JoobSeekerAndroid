@@ -52,6 +52,7 @@
                 android:text="@{viewModel.welcomeText}"
                 android:visibility="@{viewModel.welcomeTextShow ? View.VISIBLE : View.GONE}"
                 android:textColor="#2F64A3"
+                tools:text="Welcome to Live interview room"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,6 +66,7 @@
                 android:gravity="center"
                 android:visibility="@{viewModel.anotherInterviewTextShow ? View.VISIBLE : View.GONE}"
                 android:text="@{viewModel.anotherInterviewText}"
+                tools:text="Interviewer is taking another interview. Please wait sometimes."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_welcome_msg" />
@@ -77,6 +79,7 @@
                 android:gravity="center"
                 android:visibility="@{viewModel.waitingTextShow ? View.VISIBLE : View.GONE}"
                 android:text="@{viewModel.waitingText}"
+                tools:text="Please wait and take your preparation. The interviewer will start the interview process soon."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_another_interview" />
@@ -89,6 +92,7 @@
                 android:gravity="center"
                 android:visibility="@{viewModel.askedTextShow ? View.VISIBLE : View.GONE}"
                 android:text="@{viewModel.askedText}"
+                tools:text="Interviewer asked for you. Enable Yes if your are ready. Write message here to let him know that you are present now. [You can also call employer on the [given number].]"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_waiting_msg" />
@@ -152,8 +156,6 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
