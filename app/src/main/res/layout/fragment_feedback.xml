@@ -48,19 +48,19 @@
 
                 <TextView
                     android:id="@+id/tv_heading"
-                    android:textColor="#2D3748"
-                    android:fontFamily="@font/roboto_medium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
+                    android:layout_marginTop="18dp"
                     android:layout_marginEnd="40dp"
-                    android:textSize="18sp"
+                    android:fontFamily="@font/roboto"
                     android:gravity="center"
                     android:text="You have attended Online interview successfully."
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="#2D3748"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/img_rate"
-                    android:layout_marginTop="18dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_rate" />
 
                 <TextView
                     android:id="@+id/tv_call_time"
@@ -69,23 +69,25 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="60dp"
                     android:layout_marginEnd="16dp"
-                    android:text="Duration"
                     android:drawablePadding="10dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Duration"
                     android:textColor="#393939"
+                    app:drawableStartCompat="@drawable/ic_clock_style"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_heading"
-                    app:drawableStartCompat="@drawable/ic_clock_style" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_heading" />
 
                 <TextView
+                    android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/tv_call_time"
-                    app:layout_constraintStart_toStartOf="@id/tv_call_time"
                     android:layout_marginTop="5dp"
-                    android:id="@+id/tv_time"
-                    android:text="12:35 mins"/>
+                    android:fontFamily="@font/roboto"
+                    android:text="12:35 mins"
+                    app:layout_constraintStart_toStartOf="@id/tv_call_time"
+                    app:layout_constraintTop_toBottomOf="@id/tv_call_time" />
 
                 <TextView
                     android:id="@+id/tv_rate"
@@ -94,6 +96,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/roboto"
                     android:text="Rate this Interview"
                     android:textColor="#393939"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +139,8 @@
                     app:layout_constraintHorizontal_bias="0.078"
                     app:layout_constraintStart_toStartOf="@id/tv_rate"
                     app:layout_constraintTop_toBottomOf="@id/rating"
-                    app:layout_constraintVertical_bias="0.025" />
+                    app:layout_constraintVertical_bias="0.025"
+                    android:fontFamily="@font/roboto" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -157,12 +161,12 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="155dp"
                 android:layout_height="wrap_content"
-                android:paddingVertical="12dp"
                 android:alpha="@{viewModel.enableSubmitButton ? 1f : .7f}"
                 android:enabled="@{viewModel.enableSubmitButton ? true : false}"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/roboto"
                 android:letterSpacing="0"
                 android:onClick="@{()->viewModel.onSubmitButtonClick()}"
+                android:paddingVertical="12dp"
                 android:text="Submit"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
@@ -171,9 +175,9 @@
                 app:elevation="0dp"
                 app:iconGravity="textStart"
                 app:iconTint="@color/white"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <com.google.android.material.button.MaterialButton
@@ -181,13 +185,13 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/roboto"
                 android:letterSpacing="0"
                 android:onClick="@{()->viewModel.onMessageEmployerButtonClick()}"
-                android:text="Message Employer"
-                android:textAllCaps="false"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="12dp"
+                android:text="Message Employer"
+                android:textAllCaps="false"
                 android:textColor="@color/black"
                 app:backgroundTint="#E6E6E6"
                 app:cornerRadius="23dp"
@@ -195,8 +199,8 @@
                 app:iconGravity="textStart"
                 app:iconTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

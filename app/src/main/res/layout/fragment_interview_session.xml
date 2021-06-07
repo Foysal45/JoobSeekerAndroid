@@ -28,6 +28,7 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/roboto"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,6 +100,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:id="@+id/tv_counter"
                         android:text="@{viewModel.counterText}"
+                        android:fontFamily="@font/roboto"
                         android:textColor="@color/black"
                         android:textSize="62sp"/>
 
@@ -113,6 +115,7 @@
                     android:text="@string/label_starting_interview"
                     android:textColor="@color/white"
                     android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto"
                     android:textSize="18sp"
                     android:id="@+id/tv_starting"/>
 
@@ -163,6 +166,7 @@
                         app:layout_constraintWidth_percent="0.6"
                         android:text="Message with Employer"
                         android:id="@+id/btn_message_emp"
+                        android:fontFamily="@font/roboto"
                         android:textAllCaps="false"
                         android:textSize="12dp"
                         android:onClick="@{()->viewModel.onMessageButtonClicked()}"
@@ -185,6 +189,7 @@
                         android:onClick="@{()-> viewModel.onInstructionButtonClicked()}"
                         android:textSize="12dp"
                         app:backgroundTint="#FFFFFF"
+                        android:fontFamily="@font/roboto"
                         android:textColor="@color/black"
                         app:icon="@drawable/ic_msg_emp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -220,11 +225,12 @@
                         android:layout_marginTop="8dp"
                         android:drawablePadding="10dp"
                         android:drawableTint="#FFF387"
+                        android:fontFamily="@font/roboto"
                         android:gravity="center"
                         android:padding="3dp"
                         android:text="Employer is available to take interview any time"
                         android:textColor="#FFF387"
-                        app:drawableStartCompat="@drawable/ic_info_black_12dp"
+                        app:drawableStartCompat="@drawable/ic_waiting_emp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -235,6 +241,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="Are you ready for the interview?"
+                        android:fontFamily="@font/roboto"
                         android:textColor="@android:color/white"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -256,6 +263,7 @@
                             android:layout_height="40dp"
                             android:background="@drawable/bg_btn_round_16_dp"
                             android:text="Yes"
+                            android:fontFamily="@font/roboto"
                             android:onClick="@{()->viewModel.onYesButtonClicked()}"
                             android:textAllCaps="false"
                             android:textColor="@{viewModel.yesClick ? @color/black : @color/white}"
@@ -272,6 +280,7 @@
                             android:layout_marginStart="8dp"
                             android:background="@drawable/bg_btn_round_16_dp"
                             android:text="No"
+                            android:fontFamily="@font/roboto"
                             android:onClick="@{()->viewModel.onNoButtonClicked()}"
                             android:textAllCaps="false"
                             android:textColor="@{viewModel.noClick ? @color/black : @color/white}"
@@ -311,6 +320,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{viewModel.waitingText}"
+                        android:fontFamily="@font/roboto"
                         android:textColor="@color/white"
                         android:gravity="center"
                         android:padding="3dp"
@@ -606,6 +616,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_local_mic_status"
                             android:text="Mute"
+                            android:fontFamily="@font/roboto"
                             android:gravity="center"
                             android:textColor="@color/white"/>
 
@@ -631,6 +642,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_local_video_status"
                             android:text="Camera on"
+                            android:fontFamily="@font/roboto"
                             android:gravity="center"
                             android:textColor="@color/white"/>
 

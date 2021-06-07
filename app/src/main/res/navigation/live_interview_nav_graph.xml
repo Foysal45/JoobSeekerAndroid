@@ -7,6 +7,7 @@
 
     <fragment
         android:id="@+id/liveInterviewDetailsFragment"
+        android:label="Live Interview Details"
         android:name="com.bdjobs.app.liveInterview.ui.interview_details.LiveInterviewDetailsFragment"
         tools:layout="@layout/fragment_live_interview_details">
         <argument
@@ -200,7 +201,7 @@
     <fragment
         android:id="@+id/interviewSessionFragment"
         android:name="com.bdjobs.app.liveInterview.ui.interview_session.InterviewSessionFragment"
-        android:label="fragment_interview_session"
+        android:label="Interview Session"
         tools:layout="@layout/fragment_interview_session" >
         <action
             android:id="@+id/action_interviewSessionFragment_to_instructionLandingFragment"

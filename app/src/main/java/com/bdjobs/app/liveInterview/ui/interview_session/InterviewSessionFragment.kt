@@ -7,8 +7,6 @@ import android.graphics.Color
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +17,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
@@ -63,17 +60,17 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private var mRemoteSocketId = ""
 
     private var localMediaStream: MediaStream? = null
-    private var remoteMediaStream: MediaStream? = null
+//    private var remoteMediaStream: MediaStream? = null
 
     private var remoteVideoTrack: VideoTrack? = null
 
-    private var remoteViews = ArrayList<SurfaceViewRenderer>()
-    private var remoteViewsIndex = 0
+//    private var remoteViews = ArrayList<SurfaceViewRenderer>()
+//    private var remoteViewsIndex = 0
 
     val iceServers = ArrayList<PeerConnection.IceServer>()
 
     private var audioConstraints: MediaConstraints? = null
-    private var videoConstraints: MediaConstraints? = null
+//    private var videoConstraints: MediaConstraints? = null
 
 
     var mic_switch: Boolean = true
@@ -101,7 +98,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         Timber.d("onCreateView")
         // Inflate the layout for this fragment
         binding = FragmentInterviewSessionBinding.inflate(inflater).apply {
@@ -168,7 +165,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID, args.jobTitle, args.processID, args.applyID, args.companyName))
             })
 
-            yesClick.observe(viewLifecycleOwner, Observer {
+            yesClick.observe(viewLifecycleOwner, {
                 if (it) {
                     binding.apply {
                         btnYesReady.changeColor(R.color.btn_green)
@@ -180,7 +177,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            noClick.observe(viewLifecycleOwner, Observer {
+            noClick.observe(viewLifecycleOwner, {
                 if (it) {
                     binding.apply {
                         btnNoReady.changeColor(R.color.btn_green)
@@ -213,13 +210,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                  }
              })*/
 
-            isShowLoadingCounter.observe(viewLifecycleOwner, Observer {
+            isShowLoadingCounter.observe(viewLifecycleOwner, {
                 if (it) {
                     startAudio()
                 }
             })
 
-            countDownFinish.observe(viewLifecycleOwner, Observer {
+            countDownFinish.observe(viewLifecycleOwner, {
                 if (it) {
                     try {
                         mediaPlayer?.stop()
@@ -229,7 +226,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            isShowInterviewRoomView.observe(viewLifecycleOwner, Observer {
+            isShowInterviewRoomView.observe(viewLifecycleOwner, {
                 if (it) {
                     binding.cameraLocalReady.apply {
                         release()
@@ -240,7 +237,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            isShowParentReadyView.observe(viewLifecycleOwner, Observer {
+            isShowParentReadyView.observe(viewLifecycleOwner, {
                 if (it) {
 //                    initializeLocalCamera()
                 }
@@ -635,7 +632,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         val sessionDescriptionJO = argument.getJSONObject("description")
 
         val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "R")
-        peerConnection!!.setRemoteDescription(
+        peerConnection.setRemoteDescription(
                 CustomSdpObserver(),
                 SessionDescription(
                         SessionDescription.Type.OFFER,

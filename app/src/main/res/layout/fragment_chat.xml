@@ -48,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto"
                 android:gravity="center"
                 android:text="@{viewModel.welcomeText}"
                 android:visibility="@{viewModel.welcomeTextShow ? View.VISIBLE : View.GONE}"
@@ -63,39 +64,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto"
                 android:gravity="center"
-                android:visibility="@{viewModel.anotherInterviewTextShow ? View.VISIBLE : View.GONE}"
                 android:text="@{viewModel.anotherInterviewText}"
-                tools:text="Interviewer is taking another interview. Please wait sometimes."
+                android:visibility="@{viewModel.anotherInterviewTextShow ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_welcome_msg" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_welcome_msg"
+                tools:text="Interviewer is taking another interview. Please wait sometimes." />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_waiting_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto"
                 android:gravity="center"
-                android:visibility="@{viewModel.waitingTextShow ? View.VISIBLE : View.GONE}"
                 android:text="@{viewModel.waitingText}"
-                tools:text="Please wait and take your preparation. The interviewer will start the interview process soon."
+                android:visibility="@{viewModel.waitingTextShow ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_another_interview" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_another_interview"
+                tools:text="Please wait and take your preparation. The interviewer will start the interview process soon." />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_asked_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:fontFamily="@font/roboto"
                 android:gravity="center"
-                android:visibility="@{viewModel.askedTextShow ? View.VISIBLE : View.GONE}"
                 android:text="@{viewModel.askedText}"
-                tools:text="Interviewer asked for you. Enable Yes if your are ready. Write message here to let him know that you are present now. [You can also call employer on the [given number].]"
+                android:visibility="@{viewModel.askedTextShow ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_waiting_msg" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_waiting_msg"
+                tools:text="Interviewer asked for you. Enable Yes if your are ready. Write message here to let him know that you are present now. [You can also call employer on the [given number].]" />
 
             <ProgressBar
                 android:layout_width="wrap_content"
@@ -135,16 +139,17 @@
                 android:id="@+id/et_write_message"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_send_message"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/btn_rounded_bg"
                 android:backgroundTint="#F5F6FA"
-                android:layout_marginEnd="8dp"
-                android:minHeight="38dp"
-                android:inputType="textMultiLine"
+                android:fontFamily="@font/roboto"
                 android:hint="Write Messages"
+                android:inputType="textMultiLine"
+                android:minHeight="38dp"
                 android:padding="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_send_message"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:layout_width="wrap_content"

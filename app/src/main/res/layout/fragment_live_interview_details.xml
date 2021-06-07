@@ -170,7 +170,6 @@
             android:paddingEnd="16dp"
             android:paddingBottom="10dp"
             tools:visibility="visible"
-            android:visibility="@{viewModel.showPreparationSection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -345,7 +344,6 @@
                     android:drawableTint="#13a10e"
                     android:onClick="@{()->viewModel.onJoinInterviewButtonClick()}"
                     android:padding="5dp"
-                    android:visibility="@{viewModel.showJoinInterviewSmallBTN ? View.VISIBLE : View.GONE}"
                     android:text="Join Interview"
                     android:textColor="#13a10e"
                     android:textStyle="bold" />

@@ -27,6 +27,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
             android:text="Please check your internet connection"
             android:layout_gravity="center"
             android:textColor="@color/white"
@@ -41,6 +42,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Bdjobs.com ltd"
+        android:fontFamily="@font/roboto"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

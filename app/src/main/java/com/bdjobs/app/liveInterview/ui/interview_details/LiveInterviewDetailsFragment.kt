@@ -3,15 +3,11 @@ package com.bdjobs.app.liveInterview.ui.interview_details
 import android.Manifest
 import android.app.Application
 import android.app.Dialog
-import android.content.ContentUris
-import android.content.ContentValues
 import android.content.Intent
-import android.database.Cursor
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.provider.CalendarContract
 import android.provider.Settings
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -19,17 +15,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.BalloonFactory
 import com.bdjobs.app.databinding.FragmentLiveInterviewDetailsBinding
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.videoInterview.util.EventObserver
@@ -40,14 +33,10 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
-import kotlinx.android.synthetic.main.dialog_preparation.*
 import kotlinx.android.synthetic.main.fragment_live_interview_details.*
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.startActivity
-import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
 import timber.log.Timber
-import java.util.*
 import kotlin.collections.ArrayList
 
 class LiveInterviewDetailsFragment : Fragment() {
@@ -59,7 +48,7 @@ class LiveInterviewDetailsFragment : Fragment() {
     val calendarInfos = arrayListOf<String>()
     val primaryCalendarInfos = arrayListOf<String>()
 
-    private val balloon by lazy { BalloonFactory().create(context = requireContext(), lifecycle = viewLifecycleOwner) }
+//    private val balloon by lazy { BalloonFactory().create(context = requireContext(), lifecycle = viewLifecycleOwner) }
 
     var snackbar: Snackbar? = null
 
@@ -76,7 +65,7 @@ class LiveInterviewDetailsFragment : Fragment() {
     lateinit var binding: FragmentLiveInterviewDetailsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = FragmentLiveInterviewDetailsBinding.inflate(inflater).apply {
             viewModel = liveInterviewDetailsViewModel
             lifecycleOwner = viewLifecycleOwner
@@ -103,7 +92,7 @@ class LiveInterviewDetailsFragment : Fragment() {
 
         liveInterviewDetailsViewModel.apply {
 
-            liveInterviewDetailsData.observe(viewLifecycleOwner, Observer {
+            liveInterviewDetailsData.observe(viewLifecycleOwner, {
                 adapter.submitList(it)
             })
 
@@ -157,7 +146,7 @@ class LiveInterviewDetailsFragment : Fragment() {
             val jobids = ArrayList<String>()
             val lns = ArrayList<String>()
             val deadline = ArrayList<String>()
-            jobids.add(args.jobId!!)
+            jobids.add(args.jobId)
             lns.add("0")
             deadline.add("")
             startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
@@ -211,7 +200,7 @@ class LiveInterviewDetailsFragment : Fragment() {
             }
         }
 
-        reasonRG.setOnCheckedChangeListener { group, checkedId ->
+        reasonRG.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.reason1RB -> {
                     otherReasonET.visibility = View.GONE
@@ -231,23 +220,28 @@ class LiveInterviewDetailsFragment : Fragment() {
         submitBTN.setOnClickListener {
             var otherReason = ""
             var selectedReason = ""
-            val checkedId = reasonRG.checkedRadioButtonId
-            if (checkedId == R.id.reason1RB) {
-                selectedReason = "1"
-            } else if (checkedId == R.id.reason2RB) {
-                selectedReason = "2"
-            } else if (checkedId == R.id.reason3RB) {
-                selectedReason = "3"
-            } else if (checkedId == R.id.reason4RB) {
-                selectedReason = "4"
-                otherReason = otherReasonET.text.toString()
+            when (reasonRG.checkedRadioButtonId) {
+                R.id.reason1RB -> {
+                    selectedReason = "1"
+                }
+                R.id.reason2RB -> {
+                    selectedReason = "2"
+                }
+                R.id.reason3RB -> {
+                    selectedReason = "3"
+                }
+                R.id.reason4RB -> {
+                    selectedReason = "4"
+                    otherReason = otherReasonET.text.toString()
+                }
             }
 
             if (TextUtils.isEmpty(selectedReason)) {
                 Toast.makeText(activity, "Please select an option from the list.", Toast.LENGTH_SHORT).show()
             } else if (TextUtils.isEmpty(otherReason) && selectedReason.equals("4", ignoreCase = true)) {
                 Toast.makeText(activity, "Please write your reason briefly.", Toast.LENGTH_SHORT).show()
-            } else if (selectedReason.equals("4", ignoreCase = true) && otherReason.trim { it <= ' ' }.length == 0) {
+            } else if (selectedReason.equals("4", ignoreCase = true) && otherReason.trim { it <= ' ' }
+                    .isEmpty()) {
                 Toast.makeText(activity, "Please write your reason briefly.", Toast.LENGTH_SHORT).show()
             } else {
                 liveInterviewDetailsViewModel.apply {
