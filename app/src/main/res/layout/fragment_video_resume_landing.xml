@@ -302,19 +302,64 @@
                         android:layout_marginEnd="10dp"
                         android:id="@+id/iv_yes_animator"/>
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/switch_public"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="0dp"
+                        android:layout_height="30dp"
                         android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
-                        android:checked='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? true : false}'
-                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"
                         app:layout_constraintBottom_toBottomOf="@id/tv_public"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/img_info"
-                        app:thumbTint="@color/green"
-                        app:useMaterialThemeColors="false" />
+                        android:background="@drawable/border_round_5_dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_yes_show"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            backgroundAppearanceYes="@{viewModel.yesSelected}"
+                            android:paddingHorizontal="8dp"
+                            android:text="Yes"
+                            android:gravity="center_vertical"
+                            android:textAllCaps="false"
+                            android:fontFamily="@font/roboto"
+                            android:drawablePadding="5dp"
+                            android:onClick="@{()->viewModel.onYesClicked()}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_no_show"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="8dp"
+                            android:text="No"
+                            backgroundAppearanceNo="@{viewModel.noSelected}"
+                            android:gravity="center_vertical"
+                            android:textAllCaps="false"
+                            android:fontFamily="@font/roboto"
+                            android:drawablePadding="5dp"
+                            android:onClick="@{()->viewModel.onNoClicked()}"
+                            app:layout_constraintStart_toEndOf="@id/tv_yes_show"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+<!--                    <com.google.android.material.switchmaterial.SwitchMaterial-->
+<!--                        android:id="@+id/switch_public"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:minHeight="0dp"-->
+<!--                        tools:visibility="gone"-->
+<!--                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"-->
+<!--                        android:checked='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? true : false}'-->
+<!--                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/tv_public"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/img_info"-->
+<!--                        app:thumbTint="@color/green"-->
+<!--                        app:useMaterialThemeColors="false" />-->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
