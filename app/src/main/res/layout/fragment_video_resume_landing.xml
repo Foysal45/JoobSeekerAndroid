@@ -121,17 +121,31 @@
                         tools:text="60%" />
 
                     <TextView
+                        android:id="@+id/tv_completeness"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="@{`Completed `+  viewModel.statusPercentage + `% of Video Resume`}"
+                        android:text="@{`Completeness (`+  viewModel.statusPercentage + `)% of Video Resume`}"
                         android:textColor="#9D0191"
                         app:layout_constraintBottom_toBottomOf="@id/circularProgressbar"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/circularProgressbar"
                         app:layout_constraintTop_toTopOf="@id/circularProgressbar"
-                        tools:text="Completed 60% of Video Resume" />
+                        tools:text="Completeness(3/6)" />
+
+                    <TextView
+                        android:id="@+id/tv_last_update"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Last Update: "
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@id/circularProgressbar"
+                        app:layout_constraintStart_toStartOf="@id/tv_completeness"
+                        app:layout_constraintTop_toBottomOf="@id/tv_completeness"/>
 
                     <View
                         android:id="@+id/view"
@@ -142,43 +156,33 @@
                         android:layout_marginEnd="10dp"
                         android:background="#E6E6E6"
                         android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintTop_toBottomOf="@id/circularProgressbar" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_last_update" />
 
-                    <TextView
-                        android:id="@+id/tv_last_update"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
-                        android:layout_marginTop="14dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Last Update"
-                        android:textColor="@color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/view" />
+
 
                     <TextView
                         android:id="@+id/tv_total_viewed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:layout_marginTop="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="Total Viewed"
+                        android:text="No. of times viewed"
                         android:textColor="@color/black"
+                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_last_update" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_company_view" />
 
                     <TextView
                         android:id="@+id/tv_total_company_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:layout_marginTop="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="Total company View"
+                        android:text="No. of companies viewed"
                         android:textColor="@color/black"
+                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_total_viewed" />
+                        app:layout_constraintTop_toBottomOf="@id/view" />
 
                     <TextView
                         android:id="@+id/tv_overall_rating"
@@ -190,22 +194,21 @@
                         android:text="Overall Ratings"
                         android:textColor="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_total_company_view" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_viewed" />
 
                     <TextView
                         android:id="@+id/tv_public"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:layout_marginTop="14dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? "Currently showing to employer" : "Currently not showing"}'
                         android:textColor="@color/black"
-                        tools:text="Currently not showing"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_overall_rating"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:text="Show to Employer(s)" />
 
                     <ImageView
                         android:background="?attr/selectableItemBackgroundBorderless"
@@ -220,15 +223,31 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"/>
 
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_resume_invisible_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_public"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="@font/roboto"
+                        android:visibility='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? View.GONE : View.VISIBLE}'
+                        android:textColor="#721C24"
+                        app:drawableStartCompat="@drawable/ic_visibility_indicator"
+                        android:drawablePadding="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="12sp"
+                        android:id="@+id/tv_resume_invisible_text"/>
+
                     <TextView
                         android:id="@+id/tv_last_update_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:text="@{viewModel.lastUpdate}"
-                        android:textColor="#4D4D4D"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/tv_last_update"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_last_update"
                         app:layout_constraintTop_toTopOf="@id/tv_last_update"
                         tools:text="30 Jun 2020" />
 
@@ -272,6 +291,17 @@
                         app:layout_constraintTop_toTopOf="@id/tv_overall_rating"
                         tools:rating="3" />
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_yes_animator_resume_visibiliey"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_public"
+                        app:layout_constraintEnd_toStartOf="@id/switch_public"
+                        android:visibility='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? View.GONE : View.VISIBLE}'
+                        app:layout_constraintTop_toTopOf="@id/img_info"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/iv_yes_animator"/>
+
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/switch_public"
                         android:layout_width="wrap_content"
@@ -313,13 +343,13 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center_vertical"
                     android:letterSpacing="0"
-                    android:text="View / Edit Video"
+                    android:text="View/ Record Video"
                     android:textAllCaps="false"
                     android:textColor="#212121"
+                    android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                     app:icon="@drawable/ic_edit_video"
                     app:iconPadding="32dp"
                     app:iconTint="#666666"

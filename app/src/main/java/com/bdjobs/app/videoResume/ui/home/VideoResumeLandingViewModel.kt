@@ -132,8 +132,8 @@ class VideoResumeLandingViewModel(
                 _totalProgress.value = statusPercentage.value?.toInt()
                 _threshold.value = data?.threshold
                 _maxProgress.value = 100
-                _statusCode.value = response.statuscode
-                _showStat.value = !totalAnswered.value!!.equals("0")
+                _statusCode.value = response.statuscode!!
+                _showStat.value = totalAnswered.value!! != "0"
 
             } catch (e: Exception) {
                 e.printStackTrace()
