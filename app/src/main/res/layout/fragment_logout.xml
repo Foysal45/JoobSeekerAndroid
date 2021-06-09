@@ -121,7 +121,7 @@
         android:textAllCaps="false"
         android:textColor="#212121"
         android:textSize="14sp"
-        app:icon="@drawable/ic_exit_to_app_black_24dp"
+        app:icon="@drawable/ic_sign_out_more"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changepass" />
