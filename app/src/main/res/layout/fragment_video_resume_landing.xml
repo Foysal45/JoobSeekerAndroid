@@ -202,7 +202,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? "Currently showing to employer" : "Currently not showing"}'
+                        android:text='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? "Show to Employer(s)" : "Show to Employer(s)"}'
                         android:textColor="@color/black"
                         android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         app:layout_constraintStart_toStartOf="parent"
@@ -351,7 +351,6 @@
 <!--                        android:layout_width="wrap_content"-->
 <!--                        android:layout_height="wrap_content"-->
 <!--                        android:minHeight="0dp"-->
-<!--                        tools:visibility="gone"-->
 <!--                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"-->
 <!--                        android:checked='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? true : false}'-->
 <!--                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"-->

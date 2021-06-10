@@ -94,12 +94,18 @@ class VideoResumeLandingViewModel(
         try {
             if(totalAnswered.value!!.toInt() < threshold.value!!.toInt()){
                 _isAlertOn.value = "0"
+                yesSelected.value = false
+                noSelected.value = true
                 _openMessageDialogEvent.value = Event(true)
             }else if (!checked) {
                 _isAlertOn.value = "0"
+                yesSelected.value = false
+                noSelected.value = true
                 _openTurnOffVisibilityDialogEvent.value = Event(true)
             } else{
                 _isAlertOn.value = "1"
+                noSelected.value = false
+                yesSelected.value = true
                 updateResumeVisibility()
             }
         } catch (e:Exception){
@@ -109,17 +115,13 @@ class VideoResumeLandingViewModel(
     }
 
     fun onYesClicked() {
-        noSelected.value = false
-        yesSelected.value = true
-        _isAlertOn.value = "1"
+//        _isAlertOn.value = "1"
 
         onCheckedChanged(true)
     }
 
     fun onNoClicked() {
-        yesSelected.value = false
-        noSelected.value = true
-        _isAlertOn.value = "0"
+//        _isAlertOn.value = "0"
 
         onCheckedChanged(false)
     }
@@ -130,6 +132,8 @@ class VideoResumeLandingViewModel(
 
     fun notChangeResumeVisibility(){
         _isAlertOn.value = "1"
+        noSelected.value = false
+        yesSelected.value = true
     }
 
     fun getAllQuestions() : List<Question>{
