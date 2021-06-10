@@ -11,7 +11,7 @@ import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.videoResume.data.models.Question
 import kotlinx.android.synthetic.main.layout_video_resume_question_item.view.*
 
-class QuestionListAdapter(var question: List<Question>) : RecyclerView.Adapter<QuestionListAdapter.QuestionViewHolder>() {
+class QuestionListAdapter(var question: MutableList<Question>) : RecyclerView.Adapter<QuestionListAdapter.QuestionViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionViewHolder = QuestionViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.layout_video_resume_question_item, parent, false)
     )
@@ -30,7 +30,7 @@ class QuestionListAdapter(var question: List<Question>) : RecyclerView.Adapter<Q
         val isNew : TextView = view.tv_new
 
         fun bind(question: Question) {
-            serial.text = question.serial.toString()
+            serial.text = question.serial
             title.text = question.title
             time.text = question.time
             if (question.isNew){
@@ -39,6 +39,12 @@ class QuestionListAdapter(var question: List<Question>) : RecyclerView.Adapter<Q
                 isNew.hide()
 
         }
+    }
+
+    fun updateList(newQuestions: MutableList<Question>) {
+        question.clear()
+        question.addAll(newQuestions)
+        notifyDataSetChanged()
     }
 
 }
