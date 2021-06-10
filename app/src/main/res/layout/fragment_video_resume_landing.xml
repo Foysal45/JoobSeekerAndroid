@@ -126,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="@{`Completeness (`+  viewModel.statusPercentage + `)% of Video Resume`}"
+                        android:text="@{`Completeness (`+  viewModel.totalAnswered + `/`+ viewModel.totalQuestions +`)`}"
                         android:textColor="#9D0191"
                         app:layout_constraintBottom_toBottomOf="@id/circularProgressbar"
                         app:layout_constraintEnd_toEndOf="parent"

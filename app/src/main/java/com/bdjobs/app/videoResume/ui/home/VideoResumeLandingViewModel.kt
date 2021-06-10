@@ -60,6 +60,9 @@ class VideoResumeLandingViewModel(
     }
     val totalAnswered: LiveData<String?> = _totalAnswered
 
+    private val _totalQuestions = MutableLiveData<String?>().apply { value = "0" }
+    val totalQuestions : LiveData<String?> get() = _totalQuestions
+
     private val _threshold = MutableLiveData<String?>().apply {
         value = "0"
     }
@@ -163,6 +166,7 @@ class VideoResumeLandingViewModel(
                 _overallRating.value = rating.value?.toInt()
                 _isAlertOn.value = data?.resumeVisibility
                 _totalAnswered.value = data?.totalAnswered
+                _totalQuestions.value = data?.totalQuestion
                 _totalProgress.value = statusPercentage.value?.toInt()
                 _threshold.value = data?.threshold
                 _maxProgress.value = 100
