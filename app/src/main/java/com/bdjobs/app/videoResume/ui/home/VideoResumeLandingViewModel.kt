@@ -82,6 +82,11 @@ class VideoResumeLandingViewModel(
     }
     val openTurnOffVisibilityDialogEvent: LiveData<Event<Boolean>> = _openTurnOffVisibilityDialogEvent
 
+    private val _openTurnOnVisibilityDialogEvent = MutableLiveData<Event<Boolean>>().apply {
+        value = Event(false)
+    }
+    val openTurnOnVisibilityDialogEvent: LiveData<Event<Boolean>> = _openTurnOnVisibilityDialogEvent
+
     private val _openMessageDialogEvent = MutableLiveData<Event<Boolean>>().apply {
         value = Event(false)
     }
@@ -101,12 +106,15 @@ class VideoResumeLandingViewModel(
                 _isAlertOn.value = "0"
                 yesSelected.value = false
                 noSelected.value = true
-                _openTurnOffVisibilityDialogEvent.value = Event(true)
+//                _openTurnOffVisibilityDialogEvent.value = Event(true)
+
+                updateResumeVisibility()
             } else{
                 _isAlertOn.value = "1"
                 noSelected.value = false
                 yesSelected.value = true
-                updateResumeVisibility()
+                _openTurnOnVisibilityDialogEvent.value =  Event(true)
+//                updateResumeVisibility()
             }
         } catch (e:Exception){
             e.printStackTrace()
@@ -115,14 +123,10 @@ class VideoResumeLandingViewModel(
     }
 
     fun onYesClicked() {
-//        _isAlertOn.value = "1"
-
         onCheckedChanged(true)
     }
 
     fun onNoClicked() {
-//        _isAlertOn.value = "0"
-
         onCheckedChanged(false)
     }
 
@@ -130,10 +134,14 @@ class VideoResumeLandingViewModel(
         updateResumeVisibility()
     }
 
+    fun onShowResumeVisibility() {
+        updateResumeVisibility()
+    }
+
     fun notChangeResumeVisibility(){
-        _isAlertOn.value = "1"
-        noSelected.value = false
-        yesSelected.value = true
+        _isAlertOn.value = "0"
+        noSelected.value = true
+        yesSelected.value = false
     }
 
     fun getAllQuestions() : List<Question>{
