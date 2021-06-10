@@ -21,6 +21,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_change_lang"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="বাংলায় দেখুন"
+        android:fontFamily="@font/noto_sans"
+        android:textColor="#2962FF"
+        app:drawableStartCompat="@drawable/ic_bn_drawable"
+        android:drawablePadding="8dp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_heading"
+        android:layout_marginTop="8dp"
+        android:text="ইংলিশ/ বাংলায় উত্তর দিন"
+        android:fontFamily="@font/noto_sans"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_information_drawable"
+        android:drawablePadding="8dp"/>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_question_list"
         android:layout_width="match_parent"
@@ -30,7 +56,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_yes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_heading"
+        app:layout_constraintTop_toBottomOf="@id/tv_info"
         app:layout_constraintVertical_bias="0.0"
         tools:itemCount="5"
         tools:listitem="@layout/layout_video_resume_question_item" />

@@ -46,7 +46,7 @@ class VideoResumeViewModel {
 
 class VideoResumeQuestionsFragment : Fragment() {
 
-    private val baseVideoResumeViewModel : VideoResumeViewModel by activityViewModels()
+//    private val baseVideoResumeViewModel : VideoResumeViewModel by activityViewModels()
 
     private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment) {
         ViewModelFactoryUtil.provideVideoResumeQuestionsViewModelFactory(this)
