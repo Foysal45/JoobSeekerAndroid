@@ -91,7 +91,7 @@ class VideoResumeQuestionsFragment : Fragment() {
                 askForPermission(it)
 
             } else {
-                findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToViewVideoResumeFragment(it.videoUrl))
+                findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToViewVideoResumeFragment(it.videoUrl,it.questionText))
             }
         })
 
