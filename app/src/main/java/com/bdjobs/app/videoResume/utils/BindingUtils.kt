@@ -56,3 +56,12 @@ fun MaterialTextView.setBackgroundAppearanceNo(isSelected: Boolean) {
         }
     }
 }
+
+@BindingAdapter("isUnderlineText")
+fun MaterialTextView.isUnderlineText(value:Boolean) {
+    if (value) {
+        this.run {
+            paint.isUnderlineText = value
+        }
+    }
+}

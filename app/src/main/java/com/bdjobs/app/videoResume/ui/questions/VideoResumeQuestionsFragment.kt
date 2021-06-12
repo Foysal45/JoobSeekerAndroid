@@ -1,6 +1,7 @@
 package com.bdjobs.app.videoResume.ui.questions
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -124,6 +125,10 @@ class VideoResumeQuestionsFragment : Fragment() {
             }
         })
 
+        adapter.onTipsClicked { data ->
+            buildTipsDialog(data.questionText,"Tips")
+        }
+
         videoResumeQuestionsViewModel.apply {
             Log.d("Salvin", "Loaded VideoResumeQuestionsFragment")
             getQuestions()
@@ -157,6 +162,19 @@ class VideoResumeQuestionsFragment : Fragment() {
         if (!storageDir.exists()) {
             storageDir.mkdir()
         }
+    }
+
+    private fun buildTipsDialog(title:String?,message:String?) {
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle("প্রশ্নঃ $title")
+        builder.setMessage("টিপসঃ  $message")
+        builder.setPositiveButton("ওকে") { dialog, _ ->
+            Timber.d("yes please hide")
+            dialog.dismiss()
+        }
+
+        builder.show()
     }
 
     private fun updateQuestionStatus(size: Int) {

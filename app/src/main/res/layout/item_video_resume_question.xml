@@ -50,6 +50,52 @@
         app:layout_constraintTop_toBottomOf="@id/tv_question_heading"
         tools:text="Introduce yourself" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_question_bn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#9D0191"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:gravity="center"
+        android:text="@{question.questionText}"
+        android:layout_marginTop="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/noto_sans"
+        app:layout_constraintTop_toBottomOf="@id/tv_question"
+        tools:text="নিজের সম্পর্কে কিছু বলুন" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_question_bn"
+        android:layout_marginTop="8dp"
+        android:text="ইংলিশ/ বাংলায় উত্তর দিন"
+        android:fontFamily="@font/noto_sans"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_information_drawable"
+        android:drawablePadding="8dp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_answer_tips"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_info"
+        android:layout_marginTop="8dp"
+        android:text="অ্যানসার টিপস"
+        android:fontFamily="@font/noto_sans"
+        android:textColor="#2962FF"
+        android:textSize="12sp"
+        android:drawablePadding="8dp"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_record"
         style="@style/Widget.MaterialComponents.Button.Icon"
@@ -74,7 +120,7 @@
         app:iconPadding="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_question" />
+        app:layout_constraintTop_toBottomOf="@id/tv_answer_tips" />
 
     <com.google.android.material.textview.MaterialTextView
         app:drawableTint="@color/black"
