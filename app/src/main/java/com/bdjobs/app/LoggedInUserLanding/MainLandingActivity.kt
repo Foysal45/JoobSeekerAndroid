@@ -50,6 +50,7 @@ import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
+import com.bdjobs.app.resume_dashboard.ResumeDashboardBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.bdjobs.app.videoResume.ResumeManagerActivity
 import com.bdjobs.app.videoResume.VideoResumeActivity
@@ -332,7 +333,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
     }
 
     override fun goToResumeManager(){
-        startActivity<ResumeManagerActivity>()
+        startActivity<ResumeDashboardBaseActivity>()
     }
 
 

@@ -472,4 +472,6 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_subscribe_employer_favorite_search_for_sms_alert">Subscribe Employer/Favorite Search for SMS Alert</string>
     <string name="label_get_instant_sms_job_alert">Get Instant SMS Job Alert</string>
     <string name="label_steps_of_receiving_sms_job_alert_of_your_choice">Steps of receiving SMS Job Alert of your choice</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_view_edit_resume">View/ Edit Resume</string>
 </resources>
