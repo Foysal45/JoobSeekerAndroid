@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.core.app.SharedElementCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -18,6 +19,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
@@ -44,6 +46,8 @@ import java.util.*
 
 class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener, SignalingEvent {
 
+    private var jobId = ""
+    private var jobTitle = ""
     private var videoSource: VideoSource? = null
     private var audioSource: AudioSource? = null
 
@@ -72,9 +76,12 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private var audioConstraints: MediaConstraints? = null
 //    private var videoConstraints: MediaConstraints? = null
 
+    var videoCapturerAndroid: VideoCapturer? = null
 
     var mic_switch: Boolean = true
     var video_switch: Boolean = true
+
+
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
 
@@ -121,6 +128,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         bdjobsUserSession = BdjobsUserSession(requireContext())
         processId = args.processID.toString()
+        jobId = args.jobID.toString()
+        jobTitle = args.jobTitle.toString()
 
         startSession()
         setUpObservers()
@@ -390,11 +399,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         localAudioTrack = peerConnectionFactory?.createAudioTrack("101", audioSource)
         localAudioTrack?.setEnabled(true)
 
-        val videoCapturerAndroid: VideoCapturer? = createVideoCapturer()
+        videoCapturerAndroid = createVideoCapturer()
         videoCapturerAndroid?.let {
             surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", eglBaseContext)
-            videoSource = peerConnectionFactory?.createVideoSource(videoCapturerAndroid.isScreencast)
-            videoCapturerAndroid.initialize(surfaceTextureHelper, requireActivity(), videoSource?.capturerObserver)
+            videoSource = peerConnectionFactory?.createVideoSource(videoCapturerAndroid!!.isScreencast)
+            videoCapturerAndroid!!.initialize(surfaceTextureHelper, requireActivity(), videoSource?.capturerObserver)
         }
         videoCapturerAndroid?.startCapture(320, 240, 30)
 
@@ -574,7 +583,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         try {
             requireActivity().unregisterReceiver(internetBroadCastReceiver)
             mediaPlayer?.release()
-            SignalingServer.get()?.destroy()
+     //       SignalingServer.get()?.destroy()
             bdjobsUserSession.isSessionAlreadyStarted = false
         } catch (e: Exception) {
         }
@@ -583,7 +592,28 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onPause() {
         super.onPause()
-        Timber.d("onPause")
+        Timber.tag("live").d("onPause")
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.tag("live").d("onDestroyView")
+        SignalingServer.get()?.destroy()
+        try{
+            localVideoTrack?.removeSink(binding.localMeSurfaceView)
+            remoteVideoTrack?.removeSink(binding.remoteHostSurfaceView)
+            videoCapturerAndroid?.stopCapture()
+            localVideoTrack?.dispose()
+            remoteVideoTrack?.dispose()
+            binding.remoteHostSurfaceView.release()
+            binding.localMeSurfaceView.release()
+            findNavController().navigateUp()
+        }catch(e:Exception){
+            Timber.tag("live").d(e.toString())
+
+        }
+
     }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
@@ -591,8 +621,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     override fun onEventDisconnected() {
-        Timber.tag("live").d("Disconnected")
-        remoteVideoTrack?.removeSink(binding.remoteHostSurfaceView)
+      //  Timber.tag("live").d("Disconnected")
+      //  remoteVideoTrack?.removeSink(binding.remoteHostSurfaceView)
     }
 
     override fun onEventConnectionError(args: Array<Any>) {
@@ -677,6 +707,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
 //        Timber.tag("live").d("onReceiveChat: %s", args?.get(0))
     }
+
 
 
 }

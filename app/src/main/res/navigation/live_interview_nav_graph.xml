@@ -217,6 +217,10 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_interviewSessionFragment_to_liveInterviewDetailsFragment"
+            app:destination="@id/liveInterviewDetailsFragment" />
+
         <argument
             android:name="jobID"
             app:argType="string"

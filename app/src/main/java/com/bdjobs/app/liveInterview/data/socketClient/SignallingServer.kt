@@ -19,6 +19,8 @@ class SignalingServer {
     private var socket:Socket?=null
     private var localSocketID:String = ""
     private var remoteSocketID:String = ""
+    private var activeUser:String = ""
+
     private var processId:String = ""
     private var serverURL:String = "https://live.bdjobs.com/"
 
@@ -81,8 +83,9 @@ class SignalingServer {
             socket?.on(EventConstants.EVENT_NEW_USER) {args: Array<Any?>? ->
                 val argument = args?.get(0) as JSONObject
                 remoteSocketID = argument.getString("socketId")
+                activeUser = argument.getString("activeUserCount")
                 signalingEvent.onNewUser(args)
-
+                sendApplicantId()
                 // temp solution if browser reload , infinite loop on back navigation
 //                socket?.disconnect()
 //                socket?.connect()
@@ -120,6 +123,16 @@ class SignalingServer {
                     signalingEvent.onReceiveIceCandidate(args)
                 }
             }
+
+            socket?.on(EventConstants.EVENT_INTERVIEW_CALL_END) { args: Array<Any?>? ->
+                Timber.tag("live").d("call end: %s", args?.get(0))
+                sendCallHasEnded()
+            }
+
+            socket?.on(EventConstants.EVENT_END_LOCAL) { args: Array<Any?>? ->
+                Timber.tag("live").d("end local: %s", args?.get(0))
+            }
+
             socket?.on(EventConstants.EVENT_SDP) { args: Array<Any?>? ->
                 if (args != null) {
                     signalingEvent.onReceiveSDP(args)
@@ -136,6 +149,7 @@ class SignalingServer {
 
             socket?.on(Socket.EVENT_DISCONNECT) {
                 Timber.tag("live").d("Socket Disconnected")
+                signalingEvent.onEventDisconnected()
             }
             socket?.on(Socket.EVENT_CONNECT_ERROR) { args: Array<Any> ->
                 signalingEvent.onEventConnectionError(args)
@@ -154,6 +168,42 @@ class SignalingServer {
     fun destroy() {
         socket?.disconnect()
         socket?.close()
+
+    }
+
+    fun sendCallHasEnded(){
+        val sendingCallHasEnded = JSONObject()
+
+        try {
+            sendingCallHasEnded.put("local", remoteSocketID )
+            sendingCallHasEnded.put("sender", localSocketID)
+
+        } catch (e: Exception) {
+            Timber.tag("live").d("SignallingServer: sendingCallHasEnded error - $e")
+        }
+        Timber.tag("live").d("sendingCallHasEnded string - $sendingCallHasEnded")
+
+        socket?.emit(EventConstants.EVENT_END_LOCAL, sendingCallHasEnded)
+        destroy()
+    }
+
+    fun sendApplicantId() {
+
+        val sendingId = JSONObject()
+
+        try {
+            sendingId.put("to", remoteSocketID )
+            sendingId.put("sender", localSocketID)
+            sendingId.put("ActiveUser", activeUser)
+            sendingId.put("isloginuser", "true")
+            sendingId.put("activeUserCount", activeUser)
+
+        } catch (e: Exception) {
+            Timber.tag("live").d("SignallingServer: sendingId error - $e")
+        }
+        Timber.tag("live").d("sendingId string - $sendingId")
+
+        socket?.emit(EventConstants.EVENT_NEW_USER_START_NEW, sendingId)
     }
 
     fun sendSessionDescription(sessionDescription: SessionDescription) {

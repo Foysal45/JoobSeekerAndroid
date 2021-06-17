@@ -163,7 +163,7 @@ class LiveInterviewDetailsViewModel(
     }
 
     private fun setTimer(interviewDateTime: String) {
-        Timber.tag("live").d("came here $interviewDateTime")
+     //   Timber.tag("live").d("came here $interviewDateTime")
         val start_calendar: Calendar = Calendar.getInstance()
         val end_calendar: Calendar = Calendar.getInstance()
 
@@ -177,13 +177,13 @@ class LiveInterviewDetailsViewModel(
 
         val total_millis = end_millis - start_millis //total time in milliseconds
 
-        Timber.tag("live").d("came here total ${total_millis}")
+      //  Timber.tag("live").d("came here total ${total_millis}")
 
         timer = object : CountDownTimer(total_millis, 1000) {
 
 
             override fun onTick(millisUntilFinished: Long) {
-                Timber.tag("live").d("came here tick")
+              //  Timber.tag("live").d("came here tick")
 
                 var millisUntilFinished = millisUntilFinished
                 val days: Long = TimeUnit.MILLISECONDS.toDays(millisUntilFinished)
@@ -199,9 +199,9 @@ class LiveInterviewDetailsViewModel(
                 remainingMinutes.value = DecimalFormat("00").format(minutes).toString()
                 remainingSeconds.value = DecimalFormat("00").format(seconds).toString()
 
-                Timber.d("${remainingDays.value} ${remainingHours.value} ${remainingMinutes.value} ${remainingSeconds.value}")
+            //    Timber.d("${remainingDays.value} ${remainingHours.value} ${remainingMinutes.value} ${remainingSeconds.value}")
 
-                Timber.d("Minutes: $minutes :: Hours: $hours")
+            //    Timber.d("Minutes: $minutes :: Hours: $hours")
                 if(hours < 1 && minutes < 30){
                     showJoinInterviewSmallBTN.value = true
                 }
