@@ -1,13 +1,373 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".resume_dashboard.ui.dashboard.DashboardFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Dashboard" />
+    <data>
 
-</FrameLayout>
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.resume_dashboard.ui.dashboard.DashboardViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:padding="16dp"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Total Views of Resume (60)"
+                totalViewCountText="@{viewModel.totalResumeCount}"
+                android:fontFamily="@font/roboto"
+                android:textColor="#767676"
+                android:id="@+id/tv_total_resume_view"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_bdjobs_resume_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#EDEDED"
+                app:cardCornerRadius="7dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_total_resume_view"
+                app:layout_constraintWidth_percent="0.32">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_bdjobs_resume_view_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/black"
+                        android:text="@{viewModel.bdJobsResumeViewCount}"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="50" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_label_bdjobs_resume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/label_bdjobs_resume"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_bdjobs_resume_view_count" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_bdjobs_resume_count_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_bdjobs_resume_count" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_personalized_resume_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#EDEDED"
+                app:cardCornerRadius="7dp"
+                app:layout_constraintStart_toEndOf="@id/cv_bdjobs_resume_view"
+                app:layout_constraintTop_toBottomOf="@id/tv_total_resume_view"
+                app:layout_constraintWidth_percent="0.32">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_personalized_resume_view_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/black"
+                        android:text="@{viewModel.personalizedResumeViewCount}"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="-" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_label_personalized_resume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/label_personalized"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_view_count" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_personalized_resume_count_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_personalized_resume_count" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_video_resume_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#EDEDED"
+                app:cardCornerRadius="7dp"
+                app:layout_constraintStart_toEndOf="@id/cv_personalized_resume_view"
+                app:layout_constraintTop_toBottomOf="@id/tv_total_resume_view"
+                app:layout_constraintWidth_percent="0.32">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_video_resume_view_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:text="@{viewModel.videoResumeViewCount}"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="10" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_label_video_resume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/label_video_resume"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_video_resume_view_count" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_video_resume_count_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_video_resume_count" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cv_bdjobs_resume_view"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Total Emailed Resume (40)"
+                totalEmailCountText="@{viewModel.totalResumeEmailed}"
+                android:fontFamily="@font/roboto"
+                android:textColor="#767676"
+                android:id="@+id/tv_total_resume_email"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_bdjobs_resume_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#EDEDED"
+                app:cardCornerRadius="7dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_total_resume_email"
+                app:layout_constraintWidth_percent="0.32">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_bdjobs_resume_email_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:text="@{viewModel.bdJobsResumeEmailCount}"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="35" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_label_bdjobs_resume_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/label_bdjobs_resume"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_bdjobs_resume_email_count" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_bdjobs_resume_email_count_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_bdjobs_resume_count" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_personalized_resume_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#EDEDED"
+                app:cardCornerRadius="7dp"
+                app:layout_constraintStart_toEndOf="@id/cv_bdjobs_resume_email"
+                app:layout_constraintTop_toBottomOf="@id/tv_total_resume_email"
+                app:layout_constraintWidth_percent="0.32">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_personalized_resume_email_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:text="@{viewModel.personalizedResumeEmailCount}"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="5" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_label_personalized_resume_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:text="@string/label_personalized"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_email_count" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_personalized_resume_email_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_personalized_resume_count" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+<!--            <include layout="@layout/layout_resume_visibility_handler"/>-->
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:cardCornerRadius="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:cardElevation="5dp"
+                android:backgroundTint="#333333"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="12dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:id="@+id/tv_label_visibility"
+                        android:text="@string/label_resume_visibility_to_employer_s"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/roboto"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_label_visibility"
+                        app:drawableStartCompat="@drawable/ic_visibility_private"
+                        android:layout_marginTop="5dp"
+                        tools:text="Private"
+                        android:text="@{viewModel.resumeVisibility}"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/roboto_medium"
+                        android:drawablePadding="5dp"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_change_visibility"
+                        android:text="@string/label_change"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="12sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textColor="@color/white"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--    </ScrollView>-->
+
+</layout>

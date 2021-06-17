@@ -474,4 +474,9 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_steps_of_receiving_sms_job_alert_of_your_choice">Steps of receiving SMS Job Alert of your choice</string>
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_view_edit_resume">View/ Edit Resume</string>
+    <string name="label_bdjobs_resume">Bdjobs Resume</string>
+    <string name="label_personalized">Personalized</string>
+    <string name="label_video_resume">Video Resume</string>
+    <string name="label_resume_visibility_to_employer_s">Resume visibility to employer(s)</string>
+    <string name="label_change">Change</string>
 </resources>
