@@ -127,6 +127,7 @@ class SignalingServer {
             socket?.on(EventConstants.EVENT_INTERVIEW_CALL_END) { args: Array<Any?>? ->
                 Timber.tag("live").d("call end: %s", args?.get(0))
                 sendCallHasEnded()
+                signalingEvent.onEndCall()
             }
 
             socket?.on(EventConstants.EVENT_END_LOCAL) { args: Array<Any?>? ->
@@ -184,7 +185,6 @@ class SignalingServer {
         Timber.tag("live").d("sendingCallHasEnded string - $sendingCallHasEnded")
 
         socket?.emit(EventConstants.EVENT_END_LOCAL, sendingCallHasEnded)
-        destroy()
     }
 
     fun sendApplicantId() {

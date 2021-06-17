@@ -62,6 +62,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private var mSocketId = ""
     private var mRemoteSocketId = ""
+    private var isGoingToFeedback: Boolean = false
 
     private var localMediaStream: MediaStream? = null
 //    private var remoteMediaStream: MediaStream? = null
@@ -608,10 +609,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             remoteVideoTrack?.dispose()
             binding.remoteHostSurfaceView.release()
             binding.localMeSurfaceView.release()
-            findNavController().navigateUp()
+            if(!isGoingToFeedback) findNavController().navigateUp()
         }catch(e:Exception){
             Timber.tag("live").d(e.toString())
-
         }
 
     }
@@ -670,6 +670,16 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 )
         )
         doAnswer()
+    }
+
+    override fun onEndCall() {
+        isGoingToFeedback = true
+        try{
+            findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToFeedbackFragment(args.applyID, args.jobID, args.processID,args.companyName))
+        }catch(e:Exception){
+            Timber.e("Error onEndCall: ${e.localizedMessage}")
+
+        }
     }
 
     override fun onReceiveIceCandidate(args: Array<Any?>?) {

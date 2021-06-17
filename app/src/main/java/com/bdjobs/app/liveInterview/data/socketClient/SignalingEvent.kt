@@ -18,6 +18,7 @@ interface SignalingEvent {
     fun onReceiveIceCandidate(args: Array<Any?>?)
     fun onReceiveCall(args: Array<Any?>?)
     fun onReceiveSDP(args: Array<Any?>?)
+    fun onEndCall()
 
     // chatting socket
     fun onReceiveChat(args: Array<Any?>?)

@@ -30,13 +30,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/audioRecordFragment" />
-        <action
-            android:id="@+id/action_liveInterviewDetailsFragment_to_feedbackFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:destination="@id/feedbackFragment" />
+
         <action
             android:id="@+id/action_liveInterviewDetailsFragment_to_interviewSessionFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -218,8 +212,16 @@
             app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/chatFragment" />
         <action
+            android:id="@+id/action_interviewSessionFragment_to_feedbackFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:destination="@id/feedbackFragment" />
+        <action
             android:id="@+id/action_interviewSessionFragment_to_liveInterviewDetailsFragment"
             app:destination="@id/liveInterviewDetailsFragment" />
+
 
         <argument
             android:name="jobID"

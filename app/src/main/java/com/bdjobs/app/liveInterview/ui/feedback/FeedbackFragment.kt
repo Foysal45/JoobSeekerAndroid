@@ -70,7 +70,7 @@ class FeedbackFragment : Fragment() {
 
             navigateToListEvent.observe(viewLifecycleOwner,EventObserver{
                 if (it)
-                    findNavController().popBackStack()
+                findNavController().popBackStack(R.id.liveInterviewListFragment,false)
             })
         }
     }
