@@ -29,6 +29,8 @@ data class VideoResumeQuestionList(
             var questionDuration: String?,
             @Json(name = "questionText")
             var questionText: String?,
+            @Json(name = "questionTextBng")
+            var questionTextBng: String?,
             @Json(name = "questionStatus")
             var questionStatus: String?,
             @Json(name = "videoUrl")

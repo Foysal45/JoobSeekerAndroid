@@ -99,7 +99,7 @@
                 android:layout_marginBottom="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/video_view"
-                android:text="প্রশ্নঃ নিজের সম্পর্কে কিছু বলুন" />
+                tools:text="প্রশ্নঃ নিজের সম্পর্কে কিছু বলুন" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

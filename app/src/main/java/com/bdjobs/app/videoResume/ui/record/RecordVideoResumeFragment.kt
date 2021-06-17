@@ -165,14 +165,14 @@ class RecordVideoResumeFragment : Fragment() {
         tv_question_heading?.text =
             "Q${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionSerialNo}. ${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionText}"
         tv_question_title?.text =
-            videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionText
+            videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionTextBng
         tv_time_value?.text =
             "${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionDuration?.toFormattedSeconds()}"
 
         binding.apply {
             tvAnswerTips.paint.isUnderlineText = true
             tvAnswerTips.setOnClickListener {
-                buildTipsDialog(videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionText,"Tips will be here")
+                buildTipsDialog(videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionTextBng,"Tips will be here")
             }
         }
     }
