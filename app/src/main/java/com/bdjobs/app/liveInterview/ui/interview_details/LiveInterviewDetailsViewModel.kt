@@ -88,11 +88,10 @@ class LiveInterviewDetailsViewModel(
 
     val showToast = MutableLiveData<Event<String>>()
     val showUndoSnackbar = MutableLiveData<Event<Boolean>>()
+
     val addToCalendarClickEvent = MutableLiveData<Event<Boolean>>()
     val onAddedToCalendarEvent = MutableLiveData<Event<Boolean>>()
-
     val takePreparationClickEvent = MutableLiveData<Event<Boolean>>()
-
     val joinInterviewClickEvent = MutableLiveData<Event<Boolean>> ()
 
     lateinit var timer: CountDownTimer
@@ -138,12 +137,13 @@ class LiveInterviewDetailsViewModel(
                     e.printStackTrace()
                 }
 
-                if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "1"){
+                val confirmationStatus = liveInterviewDetailsData.value?.get(0)?.confimationStatus
+                if (confirmationStatus == "1"){
                     showPreparationSection.value = true
                     setTimer(interviewDateTime)
                 }
 
-                if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "6"){
+                if (confirmationStatus == "6" || confirmationStatus == "7"){
                     showJoinSection.value = false
                     showPreparationSection.value = false
                 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bdjobs.app.liveInterview.data.models.ChatLogModel
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
 import kotlinx.coroutines.launch
@@ -42,11 +43,14 @@ class InterviewSessionViewModel(
     private var _countDownFinish = MutableLiveData<Boolean>()
     val countDownFinish: LiveData<Boolean> = _countDownFinish
 
-    private val _isShowParentReadyView = MutableLiveData<Boolean>()
-    val isShowParentReadyView: LiveData<Boolean> = _isShowParentReadyView
+    private val _isShowActionView = MutableLiveData<Boolean>()
+    val isShowActionView: LiveData<Boolean> = _isShowActionView
 
-    private val _isShowInterviewRoomView = MutableLiveData<Boolean>()
-    val isShowInterviewRoomView: LiveData<Boolean> = _isShowInterviewRoomView
+    private val _isShowFeedbackView = MutableLiveData<Boolean>()
+    val isShowFeedbackView: LiveData<Boolean> = _isShowFeedbackView
+
+    private val _isShowChatView = MutableLiveData<Boolean>()
+    val isShowChatView: LiveData<Boolean> = _isShowChatView
 
     val yesButtonClickedEvent = MutableLiveData<Event<Boolean>>()
     val yesClick = MutableLiveData<Boolean>()
@@ -57,26 +61,79 @@ class InterviewSessionViewModel(
     val toggleAudioClickEvent = MutableLiveData<Event<Boolean>>()
     val toggleVideoClickEvent = MutableLiveData<Event<Boolean>>()
 
+
     val messageButtonClickEvent = MutableLiveData<Event<Boolean>>()
+    val messageButtonClicked = MutableLiveData<Boolean>()
 
     val instructionButtonClickEvent = MutableLiveData<Event<Boolean>>()
 
-    val waitingText = MutableLiveData<String>()
+    val receivedChatData = MutableLiveData<Array<Any?>?>()
 
+    fun receivedData(args:Array<Any?>?) {
+        receivedChatData.postValue(args)
+    }
 
+    //Chat
     private var _counterText = MutableLiveData<String>()
     val counterText: LiveData<String>
         get() = _counterText
 
     var onChatReceived = MutableLiveData<Array<Any?>?>()
+    private val _welcomeText = MutableLiveData<String>()
+    val welcomeText: LiveData<String>
+        get() = _welcomeText
+
+    private val _anotherInterviewText = MutableLiveData<String>()
+    val anotherInterviewText: LiveData<String>
+        get() = _anotherInterviewText
+
+    private val _waitingText = MutableLiveData<String>()
+    val waitingText: LiveData<String>
+        get() = _waitingText
+
+    private val _askedText = MutableLiveData<String>()
+    val askedText: LiveData<String>
+        get() = _askedText
+
+    private val _logLoading = MutableLiveData<Boolean> ()
+    val logLoading : LiveData<Boolean> = _logLoading
+
+    private val _chatLogFetchSuccess = MutableLiveData<Boolean>()
+    val chatLogFetchSuccess : LiveData<Boolean> = _chatLogFetchSuccess
+
+    private val _chatLogData = MutableLiveData<ChatLogModel?>()
+    val chatLogData : LiveData<ChatLogModel?> = _chatLogData
+
+    private val _chatLogFetchError = MutableLiveData<String?>()
+    val chatLogFetchError : LiveData<String?> = _chatLogFetchError
+
+
+    private val _postLoading = MutableLiveData<Boolean> ()
+    val postLoading : LiveData<Boolean> = _postLoading
+
+    private val _postSuccess = MutableLiveData<Boolean> ()
+    val postSuccess : LiveData<Boolean> = _postSuccess
+
+    private val _postError = MutableLiveData<String> ()
+    val postError: LiveData<String> = _postError
+
+    private val _postMessage = MutableLiveData<String> ()
+    val postMessage: LiveData<String> = _postMessage
+
+    val sendButtonClickEvent = MutableLiveData<Event<Boolean>> ()
+
+    val welcomeTextShow = MutableLiveData<Boolean>()
+    val anotherInterviewTextShow = MutableLiveData<Boolean>()
+    val waitingTextShow = MutableLiveData<Boolean>()
+    val askedTextShow = MutableLiveData<Boolean>()
 
     init {
-        parentReadyViewCheck(true)
         bottomOptionShowCheck(true)
         readyCheck(true)
         yesClick.value = true
         noClick.value = false
         _counterText.value = "5"
+        fetchChatLog()
     }
 
     fun networkCheck(isAvailable: Boolean) {
@@ -91,7 +148,6 @@ class InterviewSessionViewModel(
 
     fun waitingCheck(isWaiting: Boolean) {
         _isWaitingForEmployers.postValue(isWaiting)
-//        readyCheck(false)
     }
 
     fun readyCheck(isReady: Boolean) {
@@ -102,25 +158,22 @@ class InterviewSessionViewModel(
         _isShowBottomOptionView.postValue(isShow)
     }
 
+    fun actionShowCheck(isShow: Boolean) {
+        _isShowActionView.postValue(isShow)
+    }
+
     fun loadingCounterShowCheck(isShow: Boolean) {
         _isShowLoadingCounter.postValue(isShow)
         startLoadingTimer()
         if (isShow) {
-//            parentReadyViewCheck(false)
             bottomOptionShowCheck(false)
             waitingCheck(false)
         }
     }
 
-    fun parentReadyViewCheck(isShow: Boolean) {
-        _isShowParentReadyView.postValue(isShow)
-//        interviewRoomViewCheck(false)
-    }
-
     fun interviewRoomViewCheck(isShow: Boolean) {
-        _isShowInterviewRoomView.postValue(isShow)
+        _isShowActionView.postValue(isShow)
         if (isShow) {
-            parentReadyViewCheck(false)
             loadingCounterShowCheck(false)
             bottomOptionShowCheck(false)
             waitingCheck(false)
@@ -129,9 +182,7 @@ class InterviewSessionViewModel(
 
     fun isCountDownFinished(value: Boolean) {
         _countDownFinish.value = value
-
         if (value) {
-
             interviewRoomViewCheck(true)
         }
     }
@@ -144,16 +195,28 @@ class InterviewSessionViewModel(
         applicantStatusUpdate("1")
     }
 
+    fun onShowChatViewClicked(){
+        _isShowChatView.value = true
+        interviewRoomViewCheck(false)
+        actionShowCheck(false)
+    }
+
+    fun hideChatView(){
+        interviewRoomViewCheck(true)
+        actionShowCheck(true)
+    }
+
     fun onNoButtonClicked() {
         noButtonClickedEvent.value = Event(true)
         noClick.value = true
         yesClick.value = false
         applicantStatusUpdate("2")
-//        loadingCounterShowCheck(true)
     }
 
     fun onMessageButtonClicked() {
+        Timber.tag("live").d("view model onMessageButtonClicked")
         messageButtonClickEvent.value = Event(true)
+        onShowChatViewClicked()
     }
 
     fun onInstructionButtonClicked() {
@@ -190,7 +253,7 @@ class InterviewSessionViewModel(
 
                 if (response.statuscode == "4") {
                     Timber.d("Applicant status updated")
-                    waitingText.value = response.message
+                 //   waitingText.value = response.message
                     waitingCheck(true)
                 } else {
                     Timber.d("Response status code: ${response.statuscode}")
@@ -201,6 +264,91 @@ class InterviewSessionViewModel(
             }
         }
     }
+
+    fun sendButtonClickedEvent() {
+        sendButtonClickEvent.value = Event(true)
+    }
+
+    fun postChatMessage(message:String) {
+        _postLoading.value = true
+
+        viewModelScope.launch {
+            try {
+                val response = repository.postChatMessage(processID,message,"A","0","0")
+                _postLoading.value = false
+
+                if (response.statuscode=="4") {
+                    _postMessage.value = message
+                    _postSuccess.value = true
+                }
+            } catch (e:Exception) {
+                _postLoading.value = false
+                e.printStackTrace()
+                Timber.e("Exception: ${e.localizedMessage}")
+                _postError.value = e.localizedMessage
+            }
+        }
+    }
+
+    private fun fetchChatLog() {
+        _logLoading.value = true
+
+        viewModelScope.launch {
+            try {
+                val response = repository.chatLog(processID)
+
+                _logLoading.value = false
+
+                if (response.Message=="Success") {
+                    _chatLogData.value = response
+                    _chatLogFetchSuccess.value = true
+                }
+
+                val data = chatLogData.value?.arrChatdata
+                if (data!!.isNotEmpty()) {
+                    for (i in data.indices) {
+
+                        if (data[i]?.chatText != null && data[i]?.chatText!!.isNotEmpty()) {
+                            when (data[i]?.hostType) {
+                                "AC" -> {
+                                    _welcomeText.value = data[i]?.chatText!!
+                                    welcomeTextShow.value = true
+                                }
+                                "AU" -> {
+                                    _waitingText.value = data[i]?.chatText!!
+                                    waitingTextShow.value = true
+                                }
+                                "AA" -> {
+                                    _anotherInterviewText.value = data[i]?.chatText!!
+                                    anotherInterviewTextShow.value = true
+                                }
+                                "AL" -> {
+                                    _askedText.value = data[i]?.chatText!!
+                                    askedTextShow.value = true
+                                }
+                            }
+                        }
+                        else {
+                            welcomeTextShow.value = false
+                            anotherInterviewTextShow.value = false
+                            askedTextShow.value = false
+                            waitingTextShow.value = false
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                _logLoading.value = false
+                welcomeTextShow.value = false
+                anotherInterviewTextShow.value = false
+                askedTextShow.value = false
+                waitingTextShow.value = false
+                e.printStackTrace()
+                Timber.e("Exception: ${e.localizedMessage}")
+                _chatLogFetchError.value = e.localizedMessage
+            }
+        }
+    }
+
 
     override fun onCleared() {
         timer?.cancel()

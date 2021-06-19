@@ -50,4 +50,8 @@ class LiveInterviewActivity : AppCompatActivity() {
 //        SignalingServer.get()?.init(this, "6623250")
 
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 }

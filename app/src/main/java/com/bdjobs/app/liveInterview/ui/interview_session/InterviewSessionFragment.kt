@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.activity.OnBackPressedCallback
 import androidx.core.app.SharedElementCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -27,20 +28,25 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.changeColor
 import com.bdjobs.app.databinding.FragmentInterviewSessionBinding
 import com.bdjobs.app.liveInterview.SharedViewModel
+import com.bdjobs.app.liveInterview.data.models.Messages
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.liveInterview.data.socketClient.CustomSdpObserver
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingEvent
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
+import com.bdjobs.app.liveInterview.ui.chat.ChatAdapter
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.demo_connect_employer.streaming.CustomPCObserver
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
+import kotlinx.android.synthetic.main.fragment_interview_session.*
 import org.jetbrains.anko.support.v4.runOnUiThread
+import org.json.JSONException
 import org.json.JSONObject
 import org.webrtc.*
 import org.webrtc.PeerConnection
 import org.webrtc.PeerConnection.RTCConfiguration
 import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -48,66 +54,69 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private var jobId = ""
     private var jobTitle = ""
-    private var videoSource: VideoSource? = null
-    private var audioSource: AudioSource? = null
+    private var processId = ""
+    private var imageLocal: String = ""
+    private var imageRemote: String = ""
+    private var messageCount = 0
 
-    private var localVideoTrack: VideoTrack? = null
-    private var localAudioTrack: AudioTrack? = null
+    private val messageList: ArrayList<Messages> = ArrayList()
+
+
+    private var mSocketId = ""
+    private var mRemoteSocketId = ""
+
+    private lateinit var bdjobsUserSession: BdjobsUserSession
+
+    private val args: InterviewSessionFragmentArgs by navArgs()
+
+    private lateinit var binding: FragmentInterviewSessionBinding
+    private val internetBroadCastReceiver = ConnectivityReceiver()
+
+    private var mAdapter: ChatAdapter = ChatAdapter()
+
     private var surfaceTextureHelper: SurfaceTextureHelper? = null
-
 
     private var eglBaseContext: EglBase.Context? = null
     private var peerConnectionFactory: PeerConnectionFactory? = null
     private val peerConnectionMap = HashMap<String, PeerConnection>()
 
-    private var mSocketId = ""
-    private var mRemoteSocketId = ""
-    private var isGoingToFeedback: Boolean = false
-
-    private var localMediaStream: MediaStream? = null
-//    private var remoteMediaStream: MediaStream? = null
-
-    private var remoteVideoTrack: VideoTrack? = null
-
-//    private var remoteViews = ArrayList<SurfaceViewRenderer>()
-//    private var remoteViewsIndex = 0
-
     val iceServers = ArrayList<PeerConnection.IceServer>()
 
-    private var audioConstraints: MediaConstraints? = null
-//    private var videoConstraints: MediaConstraints? = null
+    private var videoSource: VideoSource? = null
+    private var audioSource: AudioSource? = null
 
-    var videoCapturerAndroid: VideoCapturer? = null
+    private var localVideoTrack: VideoTrack? = null
+    private var localAudioTrack: AudioTrack? = null
 
-    var mic_switch: Boolean = true
-    var video_switch: Boolean = true
+    private var localMediaStream: MediaStream? = null
 
-
-
-    private lateinit var bdjobsUserSession: BdjobsUserSession
-
-    private val args: InterviewSessionFragmentArgs by navArgs()
-    private var processId = ""
-
-    private lateinit var binding: FragmentInterviewSessionBinding
-    private val internetBroadCastReceiver = ConnectivityReceiver()
-    private val interviewSessionViewModel: InterviewSessionViewModel by viewModels {
-        InterviewSessionViewModelFactory(LiveInterviewRepository(requireActivity().application as Application), args.processID, args.applyID)
-    }
-
-    private val sharedViewModel: SharedViewModel by activityViewModels()
-
-    private var mediaPlayer: MediaPlayer? = null
+    private var remoteVideoTrack: VideoTrack? = null
 
     val pcConstraints = object : MediaConstraints() {
         init {
             optional.add(KeyValuePair("DtlsSrtpKeyAgreement", "true"))
         }
     }
+    private var audioConstraints: MediaConstraints? = null
+
+    var videoCapturerAndroid: VideoCapturer? = null
+
+    private var mediaPlayer: MediaPlayer? = null
+
+    var mic_switch: Boolean = true
+    var video_switch: Boolean = true
+
+
+    private val interviewSessionViewModel: InterviewSessionViewModel by viewModels {
+        InterviewSessionViewModelFactory(LiveInterviewRepository(requireActivity().application as Application), args.processID, args.applyID)
+    }
+
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        Timber.d("onCreateView")
+        Timber.tag("live").d("onCreateView")
         // Inflate the layout for this fragment
         binding = FragmentInterviewSessionBinding.inflate(inflater).apply {
             lifecycleOwner = viewLifecycleOwner
@@ -131,18 +140,42 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         processId = args.processID.toString()
         jobId = args.jobID.toString()
         jobTitle = args.jobTitle.toString()
+        binding.rvMessages.adapter = mAdapter
 
         startSession()
         setUpObservers()
-
-        Timber.d("Company Name: ${args.companyName}")
 
         binding.fabMessage.setOnClickListener {
             findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID, args.companyName))
         }
 
+        binding.toolBar.setNavigationOnClickListener {
+            Timber.tag("live").d("toolBar Pressed")
+
+        }
+
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Timber.tag("live").d("handleOnBackPressed")
+
+                interviewSessionViewModel.apply {
+                    isShowChatView.observe(viewLifecycleOwner, {
+                        if (!it) {
+                            Timber.tag("live").d("isShowChatView %s", it.toString())
+                            activity?.onBackPressed()
+                        }else{
+                            hideChatView()
+                        }
+                    })
+                }
+
+            }
+        })
+    }
 
     @SuppressLint("UnsafeExperimentalUsageError")
     private fun createMsgCounter() {
@@ -167,13 +200,14 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private fun setUpObservers() {
         interviewSessionViewModel.apply {
-            messageButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
-                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID, args.companyName))
-            })
+//            messageButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
+////                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID, args.companyName))
+//                onShowChatViewClicked()
+//            })
 
-            instructionButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
-                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID, args.jobTitle, args.processID, args.applyID, args.companyName))
-            })
+//            instructionButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
+//                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID, args.jobTitle, args.processID, args.applyID, args.companyName))
+//            })
 
             yesClick.observe(viewLifecycleOwner, {
                 if (it) {
@@ -211,15 +245,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            /* isWaitingForEmployers.observe(viewLifecycleOwner, Observer {
-                 if (it) {
-                     Handler(Looper.myLooper()!!).postDelayed({
-                         loadingCounterShowCheck(true)
-                         startAudio()
-                     },1500)
-                 }
-             })*/
-
             isShowLoadingCounter.observe(viewLifecycleOwner, {
                 if (it) {
                     startAudio()
@@ -236,94 +261,105 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            isShowInterviewRoomView.observe(viewLifecycleOwner, {
+            isShowActionView.observe(viewLifecycleOwner, {
                 if (it) {
-                    binding.cameraLocalReady.apply {
-                        release()
-                        visibility = View.GONE
-                    }
-//                    startSession()
                     createMsgCounter()
                 }
             })
 
-            isShowParentReadyView.observe(viewLifecycleOwner, {
+
+            sendButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
-//                    initializeLocalCamera()
+                    Timber.tag("live").d("sendButtonClickEvent")
+                    sendMessage()
                 }
             })
+
+            chatLogFetchSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it) {
+                    var messages: Messages?
+
+                    val data = chatLogData.value?.arrChatdata
+                    if (data!!.isNotEmpty()) {
+                        for (i in data.indices) {
+                            val d = data[i]
+                            if (d?.hostType == "A" || d?.hostType == "R") {
+                                val time = d.chatTime?.split(" ")!![1].split(":")[0] +
+                                        ":${d.chatTime.split(" ")[1].split(":")[1]} ${d.chatTime.split(" ")[2]}"
+                                messages = Messages( if (d.hostType == "A") d.contactName else args.companyName, d.chatText, time, if (d.hostType == "A") 0 else 1)
+                                messageList.add(messages)
+                                messageCount++
+                            }
+                        }
+                        mAdapter.differ.submitList(messageList)
+                        mAdapter.notifyDataSetChanged()
+                    }
+                }
+            })
+
+            postSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it) {
+                    SignalingServer.get()?.sendChatMessage(postMessage.value.toString(), imageLocal, imageRemote, messageCount)
+                    val nickname = bdjobsUserSession.userName
+                    val simpleDateFormat = SimpleDateFormat("h:mm a")
+                    val formattedTime = simpleDateFormat.format(Date())
+                    // make instance of message
+                    val itemType = if (nickname == bdjobsUserSession.userName!!) 0 else 1
+                    val messages = Messages(nickname, postMessage.value.toString(), formattedTime, itemType)
+
+                    messageList.add(messages)
+
+                    // notify the adapter to update the recycler view
+                    mAdapter.differ.submitList(messageList)
+                    mAdapter.notifyDataSetChanged()
+                    binding.etWriteMessage.setText("")
+                }
+            })
+
+            try {
+                receivedChatData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                    try {
+                        val s = it?.get(0).toString()
+                        Timber.d("Chat data: $s")
+                        val data = JSONObject(s)
+
+                        //extract data from fired event
+                        val nickname = args.companyName
+                        val message = data.getString("msg")
+                        imageLocal = data.getString("imgLocal")
+                        imageRemote = data.getString("imgRemote")
+                        messageCount = data.getInt("newCount")
+
+                        val simpleDateFormat = SimpleDateFormat("h:mm a")
+                        val formattedTime = simpleDateFormat.format(Date())
+                        // make instance of message
+                        val itemType = if (nickname == bdjobsUserSession.userName!!) 0 else 1
+                        val messages = Messages(nickname, message, formattedTime, itemType)
+
+                        messageList.add(messages)
+
+                        // notify the adapter to update the recycler view
+                        mAdapter.differ.submitList(messageList)
+                        mAdapter.notifyDataSetChanged()
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                })
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Timber.e("Error in receive: ${e.localizedMessage}")
+            }
+
         }
     }
 
-    private fun initializeLocalCamera() {
-        eglBaseContext = EglBase.create().eglBaseContext
-
-        val initializationOptions = PeerConnectionFactory.InitializationOptions.builder(requireContext()).createInitializationOptions()
-        PeerConnectionFactory.initialize(initializationOptions)
-
-        //Create a new PeerConnectionFactory instance - using Hardware encoder and decoder.
-        val options = PeerConnectionFactory.Options()
-        val defaultVideoEncoderFactory = DefaultVideoEncoderFactory(
-                eglBaseContext,
-                true,
-                true
-        )
-        val defaultVideoDecoderFactory = DefaultVideoDecoderFactory(eglBaseContext)
-
-
-        peerConnectionFactory = PeerConnectionFactory.builder()
-                .setOptions(options)
-                .setVideoEncoderFactory(defaultVideoEncoderFactory)
-                .setVideoDecoderFactory(defaultVideoDecoderFactory)
-                .createPeerConnectionFactory()
-
-        audioConstraints = MediaConstraints()
-        val audioConstraints = MediaConstraints()
-
-        // add all existing audio filters to avoid having echos
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googEchoCancellation", "true"))
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googEchoCancellation2", "true"))
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googDAEchoCancellation", "true"))
-
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googTypingNoiseDetection", "true"))
-
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googAutoGainControl", "true"))
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googAutoGainControl2", "true"))
-
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googNoiseSuppression", "true"))
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googNoiseSuppression2", "true"))
-
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googAudioMirroring", "false"))
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googHighpassFilter", "true"))
-
-        audioSource = peerConnectionFactory?.createAudioSource(audioConstraints)
-        localAudioTrack = peerConnectionFactory?.createAudioTrack("101", audioSource)
-        localAudioTrack?.setEnabled(true)
-
-        val videoCapturerAndroid: VideoCapturer? = createVideoCapturer()
-        videoCapturerAndroid?.let {
-            surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", eglBaseContext)
-            videoSource = peerConnectionFactory?.createVideoSource(videoCapturerAndroid.isScreencast)
-            videoCapturerAndroid.initialize(surfaceTextureHelper, requireActivity(), videoSource?.capturerObserver)
+    private fun sendMessage() {
+        if (binding.etWriteMessage.text.isNotEmpty()) {
+            Timber.tag("live").d("sendMessage")
+            interviewSessionViewModel.postChatMessage(binding.etWriteMessage.text.toString())
         }
-        videoCapturerAndroid?.startCapture(640, 480, 30)
-
-
-        binding.cameraLocalReady.setMirror(true)
-        binding.cameraLocalReady.init(eglBaseContext, null)
-        binding.cameraLocalReady.setEnableHardwareScaler(true)
-        binding.cameraLocalReady.setZOrderMediaOverlay(true)
-
-        localVideoTrack = peerConnectionFactory?.createVideoTrack("100", videoSource)
-
-        localMediaStream = peerConnectionFactory?.createLocalMediaStream("ARDAMS")
-        localMediaStream?.apply {
-            addTrack(localAudioTrack)
-            addTrack(localVideoTrack)
-        }
-
-        localVideoTrack?.addSink(binding.cameraLocalReady)
     }
+
 
     private fun startAudio() {
         mediaPlayer = MediaPlayer.create(requireContext(), R.raw.bdjobs_calling)
@@ -332,7 +368,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     private fun startSession() {
-//        initializeLocalCamera()
 
         SignalingServer.get()?.init(this, processId)
 
@@ -384,15 +419,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googEchoCancellation", "true"))
         audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googEchoCancellation2", "true"))
         audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googDAEchoCancellation", "true"))
-
         audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googTypingNoiseDetection", "true"))
-
         audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googAutoGainControl", "true"))
         audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googAutoGainControl2", "true"))
-
         audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googNoiseSuppression", "true"))
         audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googNoiseSuppression2", "true"))
-
         audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googAudioMirroring", "false"))
         audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googHighpassFilter", "true"))
 
@@ -409,10 +440,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         videoCapturerAndroid?.startCapture(320, 240, 30)
 
 
-        binding.localMeSurfaceView.setMirror(true)
-        binding.localMeSurfaceView.init(eglBaseContext, null)
-        binding.localMeSurfaceView.setEnableHardwareScaler(true)
-        binding.localMeSurfaceView.setZOrderMediaOverlay(true)
+        binding.svLocal.setMirror(true)
+        binding.svLocal.init(eglBaseContext, null)
+        binding.svLocal.setEnableHardwareScaler(true)
+        binding.svLocal.setZOrderMediaOverlay(false)
 
         localVideoTrack = peerConnectionFactory?.createVideoTrack("100", videoSource)
 
@@ -422,22 +453,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             addTrack(localVideoTrack)
         }
 
-        localVideoTrack?.addSink(binding.localMeSurfaceView)
-//
-//        remoteViews.add(binding.remoteHostSurfaceView)
-//        remoteViews.add(binding.remoteOneSurfaceView)
-//        remoteViews.add(binding.remoteTwoSurfaceView)
-//
-//        for (remoteView in remoteViews) {
-//            remoteView.setMirror(false)
-//            try {
-//                remoteView.init(eglBaseContext, null)
-//            } catch (e: Exception) {
-//                Timber.e("Exception: ${e.localizedMessage}")
-//            }
-//        }
-        binding.remoteHostSurfaceView.setMirror(true)
-        binding.remoteHostSurfaceView.init(eglBaseContext, null)
+        localVideoTrack?.addSink(binding.svLocal)
+
+        binding.svRemote.setMirror(true)
+        binding.svRemote.setZOrderMediaOverlay(true)
+        binding.svRemote.init(eglBaseContext, null)
     }
 
     private fun createVideoCapturer(): VideoCapturer? {
@@ -478,7 +498,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         remoteVideoTrack = stream.videoTracks[0]
         requireActivity().runOnUiThread {
             try {
-                remoteVideoTrack?.addSink(binding.remoteHostSurfaceView)
+                remoteVideoTrack?.addSink(binding.svRemote)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -584,7 +604,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         try {
             requireActivity().unregisterReceiver(internetBroadCastReceiver)
             mediaPlayer?.release()
-     //       SignalingServer.get()?.destroy()
             bdjobsUserSession.isSessionAlreadyStarted = false
         } catch (e: Exception) {
         }
@@ -600,19 +619,27 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     override fun onDestroyView() {
         super.onDestroyView()
         Timber.tag("live").d("onDestroyView")
-        SignalingServer.get()?.destroy()
-        try{
-            localVideoTrack?.removeSink(binding.localMeSurfaceView)
-            remoteVideoTrack?.removeSink(binding.remoteHostSurfaceView)
-            videoCapturerAndroid?.stopCapture()
-            localVideoTrack?.dispose()
-            remoteVideoTrack?.dispose()
-            binding.remoteHostSurfaceView.release()
-            binding.localMeSurfaceView.release()
-            if(!isGoingToFeedback) findNavController().navigateUp()
-        }catch(e:Exception){
-            Timber.tag("live").d(e.toString())
-        }
+
+//        if(!isShowingChatView){
+//            SignalingServer.get()?.destroy()
+//            try{
+//
+//                localVideoTrack?.removeSink(binding.localMeSurfaceView)
+//                remoteVideoTrack?.removeSink(binding.remoteHostSurfaceView)
+//                videoCapturerAndroid?.stopCapture()
+//                localVideoTrack?.dispose()
+//                remoteVideoTrack?.dispose()
+//                binding.remoteHostSurfaceView.release()
+//                binding.localMeSurfaceView.release()
+//              //  if(!isGoingToFeedback) findNavController().navigateUp()
+//            }catch(e:Exception){
+//                Timber.tag("live").d(e.toString())
+//            }
+//        }else{
+//            Timber.tag("live").d("onDestroyView in else %s", isShowingChatView)
+//            isShowingChatView = !isShowingChatView
+//        }
+
 
     }
 
@@ -673,13 +700,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     override fun onEndCall() {
-        isGoingToFeedback = true
-        try{
-            findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToFeedbackFragment(args.applyID, args.jobID, args.processID,args.companyName))
-        }catch(e:Exception){
-            Timber.e("Error onEndCall: ${e.localizedMessage}")
-
-        }
+//        isGoingToFeedback = true
+//        try{
+//            findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToFeedbackFragment(args.applyID, args.jobID, args.processID,args.companyName))
+//        }catch(e:Exception){
+//            Timber.e("Error onEndCall: ${e.localizedMessage}")
+//
+//        }
     }
 
     override fun onReceiveIceCandidate(args: Array<Any?>?) {
@@ -699,25 +726,18 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 e.printStackTrace()
                 Timber.e("Error in call receive: ${e.localizedMessage}")
             }
-        }
+        } }
 
-        //1st layout disappear + count down + then 2nd layout appear.
-    }
 
     override fun onReceiveChat(args: Array<Any?>?) {
         Timber.d("onReceiveChat: %s", args?.get(0))
         runOnUiThread {
             try {
-                sharedViewModel.receivedData(args)
+                interviewSessionViewModel.receivedData(args)
             } catch (e: Exception) {
                 e.printStackTrace()
                 Timber.e("Error in receive: ${e.localizedMessage}")
             }
         }
-
-//        Timber.tag("live").d("onReceiveChat: %s", args?.get(0))
     }
-
-
-
 }
