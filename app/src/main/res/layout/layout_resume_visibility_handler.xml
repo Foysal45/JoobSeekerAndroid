@@ -31,7 +31,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_label_visibility"
             app:drawableStartCompat="@drawable/ic_visibility_private"
             android:layout_marginTop="5dp"
-            android:text="Private"
+            tools:text="Private"
             android:textColor="@color/white"
             android:fontFamily="@font/roboto_medium"
             android:drawablePadding="5dp"/>

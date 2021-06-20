@@ -132,7 +132,7 @@ class LiveInterviewRepository(val application: Application)  {
             processId: String?
     ) : ChatLogModel {
         return withContext(Dispatchers.IO) {
-            ApiServiceMyBdjobs.createChat().chatLog(processId)
+            ApiServiceMyBdjobs.create().chatLog(processId)
         }
     }
 }

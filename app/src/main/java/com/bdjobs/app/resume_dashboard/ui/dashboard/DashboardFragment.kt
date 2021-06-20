@@ -1,18 +1,21 @@
 package com.bdjobs.app.resume_dashboard.ui.dashboard
 
+import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.navGraphViewModels
-import com.bdjobs.app.R
+import androidx.fragment.app.viewModels
 import com.bdjobs.app.databinding.DashboardFragmentBinding
+import com.bdjobs.app.resume_dashboard.data.repositories.ResumeDashboardRepository
 
 class DashboardFragment : Fragment() {
 
     private lateinit var binding : DashboardFragmentBinding
-    private val dashboardViewModel: DashboardViewModel by navGraphViewModels(R.id.dashboardFragment)
+    private val dashboardViewModel: DashboardViewModel by viewModels {
+        DashboardViewModelFactory(ResumeDashboardRepository(requireActivity().application as Application))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

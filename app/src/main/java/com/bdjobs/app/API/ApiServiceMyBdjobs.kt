@@ -9,6 +9,8 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinproce
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.liveInterview.data.models.*
+import com.bdjobs.app.resume_dashboard.data.models.ManageResumeStats
+import com.bdjobs.app.resume_dashboard.data.models.ResumePrivacyStatus
 import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.transaction.data.model.TransactionList
@@ -1286,6 +1288,24 @@ interface ApiServiceMyBdjobs {
             @Field("prId") processId: String?
     ): ChatLogModel
 
+
+    // resume dashboard
+
+    @FormUrlEncoded
+    @POST("apps_resume_emailOrView_count.asp")
+    suspend fun manageResumeStats(
+        @Field("userId") userID: String? = "",
+        @Field("decodeId") decodeID: String? = "",
+        @Field("appId") appID: String? = "",
+    ) : ManageResumeStats
+
+    @FormUrlEncoded
+    @POST("apps_resume_privacy_view.asp")
+    suspend fun resumePrivacyStatus(
+        @Field("userId") userID: String? = "",
+        @Field("decodeId") decodeID: String? = "",
+    ) : ResumePrivacyStatus
+
     companion object Factory {
         @Volatile
         private var retrofit: Retrofit? = null
@@ -1295,16 +1315,6 @@ interface ApiServiceMyBdjobs {
 
             retrofit ?: synchronized(this) {
                 retrofit = buildRetrofit()
-            }
-
-            return retrofit?.create(ApiServiceMyBdjobs::class.java)!!
-        }
-
-        @Synchronized
-        fun createChat(): ApiServiceMyBdjobs {
-
-            retrofit ?: synchronized(this) {
-                retrofit = buildRetrofitChat()
             }
 
             return retrofit?.create(ApiServiceMyBdjobs::class.java)!!
@@ -1332,27 +1342,6 @@ interface ApiServiceMyBdjobs {
             }.build()
         }
 
-        private fun buildRetrofitChat(): Retrofit {
-
-            val gson = GsonBuilder()
-                    .setLenient()
-                    .create()
-
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
-
-            val okHttpClient = OkHttpClient.Builder()
-                    .addInterceptor(interceptor)
-                    .build()
-
-            return Retrofit.Builder().apply {
-                baseUrl(Constants.baseUrlMyBdjobsChat)
-                addConverterFactory(GsonConverterFactory.create(gson)).addConverterFactory(MoshiConverterFactory.create(moshi))
-                if (BuildConfig.DEBUG) {
-                    client(okHttpClient)
-                }
-            }.build()
-        }
     }
 
 }
