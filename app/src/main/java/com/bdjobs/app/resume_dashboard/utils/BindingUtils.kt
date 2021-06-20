@@ -28,19 +28,22 @@ fun MaterialTextView.setTotalEmailCountText(value: String) {
 }
 
 @BindingAdapter("textAndDrawable")
-fun MaterialTextView.setTextAndDrawable(value: String) {
-    this.run {
-        this.text = when (value) {
-            "1" -> "Public"
-            "2" -> "Private"
-            else -> "Limited"
-        }
+fun MaterialTextView.setTextAndDrawable(value: String?) {
+    if (value!=null) {
+        this.run {
+            this.text = when (value) {
+                "1" -> "Public"
+                "2" -> "Private"
+                else -> "Limited"
+            }
 
-        when(value) {
-            "1" -> this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_visibility_public,0,0,0)
-            "2" -> this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_visibility_private,0,0,0)
-            else -> this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_visibility_limited,0,0,0)
-        }
+            when(value) {
+                "1" -> this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_visibility_public,0,0,0)
+                "2" -> this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_visibility_private,0,0,0)
+                else -> this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_visibility_limited,0,0,0)
+            }
 
+        }
     }
+
 }

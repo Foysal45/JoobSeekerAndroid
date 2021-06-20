@@ -479,4 +479,5 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_video_resume">Video Resume</string>
     <string name="label_resume_visibility_to_employer_s">Resume visibility to employer(s)</string>
     <string name="label_change">Change</string>
+    <string name="label_edit">Edit</string>
 </resources>

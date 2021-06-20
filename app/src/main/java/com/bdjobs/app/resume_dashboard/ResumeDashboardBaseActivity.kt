@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.KeyEvent
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
@@ -15,13 +17,13 @@ import com.bdjobs.app.databinding.ActivityResumeDashboardBaseBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_login_base.*
+import timber.log.Timber
 
 class ResumeDashboardBaseActivity : AppCompatActivity(), ConnectivityReceiver.ConnectivityReceiverListener {
 
     private lateinit var binding: ActivityResumeDashboardBaseBinding
     private lateinit var graph : NavGraph
     private var mSnackBar: Snackbar? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,9 @@ class ResumeDashboardBaseActivity : AppCompatActivity(), ConnectivityReceiver.Co
 
         hostFragment.graph = graph
     }
+
+
+
 
     private fun tabListener() {
 
