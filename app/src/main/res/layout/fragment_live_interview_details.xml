@@ -360,10 +360,10 @@
                     android:drawableEnd="@drawable/ic_angle_right"
                     android:onClick="@{()->viewModel.onTakePreparationButtonClick()}"
                     android:drawablePadding="8dp"
-                    android:drawableTint="#13a10e"
+                    android:drawableTint="#AAAAAA"
                     android:padding="5dp"
                     android:text="Take Preparation"
-                    android:textColor="#13a10e"
+                    android:textColor="#AAAAAA"
                     android:textStyle="bold" />
 
             </LinearLayout>

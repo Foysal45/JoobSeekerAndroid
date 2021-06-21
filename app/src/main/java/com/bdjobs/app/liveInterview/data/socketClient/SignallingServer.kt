@@ -22,6 +22,7 @@ class SignalingServer {
     private var activeUser:String = ""
 
     private var processId:String = ""
+    private var userName:String = ""
     private var serverURL:String = "https://live.bdjobs.com/"
 
     companion object {
@@ -40,9 +41,10 @@ class SignalingServer {
         }
     }
 
-    fun init(signalingEvent: SignalingEvent, processId:String) {
+    fun init(signalingEvent: SignalingEvent, processId:String, userName:String) {
         try {
             this.processId = processId
+            this.userName = userName
             socket = IO.socket(serverURL)
 
             socket?.on(EventConstants.EVENT_SOCKET_CONNECT) {
@@ -57,7 +59,7 @@ class SignalingServer {
                 try {
                     subscribeJO.put("room", processId)
                     subscribeJO.put("socketId", localSocketID)
-                    subscribeJO.put("username", "Salvin")
+                    subscribeJO.put("username", userName)
                     subscribeJO.put("uType", "A")
                     socket?.emit(EventConstants.EVENT_SUBSCRIBE, subscribeJO)
                     Timber.tag("live").d("onEmit subscribe: jsonObject $subscribeJO")
@@ -255,7 +257,7 @@ class SignalingServer {
         try {
             sendingChat.put("room", processId)
             sendingChat.put("msg", message)
-            sendingChat.put("sender", localSocketID)
+            sendingChat.put("sender", userName)
             sendingChat.put("imgLocal", imageLocal)
             sendingChat.put("imgRemote", imageRemote)
             sendingChat.put("newCount", messageCount)

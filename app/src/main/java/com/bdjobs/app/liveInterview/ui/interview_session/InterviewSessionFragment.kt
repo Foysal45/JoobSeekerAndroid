@@ -53,6 +53,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private var imageLocal: String = ""
     private var imageRemote: String = ""
     private var messageCount = 0
+    private var userName = ""
 
     private val messageList: ArrayList<Messages> = ArrayList()
 
@@ -136,6 +137,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         binding.clChatView.visibility = View.GONE
 
         bdjobsUserSession = BdjobsUserSession(requireContext())
+        userName = bdjobsUserSession.userName.toString()
         processId = args.processID.toString()
         jobId = args.jobID.toString()
         jobTitle = args.jobTitle.toString()
@@ -373,7 +375,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private fun startSession() {
 
-        SignalingServer.get()?.init(this, processId)
+        SignalingServer.get()?.init(this, processId, userName)
 
         iceServers.add(
                 PeerConnection.IceServer.builder("stun:stun.bdjobs.com")
