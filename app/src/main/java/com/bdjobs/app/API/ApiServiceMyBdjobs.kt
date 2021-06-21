@@ -9,6 +9,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinproce
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.liveInterview.data.models.*
+import com.bdjobs.app.resume_dashboard.data.models.ManageResumeDetailsStat
 import com.bdjobs.app.resume_dashboard.data.models.ManageResumeStats
 import com.bdjobs.app.resume_dashboard.data.models.ResumePrivacyStatus
 import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
@@ -1305,6 +1306,14 @@ interface ApiServiceMyBdjobs {
         @Field("userId") userID: String? = "",
         @Field("decodeId") decodeID: String? = "",
     ) : ResumePrivacyStatus
+
+    @FormUrlEncoded
+    @POST("apps_all_resumes_stats.asp")
+    suspend fun manageResumeDetailsStat(
+        @Field("userId") userID: String? = "",
+        @Field("decodeId") decodeID: String? = "",
+        @Field("cvPosted") cvPosted:String?=""
+    ) : ManageResumeDetailsStat
 
     companion object Factory {
         @Volatile

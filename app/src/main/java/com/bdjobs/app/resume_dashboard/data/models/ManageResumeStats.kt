@@ -16,9 +16,9 @@ data class ManageResumeStats(
     @Json(name = "data")
     val `data`: List<Data?>,
     @Json(name = "message")
-    val message: String?,
+    val message: String?="",
     @Json(name = "statuscode")
-    val statuscode: String?
+    val statuscode: String?=""
 )
 
 @Keep

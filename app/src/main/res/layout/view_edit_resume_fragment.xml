@@ -11,6 +11,7 @@
             name="viewModel"
             type="com.bdjobs.app.resume_dashboard.ui.view_edit_resume.ViewEditResumeViewModel" />
 
+
         <import type="android.view.View" />
     </data>
 
@@ -104,9 +105,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:fontFamily="@font/roboto"
-                                android:text="80% Completed"
+                                android:text="@{viewModel.bdJobsStatusPercentage+`% Completed`}"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
+                                tools:text="80% Completed"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/progress_bdjobs_resume" />
 
@@ -421,6 +423,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_progress"
             android:layout_width="match_parent"
+            tools:visibility="gone"
             android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.GONE}"
             android:layout_height="match_parent">
 
