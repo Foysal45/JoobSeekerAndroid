@@ -12,22 +12,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
-import androidx.core.app.SharedElementCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.changeColor
 import com.bdjobs.app.databinding.FragmentInterviewSessionBinding
-import com.bdjobs.app.liveInterview.SharedViewModel
 import com.bdjobs.app.liveInterview.data.models.Messages
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.liveInterview.data.socketClient.CustomSdpObserver
@@ -105,7 +100,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     var mic_switch: Boolean = true
     var video_switch: Boolean = true
-
+    var isShowingChatView = false
+    var isShowingFeedback = false
 
     private val interviewSessionViewModel: InterviewSessionViewModel by viewModels {
         InterviewSessionViewModelFactory(LiveInterviewRepository(requireActivity().application as Application), args.processID, args.applyID)
@@ -136,6 +132,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         binding.toolBar.setupWithNavController(navController, appBarConfiguration)
         binding.toolBar.title = if (args.jobTitle != null) args.jobTitle else ""
 
+        binding.clReadyView.visibility = View.VISIBLE
+        binding.clChatView.visibility = View.GONE
+
         bdjobsUserSession = BdjobsUserSession(requireContext())
         processId = args.processID.toString()
         jobId = args.jobID.toString()
@@ -145,13 +144,18 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         startSession()
         setUpObservers()
 
-        binding.fabMessage.setOnClickListener {
-            findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID, args.companyName))
-        }
 
         binding.toolBar.setNavigationOnClickListener {
-            Timber.tag("live").d("toolBar Pressed")
-
+            Timber.tag("live").d("toolBarPressed")
+            if(isShowingChatView){
+                Timber.tag("live").d("toolBarPressed-isShowingChatView")
+                binding.clReadyView.visibility = View.VISIBLE
+                binding.clChatView.visibility = View.GONE
+                isShowingChatView = false
+            }else{
+                Timber.tag("live").d("toolBarPressed- not isShowingChatView")
+                findNavController().navigateUp()
+            }
         }
 
     }
@@ -161,16 +165,14 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 Timber.tag("live").d("handleOnBackPressed")
-
-                interviewSessionViewModel.apply {
-                    isShowChatView.observe(viewLifecycleOwner, {
-                        if (!it) {
-                            Timber.tag("live").d("isShowChatView %s", it.toString())
-                            activity?.onBackPressed()
-                        }else{
-                            hideChatView()
-                        }
-                    })
+                if(isShowingChatView){
+                    Timber.tag("live").d("handleOnBackPressed-isShowingChatView")
+                    binding.clReadyView.visibility = View.VISIBLE
+                    binding.clChatView.visibility = View.GONE
+                    isShowingChatView = false
+                }else{
+                    Timber.tag("live").d("handleOnBackPressed- not isShowingChatView")
+                    findNavController().navigateUp()
                 }
 
             }
@@ -200,14 +202,16 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private fun setUpObservers() {
         interviewSessionViewModel.apply {
-//            messageButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
-////                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToChatFragment(args.processID, args.companyName))
-//                onShowChatViewClicked()
-//            })
 
-//            instructionButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
-//                if (it) findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToInstructionLandingFragment(args.jobID, args.jobTitle, args.processID, args.applyID, args.companyName))
-//            })
+            chatButtonClickedClickEvent.observe(viewLifecycleOwner,EventObserver{
+                if (it) {
+                    if(!isShowingChatView){
+                        binding.clReadyView.visibility = View.GONE
+                        binding.clChatView.visibility = View.VISIBLE
+                        isShowingChatView = true
+                    }
+                }
+            })
 
             yesClick.observe(viewLifecycleOwner, {
                 if (it) {
@@ -571,9 +575,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         if (localMediaStream != null && localMediaStream?.videoTracks?.size!! > 0) {
             video_switch = !video_switch
-
             localMediaStream?.videoTracks!![0].setEnabled(video_switch)
-
             if (video_switch) binding.localVideoControl.setImageResource(R.drawable.ic_video_on)
             else binding.localVideoControl.setImageResource(R.drawable.ic_video_off)
         }
@@ -583,9 +585,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private fun toggleAudio() {
         if (localMediaStream != null && localMediaStream?.audioTracks?.size!! > 0) {
             mic_switch = !mic_switch
-
             localMediaStream?.audioTracks!![0].setEnabled(mic_switch)
-
             if (mic_switch) binding.localMicControl.setImageResource(R.drawable.ic_mic_on)
             else binding.localMicControl.setImageResource(R.drawable.ic_microphone_off)
         }
@@ -619,29 +619,19 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     override fun onDestroyView() {
         super.onDestroyView()
         Timber.tag("live").d("onDestroyView")
-
-//        if(!isShowingChatView){
-//            SignalingServer.get()?.destroy()
-//            try{
-//
-//                localVideoTrack?.removeSink(binding.localMeSurfaceView)
-//                remoteVideoTrack?.removeSink(binding.remoteHostSurfaceView)
-//                videoCapturerAndroid?.stopCapture()
-//                localVideoTrack?.dispose()
-//                remoteVideoTrack?.dispose()
-//                binding.remoteHostSurfaceView.release()
-//                binding.localMeSurfaceView.release()
-//              //  if(!isGoingToFeedback) findNavController().navigateUp()
-//            }catch(e:Exception){
-//                Timber.tag("live").d(e.toString())
-//            }
-//        }else{
-//            Timber.tag("live").d("onDestroyView in else %s", isShowingChatView)
-//            isShowingChatView = !isShowingChatView
-//        }
-
-
-    }
+         SignalingServer.get()?.destroy()
+            try{
+                localVideoTrack?.removeSink(binding.svLocal)
+                remoteVideoTrack?.removeSink(binding.svRemote)
+                videoCapturerAndroid?.stopCapture()
+                localVideoTrack?.dispose()
+                remoteVideoTrack?.dispose()
+                binding.svRemote.release()
+                binding.svLocal.release()
+            }catch(e:Exception){
+                Timber.tag("live").d(e.toString())
+            }
+        }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
         interviewSessionViewModel.networkCheck(isConnected)
@@ -666,6 +656,15 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         val argument = args?.get(0) as JSONObject
         mRemoteSocketId = argument.getString("socketId")
         getOrCreatePeerConnection(mRemoteSocketId, "R")
+        runOnUiThread {
+            try {
+                interviewSessionViewModel.employerAvailable()
+            } catch (e: Exception) {
+                Timber.e("Error employerAvailable: ${e.localizedMessage}")
+            }
+        }
+
+
     }
 
     override fun on1stUserCheck(args: Array<Any?>?) {
@@ -673,6 +672,14 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         val argument = args?.get(0) as JSONObject
         mRemoteSocketId = argument.getString("firstUserId")
         getOrCreatePeerConnection(mRemoteSocketId, "R")
+        runOnUiThread {
+            try {
+                interviewSessionViewModel.employerAvailable()
+            } catch (e: Exception) {
+                Timber.e("Error employerAvailable: ${e.localizedMessage}")
+            }
+        }
+
     }
 
     override fun onNewUserStartNew(args: Array<Any?>?) {
@@ -680,6 +687,14 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         val argument = args?.get(0) as JSONObject
         mRemoteSocketId = argument.getString("sender")
         getOrCreatePeerConnection(mRemoteSocketId, "R")
+        runOnUiThread {
+            try {
+                interviewSessionViewModel.employerAvailable()
+            } catch (e: Exception) {
+                Timber.e("Error employerAvailable: ${e.localizedMessage}")
+            }
+        }
+
     }
 
     override fun onReceiveSDP(args: Array<Any?>?) {
@@ -700,13 +715,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     override fun onEndCall() {
-//        isGoingToFeedback = true
-//        try{
-//            findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToFeedbackFragment(args.applyID, args.jobID, args.processID,args.companyName))
-//        }catch(e:Exception){
-//            Timber.e("Error onEndCall: ${e.localizedMessage}")
-//
-//        }
+        try{
+            findNavController().navigateUp()
+        }catch(e:Exception){
+            Timber.e("Error onEndCall: ${e.localizedMessage}")
+        }
     }
 
     override fun onReceiveIceCandidate(args: Array<Any?>?) {
@@ -726,7 +739,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 e.printStackTrace()
                 Timber.e("Error in call receive: ${e.localizedMessage}")
             }
-        } }
+        }
+    }
 
 
     override fun onReceiveChat(args: Array<Any?>?) {

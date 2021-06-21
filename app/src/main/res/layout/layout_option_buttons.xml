@@ -30,7 +30,7 @@
             android:id="@+id/btn_message_emp"
             android:textAllCaps="false"
             android:textSize="12dp"
-            android:onClick="@{()->viewModel.onMessageButtonClicked()}"
+            android:onClick="@{()->viewModel.onChatButtonClicked()}"
             app:backgroundTint="#FFFFFF"
             android:textColor="@color/black"
             app:icon="@drawable/ic_msg_emp"

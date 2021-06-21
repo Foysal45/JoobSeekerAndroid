@@ -49,8 +49,12 @@ class InterviewSessionViewModel(
     private val _isShowFeedbackView = MutableLiveData<Boolean>()
     val isShowFeedbackView: LiveData<Boolean> = _isShowFeedbackView
 
-    private val _isShowChatView = MutableLiveData<Boolean>()
-    val isShowChatView: LiveData<Boolean> = _isShowChatView
+
+
+    val isEmployerAvailable = MutableLiveData<Boolean>().apply { value = false }
+    private val _applicantStatusText = MutableLiveData<String>()
+    val applicantStatusText: LiveData<String>
+        get() = _applicantStatusText
 
     val yesButtonClickedEvent = MutableLiveData<Event<Boolean>>()
     val yesClick = MutableLiveData<Boolean>()
@@ -62,8 +66,7 @@ class InterviewSessionViewModel(
     val toggleVideoClickEvent = MutableLiveData<Event<Boolean>>()
 
 
-    val messageButtonClickEvent = MutableLiveData<Event<Boolean>>()
-    val messageButtonClicked = MutableLiveData<Boolean>()
+    val chatButtonClickedClickEvent = MutableLiveData<Event<Boolean>> ()
 
     val instructionButtonClickEvent = MutableLiveData<Event<Boolean>>()
 
@@ -195,16 +198,6 @@ class InterviewSessionViewModel(
         applicantStatusUpdate("1")
     }
 
-    fun onShowChatViewClicked(){
-        _isShowChatView.value = true
-        interviewRoomViewCheck(false)
-        actionShowCheck(false)
-    }
-
-    fun hideChatView(){
-        interviewRoomViewCheck(true)
-        actionShowCheck(true)
-    }
 
     fun onNoButtonClicked() {
         noButtonClickedEvent.value = Event(true)
@@ -213,10 +206,9 @@ class InterviewSessionViewModel(
         applicantStatusUpdate("2")
     }
 
-    fun onMessageButtonClicked() {
-        Timber.tag("live").d("view model onMessageButtonClicked")
-        messageButtonClickEvent.value = Event(true)
-        onShowChatViewClicked()
+    fun onChatButtonClicked() {
+        Timber.tag("live").d("view model onChatButtonClicked")
+        chatButtonClickedClickEvent.value = Event(true)
     }
 
     fun onInstructionButtonClicked() {
@@ -253,7 +245,7 @@ class InterviewSessionViewModel(
 
                 if (response.statuscode == "4") {
                     Timber.d("Applicant status updated")
-                 //   waitingText.value = response.message
+                    _applicantStatusText.value = response.message
                     waitingCheck(true)
                 } else {
                     Timber.d("Response status code: ${response.statuscode}")
@@ -265,6 +257,9 @@ class InterviewSessionViewModel(
         }
     }
 
+    fun employerAvailable(){
+        isEmployerAvailable.value = true
+    }
     fun sendButtonClickedEvent() {
         sendButtonClickEvent.value = Event(true)
     }

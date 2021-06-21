@@ -57,6 +57,7 @@
                 android:layout_height="150dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:padding="10dp"
                 android:visibility="@{viewModel.isShowActionView ? View.VISIBLE : View.GONE}"
                 android:id="@+id/ll_remote_root">
@@ -206,7 +207,7 @@
                 android:visibility="@{viewModel.isShowBottomOptionView() ? View.VISIBLE : View.GONE}"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                tools:visibility="visible"
+                tools:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -239,6 +240,7 @@
                         android:fontFamily="@font/roboto"
                         android:gravity="center"
                         android:padding="3dp"
+                        android:visibility="@{viewModel.isEmployerAvailable() ? View.VISIBLE : View.INVISIBLE}"
                         android:text="Employer is available to take interview any time"
                         android:textColor="#FFF387"
                         app:drawableStartCompat="@drawable/ic_waiting_emp"
@@ -290,7 +292,7 @@
                             android:layout_height="40dp"
                             android:layout_marginStart="8dp"
                             android:background="@drawable/bg_btn_round_16_dp"
-                            android:text="No"
+                            android:text="Not Now"
                             android:fontFamily="@font/roboto"
                             android:onClick="@{()->viewModel.onNoButtonClicked()}"
                             android:textAllCaps="false"
@@ -330,7 +332,7 @@
                         android:id="@+id/tv_waiting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.waitingText}"
+                        android:text="@{viewModel.applicantStatusText}"
                         android:fontFamily="@font/roboto"
                         android:textColor="@color/white"
                         android:gravity="center"
@@ -361,7 +363,7 @@
                 android:backgroundTint="@color/black"
                 android:alpha="0.6"
                 android:gravity="center"
-                tools:visibility="gone"
+                tools:visibility="visible"
                 android:visibility="@{viewModel.isShowActionView ? View.VISIBLE : View.GONE}"
                 android:orientation="horizontal">
 
@@ -426,7 +428,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:onClick="@{()->viewModel.onMessageButtonClicked()}"
+                android:onClick="@{()->viewModel.onChatButtonClicked()}"
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="#285FD3"
@@ -439,13 +441,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_chat_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            android:visibility="@{viewModel.isShowChatView ? View.VISIBLE : View.GONE}"
             tools:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent">
 
