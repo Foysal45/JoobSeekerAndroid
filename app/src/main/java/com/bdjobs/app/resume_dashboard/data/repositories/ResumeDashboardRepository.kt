@@ -3,6 +3,7 @@ package com.bdjobs.app.resume_dashboard.data.repositories
 import android.app.Application
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.resume_dashboard.data.models.ManageResumeDetailsStat
 import com.bdjobs.app.resume_dashboard.data.models.ManageResumeStats
 import com.bdjobs.app.resume_dashboard.data.models.ResumePrivacyStatus
 import kotlinx.coroutines.Dispatchers
@@ -26,9 +27,20 @@ class ResumeDashboardRepository(val application: Application) {
         }
     }
 
-    suspend fun resumePrivacyStatus() : ResumePrivacyStatus {
+    suspend fun resumePrivacyStatus(): ResumePrivacyStatus {
         return withContext(Dispatchers.IO) {
-            ApiServiceMyBdjobs.create().resumePrivacyStatus(bdjobsUserSession.userId,bdjobsUserSession.decodId)
+            ApiServiceMyBdjobs.create()
+                .resumePrivacyStatus(bdjobsUserSession.userId, bdjobsUserSession.decodId)
+        }
+    }
+
+    suspend fun manageResumeDetailsStat(): ManageResumeDetailsStat {
+        return withContext(Dispatchers.IO) {
+            ApiServiceMyBdjobs.create().manageResumeDetailsStat(
+                bdjobsUserSession.userId,
+                bdjobsUserSession.decodId,
+                bdjobsUserSession.isCvPosted
+            )
         }
     }
 }

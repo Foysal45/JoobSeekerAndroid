@@ -45,5 +45,12 @@ fun MaterialTextView.setTextAndDrawable(value: String?) {
 
         }
     }
+}
 
+@BindingAdapter("switchDrawable")
+fun MaterialTextView.switchDrawable(value:Boolean) {
+    this.run {
+        if (!value) this.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_down_arrow_resume,0)
+        else this.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_up_arrow_resume,0)
+    }
 }

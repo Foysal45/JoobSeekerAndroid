@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_steps_view_bdjobs_resume"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_personal_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Personal Details"
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_academic_qualification"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Academic Qualification"
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_personal_details" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_training"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Training"
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_academic_qualification" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_professional_qualification"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Professional Qualification"
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_training" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_experience"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Experience"
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_cross_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_professional_qualification" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_specialization"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Specialization"
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_cross_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_experience" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_reference"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Reference"
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_cross_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_specialization" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_photograph"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Photograph"
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_reference" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

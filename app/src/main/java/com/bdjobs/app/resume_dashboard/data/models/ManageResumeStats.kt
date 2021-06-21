@@ -21,6 +21,7 @@ data class ManageResumeStats(
     val statuscode: String?
 )
 
+@Keep
 data class Data(
     @Json(name = "bdjobsEmailed")
     val bdjobsEmailed: String?="",

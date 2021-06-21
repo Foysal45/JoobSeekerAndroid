@@ -21,6 +21,7 @@ data class ResumePrivacyStatus(
     val statuscode: String?
 )
 
+@Keep
 data class DataRP(
     @Json(name = "data")
     val `data`: String?="",

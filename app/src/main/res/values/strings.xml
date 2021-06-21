@@ -480,4 +480,9 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_resume_visibility_to_employer_s">Resume visibility to employer(s)</string>
     <string name="label_change">Change</string>
     <string name="label_edit">Edit</string>
+    <string name="label_personalized_resume">Personalized Resume</string>
+    <string name="label_no_personalized_resume">You have no Personalized Resume. Upload Personalized Resume for better job opportunities.</string>
+    <string name="label_add_personalized_resume">Add Personalized Resume</string>
+    <string name="label_add_video_resume">Add video Resume</string>
+    <string name="label_no_video_resume">You have no Video Resume. Add Video Resume to get more job opportunities.</string>
 </resources>

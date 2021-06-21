@@ -1,0 +1,5 @@
+<vector android:alpha="0.9" android:autoMirrored="true"
+    android:height="11.499dp" android:viewportHeight="11.499"
+    android:viewportWidth="14" android:width="14dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#008020" android:pathData="M4.6,11.499 L0,6.904 2.094,4.81l2.5,2.509L11.906,0 14,2.094 4.595,11.499Z"/>
+</vector>
