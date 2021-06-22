@@ -42,8 +42,6 @@ import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import java.io.File
 
-class VideoResumeViewModel {
-}
 
 class VideoResumeQuestionsFragment : Fragment() {
 

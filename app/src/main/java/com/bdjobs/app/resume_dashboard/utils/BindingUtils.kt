@@ -63,3 +63,12 @@ fun MaterialTextView.checkedStatusDrawable(value:Int?) {
         else this.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_cross_sign_resume, 0,  R.drawable.ic_back_arrow_resume, 0)
     }
 }
+
+
+@BindingAdapter("checkedDrawableVideo")
+fun MaterialTextView.checkedStatusDrawableVideo(value:String?) {
+    this.run{
+        if (value == "2") this.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_check_sign_resume, 0, R.drawable.ic_back_arrow_resume, 0)
+        else this.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_cross_sign_resume, 0,  R.drawable.ic_back_arrow_resume, 0)
+    }
+}

@@ -3,9 +3,12 @@ package com.bdjobs.app.resume_dashboard.data.repositories
 import android.app.Application
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.resume_dashboard.data.models.ManageResumeDetailsStat
 import com.bdjobs.app.resume_dashboard.data.models.ManageResumeStats
 import com.bdjobs.app.resume_dashboard.data.models.ResumePrivacyStatus
+import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
+import com.bdjobs.app.videoResume.data.remote.VideoResumeApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -40,6 +43,17 @@ class ResumeDashboardRepository(val application: Application) {
                 bdjobsUserSession.userId,
                 bdjobsUserSession.decodId,
                 bdjobsUserSession.isCvPosted
+            )
+        }
+    }
+
+    suspend fun getQuestionListFromRemote(): VideoResumeQuestionList {
+        return withContext(Dispatchers.IO) {
+            VideoResumeApiService.create(application).getVideoResumeQuestionList(
+                    userID = bdjobsUserSession.userId,
+                    decodeID = bdjobsUserSession.decodId,
+                    appId = Constants.APP_ID,
+                    lang = "EN"
             )
         }
     }

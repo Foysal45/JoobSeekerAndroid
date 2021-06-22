@@ -426,14 +426,100 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <include
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/steps_video_resume"
-                                layout="@layout/layout_video_resume_questions"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                tools:visibility="gone"
                                 android:visibility="@{viewModel.showVideoResumeSteps?View.VISIBLE:View.GONE}"
                                 app:layout_constraintTop_toBottomOf="@id/tv_completed_steps_video_resume"
-                                tools:visibility="gone" />
+                                android:layout_marginTop="8dp">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_question_one"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    checkedDrawableVideo="@{viewModel.videoResumeQ1}"
+                                    android:padding="5dp"
+                                    android:text="Introduce Yourself."
+                                    android:textColor="#4D4D4D"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_question_two"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    checkedDrawableVideo="@{viewModel.videoResumeQ2}"
+                                    android:text="Tell us about your academic qualification and trainings (if any)."
+                                    android:textColor="#4D4D4D"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_question_one" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_question_three"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    android:text="Discuss about your skills (educational/job)."
+                                    android:textColor="#4D4D4D"
+                                    checkedDrawableVideo="@{viewModel.videoResumeQ3}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_question_two" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_question_four"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    checkedDrawableVideo="@{viewModel.videoResumeQ4}"
+                                    android:text="What are your strengths and weaknesses?"
+                                    android:textColor="#4D4D4D"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_question_three" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_question_five"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    android:text="Describe about your career goals."
+                                    android:textColor="#4D4D4D"
+                                    checkedDrawableVideo="@{viewModel.videoResumeQ5}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_question_four"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    android:layout_marginBottom="8dp"/>
+
+
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--                            <include-->
+<!--                                android:id="@+id/steps_video_resume"-->
+<!--                                layout="@layout/layout_video_resume_questions"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:visibility="@{viewModel.showVideoResumeSteps?View.VISIBLE:View.GONE}"-->
+<!--                                app:layout_constraintTop_toBottomOf="@id/tv_completed_steps_video_resume"-->
+<!--                                tools:visibility="gone" />-->
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 

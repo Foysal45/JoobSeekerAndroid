@@ -28,17 +28,23 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     private var _detailsResumeStat = MutableLiveData<DataMRD>()
     val detailResumeStat: LiveData<DataMRD> get() = _detailsResumeStat
 
-    var bdJobsResumeStatusPercentage = MutableLiveData<Int>().apply { value=0 }
+    var bdJobsResumeStatusPercentage = MutableLiveData<Int>().apply { value = 0 }
     var bdJobsResumeLastUpdate = MutableLiveData<String>().apply { value = "" }
 
 
-    var videoResumeStatusPercentage = MutableLiveData<Int>().apply { value=0 }
+    var videoResumeStatusPercentage = MutableLiveData<Int>().apply { value = 0 }
     var videoResumeLastUpdate = MutableLiveData<String>().apply { value = "" }
     var isVideoResumeShowingToEmp = MutableLiveData<Boolean>()
     var isVideoResumeAvailable = MutableLiveData<Boolean>()
 
     var isPersonalizedResumeAvailable = MutableLiveData<Boolean>()
     var personalizedResumeLastUpload = MutableLiveData<String>().apply { value = "" }
+
+    var videoResumeQ1 = MutableLiveData<String>().apply { value = "" }
+    var videoResumeQ2 = MutableLiveData<String>().apply { value = "" }
+    var videoResumeQ3 = MutableLiveData<String>().apply { value = "" }
+    var videoResumeQ4 = MutableLiveData<String>().apply { value = "" }
+    var videoResumeQ5 = MutableLiveData<String>().apply { value = "" }
 
     init {
         showBdJobsResumeSteps.value = false
@@ -65,13 +71,14 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                     bdJobsResumeStatusPercentage.value = data.bdjobsStatusPercentage?.toInt()
                     bdJobsResumeLastUpdate.value = formatDate(data.bdjobsLastUpdateDate)
 
-                    isVideoResumeAvailable.value = data.videoStatusPercentage!="0"
+                    isVideoResumeAvailable.value = data.videoStatusPercentage != "0"
                     videoResumeStatusPercentage.value = data.videoStatusPercentage?.toInt()
                     videoResumeLastUpdate.value = formatDateVP(data.videoLastUpdateDate)
-                    isVideoResumeShowingToEmp.value = data.videoResumeVisibility=="1"
+                    isVideoResumeShowingToEmp.value = data.videoResumeVisibility == "1"
+                    if (isVideoResumeAvailable.value == true) videoResumeQuestionList()
 
-                    isPersonalizedResumeAvailable.value = data.personalizefileName!=""
-                    if (data.personalizeLastUpdateDate!="") personalizedResumeLastUpload.value = formatDateVP(data.personalizeLastUpdateDate)
+                    isPersonalizedResumeAvailable.value = data.personalizefileName != ""
+                    if (data.personalizeLastUpdateDate != "") personalizedResumeLastUpload.value = formatDateVP(data.personalizeLastUpdateDate)
 
                 } else {
                     Timber.e("Invalid response")
@@ -80,6 +87,28 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
             } catch (e: Exception) {
                 Timber.e("Error while fetching details resume stat")
                 isLoading.value = false
+            }
+        }
+    }
+
+    private fun videoResumeQuestionList() {
+        viewModelScope.launch {
+            try {
+                val response = repository.getQuestionListFromRemote()
+                val data = response.data
+                if (data!!.isNotEmpty()) {
+                    for (i in data.indices) {
+                        when(i) {
+                            0-> videoResumeQ1.value=data[i]?.buttonStatus
+                            1-> videoResumeQ2.value=data[i]?.buttonStatus
+                            2-> videoResumeQ3.value=data[i]?.buttonStatus
+                            3-> videoResumeQ4.value=data[i]?.buttonStatus
+                            4-> videoResumeQ5.value=data[i]?.buttonStatus
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e("Exception while fetching video resume question: ${e.localizedMessage}")
             }
         }
     }
@@ -110,7 +139,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun formatDate(lastUpdate: String?):String {
+    private fun formatDate(lastUpdate: String?): String {
         var lastUpdate1 = lastUpdate
         var formatter = SimpleDateFormat("M/dd/yyyy")
         val date = formatter.parse(lastUpdate1!!)
@@ -124,7 +153,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun formatDateVP(lastUpdate: String?):String {
+    private fun formatDateVP(lastUpdate: String?): String {
         var lastUpdate1 = lastUpdate
         var formatter = SimpleDateFormat("M/dd/yyyy HH:mm:ss a")
         val date = formatter.parse(lastUpdate1!!)

@@ -89,6 +89,12 @@ class ViewEditResumeFragment : Fragment() {
             tvPhotograph.setOnClickListener {
                 startActivity<PhotoUploadActivity>()
             }
+
+            tvQuestionOne.setOnClickListener { navigateToVideoResumeQuestionFragment() }
+            tvQuestionTwo.setOnClickListener { navigateToVideoResumeQuestionFragment() }
+            tvQuestionThree.setOnClickListener { navigateToVideoResumeQuestionFragment() }
+            tvQuestionFour.setOnClickListener { navigateToVideoResumeQuestionFragment() }
+            tvQuestionFive.setOnClickListener { navigateToVideoResumeQuestionFragment() }
         }
 
         btn_add_video_resume.setOnClickListener {
@@ -115,6 +121,10 @@ class ViewEditResumeFragment : Fragment() {
                 startActivity<OtherInfoBaseActivity>("name" to s, "other_info_add" to "null")
 
         }
+    }
+
+    private fun navigateToVideoResumeQuestionFragment() {
+        startActivity<VideoResumeActivity>("from" to "ViewEditResume")
     }
 
 }
