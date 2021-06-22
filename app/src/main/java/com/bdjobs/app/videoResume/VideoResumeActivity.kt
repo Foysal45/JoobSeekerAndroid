@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 
 import com.bdjobs.app.R
+import timber.log.Timber
 
 class VideoResumeActivity : AppCompatActivity() {
 
@@ -16,13 +17,15 @@ class VideoResumeActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.videoResumeNavHostFragment)
 
-        from = intent.getStringExtra("from")
+//        from = intent.getStringExtra("from")
 
-        if (from!=null) {
+        Timber.d("From: $from")
 
-            if (from=="ViewEditResume") navController.graph.startDestination = R.id.videoResumeQuestionsFragment
-            else navController.graph.startDestination = R.id.videoResumeLandingFragment
-        }
+//        if (from!=null) {
+//
+//            if (from=="ViewEditResume") navController.graph.startDestination = R.id.videoResumeQuestionsFragment
+//            else navController.graph.startDestination = R.id.videoResumeLandingFragment
+//        }
 
         navController.setGraph(R.navigation.video_resume_nav_graph)
 

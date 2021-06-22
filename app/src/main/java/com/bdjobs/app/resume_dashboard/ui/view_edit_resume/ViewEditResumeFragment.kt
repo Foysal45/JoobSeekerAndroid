@@ -124,7 +124,7 @@ class ViewEditResumeFragment : Fragment() {
     }
 
     private fun navigateToVideoResumeQuestionFragment() {
-        startActivity<VideoResumeActivity>("from" to "ViewEditResume")
+//        startActivity<VideoResumeActivity>("from" to "ViewEditResume")
     }
 
 }
