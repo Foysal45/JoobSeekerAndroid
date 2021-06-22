@@ -16,7 +16,7 @@
         android:text="Personal Details"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
-        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
         android:text="Academic Qualification"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
-        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_personal_details" />
@@ -46,7 +46,7 @@
         android:text="Training"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
-        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_academic_qualification" />
@@ -61,7 +61,7 @@
         android:text="Professional Qualification"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
-        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_training" />
@@ -76,7 +76,7 @@
         android:text="Experience"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
-        app:drawableStartCompat="@drawable/ic_cross_sign_resume"
+        
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_professional_qualification" />
@@ -91,7 +91,7 @@
         android:text="Specialization"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
-        app:drawableStartCompat="@drawable/ic_cross_sign_resume"
+        
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_experience" />
@@ -106,7 +106,7 @@
         android:text="Reference"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
-        app:drawableStartCompat="@drawable/ic_cross_sign_resume"
+        
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_specialization" />
@@ -122,7 +122,7 @@
         android:text="Photograph"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
-        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
