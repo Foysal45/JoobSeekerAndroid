@@ -485,4 +485,13 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_add_personalized_resume">Add Personalized Resume</string>
     <string name="label_add_video_resume">Add video Resume</string>
     <string name="label_no_video_resume">You have no Video Resume. Add Video Resume to get more job opportunities.</string>
+    <string name="personal_details">Personal Details</string>
+    <string name="academic_qualification">Academic Qualification</string>
+    <string name="training">Training</string>
+    <string name="professional_qualification">Professional Qualification</string>
+    <string name="experience">Experience</string>
+    <string name="specialization">Specialization</string>
+    <string name="reference">Reference</string>
+    <string name="photograph">Photograph</string>
+    <string name="completed_steps">Completed steps</string>
 </resources>

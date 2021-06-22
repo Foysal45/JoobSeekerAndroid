@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.databinding.BindingAdapter
 import com.bdjobs.app.R
 import com.google.android.material.textview.MaterialTextView
+import kotlinx.android.synthetic.main.layout_bdjobs_resume_steps.*
 
 //
 // Created by Soumik on 6/17/2021.
@@ -52,5 +53,13 @@ fun MaterialTextView.switchDrawable(value:Boolean) {
     this.run {
         if (!value) this.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_down_arrow_resume,0)
         else this.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_up_arrow_resume,0)
+    }
+}
+
+@BindingAdapter("checkedDrawable")
+fun MaterialTextView.checkedStatusDrawable(value:Int?) {
+    this.run{
+        if (value == 1) this.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_check_sign_resume, 0, R.drawable.ic_back_arrow_resume, 0)
+        else this.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_cross_sign_resume, 0,  R.drawable.ic_back_arrow_resume, 0)
     }
 }

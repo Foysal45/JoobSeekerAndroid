@@ -35,6 +35,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     var videoResumeStatusPercentage = MutableLiveData<Int>().apply { value=0 }
     var videoResumeLastUpdate = MutableLiveData<String>().apply { value = "" }
     var isVideoResumeShowingToEmp = MutableLiveData<Boolean>()
+    var isVideoResumeAvailable = MutableLiveData<Boolean>()
 
     var isPersonalizedResumeAvailable = MutableLiveData<Boolean>()
     var personalizedResumeLastUpload = MutableLiveData<String>().apply { value = "" }
@@ -64,6 +65,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                     bdJobsResumeStatusPercentage.value = data.bdjobsStatusPercentage?.toInt()
                     bdJobsResumeLastUpdate.value = formatDate(data.bdjobsLastUpdateDate)
 
+                    isVideoResumeAvailable.value = data.videoStatusPercentage!="0"
                     videoResumeStatusPercentage.value = data.videoStatusPercentage?.toInt()
                     videoResumeLastUpdate.value = formatDateVP(data.videoLastUpdateDate)
                     isVideoResumeShowingToEmp.value = data.videoResumeVisibility=="1"
@@ -90,8 +92,6 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
 
                 val response = repository.resumePrivacyStatus()
 
-//                isLoading.value = false
-
                 if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
 
@@ -100,10 +100,10 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                     _resumeVisibility.value = data?.resumeVisibilityType!!
 
                 } else {
-//                    isLoading.value = false
+                    Timber.e("Invalid response")
                 }
             } catch (e: Exception) {
-//                isLoading.value = false
+                Timber.e("Error while fetching details resume privacy stat")
             }
         }
 

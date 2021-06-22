@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bdjobs.app.resume_dashboard.data.repositories.ResumeDashboardRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class DashboardViewModel(private val repository: ResumeDashboardRepository) : ViewModel() {
 
@@ -42,8 +43,8 @@ class DashboardViewModel(private val repository: ResumeDashboardRepository) : Vi
     var isLoading = MutableLiveData<Boolean>()
 
     init {
-        manageResumeStats()
         resumePrivacyStatus()
+        manageResumeStats()
     }
 
 
@@ -91,8 +92,6 @@ class DashboardViewModel(private val repository: ResumeDashboardRepository) : Vi
 
                 val response = repository.resumePrivacyStatus()
 
-                isLoading.value = false
-
                 if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
 
@@ -101,10 +100,10 @@ class DashboardViewModel(private val repository: ResumeDashboardRepository) : Vi
                     _resumeVisibility.value = data?.resumeVisibilityType!!
 
                 } else {
-                    isLoading.value = false
+                    Timber.e("Invalid response")
                 }
             } catch (e: Exception) {
-                isLoading.value = false
+                Timber.e("Error while fetching details resume privacy stat")
             }
         }
 

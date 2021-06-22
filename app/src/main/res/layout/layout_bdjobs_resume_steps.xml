@@ -13,7 +13,7 @@
         android:drawablePadding="10dp"
         android:fontFamily="@font/roboto"
         android:padding="5dp"
-        android:text="Personal Details"
+        android:text="@string/personal_details"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
         
@@ -28,7 +28,7 @@
         android:drawablePadding="10dp"
         android:fontFamily="@font/roboto"
         android:padding="5dp"
-        android:text="Academic Qualification"
+        android:text="@string/academic_qualification"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
         
@@ -43,7 +43,7 @@
         android:drawablePadding="10dp"
         android:fontFamily="@font/roboto"
         android:padding="5dp"
-        android:text="Training"
+        android:text="@string/training"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
         
@@ -58,7 +58,7 @@
         android:drawablePadding="10dp"
         android:fontFamily="@font/roboto"
         android:padding="5dp"
-        android:text="Professional Qualification"
+        android:text="@string/professional_qualification"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
         
@@ -73,7 +73,7 @@
         android:drawablePadding="10dp"
         android:fontFamily="@font/roboto"
         android:padding="5dp"
-        android:text="Experience"
+        android:text="@string/experience"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
         
@@ -88,7 +88,7 @@
         android:drawablePadding="10dp"
         android:fontFamily="@font/roboto"
         android:padding="5dp"
-        android:text="Specialization"
+        android:text="@string/specialization"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
         
@@ -103,7 +103,7 @@
         android:drawablePadding="10dp"
         android:fontFamily="@font/roboto"
         android:padding="5dp"
-        android:text="Reference"
+        android:text="@string/reference"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
         
@@ -119,7 +119,7 @@
         android:drawablePadding="10dp"
         android:fontFamily="@font/roboto"
         android:padding="5dp"
-        android:text="Photograph"
+        android:text="@string/photograph"
         android:textColor="#4D4D4D"
         app:drawableEndCompat="@drawable/ic_back_arrow_resume"
         

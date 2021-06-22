@@ -108,9 +108,9 @@
                                 android:text="@{viewModel.detailResumeStat.bdjobsStatusPercentage+`% Completed`}"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
-                                tools:text="80% Completed"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/progress_bdjobs_resume" />
+                                app:layout_constraintTop_toBottomOf="@id/progress_bdjobs_resume"
+                                tools:text="80% Completed" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv_last_update_bdjobs_resume"
@@ -119,11 +119,11 @@
                                 android:layout_marginTop="8dp"
                                 android:fontFamily="@font/roboto"
                                 android:text="@{`Last updated on: `+viewModel.bdJobsResumeLastUpdate}"
-                                tools:text="Last updated on: 14 Mar 2021"
                                 android:textColor="#767676"
                                 android:textSize="12sp"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/progress_bdjobs_resume" />
+                                app:layout_constraintTop_toBottomOf="@id/progress_bdjobs_resume"
+                                tools:text="Last updated on: 14 Mar 2021" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -139,28 +139,148 @@
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv_completed_steps"
+                                switchDrawable="@{viewModel.showBdJobsResumeSteps}"
                                 android:layout_width="0dp"
                                 android:layout_height="30dp"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center_vertical"
                                 android:onClick="@{()->viewModel.onBdJobsResumeStepClicked()}"
-                                android:text="Completed steps"
+                                android:text="@string/completed_steps"
                                 android:textColor="#393939"
                                 android:textSize="12sp"
-                                switchDrawable="@{viewModel.showBdJobsResumeSteps}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <include
-                                android:id="@+id/steps_bdjobs_resume"
-                                layout="@layout/layout_bdjobs_resume_steps"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/cl_steps_view_bdjobs_resume"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                tools:visibility="gone"
                                 android:visibility="@{viewModel.showBdJobsResumeSteps?View.VISIBLE:View.GONE}"
                                 app:layout_constraintTop_toBottomOf="@id/tv_completed_steps"
-                                tools:visibility="gone" />
+                                android:layout_marginTop="8dp">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_personal_details"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    android:text="@string/personal_details"
+                                    android:textColor="#4D4D4D"
+                                    checkedDrawable="@{viewModel.detailResumeStat.personalDetailsInfo}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_academic_qualification"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    android:text="@string/academic_qualification"
+                                    android:textColor="#4D4D4D"
+                                    checkedDrawable="@{viewModel.detailResumeStat.academicInfo}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_personal_details" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_training"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    android:text="@string/training"
+                                    android:textColor="#4D4D4D"
+                                    checkedDrawable="@{viewModel.detailResumeStat.trainingInfo}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_academic_qualification" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_professional_qualification"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    android:text="@string/professional_qualification"
+                                    android:textColor="#4D4D4D"
+                                    checkedDrawable="@{viewModel.detailResumeStat.proQualificationInfo}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_training" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_experience"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    android:text="@string/experience"
+                                    android:textColor="#4D4D4D"
+                                    checkedDrawable="@{viewModel.detailResumeStat.experienceInfo}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_professional_qualification" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_specialization"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    android:text="@string/specialization"
+                                    android:textColor="#4D4D4D"
+                                    checkedDrawable="@{viewModel.detailResumeStat.specializationInfo}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_experience" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_reference"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    android:text="@string/reference"
+                                    android:textColor="#4D4D4D"
+                                    checkedDrawable="@{viewModel.detailResumeStat.referenceInfo}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_specialization" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_photograph"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="8dp"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    android:text="@string/photograph"
+                                    android:textColor="#4D4D4D"
+                                    checkedDrawable="@{viewModel.detailResumeStat.photographInfo}"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_reference" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <!--                            <include-->
+                            <!--                                android:id="@+id/steps_bdjobs_resume"-->
+                            <!--                                layout="@layout/layout_bdjobs_resume_steps"-->
+                            <!--                                tools:visibility="gone" />-->
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -186,6 +306,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_video_resume_available"
                         android:layout_width="match_parent"
+                        android:visibility="@{viewModel.isVideoResumeAvailable ? View.VISIBLE : View.GONE}"
                         android:layout_height="match_parent">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -242,11 +363,11 @@
                                 android:layout_marginTop="8dp"
                                 android:fontFamily="@font/roboto"
                                 android:text="@{viewModel.detailResumeStat.videoStatusPercentage+`% completed`}"
-                                tools:text="80% Completed"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/progress_video_resume" />
+                                app:layout_constraintTop_toBottomOf="@id/progress_video_resume"
+                                tools:text="80% Completed" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv_last_update_video_resume"
@@ -255,11 +376,11 @@
                                 android:layout_marginTop="8dp"
                                 android:fontFamily="@font/roboto"
                                 android:text="@{`Last updated on: `+viewModel.videoResumeLastUpdate}"
-                                tools:text="Last updated on: 14 Mar 2021"
                                 android:textColor="#767676"
                                 android:textSize="12sp"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/progress_video_resume" />
+                                app:layout_constraintTop_toBottomOf="@id/progress_video_resume"
+                                tools:text="Last updated on: 14 Mar 2021" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv_currently_showing_video_resume"
@@ -269,9 +390,9 @@
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/roboto"
                                 android:text="Currently showing to employer"
-                                android:visibility="@{viewModel.isVideoResumeShowingToEmp ? View.VISIBLE : View.GONE}"
                                 android:textColor="#13A10E"
                                 android:textSize="12sp"
+                                android:visibility="@{viewModel.isVideoResumeShowingToEmp ? View.VISIBLE : View.GONE}"
                                 app:drawableStartCompat="@drawable/ic_check_sign_visible"
                                 app:drawableTint="#13A10E"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -292,6 +413,7 @@
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv_completed_steps_video_resume"
+                                switchDrawable="@{viewModel.showVideoResumeSteps}"
                                 android:layout_width="0dp"
                                 android:layout_height="30dp"
                                 android:fontFamily="@font/roboto_medium"
@@ -300,7 +422,6 @@
                                 android:text="Completed Questions"
                                 android:textColor="#393939"
                                 android:textSize="12sp"
-                                switchDrawable="@{viewModel.showVideoResumeSteps}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -321,7 +442,7 @@
                     <include
                         android:id="@+id/no_video_resume"
                         layout="@layout/layout_no_video_resume"
-                        android:visibility="gone"
+                        android:visibility="@{viewModel.isVideoResumeAvailable ? View.GONE : View.VISIBLE}"
                         tools:visibility="gone" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -367,9 +488,9 @@
                         android:text="@string/label_edit"
                         android:visibility="@{viewModel.isPersonalizedResumeAvailable ? View.VISIBLE : View.GONE}"
                         app:drawableStartCompat="@drawable/ic_edit_resume"
-                        tools:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="gone" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_personalized_resume_available"
@@ -389,14 +510,14 @@
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
                             android:fontFamily="@font/roboto_medium"
-                            tools:text="Mybdjobs.pdf"
                             android:text="@{viewModel.detailResumeStat.personalizefileName}"
                             android:textColor="@color/black"
                             android:textSize="12sp"
                             app:drawableStartCompat="@drawable/ic_pdf"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Mybdjobs.pdf" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_last_upload_personalized_resume"
@@ -404,21 +525,21 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/roboto_medium"
-                            tools:text="Last Upload: 14 Mar 2021"
                             android:text="@{`Last Upload: `+viewModel.personalizedResumeLastUpload}"
                             android:textColor="#767676"
                             android:textSize="12sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_file_name_personalized_resume" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_file_name_personalized_resume"
+                            tools:text="Last Upload: 14 Mar 2021" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <include
                         android:id="@+id/no_personalized_resume"
-                        android:visibility="@{viewModel.isPersonalizedResumeAvailable ? View.GONE : View.VISIBLE}"
-                        layout="@layout/layout_no_personalized_resume" />
+                        layout="@layout/layout_no_personalized_resume"
+                        android:visibility="@{viewModel.isPersonalizedResumeAvailable ? View.GONE : View.VISIBLE}" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <!--personalized resume section end-->
@@ -432,9 +553,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_progress"
             android:layout_width="match_parent"
-            tools:visibility="gone"
+            android:layout_height="match_parent"
             android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.GONE}"
-            android:layout_height="match_parent">
+            tools:visibility="gone">
 
             <ProgressBar
                 android:layout_width="wrap_content"
@@ -451,8 +572,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:backgroundTint="#333333"
-            app:cardCornerRadius="7dp"
             android:visibility="@{viewModel.isLoading() ? View.GONE : View.VISIBLE}"
+            app:cardCornerRadius="7dp"
             app:cardElevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -503,9 +624,6 @@
         </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 
 
 </layout>
