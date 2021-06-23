@@ -3,31 +3,36 @@ package com.bdjobs.app.videoResume
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 
 import com.bdjobs.app.R
+import kotlinx.android.synthetic.main.activity_live_interview.*
+import kotlinx.android.synthetic.main.activity_video_resume.*
 import timber.log.Timber
 
 class VideoResumeActivity : AppCompatActivity() {
 
-    private var from:String?=null
+    private var from: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_resume)
 
-        val navController = findNavController(R.id.videoResumeNavHostFragment)
 
-//        from = intent.getStringExtra("from")
+        from = intent.getStringExtra("from")
 
         Timber.d("From: $from")
 
-//        if (from!=null) {
-//
-//            if (from=="ViewEditResume") navController.graph.startDestination = R.id.videoResumeQuestionsFragment
-//            else navController.graph.startDestination = R.id.videoResumeLandingFragment
-//        }
+//        val navController = findNavController(R.id.videoResumeNavHostFragment)
 
-        navController.setGraph(R.navigation.video_resume_nav_graph)
+        val navHostFragment = videoResumeNavHostFragment as NavHostFragment
+        val inflater = navHostFragment.navController.navInflater
+        val graph = inflater.inflate(R.navigation.video_resume_nav_graph)
+
+        if (from == "ViewEditResume") graph.startDestination = R.id.videoResumeQuestionsFragment
+        else graph.startDestination = R.id.videoResumeLandingFragment
+
+        navHostFragment.navController.graph = graph
 
     }
 
