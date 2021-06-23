@@ -47,14 +47,15 @@ class DownloadResumeFragment : Fragment() {
             communicator.backButtonPressed()
         }
 
-        submitTV.setOnClickListener {
+        btn_download_personalized_resume.setOnClickListener {
             activity.openUrlInBrowser(downloadLink)
         }
 
-        submitTV1.setOnClickListener {
+        btn_email_personalized_resume.setOnClickListener {
             communicator.gotoEmailResumeFragment()
         }
-        submitTV3.setOnClickListener {
+
+        btn_share_personalized_resume.setOnClickListener {
 
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
@@ -63,7 +64,7 @@ class DownloadResumeFragment : Fragment() {
             startActivity(Intent.createChooser(sharingIntent, "Share"))
         }
 
-        backIV1.setOnClickListener {
+        btn_delete_personalized_resume.setOnClickListener {
             alert("Are you sure you want to delete your uploaded resume?", "Confirmation") {
                 yesButton {
                     downloadOrDeleteCV("delete")

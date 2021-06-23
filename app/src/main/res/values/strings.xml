@@ -494,4 +494,5 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="reference">Reference</string>
     <string name="photograph">Photograph</string>
     <string name="completed_steps">Completed steps</string>
+    <string name="label_upload_resume">Here, you can upload Personalized Resume. To increase your chance of getting a perfect job, make sure your uploaded Resume is updated.</string>
 </resources>
