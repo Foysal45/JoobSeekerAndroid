@@ -11,6 +11,7 @@ import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.liveInterview.data.models.*
 import com.bdjobs.app.resume_dashboard.data.models.ManageResumeDetailsStat
 import com.bdjobs.app.resume_dashboard.data.models.ManageResumeStats
+import com.bdjobs.app.resume_dashboard.data.models.PersonalizedResumeStat
 import com.bdjobs.app.resume_dashboard.data.models.ResumePrivacyStatus
 import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
@@ -1314,6 +1315,15 @@ interface ApiServiceMyBdjobs {
         @Field("decodeId") decodeID: String? = "",
         @Field("cvPosted") cvPosted:String?=""
     ) : ManageResumeDetailsStat
+
+    @FormUrlEncoded
+    @POST("apps_personalize_resume_stats.asp")
+    suspend fun personalizedResumeStat(
+        @Field("userID") userID: String? = "",
+        @Field("decodeID") decodeID: String? = "",
+        @Field("cvPosted") cvPosted:String?=""
+    ) : PersonalizedResumeStat
+
 
     companion object Factory {
         @Volatile

@@ -442,6 +442,7 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int) {
 }
 
 
+
 fun Activity.disableUserInteraction() {
     window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 }

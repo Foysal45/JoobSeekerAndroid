@@ -324,7 +324,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:text="Mybdjobs.pdf" />
+                        tools:text="Mybdjobs.pdf" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_last_upload_personalized_resume"
@@ -337,7 +337,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_file_name_personalized_resume"
-                        android:text="Last Upload: 14 Mar 2021" />
+                        tools:text="Last Upload: 14 Mar 2021" />
 
                     <LinearLayout
                         android:layout_width="0dp"
