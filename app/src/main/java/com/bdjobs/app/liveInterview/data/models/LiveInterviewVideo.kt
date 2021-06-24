@@ -2,6 +2,7 @@ package com.bdjobs.app.liveInterview.data.models
 
 import android.net.Uri
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.android.parcel.Parcelize
 import java.io.File
 
@@ -10,6 +11,7 @@ import java.io.File
 // piyal.developer@gmail.com
 //
 
+@Keep
 @Parcelize
 data class LiveInterviewVideo (
         var file: File? = null,

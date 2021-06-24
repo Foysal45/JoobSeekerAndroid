@@ -199,7 +199,7 @@ class LiveInterviewDetailsViewModel(
                 remainingMinutes.value = DecimalFormat("00").format(minutes).toString()
                 remainingSeconds.value = DecimalFormat("00").format(seconds).toString()
 
-            //    Timber.d("${remainingDays.value} ${remainingHours.value} ${remainingMinutes.value} ${remainingSeconds.value}")
+                Timber.d("${remainingDays.value} ${remainingHours.value} ${remainingMinutes.value} ${remainingSeconds.value}")
 
             //    Timber.d("Minutes: $minutes :: Hours: $hours")
                 if(hours < 1 && minutes < 30){
