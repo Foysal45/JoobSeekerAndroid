@@ -1,7 +1,11 @@
 package com.bdjobs.app.ManageResume.utils
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Environment
+import androidx.core.content.ContextCompat
 import timber.log.Timber
+import java.io.File
 import java.text.SimpleDateFormat
 
 //
@@ -22,4 +26,16 @@ fun formatDateVP(lastUpdate: String): String {
 
     return lastUpdate1
 
+}
+
+fun getRootDirPath(context: Context): String {
+    return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
+        val file: File = ContextCompat.getExternalFilesDirs(
+            context.applicationContext,
+            null
+        )[0]
+        file.absolutePath
+    } else {
+        context.applicationContext.filesDir.absolutePath
+    }
 }

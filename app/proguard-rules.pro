@@ -149,3 +149,5 @@
 -keep class com.sslwireless.sslcommerzlibrary.model.** { *; }
 -keep class com.sslwireless.sslcommerzlibrary.** { *; }
 -keep class com.sslwireless.*
+
+-keep class com.shockwave.**

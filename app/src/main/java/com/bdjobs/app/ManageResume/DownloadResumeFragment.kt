@@ -83,6 +83,11 @@ class DownloadResumeFragment : android.app.Fragment() {
             }.show()
 
         }
+
+        btn_view_personalized_resume.setOnClickListener {
+            activity.startActivity(Intent(activity,ViewPersonalizedResume::class.java)
+                .putExtra("PDF_URL",downloadLink))
+        }
     }
 
     private fun downloadOrDeleteCV(action: String) {
