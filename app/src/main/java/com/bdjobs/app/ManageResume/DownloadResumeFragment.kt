@@ -45,7 +45,7 @@ class DownloadResumeFragment : android.app.Fragment() {
         val adRequest = AdRequest.Builder().build()
         adView?.loadAd(adRequest)
 
-        downloadOrDeleteCV("download")
+//        downloadOrDeleteCV("download")
         fetchPersonalizedResumeStat()
 
         backIV.setOnClickListener {
@@ -65,10 +65,10 @@ class DownloadResumeFragment : android.app.Fragment() {
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
             sharingIntent.putExtra(
-                android.content.Intent.EXTRA_SUBJECT,
+                Intent.EXTRA_SUBJECT,
                 "Resume of ${bdjobsUserSession.userName}"
             )
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, downloadLink)
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, downloadLink)
             startActivity(Intent.createChooser(sharingIntent, "Share"))
         }
 
@@ -103,7 +103,7 @@ class DownloadResumeFragment : android.app.Fragment() {
 
             override fun onResponse(call: Call<UploadResume>, response: Response<UploadResume>) {
                 try {
-                    activity?.stopProgressBar(loadingProgressBar)
+//                    activity?.stopProgressBar(loadingProgressBar)
                     if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
                         if (action.equalIgnoreCase("download")) {
                             downloadLink = response.body()?.data?.get(0)?.path
@@ -143,8 +143,12 @@ class DownloadResumeFragment : android.app.Fragment() {
                 if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
 
+                    downloadLink = data.personalizedFilePath
+
                     val statCalculatedFrom = formatDateVP(data.personalizedCalculatedFromDate)
                     val lastUpdatedOn = formatDateVP(data.personalizedLastUpdateDate)
+
+                    bdjobsUserSession.personalizedResumeSessionStatCalculatedFrom = statCalculatedFrom
 
                     runOnUiThread {
                         tv_personalized_resume_view_count.text = data.personalizedViewed

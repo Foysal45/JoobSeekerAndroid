@@ -216,6 +216,8 @@ class Constants {
         const val session_key_remoteview_initiliaze = "RemoteViewInitialized"
         const val session_key_socket_session_started = "SocketSessionStarted"
 
+        const val session_key_personalized_stat_calculated_from = "PersonalizedStatCalculatedFrom"
+
 
         const val NOTIFICATION_INTERVIEW_INVITATTION = 100
         const val NOTIFICATION_CV_VIEWED = 101
