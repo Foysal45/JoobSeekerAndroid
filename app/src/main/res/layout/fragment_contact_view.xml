@@ -113,19 +113,74 @@
                 android:src="@drawable/ic_phone_er" />
 
             <TextView
-                android:id="@+id/tv3"
+                android:id="@+id/tv_primary_mobile_no_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/iv3"
-                android:text="@string/hint.mobile"
+                android:text="Primary Mobile No."
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_mobile_change_user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/tv_primary_mobile_no_text"
+                android:text="+ Set/Change as User ID"
+                android:textColor="@color/com_facebook_blue"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tvMobileNo"
+                android:id="@+id/tv_primary_mobile_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv3"
+                android:layout_below="@+id/tv_primary_mobile_no_text"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="4dp"
+                android:textColor="#393939"
+                android:textIsSelectable="true"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_secondary_mobile_no_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp"
+                android:layout_below="@+id/tv_primary_mobile_no"
+                android:layout_toEndOf="@+id/iv3"
+                android:text="Secondary Mobile No."
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_secondary_mobile_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_secondary_mobile_no_text"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="4dp"
+                android:textColor="#393939"
+                android:textIsSelectable="true"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_emergency_mobile_no_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp"
+                android:layout_below="@+id/tv_secondary_mobile_no"
+                android:layout_toEndOf="@+id/iv3"
+                android:text="Emergency Contact No."
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_emergency_mobile_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_emergency_mobile_no_text"
                 android:layout_marginStart="43dp"
                 android:layout_marginTop="4dp"
                 android:textColor="#393939"
@@ -144,7 +199,7 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/imageView19"
+                android:id="@+id/iv19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -152,25 +207,58 @@
                 android:src="@drawable/ic_email_er" />
 
             <TextView
-                android:id="@+id/textView36"
+                android:id="@+id/tv_primary_email_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/imageView19"
-                android:text="@string/hint.email_address_v"
+                android:layout_toEndOf="@+id/iv19"
+                android:text="Primary Email"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_email_change_user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/tv_primary_email_text"
+                android:text="+ Set/Change as User ID"
+                android:textColor="@color/com_facebook_blue"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tvEmailAddr"
+                android:id="@+id/tv_primary_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView36"
+                android:layout_below="@+id/tv_primary_email_text"
                 android:layout_marginStart="43dp"
                 android:layout_marginTop="4dp"
                 android:textColor="#393939"
                 android:textIsSelectable="true"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_alternate_email_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp"
+                android:layout_toEndOf="@+id/iv19"
+                android:layout_below="@+id/tv_primary_email"
+                android:text="Alternate Email"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_alternate_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_alternate_email_text"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="4dp"
+                android:textColor="#393939"
+                android:textIsSelectable="true"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
 
         </RelativeLayout>
     </RelativeLayout>

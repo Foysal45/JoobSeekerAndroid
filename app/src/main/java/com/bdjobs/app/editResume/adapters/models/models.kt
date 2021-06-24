@@ -337,16 +337,16 @@ data class C_DataItem(
         val alternativeEmail: String?="",
         @SerializedName("primaryEmail")
         val email: String?="",
-        @SerializedName("mobileNo1")
-        val officePhone: String?="",
         @SerializedName("messageType")
         val messageType: String?="",
         @SerializedName("countryCode")
         val countryCode: String? = "",
         @SerializedName("primaryMobileNo")
-        val mobile: String?="",
+        val primaryMobile: String?="",
+        @SerializedName("mobileNo1")
+        val secondaryMobile: String?="",
         @SerializedName("mobileNo2")
-        val homePhone: String?="",
+        val emergencyMobile: String?="",
         @SerializedName("permanentAddressID")
         val permanentAddressID: String?="",
         @SerializedName("permanentCountry")

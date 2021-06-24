@@ -134,6 +134,11 @@ class WebActivity : Activity() {
                 loadUrlWithCookie(url)
             }
 
+            "setUserId"->{
+                suggestiveSearchET.text = "Set/Change User Id"
+                loadUrlWithCookie(url)
+            }
+
             else -> {
                 loadUrlWithoutCookie(url)
             }
