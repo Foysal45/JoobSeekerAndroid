@@ -364,6 +364,82 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+            <LinearLayout
+                android:id="@+id/ll_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passportNumberTIL"
+                    style="@style/EHTextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_close_ash"
+                    android:layout_weight="1"
+                    android:textColorHint="#757575">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPassportNumber"
+                        android:importantForAutofill="noExcludeDescendants"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Passport Number"
+                        android:digits="@string/chars_special"
+                        android:inputType="text|textMultiLine"
+                        android:maxLength="20"
+                        android:textColor="#212121" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passportIssueDateTIL"
+                    style="@style/EHTextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColorHint="#757575">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPassportIssueDate"
+                        android:importantForAutofill="noExcludeDescendants"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
+                        android:hint="Passport Issue Date"
+                        android:inputType="date"
+                        android:maxLength="50"
+                        android:textColor="#212121" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bloodGroupTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColorHint="#757575">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBloodGroup"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Blood Group"
+                    android:digits="@string/charsWithSpace"
+                    android:inputType="text|textMultiLine"
+                    android:maxLength="50"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:textColor="#212121" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 

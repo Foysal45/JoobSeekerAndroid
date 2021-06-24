@@ -309,7 +309,18 @@ data class P_DataItem(
         val nationality: String? = "",
 
         @field:SerializedName("religion")
-        val religion: String? = ""
+        val religion: String? = "",
+
+        @field:SerializedName("passportNumber")
+        val passportNumber: String? = "",
+
+        @field:SerializedName("passportIssueDate")
+        val passportIssueDate: String? = "",
+
+        @field:SerializedName("bloodGroup")
+        val bloodGroup: String? = ""
+
+
 )
 @Keep
 data class GetPersInfo(

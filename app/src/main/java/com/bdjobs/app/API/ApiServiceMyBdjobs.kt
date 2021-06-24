@@ -325,6 +325,9 @@ interface ApiServiceMyBdjobs {
             @Field("gender") gender: String? = "",
             @Field("nationalId") nationalId: String? = "",
             @Field("Religion") Religion: String? = "",
+            @Field("passportNumber") passportNumber: String? = "",
+            @Field("passportIssueDate") passportIssueDate: String? = "",
+            @Field("bloodGroup") bloodGroup: String? = "",
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<AddorUpdateModel>
 
