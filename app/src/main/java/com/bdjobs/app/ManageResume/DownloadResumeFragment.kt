@@ -45,7 +45,7 @@ class DownloadResumeFragment : android.app.Fragment() {
         val adRequest = AdRequest.Builder().build()
         adView?.loadAd(adRequest)
 
-//        downloadOrDeleteCV("download")
+        downloadOrDeleteCV("download")
         fetchPersonalizedResumeStat()
 
         backIV.setOnClickListener {
@@ -148,7 +148,7 @@ class DownloadResumeFragment : android.app.Fragment() {
                 if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
 
-                    downloadLink = data.personalizedFilePath
+//                    downloadLink = data.personalizedFilePath
 
                     val statCalculatedFrom = formatDateVP(data.personalizedCalculatedFromDate)
                     val lastUpdatedOn = formatDateVP(data.personalizedLastUpdateDate)
