@@ -495,4 +495,11 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="photograph">Photograph</string>
     <string name="completed_steps">Completed steps</string>
     <string name="label_upload_resume">Here, you can upload Personalized Resume. To increase your chance of getting a perfect job, make sure your uploaded Resume is updated.</string>
+    <string name="label_privacy_info_one">You can set resume privacy on your resume to prevent employer(s) from seeing it in the <b>Bdjobs CV Bank.</b></string>
+    <string name="label_privacy_info_two">-To show your resume to all employer(s) select <b>Public</b>.\n-To restrict seeing your resume select <b>Private</b> or <b>Limited</b>.</string>
+    <string name="select_your_resume_visibility_status">Select your Resume visibility status:</string>
+    <string name="all_employer_s_can_see_your_resume"><b>All Employer(s)</b> can see your resume.</string>
+    <string name="no_employer_s_can_see_your_resume_from_bdjobs_cv_bank"><b>No Employer(s)</b> can see your resume from \n<b>Bdjobs CV Bank</b></string>
+    <string name="only_selected_employer_s_can_not_see_your_resume">Only <b>Selected Employer(s)</b> can not see your resume.</string>
+    <string name="type_employer_name_for_suggestions">Type Employer name for suggestions</string>
 </resources>
