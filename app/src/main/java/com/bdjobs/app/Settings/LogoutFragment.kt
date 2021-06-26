@@ -27,15 +27,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
 class LogoutFragment : Fragment() {
     private lateinit var communicator: SettingsCommunicator
     lateinit var bdjobsUserSession: BdjobsUserSession
@@ -69,6 +60,10 @@ class LogoutFragment : Fragment() {
                 activity.startActivity(intent)
             } catch (e: Exception) {
             }
+        }
+
+        resumePrivacySettingsBTN.setOnClickListener {
+            communicator.gotoResumePrivacyFragment()
         }
 
         smsSettingsBTN?.setOnClickListener {

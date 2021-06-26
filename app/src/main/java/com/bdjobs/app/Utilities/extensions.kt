@@ -28,6 +28,7 @@ import android.view.View.OnTouchListener
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -36,6 +37,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Settings.ResumePrivacyFragment
 import com.bdjobs.app.SplashActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
@@ -436,6 +438,26 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int) {
         val transaction = fragmentManager.beginTransaction()
         transaction.replace(holderID, fragment, simpleClassName(fragment))
         transaction.commit()
+    } catch (e: Exception) {
+        logException(e)
+    }
+}
+
+fun AppCompatActivity.transitFragmentX(fragment: androidx.fragment.app.Fragment, holderID: Int, addToBackStack: Boolean) {
+    try {
+        val fragmentManager = this.supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        if (addToBackStack) {
+            fragmentTransaction.apply {
+                replace(holderID, fragment)
+                addToBackStack(fragment::class.java.name)
+            }
+        } else {
+            fragmentTransaction.apply {
+                replace(holderID, fragment)
+            }
+        }
+        fragmentTransaction.commit()
     } catch (e: Exception) {
         logException(e)
     }
