@@ -24,6 +24,6 @@ object EventConstants {
     const val EVENT_END_LOCAL = "endlocal"
     const val EVENT_INTERVIEW_CALL_RECIEVE = "Interviewreceive"
     const val EVENT_RE_INIT = "reinit"
-
+    const val EVENT_INACTIVE_USER = "inactiveUser"
 
 }

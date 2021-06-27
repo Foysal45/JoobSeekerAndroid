@@ -160,6 +160,12 @@ class SignalingServer {
             socket?.on(Socket.EVENT_CONNECT_ERROR) { args: Array<Any> ->
                 signalingEvent.onEventConnectionError(args)
             }
+            socket?.on(EventConstants.EVENT_INACTIVE_USER) { args: Array<Any?>? ->
+                Timber.tag("live").d("inactive users: %s", args?.get(0))
+            }
+            socket?.on(EventConstants.EVENT_RE_INIT) { args: Array<Any?>? ->
+                Timber.tag("live").d("reinit : %s", args?.get(0))
+            }
 
             Timber.tag("live").d("Connecting ... $socket")
 

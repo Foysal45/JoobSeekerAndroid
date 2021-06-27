@@ -442,7 +442,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             videoSource = peerConnectionFactory?.createVideoSource(videoCapturerAndroid!!.isScreencast)
             videoCapturerAndroid!!.initialize(surfaceTextureHelper, requireActivity(), videoSource?.capturerObserver)
         }
-        videoCapturerAndroid?.startCapture(320, 240, 30)
+        videoCapturerAndroid?.startCapture(640, 480, 30)
 
 
         binding.svLocal.setMirror(true)
@@ -517,10 +517,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         runOnUiThread {
             try{
                 val params: ViewGroup.LayoutParams = binding.svLocal.getLayoutParams()
-                params.height = dpToPx(130)
-                params.width = dpToPx(120)
+                params.height = dpToPx(150)
+                params.width = dpToPx(140)
                 binding.svLocal.setLayoutParams(params)
-                binding.svLocal.setMargins(16,16,0,0)
+                binding.svLocal.setMargins(32,32,0,0)
                 binding.svLocal.setZOrderMediaOverlay(true)
             }catch (e: Exception){
                 Timber.tag("live").d("Error updateVideoViews : %s", e.toString())
@@ -557,6 +557,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         rtcConfig.rtcpMuxPolicy = PeerConnection.RtcpMuxPolicy.REQUIRE
         rtcConfig.keyType = PeerConnection.KeyType.ECDSA
         rtcConfig.iceTransportsType = PeerConnection.IceTransportsType.ALL
+        rtcConfig.enableCpuOveruseDetection = false
 
         peerConnection =
                 peerConnectionFactory?.createPeerConnection(rtcConfig, pcConstraints, object : CustomPCObserver() {
