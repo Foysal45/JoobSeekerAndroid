@@ -724,6 +724,12 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         }
     }
 
+    override fun onInterviewReceive(args: Array<Any?>?) {
+//        Timber.tag("live").d("onInterviewReceive: %s", args?.get(0))
+//        interviewSessionViewModel.postStartCall()
+    }
+
+
     override fun onReceiveIceCandidate(args: Array<Any?>?) {
         Timber.tag("live").d("onReceiveIceCandidate: %s", args?.get(0))
         val argument = args?.get(0) as JSONObject
@@ -737,6 +743,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         runOnUiThread {
             try {
                 interviewSessionViewModel.loadingCounterShowCheck(true)
+                interviewSessionViewModel.postStartCall()
             } catch (e: Exception) {
                 e.printStackTrace()
                 Timber.e("Error in call receive: ${e.localizedMessage}")

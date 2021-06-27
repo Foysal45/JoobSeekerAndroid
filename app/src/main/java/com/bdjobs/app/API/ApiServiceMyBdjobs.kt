@@ -1267,6 +1267,13 @@ interface ApiServiceMyBdjobs {
             @Field("appId") appId: String? = Constants.APP_ID
     ): LiveInterviewDetails
 
+    @GET("https://corporate3.bdjobs.com/Applicant_Process_Set_Live_interview_room_StartEndCall.asp")
+    suspend fun startEndCall(
+        @Query("processid") processid: String?,
+        @Query("applyid") applyid: String?,
+        @Query("requestFor") requestFor: String?
+    ): StartEndCallModel
+
     @FormUrlEncoded
     @POST("apps_live_interview_room_set_chat.asp")
     suspend fun postChatMessages(
@@ -1284,6 +1291,7 @@ interface ApiServiceMyBdjobs {
     suspend fun chatLog(
             @Field("prId") processId: String?
     ): ChatLogModel
+
 
     companion object Factory {
         @Volatile

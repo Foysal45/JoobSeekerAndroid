@@ -96,6 +96,7 @@ class SignalingServer {
                 val argument = args?.get(0) as JSONObject
                 remoteSocketID = argument.getString("sender")
                 signalingEvent.onNewUserStartNew(args)
+               // sendReInitRequest()
             }
 
             socket?.on(EventConstants.EVENT_SEND_RELOAD_TO_FIRST_USER) {args: Array<Any?>? ->
@@ -104,6 +105,7 @@ class SignalingServer {
 
             socket?.on(EventConstants.EVENT_CALL_START) {args: Array<Any?>? ->
                 signalingEvent.onReceiveCall(args)
+                sendInterviewReceived()
             }
 
             socket?.on(EventConstants.EVENT_CALL_RESUME_START) {args: Array<Any?>? ->
@@ -112,6 +114,7 @@ class SignalingServer {
 
             socket?.on(EventConstants.EVENT_INTERVIEW_CALL_RECIEVE) {args: Array<Any?>? ->
                 Timber.tag("live").d("interview recieve: %s", args?.get(0))
+               // signalingEvent.onInterviewReceive(args)
             }
 
             socket?.on(EventConstants.EVENT_ICE_CANDIDATES) { args: Array<Any?>? ->
@@ -120,11 +123,11 @@ class SignalingServer {
                 }
             }
 
-            socket?.on(EventConstants.EVENT_INTERVIEW_CALL_RECIEVE) { args: Array<Any?>? ->
-                if (args != null) {
-                    signalingEvent.onReceiveIceCandidate(args)
-                }
-            }
+//            socket?.on(EventConstants.EVENT_INTERVIEW_CALL_RECIEVE) { args: Array<Any?>? ->
+//                if (args != null) {
+//                    signalingEvent.onReceiveIceCandidate(args)
+//                }
+//            }
 
             socket?.on(EventConstants.EVENT_INTERVIEW_CALL_END) { args: Array<Any?>? ->
                 Timber.tag("live").d("call end: %s", args?.get(0))
@@ -174,6 +177,20 @@ class SignalingServer {
 
     }
 
+    fun sendInterviewReceived(){
+        val sendInterviewReceived = JSONObject()
+
+        try {
+            sendInterviewReceived.put("local", localSocketID )
+
+        } catch (e: Exception) {
+            Timber.tag("live").d("SignallingServer: sendInterviewRecieved error - $e")
+        }
+        Timber.tag("live").d("sendingCallHasEnded string - $sendInterviewReceived")
+
+        socket?.emit(EventConstants.EVENT_INTERVIEW_CALL_RECIEVE, sendInterviewReceived)
+    }
+
     fun sendCallHasEnded(){
         val sendingCallHasEnded = JSONObject()
 
@@ -187,6 +204,23 @@ class SignalingServer {
         Timber.tag("live").d("sendingCallHasEnded string - $sendingCallHasEnded")
 
         socket?.emit(EventConstants.EVENT_END_LOCAL, sendingCallHasEnded)
+    }
+
+    fun sendReInitRequest() {
+
+        val sendingReInit = JSONObject()
+
+        try {
+            sendingReInit.put("to", remoteSocketID )
+            sendingReInit.put("sender", localSocketID)
+            sendingReInit.put("isReInit", "true")
+
+        } catch (e: Exception) {
+            Timber.tag("live").d("SignallingServer: sendingReInit error - $e")
+        }
+        Timber.tag("live").d("sendingId string - $sendingReInit")
+
+        socket?.emit(EventConstants.EVENT_RE_INIT, sendingReInit)
     }
 
     fun sendApplicantId() {
@@ -206,6 +240,21 @@ class SignalingServer {
         Timber.tag("live").d("sendingId string - $sendingId")
 
         socket?.emit(EventConstants.EVENT_NEW_USER_START_NEW, sendingId)
+    }
+
+    fun sendReload(){
+        val sendReload = JSONObject()
+
+        try {
+            sendReload.put("socketId", localSocketID )
+            sendReload.put("userType", "A")
+            sendReload.put("activeUserCount", activeUser)
+        } catch (e: Exception) {
+            Timber.tag("live").d("SignallingServer: sendReload error - $e")
+        }
+        Timber.tag("live").d("sendReload string - $sendReload")
+
+        socket?.emit(EventConstants.EVENT_NEW_USER, sendReload)
     }
 
     fun sendSessionDescription(sessionDescription: SessionDescription) {

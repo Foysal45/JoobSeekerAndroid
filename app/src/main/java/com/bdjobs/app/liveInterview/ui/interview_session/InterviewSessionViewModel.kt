@@ -285,6 +285,18 @@ class InterviewSessionViewModel(
         }
     }
 
+    fun postStartCall(){
+        viewModelScope.launch {
+            try {
+                val response = repository.startEndCall(processID, applyID, "s")
+                Timber.d("Response status code: ${response.message}")
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Timber.e("Exception while updating application status: ${e.localizedMessage}")
+            }
+        }
+    }
+
     private fun fetchChatLog() {
         _logLoading.value = true
 

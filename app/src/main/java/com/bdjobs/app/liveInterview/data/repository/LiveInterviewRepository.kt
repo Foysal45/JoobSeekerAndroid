@@ -88,6 +88,16 @@ class LiveInterviewRepository(val application: Application)  {
         }
     }
 
+    suspend fun startEndCall(
+        processId: String?,
+        applyId:String?,
+        requestFor:String?
+    ) : StartEndCallModel {
+        return withContext(Dispatchers.IO) {
+            ApiServiceMyBdjobs.create().startEndCall(processId,applyId,requestFor)
+        }
+    }
+
     suspend fun submitVideoInterviewFeedback(
             applyId: String?,
             jobId: String?,
