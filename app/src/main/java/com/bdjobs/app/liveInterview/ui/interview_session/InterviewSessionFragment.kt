@@ -1,17 +1,19 @@
 package com.bdjobs.app.liveInterview.ui.interview_session
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.content.IntentFilter
-import android.graphics.Color
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.marginBottom
+import androidx.core.view.marginLeft
+import androidx.core.view.marginRight
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -31,9 +33,6 @@ import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
 import com.bdjobs.app.liveInterview.ui.chat.ChatAdapter
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.demo_connect_employer.streaming.CustomPCObserver
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
-import kotlinx.android.synthetic.main.fragment_interview_session.*
 import org.jetbrains.anko.sdk27.coroutines.onRatingBarChange
 import org.jetbrains.anko.support.v4.runOnUiThread
 import org.json.JSONException
@@ -261,6 +260,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
             isShowActionView.observe(viewLifecycleOwner, {
                 if (it) {
+                    updateVideoViews()
                 }
             })
 
@@ -461,7 +461,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         localVideoTrack?.addSink(binding.svLocal)
 
         binding.svRemote.setMirror(true)
-        binding.svRemote.setZOrderMediaOverlay(true)
+//        binding.svRemote.setZOrderMediaOverlay(true)
         binding.svRemote.init(eglBaseContext, null)
     }
 
@@ -496,6 +496,36 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private fun useCamera2(): Boolean {
         return Camera2Enumerator.isSupported(requireContext())
+    }
+
+    fun dpToPx(dp: Int): Int {
+        val displayMetrics: DisplayMetrics = resources.displayMetrics
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).toInt()
+    }
+    fun View.setMargins(
+        left: Int = this.marginLeft,
+        top: Int = this.marginTop,
+        right: Int = this.marginRight,
+        bottom: Int = this.marginBottom,
+    ) {
+        layoutParams = (layoutParams as ViewGroup.MarginLayoutParams).apply {
+            setMargins(left, top, right, bottom)
+        }
+    }
+
+    private fun updateVideoViews() {
+        runOnUiThread {
+            try{
+                val params: ViewGroup.LayoutParams = binding.svLocal.getLayoutParams()
+                params.height = dpToPx(130)
+                params.width = dpToPx(120)
+                binding.svLocal.setLayoutParams(params)
+                binding.svLocal.setMargins(16,16,0,0)
+                binding.svLocal.setZOrderMediaOverlay(true)
+            }catch (e: Exception){
+                Timber.tag("live").d("Error updateVideoViews : %s", e.toString())
+            }
+        }
     }
 
     private fun gotRemoteStream(stream: MediaStream) {

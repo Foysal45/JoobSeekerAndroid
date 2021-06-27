@@ -44,78 +44,84 @@
 
             <org.webrtc.SurfaceViewRenderer
                 android:id="@+id/sv_local"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- remote view xml start-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="horizontal"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                android:padding="10dp"-->
+<!--                android:visibility="@{viewModel.isShowActionView ? View.VISIBLE : View.GONE}"-->
+<!--                android:id="@+id/ll_remote_root">-->
+
+<!--                <com.google.android.material.card.MaterialCardView-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:id="@+id/cv_remote"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="1"-->
+<!--                    app:cardCornerRadius="16dp">-->
+
+
+<!--                    <FrameLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@color/black">-->
+
+<!--                       -->
+
+<!--                        <LinearLayout-->
+<!--                            android:id="@+id/ll_remote"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="bottom|center"-->
+<!--                            android:alpha="0.6"-->
+<!--                            android:background="@color/black"-->
+<!--                            android:gravity="center"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:paddingTop="3dp"-->
+<!--                            android:visibility="gone"-->
+<!--                            android:paddingBottom="3dp">-->
+
+<!--                            <ImageView-->
+<!--                                android:id="@+id/iv_remote_audio"-->
+<!--                                android:layout_width="24dp"-->
+<!--                                android:layout_height="24dp"-->
+<!--                                android:layout_marginEnd="5dp"-->
+<!--                                android:src="@drawable/ic_microphone_off" />-->
+
+<!--                            <ImageView-->
+<!--                                android:id="@+id/iv_remote_video"-->
+<!--                                android:layout_width="24dp"-->
+<!--                                android:layout_height="24dp"-->
+<!--                                android:layout_gravity="bottom|center"-->
+<!--                                android:layout_marginStart="8dp"-->
+<!--                                android:src="@drawable/ic_video_on" />-->
+
+<!--                        </LinearLayout>-->
+
+<!--                    </FrameLayout>-->
+
+<!--                </com.google.android.material.card.MaterialCardView>-->
+
+
+<!--            </LinearLayout>-->
+            <org.webrtc.SurfaceViewRenderer
+                android:id="@+id/sv_remote"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <!-- remote view xml start-->
-            <LinearLayout
-                android:layout_width="130dp"
-                android:layout_height="150dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:padding="10dp"
                 android:visibility="@{viewModel.isShowActionView ? View.VISIBLE : View.GONE}"
-                android:id="@+id/ll_remote_root">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:id="@+id/cv_remote"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="16dp">
-
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/black">
-
-                        <org.webrtc.SurfaceViewRenderer
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/sv_remote"/>
-
-                        <LinearLayout
-                            android:id="@+id/ll_remote"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom|center"
-                            android:alpha="0.6"
-                            android:background="@color/black"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingTop="3dp"
-                            android:visibility="gone"
-                            android:paddingBottom="3dp">
-
-                            <ImageView
-                                android:id="@+id/iv_remote_audio"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginEnd="5dp"
-                                android:src="@drawable/ic_microphone_off" />
-
-                            <ImageView
-                                android:id="@+id/iv_remote_video"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="bottom|center"
-                                android:layout_marginStart="8dp"
-                                android:src="@drawable/ic_video_on" />
-
-                        </LinearLayout>
-
-                    </FrameLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-
-            </LinearLayout>
+                tools:visibility="gone"
+                />
             <!-- remote view xml end-->
 
             <!-- loading xml start-->
