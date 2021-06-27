@@ -321,4 +321,21 @@ class SignalingServer {
 
     }
 
+    fun sendMessageSeen() {
+        val sendMessageSeen = JSONObject()
+
+        try {
+            sendMessageSeen.put("room", processId)
+            sendMessageSeen.put("seen", "YES")
+
+            Timber.tag("live").d("onEmit sendMessageSeen $sendMessageSeen")
+
+        } catch (e: JSONException) {
+            Timber.tag("live").d("onEmit sendMessageSeen: JSONException $e")
+            e.printStackTrace()
+        }
+        socket?.emit(EventConstants.EVENT_SEEN_MSG, sendMessageSeen)
+
+    }
+
 }

@@ -137,6 +137,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         binding.clReadyView.visibility = View.VISIBLE
         binding.clChatView.visibility = View.GONE
         binding.clFeedbackView.visibility = View.GONE
+        binding.tvMessageCount.text = "0"
+
 
         bdjobsUserSession = BdjobsUserSession(requireContext())
         userName = bdjobsUserSession.userName.toString()
@@ -147,7 +149,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         startSession()
         setUpObservers()
-
 
         binding.toolBar.setNavigationOnClickListener {
             Timber.tag("live").d("toolBarPressed")
@@ -190,27 +191,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         })
     }
 
-    @SuppressLint("UnsafeExperimentalUsageError")
-    private fun createMsgCounter() {
-        binding.fabMessage.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val badgeDrawable: BadgeDrawable = BadgeDrawable.create(requireContext())
-                badgeDrawable.apply {
-                    number = 2
-                    horizontalOffset = 30
-                    verticalOffset = 20
-                    backgroundColor = Color.RED
-                }
-
-                BadgeUtils.attachBadgeDrawable(badgeDrawable, binding.fabMessage, null)
-
-                binding.fabMessage.viewTreeObserver.removeGlobalOnLayoutListener(this)
-            }
-        })
-
-
-    }
-
     private fun setUpObservers() {
         interviewSessionViewModel.apply {
 
@@ -221,6 +201,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                         binding.clFeedbackView.visibility = View.GONE
                         binding.clChatView.visibility = View.VISIBLE
                         isShowingChatView = true
+                        binding.tvMessageCount.text = "0"
+                        SignalingServer.get()?.sendMessageSeen()
                     }
                 }
             })
@@ -279,7 +261,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
             isShowActionView.observe(viewLifecycleOwner, {
                 if (it) {
-                    createMsgCounter()
                 }
             })
 
@@ -343,7 +324,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 receivedChatData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                     try {
                         val s = it?.get(0).toString()
-                        Timber.d("Chat data: $s")
+                        Timber.tag("live").d("Viewmodel post receivedChatData Chat data")
                         val data = JSONObject(s)
 
                         //extract data from fired event
@@ -352,6 +333,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                         imageLocal = data.getString("imgLocal")
                         imageRemote = data.getString("imgRemote")
                         messageCount = data.getInt("newCount")
+                        binding.tvMessageCount.text = messageCount.toString()
 
                         val simpleDateFormat = SimpleDateFormat("h:mm a")
                         val formattedTime = simpleDateFormat.format(Date())
@@ -734,14 +716,16 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
 
     override fun onEndCall() {
-        try{
-            Timber.tag("live").d("clFeedbackView visible")
-            binding.clReadyView.visibility = View.GONE
-            binding.clChatView.visibility = View.GONE
-            binding.clFeedbackView.visibility = View.VISIBLE
-            isShowingFeedback = true
-        }catch(e:Exception){
-            Timber.e("Error onEndCall: ${e.localizedMessage}")
+        runOnUiThread {
+            try {
+                Timber.tag("live").d("clFeedbackView visible")
+                binding.clReadyView.visibility = View.GONE
+                binding.clChatView.visibility = View.GONE
+                binding.clFeedbackView.visibility = View.VISIBLE
+                isShowingFeedback = true
+            } catch (e: Exception) {
+                Timber.e("Error onEndCall: ${e.localizedMessage}")
+            }
         }
     }
 
@@ -774,7 +758,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
 
     override fun onReceiveChat(args: Array<Any?>?) {
-        Timber.d("onReceiveChat: %s", args?.get(0))
+        Timber.tag("live").d("onReceiveChat: %s", args?.get(0))
         runOnUiThread {
             try {
                 interviewSessionViewModel.receivedData(args)

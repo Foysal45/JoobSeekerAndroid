@@ -204,10 +204,10 @@
             <LinearLayout
                 android:id="@+id/ll_options"
                 android:layout_width="0dp"
-                android:visibility="@{viewModel.isShowBottomOptionView() ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.isShowBottomOptionView() ? View.VISIBLE : View.INVISIBLE}"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                tools:visibility="gone"
+                tools:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -240,7 +240,7 @@
                         android:fontFamily="@font/roboto"
                         android:gravity="center"
                         android:padding="3dp"
-                        android:visibility="@{viewModel.isEmployerAvailable() ? View.VISIBLE : View.INVISIBLE}"
+                        android:visibility="@{viewModel.isEmployerAvailable() ? View.VISIBLE : View.GONE}"
                         android:text="Employer is available to take interview any time"
                         android:textColor="#FFF387"
                         app:drawableStartCompat="@drawable/ic_waiting_emp"
@@ -363,7 +363,7 @@
                 android:backgroundTint="@color/black"
                 android:alpha="0.6"
                 android:gravity="center"
-                tools:visibility="visible"
+                tools:visibility="gone"
                 android:visibility="@{viewModel.isShowActionView ? View.VISIBLE : View.GONE}"
                 android:orientation="horizontal">
 
@@ -423,19 +423,41 @@
             </LinearLayout>
             <!-- interview action xml end-->
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:onClick="@{()->viewModel.onChatButtonClicked()}"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="#285FD3"
-                app:tint="@color/white"
-                android:src="@drawable/ic_msg_emp"
-                app:layout_constraintBottom_toTopOf="@id/ll_options"
-                app:layout_constraintEnd_toEndOf="parent" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/ll_options"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="@{()->viewModel.onChatButtonClicked()}"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_alignParentRight="true"
+                        android:backgroundTint="#285FD3"
+                        app:tint="@color/white"
+                        android:src="@drawable/ic_msg_emp"
+                        />
+                    <TextView
+                        android:id="@+id/tv_message_count"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:padding="4dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="18dp"
+                        android:elevation="7dp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:background="@drawable/notification_count_circle"
+                        tools:text="0" />
+                </RelativeLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
