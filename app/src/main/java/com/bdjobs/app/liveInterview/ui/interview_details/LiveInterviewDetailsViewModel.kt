@@ -148,9 +148,6 @@ class LiveInterviewDetailsViewModel(
                     showPreparationSection.value = false
                 }
 
-                //change here
-                showJoinSection.value = true
-
 
             } catch (e: Exception) {
                 e.printStackTrace()

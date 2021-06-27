@@ -34,6 +34,7 @@ import com.bdjobs.demo_connect_employer.streaming.CustomPCObserver
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import kotlinx.android.synthetic.main.fragment_interview_session.*
+import org.jetbrains.anko.sdk27.coroutines.onRatingBarChange
 import org.jetbrains.anko.support.v4.runOnUiThread
 import org.json.JSONException
 import org.json.JSONObject
@@ -105,7 +106,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     var isShowingFeedback = false
 
     private val interviewSessionViewModel: InterviewSessionViewModel by viewModels {
-        InterviewSessionViewModelFactory(LiveInterviewRepository(requireActivity().application as Application), args.processID, args.applyID)
+        InterviewSessionViewModelFactory(LiveInterviewRepository(requireActivity().application as Application), args.processID, args.applyID, args.jobID)
     }
 
 
@@ -135,6 +136,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         binding.clReadyView.visibility = View.VISIBLE
         binding.clChatView.visibility = View.GONE
+        binding.clFeedbackView.visibility = View.GONE
 
         bdjobsUserSession = BdjobsUserSession(requireContext())
         userName = bdjobsUserSession.userName.toString()
@@ -157,6 +159,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             }else{
                 Timber.tag("live").d("toolBarPressed- not isShowingChatView")
                 findNavController().navigateUp()
+            }
+        }
+
+        binding.rating.onRatingBarChange { ratingBar, rating, fromUser ->
+            interviewSessionViewModel.apply {
+                this.rating.value = rating.toInt()
+                onRatingChanged()
             }
         }
 
@@ -209,6 +218,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 if (it) {
                     if(!isShowingChatView){
                         binding.clReadyView.visibility = View.GONE
+                        binding.clFeedbackView.visibility = View.GONE
                         binding.clChatView.visibility = View.VISIBLE
                         isShowingChatView = true
                     }
@@ -278,6 +288,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 if (it) {
                     Timber.tag("live").d("sendButtonClickEvent")
                     sendMessage()
+                }
+            })
+
+            submitButtonClickedClickEvent.observe(viewLifecycleOwner, EventObserver {
+                if (it) {
+                    Timber.tag("live").d("submitButtonClickedClickEvent")
+                    findNavController().navigateUp()
                 }
             })
 
@@ -718,7 +735,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onEndCall() {
         try{
-            findNavController().navigateUp()
+            Timber.tag("live").d("clFeedbackView visible")
+            binding.clReadyView.visibility = View.GONE
+            binding.clChatView.visibility = View.GONE
+            binding.clFeedbackView.visibility = View.VISIBLE
+            isShowingFeedback = true
         }catch(e:Exception){
             Timber.e("Error onEndCall: ${e.localizedMessage}")
         }

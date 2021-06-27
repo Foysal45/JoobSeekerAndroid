@@ -15,11 +15,12 @@ import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 class InterviewSessionViewModelFactory(
         private val repository: LiveInterviewRepository,
         private val processID:String?,
-        private val applyID:String?
+        private val applyID:String?,
+        private val jobID:String?
 ):ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return InterviewSessionViewModel(
-                repository, processID, applyID
+                repository, processID, applyID, jobID
         ) as T
     }
 }

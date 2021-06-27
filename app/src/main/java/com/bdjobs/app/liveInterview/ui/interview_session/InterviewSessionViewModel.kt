@@ -1,6 +1,7 @@
 package com.bdjobs.app.liveInterview.ui.interview_session
 
 import android.os.CountDownTimer
+import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +21,8 @@ import timber.log.Timber
 class InterviewSessionViewModel(
         val repository: LiveInterviewRepository,
         val processID: String?,
-        val applyID: String?) : ViewModel() {
+        val applyID: String?,
+        val jobID: String?) : ViewModel() {
 
 
     private var timer: CountDownTimer? = null
@@ -129,6 +131,21 @@ class InterviewSessionViewModel(
     val anotherInterviewTextShow = MutableLiveData<Boolean>()
     val waitingTextShow = MutableLiveData<Boolean>()
     val askedTextShow = MutableLiveData<Boolean>()
+
+    //feedback
+    val feedback = MutableLiveData<String>().apply {
+        value = ""
+    }
+
+    val rating = MutableLiveData<Int>().apply {
+        value = 0
+    }
+
+    val enableSubmitButton = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+
+    val submitButtonClickedClickEvent = MutableLiveData<Event<Boolean>> ()
 
     init {
         bottomOptionShowCheck(true)
@@ -366,4 +383,38 @@ class InterviewSessionViewModel(
         const val WAITING_TIME = 5000L
     }
 
+    //feedback
+    fun afterFeedbackTextChanged(editable: Editable) {
+        checkValidation()
+    }
+
+    fun onRatingChanged() {
+        Timber.d("called")
+        checkValidation()
+    }
+
+    fun checkValidation() {
+        enableSubmitButton.value = !feedback.value.isNullOrBlank() && rating.value!!.toInt() > 0
+    }
+
+    fun onSubmitButtonClick() {
+        submitButtonClickedClickEvent.value = Event(true)
+        postFeedback()
+    }
+
+    private fun postFeedback() {
+        Timber.d("${rating.value} ${feedback.value}")
+        Timber.d("ApplyID: $applyID :: JobID: $jobID")
+        viewModelScope.launch {
+            val resposne = repository.submitVideoInterviewFeedback(
+                applyId = applyID,
+                jobId = jobID,
+                feedbackComment = feedback.value,
+                rating = rating.value.toString()
+            )
+            if(resposne.statuscode == "4"){
+                Timber.d("postFeedback")
+            }
+        }
+    }
 }

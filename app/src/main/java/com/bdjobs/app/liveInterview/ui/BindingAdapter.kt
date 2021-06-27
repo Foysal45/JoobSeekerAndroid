@@ -147,6 +147,9 @@ fun bindLiveInterviewTimer(textView: TextView, date: String?, time: String?, sta
             "4" -> {
                 textView.text = "Expired"
             }
+            "3" -> {
+                textView.text = "Completed"
+            }
         }
     }
 
@@ -273,6 +276,14 @@ fun bindLiveInterviewConfirmationStatus(textView: TextView, status: String?, pre
                 setTextColor(Color.parseColor("#FF3144"))
             }
             //holder.notifyDetailsTV.setTextColor(Color.parseColor("#393939"))
+        }
+
+        if (status.equalIgnoreCase("7")) {
+            textView.apply {
+                text = "Completed"
+                setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_confirm_ic, 0, 0, 0)
+                setTextColor(Color.parseColor("#13A10E"))
+            }
         }
     }
 }
