@@ -354,7 +354,8 @@ interface ApiServiceMyBdjobs {
             @Field("hEd_id") hEd_id: String? = "",
             @Field("chkResult") chkResult: String? = "",
             @Field("boardId") boardId: String? = "",
-            @Field("appId") appId: String? = Constants.APP_ID
+            @Field("appId") appId: String? = Constants.APP_ID,
+            @Field("foreignCountry") foreignCountry: String? = ""
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
