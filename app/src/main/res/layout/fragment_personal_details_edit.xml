@@ -388,7 +388,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Passport Number"
-                        android:digits="@string/chars_special"
+                        android:digits="@string/chars_digits"
                         android:inputType="text|textMultiLine"
                         android:maxLength="20"
                         android:textColor="#212121" />

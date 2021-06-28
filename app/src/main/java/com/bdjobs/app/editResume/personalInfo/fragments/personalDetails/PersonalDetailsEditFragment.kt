@@ -149,7 +149,7 @@ class PersonalDetailsEditFragment : Fragment() {
         }
 
         etBloodGroup.setOnClickListener {
-            val bloodGroup = listOf("A+", "B+", "AB+", "O+", "O-")
+            val bloodGroup = listOf("A+","A-","B+","B-","O+","O-","AB+", "AB-")
             selector("Please select your blood group", bloodGroup) { dialogInterface, i ->
                 etBloodGroup?.setText(bloodGroup[i])
             }
@@ -265,20 +265,6 @@ class PersonalDetailsEditFragment : Fragment() {
                 mDay)
         }
 
-        val calendarMin = Calendar.getInstance()
-        calendarMin.set(Calendar.DAY_OF_MONTH, mDay)
-        calendarMin.set(Calendar.MONTH, mMonth)
-        calendarMin.set(Calendar.YEAR, mYear - 85)
-
-        val calendarMax = Calendar.getInstance()
-        calendarMax.set(Calendar.DAY_OF_MONTH, mDay)
-        calendarMax.set(Calendar.MONTH, mMonth)
-        calendarMax.set(Calendar.YEAR, mYear - 12)
-
-        //Log.d("calValue", "year : $mYear")
-
-        dpd.datePicker.maxDate = calendarMax.timeInMillis
-        dpd.datePicker.minDate = calendarMin.timeInMillis
         dpd.show()
     }
 
@@ -304,6 +290,8 @@ class PersonalDetailsEditFragment : Fragment() {
 
         dateOfPassportIssue = data?.passportIssueDate.toString()
         etPassportIssueDate.setText(data?.passportIssueDate)
+        etPassportNumber.setText(data?.passportNumber)
+        etBloodGroup.setText(data?.bloodGroup)
 
         etPerNid.setText(data?.nationalIdNo)
         if (data?.nationality?.isNotEmpty()!!) etPerNationality.setText(data.nationality) else etPerNationality.clear()
