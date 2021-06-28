@@ -187,7 +187,7 @@ class SignalingServer {
         val sendInterviewReceived = JSONObject()
 
         try {
-            sendInterviewReceived.put("local", localSocketID )
+            sendInterviewReceived.put("local", remoteSocketID )
 
         } catch (e: Exception) {
             Timber.tag("live").d("SignallingServer: sendInterviewRecieved error - $e")

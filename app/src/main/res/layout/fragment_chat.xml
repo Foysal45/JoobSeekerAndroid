@@ -12,7 +12,7 @@
 
         <variable
             name="adapter"
-            type="com.bdjobs.app.liveInterview.ui.chat.ChatAdapter" />
+            type="com.bdjobs.app.liveInterview.ui.interview_session.ChatAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

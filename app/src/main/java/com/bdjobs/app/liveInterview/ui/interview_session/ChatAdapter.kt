@@ -1,4 +1,4 @@
-package com.bdjobs.app.liveInterview.ui.chat
+package com.bdjobs.app.liveInterview.ui.interview_session
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

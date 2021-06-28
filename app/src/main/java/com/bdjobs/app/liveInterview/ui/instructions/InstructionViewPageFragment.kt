@@ -17,6 +17,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.liveInterview.data.models.Instructions
+import com.bdjobs.app.liveInterview.ui.interview_session.InstructionAdapter
 import kotlinx.android.synthetic.main.fragment_instruction_view_page.*
 
 class InstructionViewPageFragment : Fragment() {

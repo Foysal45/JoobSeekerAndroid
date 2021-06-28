@@ -147,6 +147,8 @@ class InterviewSessionViewModel(
 
     val submitButtonClickedClickEvent = MutableLiveData<Event<Boolean>> ()
 
+
+
     init {
         bottomOptionShowCheck(true)
         readyCheck(true)

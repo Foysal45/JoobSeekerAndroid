@@ -25,6 +25,7 @@ import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingEvent
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
 import com.bdjobs.app.liveInterview.ui.interview_details.LiveInterviewDetailsViewModel
+import com.bdjobs.app.liveInterview.ui.interview_session.ChatAdapter
 import com.bdjobs.app.liveInterview.ui.interview_session.InterviewSessionViewModel
 import com.bdjobs.app.liveInterview.ui.interview_session.InterviewSessionViewModelFactory
 import com.bdjobs.app.videoInterview.util.EventObserver

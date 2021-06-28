@@ -1,4 +1,4 @@
-package com.bdjobs.app.liveInterview.ui.instructions
+package com.bdjobs.app.liveInterview.ui.interview_session
 
 import android.content.Context
 import android.view.LayoutInflater

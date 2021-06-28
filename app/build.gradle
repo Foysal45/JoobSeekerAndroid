@@ -12,8 +12,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 741 // huawei build 738
-        versionName "712.0.0"  //711.0.1 internal test // 2.8.0.2
+        versionCode 743 // huawei build 738
+        versionName "712.0.2"  //711.0.1 internal test // 2.8.0.2
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -130,8 +130,8 @@ dependencies {
 //    implementation 'com.evernote:android-job:1.3.0-rc1'
 
     //----image and upload
-//    implementation 'com.yalantis:ucrop:2.2.0'
-    implementation 'com.github.yalantis:ucrop:2.2.3'
+    implementation 'com.yalantis:ucrop:2.2.0'
+//    implementation 'com.github.yalantis:ucrop:2.2.3'
     implementation 'com.loopj.android:android-async-http:1.4.9'
 
     implementation 'com.droidninja:filepicker:2.2.1'
