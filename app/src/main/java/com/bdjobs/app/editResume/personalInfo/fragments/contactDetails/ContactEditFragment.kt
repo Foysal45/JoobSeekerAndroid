@@ -2,6 +2,7 @@ package com.bdjobs.app.editResume.personalInfo.fragments.contactDetails
 
 import android.app.AlertDialog
 import android.app.Fragment
+import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
@@ -860,6 +861,23 @@ class ContactEditFragment : Fragment() {
 
         if (data?.countryCode == "")
             countryCodeTIET?.setText("Bangladesh (88)")
+
+        if (data?.emailAsUsername == "1") {
+            tv_email_change_user_id.show()
+            tv_mobile_change_user_id.hide()
+            contactEmailAddressTIL.isEnabled = false
+            contactMobileNumberTIL.isEnabled = true
+            contactEmailAddressTIET.setTextColor(Color.parseColor("#bdbdbd"))
+        } else if(data?.phoneAsUsername == "1"){
+            tv_email_change_user_id.hide()
+            tv_mobile_change_user_id.show()
+            contactEmailAddressTIL.isEnabled = true
+            contactMobileNumberTIL.isEnabled = false
+            contactMobileNumberTIET.setTextColor(Color.parseColor("#bdbdbd"))
+        }else{
+            tv_email_change_user_id.hide()
+            tv_mobile_change_user_id.hide()
+        }
 
         //hideAllError()
     }

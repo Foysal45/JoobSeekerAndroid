@@ -385,7 +385,11 @@ data class C_DataItem(
         @SerializedName("presentThana")
         val presentThana: String?="",
         @SerializedName("presentVillage")
-        val presentVillage: String?=""
+        val presentVillage: String?="",
+        @SerializedName("emailAsUsername")
+        val emailAsUsername: String?="",
+        @SerializedName("PhoneAsUsername")
+        val phoneAsUsername: String?=""
 )
 @Keep
 data class GetContactInfo(

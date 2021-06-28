@@ -178,6 +178,17 @@ class ContactViewFragment : Fragment() {
         tv_primary_email.text = info?.email
         tv_alternate_email.text = info?.alternativeEmail
 
+        if (info?.emailAsUsername == "1") {
+            tv_email_change_user_id.show()
+            tv_mobile_change_user_id.hide()
+        } else if(info?.phoneAsUsername == "1"){
+            tv_email_change_user_id.hide()
+            tv_mobile_change_user_id.show()
+        }else{
+            tv_email_change_user_id.hide()
+            tv_mobile_change_user_id.hide()
+        }
+
     }
 
     private fun shimmerStart() {
