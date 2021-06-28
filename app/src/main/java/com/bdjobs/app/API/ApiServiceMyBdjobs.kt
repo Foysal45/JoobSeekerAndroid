@@ -384,6 +384,7 @@ interface ApiServiceMyBdjobs {
      * Param: 4 -> Skill
      * Param: 5 -> Institution
      * Param: 6 -> Concentration/Major/Group
+     * Param: 8 -> Employer List
      */
     @GET("apps_auto_suggestion.asp")
     fun fetchAutoSuggestion(

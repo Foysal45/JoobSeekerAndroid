@@ -24,7 +24,15 @@ data class ResumePrivacyStatus(
 @Keep
 data class DataRP(
     @Json(name = "data")
-    val `data`: String?="",
+    val `data`: List<DataX>?=null,
     @Json(name = "resumeVisibilityType")
     val resumeVisibilityType: String?=""
+)
+
+@Keep
+data class DataX(
+    @Json(name = "employerName")
+    val employerName: String?,
+    @Json(name = "id")
+    val id: String?
 )

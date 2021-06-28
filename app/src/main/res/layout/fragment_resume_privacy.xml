@@ -8,80 +8,83 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar4"
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayoutToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                tools:layout_editor_absoluteX="16dp">
-
-                <TextView
-                    android:id="@+id/suggestiveSearchET"
-                    android:layout_width="0dp"
-                    android:layout_height="29dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="32dp"
-                    android:drawablePadding="5dp"
-                    android:ems="10"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:singleLine="true"
-                    android:text="Resume Privacy"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/backIV"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/backIV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_arrow_back_white_24dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:fillViewport="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar4"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+                android:paddingBottom="50dp"
+                android:layout_height="wrap_content">
+
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar4"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    android:minHeight="?attr/actionBarSize"
+                    android:theme="?attr/actionBarTheme"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayoutToolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        tools:layout_editor_absoluteX="16dp">
+
+                        <TextView
+                            android:id="@+id/suggestiveSearchET"
+                            android:layout_width="0dp"
+                            android:layout_height="29dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="32dp"
+                            android:drawablePadding="5dp"
+                            android:ems="10"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:singleLine="true"
+                            android:text="Resume Privacy"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/backIV"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/backIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_arrow_back_white_24dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.Toolbar>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_parent_views"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:padding="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/toolbar4">
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cv_privacy_info"
@@ -151,7 +154,6 @@
                             android:id="@+id/rb_public"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="true"
                             android:drawableStart="@drawable/ic_visibility_public"
                             android:drawablePadding="10dp"
                             android:fontFamily="@font/roboto"
@@ -168,7 +170,7 @@
                             android:layout_marginStart="24dp"
                             android:text="@string/all_employer_s_can_see_your_resume" />
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_private"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -189,7 +191,7 @@
                             android:text="@string/no_employer_s_can_see_your_resume_from_bdjobs_cv_bank" />
 
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/rb_limited"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -217,6 +219,7 @@
                         style="@style/EHTextInputLayout1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginTop="16dp"
                         android:focusableInTouchMode="true"
                         android:textColorHint="#757575"
@@ -244,6 +247,7 @@
                         android:id="@+id/tv_label_selected_employers"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Selected Employer(s)"
@@ -252,48 +256,34 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/til_employer_name" />
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/emp_name_chip_group"
+                    <HorizontalScrollView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        app:chipSpacingVertical="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_label_selected_employers">
 
-                        <com.google.android.material.chip.Chip
-                            style="@style/Widget.MaterialComponents.Chip.Entry"
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/emp_name_chip_group"
                             android:layout_width="wrap_content"
+                            android:visibility="gone"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="XYZ Ltd"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
+                            app:chipSpacingVertical="8dp"
+                            android:orientation="horizontal"/>
 
-                    </com.google.android.material.chip.ChipGroup>
+                    </HorizontalScrollView>
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab_submit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/green"
-                        android:contentDescription="@string/content_desce"
-                        android:src="@drawable/ic_check_sign_resume"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:tint="@color/white" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar4"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:id="@+id/cl_progress_view">
                     <ProgressBar
@@ -308,7 +298,21 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/content_desce"
+            android:src="@drawable/ic_check_sign_resume"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/white" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
