@@ -1,8 +1,7 @@
 package com.bdjobs.app.Settings
 
-import android.app.Activity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
 import com.bdjobs.app.R
@@ -15,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SettingBaseActivity : AppCompatActivity(), SettingsCommunicator {
+class SettingBaseActivity : FragmentActivity(), SettingsCommunicator {
 
     private val logoutFragment = LogoutFragment()
 
@@ -38,7 +37,7 @@ class SettingBaseActivity : AppCompatActivity(), SettingsCommunicator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting_base)
         bdjobsUserSession = BdjobsUserSession(this@SettingBaseActivity)
-        transitFragment(logoutFragment, R.id.fragmentHolder)
+        transitFragment(logoutFragment, R.id.fragmentHolder,false)
         /*    signOutBTN.setOnClickListener {
                 logout()
             }

@@ -1,17 +1,15 @@
 package com.bdjobs.app.Settings
 
 
-import android.app.Fragment
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.CookieManager
+import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
 import com.bdjobs.app.Ads.Ads
@@ -23,6 +21,9 @@ import com.bdjobs.app.sms.BaseActivity
 import com.google.android.gms.ads.AdListener
 import kotlinx.android.synthetic.main.fragment_logout.*
 import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.support.v4.indeterminateProgressDialog
+import org.jetbrains.anko.support.v4.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,7 +42,7 @@ class LogoutFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         communicator = activity as SettingsCommunicator
-        bdjobsUserSession = BdjobsUserSession(activity)
+        bdjobsUserSession = BdjobsUserSession(requireActivity())
 
         notificationSettingsBTN?.setOnClickListener {
             try {
@@ -49,15 +50,15 @@ class LogoutFragment : Fragment() {
                 when {
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
                         intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                        intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                        intent.putExtra(Settings.EXTRA_APP_PACKAGE, context?.packageName)
                     }
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
                         intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                        intent.putExtra("app_package", activity.packageName)
-                        intent.putExtra("app_uid", activity.applicationInfo.uid)
+                        intent.putExtra("app_package", requireActivity().packageName)
+                        intent.putExtra("app_uid", requireActivity().applicationInfo.uid)
                     }
                 }
-                activity.startActivity(intent)
+                requireActivity().startActivity(intent)
             } catch (e: Exception) {
             }
         }
@@ -67,7 +68,7 @@ class LogoutFragment : Fragment() {
         }
 
         smsSettingsBTN?.setOnClickListener {
-            startActivity<BaseActivity>("from" to "settings")
+            requireContext().startActivity<BaseActivity>("from" to "settings")
         }
 
         signOutBTN.setOnClickListener {
@@ -102,7 +103,7 @@ class LogoutFragment : Fragment() {
             changepass?.visibility = View.GONE
         }
 
-        Ads.showNativeAd(ad_small_template, activity)
+        Ads.showNativeAd(ad_small_template, requireActivity())
     }
 
     private fun logout() {
@@ -110,7 +111,7 @@ class LogoutFragment : Fragment() {
         loadingDialog.setCancelable(false)
         loadingDialog.show()
         loadingDialog.setCancelable(false)
-        ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, deviceID = activity.getDeviceID()).enqueue(object : Callback<CookieModel> {
+        ApiServiceMyBdjobs.create().logout(userId = bdjobsUserSession.userId, decodeId = bdjobsUserSession.decodId, deviceID = requireActivity().getDeviceID()).enqueue(object : Callback<CookieModel> {
             override fun onFailure(call: Call<CookieModel>, t: Throwable) {
 //                error("onFailure", t)
 //                loadingDialog.dismiss()
@@ -157,13 +158,13 @@ class LogoutFragment : Fragment() {
                     }
                     toast(response.body()?.message!!)
                     cookieManager?.removeAllCookies(null)
-                    removeShortcut(activity)
+                    removeShortcut(requireActivity())
 
                 } catch (e: Exception) {
                     logException(e)
                     bdjobsUserSession.logoutUser()
                     cookieManager?.removeAllCookies(null)
-                    removeShortcut(activity)
+                    removeShortcut(requireActivity())
                 }
             }
         })

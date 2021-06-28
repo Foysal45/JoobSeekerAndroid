@@ -2,14 +2,11 @@ package com.bdjobs.app.Settings
 
 
 import android.os.Bundle
-import android.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Toast
-import androidx.core.view.isNotEmpty
+import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.ChangePassword
 import com.bdjobs.app.R
@@ -17,7 +14,6 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.easyOnTextChangedListener
 import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.logException
-import com.facebook.FacebookSdk.getApplicationContext
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_change_password.*
@@ -41,8 +37,8 @@ class ChangePasswordFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        bdjobsUserSession = BdjobsUserSession(activity)
-        communicator = activity as SettingsCommunicator
+        bdjobsUserSession = BdjobsUserSession(requireActivity())
+        communicator = requireActivity() as SettingsCommunicator
         tv_username.text = bdjobsUserSession.userName
         backIV.setOnClickListener {
             communicator.backButtonPressed()
@@ -58,14 +54,14 @@ class ChangePasswordFragment : Fragment() {
                  login()
              }*/
 
-        et_old_pass.easyOnTextChangedListener { charSequence ->
+        et_old_pass.easyOnTextChangedListener {
             validateOldPassword2()
         }
-        et_new_pass.easyOnTextChangedListener { charSequence ->
+        et_new_pass.easyOnTextChangedListener {
             validateNewPassword2()
 
         }
-        et_confirm_pass.easyOnTextChangedListener { charSequence ->
+        et_confirm_pass.easyOnTextChangedListener {
             validateConfirmPassword2()
 
         }
@@ -118,7 +114,7 @@ class ChangePasswordFragment : Fragment() {
                             "decode = " + bdjobsUserSession.decodId
 
                     )*/
-                    activity?.toast(response.body()?.message!!)
+                    requireActivity().toast(response.body()?.message!!)
                     if (response.body()?.statuscode == "0" || response.body()?.statuscode == "4") {
                         //Log.d("msg", response.body()?.message)
                         // toast(response.body()?.message!!)
@@ -139,10 +135,10 @@ class ChangePasswordFragment : Fragment() {
 
 
     private fun validateOldPassword2(): Boolean {
-        val pass = et_old_pass.getText().toString()
-        if (et_old_pass.getText().toString().trim({ it <= ' ' }).isEmpty()) {
-            oldpassword_TIL.setErrorEnabled(true)
-            oldpassword_TIL.setError(getString(R.string.err_msg_password_not_empty))
+        val pass = et_old_pass.text.toString()
+        if (et_old_pass.text.toString().trim { it <= ' ' }.isEmpty()) {
+            oldpassword_TIL.isErrorEnabled = true
+            oldpassword_TIL.error = getString(R.string.err_msg_password_not_empty)
             requestFocus(et_old_pass)
             return false
         }
@@ -153,23 +149,23 @@ class ChangePasswordFragment : Fragment() {
 //            requestFocus(et_old_pass)
 //            return false
   //      }
-    else if (pass.trim({ it <= ' ' }).length < 8 || pass.trim({ it <= ' ' }).length > 12) {
-            oldpassword_TIL.setErrorEnabled(true)
-            oldpassword_TIL.setError(getString(R.string.err_msg_password_limit))
+    else if (pass.trim { it <= ' ' }.length < 8 || pass.trim { it <= ' ' }.length > 12) {
+            oldpassword_TIL.isErrorEnabled = true
+            oldpassword_TIL.error = getString(R.string.err_msg_password_limit)
             requestFocus(et_old_pass)
             return false
         } else {
-            oldpassword_TIL.setErrorEnabled(false)
+            oldpassword_TIL.isErrorEnabled = false
         }
 
         return true
     }
 
     private fun validateNewPassword2(): Boolean {
-        val pass = et_new_pass.getText().toString()
-        if (et_new_pass.getText().toString().trim({ it <= ' ' }).isEmpty()) {
-            newpassword_TIL.setErrorEnabled(true)
-            newpassword_TIL.setError(getString(R.string.err_msg_password_not_empty))
+        val pass = et_new_pass.text.toString()
+        if (et_new_pass.text.toString().trim { it <= ' ' }.isEmpty()) {
+            newpassword_TIL.isErrorEnabled = true
+            newpassword_TIL.error = getString(R.string.err_msg_password_not_empty)
             requestFocus(et_new_pass)
             return false
         }
@@ -180,29 +176,29 @@ class ChangePasswordFragment : Fragment() {
             requestFocus(et_new_pass)
             return false*/
 //    }
-        else if (pass.trim({ it <= ' ' }).length < 8 || pass.trim({ it <= ' ' }).length > 12) {
-            newpassword_TIL.setErrorEnabled(true)
-            newpassword_TIL.setError(getString(R.string.err_msg_password_limit))
+        else if (pass.trim { it <= ' ' }.length < 8 || pass.trim { it <= ' ' }.length > 12) {
+            newpassword_TIL.isErrorEnabled = true
+            newpassword_TIL.error = getString(R.string.err_msg_password_limit)
             requestFocus(et_new_pass)
             return false
         } else {
-            newpassword_TIL.setErrorEnabled(false)
+            newpassword_TIL.isErrorEnabled = false
         }
 
         return true
     }
 
     private fun validateConfirmPassword2(): Boolean {
-        val pass = et_confirm_pass.getText().toString()
-        if (et_confirm_pass.getText().toString().trim({ it <= ' ' }).isEmpty()) {
-            confirmpassword_TIL.setErrorEnabled(true)
-            confirmpassword_TIL.setError(getString(R.string.err_msg_password_confirm_not_empty))
+        val pass = et_confirm_pass.text.toString()
+        if (et_confirm_pass.text.toString().trim { it <= ' ' }.isEmpty()) {
+            confirmpassword_TIL.isErrorEnabled = true
+            confirmpassword_TIL.error = getString(R.string.err_msg_password_confirm_not_empty)
             requestFocus(et_confirm_pass)
             return false
         } else if (!pass.equals(et_new_pass.text.toString(), true)) {
             // return enableValidation(confirmpassword_TIL,et_confirm_pass, getString(com.bdjobs.app.R.string.err_msg_password_not_match) )
-            confirmpassword_TIL.setErrorEnabled(true)
-            confirmpassword_TIL.setError(getString(R.string.err_msg_password_not_match))
+            confirmpassword_TIL.isErrorEnabled = true
+            confirmpassword_TIL.error = getString(R.string.err_msg_password_not_match)
             requestFocus(et_confirm_pass)
             return false
 
@@ -215,13 +211,13 @@ class ChangePasswordFragment : Fragment() {
             requestFocus(et_confirm_pass)
             return false
         } */
-        else if (pass.trim({ it <= ' ' }).length < 8 || pass.trim({ it <= ' ' }).length > 12) {
-            confirmpassword_TIL.setErrorEnabled(true)
-            confirmpassword_TIL.setError("Password should be 8 to 12 character long!")
+        else if (pass.trim { it <= ' ' }.length < 8 || pass.trim { it <= ' ' }.length > 12) {
+            confirmpassword_TIL.isErrorEnabled = true
+            confirmpassword_TIL.error = "Password should be 8 to 12 character long!"
             requestFocus(et_confirm_pass)
             return false
         } else {
-            confirmpassword_TIL.setErrorEnabled(false)
+            confirmpassword_TIL.isErrorEnabled = false
         }
 
         return true
@@ -229,8 +225,8 @@ class ChangePasswordFragment : Fragment() {
 
 
     private fun enableValidation(til: TextInputLayout, tied: TextInputEditText, errorText: String): Boolean {
-        til.setErrorEnabled(true)
-        til.setError(errorText)
+        til.isErrorEnabled = true
+        til.error = errorText
         requestFocus(tied)
         return false
     }
@@ -240,8 +236,8 @@ class ChangePasswordFragment : Fragment() {
         val p = Pattern.compile("[:`!@#$%&*()_ +/=;|'\"<>?{}\\[\\]~-]")
 
         var b = false
-        for (i in 0 until s.length) {
-            symbol = s[i].toString()
+        for (element in s) {
+            symbol = element.toString()
             val m = p.matcher(symbol)
             b = m.matches()
             if (b) {
@@ -254,7 +250,7 @@ class ChangePasswordFragment : Fragment() {
     private fun requestFocus(view: View) {
         if (view.requestFocus()) {
             // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-            activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         }
     }
