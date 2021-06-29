@@ -1,6 +1,8 @@
 package com.bdjobs.app.Settings
 
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +21,7 @@ import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.databinding.FragmentResumePrivacyBinding
 import com.bdjobs.app.resume_dashboard.data.models.DataX
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
 import kotlinx.coroutines.launch
@@ -57,14 +60,49 @@ class ResumePrivacyFragment : Fragment() {
         communicator = activity as SettingsCommunicator
         bdjobsUserSession = BdjobsUserSession(requireContext())
         binding.backIV.setOnClickListener {
+            employerIDList.clear()
             communicator.backButtonPressed()
         }
+
+        Timber.d("EmployerIDs: ${TextUtils.join(",",employerIDList)}")
 
         fetchPrivacyStatus()
 
         radioGroupListener()
 
         employerNameClickedListener()
+
+        binding.fabSubmit.setOnClickListener { updatePrivacy() }
+    }
+
+    private fun updatePrivacy() {
+
+        binding.linearProgress.show()
+
+        lifecycleScope.launch {
+            try {
+                val employers = TextUtils.join(",",employerIDList)
+
+                val empIDs = if (selectedStatus=="3") ",$employers," else ""
+
+                Timber.d("Employers: $empIDs --> Status: $selectedStatus")
+                val response = ApiServiceMyBdjobs.create().resumePrivacyUpdate(bdjobsUserSession.userId,bdjobsUserSession.decodId,empIDs,selectedStatus)
+
+                binding.linearProgress.hide()
+
+                if (response.statuscode == "1") {
+                    toast(response.message!!)
+                    employerIDList.clear()
+                } else {
+                    toast("Update failed")
+                }
+
+            } catch (e:Exception) {
+                toast("Update failed")
+                e.printStackTrace()
+                Timber.e("Exception while updating resume privacy: ${e.localizedMessage}")
+            }
+        }
     }
 
     private fun employerNameClickedListener() {
@@ -235,14 +273,27 @@ class ResumePrivacyFragment : Fragment() {
 
         chip.apply {
             text = employerName
+            setChipDrawable(ChipDrawable.createFromResource(requireContext(),R.xml.chip_entry))
         }
 
         binding.empNameChipGroup.addView(chip)
+
+
+        chip.setOnCloseIconClickListener {
+            binding.empNameChipGroup.removeView(chip)
+            removeEmployerID(employerID)
+        }
     }
 
     private fun addEmployerID(id:String) {
         if (!employerIDList.contains(id)) {
             employerIDList.add(id)
+        }
+    }
+
+    private fun removeEmployerID(id:String) {
+        if (employerIDList.contains(id)) {
+            employerIDList.remove(id)
         }
     }
 }

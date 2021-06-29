@@ -9,10 +9,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinproce
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.liveInterview.data.models.*
-import com.bdjobs.app.resume_dashboard.data.models.ManageResumeDetailsStat
-import com.bdjobs.app.resume_dashboard.data.models.ManageResumeStats
-import com.bdjobs.app.resume_dashboard.data.models.PersonalizedResumeStat
-import com.bdjobs.app.resume_dashboard.data.models.ResumePrivacyStatus
+import com.bdjobs.app.resume_dashboard.data.models.*
 import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.transaction.data.model.TransactionList
@@ -1324,6 +1321,15 @@ interface ApiServiceMyBdjobs {
         @Field("decodeID") decodeID: String? = "",
         @Field("cvPosted") cvPosted:String?=""
     ) : PersonalizedResumeStat
+
+    @FormUrlEncoded
+    @POST("apps_resume_visibility_status_update.asp")
+    suspend fun resumePrivacyUpdate(
+        @Field("userID") userID: String? = "",
+        @Field("decodeID") decodeID: String? = "",
+        @Field("employerList") employerList: String? = "",
+        @Field("statusType") statusType: String? = "",
+    ) : ResumePrivacyUpdate
 
 
     companion object Factory {
