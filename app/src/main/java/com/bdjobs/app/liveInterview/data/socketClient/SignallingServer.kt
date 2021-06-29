@@ -161,7 +161,7 @@ class SignalingServer {
                 signalingEvent.onEventConnectionError(args)
             }
             socket?.on(EventConstants.EVENT_INACTIVE_USER) { args: Array<Any?>? ->
-                Timber.tag("live").d("inactive users: %s", args?.get(0))
+                signalingEvent.onInactiveUser(args)
             }
             socket?.on(EventConstants.EVENT_RE_INIT) { args: Array<Any?>? ->
                 Timber.tag("live").d("reinit : %s", args?.get(0))

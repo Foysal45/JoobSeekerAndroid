@@ -12,8 +12,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 743 // huawei build 738
-        versionName "712.0.2"  //711.0.1 internal test // 2.8.0.2
+        versionCode 744 // huawei build 738
+        versionName "712.0.3"  //711.0.1 internal test // 2.8.0.2
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

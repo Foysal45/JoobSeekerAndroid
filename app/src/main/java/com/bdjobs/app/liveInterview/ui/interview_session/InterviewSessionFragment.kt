@@ -43,6 +43,7 @@ import com.bdjobs.demo_connect_employer.streaming.CustomPCObserver
 import kotlinx.android.synthetic.main.fragment_instruction_view_page.*
 import org.jetbrains.anko.sdk27.coroutines.onRatingBarChange
 import org.jetbrains.anko.support.v4.runOnUiThread
+import org.jetbrains.anko.support.v4.toast
 import org.json.JSONException
 import org.json.JSONObject
 import org.webrtc.*
@@ -888,6 +889,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         //  Timber.tag("live").d("Disconnected")
         //  remoteVideoTrack?.removeSink(binding.remoteHostSurfaceView)
     }
+    override fun onInactiveUser(args: Array<Any?>?) {
+        Timber.tag("live").d("onInactiveUser: %s", args?.get(0))
+    //    findNavController().navigateUp()
+    }
+
 
     override fun onEventConnectionError(args: Array<Any>) {
         Timber.tag("live").d("ERROR: %s", args[0])
@@ -974,6 +980,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         )
         doAnswer()
     }
+
+
 
     override fun onEndCall() {
         runOnUiThread {

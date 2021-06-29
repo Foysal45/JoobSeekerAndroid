@@ -19,6 +19,7 @@ interface SignalingEvent {
     fun onInterviewReceive(args: Array<Any?>?)
     fun onReceiveCall(args: Array<Any?>?)
     fun onReceiveSDP(args: Array<Any?>?)
+    fun onInactiveUser(args: Array<Any?>?)
     fun onEndCall()
 
     // chatting socket
