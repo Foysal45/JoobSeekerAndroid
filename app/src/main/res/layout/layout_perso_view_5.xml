@@ -32,7 +32,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="0dp"
                 android:contentDescription="@string/title_home"
-                android:src="@drawable/ic_nationality" />
+                app:tint="@color/com_facebook_blue"
+                android:src="@drawable/ic_passport_number" />
 
             <TextView
                 android:id="@+id/tv_passport_number_text"
@@ -72,7 +73,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="0dp"
                 android:contentDescription="@string/title_home"
-                android:src="@drawable/ic_nid" />
+                app:tint="@color/com_facebook_blue"
+                android:src="@drawable/ic_passport_date" />
 
             <TextView
                 android:id="@+id/tv_passport_issue_date_text"
