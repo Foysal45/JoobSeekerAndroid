@@ -324,6 +324,9 @@ interface ApiServiceMyBdjobs {
             @Field("gender") gender: String? = "",
             @Field("nationalId") nationalId: String? = "",
             @Field("Religion") Religion: String? = "",
+            @Field("passportNumber") passportNumber: String? = "",
+            @Field("passportIssueDate") passportIssueDate: String? = "",
+            @Field("bloodGroup") bloodGroup: String? = "",
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<AddorUpdateModel>
 
@@ -350,7 +353,8 @@ interface ApiServiceMyBdjobs {
             @Field("hEd_id") hEd_id: String? = "",
             @Field("chkResult") chkResult: String? = "",
             @Field("boardId") boardId: String? = "",
-            @Field("appId") appId: String? = Constants.APP_ID
+            @Field("appId") appId: String? = Constants.APP_ID,
+            @Field("foreignCountry") foreignCountry: String? = ""
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded

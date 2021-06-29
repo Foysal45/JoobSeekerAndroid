@@ -271,7 +271,9 @@ data class AcaDataItem(
         @SerializedName("yearofPAssing")
         var yearofPAssing: String? = null,
         @SerializedName("boardId")
-        var boardId: String? = null
+        var boardId: String? = null,
+        @SerializedName("foreignCountry")
+        var foreignCountry: String? = null
 )
 
 @Keep
@@ -309,7 +311,18 @@ data class P_DataItem(
         val nationality: String? = "",
 
         @field:SerializedName("religion")
-        val religion: String? = ""
+        val religion: String? = "",
+
+        @field:SerializedName("passportNumber")
+        val passportNumber: String? = "",
+
+        @field:SerializedName("passportIssueDate")
+        val passportIssueDate: String? = "",
+
+        @field:SerializedName("bloodGroup")
+        val bloodGroup: String? = ""
+
+
 )
 @Keep
 data class GetPersInfo(
@@ -337,16 +350,16 @@ data class C_DataItem(
         val alternativeEmail: String?="",
         @SerializedName("primaryEmail")
         val email: String?="",
-        @SerializedName("mobileNo1")
-        val officePhone: String?="",
         @SerializedName("messageType")
         val messageType: String?="",
         @SerializedName("countryCode")
         val countryCode: String? = "",
         @SerializedName("primaryMobileNo")
-        val mobile: String?="",
+        val primaryMobile: String?="",
+        @SerializedName("mobileNo1")
+        val secondaryMobile: String?="",
         @SerializedName("mobileNo2")
-        val homePhone: String?="",
+        val emergencyMobile: String?="",
         @SerializedName("permanentAddressID")
         val permanentAddressID: String?="",
         @SerializedName("permanentCountry")
@@ -374,7 +387,11 @@ data class C_DataItem(
         @SerializedName("presentThana")
         val presentThana: String?="",
         @SerializedName("presentVillage")
-        val presentVillage: String?=""
+        val presentVillage: String?="",
+        @SerializedName("emailAsUsername")
+        val emailAsUsername: String?="",
+        @SerializedName("PhoneAsUsername")
+        val phoneAsUsername: String?=""
 )
 @Keep
 data class GetContactInfo(

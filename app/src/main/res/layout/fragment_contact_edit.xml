@@ -538,6 +538,38 @@
                     app:fontFamily="@font/roboto" />
             </com.google.android.material.textfield.TextInputLayout>
 
+             <LinearLayout
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/textView40"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Mobile No"
+                    android:textColor="#2F64A3"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_mobile_change_user_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="+ Set/Change as User ID"
+                    android:textColor="@color/com_facebook_blue"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView40"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/contactMobileNumberTIL"
@@ -553,7 +585,7 @@
                     android:layout_width="match_parent"
                     android:importantForAutofill="noExcludeDescendants"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint.contactMobileNumber"
+                    android:hint="Primary Mobile No."
                     android:inputType="number"
                     android:focusableInTouchMode="true"
                     android:fontFamily="@font/roboto"
@@ -580,8 +612,7 @@
                     android:id="@+id/contactMobileNumber1TIET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:hint="@string/hint.officePhone"
+                    android:hint="Secondary Mobile No."
                     android:inputType="number"
                     android:maxLength="50"
                     android:textColor="#212121" />
@@ -601,7 +632,7 @@
                     android:id="@+id/contactMobileNumber2TIET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint.homePhone"
+                    android:hint="Emergency Contact No."
                     android:inputType="number"
                     android:maxLength="50"
                     android:textColor="#212121" />
@@ -617,6 +648,40 @@
                 app:icon="@drawable/ic_add_circle_outline_black_24dp"
                 app:strokeWidth="0dp" />
 
+            <LinearLayout
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/textView41"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Email Address"
+                    android:textColor="#2F64A3"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_email_change_user_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="+ Set/Change as User ID"
+                    android:textColor="@color/com_facebook_blue"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView41"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/contactEmailAddressTIL"
                 style="@style/EHTextInputLayout"
@@ -630,7 +695,7 @@
                     android:layout_width="match_parent"
                     android:importantForAutofill="noExcludeDescendants"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint.contactEmailadress"
+                    android:hint="Primary Email"
                     android:inputType="text"
                     android:maxLength="50"
                     android:focusableInTouchMode="true"
@@ -653,7 +718,7 @@
                     android:id="@+id/contactEmailAddressTIET1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint.alternet_email_address"
+                    android:hint="Alternate Email"
                     android:inputType="text"
                     android:maxLength="50"
                     android:textColor="#212121" />

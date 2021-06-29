@@ -12,10 +12,12 @@ import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.adapters.models.GetContactInfo
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import kotlinx.android.synthetic.main.fragment_contact_view.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -58,6 +60,12 @@ class ContactViewFragment : Fragment() {
         shimmerStart()
         populateData()
         contactCB.setBackFrom("")
+        tv_email_change_user_id.setOnClickListener{
+            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/email_step_01.asp", "from" to "setUserId")
+        }
+        tv_mobile_change_user_id.setOnClickListener{
+            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/email_step_01.asp", "from" to "setUserId")
+        }
     }
 
     private fun populateData() {
@@ -116,8 +124,31 @@ class ContactViewFragment : Fragment() {
 
         if (info?.permanentVillage?.trim().equals("") && isSameOfPresent != "3") rl_2.hide() else rl_2.show()
         if (info?.email?.trim().equals("") && info?.alternativeEmail?.trim().equals("")) rl_4.hide() else rl_4.show()
-        if (info?.mobile?.trim().equals("") && info?.homePhone?.trim().equals("")
-                && info?.officePhone?.trim().equals("")) rl_3.hide() else rl_3.show()
+        if (info?.alternativeEmail?.trim().equals("")) {
+            tv_alternate_email_text.hide()
+            tv_alternate_email.hide()
+        } else {
+            tv_alternate_email_text.show()
+            tv_alternate_email.show()
+        }
+
+        if (info?.primaryMobile?.trim().equals("") && info?.secondaryMobile?.trim().equals("")
+                && info?.emergencyMobile?.trim().equals("")) rl_3.hide() else rl_3.show()
+        if (info?.secondaryMobile?.trim().equals("")) {
+            tv_secondary_mobile_no_text.hide()
+            tv_secondary_mobile_no.hide()
+        } else {
+            tv_secondary_mobile_no_text.show()
+            tv_secondary_mobile_no.show()
+        }
+        if (info?.emergencyMobile?.trim().equals("")) {
+            tv_emergency_mobile_no_text.hide()
+            tv_emergency_mobile_no.hide()
+        } else {
+            tv_emergency_mobile_no_text.show()
+            tv_emergency_mobile_no.show()
+        }
+
 
         if (info?.presentInsideOutsideBD == "False") {
             presentAddress = presentAddress.replace(", ,".toRegex(), ",")
@@ -140,26 +171,24 @@ class ContactViewFragment : Fragment() {
             //toast("$finalValue")
             tvPermanentAddress.text = finalValue
         }
-        tvMobileNo.text = info?.mobile
-        val a = info?.email + "\n"
-        val b = info?.alternativeEmail
-        val sb = StringBuilder()
-        tvEmailAddr.text = sb.append(a).append(b)
-        var a1 = info?.mobile
-        var b1 = info?.homePhone
-        var c1 = info?.officePhone
-        var sb1 = StringBuilder()
+        tv_primary_mobile_no.text = info?.primaryMobile
+        tv_secondary_mobile_no.text = info?.secondaryMobile
+        tv_emergency_mobile_no.text = info?.emergencyMobile
 
-        if (a1 != "")
-            sb1.append(a1+"\n")
-        if (b1 != "")
-            sb1.append(b1+"\n")
-        if (c1 != "")
-            sb1.append(c1+"\n")
+        tv_primary_email.text = info?.email
+        tv_alternate_email.text = info?.alternativeEmail
 
-        //Log.d("rakib", "${info?.mobile} ${info?.officePhone} ${info?.homePhone}")
+        if (info?.emailAsUsername == "1") {
+            tv_email_change_user_id.show()
+            tv_mobile_change_user_id.hide()
+        } else if(info?.phoneAsUsername == "1"){
+            tv_email_change_user_id.hide()
+            tv_mobile_change_user_id.show()
+        }else{
+            tv_email_change_user_id.hide()
+            tv_mobile_change_user_id.hide()
+        }
 
-        tvMobileNo.text = sb1
     }
 
     private fun shimmerStart() {

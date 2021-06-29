@@ -46,6 +46,7 @@ class PersonalDetailsEditFragment : Fragment() {
     private var gender = ""
     private var marital: String? = null
     private var dob = ""
+    private var dateOfPassportIssue = ""
     private var date: Date? = null
     private var nationality = ""
     private var isNotBangladeshi = false
@@ -57,11 +58,25 @@ class PersonalDetailsEditFragment : Fragment() {
         updateDateInView()
     }
 
+    private val passportIssueDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+        now.set(Calendar.YEAR, year)
+        now.set(Calendar.MONTH, monthOfYear)
+        now.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        updateDatePassportIssueView()
+    }
+
     private fun updateDateInView() {
         val myFormat = "MMM dd, yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         etPerDob.setText(sdf.format(now.time))
         dob = etPerDob.getString()
+    }
+
+    private fun updateDatePassportIssueView() {
+        val myFormat = "MMM dd, yyyy" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        etPassportIssueDate.setText(sdf.format(now.time))
+        dateOfPassportIssue = etPassportIssueDate.getString()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -121,10 +136,22 @@ class PersonalDetailsEditFragment : Fragment() {
             pickDateOfBirth(birthDateSetListener)
         }
 
+        etPassportIssueDate.setOnClickListener {
+            //Log.d("rakib", "clicked")
+            pickPassportIssueDate(passportIssueDateSetListener)
+        }
+
         etPerReligion.setOnClickListener {
             val religions = listOf("Buddhism", "Christianity", "Hinduism", "Islam", "Jainism", "Judaism", "Sikhism", "Others")
             selector("Please select your religion", religions) { dialogInterface, i ->
                 etPerReligion?.setText(religions[i])
+            }
+        }
+
+        etBloodGroup.setOnClickListener {
+            val bloodGroup = listOf("A+","A-","B+","B-","O+","O-","AB+", "AB-")
+            selector("Please select your blood group", bloodGroup) { dialogInterface, i ->
+                etBloodGroup?.setText(bloodGroup[i])
             }
         }
 
@@ -208,6 +235,38 @@ class PersonalDetailsEditFragment : Fragment() {
         dpd.datePicker.minDate = calendarMin.timeInMillis
         dpd.show()
     }
+    private fun pickPassportIssueDate(listener: DatePickerDialog.OnDateSetListener) {
+        val cal = Calendar.getInstance()
+        val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.US)
+        try {
+            date = formatter.parse(dateOfPassportIssue)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        d("day: $date")
+        val dpd: DatePickerDialog
+        val mYear = cal.get(Calendar.YEAR) // current year
+        val mMonth = cal.get(Calendar.MONTH) // current month
+        val mDay = cal.get(Calendar.DAY_OF_MONTH) // current day
+        if (date != null) {
+            cal.time = date
+            dpd = DatePickerDialog(activity,
+                listener,
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH))
+        } else {
+            dpd = DatePickerDialog(activity,
+                listener,
+                // set DatePickerDialog to point to today's date when it loads up
+                mYear,
+                mMonth,
+                mDay)
+        }
+
+        dpd.show()
+    }
 
     private fun preloadedData() {
         marital = ""
@@ -228,6 +287,12 @@ class PersonalDetailsEditFragment : Fragment() {
         etPerReligion.setText(data?.religion)
         dob = data?.dateofBirth.toString()
         etPerDob.setText(data?.dateofBirth)
+
+        dateOfPassportIssue = data?.passportIssueDate.toString()
+        etPassportIssueDate.setText(data?.passportIssueDate)
+        etPassportNumber.setText(data?.passportNumber)
+        etBloodGroup.setText(data?.bloodGroup)
+
         etPerNid.setText(data?.nationalIdNo)
         if (data?.nationality?.isNotEmpty()!!) etPerNationality.setText(data.nationality) else etPerNationality.clear()
         selectChip(cgGender, data.gender!!)
@@ -253,7 +318,8 @@ class PersonalDetailsEditFragment : Fragment() {
         activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updatePersonalData(session.userId, session.decodId, session.IsResumeUpdate,
                 etPerFirstName.getString(), etPerLastName.getString(), etPerFName.getString(), etPerMName.getString(),
-                etPerDob.getString(), etPerNationality.getString(), marital, gender, etPerNid.getString(), etPerReligion.getString())
+                etPerDob.getString(), etPerNationality.getString(), marital, gender, etPerNid.getString(), etPerReligion.getString(),
+                etPassportNumber.getString(), etPassportIssueDate.getString(), etBloodGroup.getString())
         call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 try {

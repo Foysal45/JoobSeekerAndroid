@@ -160,6 +160,30 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/hint.forinstitute" />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/countryTIL"
+                style="@style/EHTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:textColorHint="#757575">
+
+
+                <AutoCompleteTextView
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:id="@+id/countryACTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:hint="Country"
+                    android:imeOptions="actionNext"
+                    android:inputType="text|textMultiLine"
+                    android:maxLength="100"
+                    android:padding="15dp"
+                    android:textColor="#212121" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/resultTIL"
