@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.navGraphViewModels
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.databinding.ViewEditResumeFragmentBinding
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.editResume.PhotoUploadActivity
@@ -57,6 +58,9 @@ class ViewEditResumeFragment : Fragment() {
     private fun initViews() {
         binding.apply {
             tvChangeVisibility.paint.isUnderlineText = true
+
+            tvChangeVisibility.setOnClickListener { startActivity<SettingBaseActivity>("from" to "dashboard") }
+
             tvEditVideoResume.setOnClickListener { startActivity<VideoResumeActivity>() }
             tvEditBdjobsResume.setOnClickListener { startActivity<EditResLandingActivity>() }
             tvEditPersonalizedResume.setOnClickListener {

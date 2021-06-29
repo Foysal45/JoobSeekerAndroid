@@ -22,6 +22,7 @@ import com.bdjobs.app.databinding.FragmentResumePrivacyBinding
 import com.bdjobs.app.resume_dashboard.data.models.DataX
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
 import kotlinx.coroutines.launch
@@ -91,7 +92,7 @@ class ResumePrivacyFragment : Fragment() {
                 binding.linearProgress.hide()
 
                 if (response.statuscode == "1") {
-                    toast(response.message!!)
+                    Snackbar.make(binding.clRoot,response.message!!,Snackbar.LENGTH_LONG).show()
                     employerIDList.clear()
                 } else {
                     toast("Update failed")
@@ -137,7 +138,7 @@ class ResumePrivacyFragment : Fragment() {
 
     private fun fetchEmployerSuggestion(query: String, adapter: ArrayAdapter<String>) {
         Timber.d("Query: $query")
-        ApiServiceMyBdjobs.create().fetchAutoSuggestion(query, "8").enqueue(object :
+        ApiServiceMyBdjobs.create().fetchAutoSuggestion(query, "8",ver = "EN").enqueue(object :
             Callback<AutoSuggestionModel> {
             override fun onFailure(call: Call<AutoSuggestionModel>, t: Throwable) {
                 Timber.e("Failed Fetching Auto Suggestion: ${t.localizedMessage}")

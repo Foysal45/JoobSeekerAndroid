@@ -18,6 +18,8 @@ class SettingBaseActivity : FragmentActivity(), SettingsCommunicator {
 
     private val logoutFragment = LogoutFragment()
 
+    private var from:String?= null
+
     override fun gotoChangePasswordFragment() {
         transitFragment(changePasswordFragment, R.id.fragmentHolder, true)
     }
@@ -37,7 +39,10 @@ class SettingBaseActivity : FragmentActivity(), SettingsCommunicator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting_base)
         bdjobsUserSession = BdjobsUserSession(this@SettingBaseActivity)
-        transitFragment(logoutFragment, R.id.fragmentHolder,false)
+        from = intent.getStringExtra("from")
+
+        if (from=="dashboard") transitFragment(resumePrivacyFragment,R.id.fragmentHolder,false)
+        else transitFragment(logoutFragment, R.id.fragmentHolder,false)
         /*    signOutBTN.setOnClickListener {
                 logout()
             }

@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.databinding.DashboardFragmentBinding
 import com.bdjobs.app.resume_dashboard.data.repositories.ResumeDashboardRepository
+import org.jetbrains.anko.support.v4.startActivity
 
 class DashboardFragment : Fragment() {
 
@@ -38,6 +40,7 @@ class DashboardFragment : Fragment() {
 
     private fun initViews() {
         binding.tvChangeVisibility.paint.isUnderlineText = true
+        binding.tvChangeVisibility.setOnClickListener { startActivity<SettingBaseActivity>("from" to "dashboard") }
     }
 
 }
