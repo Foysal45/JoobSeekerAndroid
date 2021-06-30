@@ -336,7 +336,7 @@ class InterviewSessionViewModel(
 
                         if (data[i]?.chatText != null && data[i]?.chatText!!.isNotEmpty()) {
                             when (data[i]?.hostType) {
-                                "AC" -> {
+                                "RC" -> {
                                     _welcomeText.value = data[i]?.chatText!!
                                     welcomeTextShow.value = true
                                 }

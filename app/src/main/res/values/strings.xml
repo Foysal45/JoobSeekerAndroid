@@ -464,5 +464,5 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <!-- Live Interview -->
     <string name="live_interview_date_time">Do you want to present in the live interview on %1$s, at %2$s?</string>
     <string name="video_resume_intro">A Video Resume is a short video you to introduce yourself to the hiring manager or recruiter.</string>
-    <string name="label_starting_interview">Starting interview…</string>
+    <string name="label_starting_interview">Starting Interview…</string>
 </resources>

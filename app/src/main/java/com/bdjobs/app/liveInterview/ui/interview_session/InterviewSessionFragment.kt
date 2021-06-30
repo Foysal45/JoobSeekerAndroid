@@ -114,6 +114,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     var isShowingChatView = false
     var isShowingFeedback = false
     var isShowingInstruction = false
+    var isShowingRoomView = false
 
 
     //instruction
@@ -178,6 +179,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         binding.clInstructionView.visibility = View.GONE
 
         binding.tvMessageCount.text = "0"
+        binding.tvOngoingMessageCount.text = "0"
 
 
         bdjobsUserSession = BdjobsUserSession(requireContext())
@@ -194,9 +196,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             Timber.tag("live").d("toolBarPressed")
             if (isShowingChatView) {
                 Timber.tag("live").d("toolBarPressed-isShowingChatView")
-                binding.clReadyView.visibility = View.VISIBLE
                 binding.clChatView.visibility = View.GONE
                 isShowingChatView = false
+                if(isShowingRoomView){
+                    binding.clRoomView.visibility = View.VISIBLE
+                }else{
+                    binding.clReadyView.visibility = View.VISIBLE
+                }
             } else if (isShowingInstruction) {
                 Timber.tag("live").d("toolBarPressed-isShowingInstruction")
                 binding.clReadyView.visibility = View.VISIBLE
@@ -276,9 +282,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 Timber.tag("live").d("handleOnBackPressed")
                 if (isShowingChatView) {
                     Timber.tag("live").d("handleOnBackPressed-isShowingChatView")
-                    binding.clReadyView.visibility = View.VISIBLE
                     binding.clChatView.visibility = View.GONE
                     isShowingChatView = false
+                    if(isShowingRoomView){
+                        binding.clRoomView.visibility = View.VISIBLE
+                    }else{
+                        binding.clReadyView.visibility = View.VISIBLE
+                    }
                 } else if (isShowingInstruction) {
                     Timber.tag("live").d("handleOnBackPressed-isShowingInstruction")
                     binding.clReadyView.visibility = View.VISIBLE
@@ -358,9 +368,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                     if (!isShowingChatView) {
                         binding.clReadyView.visibility = View.GONE
                         binding.clFeedbackView.visibility = View.GONE
+                        binding.clRoomView.visibility = View.GONE
                         binding.clChatView.visibility = View.VISIBLE
                         isShowingChatView = true
                         binding.tvMessageCount.text = "0"
+                        binding.tvOngoingMessageCount.text = "0"
                         SignalingServer.get()?.sendMessageSeen()
                     }
                 }
@@ -420,6 +432,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
             isShowActionView.observe(viewLifecycleOwner, {
                 if (it) {
+                    isShowingRoomView = true
                     updateVideoViews()
                 }
             })
@@ -511,6 +524,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                         imageRemote = data.getString("imgRemote")
                         messageCount = data.getInt("newCount")
                         binding.tvMessageCount.text = messageCount.toString()
+                        binding.tvOngoingMessageCount.text = messageCount.toString()
 
                         val simpleDateFormat = SimpleDateFormat("h:mm a")
                         val formattedTime = simpleDateFormat.format(Date())
@@ -672,6 +686,12 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         binding.svLocal.setEnableHardwareScaler(true)
         binding.svLocal.setZOrderMediaOverlay(false)
 
+        binding.localJobseekerSurfaceView.setMirror(true)
+        binding.localJobseekerSurfaceView.init(eglBaseContext, null)
+        binding.localJobseekerSurfaceView.setEnableHardwareScaler(true)
+        binding.localJobseekerSurfaceView.setZOrderMediaOverlay(false)
+
+
         localVideoTrack = peerConnectionFactory?.createVideoTrack("100", videoSource)
 
         localMediaStream = peerConnectionFactory?.createLocalMediaStream("ARDAMS")
@@ -682,9 +702,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         localVideoTrack?.addSink(binding.svLocal)
 
-        binding.svRemote.setMirror(true)
+        binding.remoteHostSurfaceView.setMirror(true)
 //        binding.svRemote.setZOrderMediaOverlay(true)
-        binding.svRemote.init(eglBaseContext, null)
+        binding.remoteHostSurfaceView.init(eglBaseContext, null)
     }
 
     private fun createVideoCapturer(): VideoCapturer? {
@@ -739,12 +759,15 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private fun updateVideoViews() {
         runOnUiThread {
             try {
-                val params: ViewGroup.LayoutParams = binding.svLocal.getLayoutParams()
-                params.height = dpToPx(150)
-                params.width = dpToPx(140)
-                binding.svLocal.setLayoutParams(params)
-                binding.svLocal.setMargins(32, 32, 0, 0)
-                binding.svLocal.setZOrderMediaOverlay(true)
+                localVideoTrack?.removeSink(binding.svLocal)
+                localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
+                binding.clReadyView.hide()
+//                val params: ViewGroup.LayoutParams = binding.svLocal.getLayoutParams()
+//                params.height = dpToPx(150)
+//                params.width = dpToPx(140)
+//                binding.svLocal.setLayoutParams(params)
+//                binding.svLocal.setMargins(32, 32, 0, 0)
+//                binding.svLocal.setZOrderMediaOverlay(true)
             } catch (e: Exception) {
                 Timber.tag("live").d("Error updateVideoViews : %s", e.toString())
             }
@@ -756,7 +779,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         remoteVideoTrack = stream.videoTracks[0]
         requireActivity().runOnUiThread {
             try {
-                remoteVideoTrack?.addSink(binding.svRemote)
+                remoteVideoTrack?.addSink(binding.remoteHostSurfaceView)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -1048,13 +1071,14 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         Timber.tag("live").d("onDestroyView")
         SignalingServer.get()?.destroy()
         try {
-            localVideoTrack?.removeSink(binding.svLocal)
-            remoteVideoTrack?.removeSink(binding.svRemote)
+            localVideoTrack?.removeSink(binding.localJobseekerSurfaceView)
+            remoteVideoTrack?.removeSink(binding.remoteHostSurfaceView)
             videoCapturerAndroid?.stopCapture()
             localVideoTrack?.dispose()
             localAudioTrack?.dispose()
             remoteVideoTrack?.dispose()
-            binding.svRemote.release()
+            binding.remoteHostSurfaceView.release()
+            binding.localJobseekerSurfaceView.release()
             binding.svLocal.release()
         } catch (e: Exception) {
             Timber.tag("live").d(e.toString())
