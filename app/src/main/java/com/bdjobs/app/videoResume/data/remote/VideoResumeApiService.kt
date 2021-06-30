@@ -27,7 +27,7 @@ private val moshi = Moshi.Builder()
 interface VideoResumeApiService {
 
     @FormUrlEncoded
-    @POST("app_video_resume_stats.asp")
+    @POST("app_video_resume_stats_v1.asp")
     suspend fun getVideoResumeStatistics(
             @Field("userId") userID: String?,
             @Field("decodeId") decodeID: String?,
@@ -46,7 +46,7 @@ interface VideoResumeApiService {
     ): CommonResponse
 
     @FormUrlEncoded
-    @POST("app_video_resume_questionlist.asp")
+    @POST("app_video_resume_questionlist_v1.asp")
     suspend fun getVideoResumeQuestionList(
             @Field("userId") userID: String?,
             @Field("decodeId") decodeID: String?,

@@ -132,6 +132,8 @@ class ViewVideoResumeFragment : Fragment() {
         super.onResume()
 
         tv_question_bn.text = args.question
+        tv_video_duration.hide()
+//        tv_video_duration.text = videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionDuration
 
         try {
             video_view?.setVideoURI(Uri.parse(args.url))

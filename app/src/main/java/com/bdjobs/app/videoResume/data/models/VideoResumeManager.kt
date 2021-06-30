@@ -16,6 +16,8 @@ data class VideoResumeManager (
         var questionText : String? = null,
         var questionTextBng : String? = null,
         var questionDuration : String? = null,
+        var answerHintBn : String? = null,
+        var answerHintEn : String? = null,
         var aID : String? = null,
         var totalView : String? = null,
         var file : File? = null

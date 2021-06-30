@@ -83,6 +83,8 @@ class VideoResumeQuestionsFragment : Fragment() {
                 questionText = it.questionText,
                 questionTextBng = it.questionTextBng,
                 questionDuration = it.questionDuration,
+                answerHintEn = it.answerHint,
+                answerHintBn = it.answerHintBn,
                 aID = it.aID,
                 totalView = it.totalView
             )
@@ -135,7 +137,7 @@ class VideoResumeQuestionsFragment : Fragment() {
         })
 
         adapter.onTipsClicked { data ->
-            buildTipsDialog(data.questionTextBng, "Tips")
+            buildTipsDialog(data.questionTextBng, data.answerHintBn)
         }
 
         videoResumeQuestionsViewModel.apply {
@@ -366,6 +368,73 @@ class VideoResumeQuestionsFragment : Fragment() {
                         )
                     }
                 }
+                6 -> {
+                    when (videoResumeQuestionsViewModel.questionListData.value?.get(0)?.buttonStatus) {
+                        "2" -> img_question1.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_video_submitted
+                        )
+                        "1" -> img_question1.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_question_not_recorded
+                        )
+                    }
+
+                    when (videoResumeQuestionsViewModel.questionListData.value?.get(1)?.buttonStatus) {
+                        "2" -> img_question2.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_video_submitted
+                        )
+                        "1" -> img_question2.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_question_not_recorded
+                        )
+                    }
+
+                    when (videoResumeQuestionsViewModel.questionListData.value?.get(2)?.buttonStatus) {
+                        "2" -> img_question3.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_video_submitted
+                        )
+                        "1" -> img_question3.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_question_not_recorded
+                        )
+                    }
+
+                    when (videoResumeQuestionsViewModel.questionListData.value?.get(3)?.buttonStatus) {
+                        "2" -> img_question4.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_video_submitted
+                        )
+                        "1" -> img_question4.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_question_not_recorded
+                        )
+                    }
+
+                    when (videoResumeQuestionsViewModel.questionListData.value?.get(4)?.buttonStatus) {
+                        "2" -> img_question5.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_video_submitted
+                        )
+                        "1" -> img_question5.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_question_not_recorded
+                        )
+                    }
+
+                    when (videoResumeQuestionsViewModel.questionListData.value?.get(5)?.buttonStatus) {
+                        "2" -> img_question6.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_video_submitted
+                        )
+                        "1" -> img_question6.background = ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_question_not_recorded
+                        )
+                    }
+                }
             }
         }
     }
@@ -516,6 +585,41 @@ class VideoResumeQuestionsFragment : Fragment() {
                     )
                 )
             }
+
+            5 -> {
+                tv_q6?.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorBlack))
+
+                tv_q1?.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.inactive_question_text_color
+                    )
+                )
+                tv_q2?.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.inactive_question_text_color
+                    )
+                )
+                tv_q3?.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.inactive_question_text_color
+                    )
+                )
+                tv_q4?.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.inactive_question_text_color
+                    )
+                )
+                tv_q5?.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.inactive_question_text_color
+                    )
+                )
+            }
         }
 
     }
@@ -577,12 +681,25 @@ class VideoResumeQuestionsFragment : Fragment() {
 
     private fun updateSteppers(totalQuestions: Int) {
         when (totalQuestions) {
+            5 -> {
+                line_view_question6?.hide()
+                img_question6?.hide()
+                tv_q6?.hide()
+            }
             4 -> {
+                line_view_question6?.hide()
+                img_question6?.hide()
+                tv_q6?.hide()
+
                 line_view_question5?.hide()
                 img_question5?.hide()
                 tv_q5?.hide()
             }
             3 -> {
+                line_view_question6?.hide()
+                img_question6?.hide()
+                tv_q6?.hide()
+
                 line_view_question5?.hide()
                 img_question5?.hide()
                 tv_q5?.hide()
@@ -592,6 +709,10 @@ class VideoResumeQuestionsFragment : Fragment() {
                 tv_q4.hide()
             }
             2 -> {
+                line_view_question6?.hide()
+                img_question6?.hide()
+                tv_q6?.hide()
+
                 line_view_question5?.hide()
                 img_question5?.hide()
                 tv_q5?.hide()
@@ -605,6 +726,11 @@ class VideoResumeQuestionsFragment : Fragment() {
                 tv_q3.hide()
             }
             1 -> {
+
+                line_view_question6?.hide()
+                img_question6?.hide()
+                tv_q6?.hide()
+
                 line_view_question5?.hide()
                 img_question5?.hide()
                 tv_q5?.hide()

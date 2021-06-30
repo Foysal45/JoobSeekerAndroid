@@ -157,6 +157,19 @@
                                 app:layout_constraintStart_toStartOf="@id/img_question5"
                                 app:layout_constraintTop_toBottomOf="@id/img_question5" />
 
+                            <TextView
+                                android:id="@+id/tv_q6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Q6"
+                                android:textColor="#999999"
+                                android:textSize="12sp"
+                                app:layout_constraintEnd_toEndOf="@id/img_question6"
+                                app:layout_constraintStart_toStartOf="@id/img_question6"
+                                app:layout_constraintTop_toBottomOf="@id/img_question6" />
+
                             <View
                                 android:id="@+id/line_view_question2"
                                 android:layout_width="30dp"
@@ -205,6 +218,18 @@
                                 app:layout_constraintStart_toEndOf="@id/img_question4"
                                 app:layout_constraintTop_toTopOf="@id/img_question1" />
 
+                            <View
+                                android:id="@+id/line_view_question6"
+                                android:layout_width="30dp"
+                                android:layout_height="3dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:background="#DBDBDB"
+                                app:layout_constraintBottom_toBottomOf="@id/img_question1"
+                                app:layout_constraintEnd_toStartOf="@id/img_question6"
+                                app:layout_constraintStart_toEndOf="@id/img_question5"
+                                app:layout_constraintTop_toTopOf="@id/img_question1" />
+
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/img_question1"
                                 android:layout_width="wrap_content"
@@ -251,6 +276,16 @@
                                 android:layout_marginStart="5dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/line_view_question5"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:srcCompat="@drawable/ic_question_not_recorded" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/img_question6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/line_view_question6"
                                 app:layout_constraintTop_toTopOf="parent"
                                 tools:srcCompat="@drawable/ic_question_not_recorded" />
 

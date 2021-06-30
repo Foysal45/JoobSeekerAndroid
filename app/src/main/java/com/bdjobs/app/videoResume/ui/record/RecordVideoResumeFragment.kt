@@ -172,7 +172,7 @@ class RecordVideoResumeFragment : Fragment() {
         binding.apply {
             tvAnswerTips.paint.isUnderlineText = true
             tvAnswerTips.setOnClickListener {
-                buildTipsDialog(videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionTextBng,"Tips will be here")
+                buildTipsDialog(videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionTextBng,videoResumeQuestionsViewModel.videoResumeManagerData.value?.answerHintBn)
             }
         }
     }

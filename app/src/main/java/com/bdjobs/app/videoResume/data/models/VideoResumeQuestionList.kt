@@ -41,6 +41,10 @@ data class VideoResumeQuestionList(
             var buttonName: String?,
             @Json(name = "aID")
             var aID: String?,
+            @Json(name = "answerHint")
+            var answerHint: String?,
+            @Json(name = "answerHintBn")
+            var answerHintBn: String?,
             @Json(name = "totalView")
             var totalView: String?
     )
