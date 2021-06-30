@@ -93,7 +93,7 @@ class JobDetailsFragment : Fragment() {
         (snapHelper as PagerSnapHelper).attachToRecyclerView(jobDetailRecyclerView)
         jobDetailRecyclerView.setHasFixedSize(true)
 
-        layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
+        layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         jobDetailRecyclerView?.layoutManager = layoutManager
         //Log.d("PositionTest", "snapHelper   ${snapHelper!!.getSnapPosition(jobDetailRecyclerView)}")
         jobDetailAdapter = JobDetailAdapter(activity!!)

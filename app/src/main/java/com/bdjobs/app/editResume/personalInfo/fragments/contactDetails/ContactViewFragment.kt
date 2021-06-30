@@ -78,6 +78,10 @@ class ContactViewFragment : Fragment() {
                         contactCB.passContactData(respo?.data?.get(0)!!)
                         setupView(respo?.data?.get(0)!!)
                         contactCB.setEditButton(true, "editContact")
+
+                        session.userMobileNumber = respo.data[0]?.mobile
+                        session.userPresentAddress = respo.data[0]?.addressType1
+                        session.userPermanentAddress = respo.data[0]?.addressType2
                     }
                 } catch (e: Exception) {
                     logException(e)
