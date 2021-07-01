@@ -974,7 +974,7 @@ class JobDetailAdapter(private val context: Context) :
                     response: Response<ApplyEligibilityModel>
                 ) {
 
-                    loadingDialog?.dismiss()
+                    loadingDialog.dismiss()
 
                     try {
                         if (response.isSuccessful) {
@@ -988,21 +988,38 @@ class JobDetailAdapter(private val context: Context) :
                                     maxSalary
                                 )
                             } else {
+
                                 val plainMessage = response.body()?.data?.get(0)?.message
                                 val plainHeading = response.body()?.data?.get(0)?.title
 
                                 val message = Html.fromHtml(plainMessage)
                                 val heading = Html.fromHtml(plainHeading)
 
-                                val alertd = context.alert(message) {
-                                    title = heading
-                                    //positiveButton("Post Resume") { context.startActivity<EditResLandingActivity>() }
-                                    negativeButton("OK") { dd ->
-                                        dd.dismiss()
+                                if (response.body()?.data?.get(0)?.UpdateResume?.equalIgnoreCase("False")!!) {
+
+                                    val alertd = context.alert(message) {
+                                        title = heading
+                                        //positiveButton("Post Resume") { context.startActivity<EditResLandingActivity>() }
+                                        negativeButton("OK") { dd ->
+                                            dd.dismiss()
+                                        }
                                     }
+                                    alertd.isCancelable = false
+                                    alertd.show()
+                                } else {
+                                    showCvUpdateDialog(
+                                        activity,
+                                        position,
+                                        gender,
+                                        jobphotograph,
+                                        minSalary,
+                                        maxSalary,
+                                        heading,
+                                        message
+                                    )
                                 }
-                                alertd.isCancelable = false
-                                alertd.show()
+
+
                             }
                         }
                     } catch (e: Exception) {
@@ -1011,6 +1028,109 @@ class JobDetailAdapter(private val context: Context) :
                 }
             }
         )
+    }
+
+    private fun showCvUpdateDialog(
+        activity: Context, position: Int, gender: String, jobphotograph: String,
+        minSalary: String, maxSalary: String, title: CharSequence, message: CharSequence
+    ) {
+        val dialog = Dialog(context)
+
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setCancelable(true)
+            setContentView(R.layout.dialog_update_cv)
+        }
+
+        val titleTV = dialog.findViewById<MaterialTextView>(R.id.tv_title)
+        val messageTV = dialog.findViewById<MaterialTextView>(R.id.tv_message)
+        val updateCVBtn = dialog.findViewById<MaterialButton>(R.id.btn_update_cv)
+        val upToDateBtn = dialog.findViewById<MaterialButton>(R.id.btn_up_to_date)
+        val laterBtn = dialog.findViewById<MaterialButton>(R.id.btn_later)
+
+
+        titleTV.text = title
+        messageTV.text = message
+
+        updateCVBtn.setOnClickListener {
+            context.startActivity(Intent(context, EditResLandingActivity::class.java))
+            dialog.dismiss()
+        }
+        upToDateBtn.setOnClickListener {
+            updateCV(
+                context,
+                position,
+                gender,
+                jobphotograph,
+                minSalary,
+                maxSalary,
+                dialog,
+                "1"
+            )
+        }
+        laterBtn.setOnClickListener {
+            updateCV(
+                context,
+                position,
+                gender,
+                jobphotograph,
+                minSalary,
+                maxSalary,
+                dialog,
+                "0"
+            )
+        }
+
+        dialog.show()
+    }
+
+
+    private fun updateCV(
+        activity: Context, position: Int, gender: String, jobphotograph: String,
+        minSalary: String, maxSalary: String, dialog: Dialog, updateLater: String
+    ) {
+        ApiServiceJobs.create()
+            .updateCV(bdjobsUserSession.userId, bdjobsUserSession.decodId, updateLater)
+            .enqueue(object : Callback<CvUpdateLaterModel> {
+                override fun onResponse(
+                    call: Call<CvUpdateLaterModel>,
+                    response: Response<CvUpdateLaterModel>
+                ) {
+                    Timber.d("update CV onResponse")
+
+                    if (response.isSuccessful && response.code() == 200) {
+
+                        val body = response.body()
+
+                        if (body?.message == "success") {
+                            if (body.isUpdated == 1) {
+                                // show popup
+                                showSalaryDialog(
+                                    activity,
+                                    position,
+                                    gender,
+                                    jobphotograph,
+                                    minSalary,
+                                    maxSalary
+                                )
+                                dialog.dismiss()
+                            } else {
+                                // don't show popup
+                                dialog.dismiss()
+                            }
+                        }
+
+                    } else Timber.d("response unsuccessful: ${response.code()}")
+                }
+
+                override fun onFailure(call: Call<CvUpdateLaterModel>, t: Throwable) {
+                    Timber.d("Failure: ${t.localizedMessage}")
+                    dialog.dismiss()
+                }
+
+            })
     }
 
     private fun showApplyLimitOverPopup(context: Context, position: Int) {
@@ -1451,17 +1571,6 @@ class JobDetailAdapter(private val context: Context) :
 
     private fun goToFragment(check: String) {
         context.startActivity<PersonalInfoActivity>("name" to check, "personal_info_edit" to "null")
-//        when (check) {
-//            "personal" ->
-//                context.startActivity<PersonalInfoActivity>("name" to check, "personal_info_edit" to "null")
-//            "contact" ->
-//                context.startActivity<AcademicBaseActivity>("name" to check, "education_info_add" to "null")
-//            "Emp" ->
-//                context.startActivity<EmploymentHistoryActivity>("name" to check, "emp_his_add" to "null")
-//            "Other" ->
-//                context.startActivity<OtherInfoBaseActivity>("name" to check, "other_info_add" to "null")
-//
-//        }
     }
 
     private fun validateFilterName(typedData: String, textInputLayout: TextInputLayout): Boolean {
