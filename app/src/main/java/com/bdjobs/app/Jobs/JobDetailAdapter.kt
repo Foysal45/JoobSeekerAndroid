@@ -1297,15 +1297,27 @@ class JobDetailAdapter(private val context: Context) :
 
                 if (okButton.isVisible) {
 //                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
-                    showConfirmationDialog()
+                    showConfirmationDialog(
+                        position,
+                        salaryTIET.text.toString(),
+                        gender,
+                        jobphotograph
+                    )
+                    dialog.dismiss()
                 }
 
                 d("applyTest validate $applyStatus")
 
             } else {
-                if (okButton.isVisible){
+                if (okButton.isVisible) {
 //                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
-                    showConfirmationDialog()
+                    showConfirmationDialog(
+                        position,
+                        salaryTIET.text.toString(),
+                        gender,
+                        jobphotograph
+                    )
+                    dialog.dismiss()
                 }
             }
 
@@ -1313,7 +1325,12 @@ class JobDetailAdapter(private val context: Context) :
         dialog.show()
     }
 
-    private fun showConfirmationDialog() {
+    private fun showConfirmationDialog(
+        position: Int,
+        salary: String,
+        gender: String,
+        jobphotograph: String
+    ) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -1329,10 +1346,21 @@ class JobDetailAdapter(private val context: Context) :
         val btnOk = dialog.findViewById<MaterialButton>(R.id.btn_ok)
 
         val applicantName = dialog.findViewById<MaterialTextView>(R.id.tv_applicant_name)
+        val applicantNameLabel = dialog.findViewById<MaterialTextView>(R.id.tv_applicant_name_label)
         val applicantEmail = dialog.findViewById<MaterialTextView>(R.id.tv_applicant_email)
-        val applicantPresentAddress = dialog.findViewById<MaterialTextView>(R.id.tv_applicant_present_address)
-        val applicantPermanentAddress = dialog.findViewById<MaterialTextView>(R.id.tv_applicant_permanent_address)
+        val applicantEmailLabel =
+            dialog.findViewById<MaterialTextView>(R.id.tv_applicant_email_label)
+        val applicantPresentAddress =
+            dialog.findViewById<MaterialTextView>(R.id.tv_applicant_present_address)
+        val applicantPresentAddressLabel =
+            dialog.findViewById<MaterialTextView>(R.id.tv_applicant_present_address_label)
+        val applicantPermanentAddress =
+            dialog.findViewById<MaterialTextView>(R.id.tv_applicant_permanent_address)
+        val applicantPermanentAddressLabel =
+            dialog.findViewById<MaterialTextView>(R.id.tv_applicant_permanent_address_label)
         val applicantMobile = dialog.findViewById<MaterialTextView>(R.id.tv_applicant_mobile)
+        val applicantMobileLabel =
+            dialog.findViewById<MaterialTextView>(R.id.tv_applicant_mobile_label)
 
         val cName = dialog.findViewById<MaterialTextView>(R.id.tv_company_name)
         val cAddress = dialog.findViewById<MaterialTextView>(R.id.tv_company_address)
@@ -1340,12 +1368,20 @@ class JobDetailAdapter(private val context: Context) :
         val applicationDate = dialog.findViewById<MaterialTextView>(R.id.tv_application_date)
 
         personalInfoTab.setOnClickListener {
-            personalInfoTab.background= ContextCompat.getDrawable(context,R.drawable.bg_black_round_5_dp)
-            personalInfoTab.textColor = ContextCompat.getColor(context,R.color.white)
-            companyInfoTab.background= ContextCompat.getDrawable(context,R.drawable.bg_white_round_5_dp)
-            companyInfoTab.textColor = ContextCompat.getColor(context,R.color.black)
+            personalInfoTab.background = ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp)
+            personalInfoTab.background.setTint(ContextCompat.getColor(context, R.color.black))
+            personalInfoTab.textColor = ContextCompat.getColor(context, R.color.white)
+            companyInfoTab.background =
+                ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp_end)
+            companyInfoTab.textColor = ContextCompat.getColor(context, R.color.black)
+            companyInfoTab.background.setTint(
+                ContextCompat.getColor(
+                    context,
+                    android.R.color.transparent
+                )
+            )
 
-            switchInfo.background = ContextCompat.getDrawable(context,R.drawable.border_round_5_dp)
+//            switchInfo.background = ContextCompat.getDrawable(context,R.drawable.border_round_5_dp)
 
             personalInfoRoot.show()
             companyInfoRoot.hide()
@@ -1353,12 +1389,20 @@ class JobDetailAdapter(private val context: Context) :
         }
 
         companyInfoTab.setOnClickListener {
-            companyInfoTab.background= ContextCompat.getDrawable(context,R.drawable.bg_black_round_5_dp)
-            companyInfoTab.textColor = ContextCompat.getColor(context,R.color.white)
-            personalInfoTab.background= ContextCompat.getDrawable(context,R.drawable.bg_white_round_5_dp)
-            personalInfoTab.textColor = ContextCompat.getColor(context,R.color.black)
+            companyInfoTab.background =
+                ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp_end)
+            companyInfoTab.background.setTint(ContextCompat.getColor(context, R.color.black))
+            companyInfoTab.textColor = ContextCompat.getColor(context, R.color.white)
+            personalInfoTab.background = ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp)
+            personalInfoTab.textColor = ContextCompat.getColor(context, R.color.black)
+            personalInfoTab.background.setTint(
+                ContextCompat.getColor(
+                    context,
+                    android.R.color.transparent
+                )
+            )
 
-            switchInfo.background = ContextCompat.getDrawable(context,R.drawable.border_round_5_dp)
+//            switchInfo.background = ContextCompat.getDrawable(context,R.drawable.border_round_5_dp)
 
             companyInfoRoot.show()
             personalInfoRoot.hide()
@@ -1370,12 +1414,37 @@ class JobDetailAdapter(private val context: Context) :
         applicantPresentAddress.text = bdjobsUserSession.userPresentAddress
         applicantPermanentAddress.text = bdjobsUserSession.userPermanentAddress
 
+        applicantNameLabel.setOnClickListener {
+            goToFragment("personalJD")
+            dialog.dismiss()
+        }
+        applicantEmailLabel.setOnClickListener {
+            goToFragment("contactJD")
+            dialog.dismiss()
+        }
+        applicantMobileLabel.setOnClickListener {
+            goToFragment("contactJD")
+            dialog.dismiss()
+        }
+        applicantPresentAddressLabel.setOnClickListener {
+            goToFragment("contactJD")
+            dialog.dismiss()
+        }
+        applicantPermanentAddressLabel.setOnClickListener {
+            goToFragment("contactJD")
+            dialog.dismiss()
+        }
+
         cName.text = companyName
         cAddress.text = companyAddress
         appliedPosition.text = jobTitle
         applicationDate.text = postedDate
 
-        btnOk.setOnClickListener { dialog.dismiss() }
+        btnOk.setOnClickListener {
+            applyOnlineJob(position, salary, gender, jobphotograph)
+
+            dialog.dismiss()
+        }
 
         dialog.show()
     }

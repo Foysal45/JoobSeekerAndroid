@@ -80,8 +80,6 @@ class ContactViewFragment : Fragment() {
                         contactCB.setEditButton(true, "editContact")
 
                         session.userMobileNumber = respo.data[0]?.mobile
-                        session.userPresentAddress = respo.data[0]?.addressType1
-                        session.userPermanentAddress = respo.data[0]?.addressType2
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -106,6 +104,8 @@ class ContactViewFragment : Fragment() {
                 ", " + dataStorage.getLocationNameByID(info?.presentDistrict)
         //", " + dataStorage.getLocationNameByID(info?.presentCountry)
 
+
+
         val isSameOfPresent = info?.addressType1
         var permanentAddress = when {
             isSameOfPresent == "3" -> "Same as present address"
@@ -116,6 +116,11 @@ class ContactViewFragment : Fragment() {
                         ", " + dataStorage.getLocationNameByID(info?.permanentPostOffice) +
                         ", " + dataStorage.getLocationNameByID(info?.permanentDistrict)
             //", " + dataStorage.getLocationNameByID(info?.permanentCountry)
+        }
+
+        session.apply {
+            userPresentAddress = presentAddress
+            userPermanentAddress = permanentAddress
         }
 
         if (info?.permanentVillage?.trim().equals("") && isSameOfPresent != "3") rl_2.hide() else rl_2.show()
