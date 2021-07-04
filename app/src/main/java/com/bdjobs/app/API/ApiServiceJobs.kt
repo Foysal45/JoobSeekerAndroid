@@ -303,6 +303,7 @@ interface ApiServiceJobs {
         @Field("uID") userID: String? = "",
         @Field("idCode") decodeID: String? = "",
         @Field("updateLater") updateLater: String? = "",
+        @Query("appId") appId :String? = Constants.APP_ID
     ) : Call<CvUpdateLaterModel>
 
 

@@ -28,7 +28,6 @@
             android:id="@+id/tv_message"
             tools:text="Update your cv"
             android:layout_below="@id/tv_title"
-            android:visibility="gone"
             android:layout_marginTop="10dp"
             android:textColor="#767676"/>
 

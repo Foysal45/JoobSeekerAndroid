@@ -1,5 +1,6 @@
 package com.bdjobs.app.Jobs
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -1105,7 +1106,7 @@ class JobDetailAdapter(private val context: Context) :
                         val body = response.body()
 
                         if (body?.message == "success") {
-                            if (body.isUpdated == 1) {
+//                            if (body.isUpdated == 1) {
                                 // show popup
                                 showSalaryDialog(
                                     activity,
@@ -1116,10 +1117,12 @@ class JobDetailAdapter(private val context: Context) :
                                     maxSalary
                                 )
                                 dialog.dismiss()
-                            } else {
-                                // don't show popup
-                                dialog.dismiss()
-                            }
+//                            } else {
+//                                // don't show popup
+//                                dialog.dismiss()
+//                            }
+                        } else {
+                            dialog.dismiss()
                         }
 
                     } else Timber.d("response unsuccessful: ${response.code()}")
@@ -1133,17 +1136,18 @@ class JobDetailAdapter(private val context: Context) :
             })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showApplyLimitOverPopup(context: Context, position: Int) {
 
         try {
             val dialog = Dialog(context)
-            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog?.setCancelable(true)
-            dialog?.setContentView(R.layout.job_apply_limit_reached_popup)
-            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(true)
+            dialog.setContentView(R.layout.job_apply_limit_reached_popup)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
             val titleTV = dialog?.findViewById<TextView>(R.id.job_apply_limit_reached_title_tv)
-            titleTV.text = "Job seekers can apply for ${jobApplyLimit} jobs every month."
+            titleTV.text = "Job seekers can apply for $jobApplyLimit jobs every month."
 
             val applyCountTV = dialog?.findViewById<TextView>(R.id.apply_count_tv)
             applyCountTV.text = "${Constants.appliedJobsCount}"
@@ -1463,7 +1467,7 @@ class JobDetailAdapter(private val context: Context) :
         val switchInfo = dialog.findViewById<ConstraintLayout>(R.id.switch_information)
         val personalInfoRoot = dialog.findViewById<ConstraintLayout>(R.id.cl_personal_info)
         val companyInfoRoot = dialog.findViewById<ConstraintLayout>(R.id.cl_company_info)
-        val btnOk = dialog.findViewById<MaterialButton>(R.id.btn_ok)
+        val btnOk = dialog.findViewById<MaterialButton>(R.id.ok_btn)
 
         val applicantName = dialog.findViewById<MaterialTextView>(R.id.tv_applicant_name)
         val applicantNameLabel = dialog.findViewById<MaterialTextView>(R.id.tv_applicant_name_label)
