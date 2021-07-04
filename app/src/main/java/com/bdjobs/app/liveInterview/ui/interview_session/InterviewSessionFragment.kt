@@ -681,10 +681,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         videoCapturerAndroid?.startCapture(640, 480, 30)
 
 
-        binding.svLocal.setMirror(true)
-        binding.svLocal.init(eglBaseContext, null)
-        binding.svLocal.setEnableHardwareScaler(true)
-        binding.svLocal.setZOrderMediaOverlay(false)
+//        binding.svLocal.setMirror(true)
+//        binding.svLocal.init(eglBaseContext, null)
+//        binding.svLocal.setEnableHardwareScaler(true)
+//        binding.svLocal.setZOrderMediaOverlay(false)
 
         binding.localJobseekerSurfaceView.setMirror(true)
         binding.localJobseekerSurfaceView.init(eglBaseContext, null)
@@ -700,7 +700,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             addTrack(localVideoTrack)
         }
 
-        localVideoTrack?.addSink(binding.svLocal)
+//        localVideoTrack?.addSink(binding.svLocal)
+        localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
+
 
         binding.remoteHostSurfaceView.setMirror(true)
 //        binding.svRemote.setZOrderMediaOverlay(true)
@@ -759,8 +761,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private fun updateVideoViews() {
         runOnUiThread {
             try {
-                localVideoTrack?.removeSink(binding.svLocal)
-                localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
+//                localVideoTrack?.removeSink(binding.svLocal)
                 binding.clReadyView.hide()
 //                val params: ViewGroup.LayoutParams = binding.svLocal.getLayoutParams()
 //                params.height = dpToPx(150)
@@ -1079,7 +1080,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             remoteVideoTrack?.dispose()
             binding.remoteHostSurfaceView.release()
             binding.localJobseekerSurfaceView.release()
-            binding.svLocal.release()
+//            binding.svLocal.release()
         } catch (e: Exception) {
             Timber.tag("live").d(e.toString())
         }

@@ -42,14 +42,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            tools:visibility="gone">
+            android:background="@color/black_transparent"
+            tools:visibility="visible">
 
-            <org.webrtc.SurfaceViewRenderer
-                android:id="@+id/sv_local"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <org.webrtc.SurfaceViewRenderer-->
+<!--                android:id="@+id/sv_local"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <!-- loading xml start-->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -357,7 +358,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:visibility="@{viewModel.isShowActionView() ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            tools:visibility="visible"
+            tools:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             >
 
