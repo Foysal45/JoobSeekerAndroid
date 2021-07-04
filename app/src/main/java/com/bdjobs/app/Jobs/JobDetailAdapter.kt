@@ -122,7 +122,7 @@ class JobDetailAdapter(private val context: Context) :
         language = "bangla"
         //Log.d("JobDetailFragment", "${jobList?.size}")
         try {
-            Constants.appliedJobsCount =
+            appliedJobsCount =
                 bdjobsUserSession.mybdjobscount_jobs_applied_lastmonth!!.toInt()
             jobApplyLimit = bdjobsUserSession.jobApplyLimit!!.toInt()
         } catch (e: Exception) {
@@ -1150,7 +1150,7 @@ class JobDetailAdapter(private val context: Context) :
             titleTV.text = "Job seekers can apply for $jobApplyLimit jobs every month."
 
             val applyCountTV = dialog?.findViewById<TextView>(R.id.apply_count_tv)
-            applyCountTV.text = "${Constants.appliedJobsCount}"
+            applyCountTV.text = "$appliedJobsCount"
 
             val remainingDaysTV = dialog?.findViewById<TextView>(R.id.remaining_days_tv)
             remainingDaysTV.text = "${Constants.daysAvailable} days"
@@ -1420,13 +1420,13 @@ class JobDetailAdapter(private val context: Context) :
                 applyStatus = true
 
                 if (okButton.isVisible) {
-//                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
-                    showConfirmationDialog(
-                        position,
-                        salaryTIET.text.toString(),
-                        gender,
-                        jobphotograph
-                    )
+                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+//                    showConfirmationDialog(
+//                        position,
+//                        salaryTIET.text.toString(),
+//                        gender,
+//                        jobphotograph
+//                    )
                     dialog.dismiss()
                 }
 
@@ -1434,13 +1434,7 @@ class JobDetailAdapter(private val context: Context) :
 
             } else {
                 if (okButton.isVisible) {
-//                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
-                    showConfirmationDialog(
-                        position,
-                        salaryTIET.text.toString(),
-                        gender,
-                        jobphotograph
-                    )
+                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
                     dialog.dismiss()
                 }
             }
@@ -1449,25 +1443,17 @@ class JobDetailAdapter(private val context: Context) :
         dialog.show()
     }
 
-    private fun showConfirmationDialog(
-        position: Int,
-        salary: String,
-        gender: String,
-        jobphotograph: String
-    ) {
+    private fun showConfirmationDialog(message:String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_job_confirmation)
 
-        val personalInfoTab = dialog.findViewById<MaterialTextView>(R.id.tv_personal_info)
-        val companyInfoTab = dialog.findViewById<MaterialTextView>(R.id.tv_company_info)
-        val switchInfo = dialog.findViewById<ConstraintLayout>(R.id.switch_information)
         val personalInfoRoot = dialog.findViewById<ConstraintLayout>(R.id.cl_personal_info)
-        val companyInfoRoot = dialog.findViewById<ConstraintLayout>(R.id.cl_company_info)
-        val btnOk = dialog.findViewById<MaterialButton>(R.id.ok_btn)
+        val btnOk = dialog.findViewById<MaterialButton>(R.id.ok_btn_cnf)
+        val messageTV = dialog.findViewById<MaterialTextView>(R.id.tv_message)
 
         val applicantName = dialog.findViewById<MaterialTextView>(R.id.tv_applicant_name)
         val applicantNameLabel = dialog.findViewById<MaterialTextView>(R.id.tv_applicant_name_label)
@@ -1486,12 +1472,12 @@ class JobDetailAdapter(private val context: Context) :
         val applicantMobileLabel =
             dialog.findViewById<MaterialTextView>(R.id.tv_applicant_mobile_label)
 
-        val cName = dialog.findViewById<MaterialTextView>(R.id.tv_company_name)
-        val cAddress = dialog.findViewById<MaterialTextView>(R.id.tv_company_address)
-        val appliedPosition = dialog.findViewById<MaterialTextView>(R.id.tv_applied_position)
-        val applicationDate = dialog.findViewById<MaterialTextView>(R.id.tv_application_date)
+//        val cName = dialog.findViewById<MaterialTextView>(R.id.tv_company_name)
+//        val cAddress = dialog.findViewById<MaterialTextView>(R.id.tv_company_address)
+//        val appliedPosition = dialog.findViewById<MaterialTextView>(R.id.tv_applied_position)
+//        val applicationDate = dialog.findViewById<MaterialTextView>(R.id.tv_application_date)
 
-        personalInfoTab.setOnClickListener {
+       /* personalInfoTab.setOnClickListener {
             personalInfoTab.background = ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp)
             personalInfoTab.background.setTint(ContextCompat.getColor(context, R.color.black))
             personalInfoTab.textColor = ContextCompat.getColor(context, R.color.white)
@@ -1530,7 +1516,7 @@ class JobDetailAdapter(private val context: Context) :
 
             companyInfoRoot.show()
             personalInfoRoot.hide()
-        }
+        }*/
 
         applicantName.text = bdjobsUserSession.fullName
         applicantEmail.text = bdjobsUserSession.email
@@ -1538,35 +1524,35 @@ class JobDetailAdapter(private val context: Context) :
         applicantPresentAddress.text = bdjobsUserSession.userPresentAddress
         applicantPermanentAddress.text = bdjobsUserSession.userPermanentAddress
 
+        messageTV.text = message
+
         applicantNameLabel.setOnClickListener {
-            goToFragment("personalJD")
+            goToFragment("personal")
             dialog.dismiss()
         }
         applicantEmailLabel.setOnClickListener {
-            goToFragment("contactJD")
+            goToFragment("contact")
             dialog.dismiss()
         }
         applicantMobileLabel.setOnClickListener {
-            goToFragment("contactJD")
+            goToFragment("contact")
             dialog.dismiss()
         }
         applicantPresentAddressLabel.setOnClickListener {
-            goToFragment("contactJD")
+            goToFragment("contact")
             dialog.dismiss()
         }
         applicantPermanentAddressLabel.setOnClickListener {
             goToFragment("contactJD")
             dialog.dismiss()
         }
-
-        cName.text = companyName
-        cAddress.text = companyAddress
-        appliedPosition.text = jobTitle
-        applicationDate.text = postedDate
+//
+//        cName.text = companyName
+//        cAddress.text = companyAddress
+//        appliedPosition.text = jobTitle
+//        applicationDate.text = postedDate
 
         btnOk.setOnClickListener {
-            applyOnlineJob(position, salary, gender, jobphotograph)
-
             dialog.dismiss()
         }
 
@@ -1628,11 +1614,14 @@ class JobDetailAdapter(private val context: Context) :
                     d("applyTest onResponse ")
                     dialog?.dismiss()
                     loadingDialog?.dismiss()
-                    context.longToast(response.body()!!.data[0].message)
+
+                    showConfirmationDialog(response.body()!!.data[0].message)
+//                    context.longToast(response.body()!!.data[0].message)
                     if (response.body()!!.data[0].status.equalIgnoreCase("ok")) {
                         bdjobsUserSession.incrementJobsApplied()
                         bdjobsUserSession.decrementAvailableJobs()
                         applyStatus = true
+
                         doAsync {
                             val appliedJobs =
                                 AppliedJobs(appliedid = jobList?.get(position)?.jobid!!)
@@ -1641,7 +1630,9 @@ class JobDetailAdapter(private val context: Context) :
                                 notifyDataSetChanged()
                             }
                         }
-                        Constants.appliedJobsCount++
+
+
+                        appliedJobsCount++
                         //jobCommunicator?.setTotalAppliedJobs(appliedJobsCount)
                         ////Log.d("rakib", "applied jobs $appliedJobsCount")
                         d("applyTest success $applyStatus")
