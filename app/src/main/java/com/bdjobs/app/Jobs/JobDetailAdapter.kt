@@ -1040,7 +1040,7 @@ class JobDetailAdapter(private val context: Context) :
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             setCancelable(true)
             setContentView(R.layout.dialog_update_cv)
         }
@@ -1068,7 +1068,7 @@ class JobDetailAdapter(private val context: Context) :
                 minSalary,
                 maxSalary,
                 dialog,
-                "1"
+                "0"
             )
         }
         laterBtn.setOnClickListener {
@@ -1080,7 +1080,7 @@ class JobDetailAdapter(private val context: Context) :
                 minSalary,
                 maxSalary,
                 dialog,
-                "0"
+                "1"
             )
         }
 
