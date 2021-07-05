@@ -954,8 +954,8 @@ class JobDetailAdapter(private val context: Context) :
 
         val bdjobsUserSession = BdjobsUserSession(context)
         val loadingDialog = activity.indeterminateProgressDialog("Applying")
-        loadingDialog?.setCancelable(false)
-        loadingDialog?.show()
+        loadingDialog.setCancelable(false)
+        loadingDialog.show()
 
         ApiServiceJobs.create().applyEligibilityCheck(
             userID = bdjobsUserSession.userId,
@@ -967,7 +967,7 @@ class JobDetailAdapter(private val context: Context) :
         ).enqueue(
             object : Callback<ApplyEligibilityModel> {
                 override fun onFailure(call: Call<ApplyEligibilityModel>, t: Throwable) {
-                    loadingDialog?.dismiss()
+                    loadingDialog.dismiss()
                 }
 
                 override fun onResponse(
@@ -986,7 +986,8 @@ class JobDetailAdapter(private val context: Context) :
                                     gender,
                                     jobphotograph,
                                     minSalary,
-                                    maxSalary
+                                    maxSalary,
+                                    "0"
                                 )
                             } else {
 
@@ -1068,6 +1069,7 @@ class JobDetailAdapter(private val context: Context) :
                 minSalary,
                 maxSalary,
                 dialog,
+                "0",
                 "0"
             )
         }
@@ -1080,6 +1082,7 @@ class JobDetailAdapter(private val context: Context) :
                 minSalary,
                 maxSalary,
                 dialog,
+                "1",
                 "1"
             )
         }
@@ -1090,7 +1093,7 @@ class JobDetailAdapter(private val context: Context) :
 
     private fun updateCV(
         activity: Context, position: Int, gender: String, jobphotograph: String,
-        minSalary: String, maxSalary: String, dialog: Dialog, updateLater: String
+        minSalary: String, maxSalary: String, dialog: Dialog, updateLater: String,cvUpdateLater: String
     ) {
         ApiServiceJobs.create()
             .updateCV(bdjobsUserSession.userId, bdjobsUserSession.decodId, updateLater)
@@ -1114,7 +1117,8 @@ class JobDetailAdapter(private val context: Context) :
                                     gender,
                                     jobphotograph,
                                     minSalary,
-                                    maxSalary
+                                    maxSalary,
+                                    cvUpdateLater
                                 )
                                 dialog.dismiss()
 //                            } else {
@@ -1260,7 +1264,8 @@ class JobDetailAdapter(private val context: Context) :
         gender: String,
         jobphotograph: String,
         minSalary: String,
-        maxSalary: String
+        maxSalary: String,
+        cvUpdateLater: String
     ) {
         dialog = Dialog(activity)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1330,7 +1335,7 @@ class JobDetailAdapter(private val context: Context) :
         }
 
         applyAnywayButton?.setOnClickListener {
-            applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+            applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph,cvUpdateLater)
         }
 
         salaryTIET?.easyOnTextChangedListener { text ->
@@ -1420,7 +1425,7 @@ class JobDetailAdapter(private val context: Context) :
                 applyStatus = true
 
                 if (okButton.isVisible) {
-                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph,cvUpdateLater)
 //                    showConfirmationDialog(
 //                        position,
 //                        salaryTIET.text.toString(),
@@ -1434,7 +1439,7 @@ class JobDetailAdapter(private val context: Context) :
 
             } else {
                 if (okButton.isVisible) {
-                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph)
+                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph,cvUpdateLater)
                     dialog.dismiss()
                 }
             }
@@ -1471,52 +1476,6 @@ class JobDetailAdapter(private val context: Context) :
         val applicantMobile = dialog.findViewById<MaterialTextView>(R.id.tv_applicant_mobile)
         val applicantMobileLabel =
             dialog.findViewById<MaterialTextView>(R.id.tv_applicant_mobile_label)
-
-//        val cName = dialog.findViewById<MaterialTextView>(R.id.tv_company_name)
-//        val cAddress = dialog.findViewById<MaterialTextView>(R.id.tv_company_address)
-//        val appliedPosition = dialog.findViewById<MaterialTextView>(R.id.tv_applied_position)
-//        val applicationDate = dialog.findViewById<MaterialTextView>(R.id.tv_application_date)
-
-       /* personalInfoTab.setOnClickListener {
-            personalInfoTab.background = ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp)
-            personalInfoTab.background.setTint(ContextCompat.getColor(context, R.color.black))
-            personalInfoTab.textColor = ContextCompat.getColor(context, R.color.white)
-            companyInfoTab.background =
-                ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp_end)
-            companyInfoTab.textColor = ContextCompat.getColor(context, R.color.black)
-            companyInfoTab.background.setTint(
-                ContextCompat.getColor(
-                    context,
-                    android.R.color.transparent
-                )
-            )
-
-//            switchInfo.background = ContextCompat.getDrawable(context,R.drawable.border_round_5_dp)
-
-            personalInfoRoot.show()
-            companyInfoRoot.hide()
-
-        }
-
-        companyInfoTab.setOnClickListener {
-            companyInfoTab.background =
-                ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp_end)
-            companyInfoTab.background.setTint(ContextCompat.getColor(context, R.color.black))
-            companyInfoTab.textColor = ContextCompat.getColor(context, R.color.white)
-            personalInfoTab.background = ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp)
-            personalInfoTab.textColor = ContextCompat.getColor(context, R.color.black)
-            personalInfoTab.background.setTint(
-                ContextCompat.getColor(
-                    context,
-                    android.R.color.transparent
-                )
-            )
-
-//            switchInfo.background = ContextCompat.getDrawable(context,R.drawable.border_round_5_dp)
-
-            companyInfoRoot.show()
-            personalInfoRoot.hide()
-        }*/
 
         applicantName.text = bdjobsUserSession.fullName
         applicantEmail.text = bdjobsUserSession.email
@@ -1577,7 +1536,8 @@ class JobDetailAdapter(private val context: Context) :
         position: Int,
         salary: String,
         gender: String,
-        jobphotograph: String
+        jobphotograph: String,
+        cvUpdateLater:String
     ) {
         //Log.d("dlkgj", "gender $gender jobid:${jobList?.get(position)?.jobid!!}")
         val bdjobsUserSession = BdjobsUserSession(context)
@@ -1591,7 +1551,8 @@ class JobDetailAdapter(private val context: Context) :
             salary,
             gender,
             jobphotograph,
-            Constants.ENCODED_JOBS
+            Constants.ENCODED_JOBS,
+            cvUpdateLater
         ).enqueue(object : Callback<ApplyOnlineModel> {
             override fun onFailure(call: Call<ApplyOnlineModel>, t: Throwable) {
 

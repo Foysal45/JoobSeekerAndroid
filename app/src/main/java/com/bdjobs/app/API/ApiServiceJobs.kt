@@ -280,7 +280,7 @@ interface ApiServiceJobs {
             @Field("JobSex") JobSex: String? = "",
             @Field("JobPhotograph") JobPhotograph: String? = "",
             @Field("encoded") encoded: String? = "",
-            @Field("CvUpateLater") cvUpateLater: String? = "0",
+            @Field("CvUpateLater") cvUpateLater: String? = "",
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<ApplyOnlineModel>
 
