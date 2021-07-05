@@ -147,11 +147,14 @@ class AudioRecordFragment : Fragment() {
                 super.onCameraClosed()
 
 //                showSnackBar()
-
-                handler.removeCallbacks(updater)
-                recorder.stop()
-                recorder.reset()
-                recorder.release()
+//
+//                try {
+//                    handler.removeCallbacks(updater)
+//                    recorder.stop()
+//                    recorder.reset()
+//                    recorder.release()
+//                } catch (e: Exception) {
+//                }
             }
 
             override fun onVideoTaken(result: VideoResult) {

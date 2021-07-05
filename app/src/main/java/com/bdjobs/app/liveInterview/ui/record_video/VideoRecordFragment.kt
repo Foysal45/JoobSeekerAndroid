@@ -1,19 +1,12 @@
 package com.bdjobs.app.liveInterview.ui.record_video
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.text.format.DateUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
-import androidx.core.net.toUri
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,7 +17,7 @@ import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.toFormattedSeconds
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentVideoRecordBinding
-import com.bdjobs.app.liveInterview.data.models.LiveInterviewVideo
+import com.bdjobs.app.liveInterview.SharedViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraOptions
@@ -42,16 +35,14 @@ class RecordVideoFragment : Fragment() {
 
     private lateinit var binding: FragmentVideoRecordBinding
 
-    //    private lateinit var snackbar: Snackbar
     lateinit var videoFile: File
     private val videoRecordViewModel: VideoRecordViewModel by navGraphViewModels(R.id.recordVideoFragment)
 
-
-    private lateinit var mediaController: MediaController
+    private val sharedViewModel : SharedViewModel by activityViewModels()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         binding = FragmentVideoRecordBinding.inflate(inflater).apply {
             lifecycleOwner = viewLifecycleOwner
@@ -90,14 +81,15 @@ class RecordVideoFragment : Fragment() {
                 captureVideo()
             })
 
-            progressPercentage.observe(viewLifecycleOwner, Observer {
+            progressPercentage.observe(viewLifecycleOwner, {
                 seekbar_video_duration.progress = it.toInt()
             })
-            elapsedTimeInString.observe(viewLifecycleOwner, Observer {
-                tv_time_remaining_value?.text = it
-            })
+            elapsedTimeInString.observe(viewLifecycleOwner, {
+                    tv_time_remaining_value?.text = it
+                }
+            )
 
-            onVideoDoneEvent.observe(viewLifecycleOwner, Observer {
+            onVideoDoneEvent.observe(viewLifecycleOwner, {
                 // if (it){
                 camera_view?.close()
                 // }
@@ -151,75 +143,15 @@ class RecordVideoFragment : Fragment() {
                 if (videoRecordViewModel.onVideoDoneEvent.value == true) {
                     videoFile = result.file
                     Timber.d("Path: ${videoFile.path} :: AbsolutePath: ${videoFile.absolutePath}")
-                    navigateToVideoView(videoFile)
+                    sharedViewModel.storeVideoFile(videoFile)
+                    findNavController().navigate(RecordVideoFragmentDirections.actionRecordVideoFragmentToViewRecordedVideoFragment())
+//                    navigateToVideoView(videoFile)
 
                 }
 
             }
 
         })
-    }
-
-    private fun navigateToVideoView(videoFile: File) {
-        binding.clRecordVideo.hide()
-        binding.clViewVideo.show()
-
-        mediaController = MediaController(requireContext())
-
-        binding.btnRecordAgain.setOnClickListener {
-            try {
-                videoFile.delete()
-//                binding.videoView.stopPlayback()
-//                findNavController()
-            } catch (e: Exception) {
-                Timber.e("Exception while navigating: ${e.localizedMessage}")
-            } finally {
-                findNavController().navigate(RecordVideoFragmentDirections.actionRecordVideoFragmentSelf())
-            }
-//            binding.clViewVideo.hide()
-//            binding.clRecordVideo.show()
-        }
-
-        initVideoPlayer(videoFile)
-
-        binding.imgPlay.setOnClickListener {
-            binding.imgPlay.hide()
-//            binding.progressBar.show()
-            binding.videoView.start()
-        }
-
-    }
-
-    private fun initVideoPlayer(file: File) {
-        Timber.d("File path: ${file.path}")
-        try {
-            binding.videoView.setVideoPath(file.path)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Timber.e("Error: ${e.localizedMessage}")
-            binding.videoView.stopPlayback()
-        }
-
-        binding.videoView.setOnPreparedListener {
-            binding.progressBar.hide()
-            binding.videoView.setMediaController(mediaController)
-            mediaController.setAnchorView(binding.videoView)
-
-        }
-
-        binding.videoView.setOnInfoListener { mp, what, extra ->
-            when (what) {
-                MediaPlayer.MEDIA_INFO_BUFFERING_START -> {
-                    binding.progressBar.show()
-                    return@setOnInfoListener true
-                }
-                MediaPlayer.MEDIA_INFO_BUFFERING_END -> {
-                    binding.progressBar.hide()
-                    return@setOnInfoListener true
-                }
-            }
-            return@setOnInfoListener true
-        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -268,29 +200,6 @@ class RecordVideoFragment : Fragment() {
         camera_view?.takeVideoSnapshot(newFile)
     }
 
-
-//    private fun showSnackBar() {
-//        snackbar = Snackbar.make(cl_timeline, "Your recorded video is uploading, please wait...", Snackbar.LENGTH_INDEFINITE).also {
-//            it.show()
-//        }
-//    }
-
-
-    override fun onPause() {
-        super.onPause()
-        try {
-//            snackbar.dismiss()
-            binding.videoView.stopPlayback()
-//            videoFile.delete()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        try {
-            findNavController().popBackStack(R.id.liveInterviewDetailsFragment, false)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 
 
 }

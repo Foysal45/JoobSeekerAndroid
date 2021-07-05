@@ -2,6 +2,7 @@ package com.bdjobs.app.liveInterview
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.io.File
 
 //
 // Created by Soumik on 6/3/2021.
@@ -11,9 +12,14 @@ import androidx.lifecycle.ViewModel
 
 class SharedViewModel :ViewModel() {
 
-    val receivedChatData = MutableLiveData<Array<Any?>?>()
 
-    fun receivedData(args:Array<Any?>?) {
-        receivedChatData.postValue(args)
+    private var _savedVideoFile = MutableLiveData<File?>()
+
+    fun storeVideoFile(file:File?) {
+        _savedVideoFile.value = file
+    }
+
+    fun getVideoFile() : File? {
+        return _savedVideoFile.value
     }
 }

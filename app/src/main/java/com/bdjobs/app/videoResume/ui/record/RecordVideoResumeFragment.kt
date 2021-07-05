@@ -89,7 +89,7 @@ class RecordVideoResumeFragment : Fragment() {
                 captureVideo()
             })
 
-            progressPercentage.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            progressPercentage.observe(viewLifecycleOwner, {
                 seekbar_video_duration.progress = it.toInt()
             })
             progressPercentage.observe(viewLifecycleOwner, androidx.lifecycle.Observer {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
@@ -15,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.liveInterview.SharedViewModel
 import com.bdjobs.app.liveInterview.ui.record_video.VideoRecordViewModel
 import kotlinx.android.synthetic.main.fragment_view_recorded_video.*
 import timber.log.Timber
@@ -22,10 +24,8 @@ import timber.log.Timber
 
 class ViewRecordedVideoFragment : Fragment() {
 
-//
-//    val args:ViewRecordedVideoFragmentArgs by navArgs()
     private lateinit var mediaController: MediaController
-    private val videoRecordViewModel : VideoRecordViewModel by navGraphViewModels(R.id.recordVideoFragment)
+    private val sharedViewModel : SharedViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -45,21 +45,38 @@ class ViewRecordedVideoFragment : Fragment() {
 
         mediaController = MediaController(requireContext())
 
-//        btn_record_again?.setOnClickListener {
-//            findNavController().popBackStack()
-//        }
+
 
         showVideo()
+
+        img_play.setOnClickListener {
+            img_play.hide()
+            video_view.start()
+        }
+
+        btn_record_again?.setOnClickListener {
+            try {
+                if (sharedViewModel.getVideoFile()!=null && sharedViewModel.getVideoFile()!!.exists())
+                    sharedViewModel.getVideoFile()!!.delete()
+            } catch (e:Exception) {
+                e.printStackTrace()
+                Timber.e("Exception while deleting video file")
+            } finally {
+                video_view.stopPlayback()
+                findNavController().popBackStack()
+            }
+
+        }
 
     }
 
     private fun showVideo() {
-        val videoData = videoRecordViewModel.videoManagerData.value
+        val videoData = sharedViewModel.getVideoFile()
 
         Timber.d("VideoData: Path: ${videoData?.path}")
 
         try {
-            video_view?.setVideoPath(videoData?.file?.path)
+            video_view?.setVideoPath(videoData?.path)
         } catch (e: Exception) {
             e.printStackTrace()
             video_view?.stopPlayback()
@@ -78,7 +95,7 @@ class ViewRecordedVideoFragment : Fragment() {
             mediaController.setAnchorView(video_view)
         }
 
-        video_view?.setOnInfoListener { mp, what, extra ->
+        video_view?.setOnInfoListener { _, what, _ ->
             when (what) {
                 MediaPlayer.MEDIA_INFO_BUFFERING_START -> {
                     progress_bar?.show()
@@ -91,17 +108,6 @@ class ViewRecordedVideoFragment : Fragment() {
             }
             return@setOnInfoListener false
         }
-    }
-
-//    override fun onResume() {
-//        super.onResume()
-//
-//
-//    }
-
-    override fun onPause() {
-        super.onPause()
-        video_view.stopPlayback()
     }
 
 }

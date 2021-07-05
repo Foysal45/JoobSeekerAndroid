@@ -51,7 +51,5 @@ class LiveInterviewActivity : AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
+
 }
