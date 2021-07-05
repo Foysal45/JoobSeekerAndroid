@@ -78,7 +78,7 @@ class RecordVideoFragment : Fragment() {
         setUpObservers()
 
         binding.btnGuide.setOnClickListener {
-            context?.startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/bdjobs-app-user-guide-for-video-resume.asp", "from" to "liveInterview")
+            context?.startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/UserGuideFor_LiveInterview.asp", "from" to "liveInterview")
         }
 
     }
