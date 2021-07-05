@@ -585,7 +585,7 @@
                     android:layout_width="match_parent"
                     android:importantForAutofill="noExcludeDescendants"
                     android:layout_height="wrap_content"
-                    android:hint="Primary Mobile No."
+                    android:hint="Primary Mobile"
                     android:inputType="number"
                     android:focusableInTouchMode="true"
                     android:fontFamily="@font/roboto"
@@ -612,7 +612,7 @@
                     android:id="@+id/contactMobileNumber1TIET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Secondary Mobile No."
+                    android:hint="Secondary Mobile"
                     android:inputType="number"
                     android:maxLength="50"
                     android:textColor="#212121" />
@@ -632,7 +632,7 @@
                     android:id="@+id/contactMobileNumber2TIET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Emergency Contact No."
+                    android:hint="Emergency Contact"
                     android:inputType="number"
                     android:maxLength="50"
                     android:textColor="#212121" />

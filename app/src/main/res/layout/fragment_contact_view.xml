@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/iv3"
-                android:text="Primary Mobile No."
+                android:text="Primary Mobile"
                 android:textSize="14sp" />
             <TextView
                 android:id="@+id/tv_mobile_change_user_id"
@@ -150,7 +150,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_below="@+id/tv_primary_mobile_no"
                 android:layout_toEndOf="@+id/iv3"
-                android:text="Secondary Mobile No."
+                android:text="Secondary Mobile"
                 android:textSize="14sp" />
 
             <TextView
@@ -173,7 +173,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_below="@+id/tv_secondary_mobile_no"
                 android:layout_toEndOf="@+id/iv3"
-                android:text="Emergency Contact No."
+                android:text="Emergency Contact"
                 android:textSize="14sp" />
 
             <TextView
