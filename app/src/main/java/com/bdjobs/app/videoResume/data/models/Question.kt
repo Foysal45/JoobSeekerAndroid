@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class Question(
-        var serial : Int,
+        var serial : String,
         var title : String,
         var time : String,
         var isNew : Boolean,

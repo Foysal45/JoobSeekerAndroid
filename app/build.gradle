@@ -191,7 +191,8 @@ dependencies {
     implementation 'com.google.guava:guava:27.0.1-android'
 
     //camera view
-    implementation 'com.otaliastudios:cameraview:2.6.4'
+//    implementation 'com.otaliastudios:cameraview:2.6.4'
+    implementation 'com.otaliastudios:cameraview:2.7.0'
 
     //ssl commerz
     implementation(name: 'sslCommerzSdk', ext: 'aar')

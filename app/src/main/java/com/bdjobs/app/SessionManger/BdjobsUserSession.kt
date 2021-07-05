@@ -32,21 +32,23 @@ class BdjobsUserSession(val context: Context) {
         pref = context.getSharedPreferences(name_sharedPref, 0)
     }
 
-    fun createSession(isCvPosted: String,
-                      name: String,
-                      email: String,
-                      userId: String,
-                      decodId: String,
-                      userName: String,
-                      AppsDate: String,
-                      age: String,
-                      exp: String,
-                      catagoryId: String,
-                      gender: String,
-                      resumeUpdateON: String,
-                      IsResumeUpdate: String,
-                      trainingId: String,
-                      userPicUrl: String) {
+    fun createSession(
+        isCvPosted: String,
+        name: String,
+        email: String,
+        userId: String,
+        decodId: String,
+        userName: String,
+        AppsDate: String,
+        age: String,
+        exp: String,
+        catagoryId: String,
+        gender: String,
+        resumeUpdateON: String,
+        IsResumeUpdate: String,
+        trainingId: String,
+        userPicUrl: String
+    ) {
 
         pref?.edit {
             putString(Constants.session_key_isCvPosted, isCvPosted)
@@ -137,25 +139,29 @@ class BdjobsUserSession(val context: Context) {
         }
     }
 
-    fun cancelAlarms(){
+    fun cancelAlarms() {
         try {
             Timber.d("cancel method called")
             //morning alarms
             val morningIntent = Intent(context, MorningNotificationReceiver::class.java)
-            val morningPendingIntent = PendingIntent.getBroadcast(context, 0, morningIntent, PendingIntent.FLAG_NO_CREATE)
-            val morningAlarmManager: AlarmManager? = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
+            val morningPendingIntent =
+                PendingIntent.getBroadcast(context, 0, morningIntent, PendingIntent.FLAG_NO_CREATE)
+            val morningAlarmManager: AlarmManager? =
+                context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
             if (morningPendingIntent != null) {
                 morningAlarmManager?.cancel(morningPendingIntent)
             }
 
             //night alarms
             val nightIntent = Intent(context, NightNotificationReceiver::class.java)
-            val nightPendingIntent = PendingIntent.getBroadcast(context, 0, nightIntent, PendingIntent.FLAG_NO_CREATE)
-            val nightAlarmManager: AlarmManager? = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
+            val nightPendingIntent =
+                PendingIntent.getBroadcast(context, 0, nightIntent, PendingIntent.FLAG_NO_CREATE)
+            val nightAlarmManager: AlarmManager? =
+                context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
             if (nightPendingIntent != null) {
                 nightAlarmManager?.cancel(nightPendingIntent)
             }
-        } catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
@@ -202,35 +208,35 @@ class BdjobsUserSession(val context: Context) {
         }
     }
 
-    fun insertVideoResumeTotalAnswered(count: String){
+    fun insertVideoResumeTotalAnswered(count: String) {
         pref?.edit {
             putString(Constants.VIDEO_RESUME_TOTAL_ANSWERED, count)
         }
         pref?.edit()?.apply()
     }
 
-    fun insertVideoResumeThresholdValue(count: String){
+    fun insertVideoResumeThresholdValue(count: String) {
         pref?.edit {
             putString(Constants.VIDEO_RESUME_THRESHOLD, count)
         }
         pref?.edit()?.apply()
     }
 
-    fun insertGeneralInterviewCount(count: Int){
+    fun insertGeneralInterviewCount(count: Int) {
         pref?.edit {
             putInt(Constants.GENERAL_INTERVIEW_COUNT, count)
         }
         pref?.edit()?.apply()
     }
 
-    fun insertVideoInterviewCount(count: Int){
+    fun insertVideoInterviewCount(count: Int) {
         pref?.edit {
             putInt(Constants.VIDEO_INTERVIEW_COUNT, count)
         }
         pref?.edit()?.apply()
     }
 
-    fun insertLiveInterviewCount(count: Int){
+    fun insertLiveInterviewCount(count: Int) {
         pref?.edit {
             putInt(Constants.LIVE_INTERVIEW_COUNT, count)
         }
@@ -379,26 +385,44 @@ class BdjobsUserSession(val context: Context) {
     }
 
     fun insertMybdjobsLastMonthCountData(
-            jobsApplied: String?,
-            emailResume: String?,
-            employerViewdResume: String?,
-            followedEmployers: String?,
-            interviewInvitation: String?,
-            messageByEmployers: String?,
-            videoInvitation: String?,
-            liveInvitation: String?
+        jobsApplied: String?,
+        emailResume: String?,
+        employerViewdResume: String?,
+        followedEmployers: String?,
+        interviewInvitation: String?,
+        messageByEmployers: String?,
+        videoInvitation: String?,
+        liveInvitation: String?
 
 
     ) {
 
         pref?.edit {
             putString(Constants.session_key_mybdjobscount_jobs_applied_thismonth, jobsApplied)
-            putString(Constants.session_key_mybdjobscount_times_emailed_resume_lastmonth, emailResume)
-            putString(Constants.session_key_mybdjobscount_employers_viwed_resume_lastmonth, employerViewdResume)
-            putString(Constants.session_key_mybdjobscount_employers_followed_lastmonth, followedEmployers)
-            putString(Constants.session_key_mybdjobscount_interview_invitation_lastmonth, interviewInvitation)
-            putString(Constants.session_key_mybdjobscount_message_by_employers_lastmonth, messageByEmployers)
-            putString(Constants.session_key_mybdjobscount_video_invitation_lastmonth, videoInvitation)
+            putString(
+                Constants.session_key_mybdjobscount_times_emailed_resume_lastmonth,
+                emailResume
+            )
+            putString(
+                Constants.session_key_mybdjobscount_employers_viwed_resume_lastmonth,
+                employerViewdResume
+            )
+            putString(
+                Constants.session_key_mybdjobscount_employers_followed_lastmonth,
+                followedEmployers
+            )
+            putString(
+                Constants.session_key_mybdjobscount_interview_invitation_lastmonth,
+                interviewInvitation
+            )
+            putString(
+                Constants.session_key_mybdjobscount_message_by_employers_lastmonth,
+                messageByEmployers
+            )
+            putString(
+                Constants.session_key_mybdjobscount_video_invitation_lastmonth,
+                videoInvitation
+            )
             putString(Constants.session_key_mybdjobscount_live_invitation_lastmonth, liveInvitation)
 
 
@@ -406,24 +430,37 @@ class BdjobsUserSession(val context: Context) {
 
     }
 
-    fun insertMybdjobsAlltimeCountData(jobsApplied: String?,
-                                       emailResume: String?,
-                                       employerViewdResume: String?,
-                                       followedEmployers: String?,
-                                       interviewInvitation: String?,
-                                       messageByEmployers: String?,
-                                       videoInvitation: String?,
-                                       liveInvitation: String?
+    fun insertMybdjobsAlltimeCountData(
+        jobsApplied: String?,
+        emailResume: String?,
+        employerViewdResume: String?,
+        followedEmployers: String?,
+        interviewInvitation: String?,
+        messageByEmployers: String?,
+        videoInvitation: String?,
+        liveInvitation: String?
 
     ) {
 
         pref?.edit {
             putString(Constants.session_key_mybdjobscount_jobs_applied_alltime, jobsApplied)
             putString(Constants.session_key_mybdjobscount_times_emailed_resume_alltime, emailResume)
-            putString(Constants.session_key_mybdjobscount_employers_viwed_resume_alltime, employerViewdResume)
-            putString(Constants.session_key_mybdjobscount_employers_followed_alltime, followedEmployers)
-            putString(Constants.session_key_mybdjobscount_interview_invitation_alltime, interviewInvitation)
-            putString(Constants.session_key_mybdjobscount_message_by_employers_alltime, messageByEmployers)
+            putString(
+                Constants.session_key_mybdjobscount_employers_viwed_resume_alltime,
+                employerViewdResume
+            )
+            putString(
+                Constants.session_key_mybdjobscount_employers_followed_alltime,
+                followedEmployers
+            )
+            putString(
+                Constants.session_key_mybdjobscount_interview_invitation_alltime,
+                interviewInvitation
+            )
+            putString(
+                Constants.session_key_mybdjobscount_message_by_employers_alltime,
+                messageByEmployers
+            )
             putString(Constants.session_key_mybdjobscount_video_invitation_alltime, videoInvitation)
             putString(Constants.session_key_mybdjobscount_live_invitation_alltime, liveInvitation)
 
@@ -432,24 +469,40 @@ class BdjobsUserSession(val context: Context) {
 
     }
 
-    val mybdjobscount_jobs_applied_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_jobs_applied_thismonth, "0")
-    val mybdjobscount_times_emailed_resume_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_times_emailed_resume_lastmonth, "0")
-    val mybdjobscount_employers_viwed_resume_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_employers_viwed_resume_lastmonth, "0")
-    val mybdjobscount_employers_followed_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_employers_followed_lastmonth, "0")
-    val mybdjobscount_interview_invitation_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_interview_invitation_lastmonth, "0")
-    val mybdjobscount_message_by_employers_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_message_by_employers_lastmonth, "0")
-    val mybdjobscount_video_invitation_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_video_invitation_lastmonth, "0")
-    val mybdjobscount_live_invitation_lastmonth = pref?.getString(Constants.session_key_mybdjobscount_live_invitation_lastmonth, "0")
+    val mybdjobscount_jobs_applied_lastmonth =
+        pref?.getString(Constants.session_key_mybdjobscount_jobs_applied_thismonth, "0")
+    val mybdjobscount_times_emailed_resume_lastmonth =
+        pref?.getString(Constants.session_key_mybdjobscount_times_emailed_resume_lastmonth, "0")
+    val mybdjobscount_employers_viwed_resume_lastmonth =
+        pref?.getString(Constants.session_key_mybdjobscount_employers_viwed_resume_lastmonth, "0")
+    val mybdjobscount_employers_followed_lastmonth =
+        pref?.getString(Constants.session_key_mybdjobscount_employers_followed_lastmonth, "0")
+    val mybdjobscount_interview_invitation_lastmonth =
+        pref?.getString(Constants.session_key_mybdjobscount_interview_invitation_lastmonth, "0")
+    val mybdjobscount_message_by_employers_lastmonth =
+        pref?.getString(Constants.session_key_mybdjobscount_message_by_employers_lastmonth, "0")
+    val mybdjobscount_video_invitation_lastmonth =
+        pref?.getString(Constants.session_key_mybdjobscount_video_invitation_lastmonth, "0")
+    val mybdjobscount_live_invitation_lastmonth =
+        pref?.getString(Constants.session_key_mybdjobscount_live_invitation_lastmonth, "0")
 
 
-    val mybdjobscount_jobs_applied_alltime = pref?.getString(Constants.session_key_mybdjobscount_jobs_applied_alltime, "0")
-    val mybdjobscount_times_emailed_resume_alltime = pref?.getString(Constants.session_key_mybdjobscount_times_emailed_resume_alltime, "0")
-    val mybdjobscount_employers_viwed_resume_alltime = pref?.getString(Constants.session_key_mybdjobscount_employers_viwed_resume_alltime, "0")
-    val mybdjobscount_employers_followed_alltime = pref?.getString(Constants.session_key_mybdjobscount_employers_followed_alltime, "0")
-    val mybdjobscount_interview_invitation_alltime = pref?.getString(Constants.session_key_mybdjobscount_interview_invitation_alltime, "0")
-    val mybdjobscount_message_by_employers_alltime = pref?.getString(Constants.session_key_mybdjobscount_message_by_employers_alltime, "0")
-    val mybdjobscount_video_invitation_alltime = pref?.getString(Constants.session_key_mybdjobscount_video_invitation_alltime, "0")
-    val mybdjobscount_live_invitation_alltime = pref?.getString(Constants.session_key_mybdjobscount_live_invitation_alltime, "0")
+    val mybdjobscount_jobs_applied_alltime =
+        pref?.getString(Constants.session_key_mybdjobscount_jobs_applied_alltime, "0")
+    val mybdjobscount_times_emailed_resume_alltime =
+        pref?.getString(Constants.session_key_mybdjobscount_times_emailed_resume_alltime, "0")
+    val mybdjobscount_employers_viwed_resume_alltime =
+        pref?.getString(Constants.session_key_mybdjobscount_employers_viwed_resume_alltime, "0")
+    val mybdjobscount_employers_followed_alltime =
+        pref?.getString(Constants.session_key_mybdjobscount_employers_followed_alltime, "0")
+    val mybdjobscount_interview_invitation_alltime =
+        pref?.getString(Constants.session_key_mybdjobscount_interview_invitation_alltime, "0")
+    val mybdjobscount_message_by_employers_alltime =
+        pref?.getString(Constants.session_key_mybdjobscount_message_by_employers_alltime, "0")
+    val mybdjobscount_video_invitation_alltime =
+        pref?.getString(Constants.session_key_mybdjobscount_video_invitation_alltime, "0")
+    val mybdjobscount_live_invitation_alltime =
+        pref?.getString(Constants.session_key_mybdjobscount_live_invitation_alltime, "0")
 
 
     protected fun incrementCount(key: String) {
@@ -517,16 +570,35 @@ class BdjobsUserSession(val context: Context) {
         decrementCount(Constants.session_key_mybdjobscount_employers_followed_alltime)
     }
 
-    var isRemoteViewInitialized:Boolean
-    get() = pref!!.getBoolean(Constants.session_key_remoteview_initiliaze,false)
-    set(value) {
-        pref!!.edit().putBoolean(Constants.session_key_remoteview_initiliaze,value).apply()
-    }
+    var isRemoteViewInitialized: Boolean
+        get() = pref!!.getBoolean(Constants.session_key_remoteview_initiliaze, false)
+        set(value) {
+            pref!!.edit().putBoolean(Constants.session_key_remoteview_initiliaze, value).apply()
+        }
 
-    var isSessionAlreadyStarted : Boolean
-    get() = pref!!.getBoolean(Constants.session_key_socket_session_started,false)
-    set(value) {
-        pref!!.edit().putBoolean(Constants.session_key_socket_session_started,value).apply()
-    }
+    var isSessionAlreadyStarted: Boolean
+        get() = pref!!.getBoolean(Constants.session_key_socket_session_started, false)
+        set(value) {
+            pref!!.edit().putBoolean(Constants.session_key_socket_session_started, value).apply()
+        }
+
+    var userMobileNumber: String?
+        get() = pref!!.getString(Constants.session_key_user_mobile, "")
+        set(value) {
+            pref!!.edit().putString(Constants.session_key_user_mobile, value).apply()
+        }
+
+    var userPresentAddress: String?
+        get() = pref!!.getString(Constants.session_key_user_present_address, "")
+        set(value) {
+            pref!!.edit().putString(Constants.session_key_user_present_address, value).apply()
+        }
+
+    var userPermanentAddress: String?
+        get() = pref!!.getString(Constants.session_key_user_permanent_address, "")
+        set(value) {
+            pref!!.edit().putString(Constants.session_key_user_permanent_address, value).apply()
+        }
+
 
 }

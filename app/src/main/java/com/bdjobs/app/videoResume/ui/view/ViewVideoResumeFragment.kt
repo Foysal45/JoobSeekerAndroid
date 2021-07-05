@@ -1,5 +1,6 @@
 package com.bdjobs.app.videoResume.ui.view
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -58,6 +59,7 @@ class ViewVideoResumeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_view_video_resume, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         session = BdjobsUserSession(requireContext())
@@ -129,6 +131,10 @@ class ViewVideoResumeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        tv_question_bn.text = args.question
+        tv_video_duration.hide()
+//        tv_video_duration.text = videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionDuration
+
         try {
             video_view?.setVideoURI(Uri.parse(args.url))
         } catch (e: Exception) {
@@ -139,19 +145,18 @@ class ViewVideoResumeFragment : Fragment() {
         img_play?.setOnClickListener {
             img_play?.hide()
             progress_bar?.show()
+            tv_video_duration.hide()
+            tv_question_bn.hide()
             video_view?.start()
         }
 
-        video_view?.setOnPreparedListener(object : MediaPlayer.OnPreparedListener {
-            override fun onPrepared(mp: MediaPlayer?) {
-                //Log.d("rakib", "on Prepared called")
-                progress_bar?.hide()
-                video_view?.setMediaController(medialController)
-                medialController.setAnchorView(video_view)
-            }
-        })
+        video_view?.setOnPreparedListener { //Log.d("rakib", "on Prepared called")
+            progress_bar?.hide()
+            video_view?.setMediaController(medialController)
+            medialController.setAnchorView(video_view)
+        }
 
-        video_view?.setOnInfoListener { mp, what, extra ->
+        video_view?.setOnInfoListener { _, what, _ ->
             when (what) {
                 MediaPlayer.MEDIA_INFO_BUFFERING_START -> {
                     progress_bar?.show()

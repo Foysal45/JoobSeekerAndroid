@@ -40,6 +40,7 @@ import com.bdjobs.app.SplashActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -49,6 +50,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
+import org.jetbrains.anko.layoutInflater
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -908,3 +910,24 @@ fun MaterialButton.changeColor(color: Int) {
     this.supportBackgroundTintList = AppCompatResources.getColorStateList(this.context,color)
 }
 
+fun Context.openSettingsDialog() {
+    val dialog = MaterialAlertDialogBuilder(this).create()
+    val view = this.layoutInflater.inflate(R.layout.dialog_enable_video_permissions, null)
+    view?.apply {
+        findViewById<Button>(R.id.dialog_btn_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+        findViewById<Button>(R.id.dialog_btn_go_to_settings).setOnClickListener {
+            val intent = createAppSettingsIntent(this@openSettingsDialog)
+            startActivity(intent)
+            dialog.dismiss()
+        }
+    }
+    dialog.setView(view)
+    dialog.show()
+}
+
+private fun createAppSettingsIntent(context: Context) = Intent().apply {
+    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+    data = Uri.fromParts("package", context.packageName, null)
+}

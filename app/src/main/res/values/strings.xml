@@ -464,5 +464,13 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <!-- Live Interview -->
     <string name="live_interview_date_time">Do you want to present in the live interview on %1$s, at %2$s?</string>
     <string name="video_resume_intro">A Video Resume is a short video you to introduce yourself to the hiring manager or recruiter.</string>
-    <string name="label_starting_interview">Starting Interview…</string>
+    <string name="label_starting_interview">Starting interview…</string>
+    <string name="label_resume_invisible_text">Your Video Resume is not visible to employer(s). Make it visible to employer(s) to increase interview call.</string>
+    <string name="label_buy_sms">Buy SMS Package</string>
+    <string name="label_follow_emp">Follow Employer/Save Favorite Search</string>
+    <string name="label_get_matched_job_alert">Get Matched Job Alert</string>
+    <string name="label_subscribe_employer_favorite_search_for_sms_alert">Subscribe Employer/Favorite Search for SMS Alert</string>
+    <string name="label_get_instant_sms_job_alert">Get Instant SMS Job Alert</string>
+    <string name="label_steps_of_receiving_sms_job_alert_of_your_choice">Steps of receiving SMS Job Alert of your choice</string>
+    <string name="label_confirmation_review">The employer will be able to review your\napplication and, if needed, can contact with you.</string>
 </resources>

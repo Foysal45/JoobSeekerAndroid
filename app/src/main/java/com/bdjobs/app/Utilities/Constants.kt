@@ -216,6 +216,10 @@ class Constants {
         const val session_key_remoteview_initiliaze = "RemoteViewInitialized"
         const val session_key_socket_session_started = "SocketSessionStarted"
 
+        const val session_key_user_mobile = "MobileNumber"
+        const val session_key_user_present_address = "PresentAddress"
+        const val session_key_user_permanent_address = "PermanentAddress"
+
 
         const val NOTIFICATION_INTERVIEW_INVITATTION = 100
         const val NOTIFICATION_CV_VIEWED = 101

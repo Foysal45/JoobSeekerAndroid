@@ -60,6 +60,9 @@ class VideoResumeLandingViewModel(
     }
     val totalAnswered: LiveData<String?> = _totalAnswered
 
+    private val _totalQuestions = MutableLiveData<String?>().apply { value = "0" }
+    val totalQuestions : LiveData<String?> get() = _totalQuestions
+
     private val _threshold = MutableLiveData<String?>().apply {
         value = "0"
     }
@@ -71,10 +74,21 @@ class VideoResumeLandingViewModel(
     private val _isAlertOn = MutableLiveData<String?>()
     val isAlertOn: LiveData<String?> = _isAlertOn
 
+    val eventYesClicked = MutableLiveData<Event<Boolean>>()
+    val yesSelected = MutableLiveData<Boolean>()
+
+    val eventNoClicked = MutableLiveData<Event<Boolean>>()
+    val noSelected = MutableLiveData<Boolean>()
+
     private val _openTurnOffVisibilityDialogEvent = MutableLiveData<Event<Boolean>>().apply {
         value = Event(false)
     }
     val openTurnOffVisibilityDialogEvent: LiveData<Event<Boolean>> = _openTurnOffVisibilityDialogEvent
+
+    private val _openTurnOnVisibilityDialogEvent = MutableLiveData<Event<Boolean>>().apply {
+        value = Event(false)
+    }
+    val openTurnOnVisibilityDialogEvent: LiveData<Event<Boolean>> = _openTurnOnVisibilityDialogEvent
 
     private val _openMessageDialogEvent = MutableLiveData<Event<Boolean>>().apply {
         value = Event(false)
@@ -88,13 +102,22 @@ class VideoResumeLandingViewModel(
         try {
             if(totalAnswered.value!!.toInt() < threshold.value!!.toInt()){
                 _isAlertOn.value = "0"
+                yesSelected.value = false
+                noSelected.value = true
                 _openMessageDialogEvent.value = Event(true)
             }else if (!checked) {
                 _isAlertOn.value = "0"
-                _openTurnOffVisibilityDialogEvent.value = Event(true)
+                yesSelected.value = false
+                noSelected.value = true
+//                _openTurnOffVisibilityDialogEvent.value = Event(true)
+
+                updateResumeVisibility()
             } else{
                 _isAlertOn.value = "1"
-                updateResumeVisibility()
+                noSelected.value = false
+                yesSelected.value = true
+                _openTurnOnVisibilityDialogEvent.value =  Event(true)
+//                updateResumeVisibility()
             }
         } catch (e:Exception){
             e.printStackTrace()
@@ -102,12 +125,26 @@ class VideoResumeLandingViewModel(
 
     }
 
+    fun onYesClicked() {
+        onCheckedChanged(true)
+    }
+
+    fun onNoClicked() {
+        onCheckedChanged(false)
+    }
+
     fun onHideResumeVisibility() {
         updateResumeVisibility()
     }
 
+    fun onShowResumeVisibility() {
+        updateResumeVisibility()
+    }
+
     fun notChangeResumeVisibility(){
-        _isAlertOn.value = "1"
+        _isAlertOn.value = "0"
+        noSelected.value = true
+        yesSelected.value = false
     }
 
     fun getAllQuestions() : List<Question>{
@@ -129,11 +166,20 @@ class VideoResumeLandingViewModel(
                 _overallRating.value = rating.value?.toInt()
                 _isAlertOn.value = data?.resumeVisibility
                 _totalAnswered.value = data?.totalAnswered
+                _totalQuestions.value = data?.totalQuestion
                 _totalProgress.value = statusPercentage.value?.toInt()
                 _threshold.value = data?.threshold
                 _maxProgress.value = 100
-                _statusCode.value = response.statuscode
-                _showStat.value = !totalAnswered.value!!.equals("0")
+                _statusCode.value = response.statuscode!!
+                _showStat.value = totalAnswered.value!! != "0"
+
+                if (_isAlertOn.value!!.equalIgnoreCase("0")) {
+                    yesSelected.value = false
+                    noSelected.value = true
+                } else {
+                    noSelected.value = false
+                    yesSelected.value = true
+                }
 
             } catch (e: Exception) {
                 e.printStackTrace()

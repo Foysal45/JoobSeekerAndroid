@@ -1,5 +1,8 @@
 package com.bdjobs.app.videoResume.ui.record
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,17 +18,24 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.openSettingsDialog
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.toFormattedSeconds
 import com.bdjobs.app.databinding.FragmentRecordVideoResumeBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
+import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
+import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsFragmentDirections
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModel
+import com.fondesa.kpermissions.*
+import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.fondesa.kpermissions.extension.send
 import com.google.android.material.snackbar.Snackbar
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Facing
+import com.otaliastudios.cameraview.controls.Mode
 import kotlinx.android.synthetic.main.fragment_record_video_resume.*
 import timber.log.Timber
 import java.io.File
@@ -38,12 +48,18 @@ class RecordVideoResumeFragment : Fragment() {
     lateinit var videoFile: File
 
     private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
-    private val recordVideoResumeViewModel: RecordVideoResumeViewModel by viewModels { ViewModelFactoryUtil.provideVideoResumeRecordVideoViewModelFactory(this) }
+    private val recordVideoResumeViewModel: RecordVideoResumeViewModel by viewModels {
+        ViewModelFactoryUtil.provideVideoResumeRecordVideoViewModelFactory(
+            this
+        )
+    }
     lateinit var binding: FragmentRecordVideoResumeBinding
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         binding = FragmentRecordVideoResumeBinding.inflate(inflater).apply {
             viewModel = recordVideoResumeViewModel
@@ -63,6 +79,10 @@ class RecordVideoResumeFragment : Fragment() {
 
         initializeUI()
 
+        setUpObservers()
+    }
+
+    private fun setUpObservers() {
         recordVideoResumeViewModel.apply {
             onVideoRecordingStartedEvent.observe(viewLifecycleOwner, EventObserver {
                 updateUI(it)
@@ -79,17 +99,19 @@ class RecordVideoResumeFragment : Fragment() {
                 tv_time_remaining_value?.text = it
             })
 
-            shouldShowDoneButton.observe(viewLifecycleOwner, androidx.lifecycle.Observer { shouldShow ->
-                if (shouldShow)
-                    btn_done?.show()
-                else
-                    btn_done?.hide()
-            })
+            shouldShowDoneButton.observe(
+                viewLifecycleOwner,
+                { shouldShow ->
+                    if (shouldShow)
+                        btn_done?.show()
+                    else
+                        btn_done?.hide()
+                })
 
-            onVideoDoneEvent.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                // if (it){
-                camera_view?.close()
-                // }
+            onVideoDoneEvent.observe(viewLifecycleOwner, {
+                if (it) {
+                    camera_view.stopVideo()
+                }
             })
 
             onUploadStartEvent.observe(viewLifecycleOwner, EventObserver { uploadStarted ->
@@ -106,7 +128,11 @@ class RecordVideoResumeFragment : Fragment() {
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-                    Toast.makeText(context, "Your video has been uploaded successfully.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Your video has been uploaded successfully.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     findNavController().popBackStack()
                 } else {
                     Toast.makeText(context, "There was an error", Toast.LENGTH_SHORT).show()
@@ -119,10 +145,13 @@ class RecordVideoResumeFragment : Fragment() {
     private fun captureVideo() {
         Timber.d("Video capture start")
         try {
-            val dir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_resume")
+            val dir =
+                File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_resume")
             dir.mkdirs()
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-            val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
+            val newFile =
+                File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
+            camera_view.mode = Mode.VIDEO
             camera_view?.takeVideoSnapshot(newFile)
         } catch (e: Exception) {
             Timber.e("captureVideo: ${e.localizedMessage}")
@@ -130,11 +159,35 @@ class RecordVideoResumeFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun initializeUI() {
         recordVideoResumeViewModel.prepareData(videoResumeQuestionsViewModel.videoResumeManagerData.value)
-        tv_question_heading?.text = "Question ${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionSerialNo} of 5"
-        tv_question_title?.text = videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionText
-        tv_time_value?.text = "${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionDuration?.toFormattedSeconds()}"
+        tv_question_heading?.text =
+            "Q${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionSerialNo}. ${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionText}"
+        tv_question_title?.text =
+            videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionTextBng
+        tv_time_value?.text =
+            "${videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionDuration?.toFormattedSeconds()}"
+
+        binding.apply {
+            tvAnswerTips.paint.isUnderlineText = true
+            tvAnswerTips.setOnClickListener {
+                buildTipsDialog(videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionTextBng,videoResumeQuestionsViewModel.videoResumeManagerData.value?.answerHintBn)
+            }
+        }
+    }
+
+    private fun buildTipsDialog(title:String?,message:String?) {
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle("প্রশ্নঃ $title")
+        builder.setMessage("টিপসঃ  $message")
+        builder.setPositiveButton("ওকে") { dialog, _ ->
+            Timber.d("yes please hide")
+            dialog.dismiss()
+        }
+
+        builder.show()
     }
 
     private fun initializeCamera() {
@@ -148,39 +201,36 @@ class RecordVideoResumeFragment : Fragment() {
 
         }
 
-        camera_view?.addCameraListener(object : CameraListener() {
-            override fun onVideoRecordingStart() {
-                super.onVideoRecordingStart()
-            }
-
-            override fun onVideoRecordingEnd() {
-                super.onVideoRecordingEnd()
-            }
-
-            override fun onCameraOpened(options: CameraOptions) {
-                super.onCameraOpened(options)
-            }
-
-            override fun onCameraClosed() {
-                super.onCameraClosed()
-            }
-
+        camera_view.addCameraListener(object : CameraListener() {
             override fun onVideoTaken(result: VideoResult) {
                 super.onVideoTaken(result)
+                Timber.d("video taken!")
                 if (recordVideoResumeViewModel.onVideoDoneEvent.value == true) {
                     videoFile = result.file
                     recordVideoResumeViewModel.videoResumeManagerData.value?.file = result.file
                     recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
                     showSnackbar()
                 }
-
             }
 
+            override fun onVideoRecordingStart() {
+                Timber.d("video recording start!")
+                super.onVideoRecordingStart()
+            }
+
+            override fun onVideoRecordingEnd() {
+                Timber.d("video recording start!")
+                super.onVideoRecordingEnd()
+            }
         })
     }
 
     private fun showSnackbar() {
-        snackbar = Snackbar.make(cl_timeline, "Your recorded video is saving automatically in system. Please wait ...", Snackbar.LENGTH_INDEFINITE).also {
+        snackbar = Snackbar.make(
+            cl_timeline,
+            "Your recorded video is saving automatically in system. Please wait ...",
+            Snackbar.LENGTH_INDEFINITE
+        ).also {
             it.show()
         }
     }
@@ -201,7 +251,8 @@ class RecordVideoResumeFragment : Fragment() {
                 }
             })
 
-            tool_bar?.title = "Recording Question ${recordVideoResumeViewModel.videoResumeManagerData.value?.questionSerialNo}"
+            tool_bar?.title =
+                "Recording Question ${recordVideoResumeViewModel.videoResumeManagerData.value?.questionSerialNo}"
 
         } else {
 

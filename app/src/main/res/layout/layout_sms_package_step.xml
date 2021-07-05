@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="6dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="220dp">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:id="@+id/scroll_step">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:padding="10dp"
+            android:layout_height="match_parent">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_buy_sms"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/iv_buy_sms"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_buy_sms"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_bold"
+                android:inputType="textMultiLine"
+                android:text="@string/label_buy_sms"
+                android:textColor="#004DB3"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_buy_sms" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_line_1"
+                android:layout_width="53dp"
+                android:layout_height="29dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toStartOf="@id/iv_follow_emp"
+                app:layout_constraintStart_toEndOf="@id/iv_buy_sms"
+                app:layout_constraintTop_toTopOf="@id/iv_follow_emp"
+                app:srcCompat="@drawable/ic_line_1_sms" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_follow_emp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="108dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_follow_emp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_follow_emp"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/roboto_bold"
+                android:inputType="textMultiLine"
+                android:text="@string/label_follow_emp"
+                android:textColor="#561D18"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/iv_follow_emp"
+                app:layout_constraintStart_toEndOf="@id/iv_follow_emp"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_matched_job_sms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="110dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_matched_job"
+                app:srcCompat="@drawable/ic_notify_job_sms" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_matched_job"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/roboto_bold"
+                android:inputType="textMultiLine"
+                android:text="@string/label_get_matched_job_alert"
+                android:textColor="#145A00"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/iv_matched_job_sms"
+                app:layout_constraintEnd_toEndOf="@id/iv_matched_job_sms"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_line_2"
+                android:layout_width="51dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="35dp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_buy_sms"
+                app:layout_constraintEnd_toStartOf="@id/iv_matched_job_sms"
+                app:layout_constraintStart_toEndOf="@id/iv_buy_sms"
+                app:layout_constraintTop_toTopOf="@id/iv_buy_sms"
+                app:srcCompat="@drawable/ic_line_2_sms" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_subscribe_sms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_matched_job_sms"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_subscribe_sms" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_sub_sms"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/roboto_bold"
+                android:inputType="textMultiLine"
+                android:text="@string/label_subscribe_employer_favorite_search_for_sms_alert"
+                android:textColor="#4724A8"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/iv_subscribe_sms"
+                app:layout_constraintStart_toStartOf="@id/iv_subscribe_sms"
+                app:layout_constraintEnd_toEndOf="@id/iv_subscribe_sms"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_line_3_sms"
+                app:layout_constraintStart_toEndOf="@id/iv_follow_emp"
+                app:layout_constraintEnd_toStartOf="@id/iv_subscribe_sms"
+                app:layout_constraintTop_toBottomOf="@id/iv_follow_emp"
+                android:id="@+id/iv_line_3"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_job_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_subscribe_sms"
+                android:layout_marginStart="50dp"
+                app:srcCompat="@drawable/ic_instant_sms" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_job_alert"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/roboto_bold"
+                android:inputType="textMultiLine"
+                android:text="@string/label_get_instant_sms_job_alert"
+                android:textColor="#4724A8"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/iv_job_alert"
+                app:layout_constraintStart_toStartOf="@id/iv_job_alert"
+                app:layout_constraintEnd_toEndOf="@id/iv_job_alert"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ic_line_4"
+                app:srcCompat="@drawable/ic_line_4_sms"
+                app:layout_constraintStart_toEndOf="@id/iv_subscribe_sms"
+                app:layout_constraintEnd_toStartOf="@id/iv_job_alert"
+                app:layout_constraintTop_toTopOf="@id/iv_subscribe_sms"
+                app:layout_constraintBottom_toBottomOf="@id/iv_subscribe_sms"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </HorizontalScrollView>
+
+
+
+</com.google.android.material.card.MaterialCardView>

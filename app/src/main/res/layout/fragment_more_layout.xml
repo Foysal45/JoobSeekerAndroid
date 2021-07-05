@@ -150,6 +150,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/custom_data_horizontal_view"
         app:layout_constraintStart_toStartOf="parent"
         android:background="#FFFFFF"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
@@ -181,16 +182,15 @@
                 app:icon="@drawable/ic_sms_alert" />
 
 
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/assessment_MBTN"
                 style="@style/more.button"
-                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
                 android:text="Employability Certification"
-                app:icon="@drawable/ic_assessment_image" />
+                android:textSize="14sp"
+                android:visibility="visible"
+                app:icon="@drawable/ic_emp_certification_more" />
 
             <View
                 android:layout_width="match_parent"
@@ -308,22 +308,22 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/emailResume_MBTN"
                 style="@style/more.button"
-                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Emailed Resume"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_email_resume" />
+                android:visibility="visible"
+                app:icon="@drawable/ic_email_resume_more" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/viewResume_MBTN"
-                android:visibility="visible"
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Employer Viewed Resume"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_view_resume" />
+                android:visibility="visible"
+                app:icon="@drawable/ic_emp_view_resume_more" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/interviewinvitation_MBTN"
@@ -350,7 +350,7 @@
                 android:layout_height="wrap_content"
                 android:text="Live Interview"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_live_more" />
+                app:icon="@drawable/ic_live_interview_more" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/training_MBTN"
@@ -378,7 +378,7 @@
                 android:layout_height="wrap_content"
                 android:text="Settings"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_settings" />
+                app:icon="@drawable/ic_settings_more" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/transaction_overview_MBTN"
@@ -387,7 +387,7 @@
                 android:layout_height="wrap_content"
                 android:text="Transaction Overview"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_transaction" />
+                app:icon="@drawable/ic_transaction_overview_more" />
 
             <View
                 android:layout_width="match_parent"
