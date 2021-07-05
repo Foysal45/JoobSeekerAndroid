@@ -274,14 +274,14 @@
             android:id="@+id/cl_countdown"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:alpha=".6"
+            android:alpha=".9"
             android:background="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="@{viewModel.isCountDownVisible ? View.VISIBLE : View.GONE}"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_loading_counter"
@@ -344,7 +344,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            tools:visibility="visible"
+            tools:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent">
 
 

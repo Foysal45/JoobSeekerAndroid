@@ -321,6 +321,9 @@ class InterviewSessionViewModel(
         _isReadyViewVisible.postValue(false)
         _isReadyViewHidden.postValue(true)
 
+        _isOngoingInterviewVisible.postValue(false)
+        _isOngoingInterviewHidden.postValue(true)
+
         _isCountDownVisible.postValue(true)
         var totalSeconds = 5
         timer = object : CountDownTimer(WAITING_TIME, 1000) {
