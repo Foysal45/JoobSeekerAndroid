@@ -10,6 +10,7 @@ import com.bdjobs.app.videoResume.data.models.Question
 import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
 import com.loopj.android.http.AsyncHttpClient.log
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class VideoResumeLandingViewModel(
         private val videoResumeRepository: VideoResumeRepository
@@ -164,21 +165,31 @@ class VideoResumeLandingViewModel(
                 _totalCompanyView.value = data?.totalCompanyView
                 _rating.value = data?.rating
                 _overallRating.value = rating.value?.toInt()
-                _isAlertOn.value = data?.resumeVisibility
                 _totalAnswered.value = data?.totalAnswered
+                _showStat.value = totalAnswered.value!! != "0"
+                Timber.d("ShowStat: ${_showStat.value}")
+                _isAlertOn.value = if (_showStat.value!!) data?.resumeVisibility else "2"
                 _totalQuestions.value = data?.totalQuestion
                 _totalProgress.value = statusPercentage.value?.toInt()
                 _threshold.value = data?.threshold
                 _maxProgress.value = 100
                 _statusCode.value = response.statuscode!!
-                _showStat.value = totalAnswered.value!! != "0"
 
-                if (_isAlertOn.value!!.equalIgnoreCase("0")) {
-                    yesSelected.value = false
-                    noSelected.value = true
-                } else {
-                    noSelected.value = false
-                    yesSelected.value = true
+                Timber.d("isAlertOn: ${_isAlertOn.value}")
+
+                when {
+                    _isAlertOn.value!!.equalIgnoreCase("0") -> {
+                        yesSelected.value = false
+                        noSelected.value = true
+                    }
+                    _isAlertOn.value!!.equalIgnoreCase("1") -> {
+                        noSelected.value = false
+                        yesSelected.value = true
+                    }
+                    else -> {
+                        yesSelected.value = false
+                        noSelected.value = true
+                    }
                 }
 
             } catch (e: Exception) {
@@ -203,4 +214,5 @@ class VideoResumeLandingViewModel(
 
         }
     }
+
 }
