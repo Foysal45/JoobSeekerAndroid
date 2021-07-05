@@ -382,6 +382,12 @@ class InterviewSessionViewModel(
 
         _isChatViewShowing.postValue(false)
         _isChatViewHidden.postValue(true)
+
+        _isOnGoingChatViewHidden.postValue(true)
+
+        _isFeedbackViewHidden.postValue(true)
+        _isMessageToEmployerHidden.postValue(true)
+
     }
 
     fun onToggleAudioButtonClicked() {

@@ -219,6 +219,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         binding.btnStart.setOnClickListener {
             Timber.tag("live").d("Instructions btnStart Clicked")
             setCurrentIndicator(0)
+            view_pager_guideline.currentItem = 0
             interviewSessionViewModel.apply {
                 isReadyViewVisible.value = true
                 isReadyViewHidden.value = false
@@ -347,6 +348,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 if (it) {
                     try {
                         mediaPlayer?.stop()
+                        if (localVideoTrack != null) {
+                            localVideoTrack?.removeSink(binding.svLocal)
+                            localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
+                        }
                     } catch (e: Exception) {
                         Timber.tag("live").d("Error:countDownFinish - %s", e.toString())
                     }
@@ -591,10 +596,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         videoCapturerAndroid?.startCapture(640, 480, 30)
 
 
-//        binding.svLocal.setMirror(true)
-//        binding.svLocal.init(eglBaseContext, null)
-//        binding.svLocal.setEnableHardwareScaler(true)
-//        binding.svLocal.setZOrderMediaOverlay(false)
+        binding.svLocal.setMirror(true)
+        binding.svLocal.init(eglBaseContext, null)
 
         binding.localJobseekerSurfaceView.setMirror(true)
         binding.localJobseekerSurfaceView.init(eglBaseContext, null)
@@ -608,9 +611,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             addTrack(localVideoTrack)
         }
 
-//        localVideoTrack?.addSink(binding.svLocal)
-        localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
-
+        localVideoTrack?.addSink(binding.svLocal)
 
         binding.remoteHostSurfaceView.setMirror(true)
         binding.remoteHostSurfaceView.init(eglBaseContext, null)
@@ -822,6 +823,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
          runOnUiThread {
                 try {
                     if (isloginUser.equals("true")){
+                        if (localVideoTrack != null) {
+                            localVideoTrack?.removeSink(binding.svLocal)
+                            localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
+                        }
                         interviewSessionViewModel.applicantJoinedOnGoingSession()
                     }else{
                         interviewSessionViewModel.isEmployerArrived.postValue(true)
@@ -913,7 +918,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             remoteVideoTrack?.dispose()
             binding.remoteHostSurfaceView.release()
             binding.localJobseekerSurfaceView.release()
-//            binding.svLocal.release()
+            localVideoTrack?.removeSink(binding.svLocal)
+            binding.svLocal.release()
         } catch (e: Exception) {
             Timber.tag("live").d(e.toString())
         }
