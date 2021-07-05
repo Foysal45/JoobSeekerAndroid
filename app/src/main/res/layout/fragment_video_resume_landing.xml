@@ -64,17 +64,34 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tv_intro"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:text="@string/video_resume_intro"
                         android:textColor="#9D0191"
                         android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@id/img_banner"
+                        app:layout_constraintBottom_toTopOf="@id/tv_intro_yt_link"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/img_banner"
                         app:layout_constraintTop_toTopOf="@id/img_banner"
                         tools:text="@string/video_resume_intro" />
+
+                    <TextView
+                        android:id="@+id/tv_intro_yt_link"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Video Guide"
+                        android:textColor="@color/com_facebook_blue"
+                        android:textSize="12sp"
+                        android:clickable="true"
+                        app:layout_constraintBottom_toBottomOf="@id/img_banner"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/img_banner"
+                        app:layout_constraintTop_toBottomOf="@id/tv_intro"
+                        tools:text="Video Guide" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

@@ -2,6 +2,7 @@ package com.bdjobs.app.videoResume.ui.home
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +12,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentVideoResumeLandingBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
+import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.*
 import kotlinx.android.synthetic.main.fragment_video_resume_landing.*
 import kotlinx.android.synthetic.main.fragment_video_resume_landing.tool_bar
+import org.jetbrains.anko.startActivity
 import timber.log.Timber
 
 class VideoResumeLandingFragment : Fragment() {
@@ -80,6 +84,13 @@ class VideoResumeLandingFragment : Fragment() {
 
             threshold.value?.let { session.insertVideoResumeThresholdValue(it) }
             totalAnswered.value?.let { session.insertVideoResumeTotalAnswered(it) }
+
+            tv_intro_yt_link.setOnClickListener {
+                context?.startActivity<WebActivity>(
+                    "url" to "https://youtube.com/playlist?list=PLR1m9fmwtfMUMuiWv9m60Z5WhdaI_S76p",
+                    "from" to "videoResume"
+                )
+            }
 
             btn_create_video?.setOnClickListener {
                 findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToVideoResumeQuestionsFragment())
