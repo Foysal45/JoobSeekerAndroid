@@ -5,7 +5,6 @@ import android.content.IntentFilter
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +13,6 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginBottom
-import androidx.core.view.marginLeft
-import androidx.core.view.marginRight
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -43,8 +38,6 @@ import com.bdjobs.demo_connect_employer.streaming.CustomPCObserver
 import kotlinx.android.synthetic.main.fragment_instruction_view_page.*
 import org.jetbrains.anko.sdk27.coroutines.onRatingBarChange
 import org.jetbrains.anko.support.v4.runOnUiThread
-import org.jetbrains.anko.support.v4.toast
-import org.json.JSONException
 import org.json.JSONObject
 import org.webrtc.*
 import org.webrtc.PeerConnection
@@ -57,6 +50,7 @@ import java.util.*
 class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener,
     SignalingEvent {
 
+    private lateinit var bdjobsUserSession: BdjobsUserSession
     private var jobId = ""
     private var jobTitle = ""
     private var processId = ""
@@ -65,20 +59,18 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private var messageCount = 0
     private var userName = ""
 
-    private val messageList: ArrayList<Messages> = ArrayList()
-
-
     private var mSocketId = ""
     private var mRemoteSocketId = ""
 
-    private lateinit var bdjobsUserSession: BdjobsUserSession
+    private val messageList: ArrayList<Messages> = ArrayList()
+    private var mAdapter: ChatAdapter = ChatAdapter()
+
 
     private val args: InterviewSessionFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentInterviewSessionBinding
     private val internetBroadCastReceiver = ConnectivityReceiver()
 
-    private var mAdapter: ChatAdapter = ChatAdapter()
 
     private var surfaceTextureHelper: SurfaceTextureHelper? = null
 
@@ -93,36 +85,38 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private var localVideoTrack: VideoTrack? = null
     private var localAudioTrack: AudioTrack? = null
-
     private var localMediaStream: MediaStream? = null
 
     private var remoteVideoTrack: VideoTrack? = null
+
 
     val pcConstraints = object : MediaConstraints() {
         init {
             optional.add(KeyValuePair("DtlsSrtpKeyAgreement", "true"))
         }
     }
-    private var audioConstraints: MediaConstraints? = null
+
+    val audioConstraints = object : MediaConstraints() {
+        init {
+            optional.add(KeyValuePair("googEchoCancellation", "true"))
+            optional.add(KeyValuePair("googEchoCancellation2", "true"))
+            optional.add(KeyValuePair("googDAEchoCancellation", "true"))
+            optional.add(KeyValuePair("googTypingNoiseDetection", "true"))
+            optional.add(KeyValuePair("googAutoGainControl", "true"))
+            optional.add(KeyValuePair("googAutoGainControl2", "true"))
+            optional.add(KeyValuePair("googNoiseSuppression", "true"))
+            optional.add(KeyValuePair("googNoiseSuppression2", "true"))
+            optional.add(KeyValuePair("googAudioMirroring", "false"))
+            optional.add(KeyValuePair("googHighpassFilter", "true"))
+        }
+    }
 
     var videoCapturerAndroid: VideoCapturer? = null
-
     private var mediaPlayer: MediaPlayer? = null
-
-    var mic_switch: Boolean = true
-    var video_switch: Boolean = true
-    var isShowingChatView = false
-    var isShowingFeedback = false
-    var isShowingInstruction = false
-    var isShowingRoomView = false
 
 
     //instruction
-    private val images = listOf(
-        R.drawable.ic_video_guideline1,
-        R.drawable.ic_video_guideline2,
-        R.drawable.ic_live_interview_3
-    )
+    private val images = listOf(R.drawable.ic_video_guideline1, R.drawable.ic_video_guideline2, R.drawable.ic_live_interview_3)
 
     private val instructionsInBengali = listOf<String>(
         "লাইভ ইন্টারভিউ এর শুরুতে ডিভাইস এর মাইক্রোফোন এবং ক্যামেরা পারমিশন দিতে হবে",
@@ -147,18 +141,12 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         )
     }
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        Timber.tag("live").d("onCreateView")
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         binding = FragmentInterviewSessionBinding.inflate(inflater).apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = interviewSessionViewModel
         }
-
         return binding.root
     }
 
@@ -173,45 +161,17 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         binding.toolBar.title = if (args.jobTitle != null) args.jobTitle else ""
 
 
-        binding.clReadyView.visibility = View.VISIBLE
-        binding.clChatView.visibility = View.GONE
-        binding.clFeedbackView.visibility = View.GONE
-        binding.clInstructionView.visibility = View.GONE
-
-        binding.tvMessageCount.text = "0"
-        binding.tvOngoingMessageCount.text = "0"
-
-
         bdjobsUserSession = BdjobsUserSession(requireContext())
         userName = bdjobsUserSession.userName.toString()
         processId = args.processID.toString()
         jobId = args.jobID.toString()
         jobTitle = args.jobTitle.toString()
+
         binding.rvMessages.adapter = mAdapter
 
-        startSession()
-        setUpObservers()
-
         binding.toolBar.setNavigationOnClickListener {
-            Timber.tag("live").d("toolBarPressed")
-            if (isShowingChatView) {
-                Timber.tag("live").d("toolBarPressed-isShowingChatView")
-                binding.clChatView.visibility = View.GONE
-                isShowingChatView = false
-                if(isShowingRoomView){
-                    binding.clRoomView.visibility = View.VISIBLE
-                }else{
-                    binding.clReadyView.visibility = View.VISIBLE
-                }
-            } else if (isShowingInstruction) {
-                Timber.tag("live").d("toolBarPressed-isShowingInstruction")
-                binding.clReadyView.visibility = View.VISIBLE
-                binding.clInstructionView.visibility = View.GONE
-                isShowingInstruction = false
-            } else {
-                Timber.tag("live").d("toolBarPressed- not isShowingChatView")
-                findNavController().navigateUp()
-            }
+            Timber.tag("live").d("toolBar Back Button Clicked")
+            interviewSessionViewModel.apply { canGoBackToDetailFragment() }
         }
 
         binding.rating.onRatingBarChange { ratingBar, rating, fromUser ->
@@ -226,11 +186,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             instructions.add(Instructions(images[i], instructionsInBengali[i]))
         }
         binding.btnNext.text = "পরবর্তী গাইড"
-
         binding.viewPagerGuideline.adapter = InstructionAdapter(requireContext(), instructions)
         setupIndicators()
         setCurrentIndicator(0)
-
         binding.viewPagerGuideline?.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -251,8 +209,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 setCurrentIndicator(position)
             }
         })
-
-
         binding.btnNext.setOnClickListener {
             if (view_pager_guideline.currentItem + 1 < instructions.size) {
                 view_pager_guideline.currentItem = view_pager_guideline.currentItem + 1
@@ -261,17 +217,30 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             }
         }
         binding.btnStart.setOnClickListener {
-            Timber.tag("live").d("btnStart-isShowingInstruction")
-            binding.clReadyView.visibility = View.VISIBLE
-            binding.clInstructionView.visibility = View.GONE
-            isShowingInstruction = false
+            Timber.tag("live").d("Instructions btnStart Clicked")
+            setCurrentIndicator(0)
+            interviewSessionViewModel.apply {
+                isReadyViewVisible.value = true
+                isReadyViewHidden.value = false
+
+                isInstructionVisible.value = false
+                isInstructionHidden.value = true
+            }
         }
         binding.btnSkip.setOnClickListener {
-            Timber.tag("live").d("btnSkip-isShowingInstruction")
-            binding.clReadyView.visibility = View.VISIBLE
-            binding.clInstructionView.visibility = View.GONE
-            isShowingInstruction = false
+            Timber.tag("live").d("Instructions btnSkip Clicked")
+            setCurrentIndicator(0)
+            interviewSessionViewModel.apply {
+                isReadyViewVisible.value = true
+                isReadyViewHidden.value = false
+
+                isInstructionVisible.value = false
+                isInstructionHidden.value = true
+            }
         }
+
+        setUpObservers()
+        startSession()
 
     }
 
@@ -279,26 +248,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         super.onCreate(savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                Timber.tag("live").d("handleOnBackPressed")
-                if (isShowingChatView) {
-                    Timber.tag("live").d("handleOnBackPressed-isShowingChatView")
-                    binding.clChatView.visibility = View.GONE
-                    isShowingChatView = false
-                    if(isShowingRoomView){
-                        binding.clRoomView.visibility = View.VISIBLE
-                    }else{
-                        binding.clReadyView.visibility = View.VISIBLE
-                    }
-                } else if (isShowingInstruction) {
-                    Timber.tag("live").d("handleOnBackPressed-isShowingInstruction")
-                    binding.clReadyView.visibility = View.VISIBLE
-                    binding.clInstructionView.visibility = View.GONE
-                    isShowingInstruction = false
-                } else {
-                    Timber.tag("live").d("handleOnBackPressed- not isShowingChatView")
-                    findNavController().navigateUp()
-                }
-
+                Timber.tag("live").d("System Back Button Pressed")
+                interviewSessionViewModel.apply { canGoBackToDetailFragment() }
             }
         })
     }
@@ -351,106 +302,121 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private fun setUpObservers() {
         interviewSessionViewModel.apply {
 
-            instructionButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
+            /* Ready View Start */
+            isReadyViewVisible.observe(viewLifecycleOwner, { if (it) { binding.apply { clReadyView.visibility = View.VISIBLE } } })
+            isReadyViewHidden.observe(viewLifecycleOwner, { if (it) { binding.apply { clReadyView.visibility = View.GONE } } })
+
+            isInstructionVisible.observe(viewLifecycleOwner, { if (it) { binding.apply { clInstructionView.visibility = View.VISIBLE } } })
+            isInstructionHidden.observe(viewLifecycleOwner, { if (it) { binding.apply { clInstructionView.visibility = View.GONE } } })
+
+            isChatViewShowing.observe(viewLifecycleOwner, { if (it) { binding.apply { clChatView.visibility = View.VISIBLE } } })
+            isChatViewHidden.observe(viewLifecycleOwner, {
                 if (it) {
-                    if (!isShowingInstruction) {
-                        binding.clReadyView.visibility = View.GONE
-                        binding.clFeedbackView.visibility = View.GONE
-                        binding.clChatView.visibility = View.GONE
-                        binding.clInstructionView.visibility = View.VISIBLE
-                        isShowingInstruction = true
-                    }
+                    binding.apply { clChatView.visibility = View.GONE }
+                    updateMessageCounter(0)
                 }
             })
 
-            chatButtonClickedClickEvent.observe(viewLifecycleOwner, EventObserver {
+            chatButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
-                    if (!isShowingChatView) {
-                        binding.clReadyView.visibility = View.GONE
-                        binding.clFeedbackView.visibility = View.GONE
-                        binding.clRoomView.visibility = View.GONE
-                        binding.clChatView.visibility = View.VISIBLE
-                        isShowingChatView = true
-                        binding.tvMessageCount.text = "0"
-                        binding.tvOngoingMessageCount.text = "0"
-                        SignalingServer.get()?.sendMessageSeen()
-                    }
+                    SignalingServer.get()?.sendMessageSeen()
                 }
             })
 
-            yesClick.observe(viewLifecycleOwner, {
+            isYesButtonClicked.observe(viewLifecycleOwner, {
                 if (it) {
-                    binding.apply {
-                        btnYesReady.changeColor(R.color.btn_green)
-                    }
+                    binding.apply { btnYesReady.changeColor(R.color.btn_green) }
+                }else {
+                    binding.apply { btnYesReady.changeColor(R.color.btn_ash) }
+                }
+            })
+
+            isNoButtonClicked.observe(viewLifecycleOwner, {
+                if (it) {
+                    binding.apply { btnNoReady.changeColor(R.color.btn_green) }
                 } else {
-                    binding.apply {
-                        btnYesReady.changeColor(R.color.btn_ash)
-                    }
+                    binding.apply { btnNoReady.changeColor(R.color.btn_ash) }
                 }
             })
+            /* Ready View End */
 
-            noClick.observe(viewLifecycleOwner, {
-                if (it) {
-                    binding.apply {
-                        btnNoReady.changeColor(R.color.btn_green)
-                    }
-                } else {
-                    binding.apply {
-                        btnNoReady.changeColor(R.color.btn_ash)
-                    }
-                }
-            })
-
-            toggleVideoClickEvent.observe(viewLifecycleOwner, EventObserver {
-                if (it) {
-                    toggleVideo()
-                }
-            })
-
-            toggleAudioClickEvent.observe(viewLifecycleOwner, EventObserver {
-                if (it) {
-                    toggleAudio()
-                }
-            })
-
-            isShowLoadingCounter.observe(viewLifecycleOwner, {
-                if (it) {
-                    startAudio()
-                }
-            })
+            /* CountDown View Start */
+            isCountDownVisible.observe(viewLifecycleOwner, { if (it) { startAudio() } })
 
             countDownFinish.observe(viewLifecycleOwner, {
                 if (it) {
                     try {
                         mediaPlayer?.stop()
-                        interviewRoomViewCheck(true)
                     } catch (e: Exception) {
+                        Timber.tag("live").d("Error:countDownFinish - %s", e.toString())
+                    }
+                }
+            })
+            /* CountDown View End */
+
+            /* Multipeer View Start */
+            isOngoingInterviewVisible.observe(viewLifecycleOwner, { if (it) { binding.apply { clOngoingInterviewView.visibility = View.VISIBLE } } })
+            isOngoingInterviewHidden.observe(viewLifecycleOwner, { if (it) { binding.apply { clOngoingInterviewView.visibility = View.GONE } } })
+
+            isOnGoingChatViewShowing.observe(viewLifecycleOwner, { if (it) { binding.apply { clChatView.visibility = View.VISIBLE } } })
+            isOnGoingChatViewHidden.observe(viewLifecycleOwner, {
+                if (it) {
+                    binding.apply { clChatView.visibility = View.GONE }
+                    updateMessageCounter(0)
+                }
+            })
+
+            onGoingChatButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
+                if (it) {
+                    SignalingServer.get()?.sendMessageSeen()
+                }
+            })
+            isVideoOn.observe(viewLifecycleOwner, {
+                if (it) {
+                    if (localMediaStream != null && localMediaStream?.videoTracks?.size!! > 0) {
+                        localMediaStream?.videoTracks!![0].setEnabled(true)
+                        binding.apply { localVideoControl.setImageResource(R.drawable.ic_video_on)}
                     }
                 }
             })
 
-            isShowActionView.observe(viewLifecycleOwner, {
+            isVideoOff.observe(viewLifecycleOwner, {
                 if (it) {
-                    isShowingRoomView = true
-                    updateVideoViews()
+                    if (localMediaStream != null && localMediaStream?.videoTracks?.size!! > 0) {
+                        localMediaStream?.videoTracks!![0].setEnabled(false)
+                        binding.apply { localVideoControl.setImageResource(R.drawable.ic_video_off)}
+                    }
                 }
             })
 
-            //instructions
-
-
-            sendButtonClickEvent.observe(viewLifecycleOwner, EventObserver {
+            isAudioOn.observe(viewLifecycleOwner, {
                 if (it) {
-                    Timber.tag("live").d("sendButtonClickEvent")
-                    sendMessage()
+                    if (localMediaStream != null && localMediaStream?.audioTracks?.size!! > 0) {
+                        localMediaStream?.audioTracks!![0].setEnabled(true)
+                        binding.apply { localAudioControl.setImageResource(R.drawable.ic_mic_on)}
+                    }
                 }
             })
 
-            submitButtonClickedClickEvent.observe(viewLifecycleOwner, EventObserver {
+            isAudioOff.observe(viewLifecycleOwner, {
                 if (it) {
-                    Timber.tag("live").d("submitButtonClickedClickEvent")
-                    findNavController().navigateUp()
+                    if (localMediaStream != null && localMediaStream?.audioTracks?.size!! > 0) {
+                        localMediaStream?.audioTracks!![0].setEnabled(false)
+                        binding.apply { localAudioControl.setImageResource(R.drawable.ic_microphone_off)}
+                    }
+                }
+            })
+            /* Multipeer View end */
+
+            /* Chat View start */
+            sendMessageClickEvent.observe(viewLifecycleOwner, EventObserver {
+                if (it) {
+                    binding.apply {
+                        if (binding.etWriteMessage.text.isNotEmpty()) {
+                            Timber.tag("live").d("sendMessageClickEvent")
+                            postChatMessage(binding.etWriteMessage.text.toString())
+                        }
+                    }
                 }
             })
 
@@ -487,12 +453,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
             postSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 if (it) {
-                    SignalingServer.get()?.sendChatMessage(
-                        postMessage.value.toString(),
-                        imageLocal,
-                        imageRemote,
-                        messageCount
-                    )
+                    SignalingServer.get()?.sendChatMessage(postMessage.value.toString(), imageLocal, imageRemote, messageCount)
+
                     val nickname = bdjobsUserSession.userName
                     val simpleDateFormat = SimpleDateFormat("h:mm a")
                     val formattedTime = simpleDateFormat.format(Date())
@@ -510,49 +472,52 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            try {
-                receivedChatData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                    try {
-                        val s = it?.get(0).toString()
-                        Timber.tag("live").d("Viewmodel post receivedChatData Chat data")
-                        val data = JSONObject(s)
+            onChatReceived.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                try{
+                    val s = it?.get(0).toString()
+                    Timber.tag("live").d("Viewmodel post receivedChatData Chat data")
+                    val data = JSONObject(s)
 
-                        //extract data from fired event
-                        val nickname = args.companyName
-                        val message = data.getString("msg")
-                        imageLocal = data.getString("imgLocal")
-                        imageRemote = data.getString("imgRemote")
-                        messageCount = data.getInt("newCount")
-                        binding.tvMessageCount.text = messageCount.toString()
-                        binding.tvOngoingMessageCount.text = messageCount.toString()
+                    //extract data from fired event
+                    val nickname = args.companyName
+                    val message = data.getString("msg")
+                    imageLocal = data.getString("imgLocal")
+                    imageRemote = data.getString("imgRemote")
+                    messageCount = data.getInt("newCount")
 
-                        val simpleDateFormat = SimpleDateFormat("h:mm a")
-                        val formattedTime = simpleDateFormat.format(Date())
-                        // make instance of message
-                        val itemType = if (nickname == bdjobsUserSession.userName!!) 0 else 1
-                        val messages = Messages(nickname, message, formattedTime, itemType)
+                    updateMessageCounter(messageCount)
 
-                        messageList.add(messages)
+                    val simpleDateFormat = SimpleDateFormat("h:mm a")
+                    val formattedTime = simpleDateFormat.format(Date())
+                    // make instance of message
+                    val itemType = if (nickname == bdjobsUserSession.userName!!) 0 else 1
+                    val messages = Messages(nickname, message, formattedTime, itemType)
 
-                        // notify the adapter to update the recycler view
-                        mAdapter.differ.submitList(messageList)
-                        mAdapter.notifyDataSetChanged()
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
-                })
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Timber.e("Error in receive: ${e.localizedMessage}")
-            }
+                    messageList.add(messages)
 
-        }
-    }
+                    // notify the adapter to update the recycler view
+                    mAdapter.differ.submitList(messageList)
+                    mAdapter.notifyDataSetChanged()
+                }
+                catch (e:Exception){
+                    Timber.tag("live").d("Error:onChatReceived - %s", e.toString())
+                }
+            })
+            /* Chat View End */
 
-    private fun sendMessage() {
-        if (binding.etWriteMessage.text.isNotEmpty()) {
-            Timber.tag("live").d("sendMessage")
-            interviewSessionViewModel.postChatMessage(binding.etWriteMessage.text.toString())
+            /* Feedback View start */
+            isFeedbackViewShowing.observe(viewLifecycleOwner, { if (it) { binding.apply { clFeedbackView.visibility = View.VISIBLE } } })
+            isFeedbackViewHidden.observe(viewLifecycleOwner, { if (it) { binding.apply { clFeedbackView.visibility = View.GONE } } })
+
+            isMessageToEmployerShowing.observe(viewLifecycleOwner, { if (it) { binding.apply { clChatView.visibility = View.VISIBLE } } })
+            isMessageToEmployerHidden.observe(viewLifecycleOwner, { if (it) { binding.apply { clChatView.visibility = View.GONE } } })
+
+            isFeedbackSubmitted.observe(viewLifecycleOwner, { if (it) { findNavController().navigateUp() } })
+            /* Feedback View end */
+
+            canGoToDetailView.observe(viewLifecycleOwner, { if (it) { findNavController().navigateUp() } })
+
+
         }
     }
 
@@ -596,14 +561,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 .createInitializationOptions()
         PeerConnectionFactory.initialize(initializationOptions)
 
-
         //Create a new PeerConnectionFactory instance - using Hardware encoder and decoder.
         val options = PeerConnectionFactory.Options()
-        val defaultVideoEncoderFactory = DefaultVideoEncoderFactory(
-            eglBaseContext,
-            true,
-            true
-        )
+        val defaultVideoEncoderFactory = DefaultVideoEncoderFactory(eglBaseContext, true, true)
         val defaultVideoDecoderFactory = DefaultVideoDecoderFactory(eglBaseContext)
 
 
@@ -612,56 +572,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             .setVideoEncoderFactory(defaultVideoEncoderFactory)
             .setVideoDecoderFactory(defaultVideoDecoderFactory)
             .createPeerConnectionFactory()
-
-        audioConstraints = MediaConstraints()
-        val audioConstraints = MediaConstraints()
-
-        // add all existing audio filters to avoid having echos
-        audioConstraints.mandatory.add(
-            MediaConstraints.KeyValuePair(
-                "googEchoCancellation",
-                "true"
-            )
-        )
-        audioConstraints.mandatory.add(
-            MediaConstraints.KeyValuePair(
-                "googEchoCancellation2",
-                "true"
-            )
-        )
-        audioConstraints.mandatory.add(
-            MediaConstraints.KeyValuePair(
-                "googDAEchoCancellation",
-                "true"
-            )
-        )
-        audioConstraints.mandatory.add(
-            MediaConstraints.KeyValuePair(
-                "googTypingNoiseDetection",
-                "true"
-            )
-        )
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googAutoGainControl", "true"))
-        audioConstraints.mandatory.add(
-            MediaConstraints.KeyValuePair(
-                "googAutoGainControl2",
-                "true"
-            )
-        )
-        audioConstraints.mandatory.add(
-            MediaConstraints.KeyValuePair(
-                "googNoiseSuppression",
-                "true"
-            )
-        )
-        audioConstraints.mandatory.add(
-            MediaConstraints.KeyValuePair(
-                "googNoiseSuppression2",
-                "true"
-            )
-        )
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googAudioMirroring", "false"))
-        audioConstraints.mandatory.add(MediaConstraints.KeyValuePair("googHighpassFilter", "true"))
 
         audioSource = peerConnectionFactory?.createAudioSource(audioConstraints)
         localAudioTrack = peerConnectionFactory?.createAudioTrack("101", audioSource)
@@ -688,8 +598,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         binding.localJobseekerSurfaceView.setMirror(true)
         binding.localJobseekerSurfaceView.init(eglBaseContext, null)
-        binding.localJobseekerSurfaceView.setEnableHardwareScaler(true)
-        binding.localJobseekerSurfaceView.setZOrderMediaOverlay(false)
 
 
         localVideoTrack = peerConnectionFactory?.createVideoTrack("100", videoSource)
@@ -705,7 +613,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
 
         binding.remoteHostSurfaceView.setMirror(true)
-//        binding.svRemote.setZOrderMediaOverlay(true)
         binding.remoteHostSurfaceView.init(eglBaseContext, null)
     }
 
@@ -742,39 +649,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         return Camera2Enumerator.isSupported(requireContext())
     }
 
-    fun dpToPx(dp: Int): Int {
-        val displayMetrics: DisplayMetrics = resources.displayMetrics
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).toInt()
-    }
-
-    fun View.setMargins(
-        left: Int = this.marginLeft,
-        top: Int = this.marginTop,
-        right: Int = this.marginRight,
-        bottom: Int = this.marginBottom,
-    ) {
-        layoutParams = (layoutParams as ViewGroup.MarginLayoutParams).apply {
-            setMargins(left, top, right, bottom)
-        }
-    }
-
-    private fun updateVideoViews() {
-        runOnUiThread {
-            try {
-//                localVideoTrack?.removeSink(binding.svLocal)
-                binding.clReadyView.hide()
-//                val params: ViewGroup.LayoutParams = binding.svLocal.getLayoutParams()
-//                params.height = dpToPx(150)
-//                params.width = dpToPx(140)
-//                binding.svLocal.setLayoutParams(params)
-//                binding.svLocal.setMargins(32, 32, 0, 0)
-//                binding.svLocal.setZOrderMediaOverlay(true)
-            } catch (e: Exception) {
-                Timber.tag("live").d("Error updateVideoViews : %s", e.toString())
-            }
-        }
-    }
-
     private fun gotRemoteStream(stream: MediaStream) {
         Timber.d("Got Remote Stream")
         remoteVideoTrack = stream.videoTracks[0]
@@ -804,7 +678,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         rtcConfig.rtcpMuxPolicy = PeerConnection.RtcpMuxPolicy.REQUIRE
         rtcConfig.keyType = PeerConnection.KeyType.ECDSA
         rtcConfig.iceTransportsType = PeerConnection.IceTransportsType.ALL
-        rtcConfig.enableCpuOveruseDetection = false
+        rtcConfig.enableCpuOveruseDetection = true
 
         peerConnection =
             peerConnectionFactory?.createPeerConnection(
@@ -856,26 +730,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         }, pcConstraints)
     }
 
-    private fun toggleVideo() {
-
-        if (localMediaStream != null && localMediaStream?.videoTracks?.size!! > 0) {
-            video_switch = !video_switch
-            localMediaStream?.videoTracks!![0].setEnabled(video_switch)
-            if (video_switch) binding.localVideoControl.setImageResource(R.drawable.ic_video_on)
-            else binding.localVideoControl.setImageResource(R.drawable.ic_video_off)
-        }
-
-    }
-
-    private fun toggleAudio() {
-        if (localMediaStream != null && localMediaStream?.audioTracks?.size!! > 0) {
-            mic_switch = !mic_switch
-            localMediaStream?.audioTracks!![0].setEnabled(mic_switch)
-            if (mic_switch) binding.localMicControl.setImageResource(R.drawable.ic_mic_on)
-            else binding.localMicControl.setImageResource(R.drawable.ic_microphone_off)
-        }
-
-    }
 
     override fun onResume() {
         Timber.d("onResume")
@@ -936,9 +790,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         getOrCreatePeerConnection(mRemoteSocketId, "R")
         runOnUiThread {
             try {
-                interviewSessionViewModel.employerAvailable()
+                interviewSessionViewModel.isEmployerArrived.postValue(true)
             } catch (e: Exception) {
-                Timber.e("Error employerAvailable: ${e.localizedMessage}")
+                Timber.e("Error: on1stUserCheck-isEmployerArrived: ${e}")
             }
         }
 
@@ -952,40 +806,31 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         getOrCreatePeerConnection(mRemoteSocketId, "R")
         runOnUiThread {
             try {
-                interviewSessionViewModel.employerAvailable()
+                interviewSessionViewModel.isEmployerArrived.postValue(true)
             } catch (e: Exception) {
-                Timber.e("Error employerAvailable: ${e.localizedMessage}")
+                Timber.e("Error: on1stUserCheck-isEmployerArrived: ${e}")
             }
         }
 
     }
 
-    //    D/live: onNewUserStartNew: {"sender":"9cLcAQCDodByQ6H9AAAN","isloginuser":false,"ActiveUser":2,"activeUserCount":2}
     override fun onNewUserStartNew(args: Array<Any?>?) {
         Timber.tag("live").d("onNewUserStartNew: %s", args?.get(0))
         val argument = args?.get(0) as JSONObject
         mRemoteSocketId = argument.getString("sender")
-
-        val isloginuser = argument.getString("isloginuser")
-        if (isloginuser.equals("true")) {
-            runOnUiThread {
+        val isloginUser = argument.getString("isloginuser")
+         runOnUiThread {
                 try {
-                    interviewSessionViewModel.interviewRoomViewCheck(true)
+                    if (isloginUser.equals("true")){
+                        interviewSessionViewModel.applicantJoinedOnGoingSession()
+                    }else{
+                        interviewSessionViewModel.isEmployerArrived.postValue(true)
+                    }
                 } catch (e: Exception) {
-                    Timber.e("Error isloginuser interviewRoomViewCheck: ${e.localizedMessage}")
+                    Timber.tag("live").d("Error:onNewUserStartNew applicantJoinedOnGoingSession - $e")
                 }
             }
-        }
-
         getOrCreatePeerConnection(mRemoteSocketId, "R")
-        runOnUiThread {
-            try {
-                interviewSessionViewModel.employerAvailable()
-            } catch (e: Exception) {
-                Timber.e("Error employerAvailable: ${e.localizedMessage}")
-            }
-        }
-
     }
 
     override fun onReceiveSDP(args: Array<Any?>?) {
@@ -1010,20 +855,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     override fun onEndCall() {
         runOnUiThread {
             try {
-                Timber.tag("live").d("clFeedbackView visible")
-                binding.clReadyView.visibility = View.GONE
-                binding.clChatView.visibility = View.GONE
-                binding.clFeedbackView.visibility = View.VISIBLE
-                isShowingFeedback = true
+                interviewSessionViewModel.employerEndedCall()
             } catch (e: Exception) {
-                Timber.e("Error onEndCall: ${e.localizedMessage}")
+                Timber.tag("live").d("Error onEndemployerEndedCallCall: $e")
             }
         }
-    }
-
-    override fun onInterviewReceive(args: Array<Any?>?) {
-//        Timber.tag("live").d("onInterviewReceive: %s", args?.get(0))
-//        interviewSessionViewModel.postStartCall()
     }
 
 
@@ -1045,11 +881,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         Timber.tag("live").d("onReceiveCall: %s", args?.get(0))
         runOnUiThread {
             try {
-                interviewSessionViewModel.loadingCounterShowCheck(true)
-                //  interviewSessionViewModel.postStartCall()
+                interviewSessionViewModel.showCountDown()
             } catch (e: Exception) {
-                e.printStackTrace()
-                Timber.e("Error in call receive: ${e.localizedMessage}")
+                Timber.tag("live").d("Error:showCountDown - $e")
             }
         }
     }
@@ -1059,10 +893,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         Timber.tag("live").d("onReceiveChat: %s", args?.get(0))
         runOnUiThread {
             try {
-                interviewSessionViewModel.receivedData(args)
+                interviewSessionViewModel.receivedChatData(args)
             } catch (e: Exception) {
-                e.printStackTrace()
-                Timber.e("Error in receive: ${e.localizedMessage}")
+                Timber.tag("live").d("Error:receivedChatData - $e")
             }
         }
     }

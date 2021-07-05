@@ -16,7 +16,6 @@ interface SignalingEvent {
     fun onNewUser(args: Array<Any?>?)
     fun onNewUserStartNew(args: Array<Any?>?)
     fun onReceiveIceCandidate(args: Array<Any?>?)
-    fun onInterviewReceive(args: Array<Any?>?)
     fun onReceiveCall(args: Array<Any?>?)
     fun onReceiveSDP(args: Array<Any?>?)
     fun onInactiveUser(args: Array<Any?>?)

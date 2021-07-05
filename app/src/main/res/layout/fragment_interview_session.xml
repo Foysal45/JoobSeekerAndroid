@@ -4,22 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".liveInterview.ui.interview_session.InterviewSessionFragment">
 
-
     <data>
-
         <import type="android.view.View" />
-
         <variable
             name="viewModel"
             type="com.bdjobs.app.liveInterview.ui.interview_session.InterviewSessionViewModel" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar"
@@ -33,7 +28,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--interview session-->
+        <!-- no internet xml start -->
+        <include
+            android:id="@+id/layout_no_internet"
+            layout="@layout/layout_no_internet"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.isNetworkAvailable() ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+        <!-- no internet xml end -->
+
+        <!-- Ready View-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_ready_view"
             android:layout_width="0dp"
@@ -43,7 +52,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
             android:background="@color/black_transparent"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
 <!--            <org.webrtc.SurfaceViewRenderer-->
 <!--                android:id="@+id/sv_local"-->
@@ -52,94 +61,13 @@
 <!--                app:layout_constraintStart_toStartOf="parent"-->
 <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <!-- loading xml start-->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_loading"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:alpha=".6"
-                android:background="@android:color/black"
-                android:visibility="@{viewModel.isShowLoadingCounter() ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_loading_counter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/anim_loading"
-                        android:layout_width="0dp"
-                        android:layout_height="200dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.5"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/loaing_counter" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_counter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto"
-                        android:text="@{viewModel.counterText}"
-                        android:textColor="@color/black"
-                        android:textSize="62sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_starting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/label_starting_interview"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_loading_counter" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <!-- loading xml end-->
-
-            <!-- no internet xml start -->
-            <include
-                android:id="@+id/layout_no_internet"
-                layout="@layout/layout_no_internet"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:visibility="@{viewModel.isNetworkAvailable() ? View.GONE : View.VISIBLE}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone" />
-            <!-- no internet xml end -->
-
-            <!-- bottom options xml start-->
+            <!-- Bottom Option xml start-->
             <LinearLayout
                 android:id="@+id/ll_options"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="@{viewModel.isShowBottomOptionView() ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +79,6 @@
                     android:id="@+id/cl_ready_options"
                     android:layout_width="match_parent"
                     android:layout_height="115dp"
-                    android:visibility="@{viewModel.isShowReadyView() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
@@ -176,7 +103,7 @@
                         android:text="Employer is available to take interview any time"
                         android:textColor="#FFF387"
                         android:textSize="14sp"
-                        android:visibility="@{viewModel.isEmployerAvailable() ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{viewModel.isEmployerArrived ? View.VISIBLE : View.GONE}"
                         app:drawableStartCompat="@drawable/ic_waiting_emp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -214,11 +141,11 @@
                             android:onClick="@{()->viewModel.onYesButtonClicked()}"
                             android:text="Yes"
                             android:textAllCaps="false"
-                            android:textColor="@{viewModel.yesClick ? @color/black : @color/white}"
+                            android:textColor="@{viewModel.isYesButtonClicked ? @color/black : @color/white}"
                             android:textSize="14sp"
                             android:minHeight="30dp"
                             app:icon="@drawable/ic_right"
-                            app:iconTint="@{viewModel.yesClick ? @color/black : @color/white}"
+                            app:iconTint="@{viewModel.isYesButtonClicked ? @color/black : @color/white}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -232,11 +159,11 @@
                             android:onClick="@{()->viewModel.onNoButtonClicked()}"
                             android:text="Not Now"
                             android:textAllCaps="false"
-                            android:textColor="@{viewModel.noClick ? @color/black : @color/white}"
+                            android:textColor="@{viewModel.isNoButtonClicked ? @color/black : @color/white}"
                             android:textSize="14sp"
                             android:minHeight="30dp"
                             app:icon="@drawable/account_cross_icon"
-                            app:iconTint="@{viewModel.noClick ? @color/black : @color/white}"
+                            app:iconTint="@{viewModel.isNoButtonClicked ? @color/black : @color/white}"
                             app:layout_constraintStart_toEndOf="@id/btn_yes_ready"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -252,18 +179,11 @@
                     android:alpha=".40"
                     android:background="@color/black"
                     android:minHeight="50dp"
-                    android:visibility="@{viewModel.isWaitingForEmployers() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    tools:visibility="visible"
                     app:layout_constraintTop_toBottomOf="@id/cl_option_buttons">
-
-                    <!--                    <View-->
-                    <!--                        android:id="@+id/view_intermediate_waiting"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="match_parent"-->
-                    <!--                        android:alpha=".40"-->
-                    <!--                        android:background="@android:color/black" />-->
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_waiting"
@@ -286,7 +206,7 @@
 
 
             </LinearLayout>
-            <!-- bottom options xml end-->
+            <!-- Bottom Option xml end-->
 
             <!-- Chat & instructions row xml start-->
             <RelativeLayout
@@ -294,7 +214,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@id/ll_options"
-                android:visibility="@{viewModel.isShowLoadingCounter() ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.button.MaterialButton
@@ -311,7 +230,6 @@
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    android:visibility="@{viewModel.isShowActionView ? View.GONE : View.VISIBLE}"
                     app:backgroundTint="#FFFFFF"
                     app:icon="@drawable/ic_instruction"
                     app:iconTint="@color/black" />
@@ -339,6 +257,7 @@
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="18dp"
                     android:background="@drawable/notification_count_circle"
+                    android:text="@{viewModel.messageCountText}"
                     android:elevation="7dp"
                     android:gravity="center"
                     android:padding="4dp"
@@ -348,19 +267,85 @@
             <!-- Chat & instructions row xml End-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Ready View-->
+
+        <!-- CountDown View-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_countdown"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha=".6"
+            android:background="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{viewModel.isCountDownVisible ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_loading_counter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/anim_loading"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loaing_counter" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="@{viewModel.countDownText}"
+                    android:textColor="@color/black"
+                    android:textSize="62sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_starting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/label_starting_interview"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_loading_counter" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- CountDown View-->
 
         <!--multipeer-->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_room_view"
+            android:id="@+id/cl_ongoing_interview_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="@{viewModel.isShowActionView() ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            tools:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            >
+            tools:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent">
 
 
             <LinearLayout
@@ -516,42 +501,11 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:id="@+id/remote_host_surface_view"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="8dp"
-                    android:padding="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/bg_rounded_4_dp"
-                    android:backgroundTint="@color/black"
-                    android:gravity="center"
-                    android:alpha="0.6"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/iv_remote_host_audio"
-                        android:layout_width="20dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_microphone_off"/>
-
-                    <ImageView
-                        android:id="@+id/iv_remote_host_video"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="5dp"
-                        android:src="@drawable/ic_video_off"/>
-
-                </LinearLayout>
-
                 <RelativeLayout
-                    android:id="@+id/rl_ongoing_floating_buttons"
+                    android:id="@+id/rl_ongoing_message_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toTopOf="@id/ll_local_controller"
-                    android:visibility="@{viewModel.isShowLoadingCounter() ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent">
 
 
@@ -565,7 +519,7 @@
                         android:layout_marginBottom="20dp"
                         android:backgroundTint="#285FD3"
                         android:clickable="true"
-                        android:onClick="@{()->viewModel.onChatButtonClicked()}"
+                        android:onClick="@{()->viewModel.onGoingChatButtonClicked()}"
                         android:src="@drawable/ic_msg_emp"
                         app:tint="@color/white" />
 
@@ -578,6 +532,7 @@
                         android:layout_marginEnd="12dp"
                         android:layout_marginBottom="18dp"
                         android:background="@drawable/notification_count_circle"
+                        android:text="@{viewModel.onGoingMessageCountText}"
                         android:elevation="7dp"
                         android:gravity="center"
                         android:padding="4dp"
@@ -603,22 +558,22 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/ll_local_mic"
+                        android:id="@+id/ll_local_audio"
                         android:layout_marginEnd="10dp"
-                        android:onClick="@{()->viewModel.onToggleAudioClicked()}"
+                        android:onClick="@{()->viewModel.onToggleAudioButtonClicked()}"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/local_mic_control"
+                            android:id="@+id/local_audio_control"
                             android:src="@drawable/ic_mic_on"/>
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/tv_local_mic_status"
+                            android:id="@+id/tv_local_audio_status"
                             android:text="Mute"
                             android:fontFamily="@font/roboto"
                             android:gravity="center"
@@ -631,7 +586,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:gravity="center"
-                        android:onClick="@{()->viewModel.onToggleVideoClicked()}"
+                        android:onClick="@{()->viewModel.onToggleVideoButtonClicked()}"
                         android:id="@+id/ll_local_video_2"
                         android:orientation="vertical">
 
@@ -657,7 +612,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <!--multipeer-->
 
         <!--Chat View-->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -665,6 +620,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="16dp"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -782,13 +738,14 @@
                 android:id="@+id/iv_send_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{()->viewModel.sendButtonClickedEvent()}"
+                android:onClick="@{()->viewModel.sendMessageButtonClicked()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/ic_send" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--Chat View-->
 
         <!--Feedback View-->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -839,6 +796,7 @@
                     android:id="@+id/tv_call_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="60dp"
                     android:layout_marginEnd="16dp"
@@ -856,6 +814,7 @@
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/roboto"
                     android:text="12:35 mins"
@@ -932,11 +891,11 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="155dp"
                     android:layout_height="wrap_content"
-                    android:alpha="@{viewModel.enableSubmitButton ? 1f : .7f}"
-                    android:enabled="@{viewModel.enableSubmitButton ? true : false}"
+                    android:alpha="@{viewModel.enableSubmitFeedbackButton ? 1f : .7f}"
+                    android:enabled="@{viewModel.enableSubmitFeedbackButton ? true : false}"
                     android:fontFamily="@font/roboto"
                     android:letterSpacing="0"
-                    android:onClick="@{()->viewModel.onSubmitButtonClick()}"
+                    android:onClick="@{()->viewModel.onSubmitFeedbackButtonClick()}"
                     android:paddingVertical="12dp"
                     android:text="Submit"
                     android:textAllCaps="false"
@@ -958,7 +917,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:letterSpacing="0"
-                    android:onClick="@{()->viewModel.onChatButtonClicked()}"
+                    android:onClick="@{()->viewModel.onMessageToEmployerButtonClicked()}"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="12dp"
                     android:text="Message Employer"
@@ -977,6 +936,7 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--Feedback View-->
 
         <!--instruction View-->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -1107,7 +1067,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <!--instruction View-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

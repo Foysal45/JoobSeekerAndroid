@@ -25,80 +25,118 @@ class InterviewSessionViewModel(
         val jobID: String?) : ViewModel() {
 
 
-    private var timer: CountDownTimer? = null
 
     private val _isNetworkAvailable = MutableLiveData<Boolean>()
     val isNetworkAvailable: LiveData<Boolean> = _isNetworkAvailable
 
-    private val _isWaitingForEmployers = MutableLiveData<Boolean>()
-    val isWaitingForEmployers: LiveData<Boolean> = _isWaitingForEmployers
+    private val _canGoToDetailView = MutableLiveData<Boolean>()
+    val canGoToDetailView: LiveData<Boolean> = _canGoToDetailView
 
-    private val _isShowReadyView = MutableLiveData<Boolean>()
-    val isShowReadyView: LiveData<Boolean> = _isShowReadyView
+    //Ready View
+    private val _isReadyViewVisible = MutableLiveData<Boolean>()
+    val isReadyViewVisible: MutableLiveData<Boolean> = _isReadyViewVisible
 
-    private val _isShowBottomOptionView = MutableLiveData<Boolean>()
-    val isShowBottomOptionView: LiveData<Boolean> = _isShowBottomOptionView
+    private val _isReadyViewHidden = MutableLiveData<Boolean>()
+    val isReadyViewHidden: MutableLiveData<Boolean> = _isReadyViewHidden
 
-    private val _isShowLoadingCounter = MutableLiveData<Boolean>()
-    val isShowLoadingCounter: LiveData<Boolean> = _isShowLoadingCounter
-
-    private var _countDownFinish = MutableLiveData<Boolean>()
-    val countDownFinish: LiveData<Boolean> = _countDownFinish
-
-    private val _isShowActionView = MutableLiveData<Boolean>()
-    val isShowActionView: LiveData<Boolean> = _isShowActionView
-
-    private val _isShowFeedbackView = MutableLiveData<Boolean>()
-    val isShowFeedbackView: LiveData<Boolean> = _isShowFeedbackView
-
-
-
-    val isEmployerAvailable = MutableLiveData<Boolean>().apply { value = false }
-    private val _applicantStatusText = MutableLiveData<String>()
-    val applicantStatusText: LiveData<String>
-        get() = _applicantStatusText
+    private val _isEmployerArrived = MutableLiveData<Boolean>()
+    val isEmployerArrived: MutableLiveData<Boolean> = _isEmployerArrived
 
     val yesButtonClickedEvent = MutableLiveData<Event<Boolean>>()
-    val yesClick = MutableLiveData<Boolean>()
+    val isYesButtonClicked = MutableLiveData<Boolean>()
 
     val noButtonClickedEvent = MutableLiveData<Event<Boolean>>()
-    val noClick = MutableLiveData<Boolean>()
+    val isNoButtonClicked = MutableLiveData<Boolean>()
 
-    val toggleAudioClickEvent = MutableLiveData<Event<Boolean>>()
-    val toggleVideoClickEvent = MutableLiveData<Event<Boolean>>()
+    val applicantStatusText = MutableLiveData<String>().apply { value = ""}
 
+    val chatButtonClickEvent = MutableLiveData<Event<Boolean>> ()
 
-    val chatButtonClickedClickEvent = MutableLiveData<Event<Boolean>> ()
+    private val _isChatViewShowing = MutableLiveData<Boolean>()
+    val isChatViewShowing: MutableLiveData<Boolean> = _isChatViewShowing
+
+    private val _isChatViewHidden = MutableLiveData<Boolean>()
+    val isChatViewHidden: MutableLiveData<Boolean> = _isChatViewHidden
+
+    private var _messageCountText = MutableLiveData<String>().apply { value = "0"}
+    val messageCountText: MutableLiveData<String> get() = _messageCountText
 
     val instructionButtonClickEvent = MutableLiveData<Event<Boolean>>()
 
-    val receivedChatData = MutableLiveData<Array<Any?>?>()
+    private val _isInstructionVisible = MutableLiveData<Boolean>()
+    val isInstructionVisible: MutableLiveData<Boolean> = _isInstructionVisible
 
-    fun receivedData(args:Array<Any?>?) {
-        receivedChatData.postValue(args)
-    }
+    private val _isInstructionHidden = MutableLiveData<Boolean>()
+    val isInstructionHidden: MutableLiveData<Boolean> = _isInstructionHidden
+
+    //CountDown
+    private var timer: CountDownTimer? = null
+
+    private val _isCountDownVisible = MutableLiveData<Boolean>()
+    val isCountDownVisible: MutableLiveData<Boolean> = _isCountDownVisible
+
+    private var _countDownFinish = MutableLiveData<Boolean>()
+    val countDownFinish: MutableLiveData<Boolean> = _countDownFinish
+
+    private var _countDownText = MutableLiveData<String>()
+    val countDownText: MutableLiveData<String> get() = _countDownText
+
+    //Ongoing Interview
+    private val _isOngoingInterviewVisible = MutableLiveData<Boolean>()
+    val isOngoingInterviewVisible: MutableLiveData<Boolean> = _isOngoingInterviewVisible
+
+    private val _isOngoingInterviewHidden = MutableLiveData<Boolean>()
+    val isOngoingInterviewHidden: MutableLiveData<Boolean> = _isOngoingInterviewHidden
+
+    val toggleAudioClickEvent = MutableLiveData<Event<Boolean>>()
+
+    private val _isAudioOn = MutableLiveData<Boolean>()
+    val isAudioOn: MutableLiveData<Boolean> = _isAudioOn
+
+    private val _isAudioOff = MutableLiveData<Boolean>()
+    val isAudioOff: MutableLiveData<Boolean> = _isAudioOff
+
+    val toggleVideoClickEvent = MutableLiveData<Event<Boolean>>()
+
+    private val _isVideoOn = MutableLiveData<Boolean>()
+    val isVideoOn: MutableLiveData<Boolean> = _isVideoOn
+
+    private val _isVideoOff = MutableLiveData<Boolean>()
+    val isVideoOff: MutableLiveData<Boolean> = _isVideoOff
+
+    val onGoingChatButtonClickEvent = MutableLiveData<Event<Boolean>> ()
+
+    private val _isOnGoingChatViewShowing = MutableLiveData<Boolean>()
+    val isOnGoingChatViewShowing: MutableLiveData<Boolean> = _isOnGoingChatViewShowing
+
+    private val _isOnGoingChatViewHidden = MutableLiveData<Boolean>()
+    val isOnGoingChatViewHidden: MutableLiveData<Boolean> = _isOnGoingChatViewHidden
+
+    private var _onGoingMessageCountText = MutableLiveData<String>().apply { value = "0"}
+    val onGoingMessageCountText: MutableLiveData<String> get() = _onGoingMessageCountText
+
+    private val _isFeedbackViewShowing = MutableLiveData<Boolean>()
+    val isFeedbackViewShowing: MutableLiveData<Boolean> = _isFeedbackViewShowing
+
+    private val _isFeedbackViewHidden = MutableLiveData<Boolean>()
+    val isFeedbackViewHidden: MutableLiveData<Boolean> = _isFeedbackViewHidden
+
 
     //Chat
-    private var _counterText = MutableLiveData<String>()
-    val counterText: LiveData<String>
-        get() = _counterText
-
     var onChatReceived = MutableLiveData<Array<Any?>?>()
+    fun receivedChatData(args:Array<Any?>?) { onChatReceived.postValue(args) }
+
     private val _welcomeText = MutableLiveData<String>()
-    val welcomeText: LiveData<String>
-        get() = _welcomeText
+    val welcomeText: LiveData<String> get() = _welcomeText
 
     private val _anotherInterviewText = MutableLiveData<String>()
-    val anotherInterviewText: LiveData<String>
-        get() = _anotherInterviewText
+    val anotherInterviewText: LiveData<String> get() = _anotherInterviewText
 
     private val _waitingText = MutableLiveData<String>()
-    val waitingText: LiveData<String>
-        get() = _waitingText
+    val waitingText: LiveData<String> get() = _waitingText
 
     private val _askedText = MutableLiveData<String>()
-    val askedText: LiveData<String>
-        get() = _askedText
+    val askedText: LiveData<String> get() = _askedText
 
     private val _logLoading = MutableLiveData<Boolean> ()
     val logLoading : LiveData<Boolean> = _logLoading
@@ -112,7 +150,6 @@ class InterviewSessionViewModel(
     private val _chatLogFetchError = MutableLiveData<String?>()
     val chatLogFetchError : LiveData<String?> = _chatLogFetchError
 
-
     private val _postLoading = MutableLiveData<Boolean> ()
     val postLoading : LiveData<Boolean> = _postLoading
 
@@ -125,7 +162,7 @@ class InterviewSessionViewModel(
     private val _postMessage = MutableLiveData<String> ()
     val postMessage: LiveData<String> = _postMessage
 
-    val sendButtonClickEvent = MutableLiveData<Event<Boolean>> ()
+    val sendMessageClickEvent = MutableLiveData<Event<Boolean>> ()
 
     val welcomeTextShow = MutableLiveData<Boolean>()
     val anotherInterviewTextShow = MutableLiveData<Boolean>()
@@ -133,128 +170,129 @@ class InterviewSessionViewModel(
     val askedTextShow = MutableLiveData<Boolean>()
 
     //feedback
-    val feedback = MutableLiveData<String>().apply {
-        value = ""
-    }
+    val feedback = MutableLiveData<String>().apply { value = ""}
+    val rating = MutableLiveData<Int>().apply { value = 0 }
+    val enableSubmitFeedbackButton = MutableLiveData<Boolean>().apply { value = false }
+    val submitFeedbackClickEvent = MutableLiveData<Event<Boolean>> ()
+    val isFeedbackSubmitted = MutableLiveData<Boolean>().apply { value = false }
 
-    val rating = MutableLiveData<Int>().apply {
-        value = 0
-    }
+    val onMessageToEmployerClickEvent = MutableLiveData<Event<Boolean>> ()
 
-    val enableSubmitButton = MutableLiveData<Boolean>().apply {
-        value = false
-    }
+    private val _isMessageToEmployerShowing = MutableLiveData<Boolean>()
+    val isMessageToEmployerShowing: MutableLiveData<Boolean> = _isMessageToEmployerShowing
 
-    val submitButtonClickedClickEvent = MutableLiveData<Event<Boolean>> ()
+    private val _isMessageToEmployerHidden = MutableLiveData<Boolean>()
+    val isMessageToEmployerHidden: MutableLiveData<Boolean> = _isMessageToEmployerHidden
 
 
-
+    //First View
     init {
-        bottomOptionShowCheck(true)
-        readyCheck(true)
-        yesClick.value = true
-        noClick.value = false
-        _counterText.value = "5"
+        _isReadyViewVisible.postValue(true)
+        _isReadyViewHidden.postValue(false)
+
+        _isInstructionHidden.postValue(true)
+        _isChatViewHidden.postValue(true)
+
+        _isCountDownVisible.postValue(false)
+        _isOngoingInterviewHidden.postValue(true)
+        _isOnGoingChatViewHidden.postValue(true)
+
+        _isFeedbackViewHidden.postValue(true)
+        _isMessageToEmployerHidden.postValue(true)
+
+        isYesButtonClicked.value = true
+        isNoButtonClicked.value = false
         fetchChatLog()
     }
 
     fun networkCheck(isAvailable: Boolean) {
         if (isAvailable) {
             _isNetworkAvailable.postValue(true)
-            bottomOptionShowCheck(true)
         } else {
             _isNetworkAvailable.postValue(false)
-            bottomOptionShowCheck(false)
         }
     }
 
-    fun waitingCheck(isWaiting: Boolean) {
-        _isWaitingForEmployers.postValue(isWaiting)
-    }
+    fun canGoBackToDetailFragment(){
+        if(isChatViewShowing.value == true){
 
-    fun readyCheck(isReady: Boolean) {
-        _isShowReadyView.postValue(isReady)
-    }
+            _isChatViewShowing.postValue(false)
+            _isChatViewHidden.postValue(true)
 
-    fun bottomOptionShowCheck(isShow: Boolean) {
-        _isShowBottomOptionView.postValue(isShow)
-    }
+            _isReadyViewVisible.postValue(true)
+            _isReadyViewHidden.postValue(false)
 
-    fun actionShowCheck(isShow: Boolean) {
-        _isShowActionView.postValue(isShow)
-    }
-
-    fun loadingCounterShowCheck(isShow: Boolean) {
-        _isShowLoadingCounter.postValue(isShow)
-        startLoadingTimer()
-        if (isShow) {
-            bottomOptionShowCheck(false)
-            waitingCheck(false)
+            _canGoToDetailView.postValue(false)
         }
-    }
 
-    fun interviewRoomViewCheck(isShow: Boolean) {
-        _isShowActionView.postValue(isShow)
-        if (isShow) {
-            loadingCounterShowCheck(false)
-            bottomOptionShowCheck(false)
-            waitingCheck(false)
+        else if(isInstructionVisible.value == true){
+            _isInstructionVisible.postValue(false)
+            _isInstructionHidden.postValue(true)
+
+            _isReadyViewVisible.postValue(true)
+            _isReadyViewHidden.postValue(false)
+
+            _canGoToDetailView.postValue(false)
+
         }
-    }
 
-    fun isCountDownFinished(value: Boolean) {
-        _countDownFinish.value = value
-        if (value) {
-            interviewRoomViewCheck(true)
+        else if(isOnGoingChatViewShowing.value == true){
+            _isOnGoingChatViewShowing.postValue(false)
+            _isOnGoingChatViewHidden.postValue(true)
+
+            _isOngoingInterviewVisible.postValue(true)
+            _isOngoingInterviewHidden.postValue(false)
+
+            _canGoToDetailView.postValue(false)
+
         }
+
+        else if(isMessageToEmployerShowing.value == true){
+            _isMessageToEmployerShowing.postValue(false)
+            _isMessageToEmployerHidden.postValue(true)
+
+            _isFeedbackViewShowing.postValue(true)
+            _isFeedbackViewHidden.postValue(false)
+
+            _canGoToDetailView.postValue(false)
+
+        }
+
+        else _canGoToDetailView.postValue(true)
     }
 
+    /* Ready View Start */
 
     fun onYesButtonClicked() {
         yesButtonClickedEvent.value = Event(true)
-        yesClick.value = true
-        noClick.value = false
+        isYesButtonClicked.value = true
+        isNoButtonClicked.value = false
         applicantStatusUpdate("1")
     }
 
-
     fun onNoButtonClicked() {
         noButtonClickedEvent.value = Event(true)
-        noClick.value = true
-        yesClick.value = false
+        isNoButtonClicked.value = true
+        isYesButtonClicked.value = false
         applicantStatusUpdate("2")
     }
 
     fun onChatButtonClicked() {
-        Timber.tag("live").d("view model onChatButtonClicked")
-        chatButtonClickedClickEvent.value = Event(true)
+        chatButtonClickEvent.value = Event(true)
+
+        _isChatViewShowing.postValue(true)
+        _isChatViewHidden.postValue(false)
+
+        _isReadyViewVisible.postValue(false)
+        _isReadyViewHidden.postValue(true)
     }
 
     fun onInstructionButtonClicked() {
-        instructionButtonClickEvent.value = Event(true)
-    }
+        _isInstructionVisible.postValue(true)
+        _isInstructionHidden.postValue(false)
 
-    fun onToggleAudioClicked() {
-        toggleAudioClickEvent.value = Event(true)
-    }
-
-    fun onToggleVideoClicked() {
-        toggleVideoClickEvent.value = Event(true)
-    }
-
-    private fun startLoadingTimer() {
-        var totalSeconds = 5
-        timer = object : CountDownTimer(WAITING_TIME, 1000) {
-            override fun onFinish() {
-                isCountDownFinished(true)
-            }
-
-            override fun onTick(millisUntilFinished: Long) {
-                totalSeconds--
-                _counterText.value = "$totalSeconds"
-            }
-
-        }.start()
+        _isReadyViewVisible.postValue(false)
+        _isReadyViewHidden.postValue(true)
     }
 
     private fun applicantStatusUpdate(status: String) {
@@ -264,8 +302,7 @@ class InterviewSessionViewModel(
 
                 if (response.statuscode == "4") {
                     Timber.d("Applicant status updated")
-                    _applicantStatusText.value = response.message
-                    waitingCheck(true)
+                    applicantStatusText.value = response.message
                 } else {
                     Timber.d("Response status code: ${response.statuscode}")
                 }
@@ -275,47 +312,109 @@ class InterviewSessionViewModel(
             }
         }
     }
+    /* Ready View End */
 
-    fun employerAvailable(){
-        isEmployerAvailable.value = true
-    }
-    fun sendButtonClickedEvent() {
-        sendButtonClickEvent.value = Event(true)
-    }
+    /* CountDown View Start */
+    companion object { const val WAITING_TIME = 5000L }
 
-    fun postChatMessage(message:String) {
-        _postLoading.value = true
+    fun showCountDown() {
+        _isReadyViewVisible.postValue(false)
+        _isReadyViewHidden.postValue(true)
 
-        viewModelScope.launch {
-            try {
-                val response = repository.postChatMessage(processID,message,"A","0","0")
-                _postLoading.value = false
-
-                if (response.statuscode=="4") {
-                    _postMessage.value = message
-                    _postSuccess.value = true
-                }
-            } catch (e:Exception) {
-                _postLoading.value = false
-                e.printStackTrace()
-                Timber.e("Exception: ${e.localizedMessage}")
-                _postError.value = e.localizedMessage
+        _isCountDownVisible.postValue(true)
+        var totalSeconds = 5
+        timer = object : CountDownTimer(WAITING_TIME, 1000) {
+            override fun onFinish() {
+                isCountDownFinished(true)
             }
+            override fun onTick(millisUntilFinished: Long) {
+                totalSeconds--
+                _countDownText.value = "$totalSeconds"
+            }
+
+        }.start()
+    }
+
+    private fun isCountDownFinished(value: Boolean) {
+        _countDownFinish.value = value
+        if (value) {
+            _isCountDownVisible.postValue(false)
+
+            _isOngoingInterviewVisible.postValue(true)
+            _isOngoingInterviewHidden.postValue(false)
+
+            _isAudioOn.postValue(true)
+            _isVideoOn.postValue(true)
+
+            _isInstructionVisible.postValue(false)
+            _isInstructionHidden.postValue(true)
+
+            _isChatViewShowing.postValue(false)
+            _isChatViewHidden.postValue(true)
+
         }
     }
 
-    fun postStartCall(){
-        viewModelScope.launch {
-            try {
-                val response = repository.startEndCall(processID, applyID, "s")
-                Timber.d("Response status code: ${response.message}")
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Timber.e("Exception while updating application status: ${e.localizedMessage}")
-            }
+    override fun onCleared() {
+        timer?.cancel()
+        super.onCleared()
+    }
+    /* CountDown View End */
+
+    /* Multipeer View Start */
+    fun applicantJoinedOnGoingSession(){
+        _isReadyViewVisible.postValue(false)
+        _isReadyViewHidden.postValue(true)
+
+        _isCountDownVisible.postValue(false)
+
+        _isOngoingInterviewVisible.postValue(true)
+        _isOngoingInterviewHidden.postValue(false)
+
+        _isAudioOn.postValue(true)
+        _isVideoOn.postValue(true)
+
+        _isInstructionVisible.postValue(false)
+        _isInstructionHidden.postValue(true)
+
+        _isChatViewShowing.postValue(false)
+        _isChatViewHidden.postValue(true)
+    }
+
+    fun onToggleAudioButtonClicked() {
+        if(isAudioOff.value == true){
+            _isAudioOff.postValue(false)
+            _isAudioOn.postValue(true)
+        }
+        else if(isAudioOn.value == true){
+            _isAudioOff.postValue(true)
+            _isAudioOn.postValue(false)
         }
     }
 
+    fun onToggleVideoButtonClicked() {
+        if(isVideoOff.value == true){
+            _isVideoOff.postValue(false)
+            _isVideoOn.postValue(true)
+        }
+        else if(_isVideoOn.value == true){
+            _isVideoOff.postValue(true)
+            _isVideoOn.postValue(false)
+        }
+    }
+
+    fun onGoingChatButtonClicked() {
+        onGoingChatButtonClickEvent.value = Event(true)
+
+        _isOnGoingChatViewShowing.postValue(true)
+        _isOnGoingChatViewHidden.postValue(false)
+
+        _isOngoingInterviewVisible.postValue(false)
+        _isOngoingInterviewHidden.postValue(true)
+    }
+    /* Multipeer View End */
+
+    /* Chat View Start */
     private fun fetchChatLog() {
         _logLoading.value = true
 
@@ -368,55 +467,97 @@ class InterviewSessionViewModel(
                 anotherInterviewTextShow.value = false
                 askedTextShow.value = false
                 waitingTextShow.value = false
-                e.printStackTrace()
                 Timber.e("Exception: ${e.localizedMessage}")
                 _chatLogFetchError.value = e.localizedMessage
+                e.printStackTrace()
             }
         }
     }
 
+    fun newMessageArrived(){
 
-    override fun onCleared() {
-        timer?.cancel()
-        super.onCleared()
+    }
+    fun sendMessageButtonClicked(){
+        sendMessageClickEvent.value = Event(true)
     }
 
-    companion object {
-        const val WAITING_TIME = 5000L
+    fun updateMessageCounter(count:Int){
+        _messageCountText.value = count.toString()
+        _onGoingMessageCountText.value = count.toString()
     }
 
-    //feedback
-    fun afterFeedbackTextChanged(editable: Editable) {
-        checkValidation()
+    fun postChatMessage(message:String) {
+        _postLoading.value = true
+
+        viewModelScope.launch {
+            try {
+                val response = repository.postChatMessage(processID,message,"A","0","0")
+                _postLoading.value = false
+
+                if (response.statuscode=="4") {
+                    _postMessage.value = message
+                    _postSuccess.value = true
+                }
+            } catch (e:Exception) {
+                _postLoading.value = false
+                Timber.e("Exception: ${e.localizedMessage}")
+                _postError.value = e.localizedMessage
+                e.printStackTrace()
+            }
+        }
+    }
+    /* Chat View End */
+
+    /* Feedback View Start */
+    fun employerEndedCall(){
+        _isFeedbackViewShowing.postValue(true)
+
+        _isOngoingInterviewVisible.postValue(false)
+        _isOngoingInterviewHidden.postValue(true)
     }
 
     fun onRatingChanged() {
-        Timber.d("called")
+        Timber.tag("live").d("onRatingChanged called")
+        checkValidation()
+    }
+
+    fun afterFeedbackTextChanged(editable: Editable) {
+        Timber.tag("live").d("afterFeedbackTextChanged called")
         checkValidation()
     }
 
     fun checkValidation() {
-        enableSubmitButton.value = !feedback.value.isNullOrBlank() && rating.value!!.toInt() > 0
+        enableSubmitFeedbackButton.value = !feedback.value.isNullOrBlank() && rating.value!!.toInt() > 0
     }
 
-    fun onSubmitButtonClick() {
-        submitButtonClickedClickEvent.value = Event(true)
-        postFeedback()
-    }
+    fun onSubmitFeedbackButtonClick() {
+        Timber.tag("live").d("onSubmitFeedbackButtonClick ${rating.value} ${feedback.value}")
+        Timber.tag("live").d("onSubmitFeedbackButtonClick ApplyID: $applyID :: JobID: $jobID")
 
-    private fun postFeedback() {
-        Timber.d("${rating.value} ${feedback.value}")
-        Timber.d("ApplyID: $applyID :: JobID: $jobID")
         viewModelScope.launch {
-            val resposne = repository.submitVideoInterviewFeedback(
+            val response = repository.submitVideoInterviewFeedback(
                 applyId = applyID,
                 jobId = jobID,
                 feedbackComment = feedback.value,
                 rating = rating.value.toString()
             )
-            if(resposne.statuscode == "4"){
-                Timber.d("postFeedback")
+            if(response.statuscode == "4"){
+                Timber.tag("live").d("onSubmitFeedbackButtonClick isFeedbackSubmitted")
+                isFeedbackSubmitted.postValue(true)
             }
         }
     }
+
+    fun onMessageToEmployerButtonClicked() {
+        onMessageToEmployerClickEvent.value = Event(true)
+
+        _isMessageToEmployerShowing.postValue(true)
+        _isMessageToEmployerHidden.postValue(false)
+
+        _isFeedbackViewShowing.postValue(false)
+        _isFeedbackViewHidden.postValue(true)
+    }
+
+    /* Feedback View End */
+
 }
