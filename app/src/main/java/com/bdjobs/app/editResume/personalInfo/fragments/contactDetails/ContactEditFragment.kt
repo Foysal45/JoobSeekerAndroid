@@ -582,7 +582,7 @@ class ContactEditFragment : Fragment() {
             startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/email_step_01.asp", "from" to "setUserId")
         }
         tv_mobile_change_user_id.setOnClickListener{
-            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/email_step_01.asp", "from" to "setUserId")
+            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/mobile_step_01.asp", "from" to "setUserId")
         }
 
         contactAddEmailButton?.setOnClickListener {
@@ -874,7 +874,12 @@ class ContactEditFragment : Fragment() {
             contactEmailAddressTIL.isEnabled = true
             contactMobileNumberTIL.isEnabled = false
             contactMobileNumberTIET.setTextColor(Color.parseColor("#bdbdbd"))
-        }else{
+        }else if(data?.phoneAsUsername == "0" && data?.phoneAsUsername == "0"){
+            tv_email_change_user_id.show()
+            tv_mobile_change_user_id.show()
+            contactEmailAddressTIL.isEnabled = true
+            contactMobileNumberTIL.isEnabled = true
+        } else{
             tv_email_change_user_id.hide()
             tv_mobile_change_user_id.hide()
         }

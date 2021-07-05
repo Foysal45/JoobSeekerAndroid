@@ -64,7 +64,7 @@ class ContactViewFragment : Fragment() {
             startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/email_step_01.asp", "from" to "setUserId")
         }
         tv_mobile_change_user_id.setOnClickListener{
-            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/email_step_01.asp", "from" to "setUserId")
+            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/mobile_step_01.asp", "from" to "setUserId")
         }
     }
 
@@ -87,7 +87,7 @@ class ContactViewFragment : Fragment() {
                         setupView(respo?.data?.get(0)!!)
                         contactCB.setEditButton(true, "editContact")
 
-                        session.userMobileNumber = respo.data[0]?.mobile
+                        session.userMobileNumber = respo.data[0]?.primaryMobile
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -192,6 +192,9 @@ class ContactViewFragment : Fragment() {
             tv_mobile_change_user_id.hide()
         } else if(info?.phoneAsUsername == "1"){
             tv_email_change_user_id.hide()
+            tv_mobile_change_user_id.show()
+        }else if (info?.emailAsUsername == "0" && info?.phoneAsUsername == "0"){
+            tv_email_change_user_id.show()
             tv_mobile_change_user_id.show()
         }else{
             tv_email_change_user_id.hide()

@@ -73,7 +73,7 @@
                 android:id="@+id/tv_video_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_btn_round_16_dp"
+                android:background="@drawable/bg_btn_round_24_dp"
                 android:backgroundTint="#707070"
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/white"
