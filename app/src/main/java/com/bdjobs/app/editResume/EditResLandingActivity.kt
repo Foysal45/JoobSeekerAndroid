@@ -1,16 +1,15 @@
 package com.bdjobs.app.editResume
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
+import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.ManageResume.utils.formatDateVP
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.d
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.loadCircularImageFromUrl
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
@@ -18,10 +17,13 @@ import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_edit_res_landing.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import timber.log.Timber
 import java.util.*
 
 class EditResLandingActivity : Activity() {
@@ -60,6 +62,7 @@ class EditResLandingActivity : Activity() {
 
             } else {
                 doWork()
+                fetchPersonalizedResumeStat()
             }
         } catch (e: Exception) {
         }
@@ -92,6 +95,75 @@ class EditResLandingActivity : Activity() {
                     logException(e)
                 }
             }
+        }
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private fun fetchPersonalizedResumeStat() {
+        this.showProgressBar(loadingProgressBar)
+        cl_stat_personalized_resume.hide()
+        tv_label_stat_personalized_resume.hide()
+
+        GlobalScope.launch {
+            try {
+                val response = ApiServiceMyBdjobs.create().personalizedResumeStat(
+                    session.userId,
+                    session.decodId,
+                    session.isCvPosted
+                )
+
+                runOnUiThread {
+                    this@EditResLandingActivity.stopProgressBar(loadingProgressBar)
+
+                    cl_stat_personalized_resume.show()
+                    tv_label_stat_personalized_resume.show()
+                }
+
+
+                if (response.statuscode == "0" && response.message == "Success") {
+                    val data = response.data!![0]
+
+                    val statCalculatedFrom = data.personalizedCalculatedFromDate?.let {
+                        formatDateVP(
+                            it
+                        )
+                    }
+
+                    runOnUiThread {
+
+                        if (!statCalculatedFrom.isNullOrEmpty()) {
+                            tv_label_stat_personalized_resume.show()
+                            cl_stat_personalized_resume.show()
+
+
+                            tv_personalized_resume_view_count.text = data.personalizedViewed
+                            tv_personalized_resume_download_count.text = data.personalizedDownload
+                            tv_personalized_resume_emailed_count.text = data.personalizedEmailed
+
+                        } else {
+                            tv_label_stat_personalized_resume.hide()
+                            cl_stat_personalized_resume.hide()
+
+                        }
+
+
+                    }
+
+                } else runOnUiThread { toast("Sorry, personalized resume stat fetching failed!") }
+
+            } catch (e: Exception) {
+                Timber.e("Exception while fetching personalized resume stat: ${e.localizedMessage}")
+                runOnUiThread {
+                    this@EditResLandingActivity.stopProgressBar(loadingProgressBar)
+                    toast("Sorry, personalized resume stat fetching failed: ${e.localizedMessage}")
+//                    cl_stat_personalized_resume.show()
+//                    tv_label_stat_personalized_resume.show()
+                }
+
+            }
+
+
         }
     }
 
