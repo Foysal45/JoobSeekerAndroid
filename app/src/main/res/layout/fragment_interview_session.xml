@@ -52,7 +52,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
             android:background="@color/black_transparent"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <org.webrtc.SurfaceViewRenderer
                 android:id="@+id/sv_local"
@@ -344,7 +344,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            tools:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent">
 
 
@@ -374,6 +374,7 @@
                         <org.webrtc.SurfaceViewRenderer
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@color/black_transparent"
                             android:id="@+id/remote_one_surface_view"/>
 
                         <LinearLayout
@@ -424,6 +425,7 @@
                         <org.webrtc.SurfaceViewRenderer
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@color/black_transparent"
                             android:id="@+id/remote_two_surface_view"/>
 
                         <LinearLayout

@@ -102,16 +102,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             optional.add(KeyValuePair("DtlsSrtpKeyAgreement", "true"))
             optional.add(KeyValuePair("OfferToReceiveAudio", "true"))
             optional.add(KeyValuePair("OfferToReceiveVideo", "true"))
-//            optional.add(KeyValuePair("googEchoCancellation", "true"))
-//            optional.add(KeyValuePair("googEchoCancellation2", "true"))
-//            optional.add(KeyValuePair("googDAEchoCancellation", "true"))
-//            optional.add(KeyValuePair("googTypingNoiseDetection", "true"))
-//            optional.add(KeyValuePair("googAutoGainControl", "true"))
-//            optional.add(KeyValuePair("googAutoGainControl2", "true"))
-//            optional.add(KeyValuePair("googNoiseSuppression", "true"))
-//            optional.add(KeyValuePair("googNoiseSuppression2", "true"))
-//            optional.add(KeyValuePair("googAudioMirroring", "false"))
-//            optional.add(KeyValuePair("googHighpassFilter", "true"))
         }
     }
 
