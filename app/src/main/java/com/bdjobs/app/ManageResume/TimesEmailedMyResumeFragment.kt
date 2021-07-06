@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.TimesEmailed
@@ -36,11 +37,15 @@ class TimesEmailedMyResumeFragment : Fragment() {
     private var bdjobsUserSession: BdjobsUserSession? = null
     private lateinit var isActivityDate: String
 
+    private var selectedResumeType = "3"
+
     private lateinit var manageCommunicator: ManageResumeCommunicator
     private lateinit var timesEmailedMyResumeAdapter: TimesEmailedMyResumeAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_times_emailed_my_resume, container, false)
     }
@@ -65,9 +70,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
         }
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
-        Ads.loadAdaptiveBanner(activity.applicationContext,adView)
-
-
+        Ads.loadAdaptiveBanner(activity.applicationContext, adView)
 
 
         //Log.d("isActivityDate", "vava = ${Constants.timesEmailedResumeLast}")
@@ -90,8 +93,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if (manageCommunicator.getBackFrom() == "filter")
-        {
+        if (manageCommunicator.getBackFrom() == "filter") {
             manageCommunicator.setBackFrom("")
             cross_iv?.show()
             filter_btn?.hide()
@@ -124,6 +126,19 @@ class TimesEmailedMyResumeFragment : Fragment() {
             initPagination()
         }
 
+        loadSpinner()
+
+    }
+
+    private fun loadSpinner() {
+        ArrayAdapter.createFromResource(
+            activity,
+            R.array.spinnerFilterItemEmailResume,
+            android.R.layout.simple_spinner_dropdown_item
+        ).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            filter_spinner.adapter = it
+        }
     }
 
     private fun lastOnClickAction(isActivityDate: String) {
@@ -202,11 +217,11 @@ class TimesEmailedMyResumeFragment : Fragment() {
         shimmer_view_container_emailedResumeList?.startShimmer()
         numberTV.text = "0"
         ApiServiceMyBdjobs.create().emailedMyResume(
-                userID = bdjobsUserSession?.userId,
-                decodeID = bdjobsUserSession?.decodId,
-                pageNumber = pgNo.toString(),
-                itemsPerPage = "20",
-                isActivityDate = isActivityDate
+            userID = bdjobsUserSession?.userId,
+            decodeID = bdjobsUserSession?.decodId,
+            pageNumber = pgNo.toString(),
+            itemsPerPage = "20",
+            isActivityDate = isActivityDate
         ).enqueue(object : Callback<TimesEmailed> {
             override fun onFailure(call: Call<TimesEmailed>, t: Throwable) {
                 error("onFailure", t)
@@ -267,15 +282,14 @@ class TimesEmailedMyResumeFragment : Fragment() {
                     logException(e)
                 }
 
-                if (response?.body()?.data.isNullOrEmpty()){
+                if (response?.body()?.data.isNullOrEmpty()) {
                     timesEmailedNoDataLL?.show()
                     emailedResumeRV?.hide()
                     numberTV?.show()
                     shimmer_view_container_emailedResumeList?.hide()
                     shimmer_view_container_emailedResumeList?.stopShimmer()
                     //Log.d("totalJobs", "zero")
-                }
-                else {
+                } else {
                     timesEmailedNoDataLL?.hide()
                     emailedResumeRV?.show()
                     numberTV?.show()
@@ -289,11 +303,11 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
     private fun loadNextPage(isActivityDate: String) {
         ApiServiceMyBdjobs.create().emailedMyResume(
-                userID = bdjobsUserSession?.userId,
-                decodeID = bdjobsUserSession?.decodId,
-                pageNumber = pgNo.toString(),
-                itemsPerPage = "20",
-                isActivityDate = isActivityDate
+            userID = bdjobsUserSession?.userId,
+            decodeID = bdjobsUserSession?.decodId,
+            pageNumber = pgNo.toString(),
+            itemsPerPage = "20",
+            isActivityDate = isActivityDate
         ).enqueue(object : Callback<TimesEmailed> {
             override fun onFailure(call: Call<TimesEmailed>, t: Throwable) {
                 error("onFailure", t)
@@ -307,7 +321,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
                 try {
 
                     TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
-                     timesEmailedMyResumeAdapter?.removeLoadingFooter()
+                    timesEmailedMyResumeAdapter?.removeLoadingFooter()
                     isLoadings = false
 
                     timesEmailedMyResumeAdapter?.addAll((response?.body()?.data as List<TimesEmailedData>?)!!)

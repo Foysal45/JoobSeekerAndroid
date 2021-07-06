@@ -41,7 +41,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:singleLine="true"
-                android:text="Times Emailed Resume"
+                android:text="Emailed Resume"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -73,7 +73,7 @@
         android:visibility="visible"
         android:background="#FFFFFF"
         android:gravity="center_vertical"
-        android:paddingStart="20dp"
+        android:paddingStart="12dp"
         android:typeface="normal"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
@@ -142,22 +142,47 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/filter_btn"
+            android:visibility="gone"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:letterSpacing="0"
-            android:text="Filter"
-            android:visibility="gone"
-            android:id="@+id/filter_btn"
-            android:textAllCaps="false"
-            android:textColor="#767676"
-            app:icon="@drawable/ic_filter_list_black_14dp"
-            app:iconTint="#767676"
-            app:strokeColor="#D9D9D9"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="16dp"
             android:layout_toStartOf="@id/cross_iv"
+            android:letterSpacing="0"
+            android:text="Bdjobs Resume"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            app:icon="@drawable/ic_spin_arrow"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/black"
+            app:strokeColor="#D9D9D9"
             app:strokeWidth="1dp" />
+
+<!--        <RelativeLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/bg_spinner"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_toStartOf="@id/cross_iv"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:layout_centerVertical="true">-->
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_spinner"
+                android:layout_alignParentEnd="true"
+                android:layout_toStartOf="@id/cross_iv"
+                android:layout_marginEnd="8dp"
+                android:layout_centerVertical="true"
+                android:entries="@array/spinnerFilterItemEmailResume"
+                android:id="@+id/filter_spinner"/>
+<!--        </RelativeLayout>-->
+
+
 
         <ImageView
             android:visibility="gone"

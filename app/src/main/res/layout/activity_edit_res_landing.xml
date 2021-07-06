@@ -304,16 +304,34 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_last_update"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Last updated on 20 Mar 2021"
+        android:textColor="#757575"
+        android:gravity="center_vertical"
+        app:drawableStartCompat="@drawable/ic_info_personalized_resume"
+        android:drawablePadding="10dp"
+        app:drawableTint="#757575"
+        android:padding="8dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/roboto"
+        app:layout_constraintTop_toBottomOf="@id/cl_stat_personalized_resume"/>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:fitsSystemWindows="true"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cl_stat_personalized_resume">
+        app:layout_constraintTop_toBottomOf="@+id/tv_last_update">
 
         <LinearLayout
             android:paddingLeft="16dp"

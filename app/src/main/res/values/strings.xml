@@ -503,4 +503,12 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="only_selected_employer_s_can_not_see_your_resume">Only <b>Selected Employer(s)</b> can not see your resume.</string>
     <string name="type_employer_name_for_suggestions">Type Employer name for suggestions</string>
     <string name="completed_questions">Completed Questions</string>
+
+
+    <string-array name="spinnerFilterItemEmailResume">
+        <item>Bdjobs Resume</item>
+        <item>Personalized Resume</item>
+        <item>All</item>
+    </string-array>
+
 </resources>

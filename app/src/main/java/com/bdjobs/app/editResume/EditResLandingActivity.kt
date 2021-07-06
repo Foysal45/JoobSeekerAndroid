@@ -42,7 +42,7 @@ class EditResLandingActivity : Activity() {
             if (!session.userPicUrl.isNullOrEmpty()) {
                 //Log.d("rakib", "${session.userPicUrl}")
                 ivProfileImage?.loadCircularImageFromUrl(session.userPicUrl)
-            } else{
+            } else {
                 //Log.d("rakib", "called onresume else")
                 ivProfileImage?.setImageResource(R.drawable.ic_user_thumb_small)
             }
@@ -90,7 +90,10 @@ class EditResLandingActivity : Activity() {
                     val str1 = random()
                     val str2 = random()
                     val id = str1 + session.userId + session.decodId + str2
-                    startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id", "from" to "cvview")
+                    startActivity<WebActivity>(
+                        "url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id",
+                        "from" to "cvview"
+                    )
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -104,6 +107,7 @@ class EditResLandingActivity : Activity() {
         this.showProgressBar(loadingProgressBar)
         cl_stat_personalized_resume.hide()
         tv_label_stat_personalized_resume.hide()
+        tv_last_update.hide()
 
         GlobalScope.launch {
             try {
@@ -113,18 +117,12 @@ class EditResLandingActivity : Activity() {
                     session.isCvPosted
                 )
 
-                runOnUiThread {
-                    this@EditResLandingActivity.stopProgressBar(loadingProgressBar)
-
-                    cl_stat_personalized_resume.show()
-                    tv_label_stat_personalized_resume.show()
-                }
 
 
                 if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
 
-                    val statCalculatedFrom = data.personalizedCalculatedFromDate?.let {
+                    val lastUpdated = data.personalizedLastUpdateDate?.let {
                         formatDateVP(
                             it
                         )
@@ -132,20 +130,23 @@ class EditResLandingActivity : Activity() {
 
                     runOnUiThread {
 
-                        if (!statCalculatedFrom.isNullOrEmpty()) {
-                            tv_label_stat_personalized_resume.show()
-                            cl_stat_personalized_resume.show()
+                        this@EditResLandingActivity.stopProgressBar(loadingProgressBar)
+//                        if (!lastUpdated.isNullOrEmpty()) {
+                        tv_label_stat_personalized_resume.show()
+                        cl_stat_personalized_resume.show()
+                        tv_last_update.show()
 
 
-                            tv_personalized_resume_view_count.text = data.personalizedViewed
-                            tv_personalized_resume_download_count.text = data.personalizedDownload
-                            tv_personalized_resume_emailed_count.text = data.personalizedEmailed
+                        tv_personalized_resume_view_count.text = data.personalizedViewed
+                        tv_personalized_resume_download_count.text = data.personalizedDownload
+                        tv_personalized_resume_emailed_count.text = data.personalizedEmailed
+                        tv_last_update.text = "Last updated on: $lastUpdated"
 
-                        } else {
-                            tv_label_stat_personalized_resume.hide()
-                            cl_stat_personalized_resume.hide()
-
-                        }
+//                        } else {
+//                            tv_label_stat_personalized_resume.hide()
+//                            cl_stat_personalized_resume.hide()
+//
+//                        }
 
 
                     }
