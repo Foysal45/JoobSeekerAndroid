@@ -437,6 +437,25 @@
                     app:layout_constraintTop_toBottomOf="@+id/btn_edit_video" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_video_tutorial"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_vertical"
+                    android:letterSpacing="0"
+                    android:text="Video Tutorial"
+                    android:textAllCaps="false"
+                    android:textColor="#212121"
+                    app:icon="@drawable/ic_vr_video_tutorial_link"
+                    app:iconPadding="32dp"
+                    app:iconTint="#666666"
+                    app:layout_constraintEnd_toEndOf="@+id/cl_data"
+                    app:layout_constraintStart_toStartOf="@id/cl_banner"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_guidelines" />
+
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_view_questions"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="0dp"
@@ -452,7 +471,7 @@
                     app:iconTint="#666666"
                     app:layout_constraintEnd_toEndOf="@+id/cl_data"
                     app:layout_constraintStart_toStartOf="@id/cl_banner"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_guidelines" />
+                    app:layout_constraintTop_toBottomOf="@+id/btn_video_tutorial" />
 
                 <TextView
                     android:layout_width="wrap_content"

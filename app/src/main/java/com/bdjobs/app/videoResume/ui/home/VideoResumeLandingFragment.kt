@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.openUrlInBrowser
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentVideoResumeLandingBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
@@ -86,10 +87,11 @@ class VideoResumeLandingFragment : Fragment() {
             totalAnswered.value?.let { session.insertVideoResumeTotalAnswered(it) }
 
             tv_intro_yt_link.setOnClickListener {
-                context?.startActivity<WebActivity>(
-                    "url" to "https://youtube.com/playlist?list=PLR1m9fmwtfMUMuiWv9m60Z5WhdaI_S76p",
-                    "from" to "videoResume"
-                )
+                activity?.openUrlInBrowser("https://www.youtube.com/watch?v=iuFwzMk4-PI&list=PLR1m9fmwtfMUMuiWv9m60Z5WhdaI_S76p&index=2")
+            }
+
+            btn_video_tutorial.setOnClickListener {
+                activity?.openUrlInBrowser("https://www.youtube.com/watch?v=iuFwzMk4-PI&list=PLR1m9fmwtfMUMuiWv9m60Z5WhdaI_S76p&index=2")
             }
 
             btn_create_video?.setOnClickListener {

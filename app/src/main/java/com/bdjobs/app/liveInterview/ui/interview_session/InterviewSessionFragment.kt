@@ -572,16 +572,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         eglBaseContext = EglBase.create().eglBaseContext
 
         //Noise cancel Experiemental Code
-//        JavaAudioDeviceModule.builder ( requireContext() )
-//            .setUseHardwareAcousticEchoCanceler(false)
-//            .setUseHardwareNoiseSuppressor(false)
-//            .createAudioDeviceModule ()
-//
-//        WebRtcAudioUtils.setWebRtcBasedAcousticEchoCanceler(true)
-//        WebRtcAudioUtils.setWebRtcBasedAutomaticGainControl(true)
-//        WebRtcAudioUtils.setWebRtcBasedNoiseSuppressor(true)
-        val audioManager = context?.getSystemService(Context.AUDIO_SERVICE) as AudioManager?
-        audioManager?.isMicrophoneMute=false
+
+//        val audioManager = context?.getSystemService(Context.AUDIO_SERVICE) as AudioManager?
+//        audioManager?.isMicrophoneMute= false
+//        audioManager?.isSpeakerphoneOn = false
+
 
 
         val initializationOptions =
@@ -594,12 +589,22 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         val defaultVideoEncoderFactory = DefaultVideoEncoderFactory(eglBaseContext, true, true)
         val defaultVideoDecoderFactory = DefaultVideoDecoderFactory(eglBaseContext)
 
+        val  audioDeviceModule =  JavaAudioDeviceModule.builder ( requireContext() )
+            .setUseHardwareAcousticEchoCanceler(false)
+            .setUseHardwareNoiseSuppressor(false)
+            .createAudioDeviceModule ()
+
 
         peerConnectionFactory = PeerConnectionFactory.builder()
             .setOptions(options)
             .setVideoEncoderFactory(defaultVideoEncoderFactory)
             .setVideoDecoderFactory(defaultVideoDecoderFactory)
+            .setAudioDeviceModule(audioDeviceModule)
             .createPeerConnectionFactory()
+
+        WebRtcAudioUtils.setWebRtcBasedNoiseSuppressor(true)
+        WebRtcAudioUtils.setWebRtcBasedAcousticEchoCanceler(true);
+        WebRtcAudioUtils.setWebRtcBasedAutomaticGainControl(true);
 
         localAudioSource = peerConnectionFactory?.createAudioSource(audioConstraints)
         localAudioTrack = peerConnectionFactory?.createAudioTrack("101", localAudioSource)
