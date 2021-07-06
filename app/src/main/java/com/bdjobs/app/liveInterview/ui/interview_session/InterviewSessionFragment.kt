@@ -1,7 +1,9 @@
 package com.bdjobs.app.liveInterview.ui.interview_session
 
 import android.app.Application
+import android.content.Context
 import android.content.IntentFilter
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -42,6 +44,8 @@ import org.json.JSONObject
 import org.webrtc.*
 import org.webrtc.PeerConnection
 import org.webrtc.PeerConnection.RTCConfiguration
+import org.webrtc.audio.JavaAudioDeviceModule
+import org.webrtc.voiceengine.WebRtcAudioUtils
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -80,19 +84,34 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     val iceServers = ArrayList<PeerConnection.IceServer>()
 
-    private var videoSource: VideoSource? = null
-    private var audioSource: AudioSource? = null
+    private var localVideoSource: VideoSource? = null
+    private var localAudioSource: AudioSource? = null
 
+    private var localMediaStream: MediaStream? = null
     private var localVideoTrack: VideoTrack? = null
     private var localAudioTrack: AudioTrack? = null
-    private var localMediaStream: MediaStream? = null
 
+
+    private var remoteMediaStream: MediaStream? = null
     private var remoteVideoTrack: VideoTrack? = null
+    private var remoteAudioTrack: AudioTrack? = null
 
 
     val pcConstraints = object : MediaConstraints() {
         init {
             optional.add(KeyValuePair("DtlsSrtpKeyAgreement", "true"))
+            optional.add(KeyValuePair("OfferToReceiveAudio", "true"))
+            optional.add(KeyValuePair("OfferToReceiveVideo", "true"))
+//            optional.add(KeyValuePair("googEchoCancellation", "true"))
+//            optional.add(KeyValuePair("googEchoCancellation2", "true"))
+//            optional.add(KeyValuePair("googDAEchoCancellation", "true"))
+//            optional.add(KeyValuePair("googTypingNoiseDetection", "true"))
+//            optional.add(KeyValuePair("googAutoGainControl", "true"))
+//            optional.add(KeyValuePair("googAutoGainControl2", "true"))
+//            optional.add(KeyValuePair("googNoiseSuppression", "true"))
+//            optional.add(KeyValuePair("googNoiseSuppression2", "true"))
+//            optional.add(KeyValuePair("googAudioMirroring", "false"))
+//            optional.add(KeyValuePair("googHighpassFilter", "true"))
         }
     }
 
@@ -351,6 +370,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                         if (localVideoTrack != null) {
                             localVideoTrack?.removeSink(binding.svLocal)
                             localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
+                            remoteVideoTrack?.setEnabled(true)
                         }
                     } catch (e: Exception) {
                         Timber.tag("live").d("Error:countDownFinish - %s", e.toString())
@@ -561,6 +581,19 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         eglBaseContext = EglBase.create().eglBaseContext
 
+        //Noise cancel Experiemental Code
+//        JavaAudioDeviceModule.builder ( requireContext() )
+//            .setUseHardwareAcousticEchoCanceler(false)
+//            .setUseHardwareNoiseSuppressor(false)
+//            .createAudioDeviceModule ()
+//
+//        WebRtcAudioUtils.setWebRtcBasedAcousticEchoCanceler(true)
+//        WebRtcAudioUtils.setWebRtcBasedAutomaticGainControl(true)
+//        WebRtcAudioUtils.setWebRtcBasedNoiseSuppressor(true)
+        val audioManager = context?.getSystemService(Context.AUDIO_SERVICE) as AudioManager?
+        audioManager?.isMicrophoneMute=false
+
+
         val initializationOptions =
             PeerConnectionFactory.InitializationOptions.builder(requireContext())
                 .createInitializationOptions()
@@ -578,19 +611,19 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             .setVideoDecoderFactory(defaultVideoDecoderFactory)
             .createPeerConnectionFactory()
 
-        audioSource = peerConnectionFactory?.createAudioSource(audioConstraints)
-        localAudioTrack = peerConnectionFactory?.createAudioTrack("101", audioSource)
+        localAudioSource = peerConnectionFactory?.createAudioSource(audioConstraints)
+        localAudioTrack = peerConnectionFactory?.createAudioTrack("101", localAudioSource)
         localAudioTrack?.setEnabled(true)
 
         videoCapturerAndroid = createVideoCapturer()
         videoCapturerAndroid?.let {
             surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", eglBaseContext)
-            videoSource =
+            localVideoSource =
                 peerConnectionFactory?.createVideoSource(videoCapturerAndroid!!.isScreencast)
             videoCapturerAndroid!!.initialize(
                 surfaceTextureHelper,
                 requireActivity(),
-                videoSource?.capturerObserver
+                localVideoSource?.capturerObserver
             )
         }
         videoCapturerAndroid?.startCapture(640, 480, 30)
@@ -603,7 +636,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         binding.localJobseekerSurfaceView.init(eglBaseContext, null)
 
 
-        localVideoTrack = peerConnectionFactory?.createVideoTrack("100", videoSource)
+        localVideoTrack = peerConnectionFactory?.createVideoTrack("100", localVideoSource)
 
         localMediaStream = peerConnectionFactory?.createLocalMediaStream("ARDAMS")
         localMediaStream?.apply {
@@ -653,11 +686,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private fun gotRemoteStream(stream: MediaStream) {
         Timber.d("Got Remote Stream")
         remoteVideoTrack = stream.videoTracks[0]
-        requireActivity().runOnUiThread {
+        remoteAudioTrack = stream.audioTracks[0]
+
+        runOnUiThread {
             try {
                 remoteVideoTrack?.addSink(binding.remoteHostSurfaceView)
             } catch (e: Exception) {
-                e.printStackTrace()
+                Timber.tag("live").d("Error:gotRemoteStream $e")
             }
         }
     }
@@ -680,6 +715,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         rtcConfig.keyType = PeerConnection.KeyType.ECDSA
         rtcConfig.iceTransportsType = PeerConnection.IceTransportsType.ALL
         rtcConfig.enableCpuOveruseDetection = true
+
 
         peerConnection =
             peerConnectionFactory?.createPeerConnection(
@@ -826,6 +862,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                         if (localVideoTrack != null) {
                             localVideoTrack?.removeSink(binding.svLocal)
                             localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
+                            remoteVideoTrack?.setEnabled(true)
                         }
                         interviewSessionViewModel.applicantJoinedOnGoingSession()
                     }else{
@@ -916,6 +953,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             localVideoTrack?.dispose()
             localAudioTrack?.dispose()
             remoteVideoTrack?.dispose()
+            remoteAudioTrack?.dispose()
+            localMediaStream?.dispose()
+            remoteMediaStream?.dispose()
             binding.remoteHostSurfaceView.release()
             binding.localJobseekerSurfaceView.release()
             localVideoTrack?.removeSink(binding.svLocal)

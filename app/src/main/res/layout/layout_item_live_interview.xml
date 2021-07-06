@@ -57,7 +57,7 @@
                 android:text="@{data.jobTitle}"
                 android:textColor="@color/colorLiveInterview"
                 android:textSize="16sp"
-                app:drawableStartCompat="@drawable/ic_live"
+                app:drawableStartCompat="@drawable/ic_live_interview_circle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
