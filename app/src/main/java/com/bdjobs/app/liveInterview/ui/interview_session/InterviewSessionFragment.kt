@@ -357,11 +357,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 if (it) {
                     try {
                         mediaPlayer?.stop()
-                        if (localVideoTrack != null) {
-                            localVideoTrack?.removeSink(binding.svLocal)
-                            localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
-                            remoteVideoTrack?.setEnabled(true)
-                        }
                     } catch (e: Exception) {
                         Timber.tag("live").d("Error:countDownFinish - %s", e.toString())
                     }
@@ -623,10 +618,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         }
         videoCapturerAndroid?.startCapture(640, 480, 30)
 
-
-        binding.svLocal.setMirror(true)
-        binding.svLocal.init(eglBaseContext, null)
-
         binding.localJobseekerSurfaceView.setMirror(true)
         binding.localJobseekerSurfaceView.init(eglBaseContext, null)
 
@@ -639,7 +630,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             addTrack(localVideoTrack)
         }
 
-        localVideoTrack?.addSink(binding.svLocal)
+        localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
 
         binding.remoteHostSurfaceView.setMirror(true)
         binding.remoteHostSurfaceView.init(eglBaseContext, null)
@@ -680,6 +671,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     private fun gotRemoteStream(stream: MediaStream) {
         Timber.d("Got Remote Stream")
+        remoteMediaStream = stream
         remoteVideoTrack = stream.videoTracks[0]
         remoteAudioTrack = stream.audioTracks[0]
 
@@ -854,11 +846,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
          runOnUiThread {
                 try {
                     if (isloginUser.equals("true")){
-                        if (localVideoTrack != null) {
-                            localVideoTrack?.removeSink(binding.svLocal)
-                            localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
-                            remoteVideoTrack?.setEnabled(true)
-                        }
                         interviewSessionViewModel.applicantJoinedOnGoingSession()
                     }else{
                         interviewSessionViewModel.isEmployerArrived.postValue(true)
@@ -953,8 +940,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             remoteMediaStream?.dispose()
             binding.remoteHostSurfaceView.release()
             binding.localJobseekerSurfaceView.release()
-            localVideoTrack?.removeSink(binding.svLocal)
-            binding.svLocal.release()
         } catch (e: Exception) {
             Timber.tag("live").d(e.toString())
         }

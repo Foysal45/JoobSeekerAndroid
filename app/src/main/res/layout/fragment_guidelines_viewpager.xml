@@ -81,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="Skip"
+        android:text="স্কিপ"
         android:textAllCaps="false"
         android:letterSpacing="0"
         app:elevation="0dp"

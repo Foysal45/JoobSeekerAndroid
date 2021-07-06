@@ -62,7 +62,7 @@ class PersonalDetailsEditFragment : Fragment() {
         now.set(Calendar.YEAR, year)
         now.set(Calendar.MONTH, monthOfYear)
         now.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-        updateDatePassportIssueView()
+      //  updateDatePassportIssueView()
     }
 
     private fun updateDateInView() {
@@ -110,11 +110,15 @@ class PersonalDetailsEditFragment : Fragment() {
         etPerFirstName?.addTextChangedListener(TW.CrossIconBehave(etPerFirstName))
         etPerDob?.addTextChangedListener(TW.CrossIconBehave(etPerDob))
         etPerNationality?.addTextChangedListener(TW.CrossIconBehave(etPerNationality))
+        etPassportIssueDate?.addTextChangedListener(TW.CrossIconBehave(etPassportIssueDate))
+        etPassportNumber?.addTextChangedListener(TW.CrossIconBehave(etPassportNumber))
     }
 
     private fun doWork() {
         addTextChangedListener(etPerFirstName, firstNameTIL)
         addTextChangedListener(etPerDob, dobTIL)
+//        addTextChangedListener(etPassportIssueDate, passportIssueDateTIL)
+//        addTextChangedListener(etPassportNumber, passportNumberTIL)
         addTextChangedListener(etPerNationality, nationalityTIL)
         preloadedData()
         cbPerIsBd.setOnCheckedChangeListener { _, isChecked ->

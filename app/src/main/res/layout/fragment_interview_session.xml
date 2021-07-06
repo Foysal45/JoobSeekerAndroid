@@ -54,12 +54,12 @@
             android:background="@color/black_transparent"
             tools:visibility="gone">
 
-            <org.webrtc.SurfaceViewRenderer
-                android:id="@+id/sv_local"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <org.webrtc.SurfaceViewRenderer-->
+<!--                android:id="@+id/sv_local"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
 
             <!-- Bottom Option xml start-->
@@ -344,7 +344,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            tools:visibility="visible"
+            tools:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent">
 
 
@@ -949,7 +949,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/ll_indicators"
@@ -1004,7 +1004,7 @@
                 android:paddingTop="13dp"
                 android:paddingEnd="26dp"
                 android:paddingBottom="13dp"
-                android:text="Skip"
+                android:text="স্কিপ"
                 android:textAllCaps="false"
                 android:textColor="#666666"
                 app:backgroundTint="#E6E6E6"
