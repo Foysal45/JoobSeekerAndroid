@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.layout_bdjobs_resume_steps.*
 @BindingAdapter("totalViewCountText")
 fun MaterialTextView.setTotalViewCountText(value: String) {
     this.run {
-        this.text = "Total Views of Resume ($value)"
+        this.text = "Total No. Viewed Resume ($value)"
     }
 }
 
@@ -24,7 +24,16 @@ fun MaterialTextView.setTotalViewCountText(value: String) {
 @BindingAdapter("totalEmailCountText")
 fun MaterialTextView.setTotalEmailCountText(value: String) {
     this.run {
-        this.text = "Total Emailed Resume ($value)"
+        this.text = "Total No. of Emailed Resume ($value)"
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("showingToEmployerText")
+fun MaterialTextView.setShowingToEmployerText(value: Boolean) {
+    val showStatus = if (value) "Yes" else "No"
+    this.run {
+        this.text = "Show to Employer(s): $showStatus"
     }
 }
 

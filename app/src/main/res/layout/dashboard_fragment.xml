@@ -49,7 +49,7 @@
                 android:textColor="#767676"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Total Views of Resume (60)" />
+                tools:text="Total No. Viewed Resume (60)" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_bdjobs_resume_view"
@@ -220,7 +220,7 @@
                 android:textColor="#767676"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cv_bdjobs_resume_view"
-                tools:text="Total Emailed Resume (40)" />
+                tools:text="Total No. of Emailed Resume (40)" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_bdjobs_resume_email"

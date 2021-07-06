@@ -42,13 +42,13 @@ class DashboardViewModel(private val repository: ResumeDashboardRepository) : Vi
 
     var isLoading = MutableLiveData<Boolean>()
 
-    init {
-        resumePrivacyStatus()
-        manageResumeStats()
-    }
+//    init {
+//        resumePrivacyStatus()
+//        manageResumeStats()
+//    }
 
 
-    private fun manageResumeStats() {
+    fun manageResumeStats() {
         isLoading.value = true
 
         viewModelScope.launch {
@@ -84,7 +84,7 @@ class DashboardViewModel(private val repository: ResumeDashboardRepository) : Vi
         }
     }
 
-    private fun resumePrivacyStatus() {
+    fun resumePrivacyStatus() {
         isLoading.value = true
 
         viewModelScope.launch {

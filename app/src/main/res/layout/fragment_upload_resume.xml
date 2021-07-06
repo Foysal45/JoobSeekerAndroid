@@ -160,8 +160,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
                             android:maxLines="1"
-                            android:text="Views"
-                            android:textSize="12sp"
+                            android:text="Viewed by employer(s)"
+                            android:textSize="10sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_view_count" />
 
@@ -211,8 +211,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
                             android:maxLines="1"
-                            android:text="Downloads"
-                            android:textSize="12sp"
+                            android:text="Downloaded"
+                            android:textSize="10sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_download_count" />
 
@@ -264,7 +264,7 @@
                             android:fontFamily="@font/roboto"
                             android:maxLines="1"
                             android:text="Emailed"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_emailed_count" />
 

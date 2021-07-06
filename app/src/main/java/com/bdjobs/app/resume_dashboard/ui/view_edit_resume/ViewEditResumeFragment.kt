@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.layout_no_personalized_resume.*
 import kotlinx.android.synthetic.main.layout_no_video_resume.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
+import timber.log.Timber
 
 class ViewEditResumeFragment : Fragment() {
 
@@ -50,10 +51,8 @@ class ViewEditResumeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViews()
     }
-
 
     private fun initViews() {
         binding.apply {
@@ -129,6 +128,22 @@ class ViewEditResumeFragment : Fragment() {
 
     private fun navigateToVideoResumeQuestionFragment() {
         startActivity<VideoResumeActivity>("from" to "ViewEditResume")
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        setUpObserver()
+    }
+
+    private fun setUpObserver() {
+        viewEditResumeViewModel.apply {
+            showBdJobsResumeSteps.value = false
+            showVideoResumeSteps.value = false
+
+            resumePrivacyStatus()
+            manageResumeDetailsStat()
+        }
     }
 
 }

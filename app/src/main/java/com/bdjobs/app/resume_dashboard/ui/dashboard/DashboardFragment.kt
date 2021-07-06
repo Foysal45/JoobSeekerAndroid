@@ -38,6 +38,19 @@ class DashboardFragment : Fragment() {
         initViews()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        setUpObserver()
+    }
+
+    private fun setUpObserver() {
+        dashboardViewModel.apply {
+            resumePrivacyStatus()
+            manageResumeStats()
+        }
+    }
+
     private fun initViews() {
         binding.tvChangeVisibility.paint.isUnderlineText = true
         binding.tvChangeVisibility.setOnClickListener { startActivity<SettingBaseActivity>("from" to "dashboard") }

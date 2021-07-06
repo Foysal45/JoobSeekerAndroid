@@ -46,17 +46,17 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     var videoResumeQ4 = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ5 = MutableLiveData<String>().apply { value = "" }
 
-    init {
-        showBdJobsResumeSteps.value = false
-        showVideoResumeSteps.value = false
-
-        resumePrivacyStatus()
-        manageResumeDetailsStat()
-    }
+//    init {
+//        showBdJobsResumeSteps.value = false
+//        showVideoResumeSteps.value = false
+//
+//        resumePrivacyStatus()
+//        manageResumeDetailsStat()
+//    }
 
 
     @SuppressLint("SimpleDateFormat")
-    private fun manageResumeDetailsStat() {
+    fun manageResumeDetailsStat() {
         isLoading.value = true
 
         viewModelScope.launch {
@@ -113,7 +113,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
         }
     }
 
-    private fun resumePrivacyStatus() {
+    fun resumePrivacyStatus() {
         isLoading.value = true
 
         viewModelScope.launch {
