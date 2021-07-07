@@ -33,5 +33,7 @@ data class TimesEmailedData(
     @SerializedName("subject")
     val subject: String? = "",
     @SerializedName("version")
-    val version: String? = ""
+    val version: String? = "",
+    @SerializedName("cvType")
+    val cvType: String? = ""
 )

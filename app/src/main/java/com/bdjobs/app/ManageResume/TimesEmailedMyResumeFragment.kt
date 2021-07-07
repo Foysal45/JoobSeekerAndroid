@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -24,6 +25,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 
 class TimesEmailedMyResumeFragment : Fragment() {
@@ -37,7 +39,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
     private var bdjobsUserSession: BdjobsUserSession? = null
     private lateinit var isActivityDate: String
 
-    private var selectedResumeType = "3"
+    private var selectedResumeType = "2"
 
     private lateinit var manageCommunicator: ManageResumeCommunicator
     private lateinit var timesEmailedMyResumeAdapter: TimesEmailedMyResumeAdapter
@@ -127,6 +129,29 @@ class TimesEmailedMyResumeFragment : Fragment() {
         }
 
         loadSpinner()
+
+        filter_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedType = parent?.getItemAtPosition(position).toString()
+                Timber.d("Selected Resume Type: $selectedType")
+
+                when (selectedType) {
+                    "All" -> selectedResumeType = "1"
+                    "Bdjobs Resume" -> selectedResumeType = "2"
+                    "Personalized Resume" -> selectedResumeType = "3"
+                }
+
+                initPagination()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+        }
 
     }
 
@@ -221,7 +246,8 @@ class TimesEmailedMyResumeFragment : Fragment() {
             decodeID = bdjobsUserSession?.decodId,
             pageNumber = pgNo.toString(),
             itemsPerPage = "20",
-            isActivityDate = isActivityDate
+            isActivityDate = isActivityDate,
+            resumeType = selectedResumeType
         ).enqueue(object : Callback<TimesEmailed> {
             override fun onFailure(call: Call<TimesEmailed>, t: Throwable) {
                 error("onFailure", t)
@@ -307,7 +333,8 @@ class TimesEmailedMyResumeFragment : Fragment() {
             decodeID = bdjobsUserSession?.decodId,
             pageNumber = pgNo.toString(),
             itemsPerPage = "20",
-            isActivityDate = isActivityDate
+            isActivityDate = isActivityDate,
+            resumeType = selectedResumeType,
         ).enqueue(object : Callback<TimesEmailed> {
             override fun onFailure(call: Call<TimesEmailed>, t: Throwable) {
                 error("onFailure", t)

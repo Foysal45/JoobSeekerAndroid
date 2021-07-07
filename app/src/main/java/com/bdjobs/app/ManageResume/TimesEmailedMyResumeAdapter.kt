@@ -10,6 +10,8 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.TimesEmailedData
 import com.bdjobs.app.Ads.Ads
@@ -189,6 +191,8 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                 val holder = viewHolder as TimesEmailedMyResumeViewHolder
                 holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
                 holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
+                if (timesEmailedList?.get(position)?.cvType=="0") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_bdjobs_resume_count))
+                else if (timesEmailedList?.get(position)?.cvType=="1") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_personalized_resume_count))
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
                 holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
             }
@@ -196,6 +200,9 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                 val holder = viewHolder as TimesEmailedMyResumeWithAdViewHolder
                 holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
                 holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
+                if (timesEmailedList?.get(position)?.cvType=="0") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_bdjobs_resume_count))
+                else if (timesEmailedList?.get(position)?.cvType=="1") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_personalized_resume_count))
+
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
                 holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
             }
@@ -232,6 +239,9 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                 holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
                 holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
+                if (timesEmailedList?.get(position)?.cvType=="0") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_bdjobs_resume_count))
+                else if (timesEmailedList?.get(position)?.cvType=="1") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_personalized_resume_count))
+
                 holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
 
                 if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
@@ -258,6 +268,9 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                 holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
                 holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
+                if (timesEmailedList?.get(position)?.cvType=="0") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_bdjobs_resume_count))
+                else if (timesEmailedList?.get(position)?.cvType=="1") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_personalized_resume_count))
+
                 holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
 
                 if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
@@ -287,6 +300,7 @@ class TimesEmailedMyResumeViewHolder(view: View) : RecyclerView.ViewHolder(view)
     val subjectTV = view?.findViewById(R.id.subjectTV) as TextView
     val emailTV = view?.findViewById(R.id.emailTV) as TextView
     val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView
+    val resumeTypeIV = view.findViewById<AppCompatImageView>(R.id.iv_resume_type)
 
 //    val followUnfollow = view?.findViewById(R.id.follownfollow_BTN) as MaterialButton
 //    val employersListCard = view?.findViewById(R.id.empList_cardview) as CardView
@@ -298,6 +312,7 @@ class TimesEmailedMyResumeWithAdViewHolder(view: View) : RecyclerView.ViewHolder
     val emailTV = view?.findViewById(R.id.emailTV) as TextView
     val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView
     val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
+    val resumeTypeIV = view.findViewById<AppCompatImageView>(R.id.iv_resume_type)
 
 //    val followUnfollow = view?.findViewById(R.id.follownfollow_BTN) as MaterialButton
 //    val employersListCard = view?.findViewById(R.id.empList_cardview) as CardView
@@ -308,6 +323,7 @@ class TimesEmailedMyResumeVHJobID(view: View) : RecyclerView.ViewHolder(view) {
     val subjectTV = view?.findViewById(R.id.subjectTV) as TextView
     val emailTV = view?.findViewById(R.id.emailTV) as TextView
     val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView
+    val resumeTypeIV = view.findViewById<AppCompatImageView>(R.id.iv_resume_type)
 
 }
 
@@ -316,6 +332,7 @@ class TimesEmailedMyResumeWithAdVHJobID(view: View) : RecyclerView.ViewHolder(vi
     val emailTV = view?.findViewById(R.id.emailTV) as TextView
     val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView
     val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
+    val resumeTypeIV = view.findViewById<AppCompatImageView>(R.id.iv_resume_type)
 }
 
 class TimesEmailedMyResumeLoadingVH(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView),

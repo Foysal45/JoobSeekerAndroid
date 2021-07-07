@@ -1072,7 +1072,8 @@ interface ApiServiceMyBdjobs {
             @Field("pageNumber") pageNumber: String? = "",
             @Field("itemsPerPage") itemsPerPage: String? = "",
             @Field("isActivityDate") isActivityDate: String? = "",
-            @Field("appId") appId: String? = Constants.APP_ID
+            @Field("appId") appId: String? = Constants.APP_ID,
+            @Field("resumeType") resumeType: String? = "",
 
     ): Call<TimesEmailed>
 

@@ -95,6 +95,7 @@
             android:layout_centerVertical="true"
             android:fontFamily="@font/noto_sans"
             android:textColor="#13A10E"
+            android:visibility="gone"
             android:textSize="14sp"
             tools:text="" />
 
@@ -103,9 +104,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_alignParentRight="true"
-            android:visibility="gone"
-
-            >
+            android:visibility="gone">
 
 
             <TextView
@@ -173,7 +172,7 @@
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:background="@drawable/bg_spinner"
+                android:background="@drawable/dropdown_background"
                 android:layout_alignParentEnd="true"
                 android:layout_toStartOf="@id/cross_iv"
                 android:layout_marginEnd="8dp"
@@ -290,10 +289,11 @@
         android:typeface="normal"
         app:backgroundTint="#13A10E"
         app:cornerRadius="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/adView"
+        app:layout_constraintBottom_toTopOf="@+id/ll_resume_type_indicator"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 
 
 <!--    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"-->
@@ -316,9 +316,45 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        app:layout_constraintBottom_toTopOf="@id/ll_resume_type_indicator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
     </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:background="#FFF6E2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/ll_resume_type_indicator">
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bdjobs Resume"
+            app:drawableStartCompat="@drawable/ic_bdjobs_resume_count"
+            android:textSize="12sp"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/roboto"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personalized Resume"
+            android:textSize="12sp"
+            app:drawableStartCompat="@drawable/ic_personalized_resume_count"
+            android:layout_marginStart="10dp"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/roboto"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
