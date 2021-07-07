@@ -104,10 +104,10 @@ class EditResLandingActivity : Activity() {
 
     @SuppressLint("SetTextI18n")
     private fun fetchPersonalizedResumeStat() {
-        this.showProgressBar(loadingProgressBar)
-        cl_stat_personalized_resume.hide()
-        tv_label_stat_personalized_resume.hide()
-        tv_last_update.hide()
+//        this.showProgressBar(loadingProgressBar)
+//        cl_stat_personalized_resume.hide()
+//        tv_label_stat_personalized_resume.hide()
+//        tv_last_update.hide()
 
         GlobalScope.launch {
             try {
@@ -130,7 +130,7 @@ class EditResLandingActivity : Activity() {
 
                     runOnUiThread {
 
-                        this@EditResLandingActivity.stopProgressBar(loadingProgressBar)
+//                        this@EditResLandingActivity.stopProgressBar(loadingProgressBar)
 //                        if (!lastUpdated.isNullOrEmpty()) {
                         tv_label_stat_personalized_resume.show()
                         cl_stat_personalized_resume.show()

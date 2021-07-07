@@ -1,12 +1,16 @@
 package com.bdjobs.app.Employers
 
+import android.app.Dialog
 import android.app.Fragment
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -20,6 +24,11 @@ import com.bdjobs.app.Utilities.error
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textview.MaterialTextView
 //import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_employer_viewed_my_resume.*
 import org.jetbrains.anko.toast
@@ -73,12 +82,48 @@ class EmployerViewedMyResumeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         initializeViews()
+
+        favCountTV.setOnClickListener {
+            showFilterDialog()
+        }
+
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
 //        Ads.loadAdaptiveBanner(activity.applicationContext,adView)
 
         //Log.d("called", "onResume")
 
+    }
+
+    private fun showFilterDialog() {
+        val dialog = Dialog(activity).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(true)
+            setContentView(R.layout.dialog_filter_employer_view)
+//            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
+
+        val resumeTypeET = dialog.findViewById<TextInputEditText>(R.id.et_resume_type)
+        val resumeTypeTIL = dialog.findViewById<TextInputLayout>(R.id.til_resume_type)
+        val dropdownCard = dialog.findViewById<MaterialCardView>(R.id.dropdown_filter_options)
+        val bdJobsResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_bdjobs_resume_filter)
+        val personalizeResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_per_resume_filter)
+        val videoResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_video_resume_filter)
+        val allResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_all_resume_filter)
+        val fromTIL = dialog.findViewById<TextInputLayout>(R.id.til_from)
+        val fromET = dialog.findViewById<TextInputEditText>(R.id.et_from_filter)
+        val toET = dialog.findViewById<TextInputEditText>(R.id.et_to_filter)
+        val toTIL = dialog.findViewById<TextInputLayout>(R.id.til_to)
+
+        val applyBtn = dialog.findViewById<MaterialButton>(R.id.btn_applied)
+        val cancelBtn = dialog.findViewById<MaterialButton>(R.id.btn_cancel)
+
+
+        resumeTypeET.setOnClickListener { dropdownCard.visibility = View.VISIBLE }
+        cancelBtn.setOnClickListener { dialog.dismiss() }
+
+        dialog.show()
     }
 
     override fun onPause() {
@@ -105,7 +150,6 @@ class EmployerViewedMyResumeFragment : Fragment() {
         super.onDetach()
         //Log.d("called", "onDetach")
     }
-
 
     private fun initializeViews() {
         bdjobsUserSession = BdjobsUserSession(activity)
