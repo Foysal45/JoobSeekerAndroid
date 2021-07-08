@@ -1,20 +1,22 @@
 package com.bdjobs.app.Employers
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.API.ModelClasses.EmpVwdResumeData
+import com.bdjobs.app.API.ModelClasses.DataEmpV
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.toSimpleDateString
 import com.google.android.ads.nativetemplates.TemplateView
+import com.google.android.material.textview.MaterialTextView
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -22,18 +24,18 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
     private var isLoadingAdded = false
     private var retryPageLoad = false
     private var errorMsg: String? = null
-    private var vwdResumeList: ArrayList<EmpVwdResumeData> = ArrayList()
+    private var vwdResumeList: ArrayList<DataEmpV> = ArrayList()
 
     companion object {
         // View Types
-        private val ITEM = 0
-        private val LOADING = 1
-        private val ITEM_WITH_AD = 2
+        private const val ITEM = 0
+        private const val LOADING = 1
+        private const val ITEM_WITH_AD = 2
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        var viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder? = null
+        var viewHolder: RecyclerView.ViewHolder? = null
         val inflater = LayoutInflater.from(parent.context)
 
         when (viewType) {
@@ -55,7 +57,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
     }
 
     override fun getItemCount(): Int {
-        return return if (vwdResumeList == null) 0 else vwdResumeList!!.size
+        return vwdResumeList.size
 
     }
 
@@ -96,11 +98,11 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
         return if (position != 0 && position % 3 == 0)
             ITEM_WITH_AD
         else
-            if (position == vwdResumeList!!.size - 1 && isLoadingAdded) LOADING else ITEM
+            if (position == vwdResumeList.size - 1 && isLoadingAdded) LOADING else ITEM
     }
 
-    private fun getItem(position: Int): EmpVwdResumeData? {
-        return vwdResumeList!![position]
+    private fun getItem(position: Int): DataEmpV {
+        return vwdResumeList[position]
     }
 
     private fun bindViews(viewHolder: RecyclerView.ViewHolder, position: Int) {
@@ -109,17 +111,35 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
             ITEM -> {
                 val holder = viewHolder as EmployerViewedMyResumeVH
                 try {
-                    holder?.companyName?.text = vwdResumeList?.get(position)?.companyName
-                    holder?.appliedOn?.text = SimpleDateFormat("M/d/yyyy").parse(vwdResumeList?.get(position)?.viewedOn).toSimpleDateString()
+                    holder.companyName.text = vwdResumeList.get(position).companyName
+                    holder.appliedOn.text = SimpleDateFormat("M/d/yyyy",Locale.US).parse(vwdResumeList.get(position).viewedOn!!)!!.toSimpleDateString()
                     //  //Log.d("hellohello", "hello= " + vwdResumeList?.get(position)?.summaryView)
 
-                    if (vwdResumeList?.get(position)?.summaryView == "yes") {
-                        holder?.summaryView.visibility = View.VISIBLE
-                        holder?.summaryView.setImageResource(R.drawable.ic_done_20dp)
-                    } else if (vwdResumeList?.get(position)?.detailView == "yes") {
-                        holder?.summaryView.visibility = View.VISIBLE
-                        holder?.summaryView.setImageResource(R.drawable.ic_done_double)
-                    }
+                    if (vwdResumeList[position].viewBdjobsResume !="0") {
+                        holder.bdjobsResumeView.visibility = View.VISIBLE
+                    } else holder.bdjobsResumeView.visibility = View.GONE
+
+                    if (vwdResumeList[position].viewPersonalizeResume !="0") {
+                        holder.personalizedResumeView.visibility = View.VISIBLE
+                    } else holder.personalizedResumeView.visibility = View.GONE
+
+                    if (vwdResumeList[position].viewVideoResume !="0") {
+                        holder.videoResumeView.visibility = View.VISIBLE
+                    } else holder.videoResumeView.visibility = View.GONE
+
+                    if (vwdResumeList[position].viewSummeryView !="0") {
+                        holder.summaryView.visibility = View.VISIBLE
+                    } else holder.summaryView.visibility = View.GONE
+
+                    holder.noOfViews.text = vwdResumeList[position].numberOfTotalViewed
+
+//                    if (vwdResumeList?.get(position)?.summaryView == "yes") {
+//                        holder?.summaryView.visibility = View.VISIBLE
+//                        holder?.summaryView.setImageResource(R.drawable.ic_done_20dp)
+//                    } else if (vwdResumeList?.get(position)?.detailView == "yes") {
+//                        holder?.summaryView.visibility = View.VISIBLE
+//                        holder?.summaryView.setImageResource(R.drawable.ic_done_double)
+//                    }
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -128,17 +148,36 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
             ITEM_WITH_AD -> {
                 val holder = viewHolder as EmployerViewedMyResumeVHWithAd
                 try {
-                    holder?.companyName?.text = vwdResumeList?.get(position)?.companyName
-                    holder?.appliedOn?.text = SimpleDateFormat("M/d/yyyy").parse(vwdResumeList?.get(position)?.viewedOn).toSimpleDateString()
+                    holder.companyName.text = vwdResumeList.get(position).companyName
+                    holder.appliedOn.text = SimpleDateFormat("M/d/yyyy", Locale.US).parse(vwdResumeList.get(position).viewedOn!!)!!.toSimpleDateString()
                     //  //Log.d("hellohello", "hello= " + vwdResumeList?.get(position)?.summaryView)
 
-                    if (vwdResumeList?.get(position)?.summaryView == "yes") {
-                        holder?.summaryView.visibility = View.VISIBLE
-                        holder?.summaryView.setImageResource(R.drawable.ic_done_20dp)
-                    } else if (vwdResumeList?.get(position)?.detailView == "yes") {
-                        holder?.summaryView.visibility = View.VISIBLE
-                        holder?.summaryView.setImageResource(R.drawable.ic_done_double)
-                    }
+//                    if (vwdResumeList?.get(position)?.summaryView == "yes") {
+//                        holder?.summaryView.visibility = View.VISIBLE
+//                        holder?.summaryView.setImageResource(R.drawable.ic_done_20dp)
+//                    } else if (vwdResumeList?.get(position)?.detailView == "yes") {
+//                        holder?.summaryView.visibility = View.VISIBLE
+//                        holder?.summaryView.setImageResource(R.drawable.ic_done_double)
+//                    }
+
+                    if (vwdResumeList[position].viewBdjobsResume !="0") {
+                        holder.bdjobsResumeView.visibility = View.VISIBLE
+                    } else holder.bdjobsResumeView.visibility = View.GONE
+
+                    if (vwdResumeList[position].viewPersonalizeResume !="0") {
+                        holder.personalizedResumeView.visibility = View.VISIBLE
+                    } else holder.personalizedResumeView.visibility = View.GONE
+
+                    if (vwdResumeList[position].viewVideoResume !="0") {
+                        holder.videoResumeView.visibility = View.VISIBLE
+                    } else holder.videoResumeView.visibility = View.GONE
+
+                    if (vwdResumeList[position].viewSummeryView !="0") {
+                        holder.summaryView.visibility = View.VISIBLE
+                    } else holder.summaryView.visibility = View.GONE
+
+                    holder.noOfViews.text = vwdResumeList[position].numberOfTotalViewed
+
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -150,69 +189,75 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
 
     //----------------
 
-    fun add(r: EmpVwdResumeData) {
-        vwdResumeList?.add(r)
-        notifyItemInserted(vwdResumeList!!.size - 1)
+    fun add(r: DataEmpV) {
+        vwdResumeList.add(r)
+        notifyItemInserted(vwdResumeList.size - 1)
     }
 
 
-    fun addAll(moveResults: List<EmpVwdResumeData>) {
-        for (result in moveResults!!) {
+    fun addAll(moveResults: List<DataEmpV>) {
+        for (result in moveResults) {
             add(result)
         }
         //Log.d("hello", "=== ${moveResults}")
     }
 
     fun removeAll() {
-        vwdResumeList?.clear()
+        vwdResumeList.clear()
         notifyDataSetChanged()
     }
 
 
     fun addLoadingFooter() {
         isLoadingAdded = true
-        add(EmpVwdResumeData())
+        add(DataEmpV())
     }
 
     fun removeLoadingFooter() {
         isLoadingAdded = false
 
-        val position = vwdResumeList!!.size - 1
+        val position = vwdResumeList.size - 1
         val result = getItem(position)
         notifyItemRemoved(position)
 
-        if (result != null) {
-            vwdResumeList!!.removeAt(position)
-            notifyItemRemoved(position)
-        }
+        vwdResumeList.removeAt(position)
+        notifyItemRemoved(position)
     }
 
 }
 
 class EmployerViewedMyResumeVH(view: View) : RecyclerView.ViewHolder(view) {
-    val appliedOn = view?.findViewById(R.id.viewedOn_TV) as TextView
-    val companyName = view?.findViewById(R.id.employers_companyName_TV) as TextView
-    val summaryView = view?.findViewById(R.id.summaryView_IV) as ImageView
+    val appliedOn = view.findViewById(R.id.viewedOn_TV) as TextView
+    val companyName = view.findViewById(R.id.employers_companyName_TV) as TextView
+    val noOfViews = view.findViewById<MaterialTextView>(R.id.tv_no_viewed)!!
+    val bdjobsResumeView = view.findViewById<AppCompatImageView>(R.id.iv_bdjobs_resume)!!
+    val personalizedResumeView = view.findViewById<AppCompatImageView>(R.id.iv_per_resume)!!
+    val videoResumeView = view.findViewById<AppCompatImageView>(R.id.iv_video_resume)!!
+    val summaryView = view.findViewById(R.id.iv_summary_view) as AppCompatImageView
 }
 
 class EmployerViewedMyResumeVHWithAd(view: View) : RecyclerView.ViewHolder(view) {
-    val appliedOn = view?.findViewById(R.id.viewedOn_TV) as TextView
-    val companyName = view?.findViewById(R.id.employers_companyName_TV) as TextView
-    val summaryView = view?.findViewById(R.id.summaryView_IV) as ImageView
-    val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
+    val appliedOn = view.findViewById(R.id.viewedOn_TV) as TextView
+    val companyName = view.findViewById(R.id.employers_companyName_TV) as TextView
+    val noOfViews = view.findViewById<MaterialTextView>(R.id.tv_no_viewed)!!
+    val bdjobsResumeView = view.findViewById<AppCompatImageView>(R.id.iv_bdjobs_resume)!!
+    val personalizedResumeView = view.findViewById<AppCompatImageView>(R.id.iv_per_resume)!!
+    val videoResumeView = view.findViewById<AppCompatImageView>(R.id.iv_video_resume)!!
+    val summaryView = view.findViewById(R.id.iv_summary_view) as AppCompatImageView
+    val ad_small_template: TemplateView = view.findViewById(R.id.ad_small_template) as TemplateView
 }
 
-class ResumeLoadingVH(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView),
+class ResumeLoadingVH(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-    val mProgressBar: ProgressBar = itemView?.findViewById(R.id.loadmore_progress_1) as ProgressBar
-    val mRetryBtn: ImageButton = itemView?.findViewById(R.id.loadmore_retry_1) as ImageButton
-    val mErrorTxt: TextView = itemView?.findViewById(R.id.loadmore_errortxt_1) as TextView
-    val mErrorLayout: LinearLayout = itemView?.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
+    val mProgressBar: ProgressBar = itemView.findViewById(R.id.loadmore_progress_1) as ProgressBar
+    val mRetryBtn: ImageButton = itemView.findViewById(R.id.loadmore_retry_1) as ImageButton
+    val mErrorTxt: TextView = itemView.findViewById(R.id.loadmore_errortxt_1) as TextView
+    val mErrorLayout: LinearLayout = itemView.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
 
     init {
 
-        mRetryBtn?.setOnClickListener(this)
-        mErrorLayout?.setOnClickListener(this)
+        mRetryBtn.setOnClickListener(this)
+        mErrorLayout.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {

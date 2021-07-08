@@ -784,6 +784,19 @@ interface ApiServiceMyBdjobs {
     ): Call<EmpVwdResume>
 
     @FormUrlEncoded
+    @POST("apps_resume_view_status.asp")
+    fun getEmployerViewedResume(
+        @Field("userID") userId: String? = "",
+        @Field("decodeID") decodeId: String? = "",
+        @Field("pageNumber") pageNumber: String? = "",
+        @Field("itemsPerPage") itemsPerPage: String? = "",
+        @Field("fromDate") fromDate: String? = "",
+        @Field("toDate") toDate: String? = "",
+        @Field("compName") compName: String? = "",
+        @Field("txtStatus") txtStatus: String? = "",
+    ) : Call<EmpViewedResumeModel>
+
+    @FormUrlEncoded
     @POST("app_invite_interview_details.asp")
     fun getIterviewInvitationDetails(
             @Field("userId") userID: String? = "",

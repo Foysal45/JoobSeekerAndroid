@@ -1,5 +1,7 @@
 package com.bdjobs.app.Employers
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.Fragment
 import android.graphics.Color
@@ -14,16 +16,15 @@ import android.view.Window
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.DataEmpV
+import com.bdjobs.app.API.ModelClasses.EmpViewedResumeModel
 import com.bdjobs.app.API.ModelClasses.EmpVwdResume
 import com.bdjobs.app.API.ModelClasses.EmpVwdResumeData
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
@@ -35,6 +36,9 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class EmployerViewedMyResumeFragment : Fragment() {
@@ -49,14 +53,18 @@ class EmployerViewedMyResumeFragment : Fragment() {
     private lateinit var employerCommunicator: EmployersCommunicator
     private lateinit var isActivityDate: String
 
+    private var selectedType = "4"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private var fromText = ""
+    private var toText = ""
 
-    }
+    private val calendar = Calendar.getInstance()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_employer_viewed_my_resume, container, false)
         //Log.d("called", "onCreateView")
@@ -74,7 +82,6 @@ class EmployerViewedMyResumeFragment : Fragment() {
         backIMV?.setOnClickListener {
             employerCommunicator.backButtonPressed()
         }
-
 
 
     }
@@ -95,13 +102,12 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showFilterDialog() {
         val dialog = Dialog(activity).apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(true)
             setContentView(R.layout.dialog_filter_employer_view)
-//            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//            window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
 
         val resumeTypeET = dialog.findViewById<TextInputEditText>(R.id.et_resume_type)
@@ -119,36 +125,87 @@ class EmployerViewedMyResumeFragment : Fragment() {
         val applyBtn = dialog.findViewById<MaterialButton>(R.id.btn_applied)
         val cancelBtn = dialog.findViewById<MaterialButton>(R.id.btn_cancel)
 
+        val myFormat = "dd/MM/yyyy"
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+
+//        fromET.setText(sdf.format(calendar.time))
+//        toET.setText(sdf.format(calendar.time))
+
+        bdJobsResumeTV.setOnClickListener {
+            selectedType = "1"
+            resumeTypeET.setText("Bdjobs Resume")
+            dialog.dismiss()
+        }
+
+        personalizeResumeTV.setOnClickListener {
+            selectedType = "2"
+            resumeTypeET.setText("Personalized Resume")
+            dropdownCard.hide()
+        }
+
+        videoResumeTV.setOnClickListener {
+            selectedType = "3"
+            resumeTypeET.setText("Video Resume")
+            dropdownCard.hide()
+        }
+
+        allResumeTV.setOnClickListener {
+            selectedType = "4"
+            resumeTypeET.setText("All")
+            dropdownCard.hide()
+        }
 
         resumeTypeET.setOnClickListener { dropdownCard.visibility = View.VISIBLE }
         cancelBtn.setOnClickListener { dialog.dismiss() }
 
+        fromET.setOnClickListener {
+            showDatePicker(fromET,"from")
+        }
+
+        toET.setOnClickListener {
+            showDatePicker(toET,"to")
+        }
+
+        applyBtn.setOnClickListener {
+            initializeViews()
+            dialog.dismiss()
+        }
+
+
         dialog.show()
     }
 
-    override fun onPause() {
-        super.onPause()
-        //Log.d("called", "onPause")
-    }
+    @SuppressLint("SetTextI18n")
+    private fun showDatePicker(fromET: TextInputEditText,type:String) {
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
 
-    override fun onStop() {
-        super.onStop()
-        //Log.d("called", "onStop")
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //Log.d("called", "onDestroyView")
-    }
+        val dpd = DatePickerDialog(activity, { _, y, monthOfYear, dayOfMonth ->
 
-    override fun onDestroy() {
-        super.onDestroy()
-        //Log.d("called", "onDestroy")
-    }
+            // Display Selected date in textbox
+            val dd = if (dayOfMonth<10) "0$dayOfMonth" else "$dayOfMonth"
+            val MM = if (monthOfYear+1 <10) "0{${monthOfYear + 1}}" else "${monthOfYear+1}"
+            fromET.setText("$dd/$MM/$y")
 
-    override fun onDetach() {
-        super.onDetach()
-        //Log.d("called", "onDetach")
+            if (type=="from") {
+                val myFormat = "MM/dd/yyyy"
+                val sdf = SimpleDateFormat(myFormat, Locale.US)
+
+                fromText = sdf.format(fromET.text.toString())
+            } else {
+                val myFormat = "MM/dd/yyyy"
+                val sdf = SimpleDateFormat(myFormat, Locale.US)
+
+                toText = sdf.format(fromET.text.toString())
+            }
+
+        }, year, month, day)
+
+        dpd.datePicker.maxDate = calendar.timeInMillis
+        dpd.show()
     }
 
     private fun initializeViews() {
@@ -156,10 +213,12 @@ class EmployerViewedMyResumeFragment : Fragment() {
         employerViewedMyResumeAdapter = EmployerViewedMyResumeAdapter(activity)
         viewedMyResumeRV!!.adapter = employerViewedMyResumeAdapter
         viewedMyResumeRV!!.setHasFixedSize(true)
-        viewedMyResumeRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        viewedMyResumeRV?.layoutManager =
+            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         //Log.d("initPag", "called")
         viewedMyResumeRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-        viewedMyResumeRV?.addOnScrollListener(object : PaginationScrollListener((viewedMyResumeRV.layoutManager as LinearLayoutManager?)!!) {
+        viewedMyResumeRV?.addOnScrollListener(object :
+            PaginationScrollListener((viewedMyResumeRV.layoutManager as LinearLayoutManager?)!!) {
             override val isLoading: Boolean
                 get() = isLoadings
             override val totalPageCount: Int
@@ -192,25 +251,36 @@ class EmployerViewedMyResumeFragment : Fragment() {
             shimmer_view_container_employerViewedMyList?.startShimmer()
 
 
-            ApiServiceMyBdjobs.create().getEmpVwdMyResume(
-                    userId = bdjobsUserSession.userId,
-                    decodeId = bdjobsUserSession.decodId,
-                    pageNumber = pgNo.toString(),
-                    itemsPerPage = "10",
-                    isActivityDate = activityDate,
-                    AppsDate = "1"
-
-                    /*    userId = "241028",
-                        decodeId = "T8B8Rx",
-                        pageNumber = "1",
-                        itemsPerPage = "10",
-                        isActivityDate = "1",
-                        AppsDate = ""*/
-
-            ).enqueue(object : Callback<EmpVwdResume> {
-                override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
+//            ApiServiceMyBdjobs.create().getEmpVwdMyResume(
+//                userId = bdjobsUserSession.userId,
+//                decodeId = bdjobsUserSession.decodId,
+//                pageNumber = pgNo.toString(),
+//                itemsPerPage = "10",
+//                isActivityDate = activityDate,
+//                AppsDate = "1"
+//
+//                /*    userId = "241028",
+//                    decodeId = "T8B8Rx",
+//                    pageNumber = "1",
+//                    itemsPerPage = "10",
+//                    isActivityDate = "1",
+//                    AppsDate = ""*/
+//
+//            )
+               ApiServiceMyBdjobs.create().getEmployerViewedResume(
+                   userId = bdjobsUserSession.userId,
+                   decodeId = bdjobsUserSession.decodId,
+                   pageNumber = pgNo.toString(),
+                   itemsPerPage = "10",
+                   fromDate = fromText,
+                   toDate = toText,
+                   txtStatus = selectedType
+               ) .enqueue(object : Callback<EmpViewedResumeModel> {
+                override fun onFailure(call: Call<EmpViewedResumeModel>, t: Throwable) {
                     try {
+                        t.printStackTrace()
                         activity?.toast("${t.message}")
+                        Timber.e("Exception: ${t.localizedMessage}")
                         shimmer_view_container_employerViewedMyList?.hide()
                         shimmer_view_container_employerViewedMyList?.stopShimmer()
                     } catch (e: Exception) {
@@ -220,12 +290,10 @@ class EmployerViewedMyResumeFragment : Fragment() {
 //                userId=241028&decodeId=T8B8Rx&pageNumber=1&itemsPerPage=10&isActivityDate=1&AppsDate=1&appId=1
 //                userId=241028&decodeId=T8B8Rx&pageNumber=1&itemsPerPage=10&isActivityDate=&AppsDate=1&appId=1
 
-                override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
-                    /*Log.d("popup", "popup-" + bdjobsUserSession.userId!! +
-                            "de-" + bdjobsUserSession.decodId!!)*/
-
-                    //Log.d("callAppliURl", "url: ${call?.request()} and ${response.code()}")
-                    //Log.d("callAppliURl", "url: ${response.body()?.data}")
+                override fun onResponse(
+                    call: Call<EmpViewedResumeModel>,
+                    response: Response<EmpViewedResumeModel>
+                ) {
                     shimmer_view_container_employerViewedMyList?.hide()
                     shimmer_view_container_employerViewedMyList?.stopShimmer()
 
@@ -241,7 +309,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
                             val value = response.body()?.data
                             employerViewedMyResumeAdapter?.removeAll()
-                            employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<EmpVwdResumeData>)
+                            employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<DataEmpV>)
 
                             if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                                 //Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
@@ -254,13 +322,13 @@ class EmployerViewedMyResumeFragment : Fragment() {
                             //Log.d("totalJobs", "totalRecords $totalRecords")
 
 
-
-
                             if (totalRecords?.toInt()!! > 1) {
-                                val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Employers viewed my Resume"
+                                val styledText =
+                                    "<b><font color='#13A10E'>$totalRecords</font></b> Employers viewed my Resume"
                                 favCountTV?.text = Html.fromHtml(styledText)
                             } else if (totalRecords?.toInt()!! <= 1 || (totalRecords.toInt()!! == null)) {
-                                val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Employer viewed my Resume"
+                                val styledText =
+                                    "<b><font color='#13A10E'>$totalRecords</font></b> Employer viewed my Resume"
                                 favCountTV?.text = Html.fromHtml(styledText)
                             }
 
@@ -296,17 +364,26 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
     private fun loadNextPage(activityDate: String) {
         try {
-            ApiServiceMyBdjobs.create().getEmpVwdMyResume(
-                    userId = bdjobsUserSession.userId,
-                    decodeId = bdjobsUserSession.decodId,
-                    pageNumber = pgNo.toString(),
-                    itemsPerPage = "10",
-                    isActivityDate = activityDate,
-                    AppsDate = ""
-
-
-            ).enqueue(object : Callback<EmpVwdResume> {
-                override fun onFailure(call: Call<EmpVwdResume>, t: Throwable) {
+//            ApiServiceMyBdjobs.create().getEmpVwdMyResume(
+//                userId = bdjobsUserSession.userId,
+//                decodeId = bdjobsUserSession.decodId,
+//                pageNumber = pgNo.toString(),
+//                itemsPerPage = "10",
+//                isActivityDate = activityDate,
+//                AppsDate = ""
+//
+//
+//            )
+            ApiServiceMyBdjobs.create().getEmployerViewedResume(
+                userId = bdjobsUserSession.userId,
+                decodeId = bdjobsUserSession.decodId,
+                pageNumber = pgNo.toString(),
+                itemsPerPage = "10",
+                fromDate = fromText,
+                toDate = toText,
+                txtStatus = selectedType
+            ).enqueue(object : Callback<EmpViewedResumeModel> {
+                override fun onFailure(call: Call<EmpViewedResumeModel>, t: Throwable) {
                     try {
                         activity?.toast("${t.message}")
                         error("onFailure", t)
@@ -315,14 +392,17 @@ class EmployerViewedMyResumeFragment : Fragment() {
                     }
                 }
 
-                override fun onResponse(call: Call<EmpVwdResume>, response: Response<EmpVwdResume>) {
+                override fun onResponse(
+                    call: Call<EmpViewedResumeModel>,
+                    response: Response<EmpViewedResumeModel>
+                ) {
 
                     try {
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                         employerViewedMyResumeAdapter?.removeLoadingFooter()
                         isLoadings = false
 
-                        employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<EmpVwdResumeData>)
+                        employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<DataEmpV>)
 
 
                         if (pgNo != TOTAL_PAGES)
