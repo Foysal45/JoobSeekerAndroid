@@ -389,7 +389,7 @@
                                 android:layout_marginTop="8dp"
                                 android:drawablePadding="10dp"
                                 android:fontFamily="@font/roboto"
-                                tools:text="Show to employer(s): Yes"
+                                tools:text="Showing my Video Resume to Employer(s): Yes"
                                 showingToEmployerText="@{viewModel.isVideoResumeShowingToEmp}"
                                 android:textColor="#13A10E"
                                 android:textSize="12sp"

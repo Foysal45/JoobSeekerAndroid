@@ -34,7 +34,7 @@ fun MaterialTextView.setTotalEmailCountText(value: String) {
 fun MaterialTextView.setShowingToEmployerText(value: Boolean) {
     val showStatus = if (value) "Yes" else "No"
     this.run {
-        this.text = "Show to Employer(s): $showStatus"
+        this.text = "Showing my Video Resume to Employer(s): $showStatus"
         this.textColor =
             if (value) resources.getColor(R.color.green) else resources.getColor(R.color.btn_red)
     }

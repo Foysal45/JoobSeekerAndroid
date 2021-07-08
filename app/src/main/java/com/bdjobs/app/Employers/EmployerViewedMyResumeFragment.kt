@@ -53,7 +53,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
     private lateinit var employerCommunicator: EmployersCommunicator
     private lateinit var isActivityDate: String
 
-    private var selectedType = "4"
+    private var selectedType = ""
 
     private var fromText = ""
     private var toText = ""
@@ -150,7 +150,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
         }
 
         allResumeTV.setOnClickListener {
-            selectedType = "4"
+            selectedType = ""
             resumeTypeET.setText("All")
             dropdownCard.hide()
         }
@@ -187,19 +187,29 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
             // Display Selected date in textbox
             val dd = if (dayOfMonth<10) "0$dayOfMonth" else "$dayOfMonth"
-            val MM = if (monthOfYear+1 <10) "0{${monthOfYear + 1}}" else "${monthOfYear+1}"
+            val MM = if (monthOfYear+1 <10) "0${monthOfYear + 1}" else "${monthOfYear+1}"
             fromET.setText("$dd/$MM/$y")
 
             if (type=="from") {
                 val myFormat = "MM/dd/yyyy"
+                val inputFormat = "dd/MM/yyyy"
                 val sdf = SimpleDateFormat(myFormat, Locale.US)
+                val inputSdf = SimpleDateFormat(inputFormat, Locale.US)
 
-                fromText = sdf.format(fromET.text.toString())
+                Timber.d("FromText: ${fromET.text.toString()}")
+
+                val inputDate = inputSdf.parse(fromET.text.toString())
+
+                fromText = sdf.format(inputDate!!)
             } else {
                 val myFormat = "MM/dd/yyyy"
+                val inputFormat = "dd/MM/yyyy"
                 val sdf = SimpleDateFormat(myFormat, Locale.US)
+                val inputSdf = SimpleDateFormat(inputFormat, Locale.US)
 
-                toText = sdf.format(fromET.text.toString())
+                val inputDate = inputSdf.parse(fromET.text.toString())
+
+                toText = sdf.format(inputDate!!)
             }
 
         }, year, month, day)
@@ -271,7 +281,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                    userId = bdjobsUserSession.userId,
                    decodeId = bdjobsUserSession.decodId,
                    pageNumber = pgNo.toString(),
-                   itemsPerPage = "10",
+                   itemsPerPage = "30",
                    fromDate = fromText,
                    toDate = toText,
                    txtStatus = selectedType
@@ -378,7 +388,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                 userId = bdjobsUserSession.userId,
                 decodeId = bdjobsUserSession.decodId,
                 pageNumber = pgNo.toString(),
-                itemsPerPage = "10",
+                itemsPerPage = "30",
                 fromDate = fromText,
                 toDate = toText,
                 txtStatus = selectedType

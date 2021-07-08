@@ -1,5 +1,6 @@
 package com.bdjobs.app.Employers
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -105,6 +106,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
         return vwdResumeList[position]
     }
 
+    @SuppressLint("SetTextI18n")
     private fun bindViews(viewHolder: RecyclerView.ViewHolder, position: Int) {
 
         when (getItemViewType(position)) {
@@ -131,7 +133,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
                         holder.summaryView.visibility = View.VISIBLE
                     } else holder.summaryView.visibility = View.GONE
 
-                    holder.noOfViews.text = vwdResumeList[position].numberOfTotalViewed
+                    holder.noOfViews.text = "No of viewed: ${vwdResumeList[position].numberOfTotalViewed}"
 
 //                    if (vwdResumeList?.get(position)?.summaryView == "yes") {
 //                        holder?.summaryView.visibility = View.VISIBLE
@@ -176,7 +178,7 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
                         holder.summaryView.visibility = View.VISIBLE
                     } else holder.summaryView.visibility = View.GONE
 
-                    holder.noOfViews.text = vwdResumeList[position].numberOfTotalViewed
+                    holder.noOfViews.text = "No of viewed: ${vwdResumeList[position].numberOfTotalViewed}"
 
                 } catch (e: Exception) {
                     logException(e)
