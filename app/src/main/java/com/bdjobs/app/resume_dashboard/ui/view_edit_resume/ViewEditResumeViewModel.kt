@@ -31,6 +31,8 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     var bdJobsResumeStatusPercentage = MutableLiveData<Int>().apply { value = 0 }
     var bdJobsResumeLastUpdate = MutableLiveData<String>().apply { value = "" }
 
+    var showBdJobsLastUpdateDate = MutableLiveData<Boolean>()
+
 
     var videoResumeStatusPercentage = MutableLiveData<Int>().apply { value = 0 }
     var videoResumeLastUpdate = MutableLiveData<String>().apply { value = "" }
@@ -69,23 +71,30 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                     _detailsResumeStat.value = data
 
                     bdJobsResumeStatusPercentage.value = data.bdjobsStatusPercentage?.toInt()
-                    bdJobsResumeLastUpdate.value = formatDate(data.bdjobsLastUpdateDate)
+
+                    showBdJobsLastUpdateDate.value = data.bdjobsLastUpdateDate != ""
+
+                    if (data.bdjobsLastUpdateDate != "") bdJobsResumeLastUpdate.value =
+                        formatDate(data.bdjobsLastUpdateDate)
 
                     isVideoResumeAvailable.value = data.videoStatusPercentage != "0"
                     videoResumeStatusPercentage.value = data.videoStatusPercentage?.toInt()
-                    videoResumeLastUpdate.value = formatDateVP(data.videoLastUpdateDate)
+                    if (data.videoLastUpdateDate != "") videoResumeLastUpdate.value =
+                        formatDateVP(data.videoLastUpdateDate)
                     isVideoResumeShowingToEmp.value = data.videoResumeVisibility == "1"
                     if (isVideoResumeAvailable.value == true) videoResumeQuestionList()
 
                     isPersonalizedResumeAvailable.value = data.personalizefileName != ""
-                    if (data.personalizeLastUpdateDate != "") personalizedResumeLastUpload.value = formatDateVP(data.personalizeLastUpdateDate)
+                    if (data.personalizeLastUpdateDate != "") personalizedResumeLastUpload.value =
+                        formatDateVP(data.personalizeLastUpdateDate)
 
                 } else {
                     Timber.e("Invalid response")
                 }
 
             } catch (e: Exception) {
-                Timber.e("Error while fetching details resume stat")
+                e.printStackTrace()
+                Timber.e("Error while fetching details resume stat: ${e.localizedMessage}")
                 isLoading.value = false
             }
         }
@@ -98,12 +107,12 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                 val data = response.data
                 if (data!!.isNotEmpty()) {
                     for (i in data.indices) {
-                        when(i) {
-                            0-> videoResumeQ1.value=data[i]?.buttonStatus
-                            1-> videoResumeQ2.value=data[i]?.buttonStatus
-                            2-> videoResumeQ3.value=data[i]?.buttonStatus
-                            3-> videoResumeQ4.value=data[i]?.buttonStatus
-                            4-> videoResumeQ5.value=data[i]?.buttonStatus
+                        when (i) {
+                            0 -> videoResumeQ1.value = data[i]?.buttonStatus
+                            1 -> videoResumeQ2.value = data[i]?.buttonStatus
+                            2 -> videoResumeQ3.value = data[i]?.buttonStatus
+                            3 -> videoResumeQ4.value = data[i]?.buttonStatus
+                            4 -> videoResumeQ5.value = data[i]?.buttonStatus
                         }
                     }
                 }

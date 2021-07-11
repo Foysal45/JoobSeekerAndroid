@@ -128,13 +128,17 @@ class EmployerViewedMyResumeFragment : Fragment() {
         val myFormat = "dd/MM/yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.US)
 
+        selectedType = "1"
+        fromText = ""
+        toText = ""
+
 //        fromET.setText(sdf.format(calendar.time))
 //        toET.setText(sdf.format(calendar.time))
 
         bdJobsResumeTV.setOnClickListener {
             selectedType = "1"
             resumeTypeET.setText("Bdjobs Resume")
-            dialog.dismiss()
+            dropdownCard.hide()
         }
 
         personalizeResumeTV.setOnClickListener {

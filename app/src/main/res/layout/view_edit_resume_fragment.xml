@@ -118,6 +118,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:fontFamily="@font/roboto"
+                                android:visibility="@{viewModel.showBdJobsLastUpdateDate ? View.VISIBLE : View.GONE}"
                                 android:text="@{`Last updated on: `+viewModel.bdJobsResumeLastUpdate}"
                                 android:textColor="#767676"
                                 android:textSize="12sp"

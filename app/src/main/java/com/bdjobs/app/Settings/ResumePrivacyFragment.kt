@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -35,14 +36,14 @@ import timber.log.Timber
 
 class ResumePrivacyFragment : Fragment() {
 
-    private lateinit var binding : FragmentResumePrivacyBinding
+    private lateinit var binding: FragmentResumePrivacyBinding
     private lateinit var communicator: SettingsCommunicator
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private var selectedStatus = "0"
 
     private var employerList = ArrayList<DataAutoSuggestion>()
     private var employerIDList = ArrayList<String>()
-    private var employerListMap : HashMap<String,String> = HashMap()
+    private var employerListMap: HashMap<String, String> = HashMap()
 
     private var employerID = ""
 
@@ -65,7 +66,7 @@ class ResumePrivacyFragment : Fragment() {
             communicator.backButtonPressed()
         }
 
-        Timber.d("EmployerIDs: ${TextUtils.join(",",employerIDList)}")
+        Timber.d("EmployerIDs: ${TextUtils.join(",", employerIDList)}")
 
         fetchPrivacyStatus()
 
@@ -82,25 +83,36 @@ class ResumePrivacyFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
-                val employers = TextUtils.join(",",employerIDList)
+                val employers = TextUtils.join(",", employerIDList)
 
-                val empIDs = if (selectedStatus=="3") ",$employers," else ""
+                val empIDs = if (selectedStatus == "3") ",$employers," else ""
 
                 Timber.d("Employers: $empIDs --> Status: $selectedStatus")
-                val response = ApiServiceMyBdjobs.create().resumePrivacyUpdate(bdjobsUserSession.userId,bdjobsUserSession.decodId,empIDs,selectedStatus)
+                val response = ApiServiceMyBdjobs.create().resumePrivacyUpdate(
+                    bdjobsUserSession.userId,
+                    bdjobsUserSession.decodId,
+                    empIDs,
+                    selectedStatus
+                )
 
                 binding.linearProgress.hide()
 
                 if (response.statuscode == "1") {
-                    Snackbar.make(binding.clRoot,response.message!!,Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.clRoot, response.message!!, Snackbar.LENGTH_LONG).show()
                     employerIDList.clear()
                 } else {
                     toast("Update failed")
                 }
 
-            } catch (e:Exception) {
+            } catch (e: Exception) {
                 toast("Update failed")
                 e.printStackTrace()
+                binding.linearProgress.hide()
+                Toast.makeText(
+                    requireContext(),
+                    "Update failed: ${e.localizedMessage}",
+                    Toast.LENGTH_SHORT
+                ).show()
                 Timber.e("Exception while updating resume privacy: ${e.localizedMessage}")
             }
         }
@@ -108,25 +120,26 @@ class ResumePrivacyFragment : Fragment() {
 
     private fun employerNameClickedListener() {
         val empList: ArrayList<String> = ArrayList()
-        val adapter = ArrayAdapter(requireActivity(),android.R.layout.simple_dropdown_item_1line, empList)
+        val adapter =
+            ArrayAdapter(requireActivity(), android.R.layout.simple_dropdown_item_1line, empList)
 
         binding.actvEmployerName.setAdapter(adapter)
         adapter.setNotifyOnChange(true)
 
         binding.actvEmployerName.easyOnTextChangedListener { e: CharSequence ->
-            fetchEmployerSuggestion(e.toString(),adapter)
+            fetchEmployerSuggestion(e.toString(), adapter)
         }
 
         binding.actvEmployerName.setOnItemClickListener { _, _, position, id ->
             employerID = employerList[position].subCatId!!
-            
+
             if (employerIDList.contains(employerID)) {
                 binding.actvEmployerName.closeKeyboard(requireActivity())
                 toast("Employer already added")
                 binding.actvEmployerName.setText("")
                 binding.actvEmployerName.clearFocus()
             } else {
-                addChip(employerList[position].subName!!,employerID)
+                addChip(employerList[position].subName!!, employerID)
                 addEmployerID(employerID)
 
 
@@ -138,13 +151,16 @@ class ResumePrivacyFragment : Fragment() {
 
     private fun fetchEmployerSuggestion(query: String, adapter: ArrayAdapter<String>) {
         Timber.d("Query: $query")
-        ApiServiceMyBdjobs.create().fetchAutoSuggestion(query, "8",ver = "EN").enqueue(object :
+        ApiServiceMyBdjobs.create().fetchAutoSuggestion(query, "8", ver = "EN").enqueue(object :
             Callback<AutoSuggestionModel> {
             override fun onFailure(call: Call<AutoSuggestionModel>, t: Throwable) {
                 Timber.e("Failed Fetching Auto Suggestion: ${t.localizedMessage}")
             }
 
-            override fun onResponse(call: Call<AutoSuggestionModel>, response: Response<AutoSuggestionModel>) {
+            override fun onResponse(
+                call: Call<AutoSuggestionModel>,
+                response: Response<AutoSuggestionModel>
+            ) {
                 Timber.d("Response: ${Gson().toJson(response.body())}")
                 try {
                     if (response.isSuccessful) {
@@ -166,7 +182,11 @@ class ResumePrivacyFragment : Fragment() {
                                             suggestion.add(employerList[i].subName!!)
                                         }
 
-                                        val a = ArrayAdapter(activity!!, android.R.layout.simple_dropdown_item_1line, suggestion)
+                                        val a = ArrayAdapter(
+                                            activity!!,
+                                            android.R.layout.simple_dropdown_item_1line,
+                                            suggestion
+                                        )
                                         binding.actvEmployerName.setAdapter(a)
                                         a.notifyDataSetChanged()
                                     }
@@ -193,16 +213,16 @@ class ResumePrivacyFragment : Fragment() {
 
             Timber.d("checked change")
 
-            when(checkedId) {
-                R.id.rb_public-> {
+            when (checkedId) {
+                R.id.rb_public -> {
                     selectedStatus = "1"
                     setViews(false)
                 }
-                R.id.rb_private-> {
+                R.id.rb_private -> {
                     selectedStatus = "2"
                     setViews(false)
                 }
-                R.id.rb_limited-> {
+                R.id.rb_limited -> {
                     selectedStatus = "3"
                     setViews(true)
                 }
@@ -210,7 +230,7 @@ class ResumePrivacyFragment : Fragment() {
         }
     }
 
-    private fun setViews(isLimited:Boolean) {
+    private fun setViews(isLimited: Boolean) {
         if (isLimited) {
             binding.tilEmployerName.show()
             binding.tvLabelSelectedEmployers.show()
@@ -228,16 +248,17 @@ class ResumePrivacyFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
-                val response = ApiServiceMyBdjobs.create().resumePrivacyStatus(bdjobsUserSession.userId,bdjobsUserSession.decodId)
+                val response = ApiServiceMyBdjobs.create()
+                    .resumePrivacyStatus(bdjobsUserSession.userId, bdjobsUserSession.decodId)
 
                 binding.clParentViews.show()
                 binding.clProgressView.hide()
 
-                if (response.statuscode == "0" && response.message=="Success") {
+                if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
 
                     selectedStatus = data?.resumeVisibilityType!!
-                    
+
                     Timber.d("Visibility Type: ${data.resumeVisibilityType}")
 
                     when (data.resumeVisibilityType) {
@@ -249,7 +270,7 @@ class ResumePrivacyFragment : Fragment() {
                             val employers = data.data
                             if (!employers.isNullOrEmpty()) {
                                 for (employer in employers) {
-                                    addChip(employer.employerName!!,employer.id!!)
+                                    addChip(employer.employerName!!, employer.id!!)
                                     addEmployerID(employer.id)
 //                                    val suggestionData = DataAutoSuggestion(employer.id,employer.employerName,"8")
 //                                    employerList.add(suggestionData)
@@ -260,21 +281,29 @@ class ResumePrivacyFragment : Fragment() {
                     }
                 }
 
-            } catch (e:Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 Timber.e("Exception while fetching Privacy stat")
+                binding.clParentViews.show()
+                binding.clProgressView.hide()
+
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Resume Privacy Stat Fetching failed: ${e.localizedMessage}",
+//                    Toast.LENGTH_SHORT
+//                ).show()
             }
         }
     }
 
-    private fun addChip(employerName: String,employerID:String) {
+    private fun addChip(employerName: String, employerID: String) {
         // add chip here
 
         val chip = Chip(requireContext())
 
         chip.apply {
             text = employerName
-            setChipDrawable(ChipDrawable.createFromResource(requireContext(),R.xml.chip_entry))
+            setChipDrawable(ChipDrawable.createFromResource(requireContext(), R.xml.chip_entry))
         }
 
         binding.empNameChipGroup.addView(chip)
@@ -286,13 +315,13 @@ class ResumePrivacyFragment : Fragment() {
         }
     }
 
-    private fun addEmployerID(id:String) {
+    private fun addEmployerID(id: String) {
         if (!employerIDList.contains(id)) {
             employerIDList.add(id)
         }
     }
 
-    private fun removeEmployerID(id:String) {
+    private fun removeEmployerID(id: String) {
         if (employerIDList.contains(id)) {
             employerIDList.remove(id)
         }

@@ -52,7 +52,15 @@ class ViewPersonalizedResume : AppCompatActivity() {
                 override fun onDownloadComplete() {
                     val downloadedFile = File(dirPath, fileName)
                     binding.progressBar.visibility = View.GONE
-                    showPdfFromFile(downloadedFile)
+                    try {
+                        showPdfFromFile(downloadedFile)
+                    } catch (e: Exception) {
+                        Toast.makeText(
+                            this@ViewPersonalizedResume,
+                            "File format is not supported to preview Personalized Resume",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
 
                 override fun onError(error: com.downloader.Error?) {

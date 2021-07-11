@@ -47,7 +47,8 @@ fun MaterialTextView.setTextAndDrawable(value: String?) {
             this.text = when (value) {
                 "1" -> "Public"
                 "2" -> "Private"
-                else -> "Limited"
+                "3" -> "Limited"
+                else -> "Public"
             }
 
             when (value) {
@@ -63,8 +64,14 @@ fun MaterialTextView.setTextAndDrawable(value: String?) {
                     0,
                     0
                 )
-                else -> this.setCompoundDrawablesWithIntrinsicBounds(
+                "3" -> this.setCompoundDrawablesWithIntrinsicBounds(
                     R.drawable.ic_visibility_limited,
+                    0,
+                    0,
+                    0
+                )
+                else -> this.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_visibility_public,
                     0,
                     0,
                     0
