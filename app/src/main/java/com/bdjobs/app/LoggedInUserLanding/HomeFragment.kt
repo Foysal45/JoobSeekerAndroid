@@ -34,6 +34,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.liveInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
+import com.bdjobs.app.videoResume.VideoResumeActivity
 
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.ads.nativetemplates.TemplateView
@@ -52,6 +53,7 @@ import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_video_interview_invitations_layout.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
@@ -146,6 +148,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
 
     private fun onClickListeners() {
+
+        cl_video_resume?.setOnClickListener {
+            startActivity<VideoResumeActivity>()
+        }
+
         profilePicIMGV?.setOnClickListener {
             homeCommunicator.gotoEditresume()
         }
@@ -310,7 +317,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         alertAboutShortlistedJobs()
 
     }
-
 
     override fun jobInvitationSyncComplete() {
         Timber.tag("home").d("general complete override")
