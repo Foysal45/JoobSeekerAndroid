@@ -28,7 +28,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
-        <activity android:name=".ManageResume.ViewPersonalizedResume"></activity>
+        <activity android:name=".ManageResume.ViewPersonalizedResume" android:screenOrientation="portrait"/>
         <activity
             android:name=".resume_dashboard.ResumeDashboardBaseActivity"
             android:screenOrientation="portrait"

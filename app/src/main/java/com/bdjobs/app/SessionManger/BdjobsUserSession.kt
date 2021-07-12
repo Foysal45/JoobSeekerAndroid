@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.edit
 import com.bdjobs.app.API.ModelClasses.DataLoginPasswordModel
@@ -67,6 +68,9 @@ class BdjobsUserSession(val context: Context) {
             putString(Constants.session_key_trainingId, trainingId)
             putString(Constants.session_key_userPicUrl, userPicUrl)
             putBoolean(Constants.session_key_loggedIn, true)
+
+            val deviceProtectedSession = DeviceProtectedSession(context)
+            deviceProtectedSession.isLoggedIn = true
         }
 
     }
@@ -91,6 +95,10 @@ class BdjobsUserSession(val context: Context) {
             putString(Constants.session_key_trainingId, sessionData.trainingId)
             putString(Constants.session_key_userPicUrl, sessionData.userPicUrl)
             putBoolean(Constants.session_key_loggedIn, true)
+
+
+            val deviceProtectedSession = DeviceProtectedSession(context)
+            deviceProtectedSession.isLoggedIn = true
         }
 
     }
