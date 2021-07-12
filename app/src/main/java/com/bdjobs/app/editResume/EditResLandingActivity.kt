@@ -122,11 +122,7 @@ class EditResLandingActivity : Activity() {
                 if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
 
-                    val lastUpdated = data.personalizedLastUpdateDate?.let {
-                        formatDateVP(
-                            it
-                        )
-                    }
+                    val lastUpdated = if (data.personalizedLastUpdateDate!="") formatDateVP(data.personalizedLastUpdateDate!!) else ""
 
                     runOnUiThread {
 
@@ -140,7 +136,11 @@ class EditResLandingActivity : Activity() {
                         tv_personalized_resume_view_count.text = data.personalizedViewed
                         tv_personalized_resume_download_count.text = data.personalizedDownload
                         tv_personalized_resume_emailed_count.text = data.personalizedEmailed
-                        tv_last_update.text = "Last updated on: $lastUpdated"
+                        if (lastUpdated!="") {
+                            tv_last_update.show()
+                            tv_last_update.text = "Last updated on: $lastUpdated"
+                        }
+                        else tv_last_update.hide()
 
 //                        } else {
 //                            tv_label_stat_personalized_resume.hide()

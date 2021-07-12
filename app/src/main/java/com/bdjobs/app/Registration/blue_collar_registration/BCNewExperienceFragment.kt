@@ -12,21 +12,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.CheckBox
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.API.ModelClasses.BCWorkSkillModel
-import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.External.DataStorage
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_experience.*
 import kotlinx.android.synthetic.main.fragment_bc_experience.bcExperinceFAButton
@@ -39,15 +37,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class BCNewExperienceFragment : Fragment() {
 
 
     private lateinit var registrationCommunicator: RegistrationCommunicator
-    private var bcCategoryId: String = ""
+    private var bcCategoryId: String = "0"
     private var category: String = ""
 //    private lateinit var subCategories: Array<String>
     private lateinit var subCategories: ArrayList<String>
@@ -94,7 +90,7 @@ class BCNewExperienceFragment : Fragment() {
         }
 
         bcExperinceFAButton?.setOnClickListener {
-            var subCategoriesID = ""
+            var subCategoriesID = "0"
             var skilledBy = ""
             var ntvqfLevel = ""
 
@@ -152,6 +148,8 @@ class BCNewExperienceFragment : Fragment() {
             val updateNtvqf = ntvqfLevel.removeSuffix(",")
 
             if (addExpList!!.isNotEmpty()) {
+
+                Timber.d("SubCat: $subCategoriesID .. CatID: $bcCategoryId")
 
                 registrationCommunicator.bcSelectedBlueCollarSubCategoriesIDandExperince(
                         subCategoriesID,
@@ -452,6 +450,7 @@ class BCNewExperienceFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     fun showEditDialog(item: AddExpModel) {
 
         val workSource = ArrayList<String>()
@@ -462,23 +461,23 @@ class BCNewExperienceFragment : Fragment() {
         workSource.add(4, "-5")
 
         dialogEdit = Dialog(activity)
-        dialogEdit?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogEdit?.setCancelable(true)
-        dialogEdit?.setContentView(R.layout.add_skill_dialog_layout)
-        dialogEdit?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val addExperienceTIET = dialogEdit?.findViewById<TextInputEditText>(R.id.addExperienceTIET)
+        dialogEdit.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialogEdit.setCancelable(true)
+        dialogEdit.setContentView(R.layout.add_skill_dialog_layout)
+        dialogEdit.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val addExperienceTIET = dialogEdit.findViewById<TextInputEditText>(R.id.addExperienceTIET)
 
 
-        val whereSkillText = dialogEdit?.findViewById<TextView>(R.id.whereSkillText)
-        val firstCheckbox = dialogEdit?.findViewById<CheckBox>(R.id.firstCheckbox)
-        val secondCheckBox = dialogEdit?.findViewById<CheckBox>(R.id.secondCheckBox)
-        val thirdCheckBox = dialogEdit?.findViewById<CheckBox>(R.id.thirdCheckBox)
-        val fourthCheckBox = dialogEdit?.findViewById<CheckBox>(R.id.fourthCheckBox)
-        val fifthCheckBox = dialogEdit?.findViewById<CheckBox>(R.id.fifthCheckBox)
-        val experienceLevelTIL = dialogEdit?.findViewById<TextInputLayout>(R.id.experienceLevelTIL)
-        val experienceLevelTIET = dialogEdit?.findViewById<TextInputEditText>(R.id.experienceLevelTIET)
-        val declineButton = dialogEdit?.findViewById<MaterialButton>(R.id.declineButton)
-        val saveButton = dialogEdit?.findViewById<MaterialButton>(R.id.saveButton)
+        val whereSkillText = dialogEdit.findViewById<TextView>(R.id.whereSkillText)
+        val firstCheckbox = dialogEdit.findViewById<CheckBox>(R.id.firstCheckbox)
+        val secondCheckBox = dialogEdit.findViewById<CheckBox>(R.id.secondCheckBox)
+        val thirdCheckBox = dialogEdit.findViewById<CheckBox>(R.id.thirdCheckBox)
+        val fourthCheckBox = dialogEdit.findViewById<CheckBox>(R.id.fourthCheckBox)
+        val fifthCheckBox = dialogEdit.findViewById<CheckBox>(R.id.fifthCheckBox)
+        val experienceLevelTIL = dialogEdit.findViewById<TextInputLayout>(R.id.experienceLevelTIL)
+        val experienceLevelTIET = dialogEdit.findViewById<TextInputEditText>(R.id.experienceLevelTIET)
+        val declineButton = dialogEdit.findViewById<MaterialButton>(R.id.declineButton)
+        val saveButton = dialogEdit.findViewById<MaterialButton>(R.id.saveButton)
         //saveButton?.isEnabled = false
 
         whereSkillText.show()
@@ -492,7 +491,7 @@ class BCNewExperienceFragment : Fragment() {
 
         addExperienceTIET.setText(item.workExp)
         whereSkillText.text = "কিভাবে '${item.workExp}' কাজের দক্ষতাটি শিখেছেন ?"
-        val list = item?.expSource!!
+        val list = item.expSource!!
 
         for (each in list) {
             when (each) {
@@ -722,15 +721,15 @@ class BCNewExperienceFragment : Fragment() {
 
 
         categoryEdit = Dialog(activity)
-        categoryEdit?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        categoryEdit?.setCancelable(true)
-        categoryEdit?.setContentView(R.layout.add_category_dialog_layout)
-        categoryEdit?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        categoryEdit.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        categoryEdit.setCancelable(true)
+        categoryEdit.setContentView(R.layout.add_category_dialog_layout)
+        categoryEdit.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
 
-        val skillTIET = categoryEdit?.findViewById<TextInputEditText>(R.id.skillTIET)
-        val declineButton = categoryEdit?.findViewById<MaterialButton>(R.id.declineButton)
-        val saveButton = categoryEdit?.findViewById<MaterialButton>(R.id.saveButton)
+        val skillTIET = categoryEdit.findViewById<TextInputEditText>(R.id.skillTIET)
+        val declineButton = categoryEdit.findViewById<MaterialButton>(R.id.declineButton)
+        val saveButton = categoryEdit.findViewById<MaterialButton>(R.id.saveButton)
 
         skillTIET?.setText(category)
         skillTIET?.setOnClickListener {
