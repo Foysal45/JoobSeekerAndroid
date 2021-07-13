@@ -166,6 +166,11 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
+        val audioManager = context?.getSystemService(Context.AUDIO_SERVICE) as AudioManager?
+        audioManager?.isMicrophoneMute= false
+        audioManager?.isSpeakerphoneOn = false
+        audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0)
+
         binding.toolBar.setupWithNavController(navController, appBarConfiguration)
         binding.toolBar.title = if (args.jobTitle != null) args.jobTitle else ""
 
@@ -565,13 +570,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         )
 
         eglBaseContext = EglBase.create().eglBaseContext
-
-        //Noise cancel Experiemental Code
-
-//        val audioManager = context?.getSystemService(Context.AUDIO_SERVICE) as AudioManager?
-//        audioManager?.isMicrophoneMute= false
-//        audioManager?.isSpeakerphoneOn = false
-
 
 
         val initializationOptions =
