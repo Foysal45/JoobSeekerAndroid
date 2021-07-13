@@ -9,6 +9,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinproce
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.liveInterview.data.models.*
+import com.bdjobs.app.resume_dashboard.data.models.*
 import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.transaction.data.model.TransactionList
@@ -384,6 +385,7 @@ interface ApiServiceMyBdjobs {
      * Param: 4 -> Skill
      * Param: 5 -> Institution
      * Param: 6 -> Concentration/Major/Group
+     * Param: 8 -> Employer List
      */
     @GET("apps_auto_suggestion.asp")
     fun fetchAutoSuggestion(
@@ -786,6 +788,19 @@ interface ApiServiceMyBdjobs {
     ): Call<EmpVwdResume>
 
     @FormUrlEncoded
+    @POST("apps_resume_view_status.asp")
+    fun getEmployerViewedResume(
+        @Field("userID") userId: String? = "",
+        @Field("decodeID") decodeId: String? = "",
+        @Field("pageNumber") pageNumber: String? = "",
+        @Field("itemsPerPage") itemsPerPage: String? = "",
+        @Field("fromDate") fromDate: String? = "",
+        @Field("toDate") toDate: String? = "",
+        @Field("compName") compName: String? = "",
+        @Field("txtStatus") txtStatus: String? = "",
+    ) : Call<EmpViewedResumeModel>
+
+    @FormUrlEncoded
     @POST("app_invite_interview_details.asp")
     fun getIterviewInvitationDetails(
             @Field("userId") userID: String? = "",
@@ -1074,7 +1089,8 @@ interface ApiServiceMyBdjobs {
             @Field("pageNumber") pageNumber: String? = "",
             @Field("itemsPerPage") itemsPerPage: String? = "",
             @Field("isActivityDate") isActivityDate: String? = "",
-            @Field("appId") appId: String? = Constants.APP_ID
+            @Field("appId") appId: String? = Constants.APP_ID,
+            @Field("resumeType") resumeType: String? = "",
 
     ): Call<TimesEmailed>
 
@@ -1296,6 +1312,50 @@ interface ApiServiceMyBdjobs {
     suspend fun chatLog(
             @Field("prId") processId: String?
     ): ChatLogModel
+
+
+    // resume dashboard
+
+    @FormUrlEncoded
+    @POST("apps_resume_emailOrView_count.asp")
+    suspend fun manageResumeStats(
+        @Field("userId") userID: String? = "",
+        @Field("decodeId") decodeID: String? = "",
+        @Field("appId") appID: String? = "",
+    ) : ManageResumeStats
+
+    @FormUrlEncoded
+    @POST("apps_resume_privacy_view.asp")
+    suspend fun resumePrivacyStatus(
+        @Field("userId") userID: String? = "",
+        @Field("decodeId") decodeID: String? = "",
+    ) : ResumePrivacyStatus
+
+    @FormUrlEncoded
+    @POST("apps_all_resumes_stats.asp")
+    suspend fun manageResumeDetailsStat(
+        @Field("userId") userID: String? = "",
+        @Field("decodeId") decodeID: String? = "",
+        @Field("cvPosted") cvPosted:String?=""
+    ) : ManageResumeDetailsStat
+
+    @FormUrlEncoded
+    @POST("apps_personalize_resume_stats.asp")
+    suspend fun personalizedResumeStat(
+        @Field("userID") userID: String? = "",
+        @Field("decodeID") decodeID: String? = "",
+        @Field("cvPosted") cvPosted:String?=""
+    ) : PersonalizedResumeStat
+
+    @FormUrlEncoded
+    @POST("apps_resume_visibility_status_update.asp")
+    suspend fun resumePrivacyUpdate(
+        @Field("userID") userID: String? = "",
+        @Field("decodeID") decodeID: String? = "",
+        @Field("employerList") employerList: String? = "",
+        @Field("statusType") statusType: String? = "",
+    ) : ResumePrivacyUpdate
+
 
 
     companion object Factory {

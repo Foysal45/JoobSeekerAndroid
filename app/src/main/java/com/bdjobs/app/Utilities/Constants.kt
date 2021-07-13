@@ -220,6 +220,8 @@ class Constants {
         const val session_key_user_present_address = "PresentAddress"
         const val session_key_user_permanent_address = "PermanentAddress"
 
+        const val session_key_personalized_stat_calculated_from = "PersonalizedStatCalculatedFrom"
+
 
         const val NOTIFICATION_INTERVIEW_INVITATTION = 100
         const val NOTIFICATION_CV_VIEWED = 101

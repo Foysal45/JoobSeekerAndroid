@@ -207,5 +207,9 @@ dependencies {
     // webRTC
     implementation(name:'libwebrtc', ext:'aar')
 
+    // pdf viewer
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation 'com.mindorks.android:prdownloader:0.6.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

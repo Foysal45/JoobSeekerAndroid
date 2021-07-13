@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/resume_dashboard_nav_graph"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.bdjobs.app.resume_dashboard.ui.dashboard.DashboardFragment"
+        android:label="dashboard_fragment"
+        tools:layout="@layout/dashboard_fragment" />
+    <fragment
+        android:id="@+id/viewEditResumeFragment"
+        android:name="com.bdjobs.app.resume_dashboard.ui.view_edit_resume.ViewEditResumeFragment"
+        android:label="view_edit_resume_fragment"
+        tools:layout="@layout/view_edit_resume_fragment" />
+</navigation>

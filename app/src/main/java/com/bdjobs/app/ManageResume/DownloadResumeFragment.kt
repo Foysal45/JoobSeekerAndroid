@@ -1,9 +1,8 @@
 package com.bdjobs.app.ManageResume
 
-import android.app.Fragment
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,21 +12,26 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_download_resume.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.noButton
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.yesButton
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
+import java.text.SimpleDateFormat
 
-class DownloadResumeFragment : Fragment() {
+class DownloadResumeFragment : android.app.Fragment() {
 
     private lateinit var communicator: ManageResumeCommunicator
     private lateinit var bdjobsUserSession: BdjobsUserSession
     var downloadLink: String? = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(com.bdjobs.app.R.layout.fragment_download_resume, container, false)
     }
 
@@ -36,34 +40,39 @@ class DownloadResumeFragment : Fragment() {
         super.onResume()
 
         communicator = activity as ManageResumeCommunicator
-        bdjobsUserSession = BdjobsUserSession(activity)
+        bdjobsUserSession = BdjobsUserSession(context = activity)
 
         val adRequest = AdRequest.Builder().build()
         adView?.loadAd(adRequest)
 
         downloadOrDeleteCV("download")
+        fetchPersonalizedResumeStat()
 
         backIV.setOnClickListener {
             communicator.backButtonPressed()
         }
 
-        submitTV.setOnClickListener {
+        btn_download_personalized_resume.setOnClickListener {
             activity.openUrlInBrowser(downloadLink)
         }
 
-        submitTV1.setOnClickListener {
+        btn_email_personalized_resume.setOnClickListener {
             communicator.gotoEmailResumeFragment()
         }
-        submitTV3.setOnClickListener {
+
+        btn_share_personalized_resume.setOnClickListener {
 
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
-            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Resume of ${bdjobsUserSession.userName}")
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, downloadLink)
+            sharingIntent.putExtra(
+                Intent.EXTRA_SUBJECT,
+                "Resume of ${bdjobsUserSession.userName}"
+            )
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, downloadLink)
             startActivity(Intent.createChooser(sharingIntent, "Share"))
         }
 
-        backIV1.setOnClickListener {
+        btn_delete_personalized_resume.setOnClickListener {
             alert("Are you sure you want to delete your uploaded resume?", "Confirmation") {
                 yesButton {
                     downloadOrDeleteCV("delete")
@@ -74,14 +83,19 @@ class DownloadResumeFragment : Fragment() {
             }.show()
 
         }
+
+        btn_view_personalized_resume.setOnClickListener {
+            activity.startActivity(Intent(activity,ViewPersonalizedResume::class.java)
+                .putExtra("PDF_URL",downloadLink))
+        }
     }
 
     private fun downloadOrDeleteCV(action: String) {
         activity?.showProgressBar(loadingProgressBar)
         ApiServiceMyBdjobs.create().downloadDeleteCV(
-                userID = bdjobsUserSession.userId,
-                decodeID = bdjobsUserSession.decodId,
-                status = action
+            userID = bdjobsUserSession.userId,
+            decodeID = bdjobsUserSession.decodId,
+            status = action
         ).enqueue(object : Callback<UploadResume> {
             override fun onFailure(call: Call<UploadResume>, t: Throwable) {
                 try {
@@ -94,7 +108,7 @@ class DownloadResumeFragment : Fragment() {
 
             override fun onResponse(call: Call<UploadResume>, response: Response<UploadResume>) {
                 try {
-                    activity?.stopProgressBar(loadingProgressBar)
+//                    activity?.stopProgressBar(loadingProgressBar)
                     if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
                         if (action.equalIgnoreCase("download")) {
                             downloadLink = response.body()?.data?.get(0)?.path
@@ -110,6 +124,78 @@ class DownloadResumeFragment : Fragment() {
                 }
             }
         })
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun fetchPersonalizedResumeStat() {
+        activity.showProgressBar(loadingProgressBar)
+        cl_personalized_resume_stat.hide()
+
+        GlobalScope.launch {
+            try {
+                val response = ApiServiceMyBdjobs.create().personalizedResumeStat(
+                    bdjobsUserSession.userId,
+                    bdjobsUserSession.decodId,
+                    bdjobsUserSession.isCvPosted
+                )
+
+                runOnUiThread {
+                    activity.stopProgressBar(loadingProgressBar)
+                    cl_personalized_resume_stat.show()
+                }
+
+
+                if (response.statuscode == "0" && response.message == "Success") {
+                    val data = response.data!![0]
+
+//                    downloadLink = data.personalizedFilePath
+
+                    val statCalculatedFrom = formatDateVP(data.personalizedCalculatedFromDate)
+                    val lastUpdatedOn = formatDateVP(data.personalizedLastUpdateDate)
+
+                    bdjobsUserSession.personalizedResumeSessionStatCalculatedFrom = statCalculatedFrom
+
+                    runOnUiThread {
+                        tv_personalized_resume_view_count.text = data.personalizedViewed
+                        tv_personalized_resume_download_count.text = data.personalizedDownload
+                        tv_personalized_resume_emailed_count.text = data.personalizedEmailed
+
+                        tv_stat_calculated_from.text = "Statistics calculated from $statCalculatedFrom"
+                        tv_last_upload_personalized_resume.text = "Last Upload: $lastUpdatedOn"
+
+                        tv_file_name_personalized_resume.text = data.personalizedFileName
+                    }
+
+
+
+                } else runOnUiThread { toast("Sorry, personalized resume stat fetching failed!") }
+
+            } catch (e: Exception) {
+                Timber.e("Exception while fetching personalized resume stat: ${e.localizedMessage}")
+                runOnUiThread {
+                    activity.stopProgressBar(loadingProgressBar)
+                    toast("Sorry, personalized resume stat fetching failed: ${e.localizedMessage}")
+                }
+
+            }
+
+
+        }
+    }
+
+
+    @SuppressLint("SimpleDateFormat")
+    private fun formatDateVP(lastUpdate: String?): String {
+        var lastUpdate1 = lastUpdate
+        var formatter = SimpleDateFormat("M/dd/yyyy HH:mm:ss a")
+        val date = formatter.parse(lastUpdate1!!)
+        formatter = SimpleDateFormat("dd MMM yyyy")
+        lastUpdate1 = formatter.format(date!!)
+
+        Timber.d("Last updated at: $lastUpdate1")
+
+        return lastUpdate1
+
     }
 
 }

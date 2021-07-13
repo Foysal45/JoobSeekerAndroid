@@ -3,7 +3,6 @@ package com.bdjobs.app.ManageResume
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
@@ -80,7 +79,7 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
     }
 
     override fun gotoEmailResumeFragment() {
-        transitFragment(emailResumeFragment, R.id.fragmentHolder,addToBackStack = true)
+        transitFragment(emailResumeFragment, R.id.fragmentHolder, addToBackStack = true)
     }
 
 
@@ -98,7 +97,7 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
     }
 
     override fun gotoTimesResumeFilterFrag() {
-        transitFragment(timesEmailedMyResumeFilterFragment,R.id.fragmentHolder,addToBackStack = false)
+        transitFragment(timesEmailedMyResumeFilterFragment,R.id.fragmentHolder, addToBackStack = false)
     }
 
     override fun backButtonPressed() {

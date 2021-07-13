@@ -68,7 +68,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
     private val wcPasswordFragment = WCPasswordFragment()
     private val wcCongratulationFragment = WCCongratulationFragment()
     private val wcMobileVerificationFragment = WCOtpCodeFragment()
-    private var categoryId: String = ""
+    private var categoryId: String = "1"
     private var category: String = ""
     private lateinit var dataStorage: DataStorage
     private var name: String = ""
@@ -112,7 +112,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
     private var age = ""
     var birthDate: String? = ""
-    private var subcategoriesID: String = ""
+    private var subcategoriesID: String = "0"
     private var experience: String = ""
 
     private var skilledBy : String =""

@@ -61,12 +61,29 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/notificationSettingsBTN"
+        android:id="@+id/resumePrivacySettingsBTN"
         android:layout_width="0dp"
         style="@style/more.button"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="14sp"
+        android:text="Resume Privacy"
+        android:textAllCaps="false"
+        android:textColor="#212121"
+        app:icon="@drawable/ic_resume_privacy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/notificationSettingsBTN"
+        android:layout_width="0dp"
+        style="@style/more.button"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginEnd="20dp"
         android:textSize="14sp"
         android:text="Notification Settings"
@@ -75,7 +92,7 @@
         app:icon="@drawable/ic_notifications_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"/>
+        app:layout_constraintTop_toBottomOf="@+id/resumePrivacySettingsBTN"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/setUserIdBTN"

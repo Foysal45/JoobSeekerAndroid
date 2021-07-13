@@ -14,30 +14,40 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
 import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.SessionManger.DeviceProtectedSession
+import com.bdjobs.app.Utilities.logException
+import com.google.firebase.FirebaseApp
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 import java.util.*
 
 class RestartBroadcastReceiver : BroadcastReceiver() {
 
-    var NOTIFICATION_ID = "notification-id"
-    var NOTIFICATION = "notification"
+    val NOTIFICATION_ID = "notification-id"
+    val NOTIFICATION = "notification"
 
     lateinit var context: Context
 
     override fun onReceive(ctx: Context, intent: Intent?) {
 
-        val session : BdjobsUserSession = BdjobsUserSession(ctx)
+        try {
+            val session = DeviceProtectedSession(ctx)
 
-        context = ctx
+            context = ctx
 
-        if (intent?.action == "android.intent.action.BOOT_COMPLETED" || intent?.action == "android.intent.action.LOCKED_BOOT_COMPLETED") {
+            if (intent?.action == "android.intent.action.BOOT_COMPLETED" || intent?.action == "android.intent.action.LOCKED_BOOT_COMPLETED") {
 
-            if (session.isLoggedIn!!){
-                scheduleMorningNotification()
-                scheduleNightNotification()
+                if (session.isLoggedIn!!){
+                    scheduleMorningNotification()
+                    scheduleNightNotification()
+                }
+            } else {
+                Timber.d("called broadcast else")
             }
-        } else {
-            Timber.d("called broadcast else")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Timber.e("Exception in Restart Receiver: ${e.localizedMessage}")
+            FirebaseCrashlytics.getInstance().recordException(e)
         }
     }
 

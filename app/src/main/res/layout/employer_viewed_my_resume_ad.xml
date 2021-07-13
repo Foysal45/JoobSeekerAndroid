@@ -12,69 +12,23 @@
         android:layout_height="wrap_content"
         android:background="#F2F2F2">
 
+
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="4dp"
+            app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline6"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toBottomOf="@+id/textView6"
             app:layout_constraintVertical_bias="1.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/ic_home_card">
-
-                <ImageView
-                    android:id="@+id/summaryView_IV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="18dp"
-                    android:layout_marginBottom="8dp"
-
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/followedCompanyNameTV"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="20dp"
-                    android:drawableLeft="@drawable/ic_calender_interview_invitation"
-                    android:drawablePadding="5dp"
-                    android:fontFamily="@font/roboto"
-                    android:singleLine="true"
-                    android:text="Viewed on:"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/employers_companyName_TV"
-                    app:layout_constraintTop_toBottomOf="@+id/employers_companyName_TV" />
-
-                <TextView
-                    android:id="@+id/viewedOn_TV"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="8dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="4 April 2018"
-                    android:textColor="#393939"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/followedCompanyNameTV"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/followedCompanyNameTV"
-                    app:layout_constraintTop_toBottomOf="@+id/employers_companyName_TV" />
 
                 <TextView
                     android:id="@+id/employers_companyName_TV"
@@ -92,7 +46,116 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@id/employers_companyName_TV"
+                    app:layout_constraintTop_toBottomOf="@id/employers_companyName_TV"
+                    android:id="@+id/cl_type_views">
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_bdjobs_resume"
+                        app:srcCompat="@drawable/ic_bdjobs_resume_count"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_per_resume"
+                        app:srcCompat="@drawable/ic_personalized_resume_count"
+                        android:layout_marginStart="5dp"
+                        app:layout_constraintStart_toEndOf="@id/iv_bdjobs_resume"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_video_resume"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_per_resume"
+                        app:srcCompat="@drawable/ic_video_resume_count"
+                        android:layout_marginStart="5dp"
+                        app:layout_constraintStart_toEndOf="@id/iv_per_resume"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_summary_view"
+                        app:srcCompat="@drawable/ic_summary_view"
+                        android:layout_marginStart="5dp"
+                        app:layout_constraintStart_toEndOf="@id/iv_video_resume"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+                <TextView
+                    android:id="@+id/followedCompanyNameTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="20dp"
+                    android:drawableStart="@drawable/ic_calendar_filter"
+                    android:drawableTint="#767676"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/roboto"
+                    android:singleLine="true"
+                    android:text="Last Viewed on:"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/cl_type_views"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_type_views" />
+
+                <TextView
+                    android:id="@+id/viewedOn_TV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="4 April 2018"
+                    android:textColor="#393939"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/roboto"
+                    app:layout_constraintBottom_toBottomOf="@+id/followedCompanyNameTV"
+                    app:layout_constraintStart_toEndOf="@+id/followedCompanyNameTV"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_type_views" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/followedCompanyNameTV"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_type_views"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/roboto"
+                    android:layout_marginEnd="8dp"
+                    tools:text="No of viewed: 2"
+                    android:textColor="#767676"
+                    android:id="@+id/tv_no_viewed"/>
+
+                <ImageView
+                    android:id="@+id/summaryView_IV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.cardview.widget.CardView>
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#F2F2F2"
+    android:background="#EDEDED"
     android:fitsSystemWindows="true"
     tools:ignore="HardcodedText">
 
@@ -35,8 +35,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="148dp"
-        android:background="@drawable/ic_home_top_new"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -48,70 +49,303 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/app_name"
+            android:visibility="gone"
             android:padding="10dp"
             android:src="@drawable/ic_arrow_back_white_24dp"
-            app:layout_constraintEnd_toStartOf="@+id/ivProfileImage"
             app:layout_constraintHorizontal_bias="0.12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/ivProfileImage"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/ic_user_thumb_small"
-            android:contentDescription="@string/app_name"
-            android:elevation="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvname"
-            android:layout_width="0dp"
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:textSize="17sp"
+            android:visibility="gone"
+            android:id="@+id/tv_tool_title"
             android:fontFamily="@font/roboto"
-            android:gravity="center"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:text="John Doe"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivProfileImage" />
+            app:layout_constraintTop_toTopOf="@id/icBackEr"
+            app:layout_constraintBottom_toBottomOf="@id/icBackEr"
+            app:layout_constraintStart_toEndOf="@id/icBackEr"
+            android:layout_marginStart="10dp"
+            android:text="Bdjobs Resume"
+            android:textColor="@color/white"/>
 
-        <TextView
-            android:id="@+id/tvEmail"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:maxLines="1"
-            android:text="username@email.com"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvname"
-            app:layout_constraintVertical_bias="0.029999971" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivProfileImage"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/ic_user_thumb_small"
+                android:contentDescription="@string/app_name"
+                android:elevation="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tvname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_marginTop="8dp"
+                android:text="John Doe"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintEnd_toEndOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@+id/ivProfileImage" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="username@email.com"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@id/ivProfileImage"
+                app:layout_constraintEnd_toEndOf="@id/ivProfileImage"
+                app:layout_constraintTop_toBottomOf="@+id/tvname"
+                app:layout_constraintVertical_bias="0.029999971" />
+
+
+        </LinearLayout>
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:theme="@style/BdjobsLinearProgress"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+<!--    <com.google.android.material.textview.MaterialTextView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/constraintLayout2"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_marginHorizontal="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:text="Statistics of Personalized Resume"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:fontFamily="@font/roboto_medium"-->
+<!--        android:id="@+id/tv_label_stat_personalized_resume"/>-->
+<!--
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_label_stat_personalized_resume"
+        android:id="@+id/cl_stat_personalized_resume">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_personalized_resume_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
+            app:cardCornerRadius="7dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.32">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_personalized_resume_view_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="50" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_label_personalized_resume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:maxLines="1"
+                    android:text="Viewed"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_view_count" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_personalized_resume_count_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_view_personalized_resume" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_personalized_resume_download"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#FFFFFF"
+            app:cardCornerRadius="7dp"
+            app:layout_constraintStart_toEndOf="@id/cv_personalized_resume_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.32">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_personalized_resume_download_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="-" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_label_personalized_resume_download"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:maxLines="1"
+                    android:text="Downloaded"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_download_count" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_personalized_resume_download_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_download_personalized_resume" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_personalized_resume_emailed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
+            app:cardCornerRadius="7dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/cv_personalized_resume_download"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.32">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_personalized_resume_emailed_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="10" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_label_personalized_resume_emailed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:maxLines="1"
+                    android:text="Emailed"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_emailed_count" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_personalized_resume_emailed_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_email_personalized_resume" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_last_update"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Last updated on 20 Mar 2021"
+        android:textColor="#757575"
+        android:gravity="center_vertical"
+        app:drawableStartCompat="@drawable/ic_info_personalized_resume"
+        android:drawablePadding="10dp"
+        app:drawableTint="#757575"
+        android:padding="8dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/roboto"
+        app:layout_constraintTop_toBottomOf="@id/cl_stat_personalized_resume"/>
+-->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:fitsSystemWindows="true"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -120,233 +354,447 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
         <LinearLayout
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:orientation="vertical"
             android:paddingBottom="5dp">
 
-            <TextView
+            <LinearLayout
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title_personal_info"
-                android:textColor="#999999" />
+                android:orientation="vertical">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPerItem1"
-                style="@style/more.button"
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/constraintLayout2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="16dp"
+                    android:text="Statistics of Personalized Resume"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_medium"
+                    android:id="@+id/tv_label_stat_personalized_resume"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_stat_personalized_resume"
+                    android:id="@+id/cl_stat_personalized_resume">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cv_personalized_resume_view"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#FFFFFF"
+                        app:cardCornerRadius="7dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.32">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="10dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_personalized_resume_view_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:textColor="@color/black"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="50" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_label_personalized_resume"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:maxLines="1"
+                                android:text="Viewed"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_view_count" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iv_personalized_resume_count_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_view_personalized_resume" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cv_personalized_resume_download"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:backgroundTint="#FFFFFF"
+                        app:cardCornerRadius="7dp"
+                        app:layout_constraintStart_toEndOf="@id/cv_personalized_resume_view"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.32">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="10dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_personalized_resume_download_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:textColor="@color/black"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="-" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_label_personalized_resume_download"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:maxLines="1"
+                                android:text="Downloaded"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_download_count" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iv_personalized_resume_download_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_download_personalized_resume" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cv_personalized_resume_emailed"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#FFFFFF"
+                        app:cardCornerRadius="7dp"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toEndOf="@id/cv_personalized_resume_download"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.32">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="10dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_personalized_resume_emailed_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:textColor="@color/black"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="10" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_label_personalized_resume_emailed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:maxLines="1"
+                                android:text="Emailed"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_emailed_count" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iv_personalized_resume_emailed_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_email_personalized_resume" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_last_update"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Last updated on 20 Mar 2021"
+                    android:textColor="#757575"
+                    android:gravity="center_vertical"
+                    app:drawableStartCompat="@drawable/ic_info_personalized_resume"
+                    android:drawablePadding="10dp"
+                    app:drawableTint="#757575"
+                    android:paddingVertical="8dp"
+                    tools:visibility="gone"
+                    android:fontFamily="@font/roboto"
+                    app:layout_constraintTop_toBottomOf="@id/cl_stat_personalized_resume"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/subtit.personal_detail"
-                android:textAllCaps="false"
-                android:textSize="14sp"
-                app:icon="@drawable/ic_personal_detail" />
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPerItem2"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/subtit.contact_detail"
-                app:icon="@drawable/ic_contact_details" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/title_personal_info"
+                    android:textColor="#999999" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPerItem1"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/subtit.personal_detail"
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:icon="@drawable/ic_personal_detail" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPerItem3"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/subtit.career_and_application_information"
-                app:icon="@drawable/ic_carrer" />
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPerItem5"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title_pref_areas"
-                app:icon="@drawable/ic_preferred_area_icon" />
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPerItem4"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title_ORI"
-                app:icon="@drawable/ic_other_relevant_information" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="30dp"
-                android:background="#E0E0E0"
-                android:visibility="visible" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPerItem2"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/subtit.contact_detail"
+                    app:icon="@drawable/ic_contact_details" />
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title.education_training"
-                android:textColor="#999999" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPerItem3"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/subtit.career_and_application_information"
+                    app:icon="@drawable/ic_carrer" />
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEduItem1"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/title_academic"
-                app:icon="@drawable/ic_education_icon" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEduItem2"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title_training"
-                app:icon="@drawable/ic_training_sum" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnProfessional"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title_professional_qualification"
-                app:icon="@drawable/ic_professional_certification" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPerItem5"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/title_pref_areas"
+                    app:icon="@drawable/ic_preferred_area_icon" />
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:background="#E0E0E0"
-                android:visibility="visible" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPerItem4"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/title_ORI"
+                    app:icon="@drawable/ic_other_relevant_information" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title_emp_history"
-                android:textColor="#999999" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEmpItem1"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title_emp_his"
-                app:icon="@drawable/ic_employment_history" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEmpItem2"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:fontFamily="@font/roboto_medium"
-                android:singleLine="true"
-                android:text="@string/army_employment_history_title"
-                app:icon="@drawable/ic_retired_army_person" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="30dp"
+                    android:background="#E0E0E0"
+                    android:visibility="visible" />
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="30dp"
-                android:background="#E0E0E0"
-                android:visibility="visible" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/title.education_training"
+                    android:textColor="#999999" />
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title_other_information"
-                android:textColor="#999999" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEduItem1"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/title_academic"
+                    app:icon="@drawable/ic_education_icon" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSpecilaization"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title_specialization"
-                app:icon="@drawable/ic_specilalization" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEduItem2"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/title_training"
+                    app:icon="@drawable/ic_training_sum" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnLanguage"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:fontFamily="@font/roboto_medium"
-                android:singleLine="true"
-                android:text="@string/title_language"
-                app:icon="@drawable/ic_language" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnReferences"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:fontFamily="@font/roboto_medium"
-                android:singleLine="true"
-                android:text="@string/title_reference"
-                app:icon="@drawable/ic_reference" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnProfessional"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/title_professional_qualification"
+                    app:icon="@drawable/ic_professional_certification" />
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:background="#E0E0E0"
-                android:visibility="visible" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#E0E0E0"
+                    android:visibility="visible" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/title.photograph"
-                android:textColor="#999999" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/title_emp_history"
+                    android:textColor="#999999" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnUploadPhoto"
-                style="@style/more.button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/hint.upload_photo"
-                app:icon="@drawable/ic_photo_upload_er" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEmpItem1"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/title_emp_his"
+                    app:icon="@drawable/ic_employment_history" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEmpItem2"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:fontFamily="@font/roboto_medium"
+                    android:singleLine="true"
+                    android:text="@string/army_employment_history_title"
+                    app:icon="@drawable/ic_retired_army_person" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="30dp"
+                    android:background="#E0E0E0"
+                    android:visibility="visible" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/title_other_information"
+                    android:textColor="#999999" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSpecilaization"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/title_specialization"
+                    app:icon="@drawable/ic_specilalization" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLanguage"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:fontFamily="@font/roboto_medium"
+                    android:singleLine="true"
+                    android:text="@string/title_language"
+                    app:icon="@drawable/ic_language" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnReferences"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:fontFamily="@font/roboto_medium"
+                    android:singleLine="true"
+                    android:text="@string/title_reference"
+                    app:icon="@drawable/ic_reference" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#E0E0E0"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/title.photograph"
+                    android:textColor="#999999" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnUploadPhoto"
+                    style="@style/more.button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/hint.upload_photo"
+                    app:icon="@drawable/ic_photo_upload_er" />
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

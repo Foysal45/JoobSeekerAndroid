@@ -473,4 +473,43 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_get_instant_sms_job_alert">Get Instant SMS Job Alert</string>
     <string name="label_steps_of_receiving_sms_job_alert_of_your_choice">Steps of receiving SMS Job Alert of your choice</string>
     <string name="label_confirmation_review">The employer will be able to review your\napplication and, if needed, can contact with you.</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_view_edit_resume">View/ Edit Resume</string>
+    <string name="label_bdjobs_resume">Bdjobs Resume</string>
+    <string name="label_personalized">Personalized</string>
+    <string name="label_video_resume">Video Resume</string>
+    <string name="label_resume_visibility_to_employer_s">Resume visibility to employer(s)</string>
+    <string name="label_change">Change</string>
+    <string name="label_edit">Edit</string>
+    <string name="label_personalized_resume">Personalized Resume</string>
+    <string name="label_no_personalized_resume">You have no Personalized Resume. Upload Personalized Resume for better job opportunities.</string>
+    <string name="label_add_personalized_resume">Add Personalized Resume</string>
+    <string name="label_add_video_resume">Add video Resume</string>
+    <string name="label_no_video_resume">You have no Video Resume. Add Video Resume to get more job opportunities.</string>
+    <string name="personal_details">Personal Details</string>
+    <string name="academic_qualification">Academic Qualification</string>
+    <string name="training">Training</string>
+    <string name="professional_qualification">Professional Qualification</string>
+    <string name="experience">Experience</string>
+    <string name="specialization">Specialization</string>
+    <string name="reference">Reference</string>
+    <string name="photograph">Photograph</string>
+    <string name="completed_steps">Completed steps</string>
+    <string name="label_upload_resume">Here, you can upload Personalized Resume. To increase your chance of getting a perfect job, make sure your uploaded Resume is updated.</string>
+    <string name="label_privacy_info_one">You can set resume privacy on your resume to prevent employer(s) from seeing it in the <b>Bdjobs CV Bank.</b></string>
+    <string name="label_privacy_info_two">-To show your resume to all employer(s) select <b>Public</b>.\n-To restrict seeing your resume select <b>Private</b> or <b>Limited</b>.</string>
+    <string name="select_your_resume_visibility_status">Select your Resume visibility status:</string>
+    <string name="all_employer_s_can_see_your_resume"><b>All Employer(s)</b> can see your resume.</string>
+    <string name="no_employer_s_can_see_your_resume_from_bdjobs_cv_bank"><b>No Employer(s)</b> can see your resume from \n<b>Bdjobs CV Bank</b></string>
+    <string name="only_selected_employer_s_can_not_see_your_resume">Only <b>Selected Employer(s)</b> can not see your resume.</string>
+    <string name="type_employer_name_for_suggestions">Type Employer name for suggestions</string>
+    <string name="completed_questions">Completed Questions</string>
+
+
+    <string-array name="spinnerFilterItemEmailResume">
+        <item>Bdjobs Resume</item>
+        <item>Personalized Resume</item>
+        <item>All</item>
+    </string-array>
+
 </resources>
