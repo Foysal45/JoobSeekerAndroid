@@ -62,7 +62,7 @@ class PersonalDetailsEditFragment : Fragment() {
         now.set(Calendar.YEAR, year)
         now.set(Calendar.MONTH, monthOfYear)
         now.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-      //  updateDatePassportIssueView()
+        updateDatePassportIssueView()
     }
 
     private fun updateDateInView() {
