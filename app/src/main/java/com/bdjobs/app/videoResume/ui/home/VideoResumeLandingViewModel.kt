@@ -110,7 +110,7 @@ class VideoResumeLandingViewModel(
                 _isAlertOn.value = "0"
                 yesSelected.value = false
                 noSelected.value = true
-//                _openTurnOffVisibilityDialogEvent.value = Event(true)
+                _openTurnOffVisibilityDialogEvent.value = Event(true)
 
                 updateResumeVisibility()
             } else{
@@ -143,13 +143,21 @@ class VideoResumeLandingViewModel(
     }
 
     fun notChangeResumeVisibility(){
-        _isAlertOn.value = "0"
-        noSelected.value = true
-        yesSelected.value = false
+        if(_openTurnOnVisibilityDialogEvent.equals("true")){
+            _isAlertOn.value = "1"
+            noSelected.value = false
+            yesSelected.value = true
+        }
+        if(_openTurnOffVisibilityDialogEvent.equals("true")){
+            _isAlertOn.value = "0"
+            noSelected.value = true
+            yesSelected.value = false
+        }
+
     }
 
     fun getAllQuestions() : List<Question>{
-        return videoResumeRepository.getAllQuestionsFromDB()
+        return videoResumeRepository.getAllQuestionsFromDBInBn()
     }
 
     fun getStatistics() {

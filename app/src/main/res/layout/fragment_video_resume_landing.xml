@@ -158,7 +158,7 @@
                         android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/roboto"
-                        android:text="Last Update: "
+                        android:text="Last Update on: "
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/circularProgressbar"
                         app:layout_constraintStart_toStartOf="@id/tv_completeness"

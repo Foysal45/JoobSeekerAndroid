@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="question"
             type="com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList.Data" />
@@ -31,8 +31,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="@{`Question ` + question.questionSerialNo + ` of 5`}"
-        tools:text="1 out of 5 "
+        android:text="@{`Question ` + question.questionSerialNo + ` of 6`}"
+        tools:text="1 out of 6 "
        />
 
     <TextView
@@ -130,6 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@{`Viewed by Employers: ` + question.totalView}"
+        android:visibility="@{question.totalView.equals(`0`) ? View.GONE : View.VISIBLE}"
         tools:text="Viewed by Employers: 100000000"
         android:textColor="@color/black"
         android:fontFamily="@font/roboto_bold"

@@ -27,7 +27,7 @@ class QuestionListDialogFragment : DialogFragment() {
     private lateinit var questionList : MutableList<Question>
     private lateinit var questionListAdapter: QuestionListAdapter
 
-    private var defaultLanguage = Language.EN
+    private var defaultLanguage = Language.BN
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

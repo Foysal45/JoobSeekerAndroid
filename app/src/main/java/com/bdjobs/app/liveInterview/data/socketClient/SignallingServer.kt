@@ -173,7 +173,6 @@ class SignalingServer {
 
         } catch (e: Exception) {
             Timber.tag("live").d("Exception : $e")
-            e.printStackTrace()
         }
     }
 

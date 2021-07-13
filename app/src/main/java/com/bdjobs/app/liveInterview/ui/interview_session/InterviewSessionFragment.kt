@@ -37,6 +37,7 @@ import com.bdjobs.app.liveInterview.data.socketClient.SignalingEvent
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.demo_connect_employer.streaming.CustomPCObserver
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.android.synthetic.main.fragment_instruction_view_page.*
 import org.jetbrains.anko.sdk27.coroutines.onRatingBarChange
 import org.jetbrains.anko.support.v4.runOnUiThread
@@ -54,6 +55,7 @@ import java.util.*
 class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener,
     SignalingEvent {
 
+    private val crashReport = FirebaseCrashlytics.getInstance()
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private var jobId = ""
     private var jobTitle = ""
@@ -95,6 +97,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     private var remoteMediaStream: MediaStream? = null
     private var remoteVideoTrack: VideoTrack? = null
     private var remoteAudioTrack: AudioTrack? = null
+
 
 
     val pcConstraints = object : MediaConstraints() {
@@ -180,6 +183,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         processId = args.processID.toString()
         jobId = args.jobID.toString()
         jobTitle = args.jobTitle.toString()
+
+        crashReport.setUserId(userName)
 
         binding.rvMessages.adapter = mAdapter
 
@@ -649,6 +654,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 val videoCapturer: VideoCapturer? = enumerator.createCapturer(deviceName, null)
                 if (videoCapturer != null) {
                     return videoCapturer
+                }else{
+                    crashReport.setCustomKey("LI-createCameraCapturer","isFrontFacing-videoCapturer-null")
                 }
             }
         }
@@ -657,6 +664,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 val videoCapturer: VideoCapturer? = enumerator.createCapturer(deviceName, null)
                 if (videoCapturer != null) {
                     return videoCapturer
+                }else{
+                    crashReport.setCustomKey("LI-createCameraCapturer","isBack-videoCapturer-null")
                 }
             }
         }
@@ -678,6 +687,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 remoteVideoTrack?.addSink(binding.remoteHostSurfaceView)
             } catch (e: Exception) {
                 Timber.tag("live").d("Error:gotRemoteStream $e")
+                crashReport.setCustomKey("LI-gotRemoteStream", e.toString())
             }
         }
     }
@@ -770,6 +780,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             mediaPlayer?.release()
             bdjobsUserSession.isSessionAlreadyStarted = false
         } catch (e: Exception) {
+            crashReport.setCustomKey("LI-onDestroy",e.toString())
         }
         super.onDestroy()
     }
@@ -797,6 +808,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onEventConnectionError(args: Array<Any>) {
         Timber.tag("live").d("ERROR: %s", args[0])
+        FirebaseCrashlytics.getInstance().setUserId(userName)
+        crashReport.setCustomKey("LI-onEventConnectionError", args[0].toString())
         findNavController().navigateUp()
     }
 
@@ -814,7 +827,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             try {
                 interviewSessionViewModel.isEmployerArrived.postValue(true)
             } catch (e: Exception) {
-                Timber.e("Error: on1stUserCheck-isEmployerArrived: ${e}")
+                Timber.e("Error: onNewUser-isEmployerArrived: ${e}")
+                crashReport.setCustomKey("LI-onNewUser-isEmployerArrived", e.toString())
             }
         }
 
@@ -831,6 +845,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 interviewSessionViewModel.isEmployerArrived.postValue(true)
             } catch (e: Exception) {
                 Timber.e("Error: on1stUserCheck-isEmployerArrived: ${e}")
+                crashReport.setCustomKey("LI-on1stUserCheck-isEmployerArrived", e.toString())
             }
         }
 
@@ -850,6 +865,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                     }
                 } catch (e: Exception) {
                     Timber.tag("live").d("Error:onNewUserStartNew applicantJoinedOnGoingSession - $e")
+                    crashReport.setCustomKey("LI-onNewUserStartNew-applicantJoinedOnGoingSession", e.toString())
+
                 }
             }
         getOrCreatePeerConnection(mRemoteSocketId, "R")
@@ -879,7 +896,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             try {
                 interviewSessionViewModel.employerEndedCall()
             } catch (e: Exception) {
-                Timber.tag("live").d("Error onEndemployerEndedCallCall: $e")
+                Timber.tag("live").d("Error onEndemployerEndedCall: $e")
             }
         }
     }
@@ -918,6 +935,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 interviewSessionViewModel.receivedChatData(args)
             } catch (e: Exception) {
                 Timber.tag("live").d("Error:receivedChatData - $e")
+                crashReport.setCustomKey("LI-onReceiveChat", e.toString())
             }
         }
     }
