@@ -74,7 +74,7 @@ class LogoutFragment : Fragment() {
         }
 
         setUserIdBTN.setOnClickListener{
-            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/set_userID_cart.asp", "from" to "setUserId")
+            requireContext().startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/set_userID_cart.asp", "from" to "setUserId")
         }
 
         signOutBTN.setOnClickListener {
