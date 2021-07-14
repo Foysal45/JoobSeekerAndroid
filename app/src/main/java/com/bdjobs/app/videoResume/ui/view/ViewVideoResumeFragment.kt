@@ -47,15 +47,21 @@ class ViewVideoResumeFragment : Fragment() {
 
     val args: ViewVideoResumeFragmentArgs by navArgs()
     private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
-    private val viewVideoResumeViewModel: ViewVideoResumeViewModel by viewModels { ViewModelFactoryUtil.provideVideoResumeViewVideoViewModelFactory(this) }
+    private val viewVideoResumeViewModel: ViewVideoResumeViewModel by viewModels {
+        ViewModelFactoryUtil.provideVideoResumeViewVideoViewModelFactory(
+            this
+        )
+    }
 
     lateinit var binding: FragmentViewVideoResumeBinding
     private lateinit var session: BdjobsUserSession
 
-    lateinit var medialController : MediaController
+    lateinit var medialController: MediaController
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_view_video_resume, container, false)
     }
 
@@ -72,7 +78,8 @@ class ViewVideoResumeFragment : Fragment() {
 
 
         btn_record_again?.setOnClickListener {
-            findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToRecordVideoResumeFragment())
+            if (findNavController().currentDestination?.id == R.id.viewVideoResumeFragment)
+                findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToRecordVideoResumeFragment())
         }
 
         btn_delete_video?.setOnClickListener {
@@ -89,9 +96,10 @@ class ViewVideoResumeFragment : Fragment() {
                 val noBTN = dialog.findViewById<Button>(R.id.btn_delete_video_no)
                 val yesBTN = dialog.findViewById<Button>(R.id.btn_delete_video_yes)
 
-                if(session.videoResumeTotalAnswered!!.toInt() < session.videoResumeThreshold!!.toInt()){
-                    deleteTV.text = "If you delete it, employers won't be able to view your video. Do you want to delete this video?"
-                }else {
+                if (session.videoResumeTotalAnswered!!.toInt() < session.videoResumeThreshold!!.toInt()) {
+                    deleteTV.text =
+                        "If you delete it, employers won't be able to view your video. Do you want to delete this video?"
+                } else {
                     deleteTV.text = "Are you sure you want to delete the video?"
 
                 }

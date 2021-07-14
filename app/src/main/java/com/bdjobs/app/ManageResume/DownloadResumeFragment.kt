@@ -20,6 +20,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 import java.text.SimpleDateFormat
+import java.util.*
 
 class DownloadResumeFragment : android.app.Fragment() {
 
@@ -150,8 +151,20 @@ class DownloadResumeFragment : android.app.Fragment() {
 
 //                    downloadLink = data.personalizedFilePath
 
-                    val statCalculatedFrom = formatDateVP(data.personalizedCalculatedFromDate)
-                    val lastUpdatedOn = formatDateVP(data.personalizedLastUpdateDate)
+                    val statCalculatedFrom = if (data.personalizedCalculatedFromDate!="") try {
+                        formatDateVP(data.personalizedCalculatedFromDate)
+                    } catch (e: Exception) {
+                        formatDateVP(data.personalizedCalculatedFromDate,
+                            SimpleDateFormat("M/dd/yyyy", Locale.US)
+                        )
+                    } else ""
+                    val lastUpdatedOn = if (data.personalizedLastUpdateDate!="") try {
+                        formatDateVP(data.personalizedLastUpdateDate)
+                    } catch (e: Exception) {
+                        formatDateVP(data.personalizedLastUpdateDate,
+                            SimpleDateFormat("M/dd/yyyy", Locale.US)
+                        )
+                    } else ""
 
                     bdjobsUserSession.personalizedResumeSessionStatCalculatedFrom = statCalculatedFrom
 
@@ -185,9 +198,9 @@ class DownloadResumeFragment : android.app.Fragment() {
 
 
     @SuppressLint("SimpleDateFormat")
-    private fun formatDateVP(lastUpdate: String?): String {
+    private fun formatDateVP(lastUpdate: String?,format: SimpleDateFormat= SimpleDateFormat("M/dd/yyyy HH:mm:ss a")): String {
         var lastUpdate1 = lastUpdate
-        var formatter = SimpleDateFormat("M/dd/yyyy HH:mm:ss a")
+        var formatter = format
         val date = formatter.parse(lastUpdate1!!)
         formatter = SimpleDateFormat("dd MMM yyyy")
         lastUpdate1 = formatter.format(date!!)

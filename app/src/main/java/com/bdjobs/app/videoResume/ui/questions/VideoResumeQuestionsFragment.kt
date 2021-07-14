@@ -94,12 +94,13 @@ class VideoResumeQuestionsFragment : Fragment() {
                 askForPermission(it)
 
             } else {
-                findNavController().navigate(
-                    VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToViewVideoResumeFragment(
-                        it.videoUrl,
-                        it.questionTextBng
+                if (findNavController().currentDestination?.id == R.id.videoResumeQuestionsFragment)
+                    findNavController().navigate(
+                        VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToViewVideoResumeFragment(
+                            it.videoUrl,
+                            it.questionTextBng
+                        )
                     )
-                )
             }
         })
 
@@ -771,8 +772,8 @@ class VideoResumeQuestionsFragment : Fragment() {
 //
 //                    questionListViewModel._videoManagerData.postValue(videoManager)
 //                    findNavController().navigate(QuestionListFragmentDirections.actionQuestionDetailsFragmentToRecordViedeoFragment())
-
-                        findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToRecordVideoResumeFragment())
+                        if (findNavController().currentDestination?.id == R.id.videoResumeQuestionsFragment)
+                            findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToRecordVideoResumeFragment())
 
 
                     }

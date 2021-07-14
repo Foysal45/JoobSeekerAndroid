@@ -440,7 +440,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            chatLogFetchSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            chatLogFetchSuccess.observe(viewLifecycleOwner, {
                 if (it) {
                     var messages: Messages?
 
@@ -471,7 +471,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            postSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            postSuccess.observe(viewLifecycleOwner, {
                 if (it) {
                     SignalingServer.get()?.sendChatMessage(postMessage.value.toString(), imageLocal, imageRemote, messageCount)
 
@@ -492,7 +492,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 }
             })
 
-            onChatReceived.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            onChatReceived.observe(viewLifecycleOwner, {
                 try{
                     val s = it?.get(0).toString()
                     Timber.tag("live").d("Viewmodel post receivedChatData Chat data")

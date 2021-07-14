@@ -172,12 +172,15 @@ class RecordVideoResumeFragment : Fragment() {
         binding.apply {
             tvAnswerTips.paint.isUnderlineText = true
             tvAnswerTips.setOnClickListener {
-                buildTipsDialog(videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionTextBng,videoResumeQuestionsViewModel.videoResumeManagerData.value?.answerHintBn)
+                buildTipsDialog(
+                    videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionTextBng,
+                    videoResumeQuestionsViewModel.videoResumeManagerData.value?.answerHintBn
+                )
             }
         }
     }
 
-    private fun buildTipsDialog(title:String?,message:String?) {
+    private fun buildTipsDialog(title: String?, message: String?) {
         val builder = AlertDialog.Builder(requireContext())
 
         builder.setTitle("প্রশ্নঃ $title")
@@ -267,7 +270,8 @@ class RecordVideoResumeFragment : Fragment() {
             e.printStackTrace()
         }
         try {
-            findNavController().popBackStack(R.id.videoResumeQuestionsFragment, false)
+            if (findNavController().currentDestination?.id == R.id.recordVideoResumeFragment)
+                findNavController().popBackStack(R.id.videoResumeQuestionsFragment, false)
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.openUrlInBrowser
 import com.bdjobs.app.Web.WebActivity
@@ -31,8 +32,10 @@ class VideoResumeLandingFragment : Fragment() {
     lateinit var binding: FragmentVideoResumeLandingBinding
     private lateinit var session: BdjobsUserSession
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentVideoResumeLandingBinding.inflate(inflater).apply {
             viewModel = videoResumeLandingViewModel
             lifecycleOwner = viewLifecycleOwner
@@ -45,15 +48,24 @@ class VideoResumeLandingFragment : Fragment() {
         session = BdjobsUserSession(requireContext())
 
         val navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
+        val appBarConfiguration =
+            AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
         btn_view_questions?.setOnClickListener {
-            findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToQuestionListDialogFragment(videoResumeLandingViewModel.getAllQuestions().toTypedArray()))
+            if (findNavController().currentDestination?.id == R.id.videoResumeLandingFragment)
+                findNavController().navigate(
+                    VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToQuestionListDialogFragment(
+                        videoResumeLandingViewModel.getAllQuestions().toTypedArray()
+                    )
+                )
         }
 
         btn_guidelines?.setOnClickListener {
-            findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToGuidelineFragment())
+            if (findNavController().currentDestination?.id == R.id.videoResumeLandingFragment) {
+                findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToGuidelineFragment())
+            }
+
         }
 
         img_info?.setOnClickListener {
@@ -71,7 +83,7 @@ class VideoResumeLandingFragment : Fragment() {
                 }
             })
 
-            openTurnOnVisibilityDialogEvent.observe(viewLifecycleOwner,EventObserver {
+            openTurnOnVisibilityDialogEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     openTurnOnVisibilityDialog()
                 }
@@ -95,17 +107,25 @@ class VideoResumeLandingFragment : Fragment() {
             }
 
             btn_create_video?.setOnClickListener {
-                findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToVideoResumeQuestionsFragment())
+                if (findNavController().currentDestination?.id == R.id.videoResumeLandingFragment) {
+                    findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToVideoResumeQuestionsFragment())
+                }
+
             }
 
             btn_edit_video?.setOnClickListener {
-                findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToVideoResumeQuestionsFragment())
+                if (findNavController().currentDestination?.id == R.id.videoResumeLandingFragment) {
+                    findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToVideoResumeQuestionsFragment())
+                }
             }
         }
     }
 
     private fun openPublicWarningDialog() {
-        findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToPublicVisibilityFragment())
+        if (findNavController().currentDestination?.id == R.id.videoResumeLandingFragment) {
+            findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToPublicVisibilityFragment())
+        }
+
     }
 
     private fun openTurnOffVisibilityDialog() {
