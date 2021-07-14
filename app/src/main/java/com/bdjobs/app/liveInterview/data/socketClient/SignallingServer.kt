@@ -191,7 +191,7 @@ class SignalingServer {
         } catch (e: Exception) {
             Timber.tag("live").d("SignallingServer: sendInterviewRecieved error - $e")
         }
-        Timber.tag("live").d("sendingCallHasEnded string - $sendInterviewReceived")
+        Timber.tag("live").d("sendInterviewReceived string - $sendInterviewReceived")
 
         socket?.emit(EventConstants.EVENT_INTERVIEW_CALL_RECIEVE, sendInterviewReceived)
     }
