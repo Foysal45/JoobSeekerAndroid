@@ -86,15 +86,11 @@ class SignalingServer {
                 activeUser = argument.getString("activeUserCount")
                 signalingEvent.onNewUser(args)
                 sendApplicantId()
-                // temp solution if browser reload , infinite loop on back navigation
-//                socket?.disconnect()
-//                socket?.connect()
             }
             socket?.on(EventConstants.EVENT_NEW_USER_START_NEW) {args: Array<Any?>? ->
                 val argument = args?.get(0) as JSONObject
                 remoteSocketID = argument.getString("sender")
                 signalingEvent.onNewUserStartNew(args)
-               // sendReInitRequest()
             }
 
             socket?.on(EventConstants.EVENT_SEND_RELOAD_TO_FIRST_USER) {args: Array<Any?>? ->
@@ -120,12 +116,6 @@ class SignalingServer {
                     signalingEvent.onReceiveIceCandidate(args)
                 }
             }
-
-//            socket?.on(EventConstants.EVENT_INTERVIEW_CALL_RECIEVE) { args: Array<Any?>? ->
-//                if (args != null) {
-//                    signalingEvent.onReceiveIceCandidate(args)
-//                }
-//            }
 
             socket?.on(EventConstants.EVENT_INTERVIEW_CALL_END) { args: Array<Any?>? ->
                 Timber.tag("live").d("call end: %s", args?.get(0))

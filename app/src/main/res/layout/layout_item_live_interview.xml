@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="data"
-            type="com.bdjobs.app.databases.internal.LiveInvitation" />
+            type="com.bdjobs.app.liveInterview.data.models.LiveInterviewList.Data" />
         <variable
             name="clickListener"
             type="com.bdjobs.app.liveInterview.ui.interview_list.ClickListener" />
@@ -86,7 +86,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="#F57F17"
                 android:textSize="13sp"
-                app:date="@{data.liveInterviewDateString}"
+                app:date="@{data.liveInterviewDate}"
                 app:time="@{data.liveInterviewTime}"
                 app:icon="@{data.liveInterviewStatusCode}"
                 app:status="@{data.liveInterviewStatusCode}"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="15dp"
-                android:text="@{`Invited on: ` + data.dateStringForInvitation}"
+                android:text="@{`Invited on: ` + data.dateStringForInvitaion}"
                 android:textColor="#767676"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"

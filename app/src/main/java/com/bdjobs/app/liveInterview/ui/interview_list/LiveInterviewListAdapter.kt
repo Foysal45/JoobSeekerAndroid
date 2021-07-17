@@ -13,7 +13,7 @@ import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
 import timber.log.Timber
 
 class LiveInterviewListAdapter(val context: Context, val clickListener: ClickListener) :
-        ListAdapter<LiveInvitation, LiveInterviewListAdapter.LiveInterviewHolder>(
+        ListAdapter<LiveInterviewList.Data, LiveInterviewListAdapter.LiveInterviewHolder>(
                 DiffUtilCallback
         ) {
 
@@ -31,12 +31,12 @@ class LiveInterviewListAdapter(val context: Context, val clickListener: ClickLis
         holder.bind(getItem(position), clickListener)
     }
 
-    companion object DiffUtilCallback : DiffUtil.ItemCallback<LiveInvitation>() {
-        override fun areItemsTheSame(oldItem: LiveInvitation, newItem: LiveInvitation): Boolean {
+    companion object DiffUtilCallback : DiffUtil.ItemCallback<LiveInterviewList.Data>() {
+        override fun areItemsTheSame(oldItem: LiveInterviewList.Data, newItem: LiveInterviewList.Data): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: LiveInvitation, newItem: LiveInvitation): Boolean {
+        override fun areContentsTheSame(oldItem: LiveInterviewList.Data, newItem: LiveInterviewList.Data): Boolean {
             return oldItem.jobId == newItem.jobId
         }
     }
@@ -52,7 +52,7 @@ class LiveInterviewListAdapter(val context: Context, val clickListener: ClickLis
             }
         }
 
-        fun bind(liveInterviewData: LiveInvitation, clickListener: ClickListener) {
+        fun bind(liveInterviewData: LiveInterviewList.Data, clickListener: ClickListener) {
             binding.data = liveInterviewData
             Timber.tag("LI").d("List Data - $liveInterviewData")
             binding.clickListener = clickListener
@@ -62,8 +62,8 @@ class LiveInterviewListAdapter(val context: Context, val clickListener: ClickLis
 }
 
 
-class ClickListener(val clickListener: (liveInterviewData: LiveInvitation) -> Unit) {
-    fun onClick(liveInterviewData: LiveInvitation) {
+class ClickListener(val clickListener: (liveInterviewData: LiveInterviewList.Data) -> Unit) {
+    fun onClick(liveInterviewData: LiveInterviewList.Data) {
         clickListener(liveInterviewData)
     }
 }
