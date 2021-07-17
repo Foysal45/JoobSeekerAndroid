@@ -71,9 +71,7 @@ class SignalingServer {
             }
 
             socket?.on(EventConstants.EVENT_PARTICIPANT_COUNT) {args: Array<Any?>? ->
-                Timber.tag("live").d("participantCount: %s", args?.get(0))
-//                val message = args?.get(0) as JSONObject
-//                Timber.tag("live").d("participant string - ${message.getString("participant")}")
+               signalingEvent.onParticipantCount(args)
             }
 
             socket?.on(EventConstants.EVENT_1ST_USER_CHECK) {args: Array<Any?>? ->

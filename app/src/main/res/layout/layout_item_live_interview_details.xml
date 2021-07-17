@@ -186,7 +186,7 @@
                 android:layout_marginTop="23dp"
                 android:background="@drawable/background_red"
                 android:padding="10dp"
-                android:text="This is a live interview, no need to visit the company office. You can attend this interview from home or any convenient place"
+                android:text="This is a live interview so no need to be present at company office. You can attend this interview from home or any convenient place."
                 android:textColor="#B71C1C"
                 app:layout_constraintTop_toBottomOf="@id/total_time_text"
                 tools:layout_editor_absoluteX="14dp" />

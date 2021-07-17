@@ -1,5 +1,6 @@
 package com.bdjobs.app.liveInterview.ui.interview_session
 
+import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.IntentFilter
@@ -36,6 +37,7 @@ import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.liveInterview.data.socketClient.CustomSdpObserver
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingEvent
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
+import com.bdjobs.app.liveInterview.ui.interview_list.LiveInterviewListFragmentDirections
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.demo_connect_employer.streaming.CustomPCObserver
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -537,8 +539,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             isMessageToEmployerShowing.observe(viewLifecycleOwner, { if (it) { binding.apply { clChatView.visibility = View.VISIBLE } } })
             isMessageToEmployerHidden.observe(viewLifecycleOwner, { if (it) { binding.apply { clChatView.visibility = View.GONE } } })
 
-            isFeedbackSubmitted.observe(viewLifecycleOwner, { if (it) { findNavController().navigateUp() } })
+            isFeedbackSubmitted.observe(viewLifecycleOwner, { if (it) {
+                findNavController().navigateUp()
+         //       findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToLiveInterviewDetailsFragment(jobId,jobTitle))
+
+            } })
             /* Feedback View end */
+
 
             canGoToDetailView.observe(viewLifecycleOwner, { if (it) { findNavController().navigateUp() } })
 
@@ -816,11 +823,46 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         FirebaseCrashlytics.getInstance().setUserId(userName)
         crashReport.setCustomKey("LI-onEventConnectionError", args[0].toString())
         findNavController().navigateUp()
+      //  findNavController().navigate(InterviewSessionFragmentDirections.actionInterviewSessionFragmentToLiveInterviewDetailsFragment(jobId,jobTitle))
+
     }
 
     override fun setLocalSocketID(id: String) {
         Timber.tag("live").d("setLocalSocketID: %s", id)
         mSocketId = id
+    }
+
+    override fun onParticipantCount(args: Array<Any?>?) {
+        Timber.tag("live").d("onParticipantCount: %s", args?.get(0))
+
+        runOnUiThread {
+            try{
+                val argument = args?.get(0) as JSONObject
+                val totalUserInTheRoom = argument.getInt("participant")
+                val totalUserInTheRoomString = argument.getString("participant")
+
+                Timber.tag("live").d("totalUserInTheRoom: $totalUserInTheRoom")
+                Timber.tag("live").d("totalUserInTheRoom: $totalUserInTheRoomString")
+
+
+                if(totalUserInTheRoom>2){
+                    Timber.tag("live").d("Show AlertDialog")
+
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setTitle("Live Interview Room")
+                    builder.setMessage("The interview room is closed as an interview is currently going on.")
+                    builder.setPositiveButton("Okay") { dialog, _ ->
+                        dialog.dismiss()
+                        findNavController().navigateUp()
+                    }
+                    builder.show()
+                }
+            }catch (e:Exception){
+                Timber.e("Error: onParticipantCount: ${e}")
+                crashReport.setCustomKey("LI-onParticipantCount", e.toString())
+            }
+        }
+
     }
 
     override fun onNewUser(args: Array<Any?>?) {

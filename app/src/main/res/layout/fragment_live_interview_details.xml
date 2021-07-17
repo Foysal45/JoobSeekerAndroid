@@ -343,13 +343,13 @@
                     android:drawablePadding="8dp"
                     android:drawableTint="#13a10e"
                     android:onClick="@{()->viewModel.onJoinInterviewButtonClick()}"
+                    android:visibility="@{viewModel.showJoinInterviewSmallBTN ? View.VISIBLE : View.GONE}"
                     android:padding="5dp"
                     android:text="Join Interview"
                     android:textColor="#13a10e"
                     android:textStyle="bold" />
 
 
-<!--                android:visibility="@{viewModel.showJoinInterviewSmallBTN ? View.VISIBLE : View.GONE}"-->
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/btn_take_preparation"
