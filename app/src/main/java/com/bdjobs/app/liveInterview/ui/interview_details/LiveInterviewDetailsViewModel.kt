@@ -201,10 +201,11 @@ class LiveInterviewDetailsViewModel(
 
              //   Timber.d("${remainingDays.value} ${remainingHours.value} ${remainingMinutes.value} ${remainingSeconds.value}")
 
-            //    Timber.d("Minutes: $minutes :: Hours: $hours")
-                if(hours < 1 && minutes < 30){
+            //    Timber.d("Days: $days :: Minutes: $minutes :: Hours: $hours")
+                if( days<1 && hours < 1 && minutes < 30){
                     showJoinInterviewSmallBTN.value = true
                 }
+
             }
 
             override fun onFinish() {

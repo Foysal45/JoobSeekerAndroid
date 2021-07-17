@@ -74,7 +74,7 @@ fun bindLiveInterviewTimer(textView: TextView, date: String?, time: String?, sta
                 var remainingMinutes = ""
                 var remainingSeconds = ""
 
-                Timber.tag("live").d("came here $interviewDateTime")
+                Timber.tag("LI").d("came here $interviewDateTime")
                 val start_calendar: Calendar = Calendar.getInstance()
                 val end_calendar: Calendar = Calendar.getInstance()
 
@@ -89,7 +89,7 @@ fun bindLiveInterviewTimer(textView: TextView, date: String?, time: String?, sta
 
                 val total_millis = end_millis - start_millis //total time in milliseconds
 
-                Timber.tag("live").d("came here total ${total_millis}")
+                Timber.tag("LI").d("came here total ${total_millis}")
 
                 //1000 = 1 second interval
 
@@ -121,6 +121,7 @@ fun bindLiveInterviewTimer(textView: TextView, date: String?, time: String?, sta
                             textView.text = "${remainingMinutes.toInt().plus(1)} mins remaining"
                         } else {
 //                            textView.text = "${remainingMinutes.toInt().plus(1)} min remaining"
+                            textView.visibility = View.GONE
                         }
                     } else if (remainingHours.toInt() == 1) {
                         if (remainingMinutes.toInt() > 1) {

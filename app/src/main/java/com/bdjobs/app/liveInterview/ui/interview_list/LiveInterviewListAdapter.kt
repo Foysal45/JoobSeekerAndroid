@@ -1,6 +1,7 @@
 package com.bdjobs.app.liveInterview.ui.interview_list
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.databases.internal.LiveInvitation
 import com.bdjobs.app.databinding.LayoutItemLiveInterviewBinding
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
+import timber.log.Timber
 
 class LiveInterviewListAdapter(val context: Context, val clickListener: ClickListener) :
         ListAdapter<LiveInvitation, LiveInterviewListAdapter.LiveInterviewHolder>(
@@ -52,6 +54,7 @@ class LiveInterviewListAdapter(val context: Context, val clickListener: ClickLis
 
         fun bind(liveInterviewData: LiveInvitation, clickListener: ClickListener) {
             binding.data = liveInterviewData
+            Timber.tag("LI").d("List Data - $liveInterviewData")
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
