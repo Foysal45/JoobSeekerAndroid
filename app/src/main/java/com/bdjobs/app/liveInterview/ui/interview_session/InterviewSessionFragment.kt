@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -169,10 +170,14 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
+        //set device audio to headphone only and max volume
         val audioManager = context?.getSystemService(Context.AUDIO_SERVICE) as AudioManager?
         audioManager?.isMicrophoneMute= false
         audioManager?.isSpeakerphoneOn = false
         audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0)
+
+        //keep screen on
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         binding.toolBar.setupWithNavController(navController, appBarConfiguration)
         binding.toolBar.title = if (args.jobTitle != null) args.jobTitle else ""
@@ -185,6 +190,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         jobTitle = args.jobTitle.toString()
 
         crashReport.setUserId(userName)
+
+        setUpObservers()
+        startSession()
 
         binding.rvMessages.adapter = mAdapter
 
@@ -258,9 +266,6 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
                 isInstructionHidden.value = true
             }
         }
-
-        setUpObservers()
-        startSession()
 
     }
 
