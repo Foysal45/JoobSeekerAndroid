@@ -117,6 +117,7 @@
                 android:text="username@email.com"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@id/ivProfileImage"
                 app:layout_constraintEnd_toEndOf="@id/ivProfileImage"
@@ -363,6 +364,7 @@
             <LinearLayout
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

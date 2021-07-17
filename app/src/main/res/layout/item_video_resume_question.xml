@@ -89,7 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_info"
         android:layout_marginTop="8dp"
-        android:text="অ্যানসার টিপস"
+        android:text="টিপস: কি বলবেন?"
         android:fontFamily="@font/noto_sans"
         android:textColor="#2962FF"
         android:textSize="12sp"

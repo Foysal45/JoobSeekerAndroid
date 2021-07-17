@@ -119,6 +119,11 @@ class MoreFragment : Fragment() {
         employerList_MBTN?.setOnClickListener {
             homeCommunicator.goToFollowedEmployerList("employer")
         }
+
+        video_guide_MBTN?.setOnClickListener {
+            activity?.openUrlInBrowser("https://mybdjobs.bdjobs.com/mybdjobs/videoHelp.asp")
+        }
+
         generalSearch_MBTN?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
         }

@@ -333,7 +333,9 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
     }
 
     override fun goToResumeManager(){
-        startActivity<ResumeDashboardBaseActivity>()
+       // startActivity<ResumeDashboardBaseActivity>()
+        startActivity<ResumeManagerActivity>()
+
     }
 
 

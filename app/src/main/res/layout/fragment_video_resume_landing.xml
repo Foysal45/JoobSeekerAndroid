@@ -158,7 +158,7 @@
                         android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/roboto"
-                        android:text="Last Update on: "
+                        android:text="Last updated on: "
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/circularProgressbar"
                         app:layout_constraintStart_toStartOf="@id/tv_completeness"
@@ -453,6 +453,25 @@
                     app:layout_constraintEnd_toEndOf="@+id/cl_data"
                     app:layout_constraintStart_toStartOf="@id/cl_banner"
                     app:layout_constraintTop_toBottomOf="@+id/btn_guidelines" />
+
+                <TextView
+                    android:id="@+id/tv_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_new_question"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="5dp"
+                    android:paddingStart="4dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="2dp"
+                    android:text="NEW"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toTopOf="@+id/btn_video_tutorial"
+                    app:layout_constraintEnd_toEndOf="@id/btn_video_tutorial"
+                    app:layout_constraintStart_toStartOf="@+id/btn_video_tutorial"/>
 
 
                 <com.google.android.material.button.MaterialButton

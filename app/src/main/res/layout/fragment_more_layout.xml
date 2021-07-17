@@ -201,6 +201,16 @@
                 android:visibility="visible"
                 app:icon="@drawable/ic_emp_certification_more" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/video_guide_MBTN"
+                style="@style/more.button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Video Guide"
+                android:textSize="14sp"
+                android:visibility="visible"
+                app:icon="@drawable/ic_vr_video_tutorial_link" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

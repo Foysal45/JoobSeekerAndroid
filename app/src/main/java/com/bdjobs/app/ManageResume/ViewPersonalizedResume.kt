@@ -13,6 +13,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.databinding.ActivityViewPersonalizedResumeBinding
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
+import timber.log.Timber
 import java.io.File
 
 class ViewPersonalizedResume : AppCompatActivity() {
@@ -55,6 +56,7 @@ class ViewPersonalizedResume : AppCompatActivity() {
                     try {
                         showPdfFromFile(downloadedFile)
                     } catch (e: Exception) {
+                        Timber.tag("ViewPersonalizedResume").d("onDownloadComplete Error $e")
                         Toast.makeText(
                             this@ViewPersonalizedResume,
                             "File format is not supported to preview Personalized Resume",
@@ -65,12 +67,8 @@ class ViewPersonalizedResume : AppCompatActivity() {
 
                 override fun onError(error: com.downloader.Error?) {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(
-                        this@ViewPersonalizedResume,
-                        "Error in downloading file : $error",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+                    Timber.tag("ViewPersonalizedResume").d("onError Error $error")
+                    Toast.makeText(this@ViewPersonalizedResume, "Error in downloading file : $error", Toast.LENGTH_LONG).show()
                 }
             })
     }
@@ -82,6 +80,14 @@ class ViewPersonalizedResume : AppCompatActivity() {
             .enableSwipe(true)
             .swipeHorizontal(false)
             .enableDoubletap(true)
+            .onError {
+                Timber.tag("ViewPersonalizedResume").d("showPdfFromFile Error ${it}")
+                Toast.makeText(
+                    this@ViewPersonalizedResume,
+                    "File format is not supported to preview Personalized Resume",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
             .onPageError { page, _ ->
                 Toast.makeText(
                     this@ViewPersonalizedResume,
