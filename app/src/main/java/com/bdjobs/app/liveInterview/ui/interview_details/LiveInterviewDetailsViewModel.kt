@@ -61,14 +61,14 @@ class LiveInterviewDetailsViewModel(
     }
     val applyID: LiveData<String> = _applyID
 
-    private val _processID = MutableLiveData<String>()
-    val processID:LiveData<String> = _processID
+    private val _processID = MutableLiveData<String?>()
+    val processID: MutableLiveData<String?> = _processID
 
-    private val _levelStatus = MutableLiveData<String>()
-    val levelStatus:LiveData<String> = _levelStatus
+    private val _levelStatus = MutableLiveData<String?>()
+    val levelStatus: MutableLiveData<String?> = _levelStatus
 
     val examDate = MutableLiveData<String?>()
-    val examTime = MutableLiveData<String>()
+    val examTime = MutableLiveData<String?>()
 
     val remainingDays = MutableLiveData<String>()
     val remainingHours = MutableLiveData<String>()
@@ -124,8 +124,6 @@ class LiveInterviewDetailsViewModel(
                 interviewDateTime = "${liveInterviewDetailsData.value?.get(0)?.examDate} ${liveInterviewDetailsData.value?.get(0)?.examTime}"
                 _processID.value = liveInterviewDetailsData.value?.get(0)?.processId
                 _levelStatus.value = liveInterviewDetailsData.value?.get(0)?.levelstatus
-
-
 
                 applyId = commonData.value?.applyId.toString()
                 _applyID.value = commonData.value?.applyId.toString()

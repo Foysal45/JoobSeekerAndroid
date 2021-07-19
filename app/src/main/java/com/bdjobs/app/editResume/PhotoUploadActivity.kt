@@ -1,10 +1,10 @@
 package com.bdjobs.app.editResume
 
+//import droidninja.filepicker.FilePickerConst
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,6 +12,7 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -26,6 +27,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BitmapCompat
 import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PhotoInfoModel
@@ -35,17 +37,13 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.google.android.ads.nativetemplates.TemplateView
-import com.google.android.gms.ads.AdRequest
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import com.loopj.android.http.RequestParams
-import com.squareup.picasso.LruCache
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoTools
-import com.yalantis.ucrop.UCrop
 import cz.msebera.android.httpclient.Header
-//import droidninja.filepicker.FilePickerConst
 import kotlinx.android.synthetic.main.activity_photo_upload.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
@@ -55,7 +53,6 @@ import retrofit2.Response
 import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.InputStream
 
 class PhotoUploadActivity : Activity() {
 
@@ -144,98 +141,117 @@ class PhotoUploadActivity : Activity() {
     fun makeHTTPCall() {
 
         val client = AsyncHttpClient()
-        client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", params, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(statusCode: Int, headers: Array<Header?>?, responseBody: ByteArray) {
+        client.post(
+            "http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx",
+            params,
+            object : AsyncHttpResponseHandler() {
+                override fun onSuccess(
+                    statusCode: Int,
+                    headers: Array<Header?>?,
+                    responseBody: ByteArray
+                ) {
 
-                try {
-                    val response = String(responseBody)
+                    try {
+                        val response = String(responseBody)
 
-                    //Log.d("dgdsgdghj", " response ${response}")
+                        //Log.d("dgdsgdghj", " response ${response}")
+                        Timber.tag("PhotoUploadActivity").d("Upload response $response")
 
-                    val gson = Gson()
-                    val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
-                    val photoUrl = photoUploadModel.data?.get(0)?.path
-                    //Log.d("dgdsgdghj", photoUrl)
+                        val gson = Gson()
+                        val photoUploadModel =
+                            gson.fromJson(response, PhotoUploadResponseModel::class.java)
+                        val photoUrl = photoUploadModel.data?.get(0)?.path
+                        //Log.d("dgdsgdghj", photoUrl)
 
-                    bdjobsUserSession.updateUserPicUrl(photoUrl?.trim().toString())
+                        bdjobsUserSession.updateUserPicUrl(photoUrl?.trim().toString())
 
-                    //Log.d("PhotoUploda", "response ${photoUploadModel.message} ")
-                    noPhotoTV?.text = "You can change or delete your photo"
-                    photoInfoTV?.hide()
-                    editResPhotoUploadButton?.hide()
-                    editResChangePhotoButton?.show()
-                    photoDeleteButton?.show()
-                    progressDialog?.dismiss()
+                        //Log.d("PhotoUploda", "response ${photoUploadModel.message} ")
+                        noPhotoTV?.text = "You can change or delete your photo"
+                        photoInfoTV?.hide()
+                        editResPhotoUploadButton?.hide()
+                        editResChangePhotoButton?.show()
+                        photoDeleteButton?.show()
+                        progressDialog?.dismiss()
 
-                    if (ic_edit_photo.isVisible) {
-                        PicassoTools().clearCache(Picasso.get())
-                        toast("Photo has been updated successfully.")
+                        if (ic_edit_photo.isVisible) {
+                            PicassoTools().clearCache(Picasso.get())
+                            toast("Photo has been updated successfully.")
 
-                    } else {
+                        } else {
 
-                        toast(photoUploadModel.message.toString())
+                            toast(photoUploadModel.message.toString())
+                        }
+
+                        ic_edit_photo?.show()
+                    } catch (e: Exception) {
+                        Timber.tag("PhotoUploadActivity").d("Upload response error $e")
+
                     }
 
-                    ic_edit_photo?.show()
-                } catch (e: Exception) {
-                    Timber.e(e)
-
                 }
 
-            }
+                override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header?>?,
+                    responseBody: ByteArray?,
+                    error: Throwable?
+                ) {
+                    try {
+                        error?.message?.let { Log.e("photoAPI", it) }
+                    } catch (e: Exception) {
+                        Timber.e(e)
+                    }
 
-            override fun onFailure(statusCode: Int, headers: Array<Header?>?, responseBody: ByteArray?, error: Throwable?) {
-                try {
-                    error?.message?.let { Log.e("photoAPI", it) }
-                } catch (e: Exception) {
-                    Timber.e(e)
+
                 }
-
-
-            }
-        })
+            })
     }
 
     private fun uploadPhoto() {
         progressDialog.setMessage("Uploading Photo..")
         progressDialog.show()
         progressDialog.setCancelable(false)
-        ApiServiceMyBdjobs.create().getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId).enqueue(object : Callback<PhotoInfoModel> {
-            override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
-                error("onFailure", t)
-            }
-
-            override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
-                try {
-                    //Log.d("PhotoUpload", " response message ${response.body()!!}")
-                    //Log.d("PhotoUpload", " response statuscode ${response.body()!!.statuscode}")
-                    //Log.d("PhotoUpload", " response message ${response.body()!!.message}")
-
-
-                    if (response.body()!!.statuscode.equals("0", true)) {
-
-                        userId = response.body()?.data?.get(0)?.userId
-                        decodeId = response.body()?.data?.get(0)?.decodId
-                        folderName = response.body()?.data?.get(0)?.folderName
-                        folderId = response.body()?.data?.get(0)?.folderId
-                        imageName = response.body()?.data?.get(0)?.imageName
-                        isResumeUpdate = response.body()?.data?.get(0)?.isResumeUpdate
-                        params.put("Image", encodedString)
-                        params.put("userid", bdjobsUserSession.userId)
-                        params.put("decodeid", bdjobsUserSession.decodId)
-                        params.put("folderName", folderName)
-                        params.put("folderId", folderId)
-                        params.put("imageName", imageName)
-                        params.put("isResumeUpdate", isResumeUpdate)
-                        params.put("status", "upload")
-                        makeHTTPCall()
-
-                    }
-                } catch (e: Exception) {
-                    Timber.e(e)
+        ApiServiceMyBdjobs.create()
+            .getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId)
+            .enqueue(object : Callback<PhotoInfoModel> {
+                override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
+                    error("onFailure", t)
                 }
-            }
-        })
+
+                override fun onResponse(
+                    call: Call<PhotoInfoModel>,
+                    response: Response<PhotoInfoModel>
+                ) {
+                    try {
+                        //Log.d("PhotoUpload", " response message ${response.body()!!}")
+                        //Log.d("PhotoUpload", " response statuscode ${response.body()!!.statuscode}")
+                        //Log.d("PhotoUpload", " response message ${response.body()!!.message}")
+
+
+                        if (response.body()!!.statuscode.equals("0", true)) {
+
+                            userId = response.body()?.data?.get(0)?.userId
+                            decodeId = response.body()?.data?.get(0)?.decodId
+                            folderName = response.body()?.data?.get(0)?.folderName
+                            folderId = response.body()?.data?.get(0)?.folderId
+                            imageName = response.body()?.data?.get(0)?.imageName
+                            isResumeUpdate = response.body()?.data?.get(0)?.isResumeUpdate
+                            params.put("Image", encodedString)
+                            params.put("userid", bdjobsUserSession.userId)
+                            params.put("decodeid", bdjobsUserSession.decodId)
+                            params.put("folderName", folderName)
+                            params.put("folderId", folderId)
+                            params.put("imageName", imageName)
+                            params.put("isResumeUpdate", isResumeUpdate)
+                            params.put("status", "upload")
+                            makeHTTPCall()
+
+                        }
+                    } catch (e: Exception) {
+                        Timber.e(e)
+                    }
+                }
+            })
 
 
     }
@@ -250,45 +266,48 @@ class PhotoUploadActivity : Activity() {
             progressDialog.show()
             progressDialog.setCancelable(false)
             ApiServiceMyBdjobs.create()
-                    .getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId)
-                    .enqueue(object : Callback<PhotoInfoModel> {
-                        override fun onResponse(call: Call<PhotoInfoModel>, response: Response<PhotoInfoModel>) {
+                .getPhotoInfo(bdjobsUserSession.userId, bdjobsUserSession.decodId)
+                .enqueue(object : Callback<PhotoInfoModel> {
+                    override fun onResponse(
+                        call: Call<PhotoInfoModel>,
+                        response: Response<PhotoInfoModel>
+                    ) {
 
-                            try {
-                                //Log.d("dgdsgdghj", "getPhotoInfo response ${response.body()!!} ")
+                        try {
+                            //Log.d("dgdsgdghj", "getPhotoInfo response ${response.body()!!} ")
 
-                                if (response.body()!!.statuscode.equals("0", true)) {
+                            if (response.body()!!.statuscode.equals("0", true)) {
 
 
-                                    folderName = response.body()?.data?.get(0)?.folderName
-                                    folderId = response.body()?.data?.get(0)?.folderId
-                                    imageName = response.body()?.data?.get(0)?.imageName
+                                folderName = response.body()?.data?.get(0)?.folderName
+                                folderId = response.body()?.data?.get(0)?.folderId
+                                imageName = response.body()?.data?.get(0)?.imageName
 
-                                    reqParams.put("Image", encodedString)
-                                    reqParams.put("userid", bdjobsUserSession.userId)
-                                    reqParams.put("decodeid", bdjobsUserSession.decodId)
-                                    reqParams.put("folderName", folderName)
-                                    reqParams.put("folderId", folderId)
-                                    reqParams.put("imageName", imageName)
-                                    reqParams.put("isResumeUpdate", isResumeUpdate)
-                                    reqParams.put("status", "delete")
+                                reqParams.put("Image", encodedString)
+                                reqParams.put("userid", bdjobsUserSession.userId)
+                                reqParams.put("decodeid", bdjobsUserSession.decodId)
+                                reqParams.put("folderName", folderName)
+                                reqParams.put("folderId", folderId)
+                                reqParams.put("imageName", imageName)
+                                reqParams.put("isResumeUpdate", isResumeUpdate)
+                                reqParams.put("status", "delete")
 
-                                    makeHTTPCallForDelete()
+                                makeHTTPCallForDelete()
 
-                                } else {
-                                    progressDialog.dismiss()
-                                    toast("Failed ")
-                                }
-                            } catch (e: Exception) {
-                                Timber.e(e)
+                            } else {
+                                progressDialog.dismiss()
+                                toast("Failed ")
                             }
+                        } catch (e: Exception) {
+                            Timber.e(e)
                         }
+                    }
 
-                        override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
-                            progressDialog.dismiss()
-                            t.message?.let { Log.e("photoAPI", it) }
-                        }
-                    })
+                    override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
+                        progressDialog.dismiss()
+                        t.message?.let { Log.e("photoAPI", it) }
+                    }
+                })
         }
 
 
@@ -310,84 +329,111 @@ class PhotoUploadActivity : Activity() {
     fun makeHTTPCallForDelete() {
 
         val client = AsyncHttpClient()
-        client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", reqParams, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
+        client.post(
+            "http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx",
+            reqParams,
+            object : AsyncHttpResponseHandler() {
+                override fun onSuccess(
+                    statusCode: Int,
+                    headers: Array<Header>,
+                    responseBody: ByteArray
+                ) {
 
-                try {
-                    val response = String(responseBody)
-
-                    //Log.d("Deltete", " response ${response}")
-
-
-                    //Log.d("rakib", "photo deleted")
-
-                    val gson = Gson()
-                    val photoUploadModel = gson.fromJson(response, PhotoUploadResponseModel::class.java)
-
-                    progressDialog?.dismiss()
-                    noPhotoTV?.text = "No photo is uploaded yet"
-                    photoInfoTV?.text = "Upload JPG, GIF, PNG or BMP Max size of photo is 3MB"
-                    photoInfoTV?.show()
-                    editResPhotoUploadButton?.show()
-                    editResChangePhotoButton?.hide()
-                    ic_edit_photo?.hide()
-                    photoDeleteButton?.hide()
-                    editResPhotoUploadImageView?.setImageResource(R.drawable.ic_photo_upload)
-                    bdjobsUserSession.updateUserPicUrl("")
-                    PicassoTools().clearCache(Picasso.get())
-                    toast(photoUploadModel.message.toString())
-
-                    //Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")
-                } catch (e: Exception) {
-                    Timber.e(e)
-                }
-
-            }
-
-            override fun onFailure(statusCode: Int, headers: Array<Header?>, responseBody: ByteArray, error: Throwable) {
-
-                try {
                     try {
-                        error.message?.let { Log.e("Deltete", it) }
+                        val response = String(responseBody)
+
+                        //Log.d("Deltete", " response ${response}")
+
+
+                        //Log.d("rakib", "photo deleted")
+
+                        val gson = Gson()
+                        val photoUploadModel =
+                            gson.fromJson(response, PhotoUploadResponseModel::class.java)
+
+                        progressDialog?.dismiss()
+                        noPhotoTV?.text = "No photo is uploaded yet"
+                        photoInfoTV?.text = "Upload JPG, GIF, PNG or BMP Max size of photo is 3MB"
+                        photoInfoTV?.show()
+                        editResPhotoUploadButton?.show()
+                        editResChangePhotoButton?.hide()
+                        ic_edit_photo?.hide()
+                        photoDeleteButton?.hide()
+                        editResPhotoUploadImageView?.setImageResource(R.drawable.ic_photo_upload)
+                        bdjobsUserSession.updateUserPicUrl("")
+                        PicassoTools().clearCache(Picasso.get())
+                        toast(photoUploadModel.message.toString())
+
+                        //Log.d("Deltete", "response dlelete ${photoUploadModel.message} ")
                     } catch (e: Exception) {
                         Timber.e(e)
                     }
+
+                }
+
+                override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header?>,
+                    responseBody: ByteArray,
+                    error: Throwable
+                ) {
+
                     try {
-                        toast(error.message!!)
+                        try {
+                            error.message?.let { Log.e("Deltete", it) }
+                        } catch (e: Exception) {
+                            Timber.e(e)
+                        }
+                        try {
+                            toast(error.message!!)
+                        } catch (e: Exception) {
+                            Timber.e(e)
+                        }
                     } catch (e: Exception) {
                         Timber.e(e)
                     }
-                } catch (e: Exception) {
-                    Timber.e(e)
                 }
-            }
-        })
+            })
     }
 
 
     private fun openCamera() {
-        val values = ContentValues()
-        values.put(MediaStore.Images.Media.TITLE, System.currentTimeMillis().toString() + ".jpg")
-        val mCapturedImageURI = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-        val intentPicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        intentPicture.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI)
-        startActivityForResult(intentPicture, REQ_CAMERA_IMAGE)
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try {
+            startActivityForResult(takePictureIntent, REQ_CAMERA_IMAGE)
+        } catch (e: Exception) {
+            toast("You are using 3rd party camera")
+            Timber.tag("PhotoUploadActivity")
+                .d("openCamera Error : $e ")
+        }
     }
 
     private fun RequestPermissionAndOpenCamera() {
-        if (ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
 
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                            Manifest.permission.CAMERA)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.CAMERA
+                )
+            ) {
 
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), MY_PERMISSIONS_REQUEST_CAMERA)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CAMERA),
+                    MY_PERMISSIONS_REQUEST_CAMERA
+                )
 
             } else {
-                ActivityCompat.requestPermissions(this,
-                        arrayOf(Manifest.permission.CAMERA),
-                        MY_PERMISSIONS_REQUEST_CAMERA)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CAMERA),
+                    MY_PERMISSIONS_REQUEST_CAMERA
+                )
             }
 
         } else {
@@ -401,7 +447,11 @@ class PhotoUploadActivity : Activity() {
         clPhotoUpload.closeKeyboard(this@PhotoUploadActivity)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_CAMERA -> {
                 // If request is cancelled, the result arrays are empty.
@@ -429,10 +479,17 @@ class PhotoUploadActivity : Activity() {
     private fun getLastImagePath(): String {
         val imageColumns = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA)
         val imageOrderBy = MediaStore.Images.Media._ID + " DESC"
-        val imageCursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, imageColumns, null, null, imageOrderBy)
+        val imageCursor = managedQuery(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            imageColumns,
+            null,
+            null,
+            imageOrderBy
+        )
         if (imageCursor.moveToFirst()) {
             val id = imageCursor.getInt(imageCursor.getColumnIndex(MediaStore.Images.Media._ID))
-            val fullPath = imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATA))
+            val fullPath =
+                imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATA))
             //Log.d("Path", fullPath)
             return fullPath
         } else {
@@ -440,150 +497,170 @@ class PhotoUploadActivity : Activity() {
         }
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        //Log.d("dfgh", "requestCode: $requestCode, resultCode:$resultCode, data:$data")
-
         try {
-            if (resultCode != RESULT_CANCELED) {
+            if (requestCode == REQ_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
 
-                if (requestCode == REQ_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
 
-                    var fileUri: Uri? = null
-                    val selectedImageUri = data.data
-                    val url = data.data!!.toString()
-                    Timber.d("Url: $url") //content://com.miui.gallery.open/raw/%2Fstorage%2Femulated%2F0%2FDCIM%2FCamera%2FIMG_20210330_200426.jpg
-                    if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.miui.gallery")
-                            || url.startsWith("content://com.sec.android.gallery3d") || url.startsWith("content://com.photogallery.galleryoppoapp")
-                            || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external") || url.startsWith("com.oneplus.gallery")) {
+                var fileUri: Uri? = null
+                val selectedImageUri = data.data
+                val url = data.data!!.toString()
+                Timber.d("Url: $url") //content://com.miui.gallery.open/raw/%2Fstorage%2Femulated%2F0%2FDCIM%2FCamera%2FIMG_20210330_200426.jpg
+                if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.miui.gallery")
+                    || url.startsWith("content://com.sec.android.gallery3d") || url.startsWith("content://com.photogallery.galleryoppoapp")
+                    || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external") || url.startsWith(
+                        "com.oneplus.gallery") || url.startsWith("com.xiaomi.globalmiuiapp") || url.startsWith("com.xiaomi.globalmiuiapp")) {
 
-                        try {
-                            val `is` = contentResolver.openInputStream(selectedImageUri!!)
-                            if (`is` != null) {
-                                deleteCache(applicationContext)
-
-//                                val options = BitmapFactory.Options()
-//                                options.inSampleSize = 2
-//                                bitmap = BitmapFactory.decodeStream(`is`,null,options)
-
-                                bitmap = BitmapFactory.decodeStream(`is`)
-
-                                //Log.d("rakib", "${BitmapCompat.getAllocationByteCount(bitmap!!)}")
-
-                                if (bitmap != null) {
-                                    val tempUri = getImageUri(this@PhotoUploadActivity, bitmap!!)
-                                    // CALL THIS METHOD TO GET THE ACTUAL PATHa
-                                    var finalFile: File? = null
-                                    try {
-                                        finalFile = File(getRealPathFromURI(tempUri))
-                                        Timber.d("FinalFile: $finalFile")
-                                        fileUri = Uri.fromFile(finalFile)
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
-                                        Timber.e(e.localizedMessage)
-                                    }
-                                } else {
-                                    Toast.makeText(applicationContext, "Invalid Image has been selected! Please Choose image again", Toast.LENGTH_LONG).show()
-                                }
-
-                            }
-                        } catch (e: Exception) {
-                            Timber.e("Ex: $e")
-                            e.printStackTrace()
-                        }
-                    } else Timber.d("Not starts")
-
-                    val myDirectory = File("/sdcard/BDJOBS")
-                    if (!myDirectory.exists()) {
-                        myDirectory.mkdirs()
-                    }
-
-                    val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
-                    if (file.exists()) {
-                        val deleted = file.delete()
-                    }
-                    val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
                     try {
-                        UCrop.of(fileUri!!, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
-                    } catch (e: Exception) {
-                        Timber.e(e)
-                    }
-                }
+                        val `is` = contentResolver.openInputStream(selectedImageUri!!)
+                        if (`is` != null) {
+                            deleteCache(applicationContext)
+                            bitmap = BitmapFactory.decodeStream(`is`)
 
-                /*og.d("dfgh", " New call resultCode " + resultCode + " RESULT_OK " + RESULT_OK +
-                        "requestCode " + requestCode + "  UCrop.REQUEST_CROP " + UCrop.REQUEST_CROP + " resultData " + data)*/
+                            if (bitmap != null) {
+                                val tempUri = getImageUri(this@PhotoUploadActivity, bitmap!!)
+                                // CALL THIS METHOD TO GET THE ACTUAL PATHa
+                                var finalFile: File? = null
+                                try {
+                                    finalFile = File(getRealPathFromURI(tempUri))
+                                    Timber.d("FinalFile: $finalFile")
+                                    fileUri = Uri.fromFile(finalFile)
 
-                if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && data != null) {
-                    resultUri = UCrop.getOutput(data)!!
+                                    editResPhotoUploadImageView.loadCircularImageFromUrlWithoutCach(
+                                        fileUri.toString()
+                                    )
 
-                    editResPhotoUploadImageView.loadCircularImageFromUrlWithoutCach(resultUri.toString())
+                                    Timber.tag("PhotoUploadActivity")
+                                        .d("onActivityResult - REQ_SELECT_IMAGE - fileUri : $fileUri ")
 
-                    uploadPhoto()
+                                    uploadPhoto()
 
-                    editResPhotoUploadButton.isEnabled = true
-                    editResPhotoUploadButton.show()
-                    editResChangePhotoButton.hide()
+                                    editResPhotoUploadButton.isEnabled = true
+                                    editResPhotoUploadButton.show()
+                                    editResChangePhotoButton.hide()
 
-                    dialog?.dismiss()
-                    val path = resultUri.path
+                                    dialog?.dismiss()
 
-                    val file = File(path)
-                    val size = file.length()
-                    val fileSizeInKB = size / 1024
-                    // Convert the KB to MegaBytes (1 MB = 1024 KBytes)
-                    val fileSizeInMB = fileSizeInKB / 1024
-                    if (fileSizeInMB > 3) {
-                        Toast.makeText(this, "Image is greater than 3MB", Toast.LENGTH_SHORT).show()
-                    } else if (fileSizeInMB <= 3) {
+                                    val size = finalFile.length()
+                                    val fileSizeInKB = size / 1024
+                                    // Convert the KB to MegaBytes (1 MB = 1024 KBytes)
+                                    val fileSizeInMB = fileSizeInKB / 1024
+                                    if (fileSizeInMB > 3) {
+                                        Toast.makeText(
+                                            this,
+                                            "Image is greater than 3MB",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else if (fileSizeInMB <= 3) {
+                                        try {
+                                            var options: BitmapFactory.Options? = null
+                                            options = BitmapFactory.Options()
+                                            options.inSampleSize = 3
 
-                        doAsync {
-                            try {
-                                var options: BitmapFactory.Options? = null
-                                options = BitmapFactory.Options()
-                                options.inSampleSize = 3
+                                            bitmap = BitmapFactory.decodeFile(
+                                                getRealPathFromURI(tempUri)
+                                            )
+                                            val stream = ByteArrayOutputStream()
+                                            // Must compress the Image to reduce image size to make upload easy
+                                            bitmap?.compress(
+                                                Bitmap.CompressFormat.JPEG,
+                                                100,
+                                                stream
+                                            )
+                                            val byte_arr = stream.toByteArray()
+                                            // Encode Image to String
+                                            encodedString = Base64.encodeToString(byte_arr, 0)
+                                        } catch (e: Exception) {
+                                            Timber.tag("PhotoUploadActivity")
+                                                .d("onActivityResult - REQ_SELECT_IMAGE - Error : $e ")
+                                        }
 
-                                bitmap = BitmapFactory.decodeFile(path)
-                                val stream = ByteArrayOutputStream()
-                                // Must compress the Image to reduce image size to make upload easy
-                                bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                                val byte_arr = stream.toByteArray()
-                                // Encode Image to String
-                                encodedString = Base64.encodeToString(byte_arr, 0)
-                            } catch (e: Exception) {
-                                error("SEMVcb $e")
+                                    }
+
+
+                                } catch (e: Exception) {
+                                    Timber.tag("PhotoUploadActivity")
+                                        .d("onActivityResult - REQ_SELECT_IMAGE - Error : $e ")
+                                }
+                            } else {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Invalid Image has been selected! Please Choose image again",
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
+
                         }
-
+                    } catch (e: Exception) {
+                        Timber.tag("PhotoUploadActivity")
+                            .d("onActivityResult - REQ_SELECT_IMAGE - Error : $e ")
                     }
-
-
-                } else if (resultCode == UCrop.RESULT_ERROR) {
-                    val cropError = UCrop.getError(data!!)
-                }
-
-                if (requestCode == REQ_CAMERA_IMAGE && resultCode == RESULT_OK) {
-
-                    val path = getLastImagePath()
-                    val SourceUri = Uri.fromFile(File(path))
-                    val myDirectory = File("/sdcard/BDJOBS")
-                    if (!myDirectory.exists()) {
-                        myDirectory.mkdirs()
-                    }
-
-                    val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
-                    if (file.exists()) {
-                        val deleted = file.delete()
-                    }
-                    val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
-                    UCrop.of(SourceUri, destinationUri).withAspectRatio(9f, 10f).start(this@PhotoUploadActivity)
-                }
+                } else Timber.tag("PhotoUploadActivity")
+                    .d("Not starts")
 
             }
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
 
+
+            if (requestCode == REQ_CAMERA_IMAGE && resultCode == RESULT_OK && data != null) {
+
+                val imageBitmap = data.extras?.get("data") as Bitmap
+                val tempUri = getImageUri(this@PhotoUploadActivity, imageBitmap!!)
+                editResPhotoUploadImageView.loadCircularImageFromUrlWithoutCach(
+                    tempUri.toString()
+                )
+
+                uploadPhoto()
+
+                editResPhotoUploadButton.isEnabled = true
+                editResPhotoUploadButton.show()
+                editResChangePhotoButton.hide()
+
+                dialog?.dismiss()
+
+                val width = imageBitmap.width
+                val height = imageBitmap.height
+                val matrix = Matrix()
+
+                matrix.postScale(8F, 8F)
+
+                // Create a New bitmap
+                val resizedBitmap = Bitmap.createBitmap(
+                    imageBitmap, 0, 0, width, height, matrix, false
+                )
+                resizedBitmap.recycle()
+
+                val bitmapByteCount = BitmapCompat.getAllocationByteCount(resizedBitmap)
+
+                Timber.tag("PhotoUploadActivity")
+                    .d("onActivityResult - REQ_CAMERA_IMAGE - bitmapByteCount : $bitmapByteCount ")
+
+
+                val fileSizeInKB = bitmapByteCount / 1024
+                // Convert the KB to MegaBytes (1 MB = 1024 KBytes)
+                val fileSizeInMB = fileSizeInKB / 1024
+                if (fileSizeInMB > 3) {
+                    Toast.makeText(this, "Image is greater than 3MB", Toast.LENGTH_SHORT).show()
+                } else if (fileSizeInMB <= 3) {
+                    try {
+                        val baos = ByteArrayOutputStream()
+                        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+                        val b = baos.toByteArray()
+                        // Encode Image to String
+                        encodedString = Base64.encodeToString(b, 0)
+                    } catch (e: Exception) {
+                        Timber.tag("PhotoUploadActivity")
+                            .d("onActivityResult - REQ_CAMERA_IMAGE - Error : $e ")
+                    }
+
+                }
+            }
+
+        } catch (e: Exception) {
+            Timber.tag("PhotoUploadActivity").d("onActivityResult - General - Error : $e ")
+        }
 
     }
 
@@ -644,12 +721,15 @@ class PhotoUploadActivity : Activity() {
         try {
             val bytes = ByteArrayOutputStream()
             inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-            path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "bdJobsProfilePic", null)
+            path = MediaStore.Images.Media.insertImage(
+                inContext.contentResolver,
+                inImage,
+                "IMG_" + System.currentTimeMillis(),
+                null
+            )
         } catch (e: Exception) {
-            e.printStackTrace()
-            //Log.d("PhotoInvalid", "getImageUri: " + e.message)
+            Timber.tag("PhotoUploadActivity").d("getImageUri - Error : $e")
             Toast.makeText(inContext, "Invalid Image has been selected!", Toast.LENGTH_SHORT).show()
-
         }
 
         return Uri.parse(path)

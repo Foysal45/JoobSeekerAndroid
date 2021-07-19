@@ -90,9 +90,12 @@ class LiveInterviewDetailsFragment : Fragment() {
 
         rv_live_interview_details?.adapter = adapter
 
+        Timber.tag("live").d("Load Live Detail View")
+
         liveInterviewDetailsViewModel.apply {
 
             liveInterviewDetailsData.observe(viewLifecycleOwner, {
+                Timber.tag("live").d("API called for liveInterviewDetailsData")
                 adapter.submitList(it)
             })
 

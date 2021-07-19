@@ -37,7 +37,6 @@ import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.liveInterview.data.socketClient.CustomSdpObserver
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingEvent
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
-import com.bdjobs.app.liveInterview.ui.interview_list.LiveInterviewListFragmentDirections
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.demo_connect_employer.streaming.CustomPCObserver
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -167,16 +166,21 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("onViewCreated")
+        Timber.tag("live").d("onViewCreated")
 
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         //set device audio to headphone only and max volume
+
         val audioManager = context?.getSystemService(Context.AUDIO_SERVICE) as AudioManager?
         audioManager?.isMicrophoneMute= false
-     //   audioManager?.isSpeakerphoneOn = false
+//        audioManager?.isSpeakerphoneOn = false
         audioManager?.mode = AudioManager.MODE_IN_COMMUNICATION
+
+        val currentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
+        val maxVolume = audioManager?.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        Timber.tag("live").d("currentVolume $currentVolume - maxVolume $maxVolume")
         audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0)
 
         //keep screen on
@@ -555,11 +559,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
             } })
             /* Feedback View end */
-
-
             canGoToDetailView.observe(viewLifecycleOwner, { if (it) { findNavController().navigateUp() } })
-
-
         }
     }
 

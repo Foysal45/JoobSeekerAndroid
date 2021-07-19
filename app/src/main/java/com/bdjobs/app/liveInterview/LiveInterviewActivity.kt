@@ -46,9 +46,6 @@ class LiveInterviewActivity : AppCompatActivity() {
 
         navHostFragment.navController.setGraph(graph,bundle)
 
-//
-//        SignalingServer.get()?.init(this, "6623250")
-
     }
 
 
