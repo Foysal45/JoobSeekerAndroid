@@ -135,6 +135,7 @@ class VideoResumeLandingFragment : Fragment() {
         builder.setMessage("If you don't show Video Resume to employers, they can no longer view your video. Do you not want to showing employers?")
         builder.setPositiveButton("YES, CONTINUE") { _, _ ->
             Timber.d("yes please hide")
+            session.insertVideoResumeVisibility(false)
             this.videoResumeLandingViewModel.onHideResumeVisibility()
         }
         builder.setNegativeButton("CANCEL") { _, _ ->
@@ -152,6 +153,7 @@ class VideoResumeLandingFragment : Fragment() {
         builder.setMessage("This action will make your Video Resume  visible to employer(s). Do you want to continue?")
         builder.setPositiveButton("YES, CONTINUE") { _, _ ->
             Timber.d("yes please show")
+            session.insertVideoResumeVisibility(true)
             this.videoResumeLandingViewModel.onShowResumeVisibility()
         }
         builder.setNegativeButton("CANCEL") { _, _ ->

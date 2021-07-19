@@ -52,14 +52,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
             android:background="@color/black_transparent"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
-<!--            <org.webrtc.SurfaceViewRenderer-->
-<!--                android:id="@+id/sv_local"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
+            <org.webrtc.SurfaceViewRenderer
+                android:id="@+id/preview_surface_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <!-- Bottom Option xml start-->
@@ -759,7 +759,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -787,7 +787,7 @@
                     android:layout_marginEnd="40dp"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
-                    android:text="You have attended Online interview successfully."
+                    android:text="You have attended Live Interview successfully."
                     android:textColor="#2D3748"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -831,7 +831,7 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/roboto"
-                    android:text="Rate this Interview"
+                    android:text="Rate this interview"
                     android:textColor="#393939"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -862,7 +862,7 @@
                     android:background="@drawable/edit_text_border"
                     android:fontFamily="@font/roboto"
                     android:gravity="top|left"
-                    android:hint="Write Feedback"
+                    android:hint="Give your feedback"
                     android:inputType="textMultiLine"
                     android:maxLines="15"
                     android:minLines="5"

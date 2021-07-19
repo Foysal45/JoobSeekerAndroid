@@ -39,7 +39,7 @@ class InterviewSessionViewModel(
     private val _isReadyViewHidden = MutableLiveData<Boolean>()
     val isReadyViewHidden: MutableLiveData<Boolean> = _isReadyViewHidden
 
-    private val _isEmployerArrived = MutableLiveData<Boolean>()
+    private val _isEmployerArrived = MutableLiveData<Boolean>().apply { value = false }
     val isEmployerArrived: MutableLiveData<Boolean> = _isEmployerArrived
 
     val yesButtonClickedEvent = MutableLiveData<Event<Boolean>>()
@@ -82,6 +82,9 @@ class InterviewSessionViewModel(
     val countDownText: MutableLiveData<String> get() = _countDownText
 
     //Ongoing Interview
+    private val _isInterviewStarted = MutableLiveData<Boolean>().apply { value = false }
+    val isInterviewStarted: MutableLiveData<Boolean> = _isInterviewStarted
+
     private val _isOngoingInterviewVisible = MutableLiveData<Boolean>()
     val isOngoingInterviewVisible: MutableLiveData<Boolean> = _isOngoingInterviewVisible
 
@@ -345,6 +348,7 @@ class InterviewSessionViewModel(
         _countDownFinish.value = value
         if (value) {
             _isCountDownVisible.postValue(false)
+            _isInterviewStarted.postValue(true)
 
             _isOngoingInterviewVisible.postValue(true)
             _isOngoingInterviewHidden.postValue(false)
@@ -369,6 +373,9 @@ class InterviewSessionViewModel(
 
     /* Multipeer View Start */
     fun applicantJoinedOnGoingSession(){
+
+        _isInterviewStarted.postValue(true)
+
         _isReadyViewVisible.postValue(false)
         _isReadyViewHidden.postValue(true)
 
@@ -522,6 +529,14 @@ class InterviewSessionViewModel(
 
     /* Feedback View Start */
     fun employerEndedCall(){
+        _isInterviewStarted.postValue(false)
+
+        _isVideoOff.postValue(true)
+        _isVideoOn.postValue(false)
+
+        _isAudioOff.postValue(true)
+        _isAudioOn.postValue(false)
+
         _isFeedbackViewShowing.postValue(true)
 
         _isOngoingInterviewVisible.postValue(false)

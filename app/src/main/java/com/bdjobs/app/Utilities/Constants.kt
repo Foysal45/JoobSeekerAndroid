@@ -275,7 +275,7 @@ class Constants {
 
         const val VIDEO_RESUME_THRESHOLD = "video_resume_threshold"
         const val VIDEO_RESUME_TOTAL_ANSWERED = "video_resume_total_answered"
-
+        const val VIDEO_RESUME_IS_VISIBLE = "video_resume_is_visible"
 
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)

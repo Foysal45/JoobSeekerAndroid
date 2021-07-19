@@ -175,7 +175,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         //set device audio to headphone only and max volume
         val audioManager = context?.getSystemService(Context.AUDIO_SERVICE) as AudioManager?
         audioManager?.isMicrophoneMute= false
-        audioManager?.isSpeakerphoneOn = false
+     //   audioManager?.isSpeakerphoneOn = false
+        audioManager?.mode = AudioManager.MODE_IN_COMMUNICATION
         audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0)
 
         //keep screen on
@@ -382,6 +383,13 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             /* CountDown View End */
 
             /* Multipeer View Start */
+            isInterviewStarted.observe(viewLifecycleOwner, {
+                if (it) {
+                    localVideoTrack?.removeSink(binding.previewSurfaceView)
+                    localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
+                }
+            })
+
             isOngoingInterviewVisible.observe(viewLifecycleOwner, { if (it) { binding.apply { clOngoingInterviewView.visibility = View.VISIBLE } } })
             isOngoingInterviewHidden.observe(viewLifecycleOwner, { if (it) { binding.apply { clOngoingInterviewView.visibility = View.GONE } } })
 
@@ -633,6 +641,9 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         }
         videoCapturerAndroid?.startCapture(640, 480, 30)
 
+        binding.previewSurfaceView.setMirror(true)
+        binding.previewSurfaceView.init(eglBaseContext, null)
+
         binding.localJobseekerSurfaceView.setMirror(true)
         binding.localJobseekerSurfaceView.init(eglBaseContext, null)
 
@@ -645,7 +656,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             addTrack(localVideoTrack)
         }
 
-        localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
+//        localVideoTrack?.addSink(binding.localJobseekerSurfaceView)
+        localVideoTrack?.addSink(binding.previewSurfaceView)
 
         binding.remoteHostSurfaceView.setMirror(true)
         binding.remoteHostSurfaceView.init(eglBaseContext, null)
@@ -814,7 +826,16 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
     }
     override fun onInactiveUser(args: Array<Any?>?) {
         Timber.tag("live").d("onInactiveUser: %s", args?.get(0))
-    //    findNavController().navigateUp()
+        runOnUiThread {
+            try {
+                interviewSessionViewModel.isEmployerArrived.postValue(false)
+            } catch (e: Exception) {
+                Timber.e("Error: onInactiveUser-isEmployerArrived make false: ${e}")
+                crashReport.setCustomKey("LI-onInactiveUser-isEmployerArrived make false", e.toString())
+            }
+        }
+
+        //    findNavController().navigateUp()
     }
 
 
@@ -942,6 +963,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         runOnUiThread {
             try {
                 interviewSessionViewModel.employerEndedCall()
+
             } catch (e: Exception) {
                 Timber.tag("live").d("Error onEndemployerEndedCall: $e")
             }
@@ -992,6 +1014,10 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         Timber.tag("live").d("onDestroyView")
         SignalingServer.get()?.destroy()
         try {
+            if (localMediaStream != null) {
+                if(localMediaStream?.videoTracks?.size!! > 0) localMediaStream?.videoTracks!![0].setEnabled(false)
+                if(localMediaStream?.audioTracks?.size!! > 0) localMediaStream?.audioTracks!![0].setEnabled(false)
+            }
             localVideoTrack?.removeSink(binding.localJobseekerSurfaceView)
             remoteVideoTrack?.removeSink(binding.remoteHostSurfaceView)
             videoCapturerAndroid?.stopCapture()
