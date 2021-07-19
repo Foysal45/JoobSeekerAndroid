@@ -18,6 +18,9 @@ class VideoResumeQuestionsViewModel(
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
+    private val _isVideoResumeVisible = MutableLiveData<Boolean>().apply { value = false }
+    val isVideoResumeVisible: MutableLiveData<Boolean> = _isVideoResumeVisible
+
     private val _onNextQuestionClickEvent = MutableLiveData<Event<Boolean>>()
     val onNextQuestionClickEvent: LiveData<Event<Boolean>> = _onNextQuestionClickEvent
 

@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentVideoResumeQuestionsBinding
@@ -54,6 +55,9 @@ class VideoResumeQuestionsFragment : Fragment() {
 
     private var permissionGranted: Boolean = false
 
+    private lateinit var session: BdjobsUserSession
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,6 +71,8 @@ class VideoResumeQuestionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        session = BdjobsUserSession(requireContext())
 
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -139,7 +145,10 @@ class VideoResumeQuestionsFragment : Fragment() {
             buildTipsDialog(data.questionTextBng, data.answerHintBn)
         }
 
-        videoResumeQuestionsViewModel.apply {
+
+        videoResumeQuestionsViewModel.isVideoResumeVisible.value =  session.videoResumeIsVisible
+
+            videoResumeQuestionsViewModel.apply {
             Log.d("Salvin", "Loaded VideoResumeQuestionsFragment")
             getQuestions()
 
@@ -166,6 +175,10 @@ class VideoResumeQuestionsFragment : Fragment() {
                 "url" to "https://mybdjobs.bdjobs.com/mybdjobs/bdjobs-app-user-guide-for-video-resume.asp",
                 "from" to "videoResume"
             )
+        }
+
+        binding.tvChangeVisibility.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 

@@ -65,3 +65,31 @@ fun MaterialTextView.isUnderlineText(value:Boolean) {
         }
     }
 }
+
+@BindingAdapter("videoResumeTextDrawable")
+fun MaterialTextView.setVideoResumeTextDrawable(value: Boolean?) {
+    if (value != null) {
+        this.run {
+            this.text = when (value) {
+                true -> "Yes"
+                false -> "No"
+            }
+
+            when (value) {
+                true -> this.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_check_sign_visible,
+                    0,
+                    0,
+                    0
+                )
+                false -> this.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_cross_visible,
+                    0,
+                    0,
+                    0
+                )
+            }
+
+        }
+    }
+}

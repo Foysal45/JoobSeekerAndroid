@@ -446,9 +446,10 @@
                     android:drawablePadding="5dp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/white"
+                    videoResumeTextDrawable="@{viewModel.isVideoResumeVisible()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_label_visibility"
-                    tools:text="Private" />
+                    tools:text="No" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_change_visibility"
