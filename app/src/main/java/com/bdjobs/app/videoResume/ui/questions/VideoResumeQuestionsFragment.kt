@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentVideoResumeQuestionsBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
@@ -146,7 +147,15 @@ class VideoResumeQuestionsFragment : Fragment() {
         }
 
 
-        videoResumeQuestionsViewModel.isVideoResumeVisible.value =  session.videoResumeIsVisible
+        session.videoResumeTotalAnswered.apply {
+            if(session.videoResumeTotalAnswered!!.toInt()>2){
+                cl_resume_visibility.show()
+                videoResumeQuestionsViewModel.isVideoResumeVisible.value =  session.videoResumeIsVisible
+            }else{
+                cl_resume_visibility.hide()
+            }
+        }
+
 
             videoResumeQuestionsViewModel.apply {
             Log.d("Salvin", "Loaded VideoResumeQuestionsFragment")

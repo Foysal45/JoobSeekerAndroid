@@ -11,6 +11,7 @@ object EventConstants {
     const val EVENT_SUBSCRIBE = "subscribe"
     const val EVENT_PARTICIPANT_COUNT = "participantCount"
     const val EVENT_NEW_USER = "new user"
+    const val EVENT_APPLICANT_STATUS = "applicantStatus"
     const val EVENT_1ST_USER_CHECK = "1stUsercheck"
     const val EVENT_SEND_RELOAD_TO_FIRST_USER = "sendReloadTo1stUser"
     const val EVENT_NEW_USER_START_NEW = "newUserStartNew"

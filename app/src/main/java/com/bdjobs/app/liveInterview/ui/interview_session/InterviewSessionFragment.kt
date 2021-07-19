@@ -354,6 +354,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             isYesButtonClicked.observe(viewLifecycleOwner, {
                 if (it) {
                     binding.apply { btnYesReady.changeColor(R.color.btn_green) }
+                    SignalingServer.get()?.sendApplicantStatus(1)
                 }else {
                     binding.apply { btnYesReady.changeColor(R.color.btn_ash) }
                 }
@@ -362,6 +363,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             isNoButtonClicked.observe(viewLifecycleOwner, {
                 if (it) {
                     binding.apply { btnNoReady.changeColor(R.color.btn_green) }
+                    SignalingServer.get()?.sendApplicantStatus(2)
                 } else {
                     binding.apply { btnNoReady.changeColor(R.color.btn_ash) }
                 }

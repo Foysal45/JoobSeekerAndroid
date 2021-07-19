@@ -170,6 +170,20 @@ class SignalingServer {
 
     }
 
+    fun sendApplicantStatus(statusCode: Int){
+        val sendApplicantStatus = JSONObject()
+
+        try {
+            sendApplicantStatus.put("to", remoteSocketID )
+            sendApplicantStatus.put("status", statusCode)
+        } catch (e: Exception) {
+            Timber.tag("live").d("SignallingServer: sendApplicantStatus error - $e")
+        }
+        Timber.tag("live").d("sendApplicantStatus string - $sendApplicantStatus")
+
+        socket?.emit(EventConstants.EVENT_APPLICANT_STATUS, sendApplicantStatus)
+    }
+
     fun sendInterviewReceived(){
         val sendInterviewReceived = JSONObject()
 
@@ -234,6 +248,8 @@ class SignalingServer {
 
         socket?.emit(EventConstants.EVENT_NEW_USER_START_NEW, sendingId)
     }
+
+
 
     fun sendReload(){
         val sendReload = JSONObject()
