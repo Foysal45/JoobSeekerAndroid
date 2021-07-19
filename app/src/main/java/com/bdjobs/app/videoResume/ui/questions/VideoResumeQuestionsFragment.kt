@@ -147,17 +147,10 @@ class VideoResumeQuestionsFragment : Fragment() {
         }
 
 
-        session.videoResumeTotalAnswered.apply {
-            if(session.videoResumeTotalAnswered!!.toInt()>2){
-                cl_resume_visibility.show()
-                videoResumeQuestionsViewModel.isVideoResumeVisible.value =  session.videoResumeIsVisible
-            }else{
-                cl_resume_visibility.hide()
-            }
-        }
+        videoResumeQuestionsViewModel.isVideoResumeVisible.value =  session.videoResumeIsVisible
 
 
-            videoResumeQuestionsViewModel.apply {
+        videoResumeQuestionsViewModel.apply {
             Log.d("Salvin", "Loaded VideoResumeQuestionsFragment")
             getQuestions()
 
