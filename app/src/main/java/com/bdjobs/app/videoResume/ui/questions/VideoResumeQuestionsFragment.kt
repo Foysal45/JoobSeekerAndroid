@@ -62,7 +62,7 @@ class VideoResumeQuestionsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentVideoResumeQuestionsBinding.inflate(inflater).apply {
             viewModel = videoResumeQuestionsViewModel
             lifecycleOwner = viewLifecycleOwner

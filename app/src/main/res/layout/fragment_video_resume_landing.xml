@@ -221,7 +221,7 @@
                         android:fontFamily="@font/roboto_bold"
                         android:text='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? "Show to Employer(s)" : "Show to Employer(s)"}'
                         android:textColor="@color/black"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{viewModel.showResumeVisibilityView ? View.VISIBLE : View.GONE}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_overall_rating"
                         app:layout_constraintVertical_bias="0.0"
@@ -233,7 +233,7 @@
                         android:backgroundTint="@color/black"
                         android:src="@drawable/ic_info_black_12dp"
                         android:layout_marginStart="5dp"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{viewModel.showResumeVisibilityView ? View.VISIBLE : View.GONE}"
                         app:layout_constraintTop_toTopOf="@id/tv_public"
                         app:layout_constraintBottom_toBottomOf="@id/tv_public"
                         app:layout_constraintStart_toEndOf="@id/tv_public"
@@ -248,7 +248,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_public"
                         android:layout_marginTop="14dp"
                         android:fontFamily="@font/roboto"
-                        android:visibility='@{viewModel.isAlertOn().equalsIgnoreCase("0") ? View.VISIBLE : View.GONE}'
+                        android:visibility='@{viewModel.showNoAnimatorView ? View.VISIBLE : View.GONE}'
                         android:textColor="#721C24"
                         app:drawableStartCompat="@drawable/ic_visibility_indicator"
                         android:drawablePadding="10dp"
@@ -314,7 +314,7 @@
                         app:srcCompat="@drawable/ic_yes_animator_resume_visibiliey"
                         app:layout_constraintBottom_toBottomOf="@id/tv_public"
                         app:layout_constraintEnd_toStartOf="@id/switch_public"
-                        android:visibility='@{viewModel.isAlertOn().equalsIgnoreCase("0") ? View.VISIBLE : View.GONE}'
+                        android:visibility='@{viewModel.showNoAnimatorView ? View.VISIBLE : View.GONE}'
                         app:layout_constraintTop_toTopOf="@id/img_info"
                         android:layout_marginEnd="10dp"
                         android:id="@+id/iv_yes_animator"/>
@@ -323,7 +323,7 @@
                         android:id="@+id/switch_public"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{viewModel.showResumeVisibilityView ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@id/tv_public"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/img_info"
