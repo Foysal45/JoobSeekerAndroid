@@ -13,6 +13,7 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -26,29 +27,25 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BitmapCompat
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PhotoInfoModel
 import com.bdjobs.app.API.ModelClasses.PhotoUploadResponseModel
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.callHelpLine
-import com.bdjobs.app.Utilities.d
-import com.bdjobs.app.Utilities.loadCircularImageFromUrl
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.*
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import com.loopj.android.http.RequestParams
-import com.yalantis.ucrop.UCrop
 import cz.msebera.android.httpclient.Header
-//import droidninja.filepicker.FilePickerConst
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_photo_upload.*
-import org.jetbrains.anko.doAsync
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.io.File
 
@@ -210,136 +207,149 @@ class BCPhotoUploadFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
-        //Log.d("dfgh", "  onActivityResult called")
+        Timber.tag("BCPhotoUploadFragment").d("onActivityResult - General - resultData : $resultData $resultCode $requestCode ")
 
         try {
-            if (resultCode != Activity.RESULT_CANCELED) {
+            if (requestCode == REQ_SELECT_IMAGE && resultCode == RESULT_OK && resultData != null) {
 
-                /*  //Log.d("FragmentResultPhoto", "requestCode: $requestCode, resultCode:$resultCode, data:$resultData")*/
-                if (requestCode == REQ_SELECT_IMAGE && resultCode == Activity.RESULT_OK && resultData != null) {
-                    var fileUri: Uri? = null
-                    val selectedImageUri = resultData.data
-                    val url = resultData.data!!.toString()
-                    if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external")) {
+                var fileUri: Uri? = null
+                val selectedImageUri = resultData.data
+                val url = resultData.data!!.toString()
+                Timber.d("Url: $url") //content://com.miui.gallery.open/raw/%2Fstorage%2Femulated%2F0%2FDCIM%2FCamera%2FIMG_20210330_200426.jpg
+                if (url.startsWith("content://com.google.android.apps") || url.startsWith("content://com.miui.gallery")
+                    || url.startsWith("content://com.sec.android.gallery3d") || url.startsWith("content://com.photogallery.galleryoppoapp")
+                    || url.startsWith("content://com.android.providers") || url.startsWith("content://media/external") || url.startsWith(
+                        "com.oneplus.gallery") || url.startsWith("com.xiaomi.globalmiuiapp") || url.startsWith("com.xiaomi.globalmiuiapp")) {
 
-                        try {
-                            val `is` = activity.contentResolver.openInputStream(selectedImageUri!!)
-                            if (`is` != null) {
-                                deleteCache(activity)
+                    try {
+                        val `is` = activity.contentResolver.openInputStream(selectedImageUri!!)
+                        if (`is` != null) {
+                            deleteCache(activity)
+                            bitmap = BitmapFactory.decodeStream(`is`)
 
-                                val options = BitmapFactory.Options()
-                                options.inSampleSize = 2
-                                bitmap  = BitmapFactory.decodeStream(`is`,null,options)
+                            if (bitmap != null) {
+                                val tempUri = getImageUri(activity, bitmap!!)
+                                // CALL THIS METHOD TO GET THE ACTUAL PATHa
+                                var finalFile: File? = null
+                                try {
+                                    finalFile = File(getRealPathFromURI(tempUri))
+                                    Timber.d("FinalFile: $finalFile")
+                                    fileUri = Uri.fromFile(finalFile)
+                                    photoUploadImageView.loadCircularImageFromUrlWithoutCach(fileUri.toString())
 
-//                                bitmap = BitmapFactory.decodeStream(`is`)
-                                if (bitmap != null) {
-                                    val tempUri = getImageUri(activity, bitmap!!)
-                                    // CALL THIS METHOD TO GET THE ACTUAL PATHa
-                                    var finalFile: File? = null
-                                    try {
-                                        finalFile = File(getRealPathFromURI(tempUri))
-                                        fileUri = Uri.fromFile(finalFile)
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
+                                    Timber.tag("BCPhotoUploadFragment").d("onActivityResult - REQ_SELECT_IMAGE - fileUri : $fileUri ")
+
+                                    dialog?.dismiss()
+
+                                    val size = finalFile.length()
+                                    val fileSizeInKB = size / 1024
+                                    // Convert the KB to MegaBytes (1 MB = 1024 KBytes)
+                                    val fileSizeInMB = fileSizeInKB / 1024
+                                    if (fileSizeInMB > 3) {
+                                        Toast.makeText(
+                                            activity,
+                                            "Image is greater than 3MB",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else if (fileSizeInMB <= 3) {
+                                        try {
+                                            var options: BitmapFactory.Options? = null
+                                            options = BitmapFactory.Options()
+                                            options.inSampleSize = 3
+
+                                            bitmap = BitmapFactory.decodeFile(
+                                                getRealPathFromURI(tempUri)
+                                            )
+                                            val stream = ByteArrayOutputStream()
+                                            // Must compress the Image to reduce image size to make upload easy
+                                            bitmap?.compress(
+                                                Bitmap.CompressFormat.JPEG,
+                                                100,
+                                                stream
+                                            )
+                                            val byte_arr = stream.toByteArray()
+                                            // Encode Image to String
+                                            encodedString = Base64.encodeToString(byte_arr, 0)
+                                        } catch (e: Exception) {
+                                            Timber.tag("BCPhotoUploadFragment")
+                                                .d("onActivityResult - REQ_SELECT_IMAGE - Error : $e ")
+                                        }
+
                                     }
-                                } else {
-                                    Toast.makeText(activity, "Invalid Image has been selected! Please Choose image again", Toast.LENGTH_LONG).show()
+
+
+                                } catch (e: Exception) {
+                                    Timber.tag("BCPhotoUploadFragment")
+                                        .d("onActivityResult - REQ_SELECT_IMAGE - Error : $e ")
                                 }
-
+                            } else {
+                                Toast.makeText(
+                                    activity,
+                                    "Invalid Image has been selected! Please Choose image again",
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
+
                         }
+                    } catch (e: Exception) {
+                        Timber.tag("BCPhotoUploadFragment")
+                            .d("onActivityResult - REQ_SELECT_IMAGE - Error : $e ")
                     }
-
-                    ////////////////////////////////////////////
-                    //Log.d("dfgh", "  1 condition")
-                    //Log.d("dfgh", "Uri: " + fileUri!!.toString())
-                    //Log.d("PhotoUpload", "Uri: " + fileUri.toString())
-                    val myDirectory = File("/sdcard/BDJOBS")
-                    if (!myDirectory.exists()) {
-                        myDirectory.mkdirs()
-                    }
-                    val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
-                    //Log.d("dfgh", "  2 condition")
-                    if (file.exists()) {
-                        val deleted = file.delete()
-                    }
-                    val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
-                    UCrop.of(fileUri!!, destinationUri).withAspectRatio(9f, 10f).start(activity)
-                }
-
-                /*Log.d("dfgh", " resultCode $resultCode RESULT_OK $RESULT_OK " +
-                        "requestCode $requestCode  UCrop.REQUEST_CROP ${UCrop.REQUEST_CROP} resultData $resultData ")*/
-
-                if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && resultData != null) {
-
-                    //Log.d("dfgh", "  3 Crop condition")
-
-                    val resultUri = UCrop.getOutput(resultData)
-                    val tempURI = Uri.fromFile(File("/sdcard/"))
-                    photoUploadImageView.loadCircularImageFromUrl(tempURI.toString())
-                    photoUploadImageView.loadCircularImageFromUrl(resultUri.toString())
-                    dialog?.dismiss()
-                    val path = resultUri!!.path
-                    val file = File(path)
-                    val size = file.length()
-                    val fileSizeInKB = size / 1024
-                    // Convert the KB to MegaBytes (1 MB = 1024 KBytes)
-                    val fileSizeInMB = fileSizeInKB / 1024
-                    if (fileSizeInMB > 3) {
-                        Toast.makeText(activity, "Image is greater than 3MB", Toast.LENGTH_SHORT).show()
-                    } else if (fileSizeInMB <= 3) {
-
-                        doAsync {
-                            try {
-                                var options: BitmapFactory.Options? = null
-                                options = BitmapFactory.Options()
-                                options.inSampleSize = 3
-
-                                bitmap = BitmapFactory.decodeFile(path, options)
-                                val stream = ByteArrayOutputStream()
-                                // Must compress the Image to reduce image size to make upload easy
-                                bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                                val byte_arr = stream.toByteArray()
-                                // Encode Image to String
-                                encodedString = Base64.encodeToString(byte_arr, 0)
-                            } catch (e: Exception) {
-                                error("SEMVcb" + e.toString())
-                            }
-                        }
-                    }
-
-                } else if (resultCode == UCrop.RESULT_ERROR) {
-
-                    //Log.d("ImageUpload", "")
-
-                    val cropError = UCrop.getError(resultData!!)
-                    //Log.d("ImageUpload", " cropError $cropError")
-                }
-
-                if (requestCode == REQ_CAMERA_IMAGE && resultCode == Activity.RESULT_OK) {
-
-                    val path = getLastImagePath()
-                    val SourceUri = Uri.fromFile(File(path))
-                    val myDirectory = File("/sdcard/BDJOBS")
-                    if (!myDirectory.exists()) {
-                        myDirectory.mkdirs()
-                    }
-
-                    val file = File("/sdcard/BDJOBS/bdjobsProfilePic.jpg")
-                    if (file.exists()) {
-                        val deleted = file.delete()
-                    }
-                    val destinationUri = Uri.fromFile(File("/sdcard/BDJOBS/bdjobsProfilePic.jpg"))
-                    UCrop.of(SourceUri, destinationUri).withAspectRatio(9f, 10f).start(activity)
-                }
+                } else Timber.tag("PhotoUploadActivity")
+                    .d("Not starts")
 
             }
 
 
+            if (requestCode == REQ_CAMERA_IMAGE && resultCode == RESULT_OK && resultData != null) {
+
+                Timber.tag("BCPhotoUploadFragment")
+                    .d("onActivityResult - REQ_CAMERA_IMAGE - bitmapByresultDatateCount : $resultData")
+                val imageBitmap = resultData.extras?.get("data") as Bitmap
+                val tempUri = getImageUri(activity, imageBitmap!!)
+                photoUploadImageView.loadCircularImageFromUrlWithoutCach(tempUri.toString())
+                dialog?.dismiss()
+
+                val width = imageBitmap.width
+                val height = imageBitmap.height
+                val matrix = Matrix()
+
+                matrix.postScale(8F, 8F)
+
+                // Create a New bitmap
+                val resizedBitmap = Bitmap.createBitmap(
+                    imageBitmap, 0, 0, width, height, matrix, false
+                )
+                resizedBitmap.recycle()
+
+                val bitmapByteCount = BitmapCompat.getAllocationByteCount(resizedBitmap)
+
+                Timber.tag("BCPhotoUploadFragment")
+                    .d("onActivityResult - REQ_CAMERA_IMAGE - bitmapByteCount : $bitmapByteCount ")
+
+
+                val fileSizeInKB = bitmapByteCount / 1024
+                // Convert the KB to MegaBytes (1 MB = 1024 KBytes)
+                val fileSizeInMB = fileSizeInKB / 1024
+                if (fileSizeInMB > 3) {
+                    Toast.makeText(activity, "Image is greater than 3MB", Toast.LENGTH_SHORT).show()
+                } else if (fileSizeInMB <= 3) {
+                    try {
+                        val baos = ByteArrayOutputStream()
+                        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+                        val b = baos.toByteArray()
+                        // Encode Image to String
+                        encodedString = Base64.encodeToString(b, 0)
+                    } catch (e: Exception) {
+                        Timber.tag("BCPhotoUploadFragment")
+                            .d("onActivityResult - REQ_CAMERA_IMAGE - Error : $e ")
+                    }
+
+                }
+            }
+
         } catch (e: Exception) {
-            logException(e)
+            Timber.tag("BCPhotoUploadFragment").d("onActivityResult - General - Error : $e ")
         }
     }
 
