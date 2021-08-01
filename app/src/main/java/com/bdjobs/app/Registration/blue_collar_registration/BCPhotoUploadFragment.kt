@@ -306,7 +306,7 @@ class BCPhotoUploadFragment : Fragment() {
                 Timber.tag("BCPhotoUploadFragment")
                     .d("onActivityResult - REQ_CAMERA_IMAGE - bitmapByresultDatateCount : $resultData")
                 val imageBitmap = resultData.extras?.get("data") as Bitmap
-                val tempUri = getImageUri(activity, imageBitmap!!)
+                val tempUri = getImageUri(activity, imageBitmap)
                 photoUploadImageView.loadCircularImageFromUrlWithoutCach(tempUri.toString())
                 dialog?.dismiss()
 
@@ -411,11 +411,17 @@ class BCPhotoUploadFragment : Fragment() {
 
 
     private fun openCamera() {
-        val values = ContentValues()
-        values.put(MediaStore.Images.Media.TITLE, System.currentTimeMillis().toString() + ".jpg")
-        val mCapturedImageURI = activity.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+//
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (intent.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(intent, reqcode);
+//        }
+
+//        val values = ContentValues()
+//        values.put(MediaStore.Images.Media.TITLE, System.currentTimeMillis().toString() + ".jpg")
+//        val mCapturedImageURI = activity.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
         val intentPicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        intentPicture.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI)
+//        intentPicture.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI)
         startActivityForResult(intentPicture, REQ_CAMERA_IMAGE)
     }
 
