@@ -97,23 +97,11 @@ class MoreFragment : Fragment() {
         versionInfoTV?.text = "v${activity?.getAppVersion()} (${activity?.getAppVersionCode()})"
 
         videoResume?.setOnClickListener {
-            if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
-                try {
-                    val alertd = alert("To Access this feature please post your resume") {
-                        title = "Your resume is not posted!"
-                        positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
-                        negativeButton("Cancel") { dd ->
-                            dd.dismiss()
-                        }
-                    }
-                    alertd.isCancelable = false
-                    alertd.show()
-                } catch (e: Exception) {
-                    logException(e)
-                }
-            } else {
-                startActivity<VideoResumeActivity>()
-            }
+            navigateToVideoResumePage()
+        }
+
+        ll_video_resume.setOnClickListener{
+            navigateToVideoResumePage()
         }
 
         employerList_MBTN?.setOnClickListener {
@@ -211,6 +199,26 @@ class MoreFragment : Fragment() {
 
         messageIMGV?.setOnClickListener {
             homeCommunicator.goToMessages()
+        }
+    }
+
+    private fun navigateToVideoResumePage() {
+        if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
+            try {
+                val alertd = alert("To Access this feature please post your resume") {
+                    title = "Your resume is not posted!"
+                    positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
+                    negativeButton("Cancel") { dd ->
+                        dd.dismiss()
+                    }
+                }
+                alertd.isCancelable = false
+                alertd.show()
+            } catch (e: Exception) {
+                logException(e)
+            }
+        } else {
+            startActivity<VideoResumeActivity>()
         }
     }
 
