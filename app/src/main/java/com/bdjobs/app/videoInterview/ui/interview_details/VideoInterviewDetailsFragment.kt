@@ -90,20 +90,17 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
                 baseViewModel.jobId = videoInterviewDetailsViewModel.jobID!!
                 baseViewModel.applyId = videoInterviewDetailsViewModel.applyId.value!!
                 videoInterListViewModel.commonData.value?.totalVideoInterview?.toInt()?.let {
-                    if (it < 4)
+                    if (it < 4){
                         if (videoInterviewDetailsViewModel.detailsData.value?.vStatuCode == "3")
                             if (findNavController().currentDestination?.id == R.id.videoInterviewDetailsFragment)
                                 findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment())
                             else
                                 if (findNavController().currentDestination?.id == R.id.videoInterviewDetailsFragment)
-                                    findNavController().navigate(
-                                        VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToGuidelineLandingFragment()
-                                    )
-                                else
-                                    if (findNavController().currentDestination?.id == R.id.videoInterviewDetailsFragment)
-                                        findNavController().navigate(
-                                            VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment()
-                                        )
+                                    findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToGuidelineLandingFragment())
+                    }else{
+                        if (findNavController().currentDestination?.id == R.id.videoInterviewDetailsFragment)
+                            findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment())
+                    }
 //                    findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToGuidelineLandingFragment())
 
                 }
