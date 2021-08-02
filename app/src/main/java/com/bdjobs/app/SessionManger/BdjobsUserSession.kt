@@ -571,4 +571,10 @@ class BdjobsUserSession(val context: Context) {
                 .apply()
         }
 
+    var isVideoResumeShowToEmployers: Boolean
+    get() = pref!!.getBoolean(Constants.session_key_show_video_resume_to_emp,false)
+    set(value) {
+        pref!!.edit().putBoolean(Constants.session_key_show_video_resume_to_emp,value).apply()
+    }
+
 }

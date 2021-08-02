@@ -427,6 +427,7 @@
                 android:id="@+id/cl_resume_visibility"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="@{viewModel.showVideoResumeToEmployers ? View.VISIBLE : View.GONE}"
                 android:padding="12dp">
 
                 <com.google.android.material.textview.MaterialTextView

@@ -106,6 +106,8 @@ class VideoResumeLandingViewModel(
     private val _statusCode = MutableLiveData<String>()
     val statusCode: LiveData<String> = _statusCode
 
+    var showVideoResumeToEmployers = MutableLiveData<Boolean>()
+
     fun onCheckedChanged(checked: Boolean) {
         try {
             if (totalAnswered.value!!.toInt() < threshold.value!!.toInt()) {
@@ -204,6 +206,8 @@ class VideoResumeLandingViewModel(
                 if (_showResumeVisibilityView.value == true)
                     _showNoAnimatorView.value = _isAlertOn.value == "0"
                 else _showNoAnimatorView.value = false
+
+                showVideoResumeToEmployers.value = totalAnswered.value!!.toInt() >= threshold.value!!.toInt()
 
                 when {
                     _isAlertOn.value!!.equalIgnoreCase("0") -> {

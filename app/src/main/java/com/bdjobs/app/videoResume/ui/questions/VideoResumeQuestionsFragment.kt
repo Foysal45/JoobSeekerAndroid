@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Html
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -146,13 +147,9 @@ class VideoResumeQuestionsFragment : Fragment() {
             buildTipsDialog(data.questionTextBng, data.answerHintBn)
         }
 
-
-        videoResumeQuestionsViewModel.isVideoResumeVisible.value =  session.videoResumeIsVisible
-
-
         videoResumeQuestionsViewModel.apply {
-            Log.d("Salvin", "Loaded VideoResumeQuestionsFragment")
             getQuestions()
+            getStats()
 
             questionListData.observe(viewLifecycleOwner, Observer {
                 it?.let {
@@ -170,6 +167,13 @@ class VideoResumeQuestionsFragment : Fragment() {
             onPreviousQuestionClickEvent.observe(viewLifecycleOwner, EventObserver {
                 rv_question?.smoothScrollToPosition(layoutManager.findFirstCompletelyVisibleItemPosition() - 1)
             })
+
+            showVideoResumeToEmployers.observe(viewLifecycleOwner, {
+                session.isVideoResumeShowToEmployers = it
+                if (isAlertOn.value !== "0") session.insertVideoResumeVisibility(false) else session.insertVideoResumeVisibility(
+                    true
+                )
+            })
         }
 
         binding.btnGuide.setOnClickListener {
@@ -182,6 +186,9 @@ class VideoResumeQuestionsFragment : Fragment() {
         binding.tvChangeVisibility.setOnClickListener {
             findNavController().navigateUp()
         }
+
+//        videoResumeQuestionsViewModel.showVideoResumeToEmployers.value = session.isVideoResumeShowToEmployers
+        videoResumeQuestionsViewModel.isVideoResumeVisible.value =  session.videoResumeIsVisible
     }
 
 
@@ -197,7 +204,7 @@ class VideoResumeQuestionsFragment : Fragment() {
         val builder = AlertDialog.Builder(requireContext())
 
         builder.setTitle("প্রশ্নঃ $title")
-        builder.setMessage("টিপসঃ  $message")
+        builder.setMessage("টিপসঃ  ${Html.fromHtml(message)}")
         builder.setPositiveButton("ওকে") { dialog, _ ->
             Timber.d("yes please hide")
             dialog.dismiss()

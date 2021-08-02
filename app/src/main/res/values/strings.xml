@@ -478,7 +478,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_bdjobs_resume">Bdjobs Resume</string>
     <string name="label_personalized">Personalized</string>
     <string name="label_video_resume">Video Resume</string>
-    <string name="label_resume_visibility_to_employer_s">Video Resume show to Employer(s)</string>
+    <string name="label_resume_visibility_to_employer_s">Status of showing Video Resume to Employer(s)</string>
     <string name="label_change">Change</string>
     <string name="label_edit">Edit</string>
     <string name="label_personalized_resume">Personalized Resume</string>
