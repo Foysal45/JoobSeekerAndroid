@@ -68,7 +68,7 @@ class FavouriteSearchFilterListFragment : Fragment() {
                         //Log.d("totalJobs", "zero")
                     }
 
-                    val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search $data"
+                    val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favourite search $data"
                     favCountTV?.text = Html.fromHtml(styledText)
                     val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = favouriteSearchFilters as MutableList<FavouriteSearch>, context = activity)
                     favRV?.adapter = favouriteSearchFilterAdapter
@@ -83,13 +83,13 @@ class FavouriteSearchFilterListFragment : Fragment() {
     fun scrollToUndoPosition(position:Int){
         favRV?.scrollToPosition(position)
         favListSize++
-        val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search filter"
+        val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favourite search filter"
         favCountTV.text = Html.fromHtml(styledText)
     }
 
     fun decrementCounter(){
         favListSize--
-        val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favorite search filter"
+        val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favourite search filter"
         favCountTV.text = Html.fromHtml(styledText)
     }
 

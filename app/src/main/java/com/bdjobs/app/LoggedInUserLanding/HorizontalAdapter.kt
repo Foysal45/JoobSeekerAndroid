@@ -43,7 +43,7 @@ class HorizontalAdapter(val context: Context) : RecyclerView.Adapter<HorizontalV
         holder.itemView.setOnClickListener {
             when(moreItems!![position].resourceName){
 
-                "Favorite\nSearch"->{
+                "Favourite\nSearch"->{
                     homeCommunicator.goToFavSearchFilters()
                 }
                 "Applied\nJobs"->{

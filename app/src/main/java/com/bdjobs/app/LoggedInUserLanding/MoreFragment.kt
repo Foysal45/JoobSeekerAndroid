@@ -269,7 +269,7 @@ class MoreFragment : Fragment() {
 //
         horizontaList.add(MoreHorizontalData(R.drawable.ic_manage_resume_more, "Manage\nResume"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_applied_jobs_more, "Applied\nJobs"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favorite\nSearch"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favourite\nSearch"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_followed_employers_more, "Followed\nEmployers"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_emplist_ic, "Employer\nList"))
 
