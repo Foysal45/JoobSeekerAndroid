@@ -23,6 +23,7 @@ import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import kotlinx.android.synthetic.main.fragment_video_interview_details.*
 import org.jetbrains.anko.support.v4.startActivity
+import timber.log.Timber
 
 /**
  * A simple [Fragment] subclass.
@@ -90,14 +91,18 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
                 baseViewModel.jobId = videoInterviewDetailsViewModel.jobID!!
                 baseViewModel.applyId = videoInterviewDetailsViewModel.applyId.value!!
                 videoInterListViewModel.commonData.value?.totalVideoInterview?.toInt()?.let {
-                    if (it < 4){
-                        if (videoInterviewDetailsViewModel.detailsData.value?.vStatuCode == "3")
+                    Timber.d("Common Data: ${videoInterListViewModel.commonData.value}")
+                    if (it < 4) {
+                        Timber.d("Less than 4")
+                        if (videoInterviewDetailsViewModel.detailsData.value?.vStatuCode == "3") {
                             if (findNavController().currentDestination?.id == R.id.videoInterviewDetailsFragment)
                                 findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment())
-                            else
-                                if (findNavController().currentDestination?.id == R.id.videoInterviewDetailsFragment)
-                                    findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToGuidelineLandingFragment())
-                    }else{
+                        } else {
+                            if (findNavController().currentDestination?.id == R.id.videoInterviewDetailsFragment)
+                                findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToGuidelineLandingFragment())
+                        }
+
+                    } else {
                         if (findNavController().currentDestination?.id == R.id.videoInterviewDetailsFragment)
                             findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment())
                     }

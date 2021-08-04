@@ -50,12 +50,14 @@ class VideoResumeLandingFragment : Fragment() {
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
         btn_view_questions?.setOnClickListener {
-            if (findNavController().currentDestination?.id == R.id.videoResumeLandingFragment)
+            if (findNavController().currentDestination?.id == R.id.videoResumeLandingFragment) {
                 findNavController().navigate(
                     VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToQuestionListDialogFragment(
                         videoResumeLandingViewModel.getAllQuestions().toTypedArray()
                     )
                 )
+            }
+
         }
 
         btn_guidelines?.setOnClickListener {

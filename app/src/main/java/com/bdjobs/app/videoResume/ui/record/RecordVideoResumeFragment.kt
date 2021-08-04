@@ -271,8 +271,9 @@ class RecordVideoResumeFragment : Fragment() {
             e.printStackTrace()
         }
         try {
-            if (findNavController().currentDestination?.id == R.id.recordVideoResumeFragment)
+            if (findNavController().currentDestination?.id == R.id.recordVideoResumeFragment) {
                 findNavController().popBackStack(R.id.videoResumeQuestionsFragment, false)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

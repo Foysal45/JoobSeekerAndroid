@@ -102,13 +102,15 @@ class VideoResumeQuestionsFragment : Fragment() {
                 askForPermission(it)
 
             } else {
-                if (findNavController().currentDestination?.id == R.id.videoResumeQuestionsFragment)
+                if (findNavController().currentDestination?.id == R.id.videoResumeQuestionsFragment) {
                     findNavController().navigate(
                         VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToViewVideoResumeFragment(
                             it.videoUrl,
                             it.questionTextBng
                         )
                     )
+                }
+
             }
         })
 
@@ -794,8 +796,9 @@ class VideoResumeQuestionsFragment : Fragment() {
 //
 //                    questionListViewModel._videoManagerData.postValue(videoManager)
 //                    findNavController().navigate(QuestionListFragmentDirections.actionQuestionDetailsFragmentToRecordViedeoFragment())
-                        if (findNavController().currentDestination?.id == R.id.videoResumeQuestionsFragment)
+                        if (findNavController().currentDestination?.id == R.id.videoResumeQuestionsFragment) {
                             findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToRecordVideoResumeFragment())
+                        }
 
 
                     }

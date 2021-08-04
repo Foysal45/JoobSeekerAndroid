@@ -54,13 +54,15 @@ class VideoInterviewListFragment : Fragment() {
         videoInterviewListViewModel.getVideoInterviewList(time)
 
         val adapter = VideoInterviewListAdapter(requireContext(), ClickListener {
-            if (findNavController().currentDestination?.id == R.id.videoInterviewListFragment)
+            if (findNavController().currentDestination?.id == R.id.videoInterviewListFragment) {
                 findNavController().navigate(
                     VideoInterviewListFragmentDirections.actionVideoInterviewListFragmentToVideoInterviewDetailsFragment(
                         it.jobId,
                         it.jobTitle
                     )
                 )
+            }
+
         })
 
         rv_video_interview?.adapter = adapter
