@@ -3,6 +3,7 @@ package com.bdjobs.app.Jobs
 import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.google.android.gms.ads.AdRequest
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
@@ -71,6 +73,10 @@ class JobDetailsFragment : Fragment() {
     lateinit var bdjobsDB: BdjobsDB
     lateinit var session: BdjobsUserSession
 
+    companion object {
+        private const val TAG = "JobDetails"
+    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_jobdetail_layout, container, false)!!
@@ -81,10 +87,14 @@ class JobDetailsFragment : Fragment() {
         bdjobsDB = BdjobsDB.getInstance(activity)
         session = BdjobsUserSession(activity)
 
+
+//        showClientAD()
+
         alertTV?.isSelected = true
         communicator = activity as JobCommunicator
 
         shareJobPosition = communicator.getItemClickPosition()
+        Log.d(TAG, "onActivityCreated: JP: $shareJobPosition")
         communicator.setCurrentJobPosition(communicator.getItemClickPosition())
         getData()
 
@@ -93,7 +103,7 @@ class JobDetailsFragment : Fragment() {
         (snapHelper as PagerSnapHelper).attachToRecyclerView(jobDetailRecyclerView)
         jobDetailRecyclerView.setHasFixedSize(true)
 
-        layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+        layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
         jobDetailRecyclerView?.layoutManager = layoutManager
         //Log.d("PositionTest", "snapHelper   ${snapHelper!!.getSnapPosition(jobDetailRecyclerView)}")
         jobDetailAdapter = JobDetailAdapter(activity!!)
@@ -104,6 +114,7 @@ class JobDetailsFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     currentJobPosition = getCurrentItem()
+                    Log.d(TAG, "onScrollStateChanged: CurrentJobPosition: $currentJobPosition")
                     //Log.d("PositionTest", "snapHelper   $currentJobPosition")
 
                     shareJobPosition = currentJobPosition
@@ -148,7 +159,7 @@ class JobDetailsFragment : Fragment() {
                 isLoading = true
                 currentPage += 1
 
-                //Log.d("loadMoreItemsgfjfg", " Called ")
+                Log.d(TAG, "loadMoreItemsgfjfg Called ")
 
                 //Log.d("djggsgdjdg", "keyword $keyword  location $location  category $category  ")
                 loadNextPage(
@@ -193,7 +204,7 @@ class JobDetailsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
+//
         showClientAD()
     }
 
@@ -210,6 +221,8 @@ class JobDetailsFragment : Fragment() {
     }
 
     private fun showClientAD() {
+
+        Log.d(TAG, "showClientAD: ShowClientAd")
 
         try {
             ApiServiceJobs.create().clientAdBanner("jobdetail")
@@ -242,22 +255,35 @@ class JobDetailsFragment : Fragment() {
                                                 activity.launchUrl(response.body()!!.data[0].adurl)
                                             }
 
-                                        } else {
+                                        }
+                                        else {
+                                            Log.d(TAG, "onResponse: 1")
                                             ivClientAd.visibility = View.GONE
-                                            adView_container.visibility = View.VISIBLE
-                                            Ads.loadAdaptiveBanner(activity, adView_container)
+                                            adView.loadAd(AdRequest.Builder().build())
+//                                            mAdView.adListener = this
+                                            adView.visibility = View.VISIBLE
+//                                            adView_container.visibility = View.VISIBLE
+//                                            Ads.loadAdaptiveBanner(context, adView_container)
                                         }
                                     } else {
+                                        Log.d(TAG, "onResponse: 2")
                                         Timber.d("Response code: ${response.code()}")
                                         ivClientAd.visibility = View.GONE
-                                        adView_container.visibility = View.VISIBLE
-                                        Ads.loadAdaptiveBanner(activity, adView_container)
+                                        adView.loadAd(AdRequest.Builder().build())
+//                                            mAdView.adListener = this
+                                        adView.visibility = View.VISIBLE
+//                                        adView_container.visibility = View.VISIBLE
+//                                        Ads.loadAdaptiveBanner(context, adView_container)
                                     }
                                 } else {
                                     Timber.d("Unsuccessful response")
+                                    Log.d(TAG, "onResponse: 3")
                                     ivClientAd.visibility = View.GONE
-                                    adView_container.visibility = View.VISIBLE
-                                    Ads.loadAdaptiveBanner(activity, adView_container)
+                                    adView.loadAd(AdRequest.Builder().build())
+//                                            mAdView.adListener = this
+                                    adView.visibility = View.VISIBLE
+//                                    adView_container.visibility = View.VISIBLE
+//                                    Ads.loadAdaptiveBanner(context, adView_container)
                                 }
                             } catch (e: Exception) {
                             }
@@ -267,9 +293,13 @@ class JobDetailsFragment : Fragment() {
                             Timber.e("Client ad fetching failed due to: ${t.localizedMessage} .. Showing ADMob AD")
 
                             try {
+                                Log.d(TAG, "onResponse: 4")
                                 ivClientAd.visibility = View.GONE
-                                adView_container.visibility = View.VISIBLE
-                                Ads.loadAdaptiveBanner(activity, adView_container)
+                                adView.loadAd(AdRequest.Builder().build())
+//                                            mAdView.adListener = this
+                                adView.visibility = View.VISIBLE
+//                                adView_container.visibility = View.VISIBLE
+//                                Ads.loadAdaptiveBanner(context, adView_container)
                             } catch (e: Exception) {
                             }
                         }
@@ -331,6 +361,7 @@ class JobDetailsFragment : Fragment() {
     private fun loadNextPage(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?, workPlace: String?, personWithDisability : String?, facilitiesForPWD : String?) {
         //Log.d("ArrayTestJobdetail", " loadNextPage called\n ")
 
+        Log.d(TAG, "loadNextPage: $pageNumber")
 
         val call = ApiServiceJobs.create().getJobList(jobLevel = jobLevel,
                 Newspaper = newsPaper,
@@ -422,10 +453,9 @@ class JobDetailsFragment : Fragment() {
         })
     }
 
-
     private fun loadFirstPage() {
 
-        //Log.d("Job detail fragment","came here")
+        Log.d(TAG, "loadFirstPage: ")
 
         try {
             jobDetailAdapter?.addAll(jobListGet as List<JobListModelData>)
@@ -462,7 +492,6 @@ class JobDetailsFragment : Fragment() {
 
     }
 
-
     private fun onClick() {
 
         BackIMGV?.setOnClickListener {
@@ -483,7 +512,6 @@ class JobDetailsFragment : Fragment() {
 
         }
     }
-
 
     fun showShortListedIcon() {
         shortListIMGV?.setImageDrawable(activity?.getDrawable(R.drawable.ic_star_black_24dp_filled))

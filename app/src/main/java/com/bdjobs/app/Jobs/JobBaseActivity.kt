@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import com.bdjobs.app.API.ApiServiceJobs
@@ -197,46 +198,50 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                         override fun onResponse(call: Call<ClientAdModel>, response: Response<ClientAdModel>) {
                             Timber.d("Client ad fetched!")
 
-                            if (response.isSuccessful) {
-                                if (response.code() == 200) {
-                                    if (response.body()?.data!!.isNotEmpty()) {
+                            try {
+                                if (response.isSuccessful) {
+                                    if (response.code() == 200) {
+                                        if (response.body()?.data!!.isNotEmpty() && response.body()!!.data[0].imageurl.isNotEmpty()) {
 
-                                        ivClientAd.visibility = View.VISIBLE
-                                        adView_container.visibility = View.GONE
+                                            ivClientAd.visibility = View.VISIBLE
+                                            adView_container.visibility = View.GONE
 
-                                        val dimensionInDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, response.body()!!.data[0].height.toFloat(),
-                                                resources.displayMetrics).toInt()
-
-
-                                        ivClientAd.layoutParams.height = dimensionInDp
-
-                                        ivClientAd.requestLayout()
-
-                                        Picasso.get()
-                                                .load(response.body()!!.data[0].imageurl)
-                                                .into(ivClientAd)
+                                            val dimensionInDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, response.body()!!.data[0].height.toFloat(),
+                                                    resources.displayMetrics).toInt()
 
 
-                                        ivClientAd.setOnClickListener {
-                                            this@JobBaseActivity.launchUrl(response.body()!!.data[0].adurl)
+                                            ivClientAd.layoutParams.height = dimensionInDp
+
+                                            ivClientAd.requestLayout()
+
+                                            Picasso.get()
+                                                    .load(response.body()!!.data[0].imageurl)
+                                                    .into(ivClientAd)
+
+
+                                            ivClientAd.setOnClickListener {
+                                                this@JobBaseActivity.launchUrl(response.body()!!.data[0].adurl)
+                                            }
+
+                                        } else {
+                                            ivClientAd.visibility = View.GONE
+                                            adView_container.visibility = View.VISIBLE
+                                            Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
                                         }
-
                                     } else {
+                                        Timber.d("Response code: ${response.code()}")
                                         ivClientAd.visibility = View.GONE
                                         adView_container.visibility = View.VISIBLE
                                         Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
                                     }
-                                } else {
-                                    Timber.d("Response code: ${response.code()}")
+                                }
+                                else {
+                                    Timber.d("Unsuccessful response")
                                     ivClientAd.visibility = View.GONE
                                     adView_container.visibility = View.VISIBLE
                                     Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
                                 }
-                            } else {
-                                Timber.d("Unsuccessful response")
-                                ivClientAd.visibility = View.GONE
-                                adView_container.visibility = View.VISIBLE
-                                Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
+                            } catch (e: Exception) {
                             }
                         }
 
@@ -1007,7 +1012,6 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
     override fun onRestart() {
         super.onRestart()
-        //Log.d("rakib"," came restart")
         jobDetailsFragment.jobDetailAdapter?.reload()
 
     }
