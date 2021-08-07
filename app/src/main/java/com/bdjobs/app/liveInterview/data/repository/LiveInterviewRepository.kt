@@ -5,8 +5,9 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.LiveInvitation
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
-import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.liveInterview.data.models.*
+import com.bdjobs.app.videoInterview.data.models.InterviewFeedback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -72,6 +73,76 @@ class LiveInterviewRepository(val application: Application)  {
                     otherComment = otherComment,
                     rescheduleComment = rescheduleComment
             )
+        }
+    }
+
+    suspend fun applicantStatus(
+            applyId:String?,
+            processId: String?,
+            applicantStatus:String?
+    ) : ApplicantStatusModel {
+        return withContext(Dispatchers.IO) {
+            ApiServiceMyBdjobs.create().applicantStatusInfo(
+                    session.userId,session.decodId,applyId,processId, applicantStatus
+            )
+        }
+    }
+
+    suspend fun startEndCall(
+        processId: String?,
+        applyId:String?,
+        requestFor:String?
+    ) : StartEndCallModel {
+        return withContext(Dispatchers.IO) {
+            ApiServiceMyBdjobs.create().startEndCall(processId,applyId,requestFor)
+        }
+    }
+
+    suspend fun submitVideoInterviewFeedback(
+            applyId: String?,
+            jobId: String?,
+            rating : String?,
+            feedbackComment : String?
+    ) : InterviewFeedback {
+        return withContext(Dispatchers.IO){
+            ApiServiceMyBdjobs.create().submitInterviewFeedback(
+                    userID = session.userId,
+                    decodeID = session.decodId,
+                    applyId = applyId,
+                    jobId = jobId,
+                    rating = rating,
+                    feedbackComment = feedbackComment,
+                    featureName = "Live Interview",
+                    appId = Constants.APP_ID
+            )
+        }
+    }
+
+    suspend fun postChatMessage(
+            processId:String?,
+            message:String?,
+            hostType:String?,
+            strUserID:String?,
+            strTargetUser:String?
+    ) : PostChatModel {
+        return withContext(Dispatchers.IO) {
+            ApiServiceMyBdjobs.create().postChatMessages(
+                    session.userId,
+                    session.decodId,
+                    processId,
+                    message,
+                    hostType,
+                    strUserID,
+                    strTargetUser
+            )
+        }
+    }
+
+    suspend fun chatLog(
+            processId: String?
+    ) : ChatLogModel {
+        return withContext(Dispatchers.IO) {
+            ApiServiceMyBdjobs.create().chatLog(processId)
         }
     }
 }

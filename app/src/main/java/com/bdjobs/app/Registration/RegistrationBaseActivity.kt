@@ -36,7 +36,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_academic_base.*
 import kotlinx.android.synthetic.main.activity_registration_base.*
+import kotlinx.android.synthetic.main.fragment_bc_education.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
 import kotlinx.android.synthetic.main.fragment_wc_otp_code.*
@@ -45,6 +47,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -65,7 +68,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
     private val wcPasswordFragment = WCPasswordFragment()
     private val wcCongratulationFragment = WCCongratulationFragment()
     private val wcMobileVerificationFragment = WCOtpCodeFragment()
-    private var categoryId: String = ""
+    private var categoryId: String = "1"
     private var category: String = ""
     private lateinit var dataStorage: DataStorage
     private var name: String = ""
@@ -109,7 +112,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
     private var age = ""
     var birthDate: String? = ""
-    private var subcategoriesID: String = ""
+    private var subcategoriesID: String = "0"
     private var experience: String = ""
 
     private var skilledBy : String =""
@@ -819,6 +822,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
     override fun bcGoToStepPhotoUpload(hasEducation: String) {
 
+        bcEducationFAButton.hide()
         this.hasEducation = hasEducation
 
         loadingProgressBar.visibility = View.VISIBLE
@@ -856,7 +860,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
             }
 
             override fun onResponse(call: Call<UpdateBlueCvModel>, response: Response<UpdateBlueCvModel>) {
-
+                bcEducationFAButton.show()
                 try {/*  toast("On response ")*/
                     //Log.d("Ressdjg", " dkljgdslkjg ${response.body()!!.message}")
                     //Log.d("Ressdjg", " dkljgdslkjg ${response.body().toString()}")
@@ -895,9 +899,9 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
                         loadingProgressBar.visibility = View.GONE
                     }
                 } catch (e: Exception) {
+                    toast("Please try again later")
                     logException(e)
                 }
-
 
             }
 

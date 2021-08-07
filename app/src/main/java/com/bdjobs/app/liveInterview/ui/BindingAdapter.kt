@@ -1,14 +1,17 @@
 package com.bdjobs.app.liveInterview.ui
 
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.CountDownTimer
 import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import timber.log.Timber
 import java.text.DecimalFormat
@@ -71,7 +74,7 @@ fun bindLiveInterviewTimer(textView: TextView, date: String?, time: String?, sta
                 var remainingMinutes = ""
                 var remainingSeconds = ""
 
-                Timber.tag("live").d("came here $interviewDateTime")
+                Timber.tag("LI").d("came here $interviewDateTime")
                 val start_calendar: Calendar = Calendar.getInstance()
                 val end_calendar: Calendar = Calendar.getInstance()
 
@@ -86,7 +89,7 @@ fun bindLiveInterviewTimer(textView: TextView, date: String?, time: String?, sta
 
                 val total_millis = end_millis - start_millis //total time in milliseconds
 
-                Timber.tag("live").d("came here total ${total_millis}")
+                Timber.tag("LI").d("came here total ${total_millis}")
 
                 //1000 = 1 second interval
 
@@ -117,7 +120,8 @@ fun bindLiveInterviewTimer(textView: TextView, date: String?, time: String?, sta
                         if (remainingMinutes.toInt() > 1) {
                             textView.text = "${remainingMinutes.toInt().plus(1)} mins remaining"
                         } else {
-                            textView.text = "${remainingMinutes.toInt().plus(1)} min remaining"
+//                            textView.text = "${remainingMinutes.toInt().plus(1)} min remaining"
+                            textView.visibility = View.GONE
                         }
                     } else if (remainingHours.toInt() == 1) {
                         if (remainingMinutes.toInt() > 1) {
@@ -143,6 +147,9 @@ fun bindLiveInterviewTimer(textView: TextView, date: String?, time: String?, sta
             }
             "4" -> {
                 textView.text = "Expired"
+            }
+            "3" -> {
+                textView.text = "Completed"
             }
         }
     }
@@ -271,5 +278,33 @@ fun bindLiveInterviewConfirmationStatus(textView: TextView, status: String?, pre
             }
             //holder.notifyDetailsTV.setTextColor(Color.parseColor("#393939"))
         }
+
+        if (status.equalIgnoreCase("7")) {
+            textView.apply {
+                text = "Completed"
+                setCompoundDrawablesWithIntrinsicBounds(R.drawable.job_confirm_ic, 0, 0, 0)
+                setTextColor(Color.parseColor("#13A10E"))
+            }
+        }
     }
 }
+
+
+@BindingAdapter("setBackgroundColor")
+fun MaterialButton.bindBackground(color: Int) {
+    val bgColor = if (color == 1) {
+        resources.getColor(R.color.btn_green)
+    } else resources.getColor(R.color.btn_ash)
+    this.run {
+        background.setTint(bgColor)
+    }
+}
+
+@BindingAdapter(value = ["setAdapter"])
+fun RecyclerView.bindRecyclerViewAdapter(adapter: RecyclerView.Adapter<*>) {
+    this.run {
+        this.setHasFixedSize(true)
+        this.adapter = adapter
+    }
+}
+

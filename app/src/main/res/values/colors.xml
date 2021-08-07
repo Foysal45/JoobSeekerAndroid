@@ -34,5 +34,9 @@
     <color name="colorOrange">#F57F17</color>
 
 
+    <color name="btn_green">#0AF899</color>
+    <color name="btn_ash">#757575</color>
+    <color name="btn_red">#CC2428</color>
+
 
 </resources>

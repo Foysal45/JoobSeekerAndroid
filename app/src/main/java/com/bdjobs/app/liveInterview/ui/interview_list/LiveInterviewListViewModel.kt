@@ -25,20 +25,20 @@ class LiveInterviewListViewModel(
     val commonData: LiveData<LiveInterviewList.Common?> = _commonData
 
     init {
-        getLiveInterviewList()
+        getLiveInterviewList("0")
     }
 
-    fun getLiveInterviewList() {
+    fun getLiveInterviewList(time: String) {
         _dataLoading.value = true
         viewModelScope.launch {
             try {
-                //val response = repository.getLiveInterviewListFromRemote(time)
-//                _liveInterviewListData.value = response.data
-//                _commonData.value = response.common
-                if (activity == "0")
-                    list.value = repository.getAllTimeLiveInterviewListFromDatabase()
-                else
-                    list.value = repository.getThisMonthLiveInterviewListFromDatabase()
+                val response = repository.getLiveInterviewListFromRemote(time)
+                _liveInterviewListData.value = response.data!!
+                _commonData.value = response.common
+//                if (activity == "0")
+//                    list.value = repository.getAllTimeLiveInterviewListFromDatabase()
+//                else
+//                    list.value = repository.getThisMonthLiveInterviewListFromDatabase()
                 _dataLoading.value = false
             } catch (e: Exception) {
                 e.printStackTrace()

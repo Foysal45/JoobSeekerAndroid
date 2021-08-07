@@ -6,9 +6,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
@@ -18,7 +16,6 @@ import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
-import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.Utilities.transitFragment
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 

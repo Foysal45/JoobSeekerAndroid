@@ -18,4 +18,8 @@
     <dimen name="poster_hero_height">192dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+
+    <dimen name="mtrl_badge_with_text_radius">12dp</dimen>
+
+
 </resources>

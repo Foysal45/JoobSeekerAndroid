@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.edit
 import com.bdjobs.app.API.ModelClasses.DataLoginPasswordModel
@@ -65,6 +66,9 @@ class BdjobsUserSession(val context: Context) {
             putString(Constants.session_key_trainingId, trainingId)
             putString(Constants.session_key_userPicUrl, userPicUrl)
             putBoolean(Constants.session_key_loggedIn, true)
+
+            val deviceProtectedSession = DeviceProtectedSession(context)
+            deviceProtectedSession.isLoggedIn = true
         }
 
     }
@@ -89,6 +93,10 @@ class BdjobsUserSession(val context: Context) {
             putString(Constants.session_key_trainingId, sessionData.trainingId)
             putString(Constants.session_key_userPicUrl, sessionData.userPicUrl)
             putBoolean(Constants.session_key_loggedIn, true)
+
+
+            val deviceProtectedSession = DeviceProtectedSession(context)
+            deviceProtectedSession.isLoggedIn = true
         }
 
     }
@@ -114,6 +122,7 @@ class BdjobsUserSession(val context: Context) {
     val shortListedDate = pref?.getString(Constants.KEY_SHORTLISTED_DATE, "19-Mar-1919")
     val videoResumeThreshold = pref?.getString(Constants.VIDEO_RESUME_THRESHOLD, "0")
     val videoResumeTotalAnswered = pref?.getString(Constants.VIDEO_RESUME_TOTAL_ANSWERED, "0")
+    val videoResumeIsVisible = pref?.getBoolean(Constants.VIDEO_RESUME_IS_VISIBLE, false)
 
     //val applyJobCount = pref?.getString(Constants.session_key_job_apply_count,"0")
     //val availableJobsCount = pref?.getString(Constants.session_key_available_job_count,"0")
@@ -212,6 +221,13 @@ class BdjobsUserSession(val context: Context) {
     fun insertVideoResumeThresholdValue(count: String){
         pref?.edit {
             putString(Constants.VIDEO_RESUME_THRESHOLD, count)
+        }
+        pref?.edit()?.apply()
+    }
+
+    fun insertVideoResumeVisibility(isVisible: Boolean){
+        pref?.edit {
+            putBoolean(Constants.VIDEO_RESUME_IS_VISIBLE, isVisible)
         }
         pref?.edit()?.apply()
     }
@@ -517,5 +533,48 @@ class BdjobsUserSession(val context: Context) {
         decrementCount(Constants.session_key_mybdjobscount_employers_followed_alltime)
     }
 
+    var isRemoteViewInitialized:Boolean
+    get() = pref!!.getBoolean(Constants.session_key_remoteview_initiliaze,false)
+    set(value) {
+        pref!!.edit().putBoolean(Constants.session_key_remoteview_initiliaze,value).apply()
+    }
+
+    var isSessionAlreadyStarted : Boolean
+    get() = pref!!.getBoolean(Constants.session_key_socket_session_started,false)
+    set(value) {
+        pref!!.edit().putBoolean(Constants.session_key_socket_session_started,value).apply()
+    }
+
+    var userMobileNumber: String?
+        get() = pref!!.getString(Constants.session_key_user_mobile, "")
+        set(value) {
+            pref!!.edit().putString(Constants.session_key_user_mobile, value).apply()
+        }
+
+    var userPresentAddress: String?
+        get() = pref!!.getString(Constants.session_key_user_present_address, "")
+        set(value) {
+            pref!!.edit().putString(Constants.session_key_user_present_address, value).apply()
+        }
+
+    var userPermanentAddress: String?
+        get() = pref!!.getString(Constants.session_key_user_permanent_address, "")
+        set(value) {
+            pref!!.edit().putString(Constants.session_key_user_permanent_address, value).apply()
+        }
+
+
+    var personalizedResumeSessionStatCalculatedFrom: String?
+        get() = pref!!.getString(Constants.session_key_personalized_stat_calculated_from, "")
+        set(value) {
+            pref!!.edit().putString(Constants.session_key_personalized_stat_calculated_from, value)
+                .apply()
+        }
+
+    var isVideoResumeShowToEmployers: Boolean
+    get() = pref!!.getBoolean(Constants.session_key_show_video_resume_to_emp,false)
+    set(value) {
+        pref!!.edit().putBoolean(Constants.session_key_show_video_resume_to_emp,value).apply()
+    }
 
 }

@@ -12,7 +12,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <application
         android:name=".application.App"
@@ -25,13 +29,19 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
-        <activity android:name="com.bdjobs.app.videoResume.VideoResumeActivity"
+        <activity android:name=".ManageResume.ViewPersonalizedResume" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".resume_dashboard.ResumeDashboardBaseActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".videoResume.VideoResumeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".liveInterview.LiveInterviewActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".transaction.TransactionBaseActivity"
             android:screenOrientation="portrait"
@@ -229,11 +239,9 @@
         <activity
             android:name=".Settings.SettingBaseActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize" />
-
+            android:screenOrientation="portrait"/>
         <activity
-            android:name="com.bdjobs.app.videoResume.ResumeManagerActivity"
+            android:name=".videoResume.ResumeManagerActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|adjustResize" />

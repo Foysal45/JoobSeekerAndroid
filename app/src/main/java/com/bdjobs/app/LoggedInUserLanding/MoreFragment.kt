@@ -21,11 +21,14 @@ import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.sms.BaseActivity
 import com.bdjobs.app.transaction.TransactionBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
+import com.bdjobs.app.videoResume.VideoResumeActivity
 import kotlinx.android.synthetic.main.fragment_more_layout.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
@@ -39,6 +42,7 @@ class MoreFragment : Fragment() {
     var cvUploadMore: String = ""
     private lateinit var bdjobsDB: BdjobsDB
     private var dialog: Dialog? = null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_more_layout, container, false)!!
@@ -92,9 +96,22 @@ class MoreFragment : Fragment() {
 
         versionInfoTV?.text = "v${activity?.getAppVersion()} (${activity?.getAppVersionCode()})"
 
+        videoResume?.setOnClickListener {
+            navigateToVideoResumePage()
+        }
+
+        ll_video_resume.setOnClickListener{
+            navigateToVideoResumePage()
+        }
+
         employerList_MBTN?.setOnClickListener {
             homeCommunicator.goToFollowedEmployerList("employer")
         }
+
+        video_guide_MBTN?.setOnClickListener {
+            activity?.openUrlInBrowser("https://mybdjobs.bdjobs.com/mybdjobs/videoHelp.asp")
+        }
+
         generalSearch_MBTN?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
         }
@@ -185,6 +202,26 @@ class MoreFragment : Fragment() {
         }
     }
 
+    private fun navigateToVideoResumePage() {
+        if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
+            try {
+                val alertd = alert("To Access this feature please post your resume") {
+                    title = "Your resume is not posted!"
+                    positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
+                    negativeButton("Cancel") { dd ->
+                        dd.dismiss()
+                    }
+                }
+                alertd.isCancelable = false
+                alertd.show()
+            } catch (e: Exception) {
+                logException(e)
+            }
+        } else {
+            startActivity<VideoResumeActivity>()
+        }
+    }
+
 
     private fun goToRateApp(){
         var intent = Intent(Intent.ACTION_VIEW, Uri.parse("appmarket://details?id=com.bdjobs.app"))
@@ -230,10 +267,10 @@ class MoreFragment : Fragment() {
             }
         }
 //
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_manage, "Manage\nResume"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_applied, "Applied\nJobs"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favorite\nSearch"))
-        horizontaList.add(MoreHorizontalData(R.drawable.ic_followed, "Followed\nEmployers"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_manage_resume_more, "Manage\nResume"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_applied_jobs_more, "Applied\nJobs"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_favorite, "Favourite\nSearch"))
+        horizontaList.add(MoreHorizontalData(R.drawable.ic_followed_employers_more, "Followed\nEmployers"))
         horizontaList.add(MoreHorizontalData(R.drawable.ic_emplist_ic, "Employer\nList"))
 
     }

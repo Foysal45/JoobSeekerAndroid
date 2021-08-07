@@ -36,9 +36,9 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:singleLine="true"
-                android:text="Resume Attachment"
+                android:text="Personalized Resume"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -64,6 +64,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:padding="5dp"
+                android:visibility="gone"
                 android:src="@drawable/ic_delete_white60opacity"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -74,144 +75,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageView
-        android:id="@+id/imageView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_doc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
-
-
-    <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/LL1"
-        android:layout_width="217dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-
-        android:background="#FFF6E2"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView17">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/ic_calender_interview_invitation" />
-
-        <TextView
-            android:id="@+id/textView42"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:text="Uploaded On:"
-            android:textColor="#393939"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/textView48"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:text="14th Jan,2019  "
-            android:textColor="#393939"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView44"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="44dp"
-        android:fontFamily="@font/roboto"
-        android:gravity="center"
-        android:text="Download, Share and Email your\nresume from here"
-        android:textColor="#393939"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LL1" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/submitTV"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="82dp"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-
-        android:stateListAnimator="@null"
-        app:backgroundTint="#FFFFFF"
-        app:cornerRadius="2dp"
-        app:icon="@drawable/ic_cloud_download"
-        app:iconTint="#666666"
-        app:layout_constraintEnd_toStartOf="@+id/submitTV1"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView44"
-        app:strokeColor="#D9D9D9"
-        app:strokeWidth="1dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/submitTV1"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:gravity="center"
-
-        app:backgroundTint="#FFFFFF"
-        app:cornerRadius="2dp"
-        app:icon="@drawable/ic_email_black"
-        app:iconTint="#666666"
-        app:layout_constraintEnd_toStartOf="@+id/submitTV3"
-        android:stateListAnimator="@null"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/submitTV"
-        app:layout_constraintTop_toTopOf="@+id/submitTV"
-        app:strokeColor="#D9D9D9"
-        app:strokeWidth="1dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/submitTV3"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="82dp"
-        android:gravity="center"
-        app:backgroundTint="#FFFFFF"
-        app:cornerRadius="2dp"
-        app:icon="@drawable/ic_share_black"
-
-        android:stateListAnimator="@null"
-        app:iconTint="#666666"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/submitTV1"
-        app:layout_constraintTop_toTopOf="@+id/submitTV1"
-        app:strokeColor="#D9D9D9"
-        app:strokeWidth="1dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp" />
 
     <ProgressBar
         android:id="@+id/loadingProgressBar"
@@ -224,7 +87,505 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
-    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loadingProgressBar"
+        app:layout_constraintStart_toStartOf="parent"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/cl_personalized_resume_stat">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_stat_calculated_from"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/bg_light_blue_8_dp"
+                android:text="Statistics calculated from 20 Mar 2021"
+                android:textColor="#0D47A1"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@drawable/ic_info_personalized_resume"
+                android:drawablePadding="10dp"
+                android:padding="8dp"
+                android:fontFamily="@font/roboto"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_stat_calculated_from"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
+                android:text="Statistics of Personalized Resume"
+                android:visibility="gone"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_medium"
+                android:id="@+id/tv_label_stat_personalized_resume"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_stat_personalized_resume"
+                android:id="@+id/cl_stat_personalized_resume">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_personalized_resume_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#EDEDED"
+                    app:cardCornerRadius="7dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.32">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_personalized_resume_view_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:textColor="@color/black"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="50" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_label_personalized_resume"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:maxLines="1"
+                            android:text="Views"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_view_count" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_personalized_resume_count_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_view_personalized_resume" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_personalized_resume_download"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="#EDEDED"
+                    app:cardCornerRadius="7dp"
+                    app:layout_constraintStart_toEndOf="@id/cv_personalized_resume_view"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.32">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_personalized_resume_download_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:textColor="@color/black"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="-" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_label_personalized_resume_download"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:maxLines="1"
+                            android:text="Downloads"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_download_count" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_personalized_resume_download_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_download_personalized_resume" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_personalized_resume_emailed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#EDEDED"
+                    app:cardCornerRadius="7dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/cv_personalized_resume_download"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.32">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_personalized_resume_emailed_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:textColor="@color/black"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="10" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_label_personalized_resume_emailed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:maxLines="1"
+                            android:text="Emailed"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_personalized_resume_emailed_count" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_personalized_resume_emailed_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_email_personalized_resume" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_stat_personalized_resume"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="10dp"
+                app:strokeColor="#E6E6E6"
+                app:strokeWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:padding="12dp"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_file_name_personalized_resume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        app:drawableTopCompat="@drawable/ic_pdf_personalized_resume"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Mybdjobs.pdf" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_last_upload_personalized_resume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="#767676"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_file_name_personalized_resume"
+                        tools:text="Last Upload: 14 Mar 2021" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_last_upload_personalized_resume"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:id="@+id/ll_buttons"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_view_personalized_resume"
+                            style="@style/Widget.MaterialComponents.Button.Icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:stateListAnimator="@null"
+                            app:backgroundTint="#FFFFFF"
+                            app:cornerRadius="2dp"
+                            app:icon="@drawable/ic_visibility_personalized_resume"
+                            app:iconTint="#666666"
+                            app:strokeColor="#D9D9D9"
+                            app:strokeWidth="1dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_download_personalized_resume"
+                            style="@style/Widget.MaterialComponents.Button.Icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:stateListAnimator="@null"
+                            app:backgroundTint="#FFFFFF"
+                            app:cornerRadius="2dp"
+                            android:layout_marginStart="8dp"
+                            app:icon="@drawable/ic_download_personalized_resume_2"
+                            app:iconTint="#666666"
+                            app:strokeColor="#D9D9D9"
+                            app:strokeWidth="1dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_email_personalized_resume"
+                            style="@style/Widget.MaterialComponents.Button.Icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:stateListAnimator="@null"
+                            app:backgroundTint="#FFFFFF"
+                            app:cornerRadius="2dp"
+                            android:layout_marginStart="8dp"
+                            app:icon="@drawable/ic_email_personalized_resume_2"
+                            app:iconTint="#666666"
+                            app:strokeColor="#D9D9D9"
+                            app:strokeWidth="1dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_share_personalized_resume"
+                            style="@style/Widget.MaterialComponents.Button.Icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:stateListAnimator="@null"
+                            app:backgroundTint="#FFFFFF"
+                            app:cornerRadius="2dp"
+                            android:layout_marginStart="8dp"
+                            app:icon="@drawable/ic_share_personalized_resume"
+                            app:iconTint="#666666"
+                            app:strokeColor="#D9D9D9"
+                            app:strokeWidth="1dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_delete_personalized_resume"
+                            style="@style/Widget.MaterialComponents.Button.Icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:stateListAnimator="@null"
+                            app:backgroundTint="#FFFFFF"
+                            app:cornerRadius="2dp"
+                            android:layout_marginStart="8dp"
+                            app:icon="@drawable/ic_delete_personalized_resume"
+                            app:iconTint="#666666"
+                            app:strokeColor="#D9D9D9"
+                            app:strokeWidth="1dp" />
+
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--<androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_doc"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <LinearLayout
+                android:id="@+id/LL1"
+                android:layout_width="217dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:background="#FFF6E2"
+
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView17">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_calender_interview_invitation" />
+
+                <TextView
+                    android:id="@+id/textView42"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Uploaded On:"
+                    android:textColor="#393939"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView48"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="14th Jan,2019  "
+                    android:textColor="#393939"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView44"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="44dp"
+                android:visibility="gone"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:text="Download, Share and Email your\nresume from here"
+                android:textColor="#393939"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/LL1" />-->
+
+            <!--       <com.google.android.material.button.MaterialButton
+                       android:id="@+id/submitTV"
+                       style="@style/Widget.MaterialComponents.Button.Icon"
+                       android:layout_width="50dp"
+                       android:layout_height="50dp"
+                       android:visibility="gone"
+                       android:layout_marginStart="82dp"
+                       android:layout_marginTop="30dp"
+                       android:gravity="center"
+                       android:stateListAnimator="@null"
+                       app:backgroundTint="#FFFFFF"
+                       app:cornerRadius="2dp"
+                       app:icon="@drawable/ic_cloud_download"
+                       app:iconTint="#666666"
+                       app:layout_constraintEnd_toStartOf="@+id/submitTV1"
+                       app:layout_constraintHorizontal_bias="0.5"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toBottomOf="@+id/textView44"
+                       app:strokeColor="#D9D9D9"
+                       app:strokeWidth="1dp" />
+
+                   <com.google.android.material.button.MaterialButton
+                       android:id="@+id/submitTV1"
+                       style="@style/Widget.MaterialComponents.Button.Icon"
+                       android:layout_width="50dp"
+                       android:layout_height="50dp"
+                       android:layout_marginStart="8dp"
+                       android:gravity="center"
+                       android:visibility="gone"
+                       android:stateListAnimator="@null"
+                       app:backgroundTint="#FFFFFF"
+                       app:cornerRadius="2dp"
+                       app:icon="@drawable/ic_email_black"
+                       app:iconTint="#666666"
+                       app:layout_constraintEnd_toStartOf="@+id/submitTV3"
+                       app:layout_constraintHorizontal_bias="0.5"
+                       app:layout_constraintStart_toEndOf="@+id/submitTV"
+                       app:layout_constraintTop_toTopOf="@+id/submitTV"
+                       app:strokeColor="#D9D9D9"
+                       app:strokeWidth="1dp" />
+
+                   <com.google.android.material.button.MaterialButton
+                       android:id="@+id/submitTV3"
+                       style="@style/Widget.MaterialComponents.Button.Icon"
+                       android:layout_width="50dp"
+                       android:layout_height="50dp"
+                       android:layout_marginStart="8dp"
+                       android:layout_marginEnd="82dp"
+                       android:gravity="center"
+                       android:stateListAnimator="@null"
+                       app:backgroundTint="#FFFFFF"
+                       app:cornerRadius="2dp"
+                       android:visibility="gone"
+                       app:icon="@drawable/ic_share_black"
+                       app:iconTint="#666666"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintHorizontal_bias="0.5"
+                       app:layout_constraintStart_toEndOf="@+id/submitTV1"
+                       app:layout_constraintTop_toTopOf="@+id/submitTV1"
+                       app:strokeColor="#D9D9D9"
+                       app:strokeWidth="1dp" />-->
+
+            <!--        <androidx.constraintlayout.widget.Guideline-->
+            <!--            android:id="@+id/guideline9"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:orientation="horizontal"-->
+            <!--            app:layout_constraintGuide_begin="20dp" />-->
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -236,6 +597,6 @@
         ads:adUnitId="@string/banner_ad_unit_id"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent"></com.google.android.gms.ads.AdView>
+        ads:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="question"
             type="com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList.Data" />
@@ -31,8 +31,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="@{`Question ` + question.questionSerialNo + ` of 5`}"
-        tools:text="1 out of 5 "
+        android:text="@{`Question ` + question.questionSerialNo + ` of 6`}"
+        tools:text="1 out of 6 "
        />
 
     <TextView
@@ -49,6 +49,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_question_heading"
         tools:text="Introduce yourself" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_question_bn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#9D0191"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="@{question.questionTextBng}"
+        android:layout_marginTop="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/noto_sans"
+        app:layout_constraintTop_toBottomOf="@id/tv_question"
+        tools:text="নিজের সম্পর্কে কিছু বলুন" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_question_bn"
+        android:layout_marginTop="8dp"
+        android:text="ইংলিশ/ বাংলায় উত্তর দিন"
+        android:fontFamily="@font/noto_sans"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_information_drawable"
+        android:drawablePadding="8dp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_answer_tips"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_info"
+        android:layout_marginTop="8dp"
+        android:text="টিপস: কি বলবেন?"
+        android:fontFamily="@font/noto_sans"
+        android:textColor="#2962FF"
+        android:textSize="12sp"
+        android:drawablePadding="8dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_record"
@@ -74,7 +119,7 @@
         app:iconPadding="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_question" />
+        app:layout_constraintTop_toBottomOf="@id/tv_answer_tips" />
 
     <com.google.android.material.textview.MaterialTextView
         app:drawableTint="@color/black"
@@ -85,6 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@{`Viewed by Employers: ` + question.totalView}"
+        android:visibility="@{question.totalView.equals(`0`) ? View.GONE : View.VISIBLE}"
         tools:text="Viewed by Employers: 100000000"
         android:textColor="@color/black"
         android:fontFamily="@font/roboto_bold"

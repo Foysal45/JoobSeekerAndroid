@@ -108,6 +108,13 @@ class AcademicInfoEditFragment : Fragment() {
         data = eduCB.getData()
 
         cbForInstitute.isChecked = data.instituteType == "1"
+        if(cbForInstitute.isChecked){
+            countryACTV.show()
+            countryTIL.show()
+        }else{
+            countryACTV.hide()
+            countryTIL.hide()
+        }
 
         val resID = data.resultId!!
         hacaID = data.acId.toString()
@@ -135,6 +142,7 @@ class AcademicInfoEditFragment : Fragment() {
 
         majorSubACTV?.setText(data.concentrationMajorGroup)
         instituteNameACTV?.setText(data.instituteName)
+        countryACTV?.setText(data.foreignCountry)
         etResults?.setText(ds.getResultNameByResultID(resID))
         try {
             setView(resID.toInt())
@@ -475,15 +483,24 @@ class AcademicInfoEditFragment : Fragment() {
 
         val institutes = ds.allInstitutes
         val majorSubjects = ds.allInMajorSubjects
+        val foreignCountries = ds.allCountriesWithOutBangladesh
+
         val boardNames: Array<String> = ds.allBoards
         val universityAdapter = ArrayAdapter<String>(activity,
                 android.R.layout.simple_dropdown_item_1line, institutes)
+
         val mejorSubjectAdapter = ArrayAdapter<String>(activity,
                 android.R.layout.simple_dropdown_item_1line, majorSubjects)
 
+        val foreignCountriesAdapter = ArrayAdapter<String>(activity,
+            android.R.layout.simple_dropdown_item_1line, foreignCountries)
 
         majorSubACTV?.setAdapter(mejorSubjectAdapter)
         majorSubACTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+
+        countryACTV?.setAdapter(foreignCountriesAdapter)
+        countryACTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+
         instituteNameACTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
 
         if (instSuggession) {
@@ -631,6 +648,14 @@ class AcademicInfoEditFragment : Fragment() {
         }*/
         cbForInstitute?.setOnCheckedChangeListener { _, isChecked ->
             foreignInstitute = if (isChecked) "1" else "0"
+            if(isChecked){
+                countryACTV.show()
+                countryTIL.show()
+            }else{
+                countryACTV.hide()
+                countryTIL.hide()
+                countryACTV.clearText()
+            }
         }
 
 
@@ -997,7 +1022,9 @@ class AcademicInfoEditFragment : Fragment() {
                         ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
                         etPassignYear.getString(), majorSubACTV.getString(),
                         hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
-                        scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes, boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "" else ds.getBoardIDbyName(etBoard.text.toString()).toString())
+                        scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes,
+                    boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "" else ds.getBoardIDbyName(etBoard.text.toString()).toString(),
+                    foreignCountry = countryACTV.getString())
 
                 call.enqueue(object : Callback<AddorUpdateModel> {
                     override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
@@ -1042,7 +1069,10 @@ class AcademicInfoEditFragment : Fragment() {
                     ds.getEduIDByEduLevel(etLevelEdu.getString()), examdegree, instituteNameACTV.getString(),
                     etPassignYear.getString(), majorSubACTV.getString(),
                     hID, foreignInstitute, "1", ds.getResultIDByResultName(etResults.getString()),
-                    scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(), hacaID, hideRes, boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "" else ds.getBoardIDbyName(etBoard.text.toString()).toString())
+                    scaleORCgpa, gradeOrMarks, etDuration.getString(), etAchievement.getString(),
+                hacaID, hideRes,
+                boardId = if (ds.getBoardIDbyName(etBoard.text.toString()) == -1) "" else ds.getBoardIDbyName(etBoard.text.toString()).toString(),
+                foreignCountry = countryACTV.getString())
 
             call.enqueue(object : Callback<AddorUpdateModel> {
                 override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
@@ -1127,6 +1157,7 @@ class AcademicInfoEditFragment : Fragment() {
         etExamTitle?.clear()
         majorSubACTV?.setText("")
         instituteNameACTV?.setText("")
+        countryACTV?.setText("")
         etResults?.clear()
         cgpaTIET?.clear()
         etScaleTIET?.clear()
@@ -1145,6 +1176,7 @@ class AcademicInfoEditFragment : Fragment() {
         acaPassingYearTIL?.isErrorEnabled = false
         majorSubACTV?.clearFocus()
         instituteNameACTV?.clearFocus()
+        countryACTV?.clearFocus()
 
         etBoard?.clear()
         boardTIL.isErrorEnabled = false

@@ -19,6 +19,8 @@ import kotlinx.android.synthetic.main.layout_perso_view_1.*
 import kotlinx.android.synthetic.main.layout_perso_view_2.*
 import kotlinx.android.synthetic.main.layout_perso_view_3.*
 import kotlinx.android.synthetic.main.layout_perso_view_4.*
+import kotlinx.android.synthetic.main.layout_perso_view_5.*
+import kotlinx.android.synthetic.main.layout_perso_view_6.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -111,6 +113,9 @@ class PersonalDetailsViewFragment : Fragment() {
         tvMaterialSts.text = info?.maritalStatus
         tvNationality.text = info?.nationality
         tvNatid.text = info?.nationalIdNo
+        tv_passport_number.text = info?.passportNumber
+        tv_passport_issue_date.text = info?.passportIssueDate
+        tv_blood_group.text = info?.bloodGroup
     }
 
     private fun shimmerStart() {

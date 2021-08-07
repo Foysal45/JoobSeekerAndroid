@@ -6,14 +6,18 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.webkit.*
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
+import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_web.*
+import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,6 +51,8 @@ class WebActivity : Activity() {
 
     private fun onClick() {
         shareIMGV.show()
+
+        shareIMGV.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.ic_share_black_24dp)
         shareIMGV.setOnClickListener {
             shareHotJob(url)
         }
@@ -97,6 +103,12 @@ class WebActivity : Activity() {
                 suggestiveSearchET.text = "Video Resume"
                 loadUrlWithCookie(url)
             }
+
+            "liveInterview"->{
+                suggestiveSearchET.text = "Live Interview"
+                loadUrlWithCookie(url)
+            }
+
             "hotjobs" -> {
                 suggestiveSearchET.text = "Hot Jobs"
                 try {
@@ -111,8 +123,9 @@ class WebActivity : Activity() {
                 onClick()
             }
             "cvview" -> {
-                suggestiveSearchET.text = "View Resume"
+                suggestiveSearchET.text = "View Bdjobs Resume"
                 loadUrlWithoutCookie(url)
+                showSendButton()
             }
             "reportJob"->{
                 suggestiveSearchET.text = "Report this Job / Company"
@@ -134,11 +147,26 @@ class WebActivity : Activity() {
                 loadUrlWithCookie(url)
             }
 
+            "setUserId"->{
+                suggestiveSearchET.text = "Set/Change User Id"
+                loadUrlWithCookie(url)
+            }
+
             else -> {
                 loadUrlWithoutCookie(url)
             }
         }
 
+    }
+
+    private fun showSendButton() {
+        shareIMGV.show()
+        shareIMGV.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.ic_send_bdjobs_resume)
+        shareIMGV.setOnClickListener {
+            startActivity<ManageResumeActivity>(
+                "from" to "emailResumeCompose",
+            )
+        }
     }
 
     private fun loadUrlWithoutCookie(url: String?) {

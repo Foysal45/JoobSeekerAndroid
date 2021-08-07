@@ -19,7 +19,6 @@ import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHisViewFragm
 import com.bdjobs.app.editResume.employmentHistory.fragments.ArmyEmpHistoryEditFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryEditFragment
 import com.bdjobs.app.editResume.employmentHistory.fragments.EmpHistoryViewFragment
-import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout

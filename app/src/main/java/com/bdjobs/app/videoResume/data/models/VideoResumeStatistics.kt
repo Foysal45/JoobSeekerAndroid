@@ -33,6 +33,8 @@ data class VideoResumeStatistics(
             var totalQuestion: String?,
             @Json(name = "totalAnswered")
             var totalAnswered: String?,
+            @Json(name = "totalSubmitedVdo")
+            var totalSubmitedVdo: String?,
             @Json(name = "threshold")
             var threshold: String?,
             @Json(name = "resumeVisibility")

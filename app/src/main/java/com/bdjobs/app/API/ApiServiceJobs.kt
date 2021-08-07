@@ -280,6 +280,7 @@ interface ApiServiceJobs {
             @Field("JobSex") JobSex: String? = "",
             @Field("JobPhotograph") JobPhotograph: String? = "",
             @Field("encoded") encoded: String? = "",
+            @Field("CvUpateLater") cvUpateLater: String? = "",
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<ApplyOnlineModel>
 
@@ -293,8 +294,18 @@ interface ApiServiceJobs {
             @Field("JobSex") JobSex: String? = "",
             @Field("JobPhotograph") JobPhotograph: String? = "",
             @Field("encoded") encoded: String? = "",
+            @Field("CvUpateLater") cvUpateLater: String? = "0",
             @Query("appId") appId :String? = Constants.APP_ID
     ): Call<ApplyEligibilityModel>
+
+    @FormUrlEncoded
+    @POST("ApplicantCVUptodate.asp")
+    fun updateCV(
+        @Field("uID") userID: String? = "",
+        @Field("idCode") decodeID: String? = "",
+        @Field("updateLater") updateLater: String? = "",
+        @Query("appId") appId :String? = Constants.APP_ID
+    ) : Call<CvUpdateLaterModel>
 
 
     @FormUrlEncoded

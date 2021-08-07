@@ -104,5 +104,9 @@
             android:name="url"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="question"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

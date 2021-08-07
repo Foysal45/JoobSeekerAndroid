@@ -1,7 +1,7 @@
 package com.bdjobs.app.Settings
 
-import android.app.Activity
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
 import com.bdjobs.app.R
@@ -14,12 +14,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SettingBaseActivity : Activity(), SettingsCommunicator {
+class SettingBaseActivity : FragmentActivity(), SettingsCommunicator {
 
     private val logoutFragment = LogoutFragment()
 
+    private var from:String?= null
+
     override fun gotoChangePasswordFragment() {
         transitFragment(changePasswordFragment, R.id.fragmentHolder, true)
+    }
+
+    override fun gotoResumePrivacyFragment() {
+        transitFragment(resumePrivacyFragment,R.id.fragmentHolder,true)
     }
 
     override fun backButtonPressed() {
@@ -28,11 +34,15 @@ class SettingBaseActivity : Activity(), SettingsCommunicator {
 
     lateinit var bdjobsUserSession: BdjobsUserSession
     private val changePasswordFragment = ChangePasswordFragment()
+    private val resumePrivacyFragment = ResumePrivacyFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting_base)
         bdjobsUserSession = BdjobsUserSession(this@SettingBaseActivity)
-        transitFragment(logoutFragment, R.id.fragmentHolder)
+        from = intent.getStringExtra("from")
+
+        if (from=="dashboard") transitFragment(resumePrivacyFragment,R.id.fragmentHolder,false)
+        else transitFragment(logoutFragment, R.id.fragmentHolder,false)
         /*    signOutBTN.setOnClickListener {
                 logout()
             }

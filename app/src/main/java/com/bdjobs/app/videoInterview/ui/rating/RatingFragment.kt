@@ -19,10 +19,7 @@ import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsV
 import com.bdjobs.app.videoInterview.util.EventObserver
 import kotlinx.android.synthetic.main.fragment_rating.*
 import kotlinx.android.synthetic.main.fragment_rating.tool_bar
-import kotlinx.android.synthetic.main.fragment_video_interview_details.*
 import org.jetbrains.anko.sdk27.coroutines.onRatingBarChange
-import org.jetbrains.anko.support.v4.toast
-import timber.log.Timber
 
 class RatingFragment : Fragment() {
 

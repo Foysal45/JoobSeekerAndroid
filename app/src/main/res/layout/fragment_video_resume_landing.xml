@@ -64,17 +64,34 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tv_intro"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:text="@string/video_resume_intro"
                         android:textColor="#9D0191"
                         android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@id/img_banner"
+                        app:layout_constraintBottom_toTopOf="@id/tv_intro_yt_link"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/img_banner"
                         app:layout_constraintTop_toTopOf="@id/img_banner"
                         tools:text="@string/video_resume_intro" />
+
+                    <TextView
+                        android:id="@+id/tv_intro_yt_link"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Video Guide"
+                        android:textColor="@color/com_facebook_blue"
+                        android:textSize="12sp"
+                        android:clickable="true"
+                        app:layout_constraintBottom_toBottomOf="@id/img_banner"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/img_banner"
+                        app:layout_constraintTop_toBottomOf="@id/tv_intro"
+                        tools:text="Video Guide" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -121,17 +138,31 @@
                         tools:text="60%" />
 
                     <TextView
+                        android:id="@+id/tv_completeness"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="@{`Completed `+  viewModel.statusPercentage + `% of Video Resume`}"
+                        android:text="@{`Completeness (`+  viewModel.totalAnswered + `/`+ viewModel.totalQuestions +`)`}"
                         android:textColor="#9D0191"
                         app:layout_constraintBottom_toBottomOf="@id/circularProgressbar"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/circularProgressbar"
                         app:layout_constraintTop_toTopOf="@id/circularProgressbar"
-                        tools:text="Completed 60% of Video Resume" />
+                        tools:text="Completeness(3/6)" />
+
+                    <TextView
+                        android:id="@+id/tv_last_update"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Last updated on: "
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@id/circularProgressbar"
+                        app:layout_constraintStart_toStartOf="@id/tv_completeness"
+                        app:layout_constraintTop_toBottomOf="@id/tv_completeness"/>
 
                     <View
                         android:id="@+id/view"
@@ -142,43 +173,33 @@
                         android:layout_marginEnd="10dp"
                         android:background="#E6E6E6"
                         android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintTop_toBottomOf="@id/circularProgressbar" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_last_update" />
 
-                    <TextView
-                        android:id="@+id/tv_last_update"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
-                        android:layout_marginTop="14dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Last Update"
-                        android:textColor="@color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/view" />
+
 
                     <TextView
                         android:id="@+id/tv_total_viewed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:layout_marginTop="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="Total Viewed"
+                        android:text="No. of times viewed"
                         android:textColor="@color/black"
+                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_last_update" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_company_view" />
 
                     <TextView
                         android:id="@+id/tv_total_company_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:layout_marginTop="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="Total company View"
+                        android:text="No. of companies viewed"
                         android:textColor="@color/black"
+                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_total_viewed" />
+                        app:layout_constraintTop_toBottomOf="@id/view" />
 
                     <TextView
                         android:id="@+id/tv_overall_rating"
@@ -190,22 +211,21 @@
                         android:text="Overall Ratings"
                         android:textColor="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_total_company_view" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_viewed" />
 
                     <TextView
                         android:id="@+id/tv_public"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:layout_marginTop="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? "Currently showing to employer" : "Currently not showing"}'
+                        android:text='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? "Show to Employer(s)" : "Show to Employer(s)"}'
                         android:textColor="@color/black"
-                        tools:text="Currently not showing"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:visibility="@{viewModel.showResumeVisibilityView ? View.VISIBLE : View.GONE}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_overall_rating"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:text="Show to Employer(s)" />
 
                     <ImageView
                         android:background="?attr/selectableItemBackgroundBorderless"
@@ -213,12 +233,28 @@
                         android:backgroundTint="@color/black"
                         android:src="@drawable/ic_info_black_12dp"
                         android:layout_marginStart="5dp"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{viewModel.showResumeVisibilityView ? View.VISIBLE : View.GONE}"
                         app:layout_constraintTop_toTopOf="@id/tv_public"
                         app:layout_constraintBottom_toBottomOf="@id/tv_public"
                         app:layout_constraintStart_toEndOf="@id/tv_public"
                         android:layout_width="18dp"
                         android:layout_height="18dp"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_resume_invisible_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_public"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="@font/roboto"
+                        android:visibility='@{viewModel.showNoAnimatorView ? View.VISIBLE : View.GONE}'
+                        android:textColor="#721C24"
+                        app:drawableStartCompat="@drawable/ic_visibility_indicator"
+                        android:drawablePadding="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="12sp"
+                        android:id="@+id/tv_resume_invisible_text"/>
 
                     <TextView
                         android:id="@+id/tv_last_update_value"
@@ -226,9 +262,9 @@
                         android:layout_height="wrap_content"
                         android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                         android:text="@{viewModel.lastUpdate}"
-                        android:textColor="#4D4D4D"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/tv_last_update"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_last_update"
                         app:layout_constraintTop_toTopOf="@id/tv_last_update"
                         tools:text="30 Jun 2020" />
 
@@ -272,19 +308,74 @@
                         app:layout_constraintTop_toTopOf="@id/tv_overall_rating"
                         tools:rating="3" />
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switch_public"
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:minHeight="0dp"
-                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
-                        android:checked='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? true : false}'
-                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"
+                        app:srcCompat="@drawable/ic_yes_animator_resume_visibiliey"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_public"
+                        app:layout_constraintEnd_toStartOf="@id/switch_public"
+                        android:visibility='@{viewModel.showNoAnimatorView ? View.VISIBLE : View.GONE}'
+                        app:layout_constraintTop_toTopOf="@id/img_info"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/iv_yes_animator"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/switch_public"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:visibility="@{viewModel.showResumeVisibilityView ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@id/tv_public"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/img_info"
-                        app:thumbTint="@color/green"
-                        app:useMaterialThemeColors="false" />
+                        android:background="@drawable/border_round_5_dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_yes_show"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            backgroundAppearanceYes="@{viewModel.yesSelected}"
+                            android:paddingHorizontal="8dp"
+                            android:text="Yes"
+                            android:gravity="center_vertical"
+                            android:textAllCaps="false"
+                            android:fontFamily="@font/roboto"
+                            android:drawablePadding="5dp"
+                            android:onClick="@{()->viewModel.onYesClicked()}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_no_show"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="8dp"
+                            android:text="No"
+                            backgroundAppearanceNo="@{viewModel.noSelected}"
+                            android:gravity="center_vertical"
+                            android:textAllCaps="false"
+                            android:fontFamily="@font/roboto"
+                            android:drawablePadding="5dp"
+                            android:onClick="@{()->viewModel.onNoClicked()}"
+                            app:layout_constraintStart_toEndOf="@id/tv_yes_show"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+<!--                    <com.google.android.material.switchmaterial.SwitchMaterial-->
+<!--                        android:id="@+id/switch_public"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:minHeight="0dp"-->
+<!--                        android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"-->
+<!--                        android:checked='@{viewModel.isAlertOn().equalsIgnoreCase("1") ? true : false}'-->
+<!--                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/tv_public"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/img_info"-->
+<!--                        app:thumbTint="@color/green"-->
+<!--                        app:useMaterialThemeColors="false" />-->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -313,13 +404,13 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center_vertical"
                     android:letterSpacing="0"
-                    android:text="View / Edit Video"
+                    android:text="View/ Record Video"
                     android:textAllCaps="false"
                     android:textColor="#212121"
+                    android:visibility="@{viewModel.showStat ? View.VISIBLE : View.GONE}"
                     app:icon="@drawable/ic_edit_video"
                     app:iconPadding="32dp"
                     app:iconTint="#666666"
@@ -346,6 +437,44 @@
                     app:layout_constraintTop_toBottomOf="@+id/btn_edit_video" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_video_tutorial"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_vertical"
+                    android:letterSpacing="0"
+                    android:text="Video Tutorial"
+                    android:textAllCaps="false"
+                    android:textColor="#212121"
+                    app:icon="@drawable/ic_vr_video_tutorial_link"
+                    app:iconPadding="32dp"
+                    app:iconTint="#666666"
+                    app:layout_constraintEnd_toEndOf="@+id/cl_data"
+                    app:layout_constraintStart_toStartOf="@id/cl_banner"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_guidelines" />
+
+                <TextView
+                    android:id="@+id/tv_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_new_question"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="5dp"
+                    android:paddingStart="4dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="2dp"
+                    android:text="NEW"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toTopOf="@+id/btn_video_tutorial"
+                    app:layout_constraintEnd_toEndOf="@id/btn_video_tutorial"
+                    app:layout_constraintStart_toStartOf="@+id/btn_video_tutorial"/>
+
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_view_questions"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="0dp"
@@ -361,7 +490,7 @@
                     app:iconTint="#666666"
                     app:layout_constraintEnd_toEndOf="@+id/cl_data"
                     app:layout_constraintStart_toStartOf="@id/cl_banner"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_guidelines" />
+                    app:layout_constraintTop_toBottomOf="@+id/btn_video_tutorial" />
 
                 <TextView
                     android:layout_width="wrap_content"

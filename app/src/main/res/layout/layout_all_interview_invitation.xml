@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_live_interview" />
+                    app:srcCompat="@drawable/ic_live_interview_home" />
 
                 <TextView
                     android:id="@+id/tv_live_interview"
@@ -178,7 +178,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_home_general_interview" />
+                    app:srcCompat="@drawable/ic_general_interview_purple" />
 
                 <TextView
                     android:id="@+id/tv_general_interview"

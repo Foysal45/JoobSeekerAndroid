@@ -2,10 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/live_interview_nav_graph">
+    android:id="@+id/live_interview_nav_graph"
+    app:startDestination="@id/interviewSessionFragment">
 
     <fragment
         android:id="@+id/liveInterviewDetailsFragment"
+        android:label="Live Interview Details"
         android:name="com.bdjobs.app.liveInterview.ui.interview_details.LiveInterviewDetailsFragment"
         tools:layout="@layout/fragment_live_interview_details">
         <argument
@@ -14,6 +16,28 @@
         <argument
             android:name="jobTitle"
             app:argType="string" />
+        <action
+            android:id="@+id/action_liveInterviewDetailsFragment_to_recordVideoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:destination="@id/recordVideoFragment" />
+        <action
+            android:id="@+id/action_liveInterviewDetailsFragment_to_audioRecordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:destination="@id/audioRecordFragment" />
+
+        <action
+            android:id="@+id/action_liveInterviewDetailsFragment_to_interviewSessionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:destination="@id/interviewSessionFragment" />
     </fragment>
     <fragment
         android:id="@+id/liveInterviewListFragment"
@@ -24,4 +48,61 @@
             android:id="@+id/action_liveInterviewListFragment_to_liveInterviewDetailsFragment"
             app:destination="@id/liveInterviewDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/recordVideoFragment"
+        android:name="com.bdjobs.app.liveInterview.ui.record_video.RecordVideoFragment"
+        android:label="Test Recording"
+        tools:layout="@layout/fragment_video_record" >
+        <action
+            android:id="@+id/action_recordVideoFragment_to_viewRecordedVideoFragment"
+            app:destination="@id/viewRecordedVideoFragment" />
+        <action
+            android:id="@+id/action_recordVideoFragment_self"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:destination="@id/recordVideoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewRecordedVideoFragment"
+        android:name="com.bdjobs.app.liveInterview.ui.view_video.ViewRecordedVideoFragment"
+        android:label="Test Recording"
+        tools:layout="@layout/fragment_view_recorded_video" />
+    <fragment
+        android:id="@+id/audioRecordFragment"
+        android:name="com.bdjobs.app.liveInterview.ui.audio_record.AudioRecordFragment"
+        android:label="Check Audio / Video"
+        tools:layout="@layout/fragment_audio_record" />
+
+    <fragment
+        android:id="@+id/interviewSessionFragment"
+        android:name="com.bdjobs.app.liveInterview.ui.interview_session.InterviewSessionFragment"
+        android:label="Interview Session"
+        tools:layout="@layout/fragment_interview_session" >
+        <action
+            android:id="@+id/action_interviewSessionFragment_to_liveInterviewDetailsFragment"
+            app:destination="@id/liveInterviewDetailsFragment" />
+        <argument
+            android:name="jobID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="jobTitle"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="processID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="applyID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="companyName"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
 </navigation>

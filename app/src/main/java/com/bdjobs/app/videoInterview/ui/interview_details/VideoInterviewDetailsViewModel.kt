@@ -32,11 +32,11 @@ class VideoInterviewDetailsViewModel(private val repository: VideoInterviewRepos
     }
     val jobId: LiveData<String> = _jobId
 
-    private val _applyId = MutableLiveData<String>()
-    val applyId: LiveData<String> = _applyId
+    private val _applyId = MutableLiveData<String?>()
+    val applyId: LiveData<String?> = _applyId
 
-    private val _jobTitle = MutableLiveData<String>()
-    val jobTitle: LiveData<String> = _jobTitle
+    private val _jobTitle = MutableLiveData<String?>()
+    val jobTitle: LiveData<String?> = _jobTitle
 
     init {
 //        getVideoInterviewDetails()

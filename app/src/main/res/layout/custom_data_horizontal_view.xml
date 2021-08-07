@@ -65,7 +65,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
-        tools:src="@drawable/ic_manage"
+        tools:src="@drawable/ic_manage_resume_more"
         />
 
     <TextView

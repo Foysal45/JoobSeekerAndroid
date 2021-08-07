@@ -35,7 +35,6 @@
 
             <ImageView
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="#CCCCCC"
                 android:id="@+id/img_close"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -43,7 +42,8 @@
                 android:src="@drawable/account_cross_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="#CCCCCC" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -81,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="Skip"
+        android:text="স্কিপ"
         android:textAllCaps="false"
         android:letterSpacing="0"
         app:elevation="0dp"

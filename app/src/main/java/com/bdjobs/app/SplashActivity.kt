@@ -26,6 +26,7 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.SessionManger.DeviceProtectedSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
@@ -90,6 +91,9 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
                 .build()
         remoteConfig.setConfigSettingsAsync(configSettings)
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+
+        val deviceProtectedSession = DeviceProtectedSession(this)
+        deviceProtectedSession.isLoggedIn = bdjobsUserSession.isLoggedIn
 
     }
 

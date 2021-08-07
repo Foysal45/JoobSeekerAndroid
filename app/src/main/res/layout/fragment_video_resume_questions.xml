@@ -157,6 +157,19 @@
                                 app:layout_constraintStart_toStartOf="@id/img_question5"
                                 app:layout_constraintTop_toBottomOf="@id/img_question5" />
 
+                            <TextView
+                                android:id="@+id/tv_q6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Q6"
+                                android:textColor="#999999"
+                                android:textSize="12sp"
+                                app:layout_constraintEnd_toEndOf="@id/img_question6"
+                                app:layout_constraintStart_toStartOf="@id/img_question6"
+                                app:layout_constraintTop_toBottomOf="@id/img_question6" />
+
                             <View
                                 android:id="@+id/line_view_question2"
                                 android:layout_width="30dp"
@@ -205,6 +218,18 @@
                                 app:layout_constraintStart_toEndOf="@id/img_question4"
                                 app:layout_constraintTop_toTopOf="@id/img_question1" />
 
+                            <View
+                                android:id="@+id/line_view_question6"
+                                android:layout_width="30dp"
+                                android:layout_height="3dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:background="#DBDBDB"
+                                app:layout_constraintBottom_toBottomOf="@id/img_question1"
+                                app:layout_constraintEnd_toStartOf="@id/img_question6"
+                                app:layout_constraintStart_toEndOf="@id/img_question5"
+                                app:layout_constraintTop_toTopOf="@id/img_question1" />
+
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/img_question1"
                                 android:layout_width="wrap_content"
@@ -251,6 +276,16 @@
                                 android:layout_marginStart="5dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/line_view_question5"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:srcCompat="@drawable/ic_question_not_recorded" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/img_question6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/line_view_question6"
                                 app:layout_constraintTop_toTopOf="parent"
                                 tools:srcCompat="@drawable/ic_question_not_recorded" />
 
@@ -377,6 +412,62 @@
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#333333"
+            app:cardCornerRadius="7dp"
+            app:cardElevation="5dp"
+            android:layout_margin="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_resume_visibility"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{viewModel.showVideoResumeToEmployers ? View.VISIBLE : View.GONE}"
+                android:padding="12dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_label_visibility"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/label_resume_visibility_to_employer_s"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/white"
+                    videoResumeTextDrawable="@{viewModel.isVideoResumeVisible()}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_visibility"
+                    tools:text="No" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_change_visibility"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/label_change"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

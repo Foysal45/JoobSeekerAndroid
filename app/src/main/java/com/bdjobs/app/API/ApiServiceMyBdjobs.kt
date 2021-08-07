@@ -8,8 +8,8 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejo
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
 import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
-import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
-import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
+import com.bdjobs.app.liveInterview.data.models.*
+import com.bdjobs.app.resume_dashboard.data.models.*
 import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.transaction.data.model.TransactionList
@@ -325,6 +325,9 @@ interface ApiServiceMyBdjobs {
             @Field("gender") gender: String? = "",
             @Field("nationalId") nationalId: String? = "",
             @Field("Religion") Religion: String? = "",
+            @Field("passportNumber") passportNumber: String? = "",
+            @Field("passportIssueDate") passportIssueDate: String? = "",
+            @Field("bloodGroup") bloodGroup: String? = "",
             @Field("appId") appId: String? = Constants.APP_ID
     ): Call<AddorUpdateModel>
 
@@ -351,7 +354,8 @@ interface ApiServiceMyBdjobs {
             @Field("hEd_id") hEd_id: String? = "",
             @Field("chkResult") chkResult: String? = "",
             @Field("boardId") boardId: String? = "",
-            @Field("appId") appId: String? = Constants.APP_ID
+            @Field("appId") appId: String? = Constants.APP_ID,
+            @Field("foreignCountry") foreignCountry: String? = ""
     ): Call<AddorUpdateModel>
 
     @FormUrlEncoded
@@ -381,21 +385,22 @@ interface ApiServiceMyBdjobs {
      * Param: 4 -> Skill
      * Param: 5 -> Institution
      * Param: 6 -> Concentration/Major/Group
+     * Param: 8 -> Employer List
      */
     @GET("apps_auto_suggestion.asp")
     fun fetchAutoSuggestion(
-            @Query("term") term:String? = "",
-            @Query("param") param:String? = "",
-            @Query("con") con:String? = "",
-            @Query("ver") ver:String? = "EN/BN",
-            @Query("examTitleVal") examTitleVal:String? = "",
-    ) : Call<AutoSuggestionModel>
+            @Query("term") term: String? = "",
+            @Query("param") param: String? = "",
+            @Query("con") con: String? = "",
+            @Query("ver") ver: String? = "EN/BN",
+            @Query("examTitleVal") examTitleVal: String? = ""
+    ): Call<AutoSuggestionModel>
 
     @FormUrlEncoded
     @POST("apps_skill_list.asp")
     fun workSkillSuggestionsBC(
-            @Field("cat_id") categoryID:String? = ""
-    ) : Call<BCWorkSkillModel>
+            @Field("cat_id") categoryID: String? = ""
+    ): Call<BCWorkSkillModel>
 
     @FormUrlEncoded
     @POST("apps_step_03_update_rai.asp")
@@ -783,6 +788,19 @@ interface ApiServiceMyBdjobs {
     ): Call<EmpVwdResume>
 
     @FormUrlEncoded
+    @POST("apps_resume_view_status.asp")
+    fun getEmployerViewedResume(
+        @Field("userID") userId: String? = "",
+        @Field("decodeID") decodeId: String? = "",
+        @Field("pageNumber") pageNumber: String? = "",
+        @Field("itemsPerPage") itemsPerPage: String? = "",
+        @Field("fromDate") fromDate: String? = "",
+        @Field("toDate") toDate: String? = "",
+        @Field("compName") compName: String? = "",
+        @Field("txtStatus") txtStatus: String? = "",
+    ) : Call<EmpViewedResumeModel>
+
+    @FormUrlEncoded
     @POST("app_invite_interview_details.asp")
     fun getIterviewInvitationDetails(
             @Field("userId") userID: String? = "",
@@ -835,8 +853,8 @@ interface ApiServiceMyBdjobs {
             @Field("rating") rating: String?,
             @Field("feedbackComment") feedbackComment: String?,
             @Field("featureName") featureName: String?,
-            @Field("appId") appId: String?,
-    ) : InterviewFeedback
+            @Field("appId") appId: String?
+    ): InterviewFeedback
 
 
     @FormUrlEncoded
@@ -1071,7 +1089,8 @@ interface ApiServiceMyBdjobs {
             @Field("pageNumber") pageNumber: String? = "",
             @Field("itemsPerPage") itemsPerPage: String? = "",
             @Field("isActivityDate") isActivityDate: String? = "",
-            @Field("appId") appId: String? = Constants.APP_ID
+            @Field("appId") appId: String? = Constants.APP_ID,
+            @Field("resumeType") resumeType: String? = "",
 
     ): Call<TimesEmailed>
 
@@ -1146,17 +1165,18 @@ interface ApiServiceMyBdjobs {
             @Field("userId") userID: String?,
             @Field("decodeId") decodeID: String?,
             @Field("appId") appId: String?
-    ) : SMSSettings
+    ): SMSSettings
 
     @FormUrlEncoded
     @POST("apps_sms_settings_update.asp")
     suspend fun updateSMSSettings(
+
             @Field("userId") userID: String?,
             @Field("decodeId") decodeID: String?,
             @Field("appId") appId: String?,
             @Field("dailySmsLimit") dailySMSLimit: Int?,
             @Field("smsAlertOn") alertOn: Int?
-    ) : CommonResponse
+    ): CommonResponse
 
 
     @FormUrlEncoded
@@ -1180,9 +1200,9 @@ interface ApiServiceMyBdjobs {
             @Field("appId") appId: String? = "",
             @Field("totalQuantity") totalQuantity: String? = "",
             @Field("totalAmount") totalAmount: String? = "",
-            @Field("serviceId") serviceId: Int? ,
+            @Field("serviceId") serviceId: Int?,
             @Field("isFree") isFree: String? = "",
-            @Field("ip") ip : String? = ""
+            @Field("ip") ip: String? = ""
     ): PaymentInfoBeforeGateway
 
     @FormUrlEncoded
@@ -1193,25 +1213,25 @@ interface ApiServiceMyBdjobs {
             @Field("appId") appId: String? = "",
             @Field("tran_id") tranId: String? = "",
             @Field("card_type") cardType: String? = "",
-            @Field("store_amount") storeAmount: String? ,
+            @Field("store_amount") storeAmount: String?,
             @Field("val_id") valId: String? = "",
             @Field("status") status: String? = "",
             @Field("currency_type") currencyType: String? = "",
             @Field("tran_date") tranDate: String? = "",
-            @Field("ip") ip : String? = ""
-    ) : PaymentInfoAfterGateway
+            @Field("ip") ip: String? = ""
+    ): PaymentInfoAfterGateway
 
-   /* @FormUrlEncoded
-    @POST("apps_subscribe_sms_follow_employer.asp")
-    fun subscribeOrUnsubscribeSMSFromFollowedEmployers(
-            @Field("userId") userId: String? = "",
-            @Field("decodeId") decodeId: String? = "",
-            @Field("followId") followId: String? = "",
-            @Field("companyId") companyId: String? = "",
-            @Field("action") action: Int?,
-            @Field("appId") appId: String? = Constants.APP_ID
+    /* @FormUrlEncoded
+     @POST("apps_subscribe_sms_follow_employer.asp")
+     fun subscribeOrUnsubscribeSMSFromFollowedEmployers(
+             @Field("userId") userId: String? = "",
+             @Field("decodeId") decodeId: String? = "",
+             @Field("followId") followId: String? = "",
+             @Field("companyId") companyId: String? = "",
+             @Field("action") action: Int?,
+             @Field("appId") appId: String? = Constants.APP_ID
 
-    ) : Call<EmployerSubscribeModel>*/
+     ) : Call<EmployerSubscribeModel>*/
 
     @FormUrlEncoded
     @POST("apps_subscribe_sms_follow_employer.asp")
@@ -1245,6 +1265,16 @@ interface ApiServiceMyBdjobs {
     ): LiveInterviewDetails
 
     @FormUrlEncoded
+    @POST("apps_live_interview_applicant_ready_status.asp")
+    suspend fun applicantStatusInfo(
+            @Field("userId") userID: String? = "",
+            @Field("decodeId") decodeID: String? = "",
+            @Field("applyId") applyId: String? = "",
+            @Field("processId") processId: String? = "",
+            @Field("applicantStatus") applicantStatus: String? = ""
+    ) : ApplicantStatusModel
+
+    @FormUrlEncoded
     @POST("app_invite_interview_confirmation.asp")
     suspend fun sendInterviewConfirmationLive(
             @Field("userId") userID: String? = "",
@@ -1258,6 +1288,76 @@ interface ApiServiceMyBdjobs {
             @Field("appId") appId: String? = Constants.APP_ID
     ): LiveInterviewDetails
 
+    @GET("https://corporate3.bdjobs.com/Applicant_Process_Set_Live_interview_room_StartEndCall.asp")
+    suspend fun startEndCall(
+        @Query("processid") processid: String?,
+        @Query("applyid") applyid: String?,
+        @Query("requestFor") requestFor: String?
+    ): StartEndCallModel
+
+    @FormUrlEncoded
+    @POST("apps_live_interview_room_set_chat.asp")
+    suspend fun postChatMessages(
+            @Field("userId") userID: String? = "",
+            @Field("decodeId") decodeID: String? = "",
+            @Field("processId") processId: String? = "",
+            @Field("chatText") chatText: String? = "",
+            @Field("hostType") hostType: String? = "",
+            @Field("strUserId") strUserId: String? = "0",
+            @Field("strTargetUser") strTargetUser: String? = "0"
+    ): PostChatModel
+
+    @FormUrlEncoded
+    @POST("https://mybdjobs.bdjobs.com/mybdjobs/onlinechat/live_interview_room_chat_info_v2.asp")
+    suspend fun chatLog(
+            @Field("prId") processId: String?
+    ): ChatLogModel
+
+
+    // resume dashboard
+
+    @FormUrlEncoded
+    @POST("apps_resume_emailOrView_count.asp")
+    suspend fun manageResumeStats(
+        @Field("userId") userID: String? = "",
+        @Field("decodeId") decodeID: String? = "",
+        @Field("appId") appID: String? = "",
+    ) : ManageResumeStats
+
+    @FormUrlEncoded
+    @POST("apps_resume_privacy_view.asp")
+    suspend fun resumePrivacyStatus(
+        @Field("userId") userID: String? = "",
+        @Field("decodeId") decodeID: String? = "",
+    ) : ResumePrivacyStatus
+
+    @FormUrlEncoded
+    @POST("apps_all_resumes_stats.asp")
+    suspend fun manageResumeDetailsStat(
+        @Field("userId") userID: String? = "",
+        @Field("decodeId") decodeID: String? = "",
+        @Field("cvPosted") cvPosted:String?=""
+    ) : ManageResumeDetailsStat
+
+    @FormUrlEncoded
+    @POST("apps_personalize_resume_stats.asp")
+    suspend fun personalizedResumeStat(
+        @Field("userID") userID: String? = "",
+        @Field("decodeID") decodeID: String? = "",
+        @Field("cvPosted") cvPosted:String?=""
+    ) : PersonalizedResumeStat
+
+    @FormUrlEncoded
+    @POST("apps_resume_visibility_status_update.asp")
+    suspend fun resumePrivacyUpdate(
+        @Field("userID") userID: String? = "",
+        @Field("decodeID") decodeID: String? = "",
+        @Field("employerList") employerList: String? = "",
+        @Field("statusType") statusType: String? = "",
+    ) : ResumePrivacyUpdate
+
+
+
     companion object Factory {
         @Volatile
         private var retrofit: Retrofit? = null
@@ -1267,6 +1367,16 @@ interface ApiServiceMyBdjobs {
 
             retrofit ?: synchronized(this) {
                 retrofit = buildRetrofit()
+            }
+
+            return retrofit?.create(ApiServiceMyBdjobs::class.java)!!
+        }
+
+        @Synchronized
+        fun createChat(): ApiServiceMyBdjobs {
+
+            retrofit ?: synchronized(this) {
+                retrofit = buildRetrofitChat()
             }
 
             return retrofit?.create(ApiServiceMyBdjobs::class.java)!!
@@ -1287,6 +1397,28 @@ interface ApiServiceMyBdjobs {
 
             return Retrofit.Builder().apply {
                 baseUrl(Constants.baseUrlMyBdjobs)
+                addConverterFactory(GsonConverterFactory.create(gson)).addConverterFactory(MoshiConverterFactory.create(moshi))
+                if (BuildConfig.DEBUG) {
+                    client(okHttpClient)
+                }
+            }.build()
+        }
+
+        private fun buildRetrofitChat(): Retrofit {
+
+            val gson = GsonBuilder()
+                    .setLenient()
+                    .create()
+
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+            val okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(interceptor)
+                    .build()
+
+            return Retrofit.Builder().apply {
+                baseUrl(Constants.baseUrlMyBdjobsChat)
                 addConverterFactory(GsonConverterFactory.create(gson)).addConverterFactory(MoshiConverterFactory.create(moshi))
                 if (BuildConfig.DEBUG) {
                     client(okHttpClient)

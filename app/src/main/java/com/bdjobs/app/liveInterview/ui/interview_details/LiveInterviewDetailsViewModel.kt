@@ -7,7 +7,6 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.CountDownTimer
 import android.provider.CalendarContract
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,7 +18,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.anko.doAsync
 import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -49,16 +47,28 @@ class LiveInterviewDetailsViewModel(
         value = false
     }
 
-    val showBlackInfoSection = MutableLiveData<Boolean>().apply {
-        value = false
-    }
+    val showPreparationSection = MutableLiveData<Boolean>().apply { value = false }
+    val showJoinSection = MutableLiveData<Boolean>().apply { value = false }
+    val showJoinInterviewSmallBTN = MutableLiveData<Boolean>().apply { value = false }
 
-    val showTooltip = MutableLiveData<Event<Boolean>>().apply {
-        value = Event(false)
+    private val _jobID = MutableLiveData<String>().apply {
+        value = jobId
     }
+    val jobID: LiveData<String> = _jobID
 
-    val examDate = MutableLiveData<String>()
-    val examTime = MutableLiveData<String>()
+    private val _applyID = MutableLiveData<String>().apply {
+        value = applyId
+    }
+    val applyID: LiveData<String> = _applyID
+
+    private val _processID = MutableLiveData<String?>()
+    val processID: MutableLiveData<String?> = _processID
+
+    private val _levelStatus = MutableLiveData<String?>()
+    val levelStatus: MutableLiveData<String?> = _levelStatus
+
+    val examDate = MutableLiveData<String?>()
+    val examTime = MutableLiveData<String?>()
 
     val remainingDays = MutableLiveData<String>()
     val remainingHours = MutableLiveData<String>()
@@ -78,14 +88,18 @@ class LiveInterviewDetailsViewModel(
 
     val showToast = MutableLiveData<Event<String>>()
     val showUndoSnackbar = MutableLiveData<Event<Boolean>>()
+
     val addToCalendarClickEvent = MutableLiveData<Event<Boolean>>()
     val onAddedToCalendarEvent = MutableLiveData<Event<Boolean>>()
+    val takePreparationClickEvent = MutableLiveData<Event<Boolean>>()
+    val joinInterviewClickEvent = MutableLiveData<Event<Boolean>> ()
 
     lateinit var timer: CountDownTimer
 
     init {
         getAllCalendars()
         getLiveInterviewDetails()
+
     }
 
     private fun getLiveInterviewDetails() {
@@ -108,8 +122,11 @@ class LiveInterviewDetailsViewModel(
                 examDate.value = liveInterviewDetailsData.value?.get(0)?.examDate
                 examTime.value = liveInterviewDetailsData.value?.get(0)?.examTime
                 interviewDateTime = "${liveInterviewDetailsData.value?.get(0)?.examDate} ${liveInterviewDetailsData.value?.get(0)?.examTime}"
+                _processID.value = liveInterviewDetailsData.value?.get(0)?.processId
+                _levelStatus.value = liveInterviewDetailsData.value?.get(0)?.levelstatus
 
                 applyId = commonData.value?.applyId.toString()
+                _applyID.value = commonData.value?.applyId.toString()
                 invitationId = liveInterviewDetailsData.value?.get(0)?.invitationId.toString()
 
                 try {
@@ -118,26 +135,15 @@ class LiveInterviewDetailsViewModel(
                     e.printStackTrace()
                 }
 
-                if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "1")
+                val confirmationStatus = liveInterviewDetailsData.value?.get(0)?.confimationStatus
+                if (confirmationStatus == "1"){
+                    showPreparationSection.value = true
                     setTimer(interviewDateTime)
+                }
 
-//                if (commonData.value?.showUndo == "1")
-//                    showUndoSnackbar.value = Event(true)
-
-                //for black section
-
-                if (liveInterviewDetailsData.value?.get(0)?.confimationStatus == "6" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "7") {
-                    showBlackInfoSection.value = false
-                    delay(1000)
-                    showTooltip.value = Event(false)
-                } else if (liveInterviewDetailsData.value?.get(0)?.activity == "3" && (liveInterviewDetailsData.value?.get(0)?.confimationStatus != "6" || liveInterviewDetailsData.value?.get(0)?.confimationStatus != "7")) {
-                    showBlackInfoSection.value = true
-                    delay(1000)
-                    showTooltip.value = Event(true)
-                } else {
-                    showBlackInfoSection.value = false
-                    delay(1000)
-                    showTooltip.value = Event(false)
+                if (confirmationStatus == "6" || confirmationStatus == "7"){
+                    showJoinSection.value = false
+                    showPreparationSection.value = false
                 }
 
 
@@ -155,14 +161,12 @@ class LiveInterviewDetailsViewModel(
     }
 
     private fun setTimer(interviewDateTime: String) {
-        Timber.tag("live").d("came here $interviewDateTime")
+     //   Timber.tag("live").d("came here $interviewDateTime")
         val start_calendar: Calendar = Calendar.getInstance()
         val end_calendar: Calendar = Calendar.getInstance()
 
         val simpleDateFormat: SimpleDateFormat = SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale.ENGLISH)
         end_calendar.time = simpleDateFormat.parse(interviewDateTime)
-
-        //end_calendar.set(2020, 8, 15) // 10 = November, month start at 0 = January
 
 
         val start_millis: Long = start_calendar.getTimeInMillis() //get the start time in milliseconds
@@ -171,16 +175,13 @@ class LiveInterviewDetailsViewModel(
 
         val total_millis = end_millis - start_millis //total time in milliseconds
 
-        Timber.tag("live").d("came here total ${total_millis}")
+      //  Timber.tag("live").d("came here total ${total_millis}")
 
-
-        //1000 = 1 second interval
-
-        //1000 = 1 second interval
         timer = object : CountDownTimer(total_millis, 1000) {
 
+
             override fun onTick(millisUntilFinished: Long) {
-                Timber.tag("live").d("came here tick")
+              //  Timber.tag("live").d("came here tick")
 
                 var millisUntilFinished = millisUntilFinished
                 val days: Long = TimeUnit.MILLISECONDS.toDays(millisUntilFinished)
@@ -196,9 +197,13 @@ class LiveInterviewDetailsViewModel(
                 remainingMinutes.value = DecimalFormat("00").format(minutes).toString()
                 remainingSeconds.value = DecimalFormat("00").format(seconds).toString()
 
-                Timber.d("${remainingDays.value} ${remainingHours.value} ${remainingMinutes.value} ${remainingSeconds.value}")
+             //   Timber.d("${remainingDays.value} ${remainingHours.value} ${remainingMinutes.value} ${remainingSeconds.value}")
 
-//                tv_countdown.setText("$days:$hours:$minutes:$seconds") //You can compute the millisUntilFinished on hours/minutes/seconds
+            //    Timber.d("Days: $days :: Minutes: $minutes :: Hours: $hours")
+                if( days<1 && hours < 1 && minutes < 30){
+                    showJoinInterviewSmallBTN.value = true
+                }
+
             }
 
             override fun onFinish() {
@@ -208,6 +213,8 @@ class LiveInterviewDetailsViewModel(
                 remainingHours.value = "00"
                 remainingMinutes.value = "00"
                 remainingSeconds.value = "00"
+                showPreparationSection.value = false
+                showJoinSection.value = true
             }
         }.start()
     }
@@ -226,6 +233,7 @@ class LiveInterviewDetailsViewModel(
                 showToast.value = Event(response.message.toString())
                 getLiveInterviewDetails()
                 showConfirmationSection.value = false
+                showPreparationSection.value = true
             } else {
                 showToast.value = Event(response.message.toString())
             }
@@ -304,6 +312,14 @@ class LiveInterviewDetailsViewModel(
     fun onAddToCalendarButtonClick() {
         addToCalendarClickEvent.value = Event(true)
 
+    }
+
+    fun onTakePreparationButtonClick() {
+        takePreparationClickEvent.value = Event(true)
+    }
+
+    fun onJoinInterviewButtonClick() {
+        joinInterviewClickEvent.value = Event(true)
     }
 
     fun insert() {
@@ -452,5 +468,7 @@ class LiveInterviewDetailsViewModel(
             e.printStackTrace()
         }
     }
+
+
 
 }

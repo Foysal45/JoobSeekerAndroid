@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:padding="25dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/tv_title_prep"
+            android:text="Take Preparation"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="From here you can record for practicing before the interview with employer and test your camera/microphone."
+            android:letterSpacing="0.03"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_prep"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/tv_sub_title_prep"
+            android:layout_marginTop="8dp"/>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_record_video_prep"
+            android:layout_width="0dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/background_grey_button"
+            app:backgroundTint="#F5F5F5"
+            app:icon="@drawable/ic_video_prep"
+            app:iconTint="@android:color/black"
+            android:gravity="start|center_vertical"
+            android:paddingStart="10dp"
+            android:text="Record Video"
+            android:textAllCaps="false"
+            android:textColor="@color/black_opacity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_sub_title_prep" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_record_audio_prep"
+            android:layout_width="0dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_grey_button"
+            app:backgroundTint="#F5F5F5"
+            app:icon="@drawable/ic_audio_prep"
+            app:iconTint="@android:color/black"
+            android:gravity="start|center_vertical"
+            android:paddingStart="10dp"
+            android:text="Check Audio/Video"
+            android:textAllCaps="false"
+            android:textColor="@color/black_opacity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_record_video_prep" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_cancel_prep"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_record_audio_prep"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/cancel_text"
+            android:layout_marginTop="20dp"
+            android:textColor="#707070"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

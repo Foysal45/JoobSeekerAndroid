@@ -143,6 +143,7 @@ class Constants {
         const val api_request_result_code_ok = "0"
         const val timer_countDownInterval = 1000
         const val baseUrlMyBdjobs = "https://my.bdjobs.com/apps/mybdjobs/v1/"
+        const val baseUrlMyBdjobsChat = "https://mybdjobs.bdjobs.com/mybdjobs/onlinechat/"
         const val baseUrlJobs = "https://jobs.bdjobs.com/apps/api/v1/"
         const val base_url_mybdjobs_photo = "https://my.bdjobs.com/photos"
         const val base_url_module_sample = "http://mybdjobs.bdjobs.com/mybdjobs/assessment/samples/"
@@ -212,6 +213,16 @@ class Constants {
         const val session_key_mybdjobscount_video_invitation = "Video Interview\nInvitations"
         const val session_key_mybdjobscount_live_invitation = "Live Interview\nInvitations"
 
+        const val session_key_remoteview_initiliaze = "RemoteViewInitialized"
+        const val session_key_socket_session_started = "SocketSessionStarted"
+
+        const val session_key_user_mobile = "MobileNumber"
+        const val session_key_user_present_address = "PresentAddress"
+        const val session_key_user_permanent_address = "PermanentAddress"
+
+        const val session_key_personalized_stat_calculated_from = "PersonalizedStatCalculatedFrom"
+        const val session_key_show_video_resume_to_emp = "ShowVideoResumeToEmployer"
+
 
         const val NOTIFICATION_INTERVIEW_INVITATTION = 100
         const val NOTIFICATION_CV_VIEWED = 101
@@ -265,7 +276,7 @@ class Constants {
 
         const val VIDEO_RESUME_THRESHOLD = "video_resume_threshold"
         const val VIDEO_RESUME_TOTAL_ANSWERED = "video_resume_total_answered"
-
+        const val VIDEO_RESUME_IS_VISIBLE = "video_resume_is_visible"
 
         fun sendDeviceInformation(token: String? = "", context: Context) {
             val session = BdjobsUserSession(context)

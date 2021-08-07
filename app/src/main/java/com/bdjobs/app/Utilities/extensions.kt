@@ -1,6 +1,7 @@
 package com.bdjobs.app.Utilities
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.DatePickerDialog
@@ -27,6 +28,8 @@ import android.view.View.OnTouchListener
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -34,9 +37,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Settings.ResumePrivacyFragment
 import com.bdjobs.app.SplashActivity
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -46,6 +52,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
+import org.jetbrains.anko.layoutInflater
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -435,6 +442,27 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int) {
         logException(e)
     }
 }
+
+fun AppCompatActivity.transitFragmentX(fragment: androidx.fragment.app.Fragment, holderID: Int, addToBackStack: Boolean) {
+    try {
+        val fragmentManager = this.supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        if (addToBackStack) {
+            fragmentTransaction.apply {
+                replace(holderID, fragment)
+                addToBackStack(fragment::class.java.name)
+            }
+        } else {
+            fragmentTransaction.apply {
+                replace(holderID, fragment)
+            }
+        }
+        fragmentTransaction.commit()
+    } catch (e: Exception) {
+        logException(e)
+    }
+}
+
 
 
 fun Activity.disableUserInteraction() {
@@ -900,3 +928,29 @@ fun String.toFormattedSeconds(): String {
 
 }
 
+@SuppressLint("RestrictedApi")
+fun MaterialButton.changeColor(color: Int) {
+    this.supportBackgroundTintList = AppCompatResources.getColorStateList(this.context,color)
+}
+
+fun Context.openSettingsDialog() {
+    val dialog = MaterialAlertDialogBuilder(this).create()
+    val view = this.layoutInflater.inflate(R.layout.dialog_enable_video_permissions, null)
+    view?.apply {
+        findViewById<Button>(R.id.dialog_btn_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+        findViewById<Button>(R.id.dialog_btn_go_to_settings).setOnClickListener {
+            val intent = createAppSettingsIntent(this@openSettingsDialog)
+            startActivity(intent)
+            dialog.dismiss()
+        }
+    }
+    dialog.setView(view)
+    dialog.show()
+}
+
+private fun createAppSettingsIntent(context: Context) = Intent().apply {
+    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+    data = Uri.fromParts("package", context.packageName, null)
+}

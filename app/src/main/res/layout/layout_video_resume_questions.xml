@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_steps_view_bdjobs_resume"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_question_one"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Introduce Yourself."
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_question_two"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Tell us about your academic qualification and trainings (if any)."
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_question_one" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_question_three"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Discuss about your skills (educational/job)."
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_question_two" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_question_four"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="What are your strengths and weaknesses?"
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_check_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_question_three" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_question_five"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto"
+        android:padding="5dp"
+        android:text="Describe about your career goals."
+        android:textColor="#4D4D4D"
+        app:drawableEndCompat="@drawable/ic_back_arrow_resume"
+        app:drawableStartCompat="@drawable/ic_cross_sign_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_question_four"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

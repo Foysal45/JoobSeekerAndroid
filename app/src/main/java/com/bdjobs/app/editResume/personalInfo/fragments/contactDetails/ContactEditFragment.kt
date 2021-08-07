@@ -2,6 +2,7 @@ package com.bdjobs.app.editResume.personalInfo.fragments.contactDetails
 
 import android.app.AlertDialog
 import android.app.Fragment
+import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
@@ -17,6 +18,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.External.LocationModel
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
@@ -27,7 +29,11 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_contact_edit.*
+import kotlinx.android.synthetic.main.fragment_contact_edit.tv_email_change_user_id
+import kotlinx.android.synthetic.main.fragment_contact_edit.tv_mobile_change_user_id
+import kotlinx.android.synthetic.main.fragment_contact_view.*
 import org.jetbrains.anko.selector
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -572,6 +578,13 @@ class ContactEditFragment : Fragment() {
         contactAddMobileButton?.setOnClickListener {
             checkAddMobileButtonState()
         }
+        tv_email_change_user_id.setOnClickListener{
+            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/email_step_01.asp", "from" to "setUserId")
+        }
+        tv_mobile_change_user_id.setOnClickListener{
+            startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/set_userId/mobile_step_01.asp", "from" to "setUserId")
+        }
+
         contactAddEmailButton?.setOnClickListener {
             contactEmailAddressTIL1.show()
             if (contactEmailAddressTIL1.isVisible)
@@ -593,20 +606,18 @@ class ContactEditFragment : Fragment() {
         val mobile1 = contactMobileNumber1TIL.isVisible
         val mobile2 = contactMobileNumber2TIL.isVisible
 
-        //if (count == 1) contactMobileNumber1TIL?.show() else contactMobileNumber2TIL?.show()
         if (mobile1 && mobile2) {
             //Log.d("mobile1", "called")
             contactAddMobileButton?.hide()
         } else if (mobile1 && !mobile2) {
-            contactMobileNumber1TIL?.show()
+            contactMobileNumber2TIL?.show()
             contactAddMobileButton?.hide()
             //Log.d("mobile2", "called")
         } else if (!mobile1 && mobile2) {
             //Log.d("mobile3", "called")
-            contactMobileNumber2TIL?.show()
+            contactMobileNumber1TIL?.show()
             contactAddMobileButton?.hide()
-        } else {
-            //Log.d("mobile4", "called")
+        } else if(!mobile1 && !mobile2) {
             contactMobileNumber1TIL?.show()
             contactAddMobileButton?.show()
         }
@@ -615,67 +626,9 @@ class ContactEditFragment : Fragment() {
     private fun updateData() {
 
         activity?.showProgressBar(loadingProgressBar)
-        /*if (presentInOutBD == "") {
-            activity?.stopProgressBar(loadingProgressBar)
-            activity?.toast("Please select Inside or Outside Bangladesh")
-        }
-        if (pmContactAddressTIETPRM.getString().isNotBlank() && permanentInOutBD == "") {
-            activity?.toast("Please select Inside or Outside Bangladesh")
-            activity?.stopProgressBar(loadingProgressBar)
-        }*/
 
         val presentAddressID = data.presentAddressID
         val permanentAddressID = data.permanentAddressID
-//        //Log.d("ContactDetails", "PassingValue present in bd : $presentInOutBD " + "\n" +
-//                " district presrent  :  ${getIdByName(prContactDistrictTIET.getString(), districtList, "d")}" + "\n" +
-//                " thana parmanent :  ${getIdByName(prContactThanaTIET.getString(), thanaList, "t")} " + "\n" +
-//                " post office present : ${getIdByName(prContactPostOfficeTIET1.getString(), postOfficeList, "p")}" + "\n" +
-//                " addres present : ${prContactAddressTIETPR.getString()}" + "\n" +
-//                " country present : ${presentContactCountryTIET.getString()}" + "\n" +
-//                " presentInOutBD : $presentInOutBD" + "\n" +
-//                " permanentInOutBD : $permanentInOutBD" + "\n" +
-//                " district two parmanent : ${getIdByName(pmContactDistrictTIET.getString(), districtList, "dpm")}" + "\n" +
-//                " thana two parmanent : ${getIdByName(pmContactThanaTIETP.getString(), thanaListPm, "tpm")}" + "\n" +
-//                " post office two parmanent : ${getIdByName(pmContactPostOfficeTIET.getString(), postOfficeListPm, "ppm")}" + "\n" +
-//                " parmanent address parmanent : ${pmContactAddressTIETPRM.getString()}" + "\n" +
-//                " parmamnt country parmanent : ${permanentContactCountryTIETP.getString()}" + "\n" +
-//                " same address : $sameAddress" + "\n" +
-//                " permanentAddressID : $permanentAddressID " + "\n" +
-//                " presentAddressID :  $presentAddressID" + "\n" +
-//                " countryCode : ${countryCodeTIET.text.toString().substringAfter("(").substringBefore(")")} " + "\n" +
-//                " mobile number one : ${contactMobileNumberTIET.getString()}" + "\n" +
-//                " mobile number two : ${contactMobileNumber1TIET.getString()}" + "\n" +
-//                " mobile number three : ${contactMobileNumber2TIET.getString()}" + "\n" +
-//                " email ddree one : ${contactEmailAddressTIET.getString()}" + "\n" +
-//                " email address another: ${contactEmailAddressTIET1.getString()}")
-
-        /*Log.d("contactDetails", "\n" +
-                "userid:${session.userId} \n" +
-                "decodeid:${session.decodId} \n" +
-                "isResumeUpdate:${session.IsResumeUpdate} \n" +
-                "inOut:$presentInOutBD \n" +
-                "present_district:${getIdByName(prContactDistrictTIET.getString(), districtList, "d")} \n" +
-                "present_thana:${getIdByName(prContactThanaTIET.getString(), thanaList, "t")} \n" +
-                "present_p_office:${getIdByName(prContactPostOfficeTIET1.getString(), postOfficeList, "p")} \n" +
-                "present_Village:${prContactAddressTIETPR.getString()} \n" +
-                "present_country_list:${getIdByCountryName(presentContactCountryTIET.getString())} \n" +
-                "permInOut:${permanentInOutBD} \n" +
-                "permanent_district:${getIdByName(pmContactDistrictTIET.getString(), districtList, "dpm")} \n" +
-                "permanent_thana:${getIdByName(pmContactThanaTIETP.getString(), thanaListPm, "tpm")} \n" +
-                "permanent_p_office:${getIdByName(pmContactPostOfficeTIET.getString(), postOfficeListPm, "ppm")} \n" +
-                "permanent_Village:${pmContactAddressTIETPRM.getString()} \n" +
-                "permanent_country_list:${getIdByCountryName(permanentContactCountryTIETP.getString())} \n" +
-                "same_address:${sameAddress} \n" +
-                "permanent_adrsID:${permanentAddressID} \n" +
-                "present_adrsID:${presentAddressID} \n" +
-                "officePhone: ${contactMobileNumber1TIET.getString()} \n" +
-                "mobile:${contactMobileNumberTIET.getString()} \n" +
-                "countryCode:${countryCodeTIET.text.toString().substringAfter("(").substringBefore(")")} \n" +
-                "homePhone:${contactMobileNumber2TIET.getString()} \n" +
-                "email:${contactEmailAddressTIET.getString()} \n" +
-                "alternativeEmail:${contactEmailAddressTIET1.getString()}"
-
-        )*/
 
         val call = ApiServiceMyBdjobs.create().updateContactData(userId = session.userId, decodeId = session.decodId, isResumeUpdate = session.IsResumeUpdate,
                 inOut = presentInOutBD, present_district = getIdByName(prContactDistrictTIET.getString(), districtList, "d"), present_thana = getIdByName(prContactThanaTIET.getString(), thanaList, "t"),
@@ -761,13 +714,10 @@ class ContactEditFragment : Fragment() {
         clContactEdit.clearFocus()
         permanentInOutBD = ""
         cgPermanent.clearCheck()
-//        selectChip(cgPresent, "Inside Bangladesh")
         presentInOutBD = ""
         cgPresent.clearCheck()
-//        selectChip(cgPermanent, "Inside Bangladesh")
         try {
             data = contactInfo.getContactData()
-            //Log.d("rakib", data.presentThana + " " + data.presentPostOffice)
         } catch (e: Exception) {
             logException(e)
             d("++${e.message}")
@@ -775,8 +725,8 @@ class ContactEditFragment : Fragment() {
         getDataFromChipGroup(cgPermanent)
         getDataFromChipGroup(cgPresent)
         val addressType = data.addressType1
-        val homePhone = data.homePhone
-        val officePhone = data.officePhone
+        val secondaryMobile = data.secondaryMobile
+        val emergencyMobile = data.emergencyMobile
 
         addressCheckbox.isChecked = addressType == "3"
 
@@ -788,7 +738,7 @@ class ContactEditFragment : Fragment() {
             llPermenantPortion.show()
         }
 
-        if (officePhone.isNullOrBlank()) contactAddMobileButton.show() else contactAddMobileButton.hide()
+        if (emergencyMobile.isNullOrBlank()) contactAddMobileButton.show() else contactAddMobileButton.hide()
 
         prContactDistrictTIET?.setText(dataStorage.getLocationNameByID(data.presentDistrict))
         d("dis : ${data.presentDistrict}")
@@ -799,10 +749,7 @@ class ContactEditFragment : Fragment() {
             prContactPostOfficeTIET1?.setText(dataStorage.getLocationNameByID(data.presentPostOffice))
             contactInfo.setPostOffice(data.presentPostOffice)
         }
-//        if (data.presentPostOffice == "-2") {
-//            prContactPostOfficeTIET1?.setText(getString(R.string.hint_post_office_other))
-//            contactInfo.setPostOffice(data.presentPostOffice)
-//        }
+
         if (data.presentPostOffice == "0" || data.presentPostOffice == "") prContactPostOfficeTIET1?.setText("")
         d("postOffice : ${data.presentPostOffice}")
         prContactAddressTIETPR?.setText(data.presentVillage)
@@ -812,6 +759,7 @@ class ContactEditFragment : Fragment() {
         prContactDivTIET?.setText(prDiv)
         d("division : ${dataStorage.getDivisionNameByDistrictName(data.presentDistrict.toString())}")
         if (data.presentCountry != "118") presentContactCountryTIET?.setText(dataStorage.getLocationNameByID(data.presentCountry))
+
         // Permenant
         pmContactDistrictTIET?.setText(dataStorage.getLocationNameByID(data.permanentDistrict))
         pmContactThanaTIETP?.setText(dataStorage.getLocationNameByID(data.permanentThana))
@@ -820,42 +768,42 @@ class ContactEditFragment : Fragment() {
             pmContactPostOfficeTIET?.setText(dataStorage.getLocationNameByID(data.permanentPostOffice))
             contactInfo.setPmPostOffice(data.permanentPostOffice)
         }
-//        if (data.permanentPostOffice == "-2") {
-//            pmContactPostOfficeTIET?.setText(getString(R.string.hint_post_office_other))
-//            contactInfo.setPmPostOffice(data.permanentPostOffice)
-//        }
+
         if (data.permanentPostOffice == "0" || data.permanentPostOffice == "") pmContactPostOfficeTIET?.setText("")
         pmContactAddressTIETPRM?.setText(data.permanentVillage)
         if (data.permanentCountry != "118") permanentContactCountryTIETP?.setText(dataStorage.getLocationNameByID(data.permanentCountry))
 
-        contactMobileNumberTIET?.setText(data.mobile)
+        contactMobileNumberTIET?.setText(data.primaryMobile)
         contactEmailAddressTIET?.setText(data.email)
 
-        if (data.mobile.isNullOrEmpty())
-            contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
         if (data.email.isNullOrEmpty())
+            contactEmailAddressTIL.hideError() else contactEmailAddressTIL.isErrorEnabled = true
+
+        if (data.primaryMobile.isNullOrEmpty())
             contactMobileNumberTIL.hideError() else contactMobileNumberTIL.isErrorEnabled = true
 
         contactEmailAddressTIET?.easyOnTextChangedListener { charSequence ->
             emailValidityCheck(charSequence.toString(), contactEmailAddressTIET, contactEmailAddressTIL)
         }
 
-        if (!homePhone?.isEmpty()!!) {
-            contactMobileNumber2TIET?.setText(data.homePhone)
-            contactMobileNumber2TIL?.show()
-        } else {
-            contactMobileNumber2TIET?.clear()
-            contactMobileNumber2TIL?.hide()
-        }
-        if (!officePhone?.isEmpty()!!) {
+        if (!secondaryMobile?.isEmpty()!!) {
             contactMobileNumber1TIL?.show()
-            contactMobileNumber1TIET?.setText(data.officePhone)
+            contactMobileNumber1TIET?.setText(data.secondaryMobile)
         } else {
             contactMobileNumber1TIET?.clear()
             contactMobileNumber1TIL?.hide()
         }
 
-        if (homePhone.isEmpty() || officePhone.isEmpty()) {
+        if (!emergencyMobile?.isEmpty()!!) {
+            contactMobileNumber2TIET?.setText(data.emergencyMobile)
+            contactMobileNumber2TIL?.show()
+        } else {
+            contactMobileNumber2TIET?.clear()
+            contactMobileNumber2TIL?.hide()
+        }
+
+
+        if (secondaryMobile.isEmpty() || emergencyMobile.isEmpty()) {
             contactAddMobileButton.show()
         } else
             contactAddMobileButton.hide()
@@ -895,27 +843,16 @@ class ContactEditFragment : Fragment() {
             permanentContactCountryTIETP.clear()
             presentInsideBangladeshLayout.show()
             presentOutsideBangladeshLayoutP.hide()
-//            pmContactAddressTIETPRM.easyOnTextChangedListener {
-//                if (it.trimmedLength() >= 2)
-//                    contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
-//            }
+
         } else if (data.permanentInsideOutsideBD == "True") {
             selectChip(cgPermanent, "Outside Bangladesh")
             permanentInOutBD = "1"
             pmContactDivTIET1.clear()
             pmContactDistrictTIET.clear()
             pmContactThanaTIETP.clear()
-            //permanentContactCountryTIETP.clear()
             presentInsideBangladeshLayout.hide()
             presentOutsideBangladeshLayoutP.show()
-//            permanentContactCountryTIETP.easyOnTextChangedListener {
-//                if (it.trimmedLength() >= 2)
-//                    permanentContactCountryTILP.hideError() else permanentContactCountryTILP.setError()
-//            }
-//            pmContactAddressTIETPRM.easyOnTextChangedListener {
-//                if (it.trimmedLength() >= 2)
-//                    contactAddressTILPRM.hideError() else contactAddressTILPRM.setError()
-//            }
+
         } else {
             //cgPermanent.clearCheck()
         }
@@ -925,11 +862,32 @@ class ContactEditFragment : Fragment() {
         if (data?.countryCode == "")
             countryCodeTIET?.setText("Bangladesh (88)")
 
+        if (data?.emailAsUsername == "1") {
+            tv_email_change_user_id.show()
+            tv_mobile_change_user_id.hide()
+            contactEmailAddressTIL.isEnabled = false
+            contactMobileNumberTIL.isEnabled = true
+            contactEmailAddressTIET.setTextColor(Color.parseColor("#bdbdbd"))
+        } else if(data?.phoneAsUsername == "1"){
+            tv_email_change_user_id.hide()
+            tv_mobile_change_user_id.show()
+            contactEmailAddressTIL.isEnabled = true
+            contactMobileNumberTIL.isEnabled = false
+            contactMobileNumberTIET.setTextColor(Color.parseColor("#bdbdbd"))
+        }else if(data?.phoneAsUsername == "0" && data?.phoneAsUsername == "0"){
+            tv_email_change_user_id.show()
+            tv_mobile_change_user_id.show()
+            contactEmailAddressTIL.isEnabled = true
+            contactMobileNumberTIL.isEnabled = true
+        } else{
+            tv_email_change_user_id.hide()
+            tv_mobile_change_user_id.hide()
+        }
+
         //hideAllError()
     }
 
     private fun hideAllError() {
-        //Log.d("rakib error", "called main")
 
         if (permanentInOutBD == "" && pmContactDistrictTIET.getString().isEmpty() && pmContactThanaTIETP.getString().isEmpty() && pmContactAddressTIETPRM.getString().isEmpty()) {
             contactDistrictTIL.hideError()
@@ -1319,21 +1277,11 @@ class ContactEditFragment : Fragment() {
 
 
     private fun validateMobileNumber(): Boolean {
-        //Log.d("rakib", "country code ${countryCodeTIET.text.toString()}")
         if (!TextUtils.isEmpty(countryCodeTIET?.text.toString()) && !TextUtils.isEmpty(contactMobileNumberTIET?.text.toString())) {
-//            if (Patterns.PHONE.matcher(contactMobileNumberTIET?.text.toString()).matches()) {
             if (countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length in 6..14) {
-                //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
                 return true
             }
-//            else if (!countryCodeTIET?.text.toString().equals("Bangladesh (88)", ignoreCase = true) && contactMobileNumberTIET?.text.toString().length + getCountryCode().length >= 6 && contactMobileNumberTIET?.text.toString().length + getCountryCode().length <= 15) {
-//                //Log.d("rakib", "mobile validate length ${contactMobileNumberTIET.text.toString().length}")
-//                Timber.d("Mobile length: ${contactMobileNumberTIET?.text.toString().length} .. Country code: ${getCountryCode().length}")
-//                return true
-//            }
-//            }
         }
-        //Log.d("rakib", "validate number function false")
         return false
     }
 

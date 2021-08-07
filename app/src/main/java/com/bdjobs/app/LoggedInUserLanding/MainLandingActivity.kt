@@ -50,6 +50,7 @@ import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
+import com.bdjobs.app.resume_dashboard.ResumeDashboardBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.bdjobs.app.videoResume.ResumeManagerActivity
 import com.bdjobs.app.videoResume.VideoResumeActivity
@@ -61,7 +62,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main_landing.*
 import org.jetbrains.anko.alert
@@ -333,7 +333,9 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
     }
 
     override fun goToResumeManager(){
+       // startActivity<ResumeDashboardBaseActivity>()
         startActivity<ResumeManagerActivity>()
+
     }
 
 

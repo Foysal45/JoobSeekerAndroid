@@ -149,3 +149,15 @@
 -keep class com.sslwireless.sslcommerzlibrary.model.** { *; }
 -keep class com.sslwireless.sslcommerzlibrary.** { *; }
 -keep class com.sslwireless.*
+
+# ----------------------------------------------------------------
+# WEBRTC
+# ----------------------------------------------------------------
+-keep class org.webrtc.** { *; }
+-dontwarn org.chromium.build.BuildHooksAndroid
+
+# ----------------------------------------------------------------
+# PDF Viewer
+# ----------------------------------------------------------------
+
+-keep class com.shockwave.**

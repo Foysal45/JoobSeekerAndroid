@@ -1,5 +1,6 @@
 package com.bdjobs.app.videoResume.ui.view
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -46,18 +47,25 @@ class ViewVideoResumeFragment : Fragment() {
 
     val args: ViewVideoResumeFragmentArgs by navArgs()
     private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
-    private val viewVideoResumeViewModel: ViewVideoResumeViewModel by viewModels { ViewModelFactoryUtil.provideVideoResumeViewVideoViewModelFactory(this) }
+    private val viewVideoResumeViewModel: ViewVideoResumeViewModel by viewModels {
+        ViewModelFactoryUtil.provideVideoResumeViewVideoViewModelFactory(
+            this
+        )
+    }
 
     lateinit var binding: FragmentViewVideoResumeBinding
     private lateinit var session: BdjobsUserSession
 
-    lateinit var medialController : MediaController
+    lateinit var medialController: MediaController
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_view_video_resume, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         session = BdjobsUserSession(requireContext())
@@ -70,7 +78,8 @@ class ViewVideoResumeFragment : Fragment() {
 
 
         btn_record_again?.setOnClickListener {
-            findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToRecordVideoResumeFragment())
+            if (findNavController().currentDestination?.id == R.id.viewVideoResumeFragment)
+                findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToRecordVideoResumeFragment())
         }
 
         btn_delete_video?.setOnClickListener {
@@ -87,9 +96,10 @@ class ViewVideoResumeFragment : Fragment() {
                 val noBTN = dialog.findViewById<Button>(R.id.btn_delete_video_no)
                 val yesBTN = dialog.findViewById<Button>(R.id.btn_delete_video_yes)
 
-                if(session.videoResumeTotalAnswered!!.toInt() < session.videoResumeThreshold!!.toInt()){
-                    deleteTV.text = "If you delete it, employers won't be able to view your video. Do you want to delete this video?"
-                }else {
+                if (session.videoResumeTotalAnswered!!.toInt() < session.videoResumeThreshold!!.toInt()) {
+                    deleteTV.text =
+                        "If you delete it, employers won't be able to view your video. Do you want to delete this video?"
+                } else {
                     deleteTV.text = "Are you sure you want to delete the video?"
 
                 }
@@ -129,6 +139,10 @@ class ViewVideoResumeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        tv_question_bn.text = args.question
+        tv_video_duration.hide()
+//        tv_video_duration.text = videoResumeQuestionsViewModel.videoResumeManagerData.value?.questionDuration
+
         try {
             video_view?.setVideoURI(Uri.parse(args.url))
         } catch (e: Exception) {
@@ -139,19 +153,18 @@ class ViewVideoResumeFragment : Fragment() {
         img_play?.setOnClickListener {
             img_play?.hide()
             progress_bar?.show()
+            tv_video_duration.hide()
+            tv_question_bn.hide()
             video_view?.start()
         }
 
-        video_view?.setOnPreparedListener(object : MediaPlayer.OnPreparedListener {
-            override fun onPrepared(mp: MediaPlayer?) {
-                //Log.d("rakib", "on Prepared called")
-                progress_bar?.hide()
-                video_view?.setMediaController(medialController)
-                medialController.setAnchorView(video_view)
-            }
-        })
+        video_view?.setOnPreparedListener { //Log.d("rakib", "on Prepared called")
+            progress_bar?.hide()
+            video_view?.setMediaController(medialController)
+            medialController.setAnchorView(video_view)
+        }
 
-        video_view?.setOnInfoListener { mp, what, extra ->
+        video_view?.setOnInfoListener { _, what, _ ->
             when (what) {
                 MediaPlayer.MEDIA_INFO_BUFFERING_START -> {
                     progress_bar?.show()

@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
             android:src="@drawable/ic_calender_interview_invitation"
-            android:tint="#0D47A1"
+            app:tint="#0D47A1"
             app:layout_constraintBottom_toBottomOf="@id/tv_submission_date"
             app:layout_constraintEnd_toStartOf="@id/tv_submission_date"
             app:layout_constraintTop_toTopOf="@id/tv_submission_date"

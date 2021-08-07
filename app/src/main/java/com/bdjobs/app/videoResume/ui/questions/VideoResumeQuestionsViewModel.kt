@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.videoInterview.util.Event
 import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
 import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
+import com.loopj.android.http.AsyncHttpClient
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -17,6 +19,9 @@ class VideoResumeQuestionsViewModel(
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
+
+    private val _isVideoResumeVisible = MutableLiveData<Boolean>().apply { value = false }
+    val isVideoResumeVisible: MutableLiveData<Boolean> = _isVideoResumeVisible
 
     private val _onNextQuestionClickEvent = MutableLiveData<Event<Boolean>>()
     val onNextQuestionClickEvent: LiveData<Event<Boolean>> = _onNextQuestionClickEvent
@@ -39,6 +44,21 @@ class VideoResumeQuestionsViewModel(
 
     val navigateToFeedbackEvent = MutableLiveData<Event<Boolean>>()
 
+    var showVideoResumeToEmployers = MutableLiveData<Boolean>()
+
+    private val _totalAnswered = MutableLiveData<String?>().apply {
+        value = "0"
+    }
+    val totalAnswered: LiveData<String?> = _totalAnswered
+
+    private val _threshold = MutableLiveData<String?>().apply {
+        value = "0"
+    }
+    val threshold: LiveData<String?> = _threshold
+
+    private val _isAlertOn = MutableLiveData<String?>()
+    val isAlertOn: LiveData<String?> = _isAlertOn
+
     init {
         Timber.d("init called")
     }
@@ -52,6 +72,26 @@ class VideoResumeQuestionsViewModel(
                 _dataLoading.value = false
             } catch (e: Exception) {
 
+            }
+        }
+    }
+
+    fun getStats() {
+        viewModelScope.launch {
+            try {
+                val response = videoResumeRepository.getStatisticsFromRemote()
+                val data = response.data?.get(0)
+
+                _totalAnswered.value = data?.totalAnswered
+                _threshold.value = data?.threshold
+                _isAlertOn.value =  data?.resumeVisibility
+
+                showVideoResumeToEmployers.value = totalAnswered.value!!.toInt() >= threshold.value!!.toInt()
+
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                AsyncHttpClient.log.d("Salvin", "Got exception")
             }
         }
     }

@@ -19,11 +19,17 @@ import kotlinx.android.synthetic.main.fragment_video_interview_list.*
 
 class VideoInterviewListFragment : Fragment() {
 
-    private val videoInterviewListViewModel: VideoInterviewListViewModel by navGraphViewModels(R.id.videoInterviewListFragment){ ViewModelFactoryUtil.provideVideoInterviewListModelFactory(this) }
+    private val videoInterviewListViewModel: VideoInterviewListViewModel by navGraphViewModels(R.id.videoInterviewListFragment) {
+        ViewModelFactoryUtil.provideVideoInterviewListModelFactory(
+            this
+        )
+    }
     lateinit var binding: FragmentVideoInterviewListBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         binding = FragmentVideoInterviewListBinding.inflate(inflater).apply {
             viewModel = videoInterviewListViewModel
@@ -35,19 +41,28 @@ class VideoInterviewListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val time : String = requireArguments().getString("activityDate","0")
+        val time: String = requireArguments().getString("activityDate", "0")
 
         //Log.d("rakib activity date " ,"${arguments?.get("activityDate")}")
 
         val navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
+        val appBarConfiguration =
+            AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
         //setSupportActionBar(tool_bar)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
         videoInterviewListViewModel.getVideoInterviewList(time)
 
         val adapter = VideoInterviewListAdapter(requireContext(), ClickListener {
-            findNavController().navigate(VideoInterviewListFragmentDirections.actionVideoInterviewListFragmentToVideoInterviewDetailsFragment(it.jobId, it.jobTitle))
+            if (findNavController().currentDestination?.id == R.id.videoInterviewListFragment) {
+                findNavController().navigate(
+                    VideoInterviewListFragmentDirections.actionVideoInterviewListFragmentToVideoInterviewDetailsFragment(
+                        it.jobId,
+                        it.jobTitle
+                    )
+                )
+            }
+
         })
 
         rv_video_interview?.adapter = adapter

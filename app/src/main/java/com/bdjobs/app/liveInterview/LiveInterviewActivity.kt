@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.bdjobs.app.R
+import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_live_interview.*
 import timber.log.Timber
@@ -33,6 +34,7 @@ class LiveInterviewActivity : AppCompatActivity() {
             it.putString("jobTitle",jobTitle)
         }
 
+
         when (from) {
             "homePage","mybdjobs","popup" -> {
                 graph.startDestination = R.id.liveInterviewListFragment
@@ -45,4 +47,6 @@ class LiveInterviewActivity : AppCompatActivity() {
         navHostFragment.navController.setGraph(graph,bundle)
 
     }
+
+
 }

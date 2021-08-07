@@ -24,7 +24,6 @@ import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.Personal
 import com.bdjobs.app.editResume.personalInfo.fragments.personalDetails.PersonalDetailsViewFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.preferredAreas.PreferredAreasEditFragment
 import com.bdjobs.app.editResume.personalInfo.fragments.preferredAreas.PreferredAreasViewFragment
-import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -129,7 +128,15 @@ class PersonalInfoActivity : Activity(), ConnectivityReceiver.ConnectivityReceiv
     private fun gotToFragment(name: String) {
         when (name) {
             "personal" -> transitFragment(personalViewFragment, R.id.personalinfo_container, false)
+            "personalJD" -> {
+                transitFragment(personalViewFragment, R.id.personalinfo_container, false)
+                Constants.isDirectCall = true
+            }
             "contact" -> transitFragment(contactViewFragment, R.id.personalinfo_container, false)
+            "contactJD" -> {
+                transitFragment(contactViewFragment, R.id.personalinfo_container, false)
+                Constants.isDirectCall = true
+            }
             "career" -> transitFragment(careerViewFragment, R.id.personalinfo_container, false)
             "ori" -> transitFragment(oriViewFragment, R.id.personalinfo_container, false)
             "prefAreas" -> transitFragment(prefViewFragment, R.id.personalinfo_container, false)
