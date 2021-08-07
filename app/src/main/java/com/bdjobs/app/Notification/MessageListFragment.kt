@@ -87,3 +87,13 @@ class MessageListFragment : Fragment() {
     }
 
 }
+
+
+// {msgTitle=ভিডিও রিজিউমি (Video Resume),
+// imgSrc=, msg=আপনি তিনটির কম প্রশ্নের উত্তর রেকর্ড করেছেন, নিয়োগকর্তাকে আপনার ভিডিও রিজিউমিটি দেখাতে হলে কমপক্ষে তিনটি প্রশ্নের উত্তর রেকর্ড করতে হবে। এখনই রেকর্ড করে ফেলুন ➜,
+// pId=4361771,
+// link=https://mybdjobs.bdjobs.com/mybdjobs/videoResume/video_resume_home.asp,
+// type=pm,
+// notificationId=69,
+// activityNode=com.bdjobs.app.videoResume.VideoResumeActivity,
+// LogoSrc= https://bdjobs.com/NotificationMessageimages/videoresumeslogo.png}

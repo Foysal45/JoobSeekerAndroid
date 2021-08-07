@@ -618,13 +618,17 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 if (!items[position].payload.isNullOrEmpty()) {
 
+                    Timber.d("Payload not null: ${items[position].payload}")
+
                     var intent:Intent ? =null
                     try {
                         commonNotificationModel  = Gson().fromJson(items[position].payload,CommonNotificationModel::class.java)
                         val className = Class.forName(commonNotificationModel.activityNode!!)
                         intent = Intent(context,className)
 
-                    } catch (e: Exception) {
+                    }
+                    catch (e: Exception) {
+                        Timber.d("internt exception")
                         if (!commonNotificationModel?.link.isNullOrEmpty()) {
                             try {
                                 val formattedUrl = if (!commonNotificationModel?.link?.startsWith("http://") !!
@@ -638,8 +642,9 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     }
 
                     if (!items[position].link.isNullOrEmpty()) {
+                        Timber.d("Link not null : ${items[position].link}")
                      //   promotionalMessageViewHolder?.messageButton?.show()
-                        promotionalMessageViewHolder?.messageImage?.setOnClickListener {
+                        promotionalMessageViewHolder.itemView.setOnClickListener {
 
                             try {
                                 if (!items[position].seen!!) {
@@ -650,19 +655,23 @@ class NotificationListAdapter(private val context: Context, private val items: M
                                     }
                                 }
                             } catch (e: Exception) {
+                                Timber.e("Catch in seen ${e.localizedMessage}")
                                 logException(e)
                             }
 
                             try {
+                                Timber.d("Intent: $intent")
                                 if (intent!=null) context.startActivity(intent)
                                 else context.launchUrl(items[position].link)
-                            } catch (e: Exception) {}
+                            } catch (e: Exception) {
+                                                            Timber.e("Catch in launch: ${e.localizedMessage}")}
                             notificationCommunicatior.positionClickedMessage(position)
                         }
                     } else {
                         promotionalMessageViewHolder?.messageButton?.hide()
                     }
-                } else {
+                }
+                else {
                     if (!items[position].link.isNullOrEmpty()) {
                      //   promotionalMessageViewHolder?.messageButton?.show()
                         promotionalMessageViewHolder?.messageImage?.setOnClickListener {
@@ -690,14 +699,16 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 }
 
                 if (!commonNotificationModel?.LogoSrc.isNullOrEmpty()){
+                    Timber.d("Logo not empty: ${commonNotificationModel?.LogoSrc}")
                     try {
-                        Picasso.get().load(commonNotificationModel?.LogoSrc).into(promotionalMessageViewHolder?.headerImage)
+                        Picasso.get().load(commonNotificationModel?.LogoSrc?.trim()).into(promotionalMessageViewHolder?.headerImage)
                     }catch (e: Exception) {
                     }
                 }
 
 
                 if (!items[position].imageLink.isNullOrEmpty()) {
+                    Timber.d("imagee not empty: ${commonNotificationModel?.imageLink}")
                     promotionalMessageViewHolder?.card?.show()
                     promotionalMessageViewHolder?.messageImage.show()
                     try {
