@@ -53,6 +53,8 @@ class EmployerViewedMyResumeFragment : Fragment() {
     private lateinit var employerCommunicator: EmployersCommunicator
     private lateinit var isActivityDate: String
 
+    private lateinit var companyNameET: TextInputEditText
+
     private var selectedType = ""
 
     private var fromText = ""
@@ -111,6 +113,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
         }
 
         val resumeTypeET = dialog.findViewById<TextInputEditText>(R.id.et_resume_type)
+        companyNameET = dialog.findViewById<TextInputEditText>(R.id.et_company_name)
         val resumeTypeTIL = dialog.findViewById<TextInputLayout>(R.id.til_resume_type)
         val dropdownCard = dialog.findViewById<MaterialCardView>(R.id.dropdown_filter_options)
         val bdJobsResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_bdjobs_resume_filter)
@@ -174,8 +177,6 @@ class EmployerViewedMyResumeFragment : Fragment() {
             initializeViews()
             dialog.dismiss()
         }
-
-
         dialog.show()
     }
 
@@ -288,7 +289,8 @@ class EmployerViewedMyResumeFragment : Fragment() {
                    itemsPerPage = "30",
                    fromDate = fromText,
                    toDate = toText,
-                   txtStatus = selectedType
+                   txtStatus = selectedType,
+                   compName = companyNameET.text?.toString(),
                ) .enqueue(object : Callback<EmpViewedResumeModel> {
                 override fun onFailure(call: Call<EmpViewedResumeModel>, t: Throwable) {
                     try {

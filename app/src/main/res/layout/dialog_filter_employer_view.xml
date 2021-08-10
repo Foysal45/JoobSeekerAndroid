@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_resume_type"
+            android:id="@+id/til_company_name"
             style="@style/EHTextInputLayout1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -33,6 +33,38 @@
             app:boxStrokeColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_dialog_title_filter">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_company_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:focusable="false"
+                android:fontFamily="@font/roboto"
+                android:hint="Type Company Name"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="noExcludeDescendants"
+                android:inputType="text|textMultiLine"
+                android:padding="15dp"
+                android:text="Orion"
+                android:textColor="#212121" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_resume_type"
+            style="@style/EHTextInputLayout1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColorHint="#757575"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:boxStrokeColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_company_name">
 
 
             <com.google.android.material.textfield.TextInputEditText
