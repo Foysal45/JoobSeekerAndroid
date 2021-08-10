@@ -481,11 +481,14 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_resume_visibility_to_employer_s">Status of showing Video Resume to Employer(s)</string>
     <string name="label_change">Change</string>
     <string name="label_edit">Edit</string>
+    <string name="label_view">View</string>
     <string name="label_personalized_resume">Personalized Resume</string>
     <string name="label_no_personalized_resume">You have no Personalized Resume. Upload Personalized Resume for better job opportunities.</string>
     <string name="label_add_personalized_resume">Add Personalized Resume</string>
     <string name="label_add_video_resume">Add video Resume</string>
+    <string name="label_add_bdjobs_resume">Post Bdjobs Resume</string>
     <string name="label_no_video_resume">You have no Video Resume. Add Video Resume to get more job opportunities.</string>
+    <string name="label_no_bdjobs_resume">Post Bdjobs Resume to avail great chances.</string>
     <string name="personal_details">Personal Details</string>
     <string name="academic_qualification">Academic Qualification</string>
     <string name="training">Training</string>

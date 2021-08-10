@@ -61,10 +61,17 @@ class ViewEditResumeFragment : Fragment() {
             tvChangeVisibility.setOnClickListener { startActivity<SettingBaseActivity>("from" to "dashboard") }
 
             tvEditVideoResume.setOnClickListener { startActivity<VideoResumeActivity>() }
+            tvViewVideoResume.setOnClickListener { startActivity<VideoResumeActivity>() }
             tvEditBdjobsResume.setOnClickListener { startActivity<EditResLandingActivity>() }
+            tvViewBdjobsResume.setOnClickListener { startActivity<EditResLandingActivity>() }
             tvEditPersonalizedResume.setOnClickListener {
                 startActivity<ManageResumeActivity>(
                         "from" to "uploadResume"
+                )
+            }
+            tvViewPersonalizedResume.setOnClickListener {
+                startActivity<ManageResumeActivity>(
+                    "from" to "uploadResume"
                 )
             }
 
