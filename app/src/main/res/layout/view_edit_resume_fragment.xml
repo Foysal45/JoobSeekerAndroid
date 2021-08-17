@@ -599,6 +599,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
+                        android:visibility="@{viewModel.isPersonalizedResumeAvailable ? View.VISIBLE : View.GONE}"
                         android:text="@string/label_view"
                         app:drawableStartCompat="@drawable/ic_edit_resume_view"
                         android:layout_marginEnd="18dp"

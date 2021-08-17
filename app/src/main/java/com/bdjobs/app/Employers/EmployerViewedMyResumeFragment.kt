@@ -53,15 +53,13 @@ class EmployerViewedMyResumeFragment : Fragment() {
     private lateinit var employerCommunicator: EmployersCommunicator
     private lateinit var isActivityDate: String
 
-    private lateinit var companyNameET: TextInputEditText
-
     private var selectedType = ""
 
     private var fromText = ""
     private var toText = ""
+    private var companyName = ""
 
     private val calendar = Calendar.getInstance()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -113,7 +111,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
         }
 
         val resumeTypeET = dialog.findViewById<TextInputEditText>(R.id.et_resume_type)
-        companyNameET = dialog.findViewById<TextInputEditText>(R.id.et_company_name)
+        val companyNameET = dialog.findViewById<TextInputEditText>(R.id.et_company_name)
         val resumeTypeTIL = dialog.findViewById<TextInputLayout>(R.id.til_resume_type)
         val dropdownCard = dialog.findViewById<MaterialCardView>(R.id.dropdown_filter_options)
         val bdJobsResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_bdjobs_resume_filter)
@@ -174,6 +172,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
         }
 
         applyBtn.setOnClickListener {
+            companyName = companyNameET.text.toString()
             initializeViews()
             dialog.dismiss()
         }
@@ -290,7 +289,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                    fromDate = fromText,
                    toDate = toText,
                    txtStatus = selectedType,
-                   compName = companyNameET.text?.toString(),
+                   compName = companyName,
                ) .enqueue(object : Callback<EmpViewedResumeModel> {
                 override fun onFailure(call: Call<EmpViewedResumeModel>, t: Throwable) {
                     try {

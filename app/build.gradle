@@ -7,6 +7,16 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: "androidx.navigation.safeargs"
 
 android {
+
+    signingConfigs {
+        release {
+            storeFile file('D:\\Android Projects\\BDJobs\\bdjobs_new.jks')
+            storePassword '123456'
+            keyPassword '123456'
+            keyAlias 'bdjobs.com'
+        }
+    }
+
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.bdjobs.app"
@@ -16,6 +26,7 @@ android {
         versionName "2.9.0.1"  //713.0.2 internal test // 2.8.0.3
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
@@ -23,6 +34,8 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.release
         }
 
         debug {
