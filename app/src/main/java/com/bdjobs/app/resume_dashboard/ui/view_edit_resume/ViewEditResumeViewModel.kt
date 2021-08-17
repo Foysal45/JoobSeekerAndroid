@@ -52,6 +52,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     var videoResumeQ3 = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ4 = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ5 = MutableLiveData<String>().apply { value = "" }
+    var videoResumeQ6 = MutableLiveData<String>().apply { value = "" }
 
 //    init {
 //        showBdJobsResumeSteps.value = false
@@ -124,6 +125,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                             2 -> videoResumeQ3.value = data[i]?.buttonStatus
                             3 -> videoResumeQ4.value = data[i]?.buttonStatus
                             4 -> videoResumeQ5.value = data[i]?.buttonStatus
+                            5 -> videoResumeQ6.value = data[i]?.buttonStatus
                         }
                     }
                 }

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UploadResume
+import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.google.android.gms.ads.AdRequest
@@ -177,6 +178,14 @@ class DownloadResumeFragment : android.app.Fragment() {
                         tv_last_upload_personalized_resume.text = "Last Upload: $lastUpdatedOn"
 
                         tv_file_name_personalized_resume.text = data.personalizedFileName
+
+                        if (data.personalizefileType=="2") {
+                            tv_file_name_personalized_resume.setCompoundDrawablesWithIntrinsicBounds(0,
+                                R.drawable.ic_ms_word,0,0)
+                        } else {
+                            tv_file_name_personalized_resume.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_pdf_personalized_resume,0,0)
+                        }
+
                     }
 
 

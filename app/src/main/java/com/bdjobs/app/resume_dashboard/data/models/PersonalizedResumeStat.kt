@@ -22,6 +22,8 @@ data class DataPRS(
     val personalizedDownload: String?,
     @Json(name = "personalizedEmailed")
     val personalizedEmailed: String?,
+    @Json(name = "personalizefileType")
+    val personalizefileType: String?,
     @Json(name = "personalizedFileName")
     val personalizedFileName: String?,
     @Json(name = "personalizedFilePath")

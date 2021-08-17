@@ -132,6 +132,7 @@ class ViewEditResumeFragment : Fragment() {
             tvQuestionThree.setOnClickListener { navigateToVideoResumeQuestionFragment() }
             tvQuestionFour.setOnClickListener { navigateToVideoResumeQuestionFragment() }
             tvQuestionFive.setOnClickListener { navigateToVideoResumeQuestionFragment() }
+            tvQuestionSix.setOnClickListener { navigateToVideoResumeQuestionFragment() }
         }
 
         btn_add_video_resume.setOnClickListener {
