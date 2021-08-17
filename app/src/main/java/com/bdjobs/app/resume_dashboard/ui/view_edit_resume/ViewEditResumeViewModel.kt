@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.resume_dashboard.data.models.DataMRD
 import com.bdjobs.app.resume_dashboard.data.repositories.ResumeDashboardRepository
 import kotlinx.coroutines.launch
@@ -28,6 +29,9 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     private var _detailsResumeStat = MutableLiveData<DataMRD>()
     val detailResumeStat: LiveData<DataMRD> get() = _detailsResumeStat
 
+    private var _downloadCVStat = MutableLiveData<UploadResume>()
+    val downloadCVStat : LiveData<UploadResume> get() = _downloadCVStat
+
     var bdJobsResumeStatusPercentage = MutableLiveData<Int>().apply { value = 0 }
     var bdJobsResumeLastUpdate = MutableLiveData<String>().apply { value = "" }
 
@@ -38,6 +42,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     var videoResumeLastUpdate = MutableLiveData<String>().apply { value = "" }
     var isVideoResumeShowingToEmp = MutableLiveData<Boolean>()
     var isVideoResumeAvailable = MutableLiveData<Boolean>()
+    var isBdjobsResumeAvailable = MutableLiveData<Boolean>()
 
     var isPersonalizedResumeAvailable = MutableLiveData<Boolean>()
     var personalizedResumeLastUpload = MutableLiveData<String>().apply { value = "" }
@@ -69,6 +74,12 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
 
                     val data = response.data!![0]
                     _detailsResumeStat.value = data
+
+                    isBdjobsResumeAvailable.value = data.bdjobsStatusPercentage != "0" || data.personalDetailsInfo == 1
+                            || data.academicInfo == 1 || data.trainingInfo == 1
+                            || data.proQualificationInfo == 1 || data.experienceInfo == 1
+                            || data.specializationInfo == 1 || data.referenceInfo == 1
+                            || data.photographInfo == 1
 
                     bdJobsResumeStatusPercentage.value = data.bdjobsStatusPercentage?.toInt()
 
@@ -145,6 +156,22 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
             }
         }
 
+    }
+
+    fun downloadCv(status:String) {
+        isLoading.value = true
+
+        viewModelScope.launch {
+            try {
+                val response = repository.downloadCV(status)
+
+                if (response.statuscode=="0") {
+                    _downloadCVStat.value = response
+                }
+            } catch (e:Exception) {
+                Timber.e("Error while getting CV download Link : ${e.localizedMessage}")
+            }
+        }
     }
 
     @SuppressLint("SimpleDateFormat")

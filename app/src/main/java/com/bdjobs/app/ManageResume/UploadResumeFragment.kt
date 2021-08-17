@@ -111,23 +111,23 @@ class UploadResumeFragment : Fragment() {
                         if (!statCalculatedFrom.isNullOrEmpty()) {
 
                             cv_no_personalized_resume.hide()
-//                            tv_stat_calculated_from.show()
-//                            tv_label_stat_personalized_resume.show()
-//                            cl_stat_personalized_resume.show()
-//
-//
-//                            tv_personalized_resume_view_count.text = data.personalizedViewed
-//                            tv_personalized_resume_download_count.text = data.personalizedDownload
-//                            tv_personalized_resume_emailed_count.text = data.personalizedEmailed
-//
-//                            tv_stat_calculated_from.text =
-//                                "Statistics calculated from $statCalculatedFrom"
+                            tv_stat_calculated_from.show()
+                            tv_label_stat_personalized_resume.show()
+                            cl_stat_personalized_resume.show()
+
+
+                            tv_personalized_resume_view_count.text = data.personalizedViewed
+                            tv_personalized_resume_download_count.text = data.personalizedDownload
+                            tv_personalized_resume_emailed_count.text = data.personalizedEmailed
+
+                            tv_stat_calculated_from.text =
+                                "Statistics calculated from $statCalculatedFrom"
 
                             //for production build 2.9.0
-                            Timber.tag("UploadResumeFragment").d("Stat not null")
-                            tv_stat_calculated_from.hide()
-                            tv_label_stat_personalized_resume.hide()
-                            cl_stat_personalized_resume.hide()
+//                            Timber.tag("UploadResumeFragment").d("Stat not null")
+//                            tv_stat_calculated_from.hide()
+//                            tv_label_stat_personalized_resume.hide()
+//                            cl_stat_personalized_resume.hide()
 
                         } else {
                             tv_stat_calculated_from.hide()

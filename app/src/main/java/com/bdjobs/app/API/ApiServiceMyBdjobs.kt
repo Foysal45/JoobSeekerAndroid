@@ -1356,6 +1356,15 @@ interface ApiServiceMyBdjobs {
         @Field("statusType") statusType: String? = "",
     ) : ResumePrivacyUpdate
 
+    @FormUrlEncoded
+    @POST("file_upload.aspx")
+    suspend fun downloadCv(
+        @Field("userid") userID: String? = "",
+        @Field("decodeid") decodeID: String? = "",
+        @Field("status") status: String? = "",
+        @Field("appId") appId: String? = Constants.APP_ID
+    ): UploadResume
+
 
 
     companion object Factory {

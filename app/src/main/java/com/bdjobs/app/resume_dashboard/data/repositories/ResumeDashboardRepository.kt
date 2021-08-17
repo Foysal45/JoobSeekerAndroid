@@ -2,6 +2,7 @@ package com.bdjobs.app.resume_dashboard.data.repositories
 
 import android.app.Application
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.resume_dashboard.data.models.ManageResumeDetailsStat
@@ -57,4 +58,12 @@ class ResumeDashboardRepository(val application: Application) {
             )
         }
     }
-}
+
+    suspend fun downloadCV(status:String) : UploadResume {
+        return  withContext(Dispatchers.IO) {
+            ApiServiceMyBdjobs.create().downloadCv(
+                bdjobsUserSession.userId,bdjobsUserSession.decodId,status
+            )
+        }
+    }
+ }

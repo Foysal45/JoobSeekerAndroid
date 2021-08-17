@@ -1,17 +1,23 @@
 package com.bdjobs.app.resume_dashboard.ui.view_edit_resume
 
 import android.app.Application
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.navGraphViewModels
 import com.bdjobs.app.ManageResume.ManageResumeActivity
+import com.bdjobs.app.ManageResume.ViewPersonalizedResume
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
+import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.ViewEditResumeFragmentBinding
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.editResume.PhotoUploadActivity
@@ -28,10 +34,12 @@ import kotlinx.android.synthetic.main.layout_no_video_resume.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
 import timber.log.Timber
+import java.util.*
 
 class ViewEditResumeFragment : Fragment() {
 
     private lateinit var binding: ViewEditResumeFragmentBinding
+    private lateinit var session: BdjobsUserSession
     private val viewEditResumeViewModel: ViewEditResumeViewModel by viewModels {
         ViewEditResumeViewModelFactory(ResumeDashboardRepository(requireActivity().application as Application))
     }
@@ -45,6 +53,8 @@ class ViewEditResumeFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             viewModel = viewEditResumeViewModel
         }
+
+        session = BdjobsUserSession(requireContext())
 
         return binding.root
     }
@@ -61,11 +71,35 @@ class ViewEditResumeFragment : Fragment() {
             tvChangeVisibility.setOnClickListener { startActivity<SettingBaseActivity>("from" to "dashboard") }
 
             tvEditVideoResume.setOnClickListener { startActivity<VideoResumeActivity>() }
+            tvViewVideoResume.setOnClickListener { navigateToVideoResumeQuestionFragment() }
             tvEditBdjobsResume.setOnClickListener { startActivity<EditResLandingActivity>() }
+            tvViewBdjobsResume.setOnClickListener {
+                try {
+                    val str1 = random()
+                    val str2 = random()
+                    val id = str1 + session.userId + session.decodId + str2
+                    startActivity<WebActivity>(
+                        "url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id",
+                        "from" to "cvview"
+                    )
+                } catch (e: Exception) {
+                    logException(e)
+                }
+            }
             tvEditPersonalizedResume.setOnClickListener {
                 startActivity<ManageResumeActivity>(
                         "from" to "uploadResume"
                 )
+            }
+            tvViewPersonalizedResume.setOnClickListener {
+                if (viewEditResumeViewModel.downloadCVStat.value!=null) {
+                    activity?.startActivity(
+                        Intent(activity, ViewPersonalizedResume::class.java)
+                            .putExtra("PDF_URL", viewEditResumeViewModel.downloadCVStat.value?.data?.get(0)!!.path))
+                } else {
+                    Toast.makeText(requireContext(), "Couldn't fetch link! Try again", Toast.LENGTH_SHORT).show()
+                }
+
             }
 
             tvPersonalDetails.setOnClickListener {
@@ -138,12 +172,27 @@ class ViewEditResumeFragment : Fragment() {
 
     private fun setUpObserver() {
         viewEditResumeViewModel.apply {
-            showBdJobsResumeSteps.value = false
-            showVideoResumeSteps.value = false
+            showBdJobsResumeSteps.value = true
+            showVideoResumeSteps.value = true
 
             resumePrivacyStatus()
+            downloadCv("download")
             manageResumeDetailsStat()
         }
     }
+
+    private fun random(): String {
+        val chars = "abcdefghijklmnopqrstuvwxyz12345678910".toCharArray()
+        val sb = StringBuilder()
+        val random = Random()
+        for (i in 0..4) {
+            val c = chars[random.nextInt(chars.size)]
+            sb.append(c)
+        }
+        val output = sb.toString()
+        println(output)
+        return output
+    }
+
 
 }

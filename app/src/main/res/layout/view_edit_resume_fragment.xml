@@ -47,7 +47,6 @@
                     app:strokeColor="#E6E6E6"
                     app:strokeWidth="1dp">
 
-
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -75,11 +74,24 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_view_bdjobs_resume"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text="@string/label_view"
+                                android:layout_marginEnd="18dp"
+                                android:fontFamily="@font/roboto"
+                                app:drawableStartCompat="@drawable/ic_edit_resume_view"
+                                app:layout_constraintEnd_toStartOf="@+id/tv_edit_bdjobs_resume"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv_edit_bdjobs_resume"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="10dp"
                                 android:text="@string/label_edit"
+                                android:fontFamily="@font/roboto"
                                 app:drawableStartCompat="@drawable/ic_edit_resume"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -288,6 +300,13 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </com.google.android.material.card.MaterialCardView>
+
+                <include
+                    android:id="@+id/no_bdjobs_resume"
+                    layout="@layout/layout_no_bdjobs_resume"
+                    android:visibility="@{viewModel.isBdjobsResumeAvailable ? View.GONE : View.VISIBLE}"
+                    tools:visibility="gone" />
+
                 <!--bdjobs resume section end-->
 
                 <!--video resume section start-->
@@ -330,6 +349,17 @@
                                 android:textSize="14sp"
                                 app:drawableStartCompat="@drawable/ic_video_resume_count"
                                 app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_view_video_resume"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text="@string/label_view"
+                                app:drawableStartCompat="@drawable/ic_edit_resume_view"
+                                android:layout_marginEnd="18dp"
+                                app:layout_constraintEnd_toStartOf="@+id/tv_edit_video_resume"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -563,6 +593,19 @@
                         app:drawableStartCompat="@drawable/ic_personalized_resume_count"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_view_personalized_resume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:visibility="@{viewModel.isPersonalizedResumeAvailable ? View.VISIBLE : View.GONE}"
+                        android:text="@string/label_view"
+                        app:drawableStartCompat="@drawable/ic_edit_resume_view"
+                        android:layout_marginEnd="18dp"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_edit_personalized_resume"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="gone" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_edit_personalized_resume"
