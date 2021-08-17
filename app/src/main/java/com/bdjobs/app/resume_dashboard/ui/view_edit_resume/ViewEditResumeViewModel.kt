@@ -76,11 +76,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                     val data = response.data!![0]
                     _detailsResumeStat.value = data
 
-                    isBdjobsResumeAvailable.value = data.bdjobsStatusPercentage != "0" || data.personalDetailsInfo == 1
-                            || data.academicInfo == 1 || data.trainingInfo == 1
-                            || data.proQualificationInfo == 1 || data.experienceInfo == 1
-                            || data.specializationInfo == 1 || data.referenceInfo == 1
-                            || data.photographInfo == 1
+                    isBdjobsResumeAvailable.value = data.bdjobsStatusPercentage != "0"
 
                     bdJobsResumeStatusPercentage.value = data.bdjobsStatusPercentage?.toInt()
 

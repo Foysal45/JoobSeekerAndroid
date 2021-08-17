@@ -11,7 +11,7 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_video_resume_label"
+        android:id="@+id/tv_bdjobs_resume_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="10dp"
@@ -31,11 +31,11 @@
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_video_resume_label"
+        app:layout_constraintTop_toBottomOf="@id/tv_bdjobs_resume_label"
         app:srcCompat="@drawable/ic_alert_resume" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_label_no_video_resume"
+        android:id="@+id/tv_label_no_bdjobs_resume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -49,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv_alert_video_resume" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_add_video_resume"
+        android:id="@+id/btn_add_bdjobs_resume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -60,7 +60,7 @@
         android:fontFamily="@font/roboto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_label_no_video_resume" />
+        app:layout_constraintTop_toBottomOf="@id/tv_label_no_bdjobs_resume" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

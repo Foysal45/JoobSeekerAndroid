@@ -204,8 +204,7 @@ class DownloadResumeFragment : android.app.Fragment() {
 
         }
     }
-
-
+    
     @SuppressLint("SimpleDateFormat")
     private fun formatDateVP(lastUpdate: String?,format: SimpleDateFormat= SimpleDateFormat("M/dd/yyyy HH:mm:ss a")): String {
         var lastUpdate1 = lastUpdate

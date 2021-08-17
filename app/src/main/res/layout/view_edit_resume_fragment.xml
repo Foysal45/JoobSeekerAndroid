@@ -49,6 +49,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
+                        android:visibility="@{viewModel.isBdjobsResumeAvailable ? View.VISIBLE : View.GONE}"
                         android:layout_height="match_parent">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -299,13 +300,16 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <include
+                        android:id="@+id/no_bdjobs_resume"
+                        tools:visibility="gone"
+                        layout="@layout/layout_no_bdjobs_resume"
+                        android:visibility="@{viewModel.isBdjobsResumeAvailable ? View.GONE : View.VISIBLE}"
+                        />
+
+
                 </com.google.android.material.card.MaterialCardView>
 
-                <include
-                    android:id="@+id/no_bdjobs_resume"
-                    layout="@layout/layout_no_bdjobs_resume"
-                    android:visibility="@{viewModel.isBdjobsResumeAvailable ? View.GONE : View.VISIBLE}"
-                    tools:visibility="gone" />
 
                 <!--bdjobs resume section end-->
 
@@ -484,7 +488,7 @@
                                     android:fontFamily="@font/roboto"
                                     android:padding="5dp"
                                     checkedDrawableVideo="@{viewModel.videoResumeQ2}"
-                                    android:text="Tell us about your academic qualification and trainings (if any)."
+                                    android:text="Tell about your academic qualification and trainings (if any)."
                                     android:textColor="#4D4D4D"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"

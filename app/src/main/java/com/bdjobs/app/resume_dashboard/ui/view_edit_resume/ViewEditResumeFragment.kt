@@ -29,6 +29,7 @@ import com.bdjobs.app.resume_dashboard.data.models.DataMRD
 import com.bdjobs.app.resume_dashboard.data.repositories.ResumeDashboardRepository
 import com.bdjobs.app.videoResume.VideoResumeActivity
 import kotlinx.android.synthetic.main.layout_bdjobs_resume_steps.*
+import kotlinx.android.synthetic.main.layout_no_bdjobs_resume.*
 import kotlinx.android.synthetic.main.layout_no_personalized_resume.*
 import kotlinx.android.synthetic.main.layout_no_video_resume.*
 import org.jetbrains.anko.startActivity
@@ -133,6 +134,10 @@ class ViewEditResumeFragment : Fragment() {
             tvQuestionFour.setOnClickListener { navigateToVideoResumeQuestionFragment() }
             tvQuestionFive.setOnClickListener { navigateToVideoResumeQuestionFragment() }
             tvQuestionSix.setOnClickListener { navigateToVideoResumeQuestionFragment() }
+        }
+
+        btn_add_bdjobs_resume.setOnClickListener {
+            startActivity<EditResLandingActivity>()
         }
 
         btn_add_video_resume.setOnClickListener {
