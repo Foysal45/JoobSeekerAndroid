@@ -178,8 +178,8 @@ class ViewEditResumeFragment : Fragment() {
 
     private fun setUpObserver() {
         viewEditResumeViewModel.apply {
-            showBdJobsResumeSteps.value = true
-            showVideoResumeSteps.value = true
+//            showBdJobsResumeSteps.value = true
+//            showVideoResumeSteps.value = true
 
             resumePrivacyStatus()
             downloadCv("download")

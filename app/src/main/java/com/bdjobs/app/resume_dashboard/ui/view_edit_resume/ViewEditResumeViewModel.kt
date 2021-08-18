@@ -78,6 +78,9 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
 
                     isBdjobsResumeAvailable.value = data.bdjobsStatusPercentage != "0"
 
+                    showBdJobsResumeSteps.value = data.bdjobsStatusPercentage != "100"
+                    showVideoResumeSteps.value = data.videoStatusPercentage != "100"
+
                     bdJobsResumeStatusPercentage.value = data.bdjobsStatusPercentage?.toInt()
 
                     showBdJobsLastUpdateDate.value = data.bdjobsLastUpdateDate != ""
