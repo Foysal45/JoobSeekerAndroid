@@ -183,6 +183,7 @@ class ViewEditResumeFragment : Fragment() {
 
             resumePrivacyStatus()
             downloadCv("download")
+            videoResumeQuestionList()
             manageResumeDetailsStat()
         }
     }

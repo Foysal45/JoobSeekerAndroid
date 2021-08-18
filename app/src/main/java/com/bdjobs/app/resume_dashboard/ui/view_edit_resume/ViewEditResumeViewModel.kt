@@ -93,7 +93,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                     if (data.videoLastUpdateDate != "") videoResumeLastUpdate.value =
                         formatDateVP(data.videoLastUpdateDate)
                     isVideoResumeShowingToEmp.value = data.videoResumeVisibility == "1"
-                    if (isVideoResumeAvailable.value == true) videoResumeQuestionList()
+//                    if (isVideoResumeAvailable.value == true) videoResumeQuestionList()
 
                     isPersonalizedResumeAvailable.value = data.personalizefileName != ""
                     if (data.personalizeLastUpdateDate != "") personalizedResumeLastUpload.value =
@@ -111,7 +111,9 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
         }
     }
 
-    private fun videoResumeQuestionList() {
+    fun videoResumeQuestionList() {
+        isLoading.value = true
+
         viewModelScope.launch {
             try {
                 val response = repository.getQuestionListFromRemote()

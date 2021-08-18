@@ -78,7 +78,9 @@ class VideoResumeLandingFragment : Fragment() {
 
             openTurnOffVisibilityDialogEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
-                    openTurnOffVisibilityDialog()
+//                    openTurnOffVisibilityDialog()
+
+                    session.insertVideoResumeVisibility(false)
                 }
             })
 
@@ -164,6 +166,9 @@ class VideoResumeLandingFragment : Fragment() {
         }
         builder.setNegativeButton("CANCEL") { _, _ ->
             Timber.d("no,keep invisible")
+
+            this.videoResumeLandingViewModel.noSelected.value = true
+            this.videoResumeLandingViewModel.yesSelected.value = false
             this.videoResumeLandingViewModel.notChangeResumeVisibility()
         }
         builder.show()
