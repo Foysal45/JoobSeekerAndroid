@@ -123,9 +123,9 @@ class UploadResumeFragment : Fragment() {
                                 cl_stat_personalized_resume.show()
 
 
-                                tv_personalized_resume_view_count.text = data.personalizedViewed
-                                tv_personalized_resume_download_count.text = data.personalizedDownload
-                                tv_personalized_resume_emailed_count.text = data.personalizedEmailed
+                                tv_personalized_resume_view_count.text = if (data.personalizedViewed!="0") data.personalizedViewed else "-"
+                                tv_personalized_resume_download_count.text = if (data.personalizedDownload!="0")  data.personalizedDownload else "-"
+                                tv_personalized_resume_emailed_count.text = if (data.personalizedEmailed!="0")  data.personalizedEmailed else "-"
 
                                 tv_stat_calculated_from.text =
                                     "Statistics calculated from $statCalculatedFrom"
