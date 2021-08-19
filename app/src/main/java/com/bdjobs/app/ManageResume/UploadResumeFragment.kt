@@ -91,9 +91,15 @@ class UploadResumeFragment : Fragment() {
                     bdjobsUserSession.isCvPosted
                 )
 
-                runOnUiThread {
-                    activity.stopProgressBar(loadingProgressBar)
-                    cl_personalized_resume_stat.show()
+                if (activity!=null) {
+                    runOnUiThread {
+
+                        if (!activity.isFinishing) {
+                            activity.stopProgressBar(loadingProgressBar)
+                        }
+
+                        cl_personalized_resume_stat.show()
+                    }
                 }
 
 
@@ -106,49 +112,61 @@ class UploadResumeFragment : Fragment() {
                         )
                     }
 
-                    runOnUiThread {
+                    if (activity!=null) {
+                        runOnUiThread {
 
-                        if (!statCalculatedFrom.isNullOrEmpty()) {
+                            if (!statCalculatedFrom.isNullOrEmpty()) {
 
-                            cv_no_personalized_resume.hide()
-                            tv_stat_calculated_from.show()
-                            tv_label_stat_personalized_resume.show()
-                            cl_stat_personalized_resume.show()
+                                cv_no_personalized_resume.hide()
+                                tv_stat_calculated_from.show()
+                                tv_label_stat_personalized_resume.show()
+                                cl_stat_personalized_resume.show()
 
 
-                            tv_personalized_resume_view_count.text = data.personalizedViewed
-                            tv_personalized_resume_download_count.text = data.personalizedDownload
-                            tv_personalized_resume_emailed_count.text = data.personalizedEmailed
+                                tv_personalized_resume_view_count.text = data.personalizedViewed
+                                tv_personalized_resume_download_count.text = data.personalizedDownload
+                                tv_personalized_resume_emailed_count.text = data.personalizedEmailed
 
-                            tv_stat_calculated_from.text =
-                                "Statistics calculated from $statCalculatedFrom"
+                                tv_stat_calculated_from.text =
+                                    "Statistics calculated from $statCalculatedFrom"
 
-                            //for production build 2.9.0
+                                //for production build 2.9.0
 //                            Timber.tag("UploadResumeFragment").d("Stat not null")
 //                            tv_stat_calculated_from.hide()
 //                            tv_label_stat_personalized_resume.hide()
 //                            cl_stat_personalized_resume.hide()
 
-                        } else {
-                            tv_stat_calculated_from.hide()
-                            tv_label_stat_personalized_resume.hide()
-                            cl_stat_personalized_resume.hide()
+                            } else {
+                                tv_stat_calculated_from.hide()
+                                tv_label_stat_personalized_resume.hide()
+                                cl_stat_personalized_resume.hide()
 
-                            cv_no_personalized_resume.show()
+                                cv_no_personalized_resume.show()
+                            }
+
+
                         }
-
-
                     }
 
-                } else runOnUiThread { toast("Sorry, personalized resume stat fetching failed!") }
+
+
+                } else {
+                    if (activity!=null) {
+                        runOnUiThread {
+                            toast("Sorry, personalized resume stat fetching failed!")
+                        }
+                    }
+
+                }
 
             } catch (e: Exception) {
                 Timber.e("Exception while fetching personalized resume stat: ${e.localizedMessage}")
-                runOnUiThread {
-                    activity.stopProgressBar(loadingProgressBar)
-                    toast("Sorry, personalized resume stat fetching failed: ${e.localizedMessage}")
+                if (activity!=null) {
+                    runOnUiThread {
+                        activity.stopProgressBar(loadingProgressBar)
+                        toast("Sorry, personalized resume stat fetching failed: ${e.localizedMessage}")
+                    }
                 }
-
             }
 
 

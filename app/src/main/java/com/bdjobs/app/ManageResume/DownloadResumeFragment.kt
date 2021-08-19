@@ -141,11 +141,12 @@ class DownloadResumeFragment : android.app.Fragment() {
                     bdjobsUserSession.isCvPosted
                 )
 
-                runOnUiThread {
-                    activity.stopProgressBar(loadingProgressBar)
-                    cl_personalized_resume_stat.show()
+                if (activity!=null) {
+                    runOnUiThread {
+                        activity.stopProgressBar(loadingProgressBar)
+                        cl_personalized_resume_stat.show()
+                    }
                 }
-
 
                 if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
@@ -169,35 +170,44 @@ class DownloadResumeFragment : android.app.Fragment() {
 
                     bdjobsUserSession.personalizedResumeSessionStatCalculatedFrom = statCalculatedFrom
 
-                    runOnUiThread {
-                        tv_personalized_resume_view_count.text = data.personalizedViewed
-                        tv_personalized_resume_download_count.text = data.personalizedDownload
-                        tv_personalized_resume_emailed_count.text = data.personalizedEmailed
+                    if (activity!=null) {
+                        runOnUiThread {
+                            tv_personalized_resume_view_count.text = data.personalizedViewed
+                            tv_personalized_resume_download_count.text = data.personalizedDownload
+                            tv_personalized_resume_emailed_count.text = data.personalizedEmailed
 
-                        tv_stat_calculated_from.text = "Statistics calculated from $statCalculatedFrom"
-                        tv_last_upload_personalized_resume.text = "Last Upload: $lastUpdatedOn"
+                            tv_stat_calculated_from.text = "Statistics calculated from $statCalculatedFrom"
+                            tv_last_upload_personalized_resume.text = "Last Upload: $lastUpdatedOn"
 
-                        tv_file_name_personalized_resume.text = data.personalizedFileName
+                            tv_file_name_personalized_resume.text = data.personalizedFileName
 
-                        if (data.personalizefileType=="2") {
-                            tv_file_name_personalized_resume.setCompoundDrawablesWithIntrinsicBounds(0,
-                                R.drawable.ic_ms_word,0,0)
-                        } else {
-                            tv_file_name_personalized_resume.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_pdf_personalized_resume,0,0)
+                            if (data.personalizefileType=="2") {
+                                tv_file_name_personalized_resume.setCompoundDrawablesWithIntrinsicBounds(0,
+                                    R.drawable.ic_ms_word,0,0)
+                            } else {
+                                tv_file_name_personalized_resume.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_pdf_personalized_resume,0,0)
+                            }
+
                         }
-
                     }
 
 
+                } else {
+                    if (activity!=null) {
+                        runOnUiThread { toast("Sorry, personalized resume stat fetching failed!") }
+                    }
 
-                } else runOnUiThread { toast("Sorry, personalized resume stat fetching failed!") }
+                }
 
             } catch (e: Exception) {
                 Timber.e("Exception while fetching personalized resume stat: ${e.localizedMessage}")
-                runOnUiThread {
-                    activity.stopProgressBar(loadingProgressBar)
-                    toast("Sorry, personalized resume stat fetching failed: ${e.localizedMessage}")
+                if (activity!=null) {
+                    runOnUiThread {
+                        activity.stopProgressBar(loadingProgressBar)
+                        toast("Sorry, personalized resume stat fetching failed: ${e.localizedMessage}")
+                    }
                 }
+
 
             }
 
