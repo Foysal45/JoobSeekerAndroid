@@ -599,6 +599,14 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 } catch (e: Exception) {
                 }
 
+                try {
+                    if (items[position].seen!!) {
+                        promotionalMessageViewHolder.parentCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                    } else
+                        promotionalMessageViewHolder.parentCL.setBackgroundColor(Color.parseColor("#FFF2FA"))
+                } catch (e: Exception) {
+                }
+
 
                 val title = Html.fromHtml(items[position].title)
                 if (!items[position].title.isNullOrEmpty()) {
@@ -653,6 +661,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
                                         val count = bdjobsDB.notificationDao().getMessageCount()
                                         bdjobsUserSession.updateMessageCount(count)
                                     }
+
+                                    promotionalMessageViewHolder.parentCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
                                 }
                             } catch (e: Exception) {
                                 Timber.e("Catch in seen ${e.localizedMessage}")
@@ -856,6 +866,7 @@ class PromotionalMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val messageImage = view?.findViewById(R.id.message_image) as ImageView
     val card = view?.findViewById(R.id.card) as CardView
     val headerImage = view?.findViewById(R.id.message_header_img) as ImageView
+    val parentCL = view.findViewById<ConstraintLayout>(R.id.notification_cv_viewed_cl)
 
 }
 
