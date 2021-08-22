@@ -230,7 +230,7 @@ class LiveInterviewDetailsViewModel(
                     activity = "3"
             )
             if (response.statuscode == "4") {
-                showToast.value = Event(response.message.toString())
+//                showToast.value = Event(response.message.toString())
                 getLiveInterviewDetails()
                 showConfirmationSection.value = false
                 showPreparationSection.value = true
