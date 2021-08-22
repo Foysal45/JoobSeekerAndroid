@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
@@ -31,6 +32,7 @@ import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
+import com.bdjobs.app.LoggedInUserLanding.myJobs.MyJobsFragment
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.Notification.Models.CommonNotificationModel
 import com.bdjobs.app.Notification.NotificationBaseActivity
@@ -86,8 +88,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
             homeFragment.updateMessageView(it.messageCount)
             hotJobsFragmentnew.updateNotificationView(count)
             hotJobsFragmentnew.updateMessageView(it.messageCount)
-            shortListedJobFragment.updateNotificationView(count)
-            shortListedJobFragment.updateMessageView(it.messageCount)
+            myJobsFragment.updateNotificationView(count)
+            myJobsFragment.updateMessageView(it.messageCount)
             mybdjobsFragment.updateNotificationView(count)
             mybdjobsFragment.updateMessageView(it.messageCount)
             moreFragment.updateNotificationView(count)
@@ -230,6 +232,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
     private val hotJobsFragmentnew = HotJobsFragmentNew()
     private val moreFragment = MoreFragment()
     private val shortListedJobFragment = ShortListedJobFragment()
+    private val myJobsFragment = MyJobsFragment()
     private val mybdjobsFragment = MyBdjobsFragment()
     private lateinit var session: BdjobsUserSession
     private var lastMonthStats: List<StatsModelClassData?>? = null
@@ -706,7 +709,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_shortlisted_jobs -> {
-                transitFragment(shortListedJobFragment, R.id.landingPageFragmentHolderFL)
+                transitFragment(myJobsFragment, R.id.landingPageFragmentHolderFL)
+//                transitFragment(myJobsFragment,R.id.landingPageFragmentHolderFL,false)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_hotjobs -> {

@@ -1,5 +1,6 @@
 package com.bdjobs.app.LoggedInUserLanding
 
+import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import java.util.*
 
@@ -37,5 +38,22 @@ interface HomeCommunicator {
     fun goToNotifications()
     fun goToMessages()
     fun goToResumeManager()
+
+    // followed employers
+
+//    fun setFollowedEmployerList( empList:ArrayList<FollowEmployerListData>?)
+//    fun getFollowedEmployerList():ArrayList<FollowEmployerListData>?
+//
+//    fun setCurrentPage(value:Int?)
+//    fun setTotalPage(value:Int?)
+//    fun setIsloading(value:Boolean?)
+//    fun setIsLastPage(value:Boolean?)
+//    fun setFollowedListSize(value:Int?)
+//
+//    fun getCurrentPage():Int?
+//    fun getTotalPage():Int?
+//    fun getIsloading():Boolean?
+//    fun getIsLastPage():Boolean?
+//    fun getFollowedListSize():Int?
 
 }

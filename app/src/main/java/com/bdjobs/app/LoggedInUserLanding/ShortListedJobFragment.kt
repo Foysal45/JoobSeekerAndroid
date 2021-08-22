@@ -6,7 +6,6 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
@@ -26,8 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class
-ShortListedJobFragment : Fragment() {
+class ShortListedJobFragment : Fragment() {
     lateinit var bdjobsDB: BdjobsDB
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var joblistAdapter: JoblistAdapter
@@ -78,6 +76,7 @@ ShortListedJobFragment : Fragment() {
 
         val shortListFilter = homeCommunicator.getShortListFilter()
         showShortListFIlterList(shortListFilter)
+
     }
 
     override fun onResume() {
@@ -183,7 +182,7 @@ ShortListedJobFragment : Fragment() {
         isLoadings = false
         isLastPages = false
         shortListRV?.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         shortListRV?.layoutManager = layoutManager
         joblistAdapter = JoblistAdapter(activity)
         shortListRV?.adapter = joblistAdapter
