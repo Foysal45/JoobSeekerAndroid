@@ -207,8 +207,8 @@ class MoreFragment : Fragment() {
     private fun navigateToVideoResumePage() {
         if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
             try {
-                val alertd = alert("To Access this feature please post your resume") {
-                    title = "Your resume is not posted!"
+                val alertd = alert("To access this feature please post your Bdjobs Resume.") {
+                    title = "Your Bdjobs Resume is not posted yet!"
                     positiveButton("Post Bdjobs Resume") { startActivity<PersonalInfoActivity>("name" to "personal", "personal_info_edit" to "null") }
                     negativeButton("Cancel") { dd ->
                         dd.dismiss()

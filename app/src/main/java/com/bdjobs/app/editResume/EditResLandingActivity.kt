@@ -74,8 +74,8 @@ class EditResLandingActivity : Activity() {
         viewResumeBTN?.setOnClickListener {
             if (!session.isCvPosted?.equalIgnoreCase("true")!!) {
                 try {
-                    val alertd = alert("To Access this feature please post your resume") {
-                        title = "Your resume is not posted!"
+                    val alertd = alert("To access this feature please post your Bdjobs Resume.") {
+                        title = "Your Bdjobs Resume is not posted yet!"
                         negativeButton("OK") { dd ->
                             dd.dismiss()
                         }
