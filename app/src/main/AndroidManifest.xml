@@ -247,6 +247,10 @@
             android:windowSoftInputMode="adjustPan|adjustResize" />
 
         <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5130888087776673~6094744346"/>
+
+        <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
             android:value="true" />
         <meta-data

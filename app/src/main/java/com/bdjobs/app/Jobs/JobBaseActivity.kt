@@ -23,6 +23,7 @@ import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.internal.BdjobsDB
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_job_landing.*
@@ -185,7 +186,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             getData()
         }
 
-//        showClientAD()
+        showClientAD()
 //        Ads.loadAdaptiveBanner(this@JobBaseActivity,adView_container)
 
     }
@@ -204,7 +205,7 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                                         if (response.body()?.data!!.isNotEmpty() && response.body()!!.data[0].imageurl.isNotEmpty()) {
 
                                             ivClientAd.visibility = View.VISIBLE
-                                            adView_container.visibility = View.GONE
+                                            adView.visibility = View.GONE
 
                                             val dimensionInDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, response.body()!!.data[0].height.toFloat(),
                                                     resources.displayMetrics).toInt()
@@ -225,21 +226,24 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
                                         } else {
                                             ivClientAd.visibility = View.GONE
-                                            adView_container.visibility = View.VISIBLE
-                                            Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
+                                            adView.visibility = View.VISIBLE
+                                            adView.loadAd(AdRequest.Builder().build())
+//                                            Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
                                         }
                                     } else {
                                         Timber.d("Response code: ${response.code()}")
                                         ivClientAd.visibility = View.GONE
-                                        adView_container.visibility = View.VISIBLE
-                                        Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
+                                        adView.visibility = View.VISIBLE
+                                        adView.loadAd(AdRequest.Builder().build())
+//                                        Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
                                     }
                                 }
                                 else {
                                     Timber.d("Unsuccessful response")
                                     ivClientAd.visibility = View.GONE
-                                    adView_container.visibility = View.VISIBLE
-                                    Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
+                                    adView.visibility = View.VISIBLE
+                                    adView.loadAd(AdRequest.Builder().build())
+//                                    Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
                                 }
                             } catch (e: Exception) {
                             }
@@ -247,10 +251,13 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
                         override fun onFailure(call: Call<ClientAdModel>, t: Throwable) {
                             Timber.e("Client ad fetching failed due to: ${t.localizedMessage} .. Showing ADMob AD")
-
-                            ivClientAd.visibility = View.GONE
-                            adView_container.visibility = View.VISIBLE
-                            Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
+                            try {
+                                ivClientAd.visibility = View.GONE
+                                adView.visibility = View.VISIBLE
+                                adView.loadAd(AdRequest.Builder().build())
+//                                Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
+                            } catch (e: Exception) {
+                            }
                         }
                     })
         } catch (e: Exception) {}

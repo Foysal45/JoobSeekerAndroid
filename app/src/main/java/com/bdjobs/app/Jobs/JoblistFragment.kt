@@ -5,38 +5,32 @@ import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
 import android.text.Html
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
-import com.bdjobs.app.API.ModelClasses.ClientAdModel
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.SaveUpdateFavFilterModel
 import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.databases.internal.FavouriteSearch
-import com.bdjobs.app.databases.internal.LastSearch
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.FavouriteSearch
+import com.bdjobs.app.databases.internal.LastSearch
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
-import kotlinx.android.synthetic.main.fragment_joblist_layout.adView_container
-import kotlinx.android.synthetic.main.fragment_joblist_layout.ivClientAd
 import okhttp3.ResponseBody
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -264,7 +258,7 @@ class JoblistFragment : Fragment() {
         currentPage = 1
         jobListRecyclerView?.setHasFixedSize(true)
         communicator = activity as JobCommunicator
-        layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         jobListRecyclerView?.layoutManager = layoutManager
         joblistAdapter = JoblistAdapter(activity)
         jobListRecyclerView?.adapter = joblistAdapter
@@ -325,7 +319,7 @@ class JoblistFragment : Fragment() {
             }
         })
 
-        showClientAD()
+//        showClientAD()
     }
 
     private fun getDataNew() {
@@ -917,6 +911,7 @@ class JoblistFragment : Fragment() {
         return true
     }
 
+/*
     private fun showClientAD() {
 
         try {
@@ -984,6 +979,7 @@ class JoblistFragment : Fragment() {
                     })
         } catch (e: Exception) {}
     }
+*/
 
 
 }
