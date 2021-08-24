@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import java.net.SocketTimeoutException
 import java.util.*
 
 class JoblistFragment : Fragment() {
@@ -429,7 +431,13 @@ class JoblistFragment : Fragment() {
         }
     }
 
-    private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?,workPlace: String?, personWithDisability: String?, facilitiesForPWD: String?) {
+    private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?,
+                                     blueColur: String?, category: String?, deadline: String?, encoded: String?,
+                                     experince: String?, gender: String?, genderB: String?, industry: String?,
+                                     isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?,
+                                     lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int,
+                                     postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?,
+                                     workPlace: String?, personWithDisability: String?, facilitiesForPWD: String?) {
 
         //Log.d("rakib","${session.userId}")
 
@@ -551,6 +559,14 @@ class JoblistFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     logException(e)
+
+                    if (e is SocketTimeoutException) {
+                        Toast.makeText(
+                            activity,
+                            "Timeout: Please check your network connection & try again",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
 
             }
@@ -558,6 +574,11 @@ class JoblistFragment : Fragment() {
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable) {
                 //Log.d("TAG", "not successful!! onFail")
                 error("onFailure", t)
+                Toast.makeText(
+                    activity,
+                    "Sorry! Something went wrong please try again",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }

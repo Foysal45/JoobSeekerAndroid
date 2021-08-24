@@ -33,7 +33,7 @@ class Ads {
                     nativeAdTemplete?.setStyles(styles)
                     nativeAdTemplete?.setNativeAd(nativeAdvertisement)
                 } else {
-                    MobileAds.initialize(context)
+//                    MobileAds.initialize(context)
                     val adLoader = AdLoader.Builder(context, ADMOB_NATIVE_AD_UNIT_ID)
                         .forUnifiedNativeAd { ad: UnifiedNativeAd ->
                             nativeAdvertisement = ad
@@ -68,7 +68,7 @@ class Ads {
 
         fun loadAdaptiveBanner(context: Context, ad_view_container: FrameLayout) {
             try {
-                MobileAds.initialize(context) { }
+//                MobileAds.initialize(context) { }
 
                 val adView = AdView(context)
                 ad_view_container.addView(adView)

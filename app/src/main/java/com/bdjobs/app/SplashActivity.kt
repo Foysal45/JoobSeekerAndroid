@@ -77,7 +77,8 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         getFCMtoken()
         subscribeToFCMTopic("Global")
 //        unsubscribeFromFCMTopic("test_rakib")
-        MobileAds.initialize(this@SplashActivity, Constants.ADMOB_APP_ID)
+//        MobileAds.initialize(this@SplashActivity, Constants.ADMOB_APP_ID)
+        MobileAds.initialize(this)
         /* mPublisherInterstitialAd = PublisherInterstitialAd(this)
          mPublisherInterstitialAd.adUnitId = "/6499/example/interstitial"
          mPublisherInterstitialAd.loadAd(PublisherAdRequest.Builder().build())*/
