@@ -76,7 +76,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJobBroadcastReceiver.NotificationUpdateListener {
+class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
+    BackgroundJobBroadcastReceiver.NotificationUpdateListener {
 
 
     override fun onUpdateNotification() {
@@ -137,7 +138,10 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                     val str1 = random()
                     val str2 = random()
                     val id = str1 + session.userId + session.decodId + str2
-                    startActivity<WebActivity>("url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id", "from" to "cvview")
+                    startActivity<WebActivity>(
+                        "url" to "https://mybdjobs.bdjobs.com/mybdjobs/masterview_for_apps.asp?id=$id",
+                        "from" to "cvview"
+                    )
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -145,7 +149,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         }
         uploadResume?.setOnClickListener {
             startActivity<ManageResumeActivity>(
-                    "from" to "uploadResume"
+                "from" to "uploadResume"
             )
         }
         cancelIV?.setOnClickListener {
@@ -188,8 +192,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     override fun gotoTimesEmailedResume(times_last: Boolean) {
         startActivity<ManageResumeActivity>(
-                "from" to "timesEmailedResume",
-                "time_last" to times_last
+            "from" to "timesEmailedResume",
+            "time_last" to times_last
 
         )
     }
@@ -257,8 +261,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     override fun goToEmployerViewedMyResume(from: String) {
         startActivity<EmployersBaseActivity>(
-                "from" to from,
-                "time" to time
+            "from" to from,
+            "time" to time
         )
     }
 
@@ -327,12 +331,12 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     override fun goToFollowedEmployerList(from: String) {
         startActivity<EmployersBaseActivity>(
-                "from" to from,
-                "time" to time
+            "from" to from,
+            "time" to time
         )
     }
 
-    override fun goToResumeManager(){
+    override fun goToResumeManager() {
         startActivity<ResumeDashboardBaseActivity>()
 //        startActivity<ResumeManagerActivity>()
 
@@ -367,11 +371,11 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         }
 
         FirebaseInstanceId.getInstance().instanceId
-                .addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        return@OnCompleteListener
-                    }
-                })
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    return@OnCompleteListener
+                }
+            })
 
         loadAd()
 
@@ -386,7 +390,11 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
         if (isBlueCollarUser()) {
             getInviteCodeInformation()
-            getUserStatus(userId = session.userId!!, decodeId = session.decodId!!, invitedUserId = session.userId!!)
+            getUserStatus(
+                userId = session.userId!!,
+                decodeId = session.decodId!!,
+                invitedUserId = session.userId!!
+            )
         }
 
 //        insertTempMessage()
@@ -399,34 +407,35 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
         doAsync {
 
             val model = CommonNotificationModel(
-                    title = "Hello",
-                    body =  "Soumik",
-                    link = "https://www.bdjobs.com/",
-                    activityNode = "com.bdjobs.app.videoResume.VideoResumeActivity"
+                title = "Hello",
+                body = "Soumik",
+                link = "https://www.bdjobs.com/",
+                activityNode = "com.bdjobs.app.videoResume.VideoResumeActivity",
+                LogoSrc = "https://bdjobs.com/NotificationMessageimages/videoresumeslogo.png"
             )
 
             val model2 = CommonNotificationModel(
-                    title = "Hello",
-                    body =  "Soumik",
-                    link = "https://www.bdjobs.com/"
+                title = "Hello",
+                body = "Soumik",
+                link = "https://www.bdjobs.com/"
             )
 
             val model3 = CommonNotificationModel(
-                    title = "Hello",
-                    body =  "Soumik",
-                    link = "https://www.bdjobs.com/",
-                    activityNode = "com.bdjobs.app.videoResume.VideoResume"
+                title = "Hello",
+                body = "Soumik",
+                link = "https://www.bdjobs.com/",
+                activityNode = "com.bdjobs.app.videoResume.VideoResume"
             )
 
             val model4 = CommonNotificationModel(
-                    title = "Hello",
-                    body =  "Soumik",
-                    activityNode = "com.bdjobs.app.videoResume.VideoResumeActivity"
+                title = "Hello",
+                body = "Soumik",
+                activityNode = "com.bdjobs.app.videoResume.VideoResumeActivity"
             )
 
             val model5 = CommonNotificationModel(
-                    title = "Hello",
-                    body =  "Soumik"
+                title = "Hello",
+                body = "Soumik"
             )
 
             val list = bdjobsDB.notificationDao().getMessages("pm");
@@ -450,24 +459,33 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
                 var time = simpleDateFormat.format(Date())
                 Timber.d("Time: $time")
                 if (time !in timeList) {
+                    //{jobTitle=Employer Viewed Resume, imageLink=, companyName=Bdjobs Test Account - Az1, pId=4361771, body=An employer has viewed your resume/ CV. View employer name., link=https://mybdjobs.bdjobs.com/mybdjobs/resume_view.asp?Notification=28542990,
+                        // type=cv, jobId=35450, title=Employer Viewed Resume, notificationId=28542990, deleteType=}
                     bdjobsDB.notificationDao().insertNotification(
-                            Notification(
-                                    title = "Test",
-                                    body = "This is a test notification",
-                                    type = "pm",
-                                    imageLink = "https://picsum.photos/seed/picsum/200/300",
-                                    link = "https://mybdjobs.bdjobs.com/mybdjobs/resume_view.asp?Notification=25561954",
-                                    notificationId = "001",
-                                    arrivalTime = Date(),
-                                    payload = Gson().toJson(model).replace("\\n", "\n")
-                            )
+                        Notification(
+                            title = "Test",
+                            body = "This is a test notification",
+                            type = "pm",
+                            imageLink = "https://picsum.photos/seed/picsum/200/300",
+                            link = "https://mybdjobs.bdjobs.com/mybdjobs/resume_view.asp?Notification=25561954",
+                            notificationId = "001",
+                            arrivalTime = Date(),
+                            payload = Gson().toJson(model).replace("\\n", "\n")
+                        )
+                    )
+
+                    bdjobsDB.notificationDao().insertNotification(
+                        Notification(
+                            jobTitle="Employer Viewed Resume", imageLink="", companyName="Bdjobs Test Account - Az1",body="An employer has viewed your resume/ CV. View employer name",
+                            link="https://mybdjobs.bdjobs.com/mybdjobs/resume_view.asp?Notification=28542990",
+                         type="pm", title="Employer Viewed Resume", notificationId="28542990", serverId ="35450",
+                            arrivalTime = Date(),)
                     )
 
                     timeList.add(time)
                 }
 
             }
-
 
 
 //            bdjobsDB.notificationDao().insertNotification(
@@ -548,7 +566,9 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 //                    )
 //            )
 
-            BdjobsUserSession(this@MainLandingActivity).updateMessageCount(bdjobsDB.notificationDao().getMessageCount())
+            BdjobsUserSession(this@MainLandingActivity).updateMessageCount(
+                bdjobsDB.notificationDao().getMessageCount()
+            )
         }
     }
 
@@ -590,7 +610,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     private fun getInviteCodeInformation() {
         doAsync {
-            val inviteCodeUserInfo = bdjobsDB.inviteCodeUserInfoDao().getInviteCodeInformation(session.userId!!)
+            val inviteCodeUserInfo =
+                bdjobsDB.inviteCodeUserInfoDao().getInviteCodeInformation(session.userId!!)
             uiThread {
 
                 if (inviteCodeUserInfo.isNullOrEmpty()) {
@@ -614,29 +635,33 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     private fun updateInviteCodeOwnerInformation() {
         ApiServiceMyBdjobs.create().getInviteCodeUserOwnerInfo(
-                userID = session.userId,
-                decodeID = session.decodId,
-                mobileNumber = session.userName,
-                catId = getBlueCollarUserId().toString(),
-                deviceID = getDeviceID()
+            userID = session.userId,
+            decodeID = session.decodId,
+            mobileNumber = session.userName,
+            catId = getBlueCollarUserId().toString(),
+            deviceID = getDeviceID()
         ).enqueue(object : Callback<InviteCodeHomeModel> {
             override fun onFailure(call: Call<InviteCodeHomeModel>, t: Throwable) {
                 error("onFailure", t)
             }
 
-            override fun onResponse(call: Call<InviteCodeHomeModel>, response: Response<InviteCodeHomeModel>) {
+            override fun onResponse(
+                call: Call<InviteCodeHomeModel>,
+                response: Response<InviteCodeHomeModel>
+            ) {
 
                 if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
 
                     val inviteCodeInfo = InviteCodeInfo(
-                            userId = session.userId,
-                            userType = response.body()?.data?.get(0)?.userType,
-                            pcOwnerID = response.body()?.data?.get(0)?.pcOwnerID,
-                            inviteCodeStatus = response.body()?.data?.get(0)?.inviteCodeStatus
+                        userId = session.userId,
+                        userType = response.body()?.data?.get(0)?.userType,
+                        pcOwnerID = response.body()?.data?.get(0)?.pcOwnerID,
+                        inviteCodeStatus = response.body()?.data?.get(0)?.inviteCodeStatus
                     )
 
                     doAsync {
-                        bdjobsDB.inviteCodeUserInfoDao().insertInviteCodeUserInformation(inviteCodeInfo)
+                        bdjobsDB.inviteCodeUserInfoDao()
+                            .insertInviteCodeUserInformation(inviteCodeInfo)
                     }
                     inviteCodeuserType = inviteCodeInfo.userType
                     pcOwnerID = inviteCodeInfo.pcOwnerID
@@ -671,7 +696,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     override fun goToMessages() {
         startActivity<NotificationBaseActivity>(
-                "from" to "message"
+            "from" to "message"
         )
     }
 
@@ -689,7 +714,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
             if (resultCode == Activity.RESULT_OK) {
                 val typedData = data?.getStringExtra(key_typedData)
                 startActivity<JobBaseActivity>(
-                        Constants.key_jobtitleET to typedData)
+                    Constants.key_jobtitleET to typedData
+                )
             }
         }
     }
@@ -699,86 +725,109 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
     }
 
 
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                transitFragment(homeFragment, R.id.landingPageFragmentHolderFL)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_shortlisted_jobs -> {
-                transitFragment(shortListedJobFragment, R.id.landingPageFragmentHolderFL)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_hotjobs -> {
-                transitFragment(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL)
-                return@OnNavigationItemSelectedListener true
-            }
+    private val mOnNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    transitFragment(homeFragment, R.id.landingPageFragmentHolderFL)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_shortlisted_jobs -> {
+                    transitFragment(shortListedJobFragment, R.id.landingPageFragmentHolderFL)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_hotjobs -> {
+                    transitFragment(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL)
+                    return@OnNavigationItemSelectedListener true
+                }
 
-            R.id.navigation_mybdjobs -> {
-                transitFragment(mybdjobsFragment, R.id.landingPageFragmentHolderFL)
-                return@OnNavigationItemSelectedListener true
-            }
+                R.id.navigation_mybdjobs -> {
+                    transitFragment(mybdjobsFragment, R.id.landingPageFragmentHolderFL)
+                    return@OnNavigationItemSelectedListener true
+                }
 
-            R.id.navigation_more -> {
-                transitFragment(moreFragment, R.id.landingPageFragmentHolderFL)
-                return@OnNavigationItemSelectedListener true
+                R.id.navigation_more -> {
+                    transitFragment(moreFragment, R.id.landingPageFragmentHolderFL)
+                    return@OnNavigationItemSelectedListener true
+                }
             }
+            false
         }
-        false
-    }
 
-    override fun shortListedClicked(jobids: ArrayList<String>, lns: ArrayList<String>, deadline: ArrayList<String>) {
-        startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
+    override fun shortListedClicked(
+        jobids: ArrayList<String>,
+        lns: ArrayList<String>,
+        deadline: ArrayList<String>
+    ) {
+        startActivity<JobBaseActivity>(
+            "from" to "employer",
+            "jobids" to jobids,
+            "lns" to lns,
+            "position" to 0,
+            "deadline" to deadline
+        )
     }
 
 
     private fun getUserStatus(userId: String, decodeId: String, invitedUserId: String) {
 
         ApiServiceMyBdjobs.create().getInviteCodeUserStatus(
-                userID = userId,
-                decodeID = decodeId,
-                invited_user_id = invitedUserId
+            userID = userId,
+            decodeID = decodeId,
+            invited_user_id = invitedUserId
         ).enqueue(
-                object : Callback<InviteCodeUserStatusModel> {
-                    override fun onFailure(call: Call<InviteCodeUserStatusModel>, t: Throwable) {
-                        error("onFailure", t)
-                    }
+            object : Callback<InviteCodeUserStatusModel> {
+                override fun onFailure(call: Call<InviteCodeUserStatusModel>, t: Throwable) {
+                    error("onFailure", t)
+                }
 
-                    override fun onResponse(call: Call<InviteCodeUserStatusModel>, response: Response<InviteCodeUserStatusModel>) {
-                        try {
-                            if (response.isSuccessful) {
-                                val photoInfo = response.body()!!.data[0].photoInfo
-                                val educationInfo = response.body()!!.data[0].educationInfo
-                                val personalInfo = response.body()!!.data[0].personalInfo
-                                val skills = response.body()!!.data[0].skills
+                override fun onResponse(
+                    call: Call<InviteCodeUserStatusModel>,
+                    response: Response<InviteCodeUserStatusModel>
+                ) {
+                    try {
+                        if (response.isSuccessful) {
+                            val photoInfo = response.body()!!.data[0].photoInfo
+                            val educationInfo = response.body()!!.data[0].educationInfo
+                            val personalInfo = response.body()!!.data[0].personalInfo
+                            val skills = response.body()!!.data[0].skills
 
-                                if (photoInfo.equalIgnoreCase("True") &&
-                                        educationInfo.equalIgnoreCase("True") &&
-                                        personalInfo.equalIgnoreCase("True") &&
-                                        skills.equalIgnoreCase("True")
-                                )else {
-                                    showCategoryDialog(
-                                            response.body()!!.data[0].name,
-                                            response.body()!!.data[0].category,
-                                            response.body()!!.data[0].photoUrl,
-                                            personalInfo,
-                                            educationInfo,
-                                            photoInfo,
-                                            response.body()!!.data[0].createdDate,
-                                            skills
-                                    )
-                                }
+                            if (photoInfo.equalIgnoreCase("True") &&
+                                educationInfo.equalIgnoreCase("True") &&
+                                personalInfo.equalIgnoreCase("True") &&
+                                skills.equalIgnoreCase("True")
+                            ) else {
+                                showCategoryDialog(
+                                    response.body()!!.data[0].name,
+                                    response.body()!!.data[0].category,
+                                    response.body()!!.data[0].photoUrl,
+                                    personalInfo,
+                                    educationInfo,
+                                    photoInfo,
+                                    response.body()!!.data[0].createdDate,
+                                    skills
+                                )
                             }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
                         }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
+            }
         )
 
     }
 
-    private fun showCategoryDialog(name: String, category: String, photoUrl: String, personalInfo: String, educationInfo: String, photoInfo: String, createdDate: String, skillInfo: String) {
+    private fun showCategoryDialog(
+        name: String,
+        category: String,
+        photoUrl: String,
+        personalInfo: String,
+        educationInfo: String,
+        photoInfo: String,
+        createdDate: String,
+        skillInfo: String
+    ) {
 
         val dialog = Dialog(this@MainLandingActivity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -861,13 +910,22 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
         when (clickItem) {
             "personal" -> {
-                startActivity<PersonalInfoActivity>("name" to "null", "personal_info_edit" to "addDirect")
+                startActivity<PersonalInfoActivity>(
+                    "name" to "null",
+                    "personal_info_edit" to "addDirect"
+                )
             }
             "experience" -> {
-                startActivity<OtherInfoBaseActivity>("name" to "null", "other_info_add" to "addDirect")
+                startActivity<OtherInfoBaseActivity>(
+                    "name" to "null",
+                    "other_info_add" to "addDirect"
+                )
             }
             "education" -> {
-                startActivity<AcademicBaseActivity>("name" to "null", "education_info_add" to "addDirect")
+                startActivity<AcademicBaseActivity>(
+                    "name" to "null",
+                    "education_info_add" to "addDirect"
+                )
             }
             "photo" -> {
                 startActivity<PhotoUploadActivity>()
@@ -877,15 +935,15 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
 
     override fun goToMessageByEmployers(from: String) {
         startActivity<EmployersBaseActivity>(
-                "from" to from,
-                "time" to time
+            "from" to from,
+            "time" to time
         )
     }
 
     private fun scheduleMorningNotification() {
         val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val alarmIntent = Intent(this, MorningNotificationReceiver::class.java).apply {
-            putExtra("type","morning")
+            putExtra("type", "morning")
         }.let {
             PendingIntent.getBroadcast(this, 0, it, PendingIntent.FLAG_UPDATE_CURRENT)
         }
@@ -896,22 +954,22 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
             set(Calendar.MINUTE, 0)
         }
 
-        if (calendar.timeInMillis < System.currentTimeMillis()){
-            calendar.add(Calendar.DATE,1)
+        if (calendar.timeInMillis < System.currentTimeMillis()) {
+            calendar.add(Calendar.DATE, 1)
         }
 
         alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                1000 * 60 * 60 * 24,
-                alarmIntent
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            1000 * 60 * 60 * 24,
+            alarmIntent
         )
     }
 
     private fun scheduleNightNotification() {
         val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val alarmIntent = Intent(this, NightNotificationReceiver::class.java).apply {
-            putExtra("type","night")
+            putExtra("type", "night")
         }.let {
             PendingIntent.getBroadcast(this, 1, it, PendingIntent.FLAG_UPDATE_CURRENT)
         }
@@ -922,15 +980,15 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
             set(Calendar.MINUTE, 0)
         }
 
-        if (calendar.timeInMillis < System.currentTimeMillis()){
-            calendar.add(Calendar.DATE,1)
+        if (calendar.timeInMillis < System.currentTimeMillis()) {
+            calendar.add(Calendar.DATE, 1)
         }
 
         alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                1000 * 60 * 60 * 24,
-                alarmIntent
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            1000 * 60 * 60 * 24,
+            alarmIntent
         )
     }
 }

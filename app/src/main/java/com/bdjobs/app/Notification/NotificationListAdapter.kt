@@ -684,7 +684,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 else {
                     if (!items[position].link.isNullOrEmpty()) {
                      //   promotionalMessageViewHolder?.messageButton?.show()
-                        promotionalMessageViewHolder?.messageImage?.setOnClickListener {
+                        promotionalMessageViewHolder?.itemView?.setOnClickListener {
 
                             try {
                                 if (!items[position].seen!!) {
@@ -713,7 +713,10 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     try {
                         Picasso.get().load(commonNotificationModel?.LogoSrc?.trim()).into(promotionalMessageViewHolder?.headerImage)
                     }catch (e: Exception) {
+                        promotionalMessageViewHolder.headerImage.setImageResource(R.drawable.logo_video_resume)
                     }
+                } else {
+                    promotionalMessageViewHolder.headerImage.setImageResource(R.drawable.logo_video_resume)
                 }
 
 
