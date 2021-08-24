@@ -426,7 +426,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center_vertical"
                     android:letterSpacing="0"
-                    android:text="Guidelines"
+                    android:text="User Guide"
                     android:textAllCaps="false"
                     android:textColor="#212121"
                     app:icon="@drawable/ic_video_resume_guideline"
