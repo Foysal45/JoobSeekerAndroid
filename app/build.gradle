@@ -8,25 +8,15 @@ apply plugin: "androidx.navigation.safeargs"
 
 android {
 
-    signingConfigs {
-        release {
-            storeFile file('D:\\Android Projects\\BDJobs\\bdjobs_new.jks')
-            storePassword '123456'
-            keyPassword '123456'
-            keyAlias 'bdjobs.com'
-        }
-    }
-
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 757 // huawei build 738 // Current - 757
-        versionName "2.9.0.2"  //713.0.2 internal test // 2.9.0.1
+        versionCode 758 // huawei build 738 // Current Production - 757
+        versionName "714.0.0"  //714.0.0 current internal test // Current Production - 2.9.0.2
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.release
     }
 
     buildTypes {
@@ -34,14 +24,12 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
-            signingConfig signingConfigs.release
         }
 
         debug {
 //            shrinkResources true
 //            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
         }
     }
