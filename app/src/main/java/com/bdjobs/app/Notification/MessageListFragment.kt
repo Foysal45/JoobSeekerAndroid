@@ -6,21 +6,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.Notification
-import kotlinx.android.synthetic.main.fragment_notification_list.*
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_message_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class MessageListFragment : Fragment() {
@@ -51,12 +54,6 @@ class MessageListFragment : Fragment() {
         doAsync {
             notificationList = bdjobsDB.notificationDao().getMessage() as? MutableList
 
-//            notificationList?.add(0, Notification(
-//                    title = "Video Resume",
-//                    body = "",
-//                    type = "bpm",
-//                    imageLink = "https://images.app.goo.gl/Ebvz1hPuphafQrZr6",
-//                    link = "www.google.com"))
             uiThread {
                 adapter = NotificationListAdapter(activity, notificationList as MutableList<Notification>)
                 notificationsRV?.also {
@@ -77,6 +74,119 @@ class MessageListFragment : Fragment() {
                     notificationsRV?.hide()
                     notificationNoDataLL?.show()
                 }
+
+                swipeToDelete()
+            }
+        }
+    }
+
+    private fun swipeToDelete() {
+        try {
+            val simpleItemTouchCallback =
+                object : ItemTouchHelper.SimpleCallback(
+                    0,
+                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+                ) {
+
+                    override fun onMove(
+                        recyclerView: RecyclerView,
+                        viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        val position = viewHolder.adapterPosition
+
+
+                        if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.RIGHT) {
+                            val notification = notificationList!![position]
+
+                            try {
+                                when (notificationList!![position].type) {
+                                    Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> NotificationManagerCompat.from(
+                                        activity
+                                    ).cancel(
+                                        Constants.NOTIFICATION_INTERVIEW_INVITATTION
+                                    )
+                                    Constants.NOTIFICATION_TYPE_CV_VIEWED -> NotificationManagerCompat.from(
+                                        activity
+                                    ).cancel(
+                                        Constants.NOTIFICATION_CV_VIEWED
+                                    )
+                                }
+                            } catch (e: Exception) {
+                            }
+                            adapter.removeItem(position)
+                            softDeleteNotificationFromDB(notification)
+                            val snackbar = Snackbar.make(
+                                parentCL,
+                                " Notification removed!",
+                                Snackbar.LENGTH_LONG
+                            )
+                            snackbar.setAction("UNDO") {
+                                // undo is selected, restore the deleted item
+                                doAsync {
+                                    bdjobsDB.notificationDao().insertNotification(notification)
+                                    uiThread {
+                                        try {
+                                            adapter.restoreItem(position, notification)
+                                        } catch (e: Exception) {
+                                        }
+                                        try {
+                                            notificationsRV!!.scrollToPosition(position)
+                                        } catch (e: Exception) {
+                                        }
+                                        if (!notification.seen!!) {
+                                            bdjobsUserSession = BdjobsUserSession(activity)
+                                            bdjobsUserSession.updateNotificationCount(
+                                                bdjobsUserSession.notificationCount!! + 1
+                                            )
+                                        }
+                                        if (adapter.itemCount == 0) {
+                                            notificationNoDataLL?.show()
+                                        } else {
+                                            notificationNoDataLL?.hide()
+                                        }
+                                    }
+                                }
+
+                            }
+                            snackbar.setActionTextColor(
+                                ContextCompat.getColor(
+                                    activity,
+                                    R.color.undo
+                                )
+                            )
+                            snackbar.show()
+
+                            if (adapter?.itemCount == 0) {
+                                notificationNoDataLL?.show()
+                            } else {
+                                notificationNoDataLL?.hide()
+                            }
+                        }
+                    }
+                }
+            val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+            itemTouchHelper.attachToRecyclerView(notificationsRV)
+        } catch (e: Exception) {
+        }
+    }
+
+
+    private fun softDeleteNotificationFromDB(notification: Notification) {
+        doAsync {
+            bdjobsDB.notificationDao().deleteNotification(notification)
+//            bdjobsDB.notificationDao().softDeleteNotification(notification.id!!)
+            if (!notification.seen!!) {
+                bdjobsUserSession = BdjobsUserSession(activity)
+                bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! - 1)
+            }
+
+            uiThread {
+
             }
         }
     }
