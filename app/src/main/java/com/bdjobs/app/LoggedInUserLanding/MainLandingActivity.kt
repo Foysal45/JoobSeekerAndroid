@@ -459,8 +459,6 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
                 var time = simpleDateFormat.format(Date())
                 Timber.d("Time: $time")
                 if (time !in timeList) {
-                    //{jobTitle=Employer Viewed Resume, imageLink=, companyName=Bdjobs Test Account - Az1, pId=4361771, body=An employer has viewed your resume/ CV. View employer name., link=https://mybdjobs.bdjobs.com/mybdjobs/resume_view.asp?Notification=28542990,
-                        // type=cv, jobId=35450, title=Employer Viewed Resume, notificationId=28542990, deleteType=}
                     bdjobsDB.notificationDao().insertNotification(
                         Notification(
                             title = "Test",
@@ -476,11 +474,29 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
                     bdjobsDB.notificationDao().insertNotification(
                         Notification(
-                            jobTitle="Employer Viewed Resume", imageLink="", companyName="Bdjobs Test Account - Az1",body="An employer has viewed your resume/ CV. View employer name",
-                            link="https://mybdjobs.bdjobs.com/mybdjobs/resume_view.asp?Notification=28542990",
-                         type="pm", title="Employer Viewed Resume", notificationId="28542990", serverId ="35450",
+                            jobTitle="dfjk", imageLink="", companyName="Bdjobs Test Account - Az",
+                            link="https://mybdjobs.bdjobs.com/mybdjobs/invite-interview-detail.asp?nstatus=1&Notification=6773237&id=954216",
+                         type="li", title="Interview Invitation", body =  "Bdjobs Test Account - Az had sent you a Live Interview schedule. Be sure to take part in the interview." ,
+                            notificationId="6773237", serverId ="954216",
                             arrivalTime = Date(),)
                     )
+
+                    bdjobsDB.notificationDao().insertNotification(
+                        Notification(
+                            jobTitle="peon", imageLink="", companyName="Utopia Test Company",
+                            link="https://mybdjobs.bdjobs.com/mybdjobs/invite-interview-detail.asp?nstatus=1&Notification=6773237&id=954216",
+                            type="vi", title="Interview Invitation", body = "Utopia Test Company had sent you a Video Interview invitation. Be sure to take part in the interview."
+                            ,notificationId="6773237", serverId ="833906",
+                            arrivalTime = Date(),)
+                    )
+
+//                    bdjobsDB.notificationDao().insertNotification(
+//                        Notification(
+//                            jobTitle="peon", imageLink="", companyName="Bdjobs Test Account - Az had sent you a Live Interview schedule. Be sure to take part in the interview.",
+//                            link="https://mybdjobs.bdjobs.com/mybdjobs/invite-interview-detail.asp?nstatus=1&Notification=6773237&id=954216",
+//                            type="li", title="Interview Invitation", notificationId="6773237", serverId ="954216",
+//                            arrivalTime = Date(),)
+//                    )
 
                     timeList.add(time)
                 }

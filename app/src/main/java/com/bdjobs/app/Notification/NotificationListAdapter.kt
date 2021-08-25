@@ -196,13 +196,16 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                         doAsync {
                             bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
-                            val count = bdjobsDB.notificationDao().getNotificationCount()
-                            bdjobsUserSession.updateNotificationCount(count)
+                            val count = bdjobsDB.notificationDao().getMessageCount()
+                            bdjobsUserSession.updateMessageCount(count)
                             uiThread {
 
                             }
                         }
                     }
+
+                    notificationCommunicatior.positionClickedMessage(position)
+
                     context?.startActivity<InterviewInvitationBaseActivity>(
                             "from" to "notificationList",
                             "jobid" to items[position].serverId,
@@ -264,8 +267,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                         doAsync {
                             bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
-                            val count = bdjobsDB.notificationDao().getNotificationCount()
-                            bdjobsUserSession.updateNotificationCount(count)
+                            val count = bdjobsDB.notificationDao().getMessageCount()
+                            bdjobsUserSession.updateMessageCount(count)
                             uiThread {
 
                             }
@@ -280,6 +283,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
 //                            "nid" to items[position].notificationId,
 //                            "videoUrl" to items[position].link
 //                    )
+
+                    notificationCommunicatior.positionClickedMessage(position)
                     context.startActivity<VideoInterviewActivity>()
                 }
             }
@@ -333,8 +338,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                         doAsync {
                             bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
-                            val count = bdjobsDB.notificationDao().getNotificationCount()
-                            bdjobsUserSession.updateNotificationCount(count)
+                            val count = bdjobsDB.notificationDao().getMessageCount()
+                            bdjobsUserSession.updateMessageCount(count)
                             uiThread {
 
                             }
@@ -348,6 +353,9 @@ class NotificationListAdapter(private val context: Context, private val items: M
 //                            "seen" to items[position].seen,
 //                            "nid" to items[position].notificationId
 //                    )
+
+
+                    notificationCommunicatior.positionClickedMessage(position)
 
                     context.startActivity<LiveInterviewActivity>(
                             "from" to "notificationList",

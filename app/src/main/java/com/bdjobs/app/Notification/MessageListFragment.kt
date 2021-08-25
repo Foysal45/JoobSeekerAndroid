@@ -207,3 +207,32 @@ class MessageListFragment : Fragment() {
 // notificationId=69,
 // activityNode=com.bdjobs.app.videoResume.VideoResumeActivity,
 // LogoSrc= https://bdjobs.com/NotificationMessageimages/videoresumeslogo.png}
+
+//{
+// jobTitle=dfjk,
+// imageLink=,
+// companyName=Bdjobs Test Account - Az,
+// pId=4361771,
+// body=Bdjobs Test Account - Az had sent you a Live Interview schedule. Be sure to take part in the interview.,
+// link=https://mybdjobs.bdjobs.com/mybdjobs/invite-interview-detail.asp?nstatus=1&Notification=6773237&id=954216,
+// type=li,
+// jobId=954216,
+// title=Interview Invitation,
+// notificationId=6773237,
+// deleteType=
+// }
+
+
+//{
+// jobTitle=Employer Viewed Resume,
+// imageLink=,
+// companyName=Bdjobs Test Account - Az1,
+// pId=4361771,
+// body=An employer has viewed your resume/ CV. View employer name.,
+// link=https://mybdjobs.bdjobs.com/mybdjobs/resume_view.asp?Notification=28542990,
+// type=cv,
+// jobId=35450,
+// title=Employer Viewed Resume,
+// notificationId=28542990,
+// deleteType=
+// }
