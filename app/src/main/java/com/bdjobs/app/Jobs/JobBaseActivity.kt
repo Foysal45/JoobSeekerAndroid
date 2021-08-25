@@ -186,7 +186,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
             getData()
         }
 
-//        showClientAD()
+        adView.loadAd(AdRequest.Builder().build())
+        showClientAD()
 //        Ads.loadAdaptiveBanner(this@JobBaseActivity,adView_container)
 
     }
@@ -226,23 +227,23 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
 
                                         } else {
                                             ivClientAd.visibility = View.GONE
-                                            adView.visibility = View.VISIBLE
-                                            adView.loadAd(AdRequest.Builder().build())
+//                                            adView.visibility = View.VISIBLE
+//                                            adView.loadAd(AdRequest.Builder().build())
 //                                            Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
                                         }
                                     } else {
                                         Timber.d("Response code: ${response.code()}")
                                         ivClientAd.visibility = View.GONE
-                                        adView.visibility = View.VISIBLE
-                                        adView.loadAd(AdRequest.Builder().build())
+//                                        adView.visibility = View.VISIBLE
+//                                        adView.loadAd(AdRequest.Builder().build())
 //                                        Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
                                     }
                                 }
                                 else {
                                     Timber.d("Unsuccessful response")
                                     ivClientAd.visibility = View.GONE
-                                    adView.visibility = View.VISIBLE
-                                    adView.loadAd(AdRequest.Builder().build())
+//                                    adView.visibility = View.VISIBLE
+//                                    adView.loadAd(AdRequest.Builder().build())
 //                                    Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
                                 }
                             } catch (e: Exception) {
@@ -253,8 +254,8 @@ class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverLis
                             Timber.e("Client ad fetching failed due to: ${t.localizedMessage} .. Showing ADMob AD")
                             try {
                                 ivClientAd.visibility = View.GONE
-                                adView.visibility = View.VISIBLE
-                                adView.loadAd(AdRequest.Builder().build())
+//                                adView.visibility = View.VISIBLE
+//                                adView.loadAd(AdRequest.Builder().build())
 //                                Ads.loadAdaptiveBanner(this@JobBaseActivity, adView_container)
                             } catch (e: Exception) {
                             }
