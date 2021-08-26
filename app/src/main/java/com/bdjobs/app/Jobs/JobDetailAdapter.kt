@@ -1479,9 +1479,33 @@ class JobDetailAdapter(private val context: Context) :
 
         applicantName.text = bdjobsUserSession.fullName
         applicantEmail.text = bdjobsUserSession.email
-        applicantMobile.text = bdjobsUserSession.userMobileNumber
-        applicantPresentAddress.text = bdjobsUserSession.userPresentAddress
-        applicantPermanentAddress.text = bdjobsUserSession.userPermanentAddress
+
+        if (bdjobsUserSession.userMobileNumber!="") {
+            applicantMobile.visibility = View.VISIBLE
+            applicantMobileLabel.visibility = View.VISIBLE
+            applicantMobile.text = bdjobsUserSession.userMobileNumber
+        } else {
+            applicantMobile.visibility = View.GONE
+            applicantMobileLabel.visibility = View.GONE
+        }
+
+        if (bdjobsUserSession.userPresentAddress!="") {
+            applicantPresentAddress.visibility = View.VISIBLE
+            applicantPresentAddressLabel.visibility = View.VISIBLE
+            applicantPresentAddress.text = bdjobsUserSession.userPresentAddress
+        } else {
+            applicantPresentAddress.visibility = View.GONE
+            applicantPresentAddressLabel.visibility = View.GONE
+        }
+
+        if (bdjobsUserSession.userPermanentAddress!="") {
+            applicantPermanentAddress.visibility = View.VISIBLE
+            applicantPermanentAddressLabel.visibility = View.VISIBLE
+            applicantPermanentAddress.text = bdjobsUserSession.userPermanentAddress
+        } else {
+            applicantPermanentAddress.visibility = View.GONE
+            applicantPermanentAddressLabel.visibility = View.GONE
+        }
 
         messageTV.text = message
 
