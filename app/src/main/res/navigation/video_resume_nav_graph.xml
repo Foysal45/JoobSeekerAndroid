@@ -43,8 +43,7 @@
     <fragment
         android:id="@+id/guidelineFragment"
         android:name="com.bdjobs.app.videoResume.ui.guideline.GuidelineFragment"
-        android:label="User Guide"
-        tools:layout="@layout/fragment_guideline" />
+        android:label="Guidelines" />
     <dialog
         android:id="@+id/questionListDialogFragment"
         android:name="com.bdjobs.app.videoResume.ui.home.QuestionListDialogFragment"
