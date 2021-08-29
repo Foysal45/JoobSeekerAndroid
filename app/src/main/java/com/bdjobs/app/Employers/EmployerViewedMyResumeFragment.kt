@@ -118,6 +118,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
         val personalizeResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_per_resume_filter)
         val videoResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_video_resume_filter)
         val allResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_all_resume_filter)
+        val summaryViewTV = dialog.findViewById<MaterialTextView>(R.id.tv_summary_view_resume_filter)
         val fromTIL = dialog.findViewById<TextInputLayout>(R.id.til_from)
         val fromET = dialog.findViewById<TextInputEditText>(R.id.et_from_filter)
         val toET = dialog.findViewById<TextInputEditText>(R.id.et_to_filter)
@@ -151,6 +152,12 @@ class EmployerViewedMyResumeFragment : Fragment() {
         videoResumeTV.setOnClickListener {
             selectedType = "3"
             resumeTypeET.setText("Video Resume")
+            dropdownCard.hide()
+        }
+
+        summaryViewTV.setOnClickListener {
+            selectedType = "4"
+            resumeTypeET.setText("Summary View")
             dropdownCard.hide()
         }
 
