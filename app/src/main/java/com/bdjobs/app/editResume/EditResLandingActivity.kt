@@ -62,7 +62,7 @@ class EditResLandingActivity : Activity() {
 
             } else {
                 doWork()
-                fetchPersonalizedResumeStat()
+                fetchBdjobsResumeStat()
             }
         } catch (e: Exception) {
         }
@@ -103,7 +103,7 @@ class EditResLandingActivity : Activity() {
 
 
     @SuppressLint("SetTextI18n")
-    private fun fetchPersonalizedResumeStat() {
+    private fun fetchBdjobsResumeStat() {
 //        this.showProgressBar(loadingProgressBar)
 //        cl_stat_personalized_resume.hide()
 //        tv_label_stat_personalized_resume.hide()
@@ -111,7 +111,7 @@ class EditResLandingActivity : Activity() {
 
         GlobalScope.launch {
             try {
-                val response = ApiServiceMyBdjobs.create().personalizedResumeStat(
+                val response = ApiServiceMyBdjobs.create().bdjobsResumeStat(
                     session.userId,
                     session.decodId,
                     session.isCvPosted
@@ -122,7 +122,7 @@ class EditResLandingActivity : Activity() {
                 if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
 
-                    val lastUpdated = if (data.personalizedLastUpdateDate!="") formatDateVP(data.personalizedLastUpdateDate!!) else ""
+                    val lastUpdated = if (data.bdjobsLastUpdateDate!="") formatDateVP(data.bdjobsLastUpdateDate!!) else ""
 
                     runOnUiThread {
 
@@ -133,9 +133,9 @@ class EditResLandingActivity : Activity() {
                         tv_last_update.show()
 
 
-                        tv_personalized_resume_view_count.text = data.personalizedViewed
-                        tv_personalized_resume_download_count.text = data.personalizedDownload
-                        tv_personalized_resume_emailed_count.text = data.personalizedEmailed
+                        tv_personalized_resume_view_count.text = data.bdjobsViewed
+                        tv_personalized_resume_download_count.text = data.bdjobsDownload
+                        tv_personalized_resume_emailed_count.text = data.bdjobsEmailed
                         if (lastUpdated!="") {
                             tv_last_update.show()
                             tv_last_update.text = "Last updated on: $lastUpdated"
@@ -151,13 +151,13 @@ class EditResLandingActivity : Activity() {
 
                     }
 
-                } else runOnUiThread { toast("Sorry, personalized resume stat fetching failed!") }
+                } else runOnUiThread { toast("Sorry, Bdjobs resume stat fetching failed!") }
 
             } catch (e: Exception) {
-                Timber.e("Exception while fetching personalized resume stat: ${e.localizedMessage}")
+                Timber.e("Exception while fetching bdjobs resume stat: ${e.localizedMessage}")
                 runOnUiThread {
                     this@EditResLandingActivity.stopProgressBar(loadingProgressBar)
-                    toast("Sorry, personalized resume stat fetching failed: ${e.localizedMessage}")
+                    toast("Sorry, Bdjobs resume stat fetching failed: ${e.localizedMessage}")
 //                    cl_stat_personalized_resume.show()
 //                    tv_label_stat_personalized_resume.show()
                 }
@@ -309,9 +309,5 @@ class EditResLandingActivity : Activity() {
         }
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        //Log.d("rakib", "called onRestart")
-    }
 
 }

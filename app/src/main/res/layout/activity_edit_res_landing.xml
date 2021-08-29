@@ -375,7 +375,7 @@
                     app:layout_constraintTop_toBottomOf="@id/constraintLayout2"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="16dp"
-                    android:text="Statistics of Personalized Resume"
+                    android:text="Statistics of Bdjobs Resume"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
                     android:id="@+id/tv_label_stat_personalized_resume"/>
