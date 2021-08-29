@@ -136,7 +136,7 @@ class LiveInterviewDetailsViewModel(
                 }
 
                 val confirmationStatus = liveInterviewDetailsData.value?.get(0)?.confimationStatus
-                if (confirmationStatus == "1"){
+                if (confirmationStatus == "1" || confirmationStatus=="" ){
                     showPreparationSection.value = true
                     setTimer(interviewDateTime)
                 }
@@ -145,6 +145,10 @@ class LiveInterviewDetailsViewModel(
                     showJoinSection.value = false
                     showPreparationSection.value = false
                 }
+
+//                if (confirmationStatus=="") {
+//                    showJoinSection.value = true
+//                }
 
 
             } catch (e: Exception) {
