@@ -1,19 +1,13 @@
 package com.bdjobs.app.videoResume.ui.guideline
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.TranslateAnimation
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import androidx.transition.Fade
-import androidx.transition.Slide
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
@@ -110,33 +104,33 @@ class GuidelineFragment : Fragment() {
 
         img_step_expand?.setOnClickListener {
 
-            if (stepsRotationAngle == 0) {
-                stepsRotationAngle = 180
+            if (rv_step.visibility == View.GONE) {
+                stepsRotationAngle = 0
                 rv_step?.show()
             } else {
-                stepsRotationAngle = 0 //toggle
+                stepsRotationAngle = 180 //toggle
                 rv_step?.hide()
             }
             it.animate().rotation(stepsRotationAngle.toFloat()).setDuration(200).start()
         }
 
         img_tips_expand?.setOnClickListener {
-            if (tipsRotationAngle == 0) {
-                tipsRotationAngle = 180
+            if (rv_tips.visibility == View.GONE) {
+                tipsRotationAngle = 0
                 rv_tips?.show()
             } else {
-                tipsRotationAngle = 0 //toggle
+                tipsRotationAngle = 180 //toggle
                 rv_tips?.hide()
             }
             it.animate().rotation(tipsRotationAngle.toFloat()).setDuration(200).start()
         }
 
         img_benefits_expand?.setOnClickListener {
-            if (benefitsRotationAngle == 0) {
-                benefitsRotationAngle = 180
+            if (rv_benefits.visibility == View.GONE) {
+                benefitsRotationAngle = 0
                 rv_benefits?.show()
             } else {
-                benefitsRotationAngle = 0 //toggle
+                benefitsRotationAngle = 180 //toggle
                 rv_benefits?.hide()
             }
             it.animate().rotation(benefitsRotationAngle.toFloat()).setDuration(200).start()
