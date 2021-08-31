@@ -37,6 +37,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class UploadResumeFragment : Fragment() {
@@ -106,16 +110,20 @@ class UploadResumeFragment : Fragment() {
                 if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
 
-                    val statCalculatedFrom = data.personalizedCalculatedFromDate?.let {
-                        formatDateVP(
-                            it
-                        )
-                    }
+                    val statCalculatedFrom = if (data.personalizedCalculatedFromDate!="") {
+                        try {
+                            formatDateVP(data.personalizedCalculatedFromDate)
+                        } catch (e: Exception) {
+                            formatDateVP(data.personalizedCalculatedFromDate!!,
+                                SimpleDateFormat("M/dd/yyyy", Locale.US)
+                            )
+                        }
+                    } else ""
 
                     if (activity!=null) {
                         runOnUiThread {
 
-                            if (!statCalculatedFrom.isNullOrEmpty()) {
+                            if (statCalculatedFrom.isNotEmpty()) {
 
                                 cv_no_personalized_resume.hide()
                                 tv_stat_calculated_from.show()
@@ -323,6 +331,20 @@ class UploadResumeFragment : Fragment() {
         return s.toRequestBody("text/plain".toMediaType())
 
 //        RequestBody.create(MediaType.parse("text/plain"), s)
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun formatDateVP(lastUpdate: String?,format: SimpleDateFormat= SimpleDateFormat("M/dd/yyyy HH:mm:ss a")): String {
+        var lastUpdate1 = lastUpdate
+        var formatter = format
+        val date = formatter.parse(lastUpdate1!!)
+        formatter = SimpleDateFormat("dd MMM yyyy")
+        lastUpdate1 = formatter.format(date!!)
+
+        Timber.d("Last updated at: $lastUpdate1")
+
+        return lastUpdate1
+
     }
 
 

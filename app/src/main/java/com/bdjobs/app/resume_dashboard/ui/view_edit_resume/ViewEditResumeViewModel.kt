@@ -46,6 +46,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
 
     var isPersonalizedResumeAvailable = MutableLiveData<Boolean>()
     var personalizedResumeLastUpload = MutableLiveData<String>().apply { value = "" }
+    var personalizedResumeFileType = MutableLiveData<String>()
 
     var videoResumeQ1 = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ2 = MutableLiveData<String>().apply { value = "" }
@@ -98,6 +99,8 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                     isPersonalizedResumeAvailable.value = data.personalizefileName != ""
                     if (data.personalizeLastUpdateDate != "") personalizedResumeLastUpload.value =
                         formatDateVP(data.personalizeLastUpdateDate)
+
+                    personalizedResumeFileType.value = if (data.personalizefileName!!.contains("pdf") ) "1" else "2"
 
                 } else {
                     Timber.e("Invalid response")
