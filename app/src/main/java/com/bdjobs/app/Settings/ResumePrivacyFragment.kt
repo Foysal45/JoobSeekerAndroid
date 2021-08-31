@@ -2,7 +2,6 @@ package com.bdjobs.app.Settings
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,17 +14,12 @@ import com.bdjobs.app.API.ModelClasses.AutoSuggestionModel
 import com.bdjobs.app.API.ModelClasses.DataAutoSuggestion
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.closeKeyboard
-import com.bdjobs.app.Utilities.easyOnTextChangedListener
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.databinding.FragmentResumePrivacyBinding
-import com.bdjobs.app.resume_dashboard.data.models.DataX
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.support.v4.toast
 import retrofit2.Call
@@ -130,7 +124,7 @@ class ResumePrivacyFragment : Fragment() {
             fetchEmployerSuggestion(e.toString(), adapter)
         }
 
-        binding.actvEmployerName.setOnItemClickListener { _, _, position, id ->
+        binding.actvEmployerName.setOnItemClickListener { _, _, position, _ ->
             employerID = employerList[position].subCatId!!
 
             if (employerIDList.contains(employerID)) {
@@ -236,9 +230,9 @@ class ResumePrivacyFragment : Fragment() {
             binding.tvLabelSelectedEmployers.show()
             binding.empNameChipGroup.show()
         } else {
-            binding.tilEmployerName.hide()
-            binding.tvLabelSelectedEmployers.hide()
-            binding.empNameChipGroup.hide()
+            binding.tilEmployerName.invisible()
+            binding.tvLabelSelectedEmployers.invisible()
+            binding.empNameChipGroup.invisible()
         }
     }
 

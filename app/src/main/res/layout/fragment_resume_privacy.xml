@@ -233,7 +233,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:visibility="gone"
+                        android:visibility="invisible"
                         android:focusableInTouchMode="true"
                         android:textColorHint="#757575"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -260,7 +260,7 @@
                         android:id="@+id/tv_label_selected_employers"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+                        android:visibility="invisible"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Selected Employer(s)"
@@ -282,7 +282,7 @@
                             style="@style/Widget.MaterialComponents.Chip.Entry"
                             android:id="@+id/emp_name_chip_group"
                             android:layout_width="wrap_content"
-                            android:visibility="gone"
+                            android:visibility="invisible"
                             android:layout_height="wrap_content" />
                     </HorizontalScrollView>
 
