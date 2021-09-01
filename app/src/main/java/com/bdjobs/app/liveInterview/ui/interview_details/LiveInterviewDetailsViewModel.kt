@@ -96,13 +96,13 @@ class LiveInterviewDetailsViewModel(
 
     lateinit var timer: CountDownTimer
 
-    init {
-        getAllCalendars()
-        getLiveInterviewDetails()
+//    init {
+//        getAllCalendars()
+//        getLiveInterviewDetails()
+//
+//    }
 
-    }
-
-    private fun getLiveInterviewDetails() {
+    fun getLiveInterviewDetails() {
         _dataLoading.value = true
         viewModelScope.launch {
             try {
@@ -157,7 +157,7 @@ class LiveInterviewDetailsViewModel(
         }
     }
 
-    private fun getAllCalendars() {
+    fun getAllCalendars() {
 
         viewModelScope.launch {
             getAllCalendarInfoFromProvider()
