@@ -182,7 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_join_interview_msg"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -315,7 +315,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_join_interview_msg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -342,6 +342,7 @@
                     android:drawableEnd="@drawable/ic_angle_right"
                     android:drawablePadding="8dp"
                     android:drawableTint="#13a10e"
+                    tools:visibility="gone"
                     android:onClick="@{()->viewModel.onJoinInterviewButtonClick()}"
                     android:visibility="@{viewModel.showJoinInterviewSmallBTN ? View.VISIBLE : View.GONE}"
                     android:padding="5dp"
@@ -367,6 +368,19 @@
 
             </LinearLayout>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:fontFamily="@font/roboto_bold"
+                android:id="@+id/tv_join_interview_msg"
+                android:textColor="@color/color_states_materialbutton"
+                android:visibility="gone"
+                android:text="@string/label_join_interview_30_mins"/>
+<!-- android:visibility="@{viewModel.showJoinInterviewSmallBTN ? View.GONE : View.VISIBLE}"-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -381,7 +395,6 @@
             android:paddingEnd="5dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            tools:visibility="gone"
             android:visibility="@{viewModel.showJoinSection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent">
 
