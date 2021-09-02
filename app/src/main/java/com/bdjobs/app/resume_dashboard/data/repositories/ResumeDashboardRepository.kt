@@ -43,7 +43,7 @@ class ResumeDashboardRepository(val application: Application) {
             ApiServiceMyBdjobs.create().manageResumeDetailsStat(
                 bdjobsUserSession.userId,
                 bdjobsUserSession.decodId,
-                bdjobsUserSession.isCvPosted
+                "True"
             )
         }
     }

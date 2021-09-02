@@ -182,7 +182,9 @@ class ViewEditResumeFragment : Fragment() {
 //            showBdJobsResumeSteps.value = true
 //            showVideoResumeSteps.value = true
 
-            if (session.isCvPosted!!.equalIgnoreCase("true")) {
+            val session = BdjobsUserSession(requireContext())
+
+            if (session.isCvPosted!=null && session.isCvPosted.equalIgnoreCase("true")) {
                 resumePrivacyStatus()
             }
             downloadCv("download")
@@ -193,7 +195,7 @@ class ViewEditResumeFragment : Fragment() {
                 if (it) {
                     binding.cvResumePrivacy.visibility = View.GONE
                 } else {
-                    if (session.isCvPosted!!.equalIgnoreCase("true")) {
+                    if (session.isCvPosted!=null && session.isCvPosted.equalIgnoreCase("true")) {
                         binding.cvResumePrivacy.visibility = View.VISIBLE
                     } else {
                         binding.cvResumePrivacy.visibility = View.GONE
