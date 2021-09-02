@@ -714,7 +714,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:backgroundTint="#333333"
-            android:visibility="@{viewModel.isLoading() ? View.GONE : View.VISIBLE}"
             app:cardCornerRadius="7dp"
             app:cardElevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"

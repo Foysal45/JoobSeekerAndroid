@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.databinding.DashboardFragmentBinding
 import com.bdjobs.app.resume_dashboard.data.repositories.ResumeDashboardRepository
 import org.jetbrains.anko.support.v4.startActivity
@@ -15,6 +17,7 @@ import org.jetbrains.anko.support.v4.startActivity
 class DashboardFragment : Fragment() {
 
     private lateinit var binding : DashboardFragmentBinding
+    private lateinit var session: BdjobsUserSession
     private val dashboardViewModel: DashboardViewModel by viewModels {
         DashboardViewModelFactory(ResumeDashboardRepository(requireActivity().application as Application))
     }
@@ -28,6 +31,8 @@ class DashboardFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             viewModel = dashboardViewModel
         }
+
+        session = BdjobsUserSession(requireContext())
 
         return binding.root
     }
@@ -46,7 +51,10 @@ class DashboardFragment : Fragment() {
 
     private fun setUpObserver() {
         dashboardViewModel.apply {
-            resumePrivacyStatus()
+            if (session.isCvPosted!!.equalIgnoreCase("true")) {
+                resumePrivacyStatus()
+            }
+
             manageResumeStats()
         }
     }
@@ -54,6 +62,10 @@ class DashboardFragment : Fragment() {
     private fun initViews() {
         binding.tvChangeVisibility.paint.isUnderlineText = true
         binding.tvChangeVisibility.setOnClickListener { startActivity<SettingBaseActivity>("from" to "dashboard") }
+
+        if (session.isCvPosted!!.equalIgnoreCase("true")) {
+            binding.clResumeVisibilityView.visibility = View.VISIBLE
+        } else binding.clResumeVisibilityView.visibility = View.GONE
     }
 
 }

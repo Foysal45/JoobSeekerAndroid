@@ -16,6 +16,7 @@ import com.bdjobs.app.ManageResume.ViewPersonalizedResume
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
+import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.ViewEditResumeFragmentBinding
@@ -181,10 +182,24 @@ class ViewEditResumeFragment : Fragment() {
 //            showBdJobsResumeSteps.value = true
 //            showVideoResumeSteps.value = true
 
-            resumePrivacyStatus()
+            if (session.isCvPosted!!.equalIgnoreCase("true")) {
+                resumePrivacyStatus()
+            }
             downloadCv("download")
             videoResumeQuestionList()
             manageResumeDetailsStat()
+
+            isLoading.observe(viewLifecycleOwner,{
+                if (it) {
+                    binding.cvResumePrivacy.visibility = View.GONE
+                } else {
+                    if (session.isCvPosted!!.equalIgnoreCase("true")) {
+                        binding.cvResumePrivacy.visibility = View.VISIBLE
+                    } else {
+                        binding.cvResumePrivacy.visibility = View.GONE
+                    }
+                }
+            })
         }
     }
 

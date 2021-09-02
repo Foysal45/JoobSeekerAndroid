@@ -71,6 +71,7 @@
         android:textSize="14sp"
         android:text="Resume Privacy"
         android:textAllCaps="false"
+
         android:textColor="#212121"
         app:icon="@drawable/ic_resume_privacy"
         app:layout_constraintEnd_toEndOf="parent"
