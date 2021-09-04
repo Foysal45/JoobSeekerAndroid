@@ -24,6 +24,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.*
 
 class EditResLandingActivity : Activity() {
@@ -122,7 +123,15 @@ class EditResLandingActivity : Activity() {
                 if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
 
-                    val lastUpdated = if (data.bdjobsLastUpdateDate!="") formatDateVP(data.bdjobsLastUpdateDate!!) else ""
+                    val lastUpdated = if (data.bdjobsLastUpdateDate!="") {
+                        try {
+                            formatDateVP(data.bdjobsLastUpdateDate!!)
+                        } catch (e: Exception) {
+                            formatDateVP(data.bdjobsLastUpdateDate!!,
+                                SimpleDateFormat("M/dd/yyyy", Locale.US)
+                            )
+                        }
+                    } else ""
 
                     runOnUiThread {
 

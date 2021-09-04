@@ -28,6 +28,20 @@ fun formatDateVP(lastUpdate: String): String {
 
 }
 
+@SuppressLint("SimpleDateFormat")
+fun formatDateVP(lastUpdate: String?,format: SimpleDateFormat= SimpleDateFormat("M/dd/yyyy HH:mm:ss a")): String {
+    var lastUpdate1 = lastUpdate
+    var formatter = format
+    val date = formatter.parse(lastUpdate1!!)
+    formatter = SimpleDateFormat("dd MMM yyyy")
+    lastUpdate1 = formatter.format(date!!)
+
+    Timber.d("Last updated at: $lastUpdate1")
+
+    return lastUpdate1
+
+}
+
 fun getRootDirPath(context: Context): String {
     return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
         val file: File = ContextCompat.getExternalFilesDirs(
