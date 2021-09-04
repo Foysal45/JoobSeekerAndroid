@@ -1600,7 +1600,10 @@ class JobDetailAdapter(private val context: Context) :
                     dialog?.dismiss()
                     loadingDialog?.dismiss()
 
-                    showConfirmationDialog(response.body()!!.data[0].message)
+                    val message = if(response.body()!!.data[0].message.endsWith(".")) response.body()!!.data[0].message
+                    else "${response.body()!!.data[0].message}."
+
+                    showConfirmationDialog(message)
 //                    context.longToast(response.body()!!.data[0].message)
                     if (response.body()!!.data[0].status.equalIgnoreCase("ok")) {
                         bdjobsUserSession.incrementJobsApplied()
