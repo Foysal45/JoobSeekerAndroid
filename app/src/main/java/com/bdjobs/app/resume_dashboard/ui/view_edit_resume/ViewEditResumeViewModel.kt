@@ -65,12 +65,12 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
 
 
     @SuppressLint("SimpleDateFormat")
-    fun manageResumeDetailsStat() {
+    fun manageResumeDetailsStat(isCVPosted:String) {
         isLoading.value = true
 
         viewModelScope.launch {
             try {
-                val response = repository.manageResumeDetailsStat()
+                val response = repository.manageResumeDetailsStat(isCVPosted)
                 isLoading.value = false
                 if (response.statuscode == "0" && response.message == "Success") {
 

@@ -189,7 +189,7 @@ class ViewEditResumeFragment : Fragment() {
             }
             downloadCv("download")
             videoResumeQuestionList()
-            manageResumeDetailsStat()
+            manageResumeDetailsStat(session.isCvPosted?:"False")
 
             isLoading.observe(viewLifecycleOwner,{
                 if (it) {

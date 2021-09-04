@@ -12,6 +12,7 @@ import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
 import com.bdjobs.app.videoResume.data.remote.VideoResumeApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 //
 // Created by Soumik on 6/20/2021.
@@ -38,12 +39,12 @@ class ResumeDashboardRepository(val application: Application) {
         }
     }
 
-    suspend fun manageResumeDetailsStat(): ManageResumeDetailsStat {
+    suspend fun manageResumeDetailsStat(isCVPosted:String): ManageResumeDetailsStat {
         return withContext(Dispatchers.IO) {
             ApiServiceMyBdjobs.create().manageResumeDetailsStat(
                 bdjobsUserSession.userId,
                 bdjobsUserSession.decodId,
-                "True"
+                isCVPosted
             )
         }
     }
