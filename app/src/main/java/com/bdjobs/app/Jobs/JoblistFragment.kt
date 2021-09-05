@@ -560,13 +560,13 @@ class JoblistFragment : Fragment() {
                 } catch (e: Exception) {
                     logException(e)
 
-                    if (e is SocketTimeoutException) {
-                        Toast.makeText(
-                            activity,
-                            "Timeout: Please check your network connection & try again",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+//                    if (e is SocketTimeoutException) {
+//                        Toast.makeText(
+//                            activity,
+//                            "Timeout: Please check your network connection & try again",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
                 }
 
             }
@@ -574,11 +574,18 @@ class JoblistFragment : Fragment() {
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable) {
                 //Log.d("TAG", "not successful!! onFail")
                 error("onFailure", t)
-                Toast.makeText(
-                    activity,
-                    "Sorry! Something went wrong please try again",
-                    Toast.LENGTH_SHORT
-                ).show()
+                try {
+                    if (activity!=null) {
+                        try {
+                            Toast.makeText(
+                                activity,
+                                "Sorry! Something went wrong please try again",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } catch (e:Exception){}
+                    }
+                } catch (e: Exception) {
+                }
             }
         })
     }
