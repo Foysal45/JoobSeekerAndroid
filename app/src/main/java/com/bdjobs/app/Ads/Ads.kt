@@ -4,12 +4,10 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.DisplayMetrics
-import android.util.Log
 import android.widget.FrameLayout
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.*
-import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import org.jetbrains.anko.windowManager
 
@@ -29,33 +27,38 @@ class Ads {
             try {
                 if (nativeAdvertisement != null) {
                     val styles = NativeTemplateStyle
-                            .Builder()
-                            .withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF")))
-                            .build()
+                        .Builder()
+                        .withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF")))
+                        .build()
                     nativeAdTemplete?.setStyles(styles)
                     nativeAdTemplete?.setNativeAd(nativeAdvertisement)
                 } else {
-                    MobileAds.initialize(context, ADMOB_APP_ID)
+//                    MobileAds.initialize(context)
                     val adLoader = AdLoader.Builder(context, ADMOB_NATIVE_AD_UNIT_ID)
-                            .forUnifiedNativeAd { ad: UnifiedNativeAd ->
-                                nativeAdvertisement = ad
-                                val styles = NativeTemplateStyle
-                                        .Builder()
-                                        .withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF")))
-                                        .build()
-                                nativeAdTemplete?.setStyles(styles)
-                                nativeAdTemplete?.setNativeAd(ad)
+                        .forUnifiedNativeAd { ad: UnifiedNativeAd ->
+                            nativeAdvertisement = ad
+                            val styles = NativeTemplateStyle
+                                .Builder()
+                                .withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF")))
+                                .build()
+                            nativeAdTemplete?.setStyles(styles)
+                            nativeAdTemplete?.setNativeAd(ad)
 
+                        }
+                        .withAdListener(object : AdListener() {
+                            override fun onAdFailedToLoad(errorCode: Int) {
+                                //Log.d("adLoader", "error code: $errorCode")
                             }
-                            .withAdListener(object : AdListener() {
-                                override fun onAdFailedToLoad(errorCode: Int) {
-                                    //Log.d("adLoader", "error code: $errorCode")
-                                }
-                            })
-                            .withNativeAdOptions(NativeAdOptions
-                                    .Builder()
-                                    .build())
-                            .build()
+                        })
+                        .withNativeAdOptions(
+                            com.google.android.gms.ads.nativead.NativeAdOptions
+                                .Builder()
+                                .build()
+                        )
+//                            .withNativeAdOptions(NativeAdOptions
+//                                    .Builder()
+//                                    .build())
+                        .build()
                     adLoader.loadAd(AdRequest.Builder().build())
                 }
             } catch (e: Exception) {
@@ -63,9 +66,9 @@ class Ads {
         }
 
 
-        fun loadAdaptiveBanner(context: Context, ad_view_container: FrameLayout){
+        fun loadAdaptiveBanner(context: Context, ad_view_container: FrameLayout) {
             try {
-                MobileAds.initialize(context) { }
+//                MobileAds.initialize(context) { }
 
                 val adView = AdView(context)
                 ad_view_container.addView(adView)
@@ -85,11 +88,13 @@ class Ads {
 
                 val adWidth = (adWidthPixels / density).toInt()
 
-                adView.adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth)
+                adView.adSize =
+                    AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth)
 
                 val adRequest = AdRequest
-                        .Builder()
-                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build()
+                    .Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build()
+
                 adView.loadAd(adRequest)
             } catch (e: Exception) {
             }
@@ -98,7 +103,6 @@ class Ads {
 
 
     }
-
 
 
 }

@@ -196,13 +196,16 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                         doAsync {
                             bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
-                            val count = bdjobsDB.notificationDao().getNotificationCount()
-                            bdjobsUserSession.updateNotificationCount(count)
+                            val count = bdjobsDB.notificationDao().getMessageCount()
+                            bdjobsUserSession.updateMessageCount(count)
                             uiThread {
 
                             }
                         }
                     }
+
+                    notificationCommunicatior.positionClickedMessage(position)
+
                     context?.startActivity<InterviewInvitationBaseActivity>(
                             "from" to "notificationList",
                             "jobid" to items[position].serverId,
@@ -264,8 +267,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                         doAsync {
                             bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
-                            val count = bdjobsDB.notificationDao().getNotificationCount()
-                            bdjobsUserSession.updateNotificationCount(count)
+                            val count = bdjobsDB.notificationDao().getMessageCount()
+                            bdjobsUserSession.updateMessageCount(count)
                             uiThread {
 
                             }
@@ -280,6 +283,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
 //                            "nid" to items[position].notificationId,
 //                            "videoUrl" to items[position].link
 //                    )
+
+                    notificationCommunicatior.positionClickedMessage(position)
                     context.startActivity<VideoInterviewActivity>()
                 }
             }
@@ -333,8 +338,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                         doAsync {
                             bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
-                            val count = bdjobsDB.notificationDao().getNotificationCount()
-                            bdjobsUserSession.updateNotificationCount(count)
+                            val count = bdjobsDB.notificationDao().getMessageCount()
+                            bdjobsUserSession.updateMessageCount(count)
                             uiThread {
 
                             }
@@ -348,6 +353,9 @@ class NotificationListAdapter(private val context: Context, private val items: M
 //                            "seen" to items[position].seen,
 //                            "nid" to items[position].notificationId
 //                    )
+
+
+                    notificationCommunicatior.positionClickedMessage(position)
 
                     context.startActivity<LiveInterviewActivity>(
                             "from" to "notificationList",
@@ -599,6 +607,14 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 } catch (e: Exception) {
                 }
 
+                try {
+                    if (items[position].seen!!) {
+                        promotionalMessageViewHolder.parentCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                    } else
+                        promotionalMessageViewHolder.parentCL.setBackgroundColor(Color.parseColor("#FFF2FA"))
+                } catch (e: Exception) {
+                }
+
 
                 val title = Html.fromHtml(items[position].title)
                 if (!items[position].title.isNullOrEmpty()) {
@@ -618,13 +634,17 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 if (!items[position].payload.isNullOrEmpty()) {
 
+                    Timber.d("Payload not null: ${items[position].payload}")
+
                     var intent:Intent ? =null
                     try {
                         commonNotificationModel  = Gson().fromJson(items[position].payload,CommonNotificationModel::class.java)
                         val className = Class.forName(commonNotificationModel.activityNode!!)
                         intent = Intent(context,className)
 
-                    } catch (e: Exception) {
+                    }
+                    catch (e: Exception) {
+                        Timber.d("internt exception")
                         if (!commonNotificationModel?.link.isNullOrEmpty()) {
                             try {
                                 val formattedUrl = if (!commonNotificationModel?.link?.startsWith("http://") !!
@@ -638,8 +658,9 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     }
 
                     if (!items[position].link.isNullOrEmpty()) {
+                        Timber.d("Link not null : ${items[position].link}")
                      //   promotionalMessageViewHolder?.messageButton?.show()
-                        promotionalMessageViewHolder?.messageImage?.setOnClickListener {
+                        promotionalMessageViewHolder.itemView.setOnClickListener {
 
                             try {
                                 if (!items[position].seen!!) {
@@ -648,24 +669,30 @@ class NotificationListAdapter(private val context: Context, private val items: M
                                         val count = bdjobsDB.notificationDao().getMessageCount()
                                         bdjobsUserSession.updateMessageCount(count)
                                     }
+
+                                    promotionalMessageViewHolder.parentCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
                                 }
                             } catch (e: Exception) {
+                                Timber.e("Catch in seen ${e.localizedMessage}")
                                 logException(e)
                             }
 
                             try {
+                                Timber.d("Intent: $intent")
                                 if (intent!=null) context.startActivity(intent)
                                 else context.launchUrl(items[position].link)
-                            } catch (e: Exception) {}
+                            } catch (e: Exception) {
+                                                            Timber.e("Catch in launch: ${e.localizedMessage}")}
                             notificationCommunicatior.positionClickedMessage(position)
                         }
                     } else {
                         promotionalMessageViewHolder?.messageButton?.hide()
                     }
-                } else {
+                }
+                else {
                     if (!items[position].link.isNullOrEmpty()) {
                      //   promotionalMessageViewHolder?.messageButton?.show()
-                        promotionalMessageViewHolder?.messageImage?.setOnClickListener {
+                        promotionalMessageViewHolder?.itemView?.setOnClickListener {
 
                             try {
                                 if (!items[position].seen!!) {
@@ -690,14 +717,19 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 }
 
                 if (!commonNotificationModel?.LogoSrc.isNullOrEmpty()){
+                    Timber.d("Logo not empty: ${commonNotificationModel?.LogoSrc}")
                     try {
-                        Picasso.get().load(commonNotificationModel?.LogoSrc).into(promotionalMessageViewHolder?.headerImage)
+                        Picasso.get().load(commonNotificationModel?.LogoSrc?.trim()).into(promotionalMessageViewHolder?.headerImage)
                     }catch (e: Exception) {
+                        promotionalMessageViewHolder.headerImage.setImageResource(R.drawable.logo_video_resume)
                     }
+                } else {
+                    promotionalMessageViewHolder.headerImage.setImageResource(R.drawable.logo_video_resume)
                 }
 
 
                 if (!items[position].imageLink.isNullOrEmpty()) {
+                    Timber.d("imagee not empty: ${commonNotificationModel?.imageLink}")
                     promotionalMessageViewHolder?.card?.show()
                     promotionalMessageViewHolder?.messageImage.show()
                     try {
@@ -845,6 +877,7 @@ class PromotionalMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val messageImage = view?.findViewById(R.id.message_image) as ImageView
     val card = view?.findViewById(R.id.card) as CardView
     val headerImage = view?.findViewById(R.id.message_header_img) as ImageView
+    val parentCL = view.findViewById<ConstraintLayout>(R.id.notification_cv_viewed_cl)
 
 }
 

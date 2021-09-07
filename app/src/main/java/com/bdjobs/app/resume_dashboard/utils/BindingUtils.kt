@@ -82,6 +82,26 @@ fun MaterialTextView.setTextAndDrawable(value: String?) {
     }
 }
 
+@BindingAdapter("fileTypeDrawable")
+fun MaterialTextView.fileTypeDrawable(value: String?) {
+    if (value == "2") {
+        this.setCompoundDrawablesWithIntrinsicBounds(
+            R.drawable.ic_ms_word,
+            0,
+            0,
+            0
+        )
+    } else {
+        this.setCompoundDrawablesWithIntrinsicBounds(
+            R.drawable.ic_pdf_personalized_resume,
+            0,
+            0,
+            0
+        )
+    }
+
+}
+
 @BindingAdapter("switchDrawable")
 fun MaterialTextView.switchDrawable(value: Boolean) {
     this.run {

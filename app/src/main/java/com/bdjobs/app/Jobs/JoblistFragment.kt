@@ -5,38 +5,33 @@ import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
 import android.text.Html
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
-import com.bdjobs.app.API.ModelClasses.ClientAdModel
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.SaveUpdateFavFilterModel
 import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.databases.internal.FavouriteSearch
-import com.bdjobs.app.databases.internal.LastSearch
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.FavouriteSearch
+import com.bdjobs.app.databases.internal.LastSearch
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
-import kotlinx.android.synthetic.main.fragment_joblist_layout.adView_container
-import kotlinx.android.synthetic.main.fragment_joblist_layout.ivClientAd
 import okhttp3.ResponseBody
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -46,6 +41,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import java.net.SocketTimeoutException
 import java.util.*
 
 class JoblistFragment : Fragment() {
@@ -264,7 +260,7 @@ class JoblistFragment : Fragment() {
         currentPage = 1
         jobListRecyclerView?.setHasFixedSize(true)
         communicator = activity as JobCommunicator
-        layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         jobListRecyclerView?.layoutManager = layoutManager
         joblistAdapter = JoblistAdapter(activity)
         jobListRecyclerView?.adapter = joblistAdapter
@@ -325,7 +321,7 @@ class JoblistFragment : Fragment() {
             }
         })
 
-        showClientAD()
+//        showClientAD()
     }
 
     private fun getDataNew() {
@@ -435,7 +431,13 @@ class JoblistFragment : Fragment() {
         }
     }
 
-    private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?, blueColur: String?, category: String?, deadline: String?, encoded: String?, experince: String?, gender: String?, genderB: String?, industry: String?, isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?, lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int, postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?,workPlace: String?, personWithDisability: String?, facilitiesForPWD: String?) {
+    private fun loadFirstPageFromAPI(jobLevel: String?, newsPaper: String?, armyp: String?,
+                                     blueColur: String?, category: String?, deadline: String?, encoded: String?,
+                                     experince: String?, gender: String?, genderB: String?, industry: String?,
+                                     isFirstRequest: String?, jobnature: String?, jobType: String?, keyword: String?,
+                                     lastJPD: String?, location: String?, organization: String?, pageId: String?, pageNumber: Int,
+                                     postedWithIn: String?, age: String?, rpp: String?, slno: String?, version: String?,
+                                     workPlace: String?, personWithDisability: String?, facilitiesForPWD: String?) {
 
         //Log.d("rakib","${session.userId}")
 
@@ -557,6 +559,14 @@ class JoblistFragment : Fragment() {
                     }
                 } catch (e: Exception) {
                     logException(e)
+
+//                    if (e is SocketTimeoutException) {
+//                        Toast.makeText(
+//                            activity,
+//                            "Timeout: Please check your network connection & try again",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
                 }
 
             }
@@ -564,6 +574,18 @@ class JoblistFragment : Fragment() {
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable) {
                 //Log.d("TAG", "not successful!! onFail")
                 error("onFailure", t)
+                try {
+                    if (activity!=null) {
+                        try {
+                            Toast.makeText(
+                                activity,
+                                "Sorry! Something went wrong please try again",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } catch (e:Exception){}
+                    }
+                } catch (e: Exception) {
+                }
             }
         })
     }
@@ -917,6 +939,7 @@ class JoblistFragment : Fragment() {
         return true
     }
 
+/*
     private fun showClientAD() {
 
         try {
@@ -984,6 +1007,7 @@ class JoblistFragment : Fragment() {
                     })
         } catch (e: Exception) {}
     }
+*/
 
 
 }

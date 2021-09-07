@@ -182,7 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_join_interview_msg"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -207,7 +207,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="@{viewModel.remainingDays}"
                         android:textColor="#F71673"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="2" />
@@ -234,7 +234,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="@{viewModel.remainingHours}"
                         android:textColor="#F71673"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         app:layout_constraintStart_toEndOf="@id/tv_d"
                         app:layout_constraintTop_toTopOf="@id/tv_days"
                         tools:text="12" />
@@ -261,7 +261,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="@{viewModel.remainingMinutes}"
                         android:textColor="#F71673"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         app:layout_constraintStart_toEndOf="@id/tv_h"
                         app:layout_constraintTop_toTopOf="@id/tv_days"
                         tools:text="20" />
@@ -288,7 +288,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="@{viewModel.remainingSeconds}"
                         android:textColor="#F71673"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         app:layout_constraintStart_toEndOf="@id/tv_m"
                         app:layout_constraintTop_toTopOf="@id/tv_days"
                         tools:text="35" />
@@ -315,7 +315,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_join_interview_msg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -342,6 +342,7 @@
                     android:drawableEnd="@drawable/ic_angle_right"
                     android:drawablePadding="8dp"
                     android:drawableTint="#13a10e"
+                    tools:visibility="gone"
                     android:onClick="@{()->viewModel.onJoinInterviewButtonClick()}"
                     android:visibility="@{viewModel.showJoinInterviewSmallBTN ? View.VISIBLE : View.GONE}"
                     android:padding="5dp"
@@ -367,6 +368,22 @@
 
             </LinearLayout>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:fontFamily="@font/roboto"
+                android:background="@drawable/bg_blue_interview_start_alert"
+                android:id="@+id/tv_join_interview_msg"
+                android:textColor="#0D47A1"
+                android:drawablePadding="10dp"
+                app:drawableStartCompat="@drawable/ic_info_personalized_resume"
+                android:padding="8dp"
+                android:visibility="@{viewModel.showJoinInterviewSmallBTN ? View.GONE : View.VISIBLE}"
+                android:text="@string/label_join_interview_30_mins"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -381,7 +398,6 @@
             android:paddingEnd="5dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            tools:visibility="gone"
             android:visibility="@{viewModel.showJoinSection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent">
 

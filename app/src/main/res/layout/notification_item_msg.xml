@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_height="wrap_content"
-        android:id="@+id/notification_cv_viewed_cl"
-        android:layout_width="match_parent"
-        android:paddingBottom="10dp">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/notification_cv_viewed_cl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFF2FA"
+    android:paddingBottom="10dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/message_header_img"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            app:srcCompat="@drawable/ic_message_icon_new"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/message_header_img"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_message_icon_new" />
 
     <TextView
         android:id="@+id/message_title"
@@ -72,10 +72,10 @@
         app:layout_constraintTop_toBottomOf="@id/message_text">
 
         <ImageView
-            android:scaleType="fitXY"
             android:id="@+id/message_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
 
     </androidx.cardview.widget.CardView>
 
@@ -112,21 +112,21 @@
         app:layout_constraintTop_toTopOf="@id/message_time_text" />
 
     <TextView
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="5dp"
-            android:id="@+id/message_time_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:drawablePadding="5dp"
-            android:drawableTint="#767676"
-            android:textColor="#767676"
-            android:text="6 days ago"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card"
-            app:layout_constraintVertical_bias="0.176" />
+        android:id="@+id/message_time_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="16dp"
+        android:drawablePadding="5dp"
+        android:drawableTint="#767676"
+        android:text="6 days ago"
+        android:textColor="#767676"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card"
+        app:layout_constraintVertical_bias="0.176" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

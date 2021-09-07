@@ -7,16 +7,16 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: "androidx.navigation.safeargs"
 
 android {
+
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 757 // huawei build 738 // Current - 757
-        versionName "2.9.0.2"  //713.0.2 internal test // 2.9.0.1
+        versionCode 761 // huawei build 738 // Current Production - 761 // Current QA - 759
+        versionName "2.9.1.1"  //714.0.1 current internal test // Current Production - 2.9.1.0
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        signingConfig signingConfigs.release
     }
 
     buildTypes {
@@ -24,17 +24,17 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            debuggable true
-//            signingConfig signingConfigs.release
         }
 
         debug {
 //            shrinkResources true
 //            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
         }
     }
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -65,6 +65,7 @@ android {
             dirs 'libs'
         }
     }
+
 }
 
 dependencies {
@@ -112,6 +113,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1'
     implementation 'com.squareup.okhttp3:okhttp:4.8.1'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.8.1'
+    implementation "io.grpc:grpc-okhttp:1.32.2"
 
     //----jetbrains kotlin extension
     implementation "org.jetbrains.anko:anko:$anko_version"
@@ -203,12 +205,12 @@ dependencies {
 
     // socket.io
     //compatible for node server 2 & 3 , 2.0.0 is compatible with node server 4
-    implementation ('io.socket:socket.io-client:1.0.0') {
+    implementation('io.socket:socket.io-client:1.0.0') {
         exclude group: 'org.json', module: 'json'
     }
 
     // webRTC
-    implementation(name:'libwebrtc', ext:'aar')
+    implementation(name: 'libwebrtc', ext: 'aar')
 
     // pdf viewer
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'

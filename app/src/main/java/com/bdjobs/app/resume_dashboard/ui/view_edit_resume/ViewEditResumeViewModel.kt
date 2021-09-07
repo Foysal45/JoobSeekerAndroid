@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.resume_dashboard.data.models.DataMRD
 import com.bdjobs.app.resume_dashboard.data.repositories.ResumeDashboardRepository
 import kotlinx.coroutines.launch
@@ -28,6 +29,9 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     private var _detailsResumeStat = MutableLiveData<DataMRD>()
     val detailResumeStat: LiveData<DataMRD> get() = _detailsResumeStat
 
+    private var _downloadCVStat = MutableLiveData<UploadResume>()
+    val downloadCVStat : LiveData<UploadResume> get() = _downloadCVStat
+
     var bdJobsResumeStatusPercentage = MutableLiveData<Int>().apply { value = 0 }
     var bdJobsResumeLastUpdate = MutableLiveData<String>().apply { value = "" }
 
@@ -38,15 +42,18 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     var videoResumeLastUpdate = MutableLiveData<String>().apply { value = "" }
     var isVideoResumeShowingToEmp = MutableLiveData<Boolean>()
     var isVideoResumeAvailable = MutableLiveData<Boolean>()
+    var isBdjobsResumeAvailable = MutableLiveData<Boolean>()
 
     var isPersonalizedResumeAvailable = MutableLiveData<Boolean>()
     var personalizedResumeLastUpload = MutableLiveData<String>().apply { value = "" }
+    var personalizedResumeFileType = MutableLiveData<String>()
 
     var videoResumeQ1 = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ2 = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ3 = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ4 = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ5 = MutableLiveData<String>().apply { value = "" }
+    var videoResumeQ6 = MutableLiveData<String>().apply { value = "" }
 
 //    init {
 //        showBdJobsResumeSteps.value = false
@@ -58,17 +65,22 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
 
 
     @SuppressLint("SimpleDateFormat")
-    fun manageResumeDetailsStat() {
+    fun manageResumeDetailsStat(isCVPosted:String) {
         isLoading.value = true
 
         viewModelScope.launch {
             try {
-                val response = repository.manageResumeDetailsStat()
+                val response = repository.manageResumeDetailsStat(isCVPosted)
                 isLoading.value = false
                 if (response.statuscode == "0" && response.message == "Success") {
 
                     val data = response.data!![0]
                     _detailsResumeStat.value = data
+
+                    isBdjobsResumeAvailable.value = data.bdjobsStatusPercentage != "0"
+
+                    showBdJobsResumeSteps.value = data.bdjobsStatusPercentage != "100"
+                    showVideoResumeSteps.value = data.videoStatusPercentage != "100"
 
                     bdJobsResumeStatusPercentage.value = data.bdjobsStatusPercentage?.toInt()
 
@@ -82,11 +94,13 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                     if (data.videoLastUpdateDate != "") videoResumeLastUpdate.value =
                         formatDateVP(data.videoLastUpdateDate)
                     isVideoResumeShowingToEmp.value = data.videoResumeVisibility == "1"
-                    if (isVideoResumeAvailable.value == true) videoResumeQuestionList()
+//                    if (isVideoResumeAvailable.value == true) videoResumeQuestionList()
 
                     isPersonalizedResumeAvailable.value = data.personalizefileName != ""
                     if (data.personalizeLastUpdateDate != "") personalizedResumeLastUpload.value =
                         formatDateVP(data.personalizeLastUpdateDate)
+
+                    personalizedResumeFileType.value = if (data.personalizefileName!!.contains("pdf") ) "1" else "2"
 
                 } else {
                     Timber.e("Invalid response")
@@ -100,7 +114,9 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
         }
     }
 
-    private fun videoResumeQuestionList() {
+    fun videoResumeQuestionList() {
+        isLoading.value = true
+
         viewModelScope.launch {
             try {
                 val response = repository.getQuestionListFromRemote()
@@ -113,6 +129,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                             2 -> videoResumeQ3.value = data[i]?.buttonStatus
                             3 -> videoResumeQ4.value = data[i]?.buttonStatus
                             4 -> videoResumeQ5.value = data[i]?.buttonStatus
+                            5 -> videoResumeQ6.value = data[i]?.buttonStatus
                         }
                     }
                 }
@@ -145,6 +162,22 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
             }
         }
 
+    }
+
+    fun downloadCv(status:String) {
+        isLoading.value = true
+
+        viewModelScope.launch {
+            try {
+                val response = repository.downloadCV(status)
+
+                if (response.statuscode=="0") {
+                    _downloadCVStat.value = response
+                }
+            } catch (e:Exception) {
+                Timber.e("Error while getting CV download Link : ${e.localizedMessage}")
+            }
+        }
     }
 
     @SuppressLint("SimpleDateFormat")

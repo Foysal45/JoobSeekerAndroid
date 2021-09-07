@@ -47,7 +47,7 @@ class RestartBroadcastReceiver : BroadcastReceiver() {
         } catch (e: Exception) {
             e.printStackTrace()
             Timber.e("Exception in Restart Receiver: ${e.localizedMessage}")
-            FirebaseCrashlytics.getInstance().recordException(e)
+//            FirebaseCrashlytics.getInstance().recordException(e)
         }
     }
 

@@ -289,7 +289,7 @@
         android:typeface="normal"
         app:backgroundTint="#13A10E"
         app:cornerRadius="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/ll_resume_type_indicator"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

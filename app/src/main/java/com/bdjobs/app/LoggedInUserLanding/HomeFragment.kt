@@ -457,8 +457,18 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     })
 
 
-                    Timber.d("Filter Location: ${searchData?.let { it1 -> getFilterString(it1) }}")
-                    searchFilterTV?.text = searchData?.let { it1 -> getFilterString(it1) }
+//                    Timber.d("Filter Location: ${searchData?.let { it1 -> getFilterString(it1) }}")
+                    searchFilterTV?.text = try {
+                        searchData?.let { it1 ->
+                            if (activity!=null) {
+                                getFilterString(it1)
+                            } else {
+                                ""
+                            }
+                        }
+                    } catch (e: Exception) {
+                        ""
+                    }
                     if (!searchData?.keyword.isNullOrBlank()) {
                         keywordTV?.text = searchData?.keyword
                     } else {

@@ -190,7 +190,7 @@ class VideoResumeQuestionsFragment : Fragment() {
         }
 
 //        videoResumeQuestionsViewModel.showVideoResumeToEmployers.value = session.isVideoResumeShowToEmployers
-        videoResumeQuestionsViewModel.isVideoResumeVisible.value =  session.videoResumeIsVisible
+//        videoResumeQuestionsViewModel.isVideoResumeVisible.value =  session.videoResumeIsVisible
     }
 
 

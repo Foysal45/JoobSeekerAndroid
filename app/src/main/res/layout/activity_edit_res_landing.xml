@@ -364,7 +364,6 @@
             <LinearLayout
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -376,7 +375,7 @@
                     app:layout_constraintTop_toBottomOf="@id/constraintLayout2"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="16dp"
-                    android:text="Statistics of Personalized Resume"
+                    android:text="Statistics of Bdjobs Resume"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_medium"
                     android:id="@+id/tv_label_stat_personalized_resume"/>
@@ -413,10 +412,10 @@
                                 android:fontFamily="@font/roboto_bold"
                                 android:textColor="@color/black"
                                 android:textSize="24sp"
+                                android:text="-"
                                 android:textStyle="bold"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="50" />
+                                app:layout_constraintTop_toTopOf="parent"/>
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv_label_personalized_resume"
@@ -464,10 +463,10 @@
                                 android:fontFamily="@font/roboto_bold"
                                 android:textColor="@color/black"
                                 android:textSize="24sp"
+                                android:text="-"
                                 android:textStyle="bold"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="-" />
+                                app:layout_constraintTop_toTopOf="parent"/>
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv_label_personalized_resume_download"
@@ -517,9 +516,9 @@
                                 android:textColor="@color/black"
                                 android:textSize="24sp"
                                 android:textStyle="bold"
+                                android:text="-"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="10" />
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv_label_personalized_resume_emailed"

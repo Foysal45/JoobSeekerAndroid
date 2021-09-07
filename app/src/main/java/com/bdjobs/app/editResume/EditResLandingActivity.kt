@@ -24,6 +24,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.*
 
 class EditResLandingActivity : Activity() {
@@ -62,7 +63,7 @@ class EditResLandingActivity : Activity() {
 
             } else {
                 doWork()
-                fetchPersonalizedResumeStat()
+                fetchBdjobsResumeStat()
             }
         } catch (e: Exception) {
         }
@@ -74,8 +75,8 @@ class EditResLandingActivity : Activity() {
         viewResumeBTN?.setOnClickListener {
             if (!session.isCvPosted?.equalIgnoreCase("true")!!) {
                 try {
-                    val alertd = alert("To Access this feature please post your resume") {
-                        title = "Your resume is not posted!"
+                    val alertd = alert("To access this feature please post your Bdjobs Resume.") {
+                        title = "Your Bdjobs Resume is not posted yet!"
                         negativeButton("OK") { dd ->
                             dd.dismiss()
                         }
@@ -103,7 +104,7 @@ class EditResLandingActivity : Activity() {
 
 
     @SuppressLint("SetTextI18n")
-    private fun fetchPersonalizedResumeStat() {
+    private fun fetchBdjobsResumeStat() {
 //        this.showProgressBar(loadingProgressBar)
 //        cl_stat_personalized_resume.hide()
 //        tv_label_stat_personalized_resume.hide()
@@ -111,7 +112,7 @@ class EditResLandingActivity : Activity() {
 
         GlobalScope.launch {
             try {
-                val response = ApiServiceMyBdjobs.create().personalizedResumeStat(
+                val response = ApiServiceMyBdjobs.create().bdjobsResumeStat(
                     session.userId,
                     session.decodId,
                     session.isCvPosted
@@ -122,7 +123,15 @@ class EditResLandingActivity : Activity() {
                 if (response.statuscode == "0" && response.message == "Success") {
                     val data = response.data!![0]
 
-                    val lastUpdated = if (data.personalizedLastUpdateDate!="") formatDateVP(data.personalizedLastUpdateDate!!) else ""
+                    val lastUpdated = if (data.bdjobsLastUpdateDate!="") {
+                        try {
+                            formatDateVP(data.bdjobsLastUpdateDate!!)
+                        } catch (e: Exception) {
+                            formatDateVP(data.bdjobsLastUpdateDate!!,
+                                SimpleDateFormat("M/dd/yyyy", Locale.US)
+                            )
+                        }
+                    } else ""
 
                     runOnUiThread {
 
@@ -133,9 +142,9 @@ class EditResLandingActivity : Activity() {
                         tv_last_update.show()
 
 
-                        tv_personalized_resume_view_count.text = data.personalizedViewed
-                        tv_personalized_resume_download_count.text = data.personalizedDownload
-                        tv_personalized_resume_emailed_count.text = data.personalizedEmailed
+                        tv_personalized_resume_view_count.text = data.bdjobsViewed
+                        tv_personalized_resume_download_count.text = data.bdjobsDownload
+                        tv_personalized_resume_emailed_count.text = data.bdjobsEmailed
                         if (lastUpdated!="") {
                             tv_last_update.show()
                             tv_last_update.text = "Last updated on: $lastUpdated"
@@ -151,13 +160,13 @@ class EditResLandingActivity : Activity() {
 
                     }
 
-                } else runOnUiThread { toast("Sorry, personalized resume stat fetching failed!") }
+                } else runOnUiThread { toast("Sorry, Bdjobs resume stat fetching failed!") }
 
             } catch (e: Exception) {
-                Timber.e("Exception while fetching personalized resume stat: ${e.localizedMessage}")
+                Timber.e("Exception while fetching bdjobs resume stat: ${e.localizedMessage}")
                 runOnUiThread {
                     this@EditResLandingActivity.stopProgressBar(loadingProgressBar)
-                    toast("Sorry, personalized resume stat fetching failed: ${e.localizedMessage}")
+                    toast("Sorry, Bdjobs resume stat fetching failed: ${e.localizedMessage}")
 //                    cl_stat_personalized_resume.show()
 //                    tv_label_stat_personalized_resume.show()
                 }
@@ -309,9 +318,5 @@ class EditResLandingActivity : Activity() {
         }
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        //Log.d("rakib", "called onRestart")
-    }
 
 }

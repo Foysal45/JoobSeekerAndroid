@@ -463,7 +463,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
 
     <!-- Live Interview -->
     <string name="live_interview_date_time">Do you want to present in the live interview on %1$s, at %2$s?</string>
-    <string name="video_resume_intro">A Video Resume is a short video you to introduce yourself to the hiring manager or recruiter.</string>
+    <string name="video_resume_intro">A Video Resume is a short video of you to introduce yourself to the hiring manager or recruiter.</string>
     <string name="label_starting_interview">Starting interview…</string>
     <string name="label_resume_invisible_text">Your Video Resume is not visible to employer(s). Make it visible to employer(s) to increase interview call.</string>
     <string name="label_buy_sms">Buy SMS Package</string>
@@ -478,14 +478,18 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_bdjobs_resume">Bdjobs Resume</string>
     <string name="label_personalized">Personalized</string>
     <string name="label_video_resume">Video Resume</string>
-    <string name="label_resume_visibility_to_employer_s">Status of showing Video Resume to Employer(s)</string>
+    <string name="label_video_resume_visibility_to_employer_s">Status of showing Video Resume to Employer(s)</string>
+    <string name="label_resume_visibility_to_employer_s">Resume visibility to Employer(s)</string>
     <string name="label_change">Change</string>
     <string name="label_edit">Edit</string>
+    <string name="label_view">View</string>
     <string name="label_personalized_resume">Personalized Resume</string>
     <string name="label_no_personalized_resume">You have no Personalized Resume. Upload Personalized Resume for better job opportunities.</string>
     <string name="label_add_personalized_resume">Add Personalized Resume</string>
-    <string name="label_add_video_resume">Add video Resume</string>
+    <string name="label_add_video_resume">Add Video Resume</string>
+    <string name="label_add_bdjobs_resume">Post Bdjobs Resume</string>
     <string name="label_no_video_resume">You have no Video Resume. Add Video Resume to get more job opportunities.</string>
+    <string name="label_no_bdjobs_resume">Post Bdjobs Resume to avail great chances.</string>
     <string name="personal_details">Personal Details</string>
     <string name="academic_qualification">Academic Qualification</string>
     <string name="training">Training</string>
@@ -504,6 +508,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="only_selected_employer_s_can_not_see_your_resume">Only <b>Selected Employer(s)</b> can not see your resume.</string>
     <string name="type_employer_name_for_suggestions">Type Employer name for suggestions</string>
     <string name="completed_questions">Completed Questions</string>
+    <string name="label_join_interview_30_mins">You will get Join Interview button <b>before 30 mins of interview.</b></string>
 
 
     <string-array name="spinnerFilterItemEmailResume">

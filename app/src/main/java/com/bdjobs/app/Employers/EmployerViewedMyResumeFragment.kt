@@ -57,9 +57,9 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
     private var fromText = ""
     private var toText = ""
+    private var companyName = ""
 
     private val calendar = Calendar.getInstance()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -111,12 +111,14 @@ class EmployerViewedMyResumeFragment : Fragment() {
         }
 
         val resumeTypeET = dialog.findViewById<TextInputEditText>(R.id.et_resume_type)
+        val companyNameET = dialog.findViewById<TextInputEditText>(R.id.et_company_name)
         val resumeTypeTIL = dialog.findViewById<TextInputLayout>(R.id.til_resume_type)
         val dropdownCard = dialog.findViewById<MaterialCardView>(R.id.dropdown_filter_options)
         val bdJobsResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_bdjobs_resume_filter)
         val personalizeResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_per_resume_filter)
         val videoResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_video_resume_filter)
         val allResumeTV = dialog.findViewById<MaterialTextView>(R.id.tv_all_resume_filter)
+        val summaryViewTV = dialog.findViewById<MaterialTextView>(R.id.tv_summary_view_resume_filter)
         val fromTIL = dialog.findViewById<TextInputLayout>(R.id.til_from)
         val fromET = dialog.findViewById<TextInputEditText>(R.id.et_from_filter)
         val toET = dialog.findViewById<TextInputEditText>(R.id.et_to_filter)
@@ -153,6 +155,12 @@ class EmployerViewedMyResumeFragment : Fragment() {
             dropdownCard.hide()
         }
 
+        summaryViewTV.setOnClickListener {
+            selectedType = "4"
+            resumeTypeET.setText("Summary View")
+            dropdownCard.hide()
+        }
+
         allResumeTV.setOnClickListener {
             selectedType = ""
             resumeTypeET.setText("All")
@@ -171,11 +179,10 @@ class EmployerViewedMyResumeFragment : Fragment() {
         }
 
         applyBtn.setOnClickListener {
+            companyName = companyNameET.text.toString()
             initializeViews()
             dialog.dismiss()
         }
-
-
         dialog.show()
     }
 
@@ -288,7 +295,8 @@ class EmployerViewedMyResumeFragment : Fragment() {
                    itemsPerPage = "30",
                    fromDate = fromText,
                    toDate = toText,
-                   txtStatus = selectedType
+                   txtStatus = selectedType,
+                   compName = companyName,
                ) .enqueue(object : Callback<EmpViewedResumeModel> {
                 override fun onFailure(call: Call<EmpViewedResumeModel>, t: Throwable) {
                     try {

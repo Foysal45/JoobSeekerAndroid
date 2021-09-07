@@ -333,6 +333,8 @@
                 android:backgroundTint="#333333"
                 app:cardCornerRadius="7dp"
                 app:cardElevation="5dp"
+                android:id="@+id/cl_resume_visibility_view"
+                tools:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">

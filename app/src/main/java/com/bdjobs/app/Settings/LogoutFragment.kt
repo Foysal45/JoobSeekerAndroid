@@ -15,17 +15,21 @@ import com.bdjobs.app.API.ModelClasses.CookieModel
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.changePassword_Eligibility
+import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.Utilities.getDeviceID
+import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.Utilities.removeShortcut
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.sms.BaseActivity
 import com.google.android.gms.ads.AdListener
-import kotlinx.android.synthetic.main.fragment_contact_view.*
 import kotlinx.android.synthetic.main.fragment_logout.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.yesButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,10 +45,22 @@ class LogoutFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_logout, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+
+        bdjobsUserSession = BdjobsUserSession(requireActivity())
+
+        if (bdjobsUserSession.isCvPosted!=null && bdjobsUserSession.isCvPosted!!.equalIgnoreCase("true")) {
+            resumePrivacySettingsBTN.visibility = View.VISIBLE
+        } else {
+            resumePrivacySettingsBTN.visibility = View.GONE
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         communicator = activity as SettingsCommunicator
-        bdjobsUserSession = BdjobsUserSession(requireActivity())
 
         notificationSettingsBTN?.setOnClickListener {
             try {
@@ -64,6 +80,8 @@ class LogoutFragment : Fragment() {
             } catch (e: Exception) {
             }
         }
+
+
 
         resumePrivacySettingsBTN.setOnClickListener {
             communicator.gotoResumePrivacyFragment()
@@ -163,13 +181,13 @@ class LogoutFragment : Fragment() {
 
                     }
                     toast(response.body()?.message!!)
-                    cookieManager?.removeAllCookies(null)
+                    cookieManager.removeAllCookies(null)
                     removeShortcut(requireActivity())
 
                 } catch (e: Exception) {
                     logException(e)
                     bdjobsUserSession.logoutUser()
-                    cookieManager?.removeAllCookies(null)
+                    cookieManager.removeAllCookies(null)
                     removeShortcut(requireActivity())
                 }
             }

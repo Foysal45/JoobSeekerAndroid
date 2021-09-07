@@ -1348,6 +1348,14 @@ interface ApiServiceMyBdjobs {
     ) : PersonalizedResumeStat
 
     @FormUrlEncoded
+    @POST("apps_bdjobs_resume_stats.asp")
+    suspend fun bdjobsResumeStat(
+        @Field("userId") userID: String? = "",
+        @Field("decodeId") decodeID: String? = "",
+        @Field("cvPosted") cvPosted:String?=""
+    ) : BdjobsResumeStat
+
+    @FormUrlEncoded
     @POST("apps_resume_visibility_status_update.asp")
     suspend fun resumePrivacyUpdate(
         @Field("userID") userID: String? = "",
@@ -1355,6 +1363,15 @@ interface ApiServiceMyBdjobs {
         @Field("employerList") employerList: String? = "",
         @Field("statusType") statusType: String? = "",
     ) : ResumePrivacyUpdate
+
+    @FormUrlEncoded
+    @POST("file_upload.aspx")
+    suspend fun downloadCv(
+        @Field("userid") userID: String? = "",
+        @Field("decodeid") decodeID: String? = "",
+        @Field("status") status: String? = "",
+        @Field("appId") appId: String? = Constants.APP_ID
+    ): UploadResume
 
 
 

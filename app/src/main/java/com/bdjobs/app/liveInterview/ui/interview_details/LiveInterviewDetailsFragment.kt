@@ -62,6 +62,8 @@ class LiveInterviewDetailsFragment : Fragment() {
         )
     }
 
+    private lateinit var adapter: LiveInterviewDetailsAdapter
+
     lateinit var binding: FragmentLiveInterviewDetailsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -82,7 +84,7 @@ class LiveInterviewDetailsFragment : Fragment() {
 
         tool_bar?.title = args.jobTitle
 
-        val adapter = LiveInterviewDetailsAdapter(requireContext(), ClickListener {
+        adapter = LiveInterviewDetailsAdapter(requireContext(), ClickListener {
             liveInterviewDetailsViewModel.apply {
                 liveInterviewDetailsViewModel.onChangeButtonClick()
             }
@@ -92,7 +94,30 @@ class LiveInterviewDetailsFragment : Fragment() {
 
         Timber.tag("live").d("Load Live Detail View")
 
+
+        btn_job_detail?.setOnClickListener {
+            val jobids = ArrayList<String>()
+            val lns = ArrayList<String>()
+            val deadline = ArrayList<String>()
+            jobids.add(args.jobId)
+            lns.add("0")
+            deadline.add("")
+            startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        setUpObservers(adapter)
+
+    }
+
+    private fun setUpObservers(adapter: LiveInterviewDetailsAdapter) {
         liveInterviewDetailsViewModel.apply {
+
+            getAllCalendars()
+            getLiveInterviewDetails()
 
             liveInterviewDetailsData.observe(viewLifecycleOwner, {
                 Timber.tag("live").d("API called for liveInterviewDetailsData")
@@ -131,28 +156,18 @@ class LiveInterviewDetailsFragment : Fragment() {
                 }
             })
 
-            takePreparationClickEvent.observe(viewLifecycleOwner,EventObserver{
+            takePreparationClickEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     showPreparationDialog()
                 }
             })
 
-            joinInterviewClickEvent.observe(viewLifecycleOwner,EventObserver{
+            joinInterviewClickEvent.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
                     // do work here
                     askForCameraAndAudioPermission("session")
                 }
             })
-        }
-
-        btn_job_detail?.setOnClickListener {
-            val jobids = ArrayList<String>()
-            val lns = ArrayList<String>()
-            val deadline = ArrayList<String>()
-            jobids.add(args.jobId)
-            lns.add("0")
-            deadline.add("")
-            startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
         }
     }
 

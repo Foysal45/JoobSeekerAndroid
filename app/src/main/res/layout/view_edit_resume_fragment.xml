@@ -47,9 +47,9 @@
                     app:strokeColor="#E6E6E6"
                     app:strokeWidth="1dp">
 
-
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
+                        android:visibility="@{viewModel.isBdjobsResumeAvailable ? View.VISIBLE : View.GONE}"
                         android:layout_height="match_parent">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,11 +75,24 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_view_bdjobs_resume"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text="@string/label_view"
+                                android:layout_marginEnd="18dp"
+                                android:fontFamily="@font/roboto"
+                                app:drawableStartCompat="@drawable/ic_edit_resume_view"
+                                app:layout_constraintEnd_toStartOf="@+id/tv_edit_bdjobs_resume"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv_edit_bdjobs_resume"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="10dp"
                                 android:text="@string/label_edit"
+                                android:fontFamily="@font/roboto"
                                 app:drawableStartCompat="@drawable/ic_edit_resume"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -287,7 +300,17 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <include
+                        android:id="@+id/no_bdjobs_resume"
+                        tools:visibility="gone"
+                        layout="@layout/layout_no_bdjobs_resume"
+                        android:visibility="@{viewModel.isBdjobsResumeAvailable ? View.GONE : View.VISIBLE}"
+                        />
+
+
                 </com.google.android.material.card.MaterialCardView>
+
+
                 <!--bdjobs resume section end-->
 
                 <!--video resume section start-->
@@ -330,6 +353,17 @@
                                 android:textSize="14sp"
                                 app:drawableStartCompat="@drawable/ic_video_resume_count"
                                 app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_view_video_resume"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text="@string/label_view"
+                                app:drawableStartCompat="@drawable/ic_edit_resume_view"
+                                android:layout_marginEnd="18dp"
+                                app:layout_constraintEnd_toStartOf="@+id/tv_edit_video_resume"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -428,7 +462,6 @@
                                 android:id="@+id/steps_video_resume"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                tools:visibility="gone"
                                 android:visibility="@{viewModel.showVideoResumeSteps?View.VISIBLE:View.GONE}"
                                 app:layout_constraintTop_toBottomOf="@id/tv_completed_steps_video_resume"
                                 android:layout_marginTop="8dp">
@@ -455,7 +488,7 @@
                                     android:fontFamily="@font/roboto"
                                     android:padding="5dp"
                                     checkedDrawableVideo="@{viewModel.videoResumeQ2}"
-                                    android:text="Tell us about your academic qualification and trainings (if any)."
+                                    android:text="Tell about your academic qualification and trainings (if any)."
                                     android:textColor="#4D4D4D"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
@@ -501,11 +534,23 @@
                                     checkedDrawableVideo="@{viewModel.videoResumeQ5}"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@id/tv_question_four"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_question_four"/>
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/tv_question_six"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:padding="5dp"
+                                    android:text="If you have any achievement or extra-curricular activities, please tell"
+                                    android:textColor="#4D4D4D"
+                                    checkedDrawableVideo="@{viewModel.videoResumeQ6}"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_question_five"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     android:layout_marginBottom="8dp"/>
-
-
 
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -565,6 +610,19 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_view_personalized_resume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:visibility="@{viewModel.isPersonalizedResumeAvailable ? View.VISIBLE : View.GONE}"
+                        android:text="@string/label_view"
+                        app:drawableStartCompat="@drawable/ic_edit_resume_view"
+                        android:layout_marginEnd="18dp"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_edit_personalized_resume"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="gone" />
+
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_edit_personalized_resume"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -597,7 +655,7 @@
                             android:text="@{viewModel.detailResumeStat.personalizefileName}"
                             android:textColor="@color/black"
                             android:textSize="12sp"
-                            app:drawableStartCompat="@drawable/ic_pdf"
+                            fileTypeDrawable="@{viewModel.personalizedResumeFileType}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -656,7 +714,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:backgroundTint="#333333"
-            android:visibility="@{viewModel.isLoading() ? View.GONE : View.VISIBLE}"
             app:cardCornerRadius="7dp"
             app:cardElevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -94,7 +94,7 @@
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2"
         shimmer:shimmer_duration="1200"
-        app:layout_constraintBottom_toTopOf="@id/cl_ad_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         shimmer:layout_constraintEnd_toEndOf="parent"
         shimmer:layout_constraintStart_toStartOf="parent">
 
@@ -197,7 +197,7 @@
         android:gravity="center"
         android:visibility="gone"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/cl_ad_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filterLayout">
@@ -222,13 +222,14 @@
         android:windowSoftInputMode="adjustResize"
         app:backgroundTint="#13A10E"
         app:fabSize="normal"
-        app:layout_constraintBottom_toTopOf="@id/cl_ad_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+<!--
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -266,6 +267,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

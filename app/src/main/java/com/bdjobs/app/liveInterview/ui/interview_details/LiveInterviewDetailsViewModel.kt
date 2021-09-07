@@ -96,13 +96,13 @@ class LiveInterviewDetailsViewModel(
 
     lateinit var timer: CountDownTimer
 
-    init {
-        getAllCalendars()
-        getLiveInterviewDetails()
+//    init {
+//        getAllCalendars()
+//        getLiveInterviewDetails()
+//
+//    }
 
-    }
-
-    private fun getLiveInterviewDetails() {
+    fun getLiveInterviewDetails() {
         _dataLoading.value = true
         viewModelScope.launch {
             try {
@@ -136,7 +136,7 @@ class LiveInterviewDetailsViewModel(
                 }
 
                 val confirmationStatus = liveInterviewDetailsData.value?.get(0)?.confimationStatus
-                if (confirmationStatus == "1"){
+                if (confirmationStatus == "1" || confirmationStatus=="" ){
                     showPreparationSection.value = true
                     setTimer(interviewDateTime)
                 }
@@ -146,6 +146,10 @@ class LiveInterviewDetailsViewModel(
                     showPreparationSection.value = false
                 }
 
+//                if (confirmationStatus=="") {
+//                    showJoinSection.value = true
+//                }
+
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -153,7 +157,7 @@ class LiveInterviewDetailsViewModel(
         }
     }
 
-    private fun getAllCalendars() {
+    fun getAllCalendars() {
 
         viewModelScope.launch {
             getAllCalendarInfoFromProvider()
@@ -230,7 +234,7 @@ class LiveInterviewDetailsViewModel(
                     activity = "3"
             )
             if (response.statuscode == "4") {
-                showToast.value = Event(response.message.toString())
+//                showToast.value = Event(response.message.toString())
                 getLiveInterviewDetails()
                 showConfirmationSection.value = false
                 showPreparationSection.value = true

@@ -85,6 +85,7 @@ class VideoResumeQuestionsViewModel(
                 _totalAnswered.value = data?.totalAnswered
                 _threshold.value = data?.threshold
                 _isAlertOn.value =  data?.resumeVisibility
+                _isVideoResumeVisible.value = data?.resumeVisibility == "1"
 
                 showVideoResumeToEmployers.value = totalAnswered.value!!.toInt() >= threshold.value!!.toInt()
 
