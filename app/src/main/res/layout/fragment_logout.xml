@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,172 +8,179 @@
     android:background="@color/colorWhite"
     tools:context=".Settings.LogoutFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayoutToolbar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar2"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            tools:layout_editor_absoluteX="16dp">
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/suggestiveSearchET"
-                android:layout_width="0dp"
-                android:layout_height="29dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="32dp"
-                android:drawablePadding="5dp"
-                android:ems="10"
-                android:fontFamily="@font/roboto"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:singleLine="true"
-                android:text="Settings"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/backIV"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                tools:layout_editor_absoluteX="16dp">
 
-            <ImageView
-                android:id="@+id/backIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:padding="5dp"
-                android:src="@drawable/ic_arrow_back_white_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.appcompat.widget.Toolbar>
+                <TextView
+                    android:id="@+id/suggestiveSearchET"
+                    android:layout_width="0dp"
+                    android:layout_height="29dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:drawablePadding="5dp"
+                    android:ems="10"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:text="Settings"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/backIV"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/resumePrivacySettingsBTN"
-        android:layout_width="0dp"
-        style="@style/more.button"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
-        android:textSize="14sp"
-        android:text="Resume Privacy"
-        android:textAllCaps="false"
-
-        android:textColor="#212121"
-        app:icon="@drawable/ic_resume_privacy"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"/>
+                <ImageView
+                    android:id="@+id/backIV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_arrow_back_white_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/notificationSettingsBTN"
-        android:layout_width="0dp"
-        style="@style/more.button"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="20dp"
-        android:textSize="14sp"
-        android:text="Notification Settings"
-        android:textAllCaps="false"
-        android:textColor="#212121"
-        app:icon="@drawable/ic_notifications_black_24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resumePrivacySettingsBTN"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/resumePrivacySettingsBTN"
+            android:layout_width="0dp"
+            style="@style/more.button"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="14sp"
+            android:text="Resume Privacy"
+            android:textAllCaps="false"
+            app:layout_constraintTop_toBottomOf="@id/toolbar2"
+            android:textColor="#212121"
+            app:icon="@drawable/ic_resume_privacy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/setUserIdBTN"
-        android:layout_width="0dp"
-        style="@style/more.button"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="20dp"
-        android:textSize="14sp"
-        android:text="Set/Change User ID"
-        android:textAllCaps="false"
-        android:textColor="#212121"
-        app:icon="@drawable/ic_add_black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notificationSettingsBTN"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/notificationSettingsBTN"
+            android:layout_width="0dp"
+            style="@style/more.button"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="14sp"
+            android:text="Notification Settings"
+            android:textAllCaps="false"
+            android:textColor="#212121"
+            app:icon="@drawable/ic_notifications_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/resumePrivacySettingsBTN"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/smsSettingsBTN"
-        android:layout_width="0dp"
-        style="@style/more.button"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="20dp"
-        android:textSize="14sp"
-        android:text="SMS Settings"
-        android:textAllCaps="false"
-        android:textColor="#212121"
-        app:icon="@drawable/ic_sms_settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setUserIdBTN"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/setUserIdBTN"
+            android:layout_width="0dp"
+            style="@style/more.button"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="14sp"
+            android:text="Set/Change User ID"
+            android:textAllCaps="false"
+            android:textColor="#212121"
+            app:icon="@drawable/ic_add_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/notificationSettingsBTN"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/changepass"
-        style="@style/more.button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="20dp"
-        android:text="Change Password"
-        android:textAllCaps="false"
-        android:textColor="#212121"
-        android:textSize="14sp"
-        android:visibility="gone"
-        app:icon="@drawable/ic_change_password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/smsSettingsBTN" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/smsSettingsBTN"
+            android:layout_width="0dp"
+            style="@style/more.button"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="14sp"
+            android:text="SMS Settings"
+            android:textAllCaps="false"
+            android:textColor="#212121"
+            app:icon="@drawable/ic_sms_settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setUserIdBTN"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/signOutBTN"
-        style="@style/more.button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="20dp"
-        android:text="Sign Out"
-        android:textAllCaps="false"
-        android:textColor="#212121"
-        android:textSize="14sp"
-        app:icon="@drawable/ic_sign_out_more"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changepass" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/changepass"
+            style="@style/more.button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:text="Change Password"
+            android:textAllCaps="false"
+            android:textColor="#212121"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:icon="@drawable/ic_change_password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/smsSettingsBTN" />
 
-    <com.google.android.ads.nativetemplates.TemplateView
-        android:id="@+id/ad_small_template"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:visibility="visible"
-        app:gnt_template_type="@layout/gnt_medium_template_view"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signOutBTN" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signOutBTN"
+            style="@style/more.button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:text="Sign Out"
+            android:textAllCaps="false"
+            android:textColor="#212121"
+            android:textSize="14sp"
+            app:icon="@drawable/ic_sign_out_more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/changepass" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.ads.nativetemplates.TemplateView
+            android:id="@+id/ad_small_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="visible"
+            app:gnt_template_type="@layout/gnt_medium_template_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signOutBTN" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+</ScrollView>
