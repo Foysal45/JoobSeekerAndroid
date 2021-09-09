@@ -187,8 +187,8 @@ class ViewEditResumeFragment : Fragment() {
             if (session.isCvPosted!=null && session.isCvPosted.equalIgnoreCase("true")) {
                 resumePrivacyStatus()
             }
-            downloadCv("download")
             videoResumeQuestionList()
+            downloadCv("download")
             manageResumeDetailsStat(session.isCvPosted?:"False")
 
             isLoading.observe(viewLifecycleOwner,{

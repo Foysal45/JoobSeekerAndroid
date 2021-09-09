@@ -49,19 +49,17 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
     var personalizedResumeFileType = MutableLiveData<String>()
 
     var videoResumeQ1 = MutableLiveData<String>().apply { value = "" }
+    var videoResumeQ1EN = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ2 = MutableLiveData<String>().apply { value = "" }
+    var videoResumeQ2EN = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ3 = MutableLiveData<String>().apply { value = "" }
+    var videoResumeQ3EN = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ4 = MutableLiveData<String>().apply { value = "" }
+    var videoResumeQ4EN = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ5 = MutableLiveData<String>().apply { value = "" }
+    var videoResumeQ5EN = MutableLiveData<String>().apply { value = "" }
     var videoResumeQ6 = MutableLiveData<String>().apply { value = "" }
-
-//    init {
-//        showBdJobsResumeSteps.value = false
-//        showVideoResumeSteps.value = false
-//
-//        resumePrivacyStatus()
-//        manageResumeDetailsStat()
-//    }
+    var videoResumeQ6EN = MutableLiveData<String>().apply { value = "" }
 
 
     @SuppressLint("SimpleDateFormat")
@@ -80,7 +78,7 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                     isBdjobsResumeAvailable.value = data.bdjobsStatusPercentage != "0"
 
                     showBdJobsResumeSteps.value = data.bdjobsStatusPercentage != "100"
-                    showVideoResumeSteps.value = data.videoStatusPercentage != "100"
+//                    showVideoResumeSteps.value = data.videoStatusPercentage != "100"
 
                     bdJobsResumeStatusPercentage.value = data.bdjobsStatusPercentage?.toInt()
 
@@ -122,14 +120,33 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
                 val response = repository.getQuestionListFromRemote()
                 val data = response.data
                 if (data!!.isNotEmpty()) {
+                    showVideoResumeSteps.value = _detailsResumeStat.value?.videoStatusPercentage != "100"
                     for (i in data.indices) {
                         when (i) {
-                            0 -> videoResumeQ1.value = data[i]?.buttonStatus
-                            1 -> videoResumeQ2.value = data[i]?.buttonStatus
-                            2 -> videoResumeQ3.value = data[i]?.buttonStatus
-                            3 -> videoResumeQ4.value = data[i]?.buttonStatus
-                            4 -> videoResumeQ5.value = data[i]?.buttonStatus
-                            5 -> videoResumeQ6.value = data[i]?.buttonStatus
+                            0 -> {
+                                videoResumeQ1.value = data[i]?.buttonStatus
+                                videoResumeQ1EN.value = data[i]?.questionText
+                            }
+                            1 -> {
+                                videoResumeQ2.value = data[i]?.buttonStatus
+                                videoResumeQ2EN.value = data[i]?.questionText
+                            }
+                            2 -> {
+                                videoResumeQ3.value = data[i]?.buttonStatus
+                                videoResumeQ3EN.value = data[i]?.questionText
+                            }
+                            3 -> {
+                                videoResumeQ4.value = data[i]?.buttonStatus
+                                videoResumeQ4EN.value = data[i]?.questionText
+                            }
+                            4 -> {
+                                videoResumeQ5.value = data[i]?.buttonStatus
+                                videoResumeQ5EN.value = data[i]?.questionText
+                            }
+                            5 -> {
+                                videoResumeQ6.value = data[i]?.buttonStatus
+                                videoResumeQ6EN.value = data[i]?.questionText
+                            }
                         }
                     }
                 }
