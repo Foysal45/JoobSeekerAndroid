@@ -39,4 +39,9 @@
     <color name="btn_red">#CC2428</color>
 
 
+    <color name="privacy_public">#CCFFD9</color>
+    <color name="privacy_private">#FFCCCC</color>
+    <color name="privacy_limited">#FFE0B2</color>
+
+
 </resources>
