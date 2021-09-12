@@ -407,11 +407,16 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         doAsync {
 
             val model = CommonNotificationModel(
-                title = "Hello",
-                body = "Soumik",
-                link = "https://www.bdjobs.com/",
+                title = "ভিডিও রিজিউমি (Video Resume)",
+                pId = "1575873",
+//                body = "Soumik",
+                type = "pm",
+                link = "https://mybdjobs.bdjobs.com/mybdjobs/videoResume/video_resume_home.asp",
                 activityNode = "com.bdjobs.app.videoResume.VideoResumeActivity",
-                LogoSrc = "https://bdjobs.com/NotificationMessageimages/videoresumeslogo.png"
+                notificationId = "65",
+                LogoSrc = "https://bdjobs.com/NotificationMessageimages/videoresumeslogo.png",
+                imgSrc = "https://bdjobs.com/NotificationMessageimages/videoresumesbanner_ver2.jpg",
+                imageLink = "https://bdjobs.com/NotificationMessageimages/videoresumesbanner_ver2.jpg"
             )
 
             val model2 = CommonNotificationModel(
@@ -439,7 +444,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
             )
 
             val list = bdjobsDB.notificationDao().getMessages("pm");
-            var timeList = ArrayList<String>()
+            val timeList = ArrayList<String>()
             val simpleDateFormat = SimpleDateFormat("HH:mm")
 
             for (i in list.indices) {
@@ -456,39 +461,39 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
             for (i in 0 until 5) {
                 Timber.d("Date: ${Date()}")
-                var time = simpleDateFormat.format(Date())
+                val time = simpleDateFormat.format(Date())
                 Timber.d("Time: $time")
                 if (time !in timeList) {
                     bdjobsDB.notificationDao().insertNotification(
                         Notification(
-                            title = "Test",
-                            body = "This is a test notification",
-                            type = "pm",
-                            imageLink = "https://picsum.photos/seed/picsum/200/300",
-                            link = "https://mybdjobs.bdjobs.com/mybdjobs/resume_view.asp?Notification=25561954",
-                            notificationId = "001",
+                            title = model.title,
+                            body = model.body,
+                            type = model.type,
+                            imageLink = model.imageLink,
+                            link = model.link,
+                            notificationId = model.notificationId,
                             arrivalTime = Date(),
                             payload = Gson().toJson(model).replace("\\n", "\n")
                         )
                     )
 
-                    bdjobsDB.notificationDao().insertNotification(
-                        Notification(
-                            jobTitle="dfjk", imageLink="", companyName="Bdjobs Test Account - Az",
-                            link="https://mybdjobs.bdjobs.com/mybdjobs/invite-interview-detail.asp?nstatus=1&Notification=6773237&id=954216",
-                         type="li", title="Interview Invitation", body =  "Bdjobs Test Account - Az had sent you a Live Interview schedule. Be sure to take part in the interview." ,
-                            notificationId="6773237", serverId ="954216",
-                            arrivalTime = Date(),)
-                    )
-
-                    bdjobsDB.notificationDao().insertNotification(
-                        Notification(
-                            jobTitle="peon", imageLink="", companyName="Utopia Test Company",
-                            link="https://mybdjobs.bdjobs.com/mybdjobs/invite-interview-detail.asp?nstatus=1&Notification=6773237&id=954216",
-                            type="vi", title="Interview Invitation", body = "Utopia Test Company had sent you a Video Interview invitation. Be sure to take part in the interview."
-                            ,notificationId="6773237", serverId ="833906",
-                            arrivalTime = Date(),)
-                    )
+//                    bdjobsDB.notificationDao().insertNotification(
+//                        Notification(
+//                            jobTitle="dfjk", imageLink="", companyName="Bdjobs Test Account - Az",
+//                            link="https://mybdjobs.bdjobs.com/mybdjobs/invite-interview-detail.asp?nstatus=1&Notification=6773237&id=954216",
+//                         type="li", title="Interview Invitation", body =  "Bdjobs Test Account - Az had sent you a Live Interview schedule. Be sure to take part in the interview." ,
+//                            notificationId="6773237", serverId ="954216",
+//                            arrivalTime = Date(),)
+//                    )
+//
+//                    bdjobsDB.notificationDao().insertNotification(
+//                        Notification(
+//                            jobTitle="peon", imageLink="", companyName="Utopia Test Company",
+//                            link="https://mybdjobs.bdjobs.com/mybdjobs/invite-interview-detail.asp?nstatus=1&Notification=6773237&id=954216",
+//                            type="vi", title="Interview Invitation", body = "Utopia Test Company had sent you a Video Interview invitation. Be sure to take part in the interview."
+//                            ,notificationId="6773237", serverId ="833906",
+//                            arrivalTime = Date(),)
+//                    )
 
 //                    bdjobsDB.notificationDao().insertNotification(
 //                        Notification(
