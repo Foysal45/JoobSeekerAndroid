@@ -1,10 +1,10 @@
 package com.bdjobs.app.LoggedInUserLanding.myJobs
 
-import android.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.ShortListedJobFragment
 import com.bdjobs.app.R
@@ -45,9 +45,9 @@ class MyJobsFragment : Fragment() {
 
         activity?.transitFragment(ShortListedJobFragment(),R.id.fragment_container)
 
-        bdjobsDB = BdjobsDB.getInstance(activity)
-        bdjobsUserSession = BdjobsUserSession(activity)
-        homeCommunicator = activity as HomeCommunicator
+        bdjobsDB = BdjobsDB.getInstance(requireContext())
+        bdjobsUserSession = BdjobsUserSession(requireContext())
+        homeCommunicator = requireActivity() as HomeCommunicator
         profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         searchIMGV?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
@@ -104,7 +104,7 @@ class MyJobsFragment : Fragment() {
         try {
 
             doAsync {
-                bdjobsUserSession = BdjobsUserSession(activity)
+                bdjobsUserSession = BdjobsUserSession(requireContext())
                 val count = bdjobsDB.notificationDao().getMessageCount()
                 Timber.d("Messages count: $count")
                 bdjobsUserSession.updateMessageCount(count)
@@ -128,7 +128,7 @@ class MyJobsFragment : Fragment() {
 
     private fun showNotificationCount() {
         try {
-            bdjobsUserSession = BdjobsUserSession(activity)
+            bdjobsUserSession = BdjobsUserSession(requireContext())
             if (bdjobsUserSession.notificationCount!! <= 0) {
                 notificationCountTV?.hide()
             } else {

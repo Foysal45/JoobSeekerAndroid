@@ -705,26 +705,26 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator, BackgroundJob
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                transitFragment(homeFragment, R.id.landingPageFragmentHolderFL)
+                transitFragmentX(homeFragment, R.id.landingPageFragmentHolderFL,false)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_shortlisted_jobs -> {
-                transitFragment(myJobsFragment, R.id.landingPageFragmentHolderFL)
+                transitFragmentX(myJobsFragment, R.id.landingPageFragmentHolderFL,false)
 //                transitFragment(myJobsFragment,R.id.landingPageFragmentHolderFL,false)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_hotjobs -> {
-                transitFragment(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL)
+                transitFragmentX(hotJobsFragmentnew, R.id.landingPageFragmentHolderFL,false)
                 return@OnNavigationItemSelectedListener true
             }
 
             R.id.navigation_mybdjobs -> {
-                transitFragment(mybdjobsFragment, R.id.landingPageFragmentHolderFL)
+                transitFragmentX(mybdjobsFragment, R.id.landingPageFragmentHolderFL,false)
                 return@OnNavigationItemSelectedListener true
             }
 
             R.id.navigation_more -> {
-                transitFragment(moreFragment, R.id.landingPageFragmentHolderFL)
+                transitFragmentX(moreFragment, R.id.landingPageFragmentHolderFL,false)
                 return@OnNavigationItemSelectedListener true
             }
         }

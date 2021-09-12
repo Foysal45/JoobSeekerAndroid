@@ -1,8 +1,6 @@
 package com.bdjobs.app.LoggedInUserLanding
 
 import android.app.Dialog
-import android.app.Fragment
-import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -15,16 +13,14 @@ import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationManagerCompat
+import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
 import com.bdjobs.app.API.ModelClasses.LastUpdateModel
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
-import com.bdjobs.app.databases.External.DataStorage
-import com.bdjobs.app.databases.internal.*
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchFilterAdapter
-import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -34,8 +30,9 @@ import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.liveInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.*
 import com.bdjobs.app.videoResume.VideoResumeActivity
-
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
@@ -52,8 +49,7 @@ import kotlinx.android.synthetic.main.my_interview_invitation_layout.*
 import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_video_interview_invitations_layout.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
@@ -65,10 +61,10 @@ import java.util.*
 
 class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        Timber.d("called onSaveInstanceState")
-    }
+//    override fun onSaveInstanceState(outState: Bundle?) {
+//        super.onSaveInstanceState(outState)
+//        Timber.d("called onSaveInstanceState")
+//    }
 
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
@@ -91,9 +87,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bdjobsUserSession = BdjobsUserSession(activity)
-        bdjobsDB = BdjobsDB.getInstance(activity)
-        homeCommunicator = activity as HomeCommunicator
+        bdjobsUserSession = BdjobsUserSession(requireContext())
+        bdjobsDB = BdjobsDB.getInstance(requireContext())
+        homeCommunicator = requireContext() as HomeCommunicator
         backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
         nameTV?.text = bdjobsUserSession.fullName
         emailTV?.text = bdjobsUserSession.email
@@ -106,7 +102,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     private fun showAd() {
-        val adLoader = AdLoader.Builder(activity, "ca-app-pub-3940256099942544/2247696110")
+        val adLoader = AdLoader.Builder(requireContext(), "ca-app-pub-3940256099942544/2247696110")
                 .forUnifiedNativeAd { ad: UnifiedNativeAd ->
                     // Show the ad.
                     val styles = NativeTemplateStyle.Builder().withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF"))).build()
@@ -173,14 +169,14 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         cl_general_interview?.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")
             try {
-                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
+                NotificationManagerCompat.from(requireContext()).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
             } catch (e: Exception) {
             }
         }
         cl_video_interview?.setOnClickListener {
             homeCommunicator.goToVideoInvitation("homePage")
             try {
-                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
+                NotificationManagerCompat.from(requireContext()).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
             } catch (e: Exception) {
             }
         }
@@ -242,14 +238,14 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         try {
             blankCL?.hide()
             mainLL?.show()
-            bdjobsUserSession = BdjobsUserSession(activity)
+            bdjobsUserSession = BdjobsUserSession(requireContext())
             if (bdjobsUserSession.liveInterviewCount == 0 && bdjobsUserSession.videoInterviewCount == 0 && bdjobsUserSession.generalInterviewCount == 0){
                 allInterview?.hide()
                 allInterview?.hide()
                 blankCL?.show()
                 newSearchBTN?.hide()
             } else{
-                bdjobsUserSession = BdjobsUserSession(activity)
+                bdjobsUserSession = BdjobsUserSession(requireContext())
                 allInterview?.show()
                 tv_live_interview_count.text = bdjobsUserSession.liveInterviewCount.toString()
                 tv_video_interview_count.text = bdjobsUserSession.videoInterviewCount.toString()
@@ -263,7 +259,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun showNotificationCount() {
         try {
-            bdjobsUserSession = BdjobsUserSession(activity)
+            bdjobsUserSession = BdjobsUserSession(requireContext())
             if (bdjobsUserSession.notificationCount!! <= 0) {
                 notificationCountTV?.hide()
             } else {
@@ -284,7 +280,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         try {
 
             doAsync {
-                bdjobsUserSession = BdjobsUserSession(activity)
+                bdjobsUserSession = BdjobsUserSession(requireContext())
                 val count = bdjobsDB.notificationDao().getMessageCount()
                 Timber.d("Messages count: $count")
                 bdjobsUserSession.updateMessageCount(count)
@@ -378,7 +374,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 favSearchView?.hide()
                 if (!favouriteSearchFilters.isNullOrEmpty()) {
                     try {
-                        val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = (favouriteSearchFilters as MutableList<FavouriteSearch>?)!!, context = activity)
+                        val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = (favouriteSearchFilters as MutableList<FavouriteSearch>?)!!, context = requireContext())
                         favRV?.adapter = favouriteSearchFilterAdapter
                         blankCL?.hide()
                         mainLL?.show()
@@ -477,7 +473,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     private fun getFilterString(search: LastSearch): String? {
-        val dataStorage = DataStorage(activity)
+        val dataStorage = DataStorage(requireContext())
         val age = dataStorage.getAgeRangeNameByID(search.age)
         val newsPaper = dataStorage.getNewspaperNameById(search.newsPaper)
         val functionalCat = dataStorage.getCategoryNameByID(search.category)
@@ -543,7 +539,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     private fun showInterviewInvitationPop() {
-        val interviewInvitationDialog = Dialog(activity)
+        val interviewInvitationDialog = Dialog(requireContext())
 
         interviewInvitationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         interviewInvitationDialog?.setCancelable(true)
@@ -576,7 +572,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             interviewInvitationDialog?.dismiss()
             homeCommunicator.goToInterviewInvitation("popup")
             try {
-                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
+                NotificationManagerCompat.from(requireContext()).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
             } catch (e: Exception) {
             }
             interviewInvitationDialog?.cancel()
@@ -587,7 +583,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             interviewInvitationDialog?.dismiss()
             homeCommunicator.goToVideoInvitation("popup")
             try {
-                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
+                NotificationManagerCompat.from(requireContext()).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
             } catch (e: Exception) {
             }
             interviewInvitationDialog?.cancel()
@@ -605,7 +601,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     private fun showGeneralPopUp() {
-        val generalDialog = Dialog(activity)
+        val generalDialog = Dialog(requireContext())
 
         generalDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         generalDialog?.setCancelable(true)
@@ -654,7 +650,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             try {
                                 for (item in it) {
                                     if (item.isNotEmpty()) {
-                                        activity.subscribeToFCMTopic(item)
+                                        requireActivity().subscribeToFCMTopic(item)
                                         //Log.d("rakib", item)
                                     }
                                 }
@@ -666,7 +662,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             try {
                                 for (item in it) {
                                     if (item.isNotEmpty()) {
-                                        activity.unsubscribeFromFCMTopic(item)
+                                        requireActivity().unsubscribeFromFCMTopic(item)
                                         //Log.d("rakib", item)
                                     }
                                 }
@@ -730,7 +726,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 try {
                     if (shortlistedjobs.isNotEmpty()) {
 
-                        val dialog = Dialog(activity)
+                        val dialog = Dialog(requireContext())
                         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
                         dialog?.setCancelable(true)
                         dialog?.setContentView(R.layout.layout_shortlistedjob_pop_up)
@@ -743,7 +739,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
                         val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
 
-                        Ads.showNativeAd(ad_small_template, activity)
+                        Ads.showNativeAd(ad_small_template, requireContext())
 
                         checkBox?.setOnCheckedChangeListener { _, isChecked ->
                             if (isChecked) {

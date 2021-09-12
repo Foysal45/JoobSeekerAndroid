@@ -1,12 +1,12 @@
 package com.bdjobs.app.LoggedInUserLanding
 
 
-import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.HotJobs
 import com.bdjobs.app.API.ModelClasses.HotJobsData
@@ -37,9 +37,9 @@ class HotJobsFragmentNew : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         homeCommunicator = activity as HomeCommunicator
-        hotjobsAdapterNew = HotjobsAdapterNew(activity!!)
-        bdjobsUserSession = BdjobsUserSession(activity)
-        bdjobsDB = BdjobsDB.getInstance(activity)
+        hotjobsAdapterNew = HotjobsAdapterNew(requireContext()!!)
+        bdjobsUserSession = BdjobsUserSession(requireContext())
+        bdjobsDB = BdjobsDB.getInstance(requireContext())
         loadHotJobsData()
         onclick()
     }
@@ -57,7 +57,7 @@ class HotJobsFragmentNew : Fragment() {
         }
 
 //        notificationCountTV?.show()
-//        bdjobsUserSession = BdjobsUserSession(activity)
+//        bdjobsUserSession = BdjobsUserSession(requireContext())
 //        if (bdjobsUserSession.notificationCount!! > 99){
 //            notificationCountTV?.text = "99+"
 //
@@ -86,7 +86,7 @@ class HotJobsFragmentNew : Fragment() {
             homeCommunicator.goToMessages()
         }
 
-        profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
+        profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(requireContext()).userPicUrl?.trim())
     }
 
     private fun loadHotJobsData() {
@@ -167,7 +167,7 @@ class HotJobsFragmentNew : Fragment() {
 
     private fun showNotificationCount() {
         try {
-            bdjobsUserSession = BdjobsUserSession(activity)
+            bdjobsUserSession = BdjobsUserSession(requireContext())
             if (bdjobsUserSession.notificationCount!! <= 0) {
                 notificationCountTV?.hide()
             } else {
@@ -201,7 +201,7 @@ class HotJobsFragmentNew : Fragment() {
         try {
 
             doAsync {
-                bdjobsUserSession = BdjobsUserSession(activity)
+                bdjobsUserSession = BdjobsUserSession(requireContext())
                 val count = bdjobsDB.notificationDao().getMessageCount()
                 Timber.d("Messages count: $count")
                 bdjobsUserSession.updateMessageCount(count)
