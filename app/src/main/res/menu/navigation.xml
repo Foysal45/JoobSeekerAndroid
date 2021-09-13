@@ -13,7 +13,7 @@
     <item
         android:id="@+id/navigation_shortlisted_jobs"
         android:icon="@drawable/ic_star_black_24dp"
-        android:title="Shortlisted" />
+        android:title="My Jobs" />
 
     <item
         android:id="@+id/navigation_mybdjobs"

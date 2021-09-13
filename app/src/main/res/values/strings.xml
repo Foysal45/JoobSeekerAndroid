@@ -509,6 +509,9 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="type_employer_name_for_suggestions">Type Employer name for suggestions</string>
     <string name="completed_questions">Completed Questions</string>
     <string name="label_join_interview_30_mins">You will get Join Interview button <b>before 30 mins of interview.</b></string>
+    <string name="tab_label_shortlisted_jobs">Shortlisted Jobs</string>
+    <string name="tab_label_followed_employers">Followed Employers</string>
+    <string name="tab_label_favourite_search">Favourite Search</string>
 
 
     <string-array name="spinnerFilterItemEmailResume">

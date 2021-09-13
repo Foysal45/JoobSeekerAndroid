@@ -1,7 +1,6 @@
 package com.bdjobs.app.LoggedInUserLanding
 
 import android.app.Dialog
-import android.app.Fragment
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.ResolveInfo
@@ -11,6 +10,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.assessment.AssesmentBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
@@ -32,6 +32,7 @@ import kotlinx.android.synthetic.main.fragment_more_layout.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.startActivity
 import timber.log.Timber
 
@@ -52,9 +53,9 @@ class MoreFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        homeCommunicator = activity as HomeCommunicator
-        bdjobsUserSession = BdjobsUserSession(activity)
-        bdjobsDB = BdjobsDB.getInstance(activity)
+        homeCommunicator = requireActivity() as HomeCommunicator
+        bdjobsUserSession = BdjobsUserSession(requireContext())
+        bdjobsDB = BdjobsDB.getInstance(requireContext())
         initializeViews()
         clearAddPopulateData()
         getIfCVuploaded()
@@ -94,9 +95,9 @@ class MoreFragment : Fragment() {
             homeCommunicator.goToNotifications()
         }
 
-        profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
+        profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(requireContext()).userPicUrl?.trim())
 
-        versionInfoTV?.text = "v${activity?.getAppVersion()} (${activity?.getAppVersionCode()})"
+        versionInfoTV?.text = "v${requireActivity()?.getAppVersion()} (${requireActivity()?.getAppVersionCode()})"
 
         videoResume?.setOnClickListener {
             navigateToVideoResumePage()
@@ -111,26 +112,26 @@ class MoreFragment : Fragment() {
         }
 
         video_guide_MBTN?.setOnClickListener {
-            activity?.openUrlInBrowser("https://mybdjobs.bdjobs.com/mybdjobs/videoHelp.asp")
+            requireContext()?.openUrlInBrowser("https://mybdjobs.bdjobs.com/mybdjobs/videoHelp.asp")
         }
 
         generalSearch_MBTN?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
         }
         appGuides_MBTN?.setOnClickListener {
-            activity?.openUrlInBrowser("https://bdjobs.com/apps/version2/guide.html")
+            requireContext()?.openUrlInBrowser("https://bdjobs.com/apps/version2/guide.html")
         }
         rateUs_MBTN?.setOnClickListener {
             goToRateApp()
         }
         feedback_MBTN?.setOnClickListener {
-            activity?.openUrlInBrowser("https://jobs.bdjobs.com/feedback.asp")
+            requireContext()?.openUrlInBrowser("https://jobs.bdjobs.com/feedback.asp")
         }
         privacypolicy_MBTN?.setOnClickListener {
-            activity?.openUrlInBrowser("https://bdjobs.com/policy/Privacy_policy.asp")
+            requireContext()?.openUrlInBrowser("https://bdjobs.com/policy/Privacy_policy.asp")
         }
         terms_MBTN?.setOnClickListener {
-            activity?.openUrlInBrowser("https://www.bdjobs.com/tos.asp")
+            requireContext()?.openUrlInBrowser("https://www.bdjobs.com/tos.asp")
         }
         new_job_MBTN?.setOnClickListener {
             startActivity<JobBaseActivity>("postedWithin" to "1")
@@ -183,8 +184,8 @@ class MoreFragment : Fragment() {
         }
 
         jobApplicationStatus_MBTN.setOnClickListener {
-//            activity?.showJobApplicationGuidelineDialog()
-            Constants.showJobApplicationGuidelineDialog(activity)
+//            requireContext()?.showJobApplicationGuidelineDialog()
+            Constants.showJobApplicationGuidelineDialog(requireContext())
         }
 
         assessment_MBTN?.setOnClickListener {
@@ -227,7 +228,7 @@ class MoreFragment : Fragment() {
 
     private fun goToRateApp(){
         var intent = Intent(Intent.ACTION_VIEW, Uri.parse("appmarket://details?id=com.bdjobs.app"))
-        val otherApps: MutableList<ResolveInfo> = activity?.getPackageManager()!!.queryIntentActivities(intent, 0)
+        val otherApps: MutableList<ResolveInfo> = requireContext()?.getPackageManager()!!.queryIntentActivities(intent, 0)
         var agFound = false
 
         for (app in otherApps) {
@@ -241,7 +242,7 @@ class MoreFragment : Fragment() {
             }
         }
         if (!agFound) {
-            activity?.openUrlInBrowser("https://play.google.com/store/apps/details?id=com.bdjobs.app")
+            requireContext()?.openUrlInBrowser("https://play.google.com/store/apps/details?id=com.bdjobs.app")
         }
     }
 
@@ -278,7 +279,7 @@ class MoreFragment : Fragment() {
     }
 
     private fun initializeViews() {
-        horizontalAdapter = HorizontalAdapter(activity)
+        horizontalAdapter = HorizontalAdapter(requireContext())
         horizontal_RV?.adapter = horizontalAdapter
         horizontal_RV?.setHasFixedSize(true)
         //Log.d("initPag", "called")
@@ -293,7 +294,7 @@ class MoreFragment : Fragment() {
 
     private fun showNotificationCount() {
         try {
-            bdjobsUserSession = BdjobsUserSession(activity)
+            bdjobsUserSession = BdjobsUserSession(requireContext())
             if (bdjobsUserSession.notificationCount!! <= 0) {
                 notificationCountTV?.hide()
             } else {
@@ -327,7 +328,7 @@ class MoreFragment : Fragment() {
         try {
 
             doAsync {
-                bdjobsUserSession = BdjobsUserSession(activity)
+                bdjobsUserSession = BdjobsUserSession(requireContext())
                 val count = bdjobsDB.notificationDao().getMessageCount()
                 Timber.d("Messages count: $count")
                 bdjobsUserSession.updateMessageCount(count)
@@ -362,7 +363,7 @@ class MoreFragment : Fragment() {
         }
 
 //        notificationCountTV?.show()
-//        bdjobsUserSession = BdjobsUserSession(activity)
+//        bdjobsUserSession = BdjobsUserSession(requireContext())
 //        if (bdjobsUserSession.notificationCount!! > 99){
 //            notificationCountTV?.text = "99+"
 //
