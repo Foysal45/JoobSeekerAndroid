@@ -16,17 +16,13 @@ class FileInformation {
 
     var type: String? = null
     var fileName: String? = null
-        private set
     var extension: String? = null
-        private set
     var extensionwithDot: String? = null
-        private set
     var fileSize: Long = 0
-        private set
 
 
-    fun getfileInformation(ctx: Context, uri: Uri): FileInformation {
-        val fileinfo = FileInformation()
+    fun getFileInformation(ctx: Context, uri: Uri): FileInformation {
+        val fileInfo = FileInformation()
         if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
             val returnCursor = ctx.contentResolver.query(uri, null, null, null, null)!!
 
@@ -35,42 +31,41 @@ class FileInformation {
             val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
 
             //File Name
-            fileinfo.fileName = returnCursor.getString(nameIndex)
+            fileInfo.fileName = returnCursor.getString(nameIndex)
 
             //File Size
-            fileinfo.fileSize = returnCursor.getInt(sizeIndex).toLong()
+            fileInfo.fileSize = returnCursor.getInt(sizeIndex).toLong()
 
             //File Type
-            fileinfo.type = ctx.contentResolver.getType(uri)
+            fileInfo.type = ctx.contentResolver.getType(uri)
 
             //File Extension
 
 
-            val filenameArray = fileinfo.fileName!!.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            fileinfo.extension = filenameArray[filenameArray.size - 1]
-            fileinfo.extensionwithDot = "." + fileinfo.extension!!
+            val filenameArray = fileInfo.fileName!!.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            fileInfo.extension = filenameArray[filenameArray.size - 1]
+            fileInfo.extensionwithDot = "." + fileInfo.extension!!
 
             returnCursor.close()
 
         } else {
             val f = File(uri.path)
-            fileinfo.fileName = f.name
-            fileinfo.fileSize = f.length()
+            fileInfo.fileName = f.name
+            fileInfo.fileSize = f.length()
 
             //File Type
 //            fileinfo.extension = MimeTypeMap.getFileExtensionFromUrl(uri
 //                    .toString())
 //
-            fileinfo.extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
+            fileInfo.extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
 
-            fileinfo.extensionwithDot = "." + fileinfo.extension!!
+            fileInfo.extensionwithDot = "." + fileInfo.extension!!
 
-            fileinfo.type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
-                    fileinfo.extension!!.toLowerCase())
+            fileInfo.type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                    fileInfo.extension!!.toLowerCase())
 
 
         }
-        return fileinfo
-
+        return fileInfo
     }
 }
