@@ -512,6 +512,22 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="tab_label_shortlisted_jobs">Shortlisted Jobs</string>
     <string name="tab_label_followed_employers">Followed Employers</string>
     <string name="tab_label_favourite_search">Favourite Search</string>
+    <string name="label_steps_sms_job_alert">Steps of receiving SMS Job Alert of your choice</string>
+    <string name="label_available_packages">Available Packages</string>
+    <string name="label_details">Details</string>
+    <string name="label_free_trial">Free Trial</string>
+    <string name="label_sms">SMS</string>
+    <string name="label_20">20</string>
+    <string name="label_subscription_feature_sms_job_alert">Get a subscription for Following Employer(s), Favorite Search features</string>
+    <string name="label_buy_get_sms_job_alert"><![CDATA[Buy & Get Job alert on your phone instantly]]></string>
+    <string name="label_get_free_trial_sms_job_alert">Get Free Trial 20 SMS Today</string>
+    <string name="label_start_trial">Start Trial</string>
+    <string name="label_receive_sms_feature_sms_job_alert">Receive SMS according to the subscribed services till the purchased package limit</string>
+    <string name="label_features_of_sms_job_alert">Features of SMS Job Alert</string>
+    <string name="label_100">100</string>
+    <string name="label_500">500</string>
+    <string name="label_price_500_sms_package">250 ৳</string>
+    <string name="label_get_50_bonus_sms">Get 50 Bonus SMS</string>
 
 
     <string-array name="spinnerFilterItemEmailResume">
