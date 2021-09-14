@@ -114,6 +114,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.8.1'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.8.1'
     implementation "io.grpc:grpc-okhttp:1.32.2"
+    implementation 'com.localebro:okhttpprofiler:1.0.8'
 
     //----jetbrains kotlin extension
     implementation "org.jetbrains.anko:anko:$anko_version"
