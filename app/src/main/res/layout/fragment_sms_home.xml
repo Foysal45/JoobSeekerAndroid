@@ -14,6 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:id="@+id/cl_parent_sms_landing"
         android:layout_height="match_parent">
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -54,13 +55,14 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:text="SMS Job Alert"
                         app:fontFamily="@font/roboto"
                         android:id="@+id/tv_label_sms_alert"
                         android:textSize="16sp"
-                        android:textColor="#393939"
-                        app:drawableStartCompat="@drawable/ic_sms_alert_bell"
-                        android:drawablePadding="10dp"/>
+                        android:drawablePadding="10dp"
+                        smsAlertLabelTextAndDrawable="@{viewModel.remainingSMSCount}"
+                        tools:textColor="#393939"
+                        tools:text="SMS Job Alert"
+                        tools:drawableStartCompat="@drawable/ic_sms_alert_bell" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -68,9 +70,11 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toEndOf="@id/tv_label_sms_alert"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:text="ON"
-                        android:textColor="@color/white"
-                        android:background="@drawable/bg_on_sms_alert"
+                        tools:text="ON"
+                        android:visibility="@{viewModel.remainingSMSCount>0 ? View.VISIBLE : View.GONE}"
+                        smsAlertTextBackgroundAndColor="@{viewModel.isSMSAlertOn}"
+                        tools:textColor="@color/white"
+                        tools:background="@drawable/bg_on_sms_alert"
                         android:paddingHorizontal="10dp"
                         android:layout_marginStart="10dp"/>
 
@@ -79,7 +83,8 @@
                         android:layout_width="0dp"
                         app:layout_constraintWidth_percent="0.35"
                         android:layout_height="wrap_content"
-                        android:text="Remaining SMS: 15"
+                        remainingSmsCount="@{viewModel.remainingSMSCount}"
+                        tools:text="Remaining SMS: 15"
                         android:textColor="#2161CC"
                         android:gravity="end"
                         android:inputType="textMultiLine"
@@ -336,6 +341,7 @@
                     android:layout_height="80dp"
                     android:layout_marginTop="10dp"
                     app:cardBackgroundColor="#FFFFFF"
+                    android:visibility="@{viewModel.isTrialConsumed ? View.GONE : View.VISIBLE}"
                     app:cardCornerRadius="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -613,6 +619,7 @@
                     android:layout_marginTop="10dp"
                     app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="4dp"
+                    android:visibility="@{viewModel.isTrialConsumed ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/card_sms_pack_500_sms"

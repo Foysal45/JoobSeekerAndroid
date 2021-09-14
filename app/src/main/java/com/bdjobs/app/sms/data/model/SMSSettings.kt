@@ -30,22 +30,22 @@ data class SMSSettings(
 
 @Keep
 data class SMSSettingsData(
-    @Json(name = "dailySmsLimit")
+    @field:Json(name = "dailySmsLimit")
     val dailySmsLimit: String?,
-    @Json(name = "isFavSearchEnable  ")
+    @field:Json(name = "isFavSearchEnable")
     val isFavSearchEnable: String?,
-    @Json(name = "isFollowedEmployerEnable ")
+    @field:Json(name = "isFollowedEmployerEnable")
     val isFollowedEmployerEnable: String?,
-    @Json(name = "isMatchedJobEnable")
+    @field:Json(name = "isMatchedJobEnable")
     val isMatchedJobEnable: String?,
-    @Json(name = "probableRemainingDay ")
+    @field:Json(name = "probableRemainingDay")
     val probableRemainingDay: String?,
-    @Json(name = "remainingSMSAmount")
+    @field:Json(name = "remainingSMSAmount")
     val remainingSMSAmount: String?,
-    @Json(name = "smsAlertOn")
+    @field:Json(name = "smsAlertOn")
     val smsAlertOn: String?,
-    @Json(name = "totalSMSAmount")
+    @field:Json(name = "totalSMSAmount")
     val totalSMSAmount: String?,
-    @Json(name = "trialConsumed  ")
+    @field:Json(name = "trialConsumed")
     val trialConsumed: String?
 )

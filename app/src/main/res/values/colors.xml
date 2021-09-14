@@ -43,5 +43,13 @@
     <color name="privacy_private">#FFCCCC</color>
     <color name="privacy_limited">#FFE0B2</color>
 
+    <color name="remaining_sms_0">#800A0A</color>
+    <color name="remaining_sms_1_9">#A86500</color>
+    <color name="remaining_sms_10_more">#2161CC</color>
+
+    <color name="sms_alert_on">#13A10E</color>
+    <color name="sms_alert_off">#AC0000</color>
+
+    <color name="sms_text_color">#393939</color>
 
 </resources>

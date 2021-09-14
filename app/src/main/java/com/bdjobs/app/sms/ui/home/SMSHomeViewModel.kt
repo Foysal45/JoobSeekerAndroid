@@ -11,7 +11,6 @@ import com.bdjobs.app.sms.data.repository.SMSRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
-import java.lang.Error
 import java.net.SocketException
 
 class SMSHomeViewModel(private val smsRepository: SMSRepository) : ViewModel() {
@@ -37,6 +36,15 @@ class SMSHomeViewModel(private val smsRepository: SMSRepository) : ViewModel() {
     private var _error = MutableLiveData<String> ()
     val error: LiveData<String> = _error
 
+    private var _isTrialConsumed = MutableLiveData<Boolean>()
+    val isTrialConsumed : LiveData<Boolean> = _isTrialConsumed
+
+    private var _remainingSMSCount = MutableLiveData<Int>().apply { value = 0 }
+    val remainingSMSCount : LiveData<Int> = _remainingSMSCount
+
+    private var _isSMSAlertOn = MutableLiveData<Boolean>()
+    val isSMSAlertOn : LiveData<Boolean> = _isSMSAlertOn
+
     fun checkIfSMSFree() {
         _isSMSFree.value = Constants.isSMSFree.equalIgnoreCase("True")
     }
@@ -54,9 +62,20 @@ class SMSHomeViewModel(private val smsRepository: SMSRepository) : ViewModel() {
 
                 if (response.statuscode=="0" && response.message == "Success") {
                     _isSuccess.value = true
+
+                    val data = response.data!![0]
+
+                    Timber.d("IS SMS ALERT ON From Server: ${data.smsAlertOn}")
+
+                    _smsData.value = data
+                    _isTrialConsumed.value = data.trialConsumed == "True"
+                    _remainingSMSCount.value = data.remainingSMSAmount?.toInt()?:0
+                    _isSMSAlertOn.value = data.smsAlertOn == "True"
+                    Timber.d("IS SMS ALERT ON: ${isSMSAlertOn.value}")
+
                 } else {
                     Timber.e("Invalid response: ${response.statuscode} :: Message: ${response.message}")
-                    _error.value = "Something went wrong! Please try again later"
+                    _error.value = response.message?:"Something went wrong! Please try again later"
                 }
 
             } catch (t:Throwable) {

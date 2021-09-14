@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.databinding.FragmentSmsHomeBinding
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_sms_home.*
 
 class HomeFragment : Fragment() {
@@ -56,6 +57,10 @@ class HomeFragment : Fragment() {
     private fun setUpObservers() {
         homeViewModel.apply {
             fetchSMSSettingsData()
+
+            error.observe(viewLifecycleOwner,{
+                Snackbar.make(binding.clParentSmsLanding,it,Snackbar.LENGTH_LONG).show()
+            })
         }
     }
 
