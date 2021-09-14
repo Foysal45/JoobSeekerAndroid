@@ -471,12 +471,12 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginTop="3dp"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="@{viewModel.price.toString() + ` ৳`}"
+                            android:text="@{`৳ ` + viewModel.price.toString()}"
                             android:textColor="#4D4D4D"
                             app:layout_constraintEnd_toStartOf="@id/img_buy_100_sms"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            tools:text="50 ৳" />
+                            tools:text="৳ 50" />
 
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -572,7 +572,7 @@
                             app:layout_constraintEnd_toStartOf="@id/img_buy_500_sms"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            tools:text="250 ৳" />
+                            tools:text="৳ 250" />
 
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -688,7 +688,7 @@
                             app:layout_constraintEnd_toStartOf="@id/img_buy_custom"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            tools:text="250 ৳" />
+                            tools:text="৳ 250" />
 
 
                         <androidx.appcompat.widget.AppCompatImageView

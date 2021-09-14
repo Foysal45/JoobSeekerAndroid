@@ -526,7 +526,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_features_of_sms_job_alert">Features of SMS Job Alert</string>
     <string name="label_100">100</string>
     <string name="label_500">500</string>
-    <string name="label_price_500_sms_package">250 ৳</string>
+    <string name="label_price_500_sms_package">৳ 250</string>
     <string name="label_get_50_bonus_sms">Get 50 Bonus SMS</string>
 
 
