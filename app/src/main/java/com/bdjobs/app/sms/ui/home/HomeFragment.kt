@@ -1,13 +1,12 @@
 package com.bdjobs.app.sms.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.databinding.FragmentSmsHomeBinding
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import kotlinx.android.synthetic.main.fragment_sms_home.*
@@ -18,7 +17,7 @@ class HomeFragment : Fragment() {
     lateinit var binding : FragmentSmsHomeBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = FragmentSmsHomeBinding.inflate(inflater).apply {
             viewModel = homeViewModel
             lifecycleOwner = viewLifecycleOwner
@@ -31,16 +30,32 @@ class HomeFragment : Fragment() {
 
         homeViewModel.checkIfSMSFree()
 
-        third_cl?.setOnClickListener {
+        binding.thirdCl100Sms.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(100,homeViewModel.price.value!!,"False"))
         }
 
-        img_buy?.setOnClickListener {
+        binding.imgBuy100Sms.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(100,homeViewModel.price.value!!,"False"))
         }
 
-        btn_start_trial?.setOnClickListener {
+        binding.imgBuyFreeTrial.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0,"True"))
+        }
+
+        binding.thirdClFreeTrial.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0,"True"))
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        setUpObservers()
+    }
+
+    private fun setUpObservers() {
+        homeViewModel.apply {
+            fetchSMSSettingsData()
         }
     }
 

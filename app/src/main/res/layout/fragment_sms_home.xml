@@ -16,9 +16,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:theme="@style/BdjobsLinearProgress"
+            app:indicatorColor="@color/colorBdjobsMajenta"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/progress_linear"/>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="@{viewModel.isSuccess() ? View.VISIBLE : View.GONE}"
             android:background="#F2F2F2">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -330,22 +343,22 @@
                     app:layout_goneMarginBottom="10dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/third_cl"
+                        android:id="@+id/third_cl_free_trial"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/img_sms"
+                            android:id="@+id/img_sms_free_trial"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
                             android:src="@drawable/sms_message1"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="@id/third_cl"
+                            app:layout_constraintStart_toStartOf="@id/third_cl_free_trial"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_total_sms"
+                            android:id="@+id/tv_total_sms_free_trial"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
@@ -353,9 +366,9 @@
                             android:text="@string/label_20"
                             android:textColor="#110D0D"
                             android:textSize="18sp"
-                            app:layout_constraintStart_toEndOf="@id/img_sms"
-                            app:layout_constraintBottom_toBottomOf="@id/img_sms"
-                            app:layout_constraintTop_toTopOf="@id/img_sms" />
+                            app:layout_constraintStart_toEndOf="@id/img_sms_free_trial"
+                            app:layout_constraintBottom_toBottomOf="@id/img_sms_free_trial"
+                            app:layout_constraintTop_toTopOf="@id/img_sms_free_trial" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
@@ -364,11 +377,11 @@
                             android:paddingBottom="2dp"
                             android:text="@string/label_sms"
                             android:textColor="#767676"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_total_sms"
-                            app:layout_constraintStart_toEndOf="@id/tv_total_sms" />
+                            app:layout_constraintBottom_toBottomOf="@id/tv_total_sms_free_trial"
+                            app:layout_constraintStart_toEndOf="@id/tv_total_sms_free_trial" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_total_taka"
+                            android:id="@+id/tv_total_taka_free_trial"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
@@ -377,15 +390,15 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="@{viewModel.price.toString() + ` BDT`}"
                             android:textColor="#4D4D4D"
-                            app:layout_constraintStart_toEndOf="@id/img_sms"
-                            app:layout_constraintTop_toBottomOf="@id/tv_total_sms"
+                            app:layout_constraintStart_toEndOf="@id/img_sms_free_trial"
+                            app:layout_constraintTop_toBottomOf="@id/tv_total_sms_free_trial"
                             tools:text="50 BDT" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_free_trial_package"
-                            app:layout_constraintEnd_toStartOf="@id/img_buy"
+                            app:layout_constraintEnd_toStartOf="@id/img_buy_free_trial"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             android:layout_marginEnd="10dp"
@@ -397,7 +410,7 @@
                             android:background="@drawable/bg_free_trial_flag"/>
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/img_buy"
+                            android:id="@+id/img_buy_free_trial"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginEnd="12dp"
