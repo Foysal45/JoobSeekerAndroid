@@ -46,6 +46,9 @@
         <argument
             android:name="isFree"
             app:argType="string" />
+        <argument
+            android:name="bonusSMS"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

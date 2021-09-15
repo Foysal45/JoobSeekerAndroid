@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.databinding.FragmentSmsHomeBinding
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_sms_home.*
 
 class HomeFragment : Fragment() {
 
@@ -29,23 +28,41 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel.checkIfSMSFree()
+//        homeViewModel.checkIfSMSFree()
 
         binding.thirdCl100Sms.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(100,homeViewModel.price.value!!,"False"))
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(100,homeViewModel.price.value!!,"False",0))
         }
 
         binding.imgBuy100Sms.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(100,homeViewModel.price.value!!,"False"))
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(100,homeViewModel.price.value!!,"False",0))
         }
 
         binding.imgBuyFreeTrial.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0,"True"))
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0,"True",0))
         }
 
         binding.thirdClFreeTrial.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0,"True"))
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0,"True",0))
         }
+
+        binding.thirdCl500Sms.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(500,250,"False",50))
+        }
+
+        binding.imgBuy500Sms.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(500,250,"False",50))
+        }
+
+        binding.thirdClCustom.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(homeViewModel.customSmsAmount.value!!,homeViewModel.customSmsPrice.value!!,"False",homeViewModel.bonusSmsAmount.value!!))
+        }
+
+        binding.imgBuyCustom.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(homeViewModel.customSmsAmount.value!!,homeViewModel.customSmsPrice.value!!,"False",homeViewModel.bonusSmsAmount.value!!))
+        }
+
+
     }
 
     override fun onResume() {
@@ -57,6 +74,8 @@ class HomeFragment : Fragment() {
     private fun setUpObservers() {
         homeViewModel.apply {
             fetchSMSSettingsData()
+
+
 
             error.observe(viewLifecycleOwner,{
                 Snackbar.make(binding.clParentSmsLanding,it,Snackbar.LENGTH_LONG).show()

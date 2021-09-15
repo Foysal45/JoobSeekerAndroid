@@ -19,31 +19,49 @@ class SMSHomeViewModel(private val smsRepository: SMSRepository) : ViewModel() {
     private val _price = MutableLiveData<Int>().apply {
         value = 50
     }
-    val price : LiveData<Int> = _price
+    val price: LiveData<Int> = _price
 
     private val _isSMSFree = MutableLiveData<Boolean>()
-    val isSMSFree : LiveData<Boolean> = _isSMSFree
+    val isSMSFree: LiveData<Boolean> = _isSMSFree
 
     private var _isLoading = MutableLiveData<Boolean>()
-    val isLoading : LiveData<Boolean> = _isLoading
+    val isLoading: LiveData<Boolean> = _isLoading
 
     private var _isSuccess = MutableLiveData<Boolean>()
-    val isSuccess : LiveData<Boolean> = _isSuccess
+    val isSuccess: LiveData<Boolean> = _isSuccess
 
     private var _smsData = MutableLiveData<SMSSettingsData>()
-    val smsData : LiveData<SMSSettingsData> = _smsData
+    val smsData: LiveData<SMSSettingsData> = _smsData
 
-    private var _error = MutableLiveData<String> ()
+    private var _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
+    private var _isDataFound = MutableLiveData<Boolean>()
+    val isDataFound: LiveData<Boolean> = _isDataFound
+
     private var _isTrialConsumed = MutableLiveData<Boolean>()
-    val isTrialConsumed : LiveData<Boolean> = _isTrialConsumed
+    val isTrialConsumed: LiveData<Boolean> = _isTrialConsumed
 
     private var _remainingSMSCount = MutableLiveData<Int>().apply { value = 0 }
-    val remainingSMSCount : LiveData<Int> = _remainingSMSCount
+    val remainingSMSCount: LiveData<Int> = _remainingSMSCount
 
     private var _isSMSAlertOn = MutableLiveData<Boolean>()
-    val isSMSAlertOn : LiveData<Boolean> = _isSMSAlertOn
+    val isSMSAlertOn: LiveData<Boolean> = _isSMSAlertOn
+
+    private var _customSmsAmount = MutableLiveData<Int>()
+    val customSmsAmount: LiveData<Int> = _customSmsAmount
+
+    private var _bonusSmsAmount = MutableLiveData<Int>()
+    val bonusSmsAmount: LiveData<Int> = _bonusSmsAmount
+
+    private var _customSmsPrice = MutableLiveData<Int>()
+    val customSmsPrice: LiveData<Int> = _customSmsPrice
+
+    init {
+        _customSmsAmount.value = 100
+        _bonusSmsAmount.value = 0
+        _customSmsPrice.value = 50
+    }
 
     fun checkIfSMSFree() {
         _isSMSFree.value = Constants.isSMSFree.equalIgnoreCase("True")
@@ -60,8 +78,9 @@ class SMSHomeViewModel(private val smsRepository: SMSRepository) : ViewModel() {
 
                 _isLoading.value = false
 
-                if (response.statuscode=="0" && response.message == "Success") {
+                if (response.statuscode == "0" && response.message == "Success") {
                     _isSuccess.value = true
+                    _isDataFound.value = true
 
                     val data = response.data!![0]
 
@@ -69,24 +88,50 @@ class SMSHomeViewModel(private val smsRepository: SMSRepository) : ViewModel() {
 
                     _smsData.value = data
                     _isTrialConsumed.value = data.trialConsumed == "True"
-                    _remainingSMSCount.value = data.remainingSMSAmount?.toInt()?:0
+                    _remainingSMSCount.value = data.remainingSMSAmount?.toInt() ?: 0
                     _isSMSAlertOn.value = data.smsAlertOn == "True"
                     Timber.d("IS SMS ALERT ON: ${isSMSAlertOn.value}")
 
+                } else if (response.statuscode == "3") {
+                    _isSuccess.value = true
+                    _isTrialConsumed.value = false
+                    _isDataFound.value = false
                 } else {
                     Timber.e("Invalid response: ${response.statuscode} :: Message: ${response.message}")
-                    _error.value = response.message?:"Something went wrong! Please try again later"
+                    _error.value =
+                        response.message ?: "Something went wrong! Please try again later"
                 }
 
-            } catch (t:Throwable) {
+            } catch (t: Throwable) {
                 Timber.e("Exception while fetching sms settings data: ${t.localizedMessage}")
                 _isLoading.value = false
-                when(t) {
-                    is IOException -> _error.value = "Please check your internet connection and try again later"
-                    is SocketException -> _error.value = "Please check your internet connection and try again later"
+                when (t) {
+                    is IOException -> _error.value =
+                        "Please check your internet connection and try again later"
+                    is SocketException -> _error.value =
+                        "Please check your internet connection and try again later"
                     else -> _error.value = "Something went wrong! Please try again later"
                 }
             }
         }
+    }
+
+    fun onCustomSMSAddClicked() {
+        if (_customSmsAmount.value!! < 9900) {
+            _customSmsAmount.value = _customSmsAmount.value?.plus(100)
+            _bonusSmsAmount.value = _customSmsAmount.value!! / 10
+            _customSmsPrice.value = _customSmsPrice.value?.plus(50)
+        }
+
+    }
+
+    fun onCustomSMSMinusClicked() {
+        if (_customSmsAmount.value!! > 100) {
+            _customSmsAmount.value = _customSmsAmount.value?.minus(100)
+            if (customSmsAmount.value == 100) _bonusSmsAmount.value = 0
+            else _bonusSmsAmount.value = _customSmsAmount.value!! / 10
+            _customSmsPrice.value = _customSmsPrice.value?.minus(50)
+        }
+
     }
 }

@@ -15,13 +15,13 @@ fun MaterialTextView.setRemainingSMSCount(value: Int) {
 
         when {
             value <= 0 -> {
-                this.textColor = resources.getColor(R.color.remaining_sms_0)
+                this.textColor = ContextCompat.getColor(context,R.color.remaining_sms_0)
             }
             value in 1..9 -> {
-                this.textColor = resources.getColor(R.color.remaining_sms_1_9)
+                this.textColor = ContextCompat.getColor(context,R.color.remaining_sms_1_9)
             }
             else -> {
-                this.textColor = resources.getColor(R.color.remaining_sms_10_more)
+                this.textColor = ContextCompat.getColor(context,R.color.remaining_sms_10_more)
             }
         }
     }
@@ -67,6 +67,18 @@ fun MaterialTextView.setSmsAlertLabelTextAndDrawable(value: Int) {
                 0,
                 0
             )
+        }
+    }
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("setCustomBonusText")
+fun MaterialTextView.setCustomBonusText(bonusThreshold: Int) {
+    this.run {
+        if (bonusThreshold<200) {
+            this.text = "Get Bonus from 200 SMS"
+        } else {
+            this.text = "Get ${bonusThreshold/10} Bonus SMS"
         }
     }
 }
