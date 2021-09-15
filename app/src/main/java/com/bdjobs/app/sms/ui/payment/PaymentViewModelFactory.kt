@@ -13,9 +13,10 @@ class PaymentViewModelFactory(
         private val totalSMS : Int?,
         private val totalTaka : Int?,
         private val isFree : String?,
-        private val fragment: PaymentFragment
+        private val fragment: PaymentFragment,
+        private val bonusSMS: Int?
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return PaymentViewModel(repository,totalSMS,totalTaka,isFree,fragment) as T
+        return PaymentViewModel(repository,totalSMS,totalTaka,isFree,fragment,bonusSMS) as T
     }
 }
