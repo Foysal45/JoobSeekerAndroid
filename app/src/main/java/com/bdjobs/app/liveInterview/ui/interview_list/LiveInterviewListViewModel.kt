@@ -42,6 +42,7 @@ class LiveInterviewListViewModel(
                 _dataLoading.value = false
             } catch (e: Exception) {
                 e.printStackTrace()
+                _dataLoading.value = false
             }
         }
     }
