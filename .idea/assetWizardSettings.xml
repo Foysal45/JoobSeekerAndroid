@@ -64,8 +64,8 @@
                             <entry key="autoMirrored" value="true" />
                             <entry key="color" value="393939" />
                             <entry key="opacityPercent" value="90" />
-                            <entry key="outputName" value="ic_check_sign_sms_package" />
-                            <entry key="sourceFile" value="C:\Users\soumik\Desktop\SMS Assets\check-sign.svg" />
+                            <entry key="outputName" value="ic_purchase_sms_setting" />
+                            <entry key="sourceFile" value="C:\Users\soumik\Desktop\SMS Assets\purchase.svg" />
                           </map>
                         </option>
                       </PersistentState>
