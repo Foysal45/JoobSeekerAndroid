@@ -4,9 +4,9 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -19,13 +19,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.bdjobs.app.Notification.NotificationHelper.Companion.TAG
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants.Companion.file
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.toFormattedSeconds
@@ -34,11 +33,9 @@ import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModel
 import com.google.android.material.snackbar.Snackbar
-import com.otaliastudios.cameraview.CameraListener
-import com.otaliastudios.cameraview.VideoResult
-import com.otaliastudios.cameraview.controls.Facing
-import com.otaliastudios.cameraview.controls.Mode
 import kotlinx.android.synthetic.main.fragment_record_video_resume.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
@@ -50,6 +47,7 @@ import java.util.concurrent.Executors
 class RecordVideoResumeFragment : Fragment() {
     lateinit var snackbar: Snackbar
     lateinit var videoFile: File
+    var sdk = 0
 
     private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
     private val recordVideoResumeViewModel: RecordVideoResumeViewModel by viewModels {
@@ -74,6 +72,9 @@ class RecordVideoResumeFragment : Fragment() {
             viewModel = recordVideoResumeViewModel
             lifecycleOwner = viewLifecycleOwner
         }
+
+
+
         return binding.root
     }
 
@@ -84,11 +85,11 @@ class RecordVideoResumeFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
-       // initializeCamera()
+        sdk =  Integer.valueOf(Build.VERSION.SDK_INT)
+
+
         startCamera()
-
         initializeUI()
-
         setUpObservers()
     }
 
@@ -96,7 +97,8 @@ class RecordVideoResumeFragment : Fragment() {
     @SuppressLint("RestrictedApi")
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireActivity())
-        val cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
+        var cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT).build()
+
 
         cameraProviderFuture.addListener({
             imagePreview = Preview.Builder().apply {
@@ -110,8 +112,9 @@ class RecordVideoResumeFragment : Fragment() {
             }.build()
 
             val cameraProvider = cameraProviderFuture.get()
+
             val camera = cameraProvider.bindToLifecycle(
-                this,
+                viewLifecycleOwner,
                 cameraSelector,
                 imagePreview,
                 videoCapture
@@ -152,10 +155,9 @@ class RecordVideoResumeFragment : Fragment() {
 
             onVideoDoneEvent.observe(viewLifecycleOwner, {
                 if (it) {
-                 //   camera_view.stopVideo()
 
-                    videoCapture?.stopRecording()
-                    cameraExecutor.shutdown()
+                        videoCapture?.stopRecording()
+                   // cameraExecutor.shutdown()
                 }
             })
 
@@ -196,12 +198,8 @@ class RecordVideoResumeFragment : Fragment() {
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             val newFile =
                 File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
-//            camera_view.mode = Mode.VIDEO
-//            camera_view?.takeVideoSnapshot(newFile)
 
             startRecord(newFile)
-
-
 
         } catch (e: Exception) {
             Timber.e("captureVideo: ${e.localizedMessage}")
@@ -219,14 +217,20 @@ class RecordVideoResumeFragment : Fragment() {
         ) {
             return
         }
+
+
         videoCapture?.startRecording(outputFileOptions, cameraExecutor, object : VideoCapture.OnVideoSavedCallback {
             override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
-                val msg = "Video capture succeeded: ${newFile?.absolutePath}"
+                if (recordVideoResumeViewModel.onVideoDoneEvent.value == true) {
+                        videoFile = newFile
+                        recordVideoResumeViewModel.videoResumeManagerData.value?.file = newFile
+                        recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
+                    showSnackbar()
 
-                Log.d(TAG, "Video saved in ${newFile?.absolutePath}")
-                camera_view.post {
-                    Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
                 }
+
+
+
             }
 
             override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {

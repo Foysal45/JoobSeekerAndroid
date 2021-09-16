@@ -7,6 +7,7 @@ import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.videoInterview.util.Event
 import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -68,14 +69,15 @@ class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) 
     fun onDoneButtonClick() {
         timer.cancel()
         _onVideoDoneEvent.value = true
+
     }
 
     fun uploadSingleVideoToServer(videoResumeManager: VideoResumeManager?) {
-        _onVideoDoneEvent.value = false
+        _onVideoDoneEvent.postValue(false)// = false
         //Log.d("rakib", "$videoManager")
         //repository.setDataForUpload(videoManager)
         Constants.createVideoResumeManagerDataForUpload(videoResumeManager)
-        viewModelScope.launch {
+        GlobalScope.launch {
 //            val constraints = androidx.work.Constraints.Builder()
 //                    .setRequiredNetworkType(NetworkType.CONNECTED)
 //                    .build()
@@ -86,11 +88,11 @@ class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) 
 //                            TimeUnit.MILLISECONDS)
 //                    .build()
 //            WorkManager.getInstance().enqueue(request)
-            _onUploadStartEvent.value = Event(true)
+            _onUploadStartEvent.postValue(Event(true))// = Event(true)
             val response = repository.postVideoResumeToRemote()
             if (response.statuscode == "4" || response.statuscode == 4)
             {
-                _onUploadDoneEvent.value = Event(true)
+                _onUploadDoneEvent.postValue(Event(true)) //= Event(true)
             }
         }
     }
