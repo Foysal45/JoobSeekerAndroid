@@ -62,6 +62,9 @@ class HomeFragment : Fragment() {
             findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(homeViewModel.customSmsAmount.value!!,homeViewModel.customSmsPrice.value!!,"False",homeViewModel.bonusSmsAmount.value!!))
         }
 
+        binding.tvBuyFollowingSmsPackagesDetails.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToPackageDetailsFragment())
+        }
 
     }
 

@@ -528,6 +528,24 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_500">500</string>
     <string name="label_price_500_sms_package">৳ 250</string>
     <string name="label_get_50_bonus_sms">Get 50 Bonus SMS</string>
+    <string name="label_receive_sms_package_benefit">Receive SMS according to Matched jobs by default</string>
+    <string name="label_sms_fav_search_benefit">Get SMS Job Alert from Favorite Job Search you have subscribed</string>
+    <string name="label_sms_following_emp_benefit">Get SMS Job Alert from the Following Employer you have subscribed</string>
+    <string name="label_duration_unlimited">Duration: Unlimited</string>
+    <string name="label_get_customized_sms_packs">Get Customized SMS Packs</string>
+    <string name="label_customized_sms_pack">Customized SMS Pack</string>
+    <string name="_20_sms">20 SMS</string>
+    <string name="free_trial">Free Trial</string>
+    <string name="get_20_sms">Get 20 SMS</string>
+    <string name="duration_1_month">Duration: 1 Month</string>
+    <string name="get_100_sms">Get 100 SMS</string>
+    <string name="duration_4_month">Duration: 4 Month</string>
+    <string name="_100_sms">100 SMS</string>
+    <string name="_50">৳ 50</string>
+    <string name="_500_sms">500 SMS</string>
+    <string name="_250">৳ 250</string>
+    <string name="get_500_sms">Get 500 SMS</string>
+    <string name="duration_12_month">Duration: 12 Month</string>
 
 
     <string-array name="spinnerFilterItemEmailResume">

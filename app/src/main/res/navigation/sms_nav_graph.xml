@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sms_nav_graph"
-    android:label="SMS Package Services">
+    android:label="SMS Package Services"
+    app:startDestination="@id/packageDetailsFragment">
 
     <fragment
         android:id="@+id/smsPaymentFragment"
@@ -107,6 +108,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_smsHomeFragment_to_packageDetailsFragment"
+            app:destination="@id/packageDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentCancelFragment"
@@ -118,4 +122,9 @@
         android:name="com.bdjobs.app.sms.ui.payment_fail.PaymentFailFragment"
         android:label="Payment Fail"
         tools:layout="@layout/fragment_payment_fail" />
+    <fragment
+        android:id="@+id/packageDetailsFragment"
+        android:name="com.bdjobs.app.sms.ui.package_details.PackageDetailsFragment"
+        android:label="Package Details"
+        tools:layout="@layout/package_details_fragment" />
 </navigation>
