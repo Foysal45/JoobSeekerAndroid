@@ -23,52 +23,63 @@ class SMSRepository(private val application: Application) {
     suspend fun getSMSSettings(): SMSSettings {
         return withContext(Dispatchers.IO) {
             ApiServiceMyBdjobs.create().getSMSSetting(
-                    userID = session.userId,
-                    decodeID = session.decodId,
-                    appId = Constants.APP_ID
+                userID = session.userId,
+                decodeID = session.decodId,
+                appId = Constants.APP_ID
             )
         }
     }
 
-    suspend fun updateSMSSettings(dailyLimit: Int?, alertOn: Int?): CommonResponse {
+    suspend fun updateSMSSettings(
+        dailyLimit: Int?, alertOn: Int?, isMatchedJobEnable: String?,
+        isFollowedEmployerEnable: String?,
+        isFavSearchEnable: Int?
+    ): CommonResponse {
         return withContext(Dispatchers.IO) {
             ApiServiceMyBdjobs.create().updateSMSSettings(
-                    userID = session.userId,
-                    decodeID = session.decodId,
-                    appId = Constants.APP_ID,
-                    dailySMSLimit = dailyLimit,
-                    alertOn = alertOn
+                userID = session.userId,
+                decodeID = session.decodId,
+                appId = Constants.APP_ID,
+                dailySMSLimit = dailyLimit,
+                alertOn = alertOn,
+                isMatchedJobEnable = isMatchedJobEnable,
+                isFavSearchEnable = isFavSearchEnable,
+                isFollowedEmployerEnable = isFollowedEmployerEnable
             )
         }
     }
 
-    suspend fun callPaymentInfoBeforeGatewayApi(totalSMS : Int? , totalTaka : Int?, isFree : String?) : PaymentInfoBeforeGateway{
-        return withContext(Dispatchers.IO){
+    suspend fun callPaymentInfoBeforeGatewayApi(
+        totalSMS: Int?,
+        totalTaka: Int?,
+        isFree: String?
+    ): PaymentInfoBeforeGateway {
+        return withContext(Dispatchers.IO) {
             ApiServiceMyBdjobs.create().paymentInfoBeforeEnteringGateway(
-                    userId = session.userId,
-                    decodeId = session.decodId,
-                    appId = Constants.APP_ID,
-                    serviceId = Constants.SMS_SERVICE_ID,
-                    totalQuantity = totalSMS.toString(),
-                    totalAmount = totalTaka.toString(),
-                    isFree = isFree
+                userId = session.userId,
+                decodeId = session.decodId,
+                appId = Constants.APP_ID,
+                serviceId = Constants.SMS_SERVICE_ID,
+                totalQuantity = totalSMS.toString(),
+                totalAmount = totalTaka.toString(),
+                isFree = isFree
             )
         }
     }
 
-    suspend fun callPaymentAfterReturningGatewayApi(data : TransactionInfoModel?) : PaymentInfoAfterGateway{
-        return withContext(Dispatchers.IO){
+    suspend fun callPaymentAfterReturningGatewayApi(data: TransactionInfoModel?): PaymentInfoAfterGateway {
+        return withContext(Dispatchers.IO) {
             ApiServiceMyBdjobs.create().paymentInfoAfterReturningGateway(
-                    userId = session.userId,
-                    decodeId = session.decodId,
-                    appId = Constants.APP_ID,
-                    tranId = data?.tranId,
-                    cardType = data?.cardType,
-                    storeAmount = data?.storeAmount,
-                    valId = data?.valId,
-                    status = data?.status,
-                    currencyType = data?.currencyType,
-                    tranDate = data?.tranDate
+                userId = session.userId,
+                decodeId = session.decodId,
+                appId = Constants.APP_ID,
+                tranId = data?.tranId,
+                cardType = data?.cardType,
+                storeAmount = data?.storeAmount,
+                valId = data?.valId,
+                status = data?.status,
+                currencyType = data?.currencyType,
+                tranDate = data?.tranDate
             )
         }
     }

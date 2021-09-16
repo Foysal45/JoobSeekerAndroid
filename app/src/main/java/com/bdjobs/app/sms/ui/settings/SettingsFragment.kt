@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -24,6 +25,7 @@ import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.startActivity
 
 class SettingsFragment : Fragment() {
@@ -43,6 +45,10 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpObservers()
+    }
+
+    private fun setUpObservers() {
         settingsViewModel.apply {
 
             getSMSSettings()
@@ -64,8 +70,39 @@ class SettingsFragment : Fragment() {
                 }
             })
 
-            showToastMessage.observe(viewLifecycleOwner, EventObserver {message->
-                Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
+            showToastMessage.observe(viewLifecycleOwner, { message ->
+                Snackbar.make(binding.clParentSmsSetting, message.toString(), Snackbar.LENGTH_SHORT)
+                    .show()
+            })
+
+            remainingSMS.observe(viewLifecycleOwner,{
+                val remainingSMSCount = it?.toInt()
+
+                when {
+                    remainingSMSCount!!>=10 -> {
+                        binding.llRemainingSmsCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_blue)
+                    }
+                    remainingSMSCount in 1..9 -> {
+                        binding.llRemainingSmsCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_orange)
+                    }
+                    else -> {
+                        binding.llRemainingSmsCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_violet)}
+                }
+            })
+
+            probableRemainingDays.observe(viewLifecycleOwner,{
+                val probableRemainingDays = it?.toInt()
+
+                when {
+                    probableRemainingDays!!>2 -> {
+                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_blue)
+                    }
+                    probableRemainingDays in 1..2 -> {
+                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_orange)
+                    }
+                    else -> {
+                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_violet)}
+                }
             })
         }
     }
