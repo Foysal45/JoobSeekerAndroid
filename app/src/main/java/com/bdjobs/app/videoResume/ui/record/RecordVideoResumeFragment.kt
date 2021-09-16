@@ -19,7 +19,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
@@ -34,8 +33,6 @@ import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_record_video_resume.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
@@ -66,7 +63,7 @@ class RecordVideoResumeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentRecordVideoResumeBinding.inflate(inflater).apply {
             viewModel = recordVideoResumeViewModel
@@ -278,40 +275,7 @@ class RecordVideoResumeFragment : Fragment() {
         builder.show()
     }
 
-//    private fun initializeCamera() {
-//        camera_view?.setLifecycleOwner(viewLifecycleOwner)
-//
-//        try {
-//            camera_view?.facing = Facing.FRONT
-//        } catch (e: Exception) {
-//            camera_view?.facing = Facing.BACK
-//        } finally {
-//
-//        }
-//
-//        camera_view.addCameraListener(object : CameraListener() {
-//            override fun onVideoTaken(result: VideoResult) {
-//                super.onVideoTaken(result)
-//                Timber.d("video taken!")
-//                if (recordVideoResumeViewModel.onVideoDoneEvent.value == true) {
-//                    videoFile = result.file
-//                    recordVideoResumeViewModel.videoResumeManagerData.value?.file = result.file
-//                    recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
-//                    showSnackbar()
-//                }
-//            }
-//
-//            override fun onVideoRecordingStart() {
-//                Timber.d("video recording start!")
-//                super.onVideoRecordingStart()
-//            }
-//
-//            override fun onVideoRecordingEnd() {
-//                Timber.d("video recording start!")
-//                super.onVideoRecordingEnd()
-//            }
-//        })
-//    }
+
 
     private fun showSnackbar() {
         snackbar = Snackbar.make(
