@@ -8,6 +8,7 @@ import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.sms.data.repository.SMSRepository
 import com.bdjobs.app.videoInterview.util.Event
 import kotlinx.coroutines.launch
+import kotlin.math.ceil
 
 class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
 
@@ -199,6 +200,13 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
                 )
                 _showToastMessage.value = response.message.toString()
                 _isSubmitDataLoading.value = false
+
+                if (response.statuscode=="0") {
+                    val probableRemainingDays = ceil(_remainingSMS.value?.toDouble() !!.div(_limit.value!!.toDouble())).toInt()
+
+                    _probableRemainingDays.value = probableRemainingDays.toString()
+                }
+
             } catch (e:Exception){
                e.printStackTrace()
             }

@@ -84,13 +84,10 @@ class SMSHomeViewModel(private val smsRepository: SMSRepository) : ViewModel() {
 
                     val data = response.data!![0]
 
-                    Timber.d("IS SMS ALERT ON From Server: ${data.smsAlertOn}")
-
                     _smsData.value = data
                     _isTrialConsumed.value = data.trialConsumed == "True"
                     _remainingSMSCount.value = data.remainingSMSAmount?.toInt() ?: 0
                     _isSMSAlertOn.value = data.smsAlertOn == "True"
-                    Timber.d("IS SMS ALERT ON: ${isSMSAlertOn.value}")
 
                 } else if (response.statuscode == "3") {
                     _isSuccess.value = true
