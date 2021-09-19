@@ -1,5 +1,6 @@
 package com.bdjobs.app.LoggedInUserLanding.myJobs
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,7 +44,7 @@ class MyJobsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 //        viewModel = ViewModelProvider(this).get(MyJobsViewModel::class.java)
 
-        activity?.transitFragment(ShortListedJobFragment(),R.id.fragment_container)
+        activity?.transitFragment(ShortListedJobFragment(),R.id.fragment_container,false)
 
         bdjobsDB = BdjobsDB.getInstance(requireContext())
         bdjobsUserSession = BdjobsUserSession(requireContext())
@@ -87,8 +88,8 @@ class MyJobsFragment : Fragment() {
         showMessageCount()
     }
 
+    @SuppressLint("SetTextI18n")
     fun updateMessageView(count: Int?) {
-        //Log.d("rakib", "in home fragment $count")
         if (count!! > 0) {
             messageCountTV?.show()
             if (count <= 99)
@@ -100,6 +101,7 @@ class MyJobsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showMessageCount() {
         try {
 
@@ -126,6 +128,7 @@ class MyJobsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showNotificationCount() {
         try {
             bdjobsUserSession = BdjobsUserSession(requireContext())
@@ -145,6 +148,7 @@ class MyJobsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     fun updateNotificationView(count: Int?) {
         //Log.d("rakib", "in shorlist fragment $count")
         if (count!! > 0) {

@@ -1,11 +1,11 @@
 package com.bdjobs.app.LoggedInUserLanding
 
-import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
@@ -19,7 +19,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_shortlisted_job_layout.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.selector
+import org.jetbrains.anko.support.v4.selector
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,9 +45,9 @@ class ShortListedJobFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bdjobsDB = BdjobsDB.getInstance(activity)
-        bdjobsUserSession = BdjobsUserSession(activity)
-        homeCommunicator = activity as HomeCommunicator
+        bdjobsDB = BdjobsDB.getInstance(requireContext())
+        bdjobsUserSession = BdjobsUserSession(requireContext())
+        homeCommunicator = requireActivity() as HomeCommunicator
         profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         searchIMGV?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
@@ -72,6 +72,10 @@ class ShortListedJobFragment : Fragment() {
 
         messageIMGV?.setOnClickListener {
             homeCommunicator.goToMessages()
+        }
+
+        btn_job_list.setOnClickListener {
+            homeCommunicator.gotoAllJobSearch()
         }
 
         val shortListFilter = homeCommunicator.getShortListFilter()
@@ -102,7 +106,7 @@ class ShortListedJobFragment : Fragment() {
         try {
 
             doAsync {
-                bdjobsUserSession = BdjobsUserSession(activity)
+                bdjobsUserSession = BdjobsUserSession(requireContext())
                 val count = bdjobsDB.notificationDao().getMessageCount()
                 Timber.d("Messages count: $count")
                 bdjobsUserSession.updateMessageCount(count)
@@ -126,7 +130,7 @@ class ShortListedJobFragment : Fragment() {
 
     private fun showNotificationCount() {
         try {
-            bdjobsUserSession = BdjobsUserSession(activity)
+            bdjobsUserSession = BdjobsUserSession(requireContext())
             if (bdjobsUserSession.notificationCount!! <= 0) {
                 notificationCountTV?.hide()
             } else {
@@ -182,9 +186,9 @@ class ShortListedJobFragment : Fragment() {
         isLoadings = false
         isLastPages = false
         shortListRV?.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         shortListRV?.layoutManager = layoutManager
-        joblistAdapter = JoblistAdapter(activity)
+        joblistAdapter = JoblistAdapter(requireContext())
         shortListRV?.adapter = joblistAdapter
 
         shortListRV?.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
@@ -219,6 +223,7 @@ class ShortListedJobFragment : Fragment() {
     private fun loadFisrtPageTest(deadline: String, rpp: String, pageNumber: Int) {
         noDataLL?.hide()
         shortListRV.hide()
+        jobCountTV.hide()
         shimmer_view_container_JobList?.show()
         shimmer_view_container_JobList?.startShimmer()
 
@@ -237,6 +242,7 @@ class ShortListedJobFragment : Fragment() {
                     if (response.isSuccessful) {
                         shimmer_view_container_JobList?.hide()
                         shimmer_view_container_JobList?.stopShimmer()
+                        jobCountTV.show()
 
                         val jobResponse = response.body()
                         val totalJobs = jobResponse?.common?.totalRecordsFound
@@ -402,7 +408,7 @@ class ShortListedJobFragment : Fragment() {
         }
 
 //        notificationCountTV?.show()
-//        bdjobsUserSession = BdjobsUserSession(activity)
+//        bdjobsUserSession = BdjobsUserSession(requireContext())
 //        if (bdjobsUserSession.notificationCount!! > 99){
 //            notificationCountTV?.text = "99+"
 //

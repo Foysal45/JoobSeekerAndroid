@@ -270,6 +270,7 @@ class UploadResumeFragment : Fragment() {
 
 //               RequestBody.create(MediaType?.parse(mediaType), File(filePath))
 
+
                 val multipartBodyPart =
                     MultipartBody.Part.createFormData("File", fileinfo.fileName, requestFile)
 

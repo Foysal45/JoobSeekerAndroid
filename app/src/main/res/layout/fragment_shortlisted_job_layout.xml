@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="#F2F2F2"
-    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:elevation="8dp"
         android:id="@+id/toolbar2"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        android:elevation="8dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayoutToolbar"
             android:layout_width="match_parent"
@@ -50,16 +51,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="12dp"
-                app:layout_constraintEnd_toStartOf="@+id/messageIMGV"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/messageIMGV"
                 app:layout_constraintStart_toEndOf="@+id/suggestiveSearchET"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:layout_gravity="right"
                     android:id="@+id/notificationIMGV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:layout_marginTop="10dp"
                     android:background="?android:selectableItemBackgroundBorderless"
                     android:clickable="true"
@@ -106,12 +107,12 @@
                 android:background="@drawable/notification_count_circle"
                 android:gravity="center"
                 android:paddingBottom="1dp"
-                tools:text="2"
                 android:textColor="#FFF"
                 android:textSize="12sp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@id/messageIMGV"
-                app:layout_constraintTop_toTopOf="@id/messageIMGV" />
+                app:layout_constraintTop_toTopOf="@id/messageIMGV"
+                tools:text="2" />
 
             <ImageView
                 android:id="@+id/searchIMGV"
@@ -127,56 +128,154 @@
                 app:layout_constraintTop_toTopOf="@+id/profilePicIMGV" />
 
             <ImageView
-                android:background="?android:selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:padding="5dp"
                 android:id="@+id/profilePicIMGV"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_user_thumb_small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_user_thumb_small" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_shortlistedJob"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/cl_shortlistedJob"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar2">
 
         <LinearLayout
             android:id="@+id/noDataLL"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/jobCountTV"
             app:layout_constraintVertical_bias="0.0">
 
-            <include
-                layout="@layout/layout_no_data_found"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_no_data"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_steps_no_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Steps of Shortlisting a job:"
+                    android:textColor="@color/sms_text_color"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_instruction_1_no_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="- Go to job list page."
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_steps_no_data" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_instruction_2_no_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center_vertical"
+                    android:text="- Tap the ⭐ icon to Shortlist a job."
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_instruction_1_no_data" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_shortlisting_instruction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_shortlisting_instruction"
+                    android:fontFamily="@font/roboto"
+                    android:padding="12dp"
+                    android:text="You can also Shortlist a job from Job Details page by tapping ⭐ icon"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_instruction_2_no_data" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_shortlisting_instruction"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="6dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:padding="10dp"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:text="Would you like to Shortlist a job now?"
+                            android:textColor="#767676"
+                            android:fontFamily="@font/roboto"
+                            android:id="@+id/tv_shortlist_now"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_job_list"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:padding="10dp"
+                            android:text="Jobs List"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            app:backgroundTint="#13A10E"
+                            app:cornerRadius="8dp"
+                            app:icon="@drawable/ic_star"
+                            app:iconGravity="textStart"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_shortlist_now" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
         <TextView
-            android:elevation="8dp"
             android:id="@+id/jobCountTV"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="#FFFFFF"
+            android:elevation="8dp"
             android:fontFamily="@font/roboto"
             android:gravity="center_vertical"
             android:paddingStart="20dp"
@@ -190,15 +289,16 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/shortListRV"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/jobCountTV" />
+            app:layout_constraintTop_toBottomOf="@+id/jobCountTV"
+            tools:visibility="gone" />
 
         <TextView
             android:id="@+id/filterTV"
@@ -239,11 +339,11 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/cl_shortlistedJob"
-        shimmer:shimmer_duration="1200"
+        app:layout_constraintTop_toTopOf="parent"
         shimmer:layout_constraintBottom_toBottomOf="parent"
         shimmer:layout_constraintEnd_toEndOf="parent"
-        shimmer:layout_constraintStart_toStartOf="parent">
+        shimmer:layout_constraintStart_toStartOf="parent"
+        shimmer:shimmer_duration="1200">
 
         <!-- Adding 7 rows of placeholders -->
         <LinearLayout
