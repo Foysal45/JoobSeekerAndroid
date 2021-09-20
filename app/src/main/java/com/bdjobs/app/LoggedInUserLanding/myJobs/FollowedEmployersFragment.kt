@@ -144,8 +144,6 @@ class FollowedEmployersFragment : Fragment() {
 
     private fun loadData(currentPage: Int) {
 
-        //Log.d("rakib", "load data")
-
         ApiServiceJobs.create().getFollowEmployerListLazy(
             pg = currentPage.toString(),
             isActivityDate = isActivityDate,
