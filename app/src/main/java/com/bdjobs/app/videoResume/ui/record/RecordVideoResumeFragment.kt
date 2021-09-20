@@ -3,21 +3,15 @@ package com.bdjobs.app.videoResume.ui.record
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.StrictMode
-import android.provider.MediaStore
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import android.widget.VideoView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -43,7 +37,6 @@ import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Facing
 import com.otaliastudios.cameraview.controls.Mode
 import kotlinx.android.synthetic.main.fragment_record_video_resume.*
-import kotlinx.android.synthetic.main.fragment_record_video_resume.view.*
 import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
@@ -367,8 +360,6 @@ class RecordVideoResumeFragment : Fragment() {
 
             tool_bar?.title =
                 "Recording Question ${recordVideoResumeViewModel.videoResumeManagerData.value?.questionSerialNo}"
-
-        } else {
 
         }
     }
