@@ -83,8 +83,8 @@ class ShortListedJobFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        showNotificationCount()
-        showMessageCount()
+//        showNotificationCount()
+//        showMessageCount()
         val shortListFilter = homeCommunicator.getShortListFilter()
         showShortListFilterList(shortListFilter)
     }
@@ -99,53 +99,6 @@ class ShortListedJobFragment : Fragment() {
                 messageCountTV?.text = "99+"
         } else {
             messageCountTV?.hide()
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun showMessageCount() {
-        try {
-
-            doAsync {
-                bdJobsUserSession = BdjobsUserSession(requireContext())
-                val count = bdJobsDB.notificationDao().getMessageCount()
-                Timber.d("Messages count: $count")
-                bdJobsUserSession.updateMessageCount(count)
-            }
-
-            if (bdJobsUserSession.messageCount!! <= 0) {
-                messageCountTV?.hide()
-            } else {
-                messageCountTV?.show()
-                if (bdJobsUserSession.messageCount!! > 99) {
-                    messageCountTV?.text = "99+"
-
-                } else {
-                    messageCountTV?.text = "${bdJobsUserSession.messageCount!!}"
-
-                }
-            }
-        } catch (e: Exception) {
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun showNotificationCount() {
-        try {
-            bdJobsUserSession = BdjobsUserSession(requireContext())
-            if (bdJobsUserSession.notificationCount!! <= 0) {
-                notificationCountTV?.hide()
-            } else {
-                notificationCountTV?.show()
-                if (bdJobsUserSession.notificationCount!! > 99) {
-                    notificationCountTV?.text = "99+"
-
-                } else {
-                    notificationCountTV?.text = "${bdJobsUserSession.notificationCount!!}"
-
-                }
-            }
-        } catch (e: Exception) {
         }
     }
 
@@ -373,7 +326,6 @@ class ShortListedJobFragment : Fragment() {
         })
     }
 
-
     fun scrollToUndoPosition(position: Int) {
         shortListRV?.scrollToPosition(position)
         favListSize++
@@ -397,7 +349,6 @@ class ShortListedJobFragment : Fragment() {
             jobCountTV?.text = Html.fromHtml(styledText)
         }
     }
-
 
     @SuppressLint("SetTextI18n")
     fun updateNotificationView(count: Int?) {
