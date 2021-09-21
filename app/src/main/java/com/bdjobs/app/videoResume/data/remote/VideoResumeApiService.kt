@@ -6,6 +6,7 @@ import com.bdjobs.app.videoInterview.util.NetworkConnectionInterceptor
 import com.bdjobs.app.videoResume.data.models.CommonResponse
 import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
 import com.bdjobs.app.videoResume.data.models.VideoResumeStatistics
+import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.MultipartBody
@@ -109,6 +110,7 @@ interface VideoResumeApiService {
             val loginOkHttpClient = OkHttpClient.Builder()
                     .addInterceptor(loginInterceptor)
                     .addInterceptor(NetworkConnectionInterceptor(context))
+                    .addInterceptor(OkHttpProfilerInterceptor())
                     .readTimeout(600, TimeUnit.SECONDS)
                     .connectTimeout(600, TimeUnit.SECONDS)
                     .build()

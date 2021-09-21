@@ -168,6 +168,7 @@ class RecordVideoResumeFragment : Fragment() {
 
                     videoCapture?.stopRecording()
 
+
                     if (sdk < 23){
                         camera_view2.stopVideo()
                     }
