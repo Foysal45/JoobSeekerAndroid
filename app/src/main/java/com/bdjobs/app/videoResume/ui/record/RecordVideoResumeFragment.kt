@@ -166,11 +166,10 @@ class RecordVideoResumeFragment : Fragment() {
             onVideoDoneEvent.observe(viewLifecycleOwner, {
                 if (it) {
 
-                    videoCapture?.stopRecording()
-
-
                     if (sdk < 23){
                         camera_view2.stopVideo()
+                    }else{
+                        videoCapture?.stopRecording()
                     }
                 }
             })

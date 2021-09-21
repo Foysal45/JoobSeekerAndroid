@@ -101,7 +101,7 @@ interface VideoResumeApiService {
 
         private fun buildRetrofit(context: Context, type: Int? = 0): Retrofit {
 
-            Log.d("salvin type ", "$type")
+          //  Log.d("salvin type ", "$type")
 
             val loginInterceptor = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
