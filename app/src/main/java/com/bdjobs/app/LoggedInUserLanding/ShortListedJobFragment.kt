@@ -1,3 +1,5 @@
+@file:Suppress("SameParameterValue")
+
 package com.bdjobs.app.LoggedInUserLanding
 
 import android.annotation.SuppressLint
@@ -6,27 +8,27 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
-import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.Jobs.JoblistAdapter
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.internal.BdjobsDB
 import kotlinx.android.synthetic.main.fragment_shortlisted_job_layout.*
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.selector
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class ShortListedJobFragment : Fragment() {
+class ShortListedJobFragment : Fragment(), JoblistAdapter.OnUpdateCounter {
     lateinit var bdJobsDB: BdjobsDB
     lateinit var bdJobsUserSession: BdjobsUserSession
     lateinit var jobListAdapter: JoblistAdapter
@@ -38,6 +40,8 @@ class ShortListedJobFragment : Fragment() {
     var totalRecordsFound = 0
     private var layoutManager: RecyclerView.LayoutManager? = null
     var favListSize = 0
+
+    lateinit var rootView : View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_shortlisted_job_layout, container, false)!!
@@ -81,10 +85,13 @@ class ShortListedJobFragment : Fragment() {
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rootView = view
+    }
+
     override fun onResume() {
         super.onResume()
-//        showNotificationCount()
-//        showMessageCount()
         val shortListFilter = homeCommunicator.getShortListFilter()
         showShortListFilterList(shortListFilter)
     }
@@ -143,7 +150,7 @@ class ShortListedJobFragment : Fragment() {
         shortListRV?.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         shortListRV?.layoutManager = layoutManager
-        jobListAdapter = JoblistAdapter(requireContext())
+        jobListAdapter = JoblistAdapter(requireContext(), this)
         shortListRV?.adapter = jobListAdapter
 
         shortListRV?.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
@@ -175,6 +182,7 @@ class ShortListedJobFragment : Fragment() {
 
     }
 
+    @Suppress("DEPRECATION")
     private fun loadFirstPageList(deadline: String, rpp: String, pageNumber: Int) {
         noDataLL?.hide()
         shortListRV.hide()
@@ -243,8 +251,10 @@ class ShortListedJobFragment : Fragment() {
 
 
                         totalRecordsFound = jobResponse.common.totalRecordsFound
-                        favListSize = totalRecordsFound
-                        Timber.d("Fav list size: $totalRecordsFound")
+                        homeCommunicator.setTotalJobCounter(totalRecordsFound)
+//                        favListSize = totalRecordsFound
+                        favListSize = homeCommunicator.getTotalJobCounter()
+                        Timber.d("Fav list size: $favListSize")
                     } else {
                         Timber.d("Unsuccessful Response")
                     }
@@ -292,23 +302,6 @@ class ShortListedJobFragment : Fragment() {
                             } else {
                                 jobListAdapter.addLoadingFooter()
                             }
-
-                            /*communicator.setIsLoading(isLoadings)
-                            communicator.setLastPasge(isLastPages)
-                            communicator.setTotalJob(resp_jobs?.common!!.totalRecordsFound!!.toInt())*/
-
-
-
-                            //totalRecordsFound = resp_jobs?.common?.totalRecordsFound!!
-                            //favListSize = totalRecordsFound
-
-                            /*if (totalRecordsFound.toInt() > 1) {
-                                val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Shortlisted jobs"
-                                jobCountTV?.text = Html.fromHtml(styledText)
-                            } else {
-                                val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Shortlisted job"
-                                jobCountTV?.text = Html.fromHtml(styledText)
-                            }*/
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -326,6 +319,7 @@ class ShortListedJobFragment : Fragment() {
         })
     }
 
+    @Suppress("DEPRECATION")
     fun scrollToUndoPosition(position: Int) {
         shortListRV?.scrollToPosition(position)
         favListSize++
@@ -338,15 +332,22 @@ class ShortListedJobFragment : Fragment() {
         }
     }
 
-    fun decrementCounter() {
-        favListSize--
-        Timber.d("Decrement: $favListSize")
-        if (favListSize > 1) {
-            val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted jobs"
-            jobCountTV?.text = Html.fromHtml(styledText)
+    @Suppress("DEPRECATION")
+    fun decrementCounter(total:Int) {
+
+        Timber.d("Decrement Counter: Total: $total")
+//        favListSize = homeCommunicator.getTotalJobCounter()
+        val size = total-1
+        Timber.d("Decrement: $size")
+        if (size > 1) {
+//            val styledText = "<b><font color='#13A10E'>$size</font></b> Shortlisted jobs"
+//            Timber.d("Styled Text: $styledText")
+            jobCountTV?.text = "$size"
+
         } else {
-            val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted job"
-            jobCountTV?.text = Html.fromHtml(styledText)
+//            val styledText = "<b><font color='#13A10E'>$size</font></b> Shortlisted job"
+//            Timber.d("Styled Text: $styledText")
+            jobCountTV?.text = "$size"
         }
     }
 
@@ -362,6 +363,13 @@ class ShortListedJobFragment : Fragment() {
             notificationCountTV?.hide()
         }
 
+    }
+
+    override fun update(count: Int) {
+        val styledText = "<b><font color='#13A10E'>$count</font></b> Shortlisted job"
+        Timber.d("Styled Text: $styledText")
+        jobCountTV?.text = Html.fromHtml(styledText)
+        Timber.d("Adapter count : $count")
     }
 
 }

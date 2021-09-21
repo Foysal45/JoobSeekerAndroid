@@ -262,7 +262,11 @@ class JoblistFragment : Fragment() {
         communicator = activity as JobCommunicator
         layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         jobListRecyclerView?.layoutManager = layoutManager
-        joblistAdapter = JoblistAdapter(activity)
+        joblistAdapter = JoblistAdapter(activity, object : JoblistAdapter.OnUpdateCounter{
+            override fun update(count: Int) {
+
+            }
+        })
         jobListRecyclerView?.adapter = joblistAdapter
 
         onClick()

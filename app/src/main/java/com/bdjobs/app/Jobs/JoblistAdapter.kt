@@ -36,7 +36,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdateCounter) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         // View Types
@@ -529,7 +529,9 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
 //                val deleteJobID = ShortListedJobDeleteJob.scheduleAdvancedJob(deletedItem?.jobid!!)
                 //undoRemove(actv.mainCL, deletedItem, position, deleteJobID)
+//                homeCommunicator?.setTotalJobCounter((homeCommunicator?.getTotalJobCounter()!!.toInt() - 1).toString())
                 homeCommunicator?.decrementCounter()
+                homeCommunicator?.getTotalJobCounter()?.minus(1)?.let { onUpdateCounter.update(it) }
             } else {
                 context.toast("No items left here!")
             }
@@ -865,5 +867,7 @@ class JoblistAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     }
 
-
+    interface OnUpdateCounter {
+        fun update(count : Int)
+    }
 }

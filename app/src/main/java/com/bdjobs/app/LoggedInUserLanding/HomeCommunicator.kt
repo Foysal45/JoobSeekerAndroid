@@ -39,6 +39,9 @@ interface HomeCommunicator {
     fun goToMessages()
     fun goToResumeManager()
 
+    fun getTotalJobCounter():Int
+    fun setTotalJobCounter(count:Int)
+
     // followed employers
 
 //    fun setFollowedEmployerList( empList:ArrayList<FollowEmployerListData>?)

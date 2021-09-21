@@ -235,7 +235,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     private val homeFragment = HomeFragment()
     private val hotJobsFragmentnew = HotJobsFragmentNew()
     private val moreFragment = MoreFragment()
-    private val shortListedJobFragment = ShortListedJobFragment()
+    public val shortListedJobFragment = ShortListedJobFragment()
     private val myJobsFragment = MyJobsFragment()
     private val mybdjobsFragment = MyBdjobsFragment()
     private lateinit var session: BdjobsUserSession
@@ -253,7 +253,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     }
 
     override fun decrementCounter() {
-        shortListedJobFragment.decrementCounter()
+        shortListedJobFragment.decrementCounter(totalJobCount)
     }
 
     override fun scrollToUndoPosition(position: Int) {
@@ -261,6 +261,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     }
 
     private var time: String = ""
+    private var totalJobCount:Int = 0
 
     override fun goToEmployerViewedMyResume(from: String) {
         startActivity<EmployersBaseActivity>(
@@ -343,6 +344,14 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         startActivity<ResumeDashboardBaseActivity>()
 //        startActivity<ResumeManagerActivity>()
 
+    }
+
+    override fun getTotalJobCounter(): Int {
+        return totalJobCount
+    }
+
+    override fun setTotalJobCounter(count: Int) {
+        this.totalJobCount = count
     }
 
 
