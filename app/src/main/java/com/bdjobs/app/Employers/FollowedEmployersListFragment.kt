@@ -60,7 +60,7 @@ class FollowedEmployersListFragment : Fragment() {
 
 
         backIMV?.setOnClickListener {
-            employersCommunicator?.backButtonPressed()
+            employersCommunicator.backButtonPressed()
         }
 
         try {

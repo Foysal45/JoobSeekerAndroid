@@ -43,20 +43,12 @@ interface HomeCommunicator {
     fun setTotalJobCounter(count:Int)
 
     // followed employers
-
-//    fun setFollowedEmployerList( empList:ArrayList<FollowEmployerListData>?)
-//    fun getFollowedEmployerList():ArrayList<FollowEmployerListData>?
-//
-//    fun setCurrentPage(value:Int?)
-//    fun setTotalPage(value:Int?)
-//    fun setIsloading(value:Boolean?)
-//    fun setIsLastPage(value:Boolean?)
-//    fun setFollowedListSize(value:Int?)
-//
-//    fun getCurrentPage():Int?
-//    fun getTotalPage():Int?
-//    fun getIsloading():Boolean?
-//    fun getIsLastPage():Boolean?
-//    fun getFollowedListSize():Int?
-
+    fun gotoJobListFragment(companyID : String?, companyName : String?)
+    fun positionClicked(position:Int?)
+    fun getPositionClicked():Int?
+    fun decrementCounterFollowedEmp(position:Int)
+    fun setFollowedEmployerList( empList:ArrayList<FollowEmployerListData>?)
+    fun getFollowedEmployerList():ArrayList<FollowEmployerListData>?
+    fun getCompanyID() : String
+    fun getCompanyName() : String
 }

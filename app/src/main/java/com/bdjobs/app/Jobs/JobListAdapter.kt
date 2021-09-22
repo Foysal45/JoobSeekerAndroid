@@ -15,7 +15,6 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.ShortlistJobModel
 import com.bdjobs.app.Ads.Ads
-//import com.bdjobs.app.BackgroundJob.ShortListedJobDeleteJob
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.ShortListedJobs
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
@@ -36,17 +35,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdateCounter) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdateCounter) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         // View Types
-        private val BASIC = 0
-        private val LOADING = 1
-        private val STANDOUT = 2
-        private val BASIC_AD = 3
-        private val STANDOUT_AD = 4
-        private val FEATURED = 5
-        private val FEATURED_AD = 6
+        private const val BASIC = 0
+        private const val LOADING = 1
+        private const val STANDOUT = 2
+        private const val BASIC_AD = 3
+        private const val STANDOUT_AD = 4
+        private const val FEATURED = 5
+        private const val FEATURED_AD = 6
         private var showAD = true
     }
 
@@ -56,12 +55,11 @@ class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdate
     private var isLoadingAdded = false
     private var retryPageLoad = false
     private var errorMsg: String? = null
-    private val bdjobsDB = BdjobsDB.getInstance(context)
-    private val bdjobsUserSession = BdjobsUserSession(context)
+    private val bdJobsDB = BdjobsDB.getInstance(context)
 
 
     init {
-        this.jobList = java.util.ArrayList()
+        this.jobList = ArrayList()
 
         if ((context as Activity) is JobBaseActivity) {
             jobCommunicator = context as JobCommunicator
@@ -129,8 +127,6 @@ class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdate
         when (getItemViewType(position)) {
             BASIC -> {
 
-                //Log.d("ouiouii", " BASIC ${result?.jobTitle}")
-
                 val jobsVH = holder as JobsListVH
 
                 jobsVH.tvPosName.text = result?.jobTitle
@@ -140,8 +136,8 @@ class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdate
                 jobsVH.tvExperience.text = result?.experience
 
                 doAsync {
-                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                     uiThread {
                         if (homeCommunicator == null) {
                             if (shortListed) {
@@ -236,8 +232,8 @@ class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdate
                 }
 
                 doAsync {
-                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                     uiThread {
 
                         if (homeCommunicator == null) {
@@ -300,8 +296,8 @@ class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdate
                 }
 
                 doAsync {
-                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                     uiThread {
 
                         if (homeCommunicator == null) {
@@ -365,8 +361,8 @@ class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdate
                 }
 
                 doAsync {
-                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                     uiThread {
 
                         if (homeCommunicator == null) {
@@ -426,8 +422,8 @@ class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdate
                 }
 
                 doAsync {
-                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                     uiThread {
 
                         if (homeCommunicator == null) {
@@ -465,8 +461,8 @@ class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdate
                 jobsVH.tvExperience.text = result?.experience
 
                 doAsync {
-                    val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdjobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                     uiThread {
                         if (homeCommunicator == null) {
                             if (shortListed) {
@@ -565,7 +561,7 @@ class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdate
             jobCommunicator?.setBackFrom("jobdetail")
         } else {
             doAsync {
-                val shortListed = bdjobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid)
+                val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid)
                 uiThread {
                     if (shortListed || homeCommunicator != null) {
                         context?.alert("Are you sure you want to remove this job from shortlisted jobs?", "Confirmation") {
@@ -582,7 +578,7 @@ class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdate
                                     WorkManager.getInstance(context).enqueue(shortlistedJobDeleteRequest)
 //                                    ShortListedJobDeleteJob.runJobImmediately(jobList?.get(position)?.jobid!!)
                                     doAsync {
-                                        bdjobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
+                                        bdJobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
                                     }
                                     uiThread { notifyDataSetChanged() }
                                 }
@@ -647,7 +643,7 @@ class JoblistAdapter(private val context: Context, var onUpdateCounter: OnUpdate
                                             lantype = jobList?.get(position)?.lantype!!
                                     )
 
-                                    bdjobsDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
+                                    bdJobsDB.shortListedJobDao().insertShortListedJob(shortlistedJob)
                                     uiThread { notifyDataSetChanged() }
                                 }
                             }

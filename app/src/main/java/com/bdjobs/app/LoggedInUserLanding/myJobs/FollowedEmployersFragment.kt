@@ -1,10 +1,17 @@
 package com.bdjobs.app.LoggedInUserLanding.myJobs
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
+import android.text.Spannable
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,16 +37,16 @@ import timber.log.Timber
 
 class FollowedEmployersFragment : Fragment() {
 
-    private lateinit var bdjobsDB: BdjobsDB
+    private lateinit var bdJobsDB: BdjobsDB
     private var followedEmployersAdapter: FollowedEmployersAdapter? = null
     private lateinit var isActivityDate: String
     var followedListSize = 0
     private var followedEmployerList: List<FollowEmployerListData>? = null
     private var currentPage = 1
-    private var TOTAL_PAGES: Int? = 1
+    private var totalPage: Int? = 1
     private var isLoadings = false
     private var isLastPages = false
-    private lateinit var bdjobsUserSession: BdjobsUserSession
+    private lateinit var bdJobsUserSession: BdjobsUserSession
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,9 +57,9 @@ class FollowedEmployersFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bdjobsDB = BdjobsDB.getInstance(requireContext())
-        bdjobsUserSession = BdjobsUserSession(requireContext())
-
+        bdJobsDB = BdjobsDB.getInstance(requireContext())
+        bdJobsUserSession = BdjobsUserSession(requireContext())
+        isActivityDate = ""
 
         try {
             followedEmployersAdapter = FollowedEmployersAdapter(requireContext())
@@ -60,15 +67,15 @@ class FollowedEmployersFragment : Fragment() {
             followedRV?.setHasFixedSize(true)
             val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             followedRV?.layoutManager = layoutManager
-            //Log.d("initPag", "called")
             followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
 
             loadData(1)
 
-            followedRV?.addOnScrollListener(object : PaginationScrollListener((followedRV.layoutManager as LinearLayoutManager?)!!) {
+            followedRV?.addOnScrollListener(object :
+                PaginationScrollListener((followedRV.layoutManager as LinearLayoutManager?)!!) {
 
                 override val totalPageCount: Int
-                    get() = TOTAL_PAGES!!
+                    get() = totalPage!!
                 override val isLastPage: Boolean
                     get() = isLastPages
                 override val isLoading: Boolean
@@ -76,10 +83,8 @@ class FollowedEmployersFragment : Fragment() {
 
 
                 override fun loadMoreItems() {
-                    //Log.d("rakib", "called")
                     isLoadings = true
                     currentPage += 1
-                    //loadData(currentPage);
 
                     loadNextPage()
                 }
@@ -98,16 +103,13 @@ class FollowedEmployersFragment : Fragment() {
     }
 
     private fun loadNextPage() {
-
-        //Log.d("rakib", "load more $currentPage")
-
-        if (currentPage <= TOTAL_PAGES?:0){
+        if (currentPage <= totalPage ?: 0) {
             try {
                 ApiServiceJobs.create().getFollowEmployerListLazy(
                     pg = currentPage.toString(),
                     isActivityDate = isActivityDate,
-                    userID = bdjobsUserSession.userId,
-                    decodeId = bdjobsUserSession.decodId,
+                    userID = bdJobsUserSession.userId,
+                    decodeId = bdJobsUserSession.decodId,
                     encoded = Constants.ENCODED_JOBS
 
 
@@ -116,14 +118,17 @@ class FollowedEmployersFragment : Fragment() {
                         //Log.d("getFEmployerListLazy", t.message)
                     }
 
-                    override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
+                    override fun onResponse(
+                        call: Call<FollowEmployerListModelClass>,
+                        response: Response<FollowEmployerListModelClass>
+                    ) {
 
                         try {
-                            TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
+                            totalPage = response.body()?.common?.totalpages?.toInt()
                             followedEmployersAdapter?.removeLoadingFooter()
                             isLoadings = false
                             followedEmployersAdapter?.addAll(response.body()?.data as List<FollowEmployerListData>)
-                            if (currentPage != TOTAL_PAGES)
+                            if (currentPage != totalPage)
                                 followedEmployersAdapter?.addLoadingFooter()
                             else
                                 isLastPages = true
@@ -135,7 +140,7 @@ class FollowedEmployersFragment : Fragment() {
 
                 })
 
-            } catch (e : java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 logException(e)
             }
         }
@@ -144,20 +149,28 @@ class FollowedEmployersFragment : Fragment() {
 
     private fun loadData(currentPage: Int) {
 
+        shimmer_view_container_JobList.show()
+        shimmer_view_container_JobList.startShimmer()
+        cl_total_count.hide()
+
         ApiServiceJobs.create().getFollowEmployerListLazy(
             pg = currentPage.toString(),
             isActivityDate = isActivityDate,
-            userID = bdjobsUserSession.userId,
-            decodeId = bdjobsUserSession.decodId,
+            userID = bdJobsUserSession.userId,
+            decodeId = bdJobsUserSession.decodId,
             encoded = Constants.ENCODED_JOBS
 
 
         ).enqueue(object : Callback<FollowEmployerListModelClass> {
             override fun onFailure(call: Call<FollowEmployerListModelClass>, t: Throwable) {
+                Timber.e("onFailure: ${t.localizedMessage}")
                 //Log.d("getFEmployerListLazy", t.message)
             }
 
-            override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
+            override fun onResponse(
+                call: Call<FollowEmployerListModelClass>,
+                response: Response<FollowEmployerListModelClass>
+            ) {
 
                 try {
 
@@ -170,36 +183,48 @@ class FollowedEmployersFragment : Fragment() {
                     shimmer_view_container_JobList?.hide()
                     shimmer_view_container_JobList?.stopShimmer()
 
-                    TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
-                    if (currentPage <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
+                    cl_total_count.show()
+
+                    totalPage = response.body()?.common?.totalpages?.toInt()
+                    if (currentPage <= totalPage!! && totalPage!! > 1) {
                         followedEmployersAdapter?.addLoadingFooter()
                     } else {
                         isLastPages = true
                     }
                 } catch (e: Exception) {
+                    Timber.e("Exception: ${e.localizedMessage}")
+                    followEmployerNoDataLL?.show()
+                    followedRV?.hide()
                     logException(e)
                 }
 
                 try {
                     if (followedEmployerList?.size!! > 0) {
+                        Timber.d("Size is greater then 0")
                         followEmployerNoDataLL?.hide()
                         followedRV?.show()
                         //Log.d("totalJobs", "data ase")
                     } else {
+                        Timber.d("Size is lower then 0")
                         followEmployerNoDataLL?.show()
                         followedRV?.hide()
                         //Log.d("totalJobs", "zero")
                     }
                 } catch (e: Exception) {
+                    Timber.e("Exception: 2: ${e.localizedMessage}")
+                    followEmployerNoDataLL?.show()
+                    followedRV?.hide()
                     logException(e)
                 }
 
                 try {
                     if (followedListSize > 1) {
-                        val styledText = "<b><font color='#13A10E'>${followedListSize}</font></b> Followed Employers"
+                        val styledText =
+                            "<b><font color='#13A10E'>${followedListSize}</font></b> Followed Employers"
                         favCountTV?.text = Html.fromHtml(styledText)
                     } else {
-                        val styledText = "<b><font color='#13A10E'>${followedListSize}</font></b> Followed Employer"
+                        val styledText =
+                            "<b><font color='#13A10E'>${followedListSize}</font></b> Followed Employer"
                         favCountTV?.text = Html.fromHtml(styledText)
                     }
                 } catch (e: Exception) {

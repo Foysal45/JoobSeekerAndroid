@@ -41,14 +41,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
-import java.net.SocketTimeoutException
 import java.util.*
 
 class JoblistFragment : Fragment() {
 
     private lateinit var session: BdjobsUserSession
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var joblistAdapter: JoblistAdapter? = null
+    private var jobListAdapter: JobListAdapter? = null
     private var jobListGet: MutableList<JobListModelData>? = null
     private var currentPage = 1
     private var TOTAL_PAGES: Int? = null
@@ -129,7 +128,7 @@ class JoblistFragment : Fragment() {
             communicator.goToSuggestiveSearch(Constants.key_jobtitleET, suggestiveSearchET.text.toString())
         }
 
-        joblistAdapter!!.clear()
+        jobListAdapter!!.clear()
 
         if (session.isLoggedIn!!) {
             val lastSearch = LastSearch(searchTime = Date(),
@@ -262,12 +261,12 @@ class JoblistFragment : Fragment() {
         communicator = activity as JobCommunicator
         layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         jobListRecyclerView?.layoutManager = layoutManager
-        joblistAdapter = JoblistAdapter(activity, object : JoblistAdapter.OnUpdateCounter{
+        jobListAdapter = JobListAdapter(activity, object : JobListAdapter.OnUpdateCounter{
             override fun update(count: Int) {
 
             }
         })
-        jobListRecyclerView?.adapter = joblistAdapter
+        jobListRecyclerView?.adapter = jobListAdapter
 
         onClick()
         if (communicator.getBackFrom().equalIgnoreCase("")) {
@@ -424,8 +423,8 @@ class JoblistFragment : Fragment() {
     private fun loadFirstPageFromJobDetailBackButton() {
         //Log.d(TAG, "came here from loadFirstPageFromJobDetailBackButton")
         try {
-            joblistAdapter?.clear()
-            joblistAdapter?.addAll(jobListGet as List<JobListModelData>)
+            jobListAdapter?.clear()
+            jobListAdapter?.addAll(jobListGet as List<JobListModelData>)
             if (currentPage == TOTAL_PAGES!!) {
                 isLastPages = true
             }
@@ -514,13 +513,13 @@ class JoblistFragment : Fragment() {
                             val results = jobListModel?.data
 
                             if (!results.isNullOrEmpty()) {
-                                joblistAdapter?.addAll(results)
+                                jobListAdapter?.addAll(results)
                             }
 
                             if (currentPage >= TOTAL_PAGES!!) {
                                 isLastPages = true
                             } else {
-                                joblistAdapter?.addLoadingFooter()
+                                jobListAdapter?.addLoadingFooter()
                             }
 
                             val totalJobs = jobListModel!!.common!!.totalRecordsFound
@@ -644,19 +643,19 @@ class JoblistFragment : Fragment() {
 
                             val resp_jobs = response.body()
                             TOTAL_PAGES = jobListModel?.common?.totalpages
-                            joblistAdapter?.removeLoadingFooter()
+                            jobListAdapter?.removeLoadingFooter()
                             isLoadings = false
 
                             val results = jobListModel?.data
 
                             //Log.d(TAG, "total jobs ${results?.size}")
 
-                            joblistAdapter?.addAll(results as List<JobListModelData>)
+                            jobListAdapter?.addAll(results as List<JobListModelData>)
 
                             if (currentPage >= TOTAL_PAGES!!) {
                                 isLastPages = true
                             } else {
-                                joblistAdapter?.addLoadingFooter()
+                                jobListAdapter?.addLoadingFooter()
                             }
 
                             communicator.setIsLoading(isLoadings)

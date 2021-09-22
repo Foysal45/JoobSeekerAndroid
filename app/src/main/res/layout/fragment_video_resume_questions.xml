@@ -415,7 +415,8 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="#333333"
+            cardBackground="@{viewModel.isVideoResumeVisible()}"
+            tools:backgroundTint="#333"
             app:cardCornerRadius="7dp"
             app:cardElevation="5dp"
             android:layout_margin="8dp"

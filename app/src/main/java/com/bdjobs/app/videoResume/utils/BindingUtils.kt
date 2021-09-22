@@ -3,6 +3,7 @@ package com.bdjobs.app.videoResume.utils
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bdjobs.app.R
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import org.jetbrains.anko.textColor
 
@@ -18,8 +19,8 @@ fun MaterialTextView.setBackgroundAppearanceYes(isSelected: Boolean) {
     if (isSelected) {
         this.run {
             background = ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp)
-            background.setTint(resources.getColor(R.color.green))
-            textColor = resources.getColor(R.color.white)
+            background.setTint(ContextCompat.getColor(context,R.color.green))
+            textColor = ContextCompat.getColor(context,R.color.white)
             setCompoundDrawablesWithIntrinsicBounds(
                 R.drawable.ic_check_sign_visible,
                 0,
@@ -30,8 +31,8 @@ fun MaterialTextView.setBackgroundAppearanceYes(isSelected: Boolean) {
     } else {
         this.run {
             background = ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp)
-            background.setTint(resources.getColor(android.R.color.transparent))
-            textColor = resources.getColor(R.color.btn_ash)
+            background.setTint(ContextCompat.getColor(context,android.R.color.transparent))
+            textColor = ContextCompat.getColor(context,R.color.btn_ash)
             setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         }
     }
@@ -43,28 +44,20 @@ fun MaterialTextView.setBackgroundAppearanceNo(isSelected: Boolean) {
     if (isSelected) {
         this.run {
             background = ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp_end)
-            background.setTint(resources.getColor(R.color.btn_red))
-            textColor = resources.getColor(R.color.white)
+            background.setTint(ContextCompat.getColor(context,R.color.btn_red))
+            textColor = ContextCompat.getColor(context,R.color.white)
             setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cross_visible, 0, 0, 0)
         }
     } else {
         this.run {
             background = ContextCompat.getDrawable(context, R.drawable.bg_btn_5_dp_end)
-            background.setTint(resources.getColor(android.R.color.transparent))
-            textColor = resources.getColor(R.color.btn_ash)
+            background.setTint(ContextCompat.getColor(context,android.R.color.transparent))
+            textColor = ContextCompat.getColor(context,R.color.btn_ash)
             setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         }
     }
 }
 
-@BindingAdapter("isUnderlineText")
-fun MaterialTextView.isUnderlineText(value:Boolean) {
-    if (value) {
-        this.run {
-            paint.isUnderlineText = value
-        }
-    }
-}
 
 @BindingAdapter("videoResumeTextDrawable")
 fun MaterialTextView.setVideoResumeTextDrawable(value: Boolean?) {
@@ -76,20 +69,39 @@ fun MaterialTextView.setVideoResumeTextDrawable(value: Boolean?) {
             }
 
             when (value) {
-                true -> this.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_check_sign_visible,
-                    0,
-                    0,
-                    0
-                )
-                false -> this.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_cross_visible,
-                    0,
-                    0,
-                    0
-                )
+                true -> {
+                    this.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_check_sign_visible,
+                        0,
+                        0,
+                        0
+                    )
+                }
+                false -> {
+                    this.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_cross_visible,
+                        0,
+                        0,
+                        0
+                    )
+                }
             }
 
         }
+    }
+}
+
+@BindingAdapter("cardBackground")
+fun MaterialCardView.setBackgroundColor(value: Boolean?) {
+    if (value!=null) {
+        when(value) {
+            true -> {
+                this.background.setTint(ContextCompat.getColor(context,R.color.green))
+            }
+            false -> {
+                this.background.setTint(ContextCompat.getColor(context,R.color.btn_red))
+            }
+        }
+
     }
 }

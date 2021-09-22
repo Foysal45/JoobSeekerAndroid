@@ -2,20 +2,18 @@
 
 package com.bdjobs.app.LoggedInUserLanding
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
-import com.bdjobs.app.Jobs.JoblistAdapter
+import com.bdjobs.app.Jobs.JobListAdapter
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -28,10 +26,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class ShortListedJobFragment : Fragment(), JoblistAdapter.OnUpdateCounter {
+class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
     lateinit var bdJobsDB: BdjobsDB
     lateinit var bdJobsUserSession: BdjobsUserSession
-    lateinit var jobListAdapter: JoblistAdapter
+    lateinit var jobListAdapter: JobListAdapter
     lateinit var homeCommunicator: HomeCommunicator
     private var currentPage = 1
     private var totalPages: Int? = null
@@ -130,7 +128,7 @@ class ShortListedJobFragment : Fragment(), JoblistAdapter.OnUpdateCounter {
         shortListRV?.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         shortListRV?.layoutManager = layoutManager
-        jobListAdapter = JoblistAdapter(requireContext(), this)
+        jobListAdapter = JobListAdapter(requireContext(), this)
         shortListRV?.adapter = jobListAdapter
 
         shortListRV?.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {

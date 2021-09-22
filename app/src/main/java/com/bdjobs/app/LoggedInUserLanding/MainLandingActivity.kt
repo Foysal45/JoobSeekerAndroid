@@ -15,8 +15,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
@@ -25,6 +25,7 @@ import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.BroadCastReceivers.NightNotificationReceiver
 import com.bdjobs.app.BroadCastReceivers.MorningNotificationReceiver
+import com.bdjobs.app.Employers.EmployerJobListFragment
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.InviteCodeInfo
 import com.bdjobs.app.databases.internal.Notification
@@ -32,6 +33,7 @@ import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
+import com.bdjobs.app.LoggedInUserLanding.myJobs.FollowedEmployersFragment
 import com.bdjobs.app.LoggedInUserLanding.myJobs.MyJobsFragment
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.Notification.Models.CommonNotificationModel
@@ -54,7 +56,6 @@ import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.resume_dashboard.ResumeDashboardBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
-import com.bdjobs.app.videoResume.ResumeManagerActivity
 import com.bdjobs.app.videoResume.VideoResumeActivity
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
@@ -248,6 +249,14 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     private lateinit var mNotificationHelper: NotificationHelper
 
 
+    private var companyId = ""
+    private var companyname = ""
+    private var positionClicked: Int? = 0
+    private val employerJobListFragment = EmployerJobListFragment()
+    private val followedEmployersFragment = FollowedEmployersFragment()
+    private var followedEmployerList: ArrayList<FollowEmployerListData>? = ArrayList()
+
+
     override fun isGetCvUploaded(): String {
         return cvUpload
     }
@@ -352,6 +361,41 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
     override fun setTotalJobCounter(count: Int) {
         this.totalJobCount = count
+    }
+
+    override fun gotoJobListFragment(companyID: String?, companyName: String?) {
+        companyId = companyID!!
+        companyname = companyName!!
+
+        transitFragment(employerJobListFragment, R.id.fragmentHolder, true)
+    }
+
+    override fun positionClicked(position: Int?) {
+        this.positionClicked = position
+    }
+
+    override fun getPositionClicked(): Int? {
+        return this.positionClicked
+    }
+
+    override fun decrementCounterFollowedEmp(position: Int) {
+//        followedEmployersFragment.decrementCounter(position)
+    }
+
+    override fun setFollowedEmployerList(empList: java.util.ArrayList<FollowEmployerListData>?) {
+        this.followedEmployerList=empList
+    }
+
+    override fun getFollowedEmployerList(): java.util.ArrayList<FollowEmployerListData>? {
+        return  followedEmployerList
+    }
+
+    override fun getCompanyID(): String {
+        return companyId
+    }
+
+    override fun getCompanyName(): String {
+        return companyname
     }
 
 
