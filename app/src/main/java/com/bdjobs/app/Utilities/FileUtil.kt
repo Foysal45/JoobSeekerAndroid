@@ -10,9 +10,14 @@ import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import com.bdjobs.app.ManageResume.FileInformation
 import java.io.File
+import java.io.FileOutputStream
 
 
 class FileUtil {
+
+    companion object {
+        val instance = FileUtil()
+    }
 
     @Throws(Exception::class)
     fun getFileFromUri(context: Context, uri: Uri): File {
@@ -97,4 +102,19 @@ class FileUtil {
         fileInfo.type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileInfo.extension!!.toLowerCase())
         return fileInfo
     }
+
+    fun writeBytesAsPdf(context: Context, bytes : ByteArray) : File {
+        val path = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + "/Bdjobs/")
+        val file = File.createTempFile("temp",".pdf", path)
+        val os = FileOutputStream(file)
+        os.write(bytes)
+        os.flush()
+        os.close()
+        return file
+    }
+
+    fun deleteFile(file: File) : Boolean {
+        return file.exists() && file.delete()
+    }
+
 }

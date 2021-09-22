@@ -12,8 +12,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
-import android.os.Environment
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -33,8 +31,10 @@ import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
 import droidninja.filepicker.models.sort.SortingTypes
 import kotlinx.android.synthetic.main.fragment_upload_resume.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -52,6 +52,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
+private const val ACTION_OPEN_DOCUMENT_REQUEST = 0x1046
 
 class UploadResumeFragment : Fragment() {
 
@@ -63,6 +64,8 @@ class UploadResumeFragment : Fragment() {
     private lateinit var bdjobsUserSession: BdjobsUserSession
     val filePaths: ArrayList<String> = ArrayList()
 
+    private lateinit var progressDialog : ProgressDialog
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -73,6 +76,7 @@ class UploadResumeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        progressDialog = ProgressDialog(activity)
         communicator = activity as ManageResumeCommunicator
         bdjobsUserSession = BdjobsUserSession(activity)
 
@@ -90,7 +94,11 @@ class UploadResumeFragment : Fragment() {
             if (!checkPermission()){
                 requestPermission()
             } else {
-                browseFile()
+                if (SDK_INT >= Build.VERSION_CODES.R) {
+                    openStorageAccess()
+                } else {
+                    browseFile()
+                }
             }
         }
         backIV.setOnClickListener {
@@ -103,7 +111,6 @@ class UploadResumeFragment : Fragment() {
     private fun fetchPersonalizedResumeStat() {
         activity.showProgressBar(loadingProgressBar)
         cl_personalized_resume_stat.hide()
-
         GlobalScope.launch {
             try {
                 val response = ApiServiceMyBdjobs.create().personalizedResumeStat(
@@ -210,17 +217,20 @@ class UploadResumeFragment : Fragment() {
     }
 
     private fun checkPermission(): Boolean {
-        return if (SDK_INT >= Build.VERSION_CODES.R) {
+        /*return if (SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
         } else {
             val checkReadStorage = ContextCompat.checkSelfPermission(activity, READ_EXTERNAL_STORAGE)
             val checkWriteStorage = ContextCompat.checkSelfPermission(activity, WRITE_EXTERNAL_STORAGE)
             checkReadStorage == PackageManager.PERMISSION_GRANTED && checkWriteStorage == PackageManager.PERMISSION_GRANTED
-        }
+        }*/
+        val checkReadStorage = ContextCompat.checkSelfPermission(activity, READ_EXTERNAL_STORAGE)
+        val checkWriteStorage = ContextCompat.checkSelfPermission(activity, WRITE_EXTERNAL_STORAGE)
+        return checkReadStorage == PackageManager.PERMISSION_GRANTED && checkWriteStorage == PackageManager.PERMISSION_GRANTED
     }
 
     private fun requestPermission() {
-        if (SDK_INT >= Build.VERSION_CODES.R) {
+        /*if (SDK_INT >= Build.VERSION_CODES.R) {
             try {
                 val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
                 intent.addCategory("android.intent.category.DEFAULT")
@@ -234,7 +244,8 @@ class UploadResumeFragment : Fragment() {
         } else {
             //below android 11
             ActivityCompat.requestPermissions(activity, arrayOf(WRITE_EXTERNAL_STORAGE), PERMISSION_REQUEST_CODE)
-        }
+        }*/
+        ActivityCompat.requestPermissions(activity, arrayOf(WRITE_EXTERNAL_STORAGE), PERMISSION_REQUEST_CODE)
     }
 
     private fun browseFile() {
@@ -252,29 +263,27 @@ class UploadResumeFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ALL_FILES_ACCESS_REQUEST) {
-            if (SDK_INT >= Build.VERSION_CODES.R) {
-                if (Environment.isExternalStorageManager()) {
-                    browseFile()
-                } else {
-                    Toast.makeText(activity, "Allow permission for storage access!", Toast.LENGTH_SHORT).show();
+        if (SDK_INT >= Build.VERSION_CODES.R && requestCode == ACTION_OPEN_DOCUMENT_REQUEST && resultCode == Activity.RESULT_OK) {
+            val fileUri = data?.data
+            fileUri?.let { uri ->
+                GlobalScope.launch {
+                    withContext(Dispatchers.IO){
+                        try {
+                            val inputStream = context.contentResolver.openInputStream(uri)
+                            val bytes = inputStream?.readBytes()
+                            val file = FileUtil.instance.writeBytesAsPdf(context, bytes!!)
+                            checkFileSize(Uri.fromFile(file))
+                        } catch (ex: java.lang.Exception){
+                            ex.printStackTrace()
+                        }
+                    }
                 }
             }
-        }
-
-        if (requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null) {
-            if (requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK) {
-                if (SDK_INT >= Build.VERSION_CODES.N){
-                    val uri = data.getParcelableArrayListExtra<Uri>(FilePickerConst.KEY_SELECTED_DOCS)?.get(0)
-                    if (uri != null) {
-                        checkFileSize(uri)
-                    }
-                } else {
-                    val path = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS)?.get(0)
-                    if (path != null && path.isNotEmpty()) {
-                        val uri = Uri.fromFile(File(path))
-                        checkFileSize(uri)
-                    }
+        } else if(SDK_INT < Build.VERSION_CODES.R && requestCode == FilePickerConst.REQUEST_CODE_DOC && resultCode == Activity.RESULT_OK && data != null) {
+            val uri = data.getParcelableArrayListExtra<Uri>(FilePickerConst.KEY_SELECTED_DOCS)?.get(0)
+            if (uri != null) {
+                GlobalScope.launch {
+                    checkFileSize(uri)
                 }
             }
         }
@@ -291,7 +300,11 @@ class UploadResumeFragment : Fragment() {
                 val writeStoragePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED
                 if (readStoragePermission && writeStoragePermission) {
                     // perform action when allow permission success
-                    browseFile()
+                    if (SDK_INT >= Build.VERSION_CODES.R) {
+                        openStorageAccess()
+                    } else {
+                        browseFile()
+                    }
                 } else {
                     Toast.makeText(activity, "Allow permission for storage access!", Toast.LENGTH_SHORT).show()
                 }
@@ -299,19 +312,15 @@ class UploadResumeFragment : Fragment() {
         }
     }
 
-    private fun checkFileSize(uri: Uri) {
+    private suspend fun checkFileSize(uri: Uri) {
         val fileInformation = FileInformation()
-        val fileInfo = FileUtil().getFileInformation(getApplicationContext(), uri)
+        val fileInfo = FileUtil.instance.getFileInformation(getApplicationContext(), uri)
         val size = fileInfo.fileSize
         val fileSizeInKB = size / 1024
 
-        if (fileInfo.extension!!.equalIgnoreCase("pdf") || fileInfo.extension!!.equalIgnoreCase("doc") || fileInfo.extension!!.equalIgnoreCase(
-                "docx"
-            )
+        if (fileInfo.extension!!.equalIgnoreCase("pdf") || fileInfo.extension!!.equalIgnoreCase("doc") || fileInfo.extension!!.equalIgnoreCase("docx")
         ) {
-
             //Log.d("UploadResume", "UploadResume size: ${fileSizeInKB} type: ${fileinfo.extension}")
-
             when {
                 fileSizeInKB == 0L -> {
                     toast("It is an invalid file")
@@ -322,14 +331,10 @@ class UploadResumeFragment : Fragment() {
                 else -> {
                     val mediaType = "application/" + fileInfo.extension
                     val filePath = uri.path
-
                     //Log.d("UploadResume", "filePath= $filePath")
-
                     //val requestFile = File(filePath).asRequestBody(mediaType.toMediaType())
-                    val requestFile = FileUtil().getFileFromUri(activity, uri).asRequestBody(mediaType.toMediaType())
-
+                    val requestFile = FileUtil.instance.getFileFromUri(activity, uri).asRequestBody(mediaType.toMediaType())
         //               RequestBody.create(MediaType?.parse(mediaType), File(filePath))
-
                     val multipartBodyPart = MultipartBody.Part.createFormData("File", fileInfo.fileName, requestFile)
 
                     val userid = createPartFromString(bdjobsUserSession.userId!!)
@@ -347,7 +352,7 @@ class UploadResumeFragment : Fragment() {
                     map["fileType"] = fileType
                     map["fileName"] = fileName
                     //Log.d("UploadResume", "userid = $userid\ndecodeid= $decodeid\nstatus= $status\nfileExtension= $fileExtension\nfileType= $fileType\nfileName= $fileName")
-                    uploadCVtoServer(multipartBodyPart, map)
+                    uploadCVtoServer(multipartBodyPart, map, uri)
                 }
             }
         } else {
@@ -355,15 +360,18 @@ class UploadResumeFragment : Fragment() {
         }
     }
 
-    private fun uploadCVtoServer(
+    private suspend fun uploadCVtoServer(
         multipartBodyPart: MultipartBody.Part,
-        map: HashMap<String, RequestBody>
+        map: HashMap<String, RequestBody>,
+        uri: Uri
     ) {
-        val progressDialog = ProgressDialog(activity)
-        progressDialog.setMessage("Please Wait..")
-        progressDialog.setTitle("Saving")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
+
+        withContext(Dispatchers.Main){
+            progressDialog.setMessage("Please Wait..")
+            progressDialog.setTitle("Saving")
+            progressDialog.setCancelable(false)
+            progressDialog.show()
+        }
 
         ApiServiceMyBdjobs.create().uploadCV(partMap = map, file = multipartBodyPart).enqueue(object : Callback<UploadResume> {
             override fun onFailure(call: Call<UploadResume>, t: Throwable) {
@@ -383,6 +391,13 @@ class UploadResumeFragment : Fragment() {
                     //Log.d("UploadResume", "response: ${response.body()}")
                     bdjobsUserSession.updateUserCVUploadStatus("0")
                     communicator.gotoDownloadResumeFragment()
+                    val body = response.body()
+                    if (SDK_INT >= Build.VERSION_CODES.R && response.isSuccessful && body?.statuscode == "0"){
+                        uri.path?.let {
+                            FileUtil.instance.deleteFile(File(it))
+                            Log.e("UploadResume", "Temp file deleted")
+                        }
+                    }
                 } catch (e: Exception) {
                     logException(e)
                 }
@@ -403,5 +418,16 @@ class UploadResumeFragment : Fragment() {
         lastUpdate1 = formatter.format(date!!)
         Timber.d("Last updated at: $lastUpdate1")
         return lastUpdate1
+    }
+
+    private fun openStorageAccess() {
+        val mimeTypes = arrayOf("application/doc", "application/ms-doc", "application/msword", "application/pdf")
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "*/*"
+            addCategory(Intent.CATEGORY_OPENABLE)
+            putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+        }
+        startActivityForResult(intent, ACTION_OPEN_DOCUMENT_REQUEST)
     }
 }
