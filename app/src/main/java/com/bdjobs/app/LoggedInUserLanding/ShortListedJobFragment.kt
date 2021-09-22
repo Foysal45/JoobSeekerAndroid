@@ -41,8 +41,6 @@ class ShortListedJobFragment : Fragment(), JoblistAdapter.OnUpdateCounter {
     private var layoutManager: RecyclerView.LayoutManager? = null
     var favListSize = 0
 
-    lateinit var rootView : View
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_shortlisted_job_layout, container, false)!!
     }
@@ -85,28 +83,10 @@ class ShortListedJobFragment : Fragment(), JoblistAdapter.OnUpdateCounter {
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        rootView = view
-    }
-
     override fun onResume() {
         super.onResume()
         val shortListFilter = homeCommunicator.getShortListFilter()
         showShortListFilterList(shortListFilter)
-    }
-
-    @SuppressLint("SetTextI18n")
-    fun updateMessageView(count: Int?) {
-        if (count!! > 0) {
-            messageCountTV?.show()
-            if (count <= 99)
-                messageCountTV?.text = "$count"
-            else
-                messageCountTV?.text = "99+"
-        } else {
-            messageCountTV?.hide()
-        }
     }
 
     private fun showShortListFilterList(shortListFilter: String) {
@@ -335,41 +315,31 @@ class ShortListedJobFragment : Fragment(), JoblistAdapter.OnUpdateCounter {
     @Suppress("DEPRECATION")
     fun decrementCounter(total:Int) {
 
-        Timber.d("Decrement Counter: Total: $total")
-//        favListSize = homeCommunicator.getTotalJobCounter()
         val size = total-1
-        Timber.d("Decrement: $size")
         if (size > 1) {
-//            val styledText = "<b><font color='#13A10E'>$size</font></b> Shortlisted jobs"
-//            Timber.d("Styled Text: $styledText")
-            jobCountTV?.text = "$size"
+            val styledText = "<b><font color='#13A10E'>$size</font></b> Shortlisted jobs"
+            Timber.d("Styled Text: $styledText")
 
         } else {
-//            val styledText = "<b><font color='#13A10E'>$size</font></b> Shortlisted job"
-//            Timber.d("Styled Text: $styledText")
-            jobCountTV?.text = "$size"
+            val styledText = "<b><font color='#13A10E'>$size</font></b> Shortlisted job"
+            Timber.d("Styled Text: $styledText")
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    fun updateNotificationView(count: Int?) {
-        if (count!! > 0) {
-            notificationCountTV?.show()
-            if (count <= 99)
-                notificationCountTV?.text = "$count"
-            else
-                notificationCountTV?.text = "99+"
-        } else {
-            notificationCountTV?.hide()
-        }
-
-    }
 
     override fun update(count: Int) {
-        val styledText = "<b><font color='#13A10E'>$count</font></b> Shortlisted job"
-        Timber.d("Styled Text: $styledText")
-        jobCountTV?.text = Html.fromHtml(styledText)
-        Timber.d("Adapter count : $count")
+        Timber.d("Job Count: $count")
+        homeCommunicator.setTotalJobCounter(count)
+        if (count>0) {
+            val styledText = "<b><font color='#13A10E'>$count</font></b> Shortlisted job"
+            jobCountTV?.text = Html.fromHtml(styledText)
+        } else {
+            val styledText = "<b><font color='#13A10E'>$count</font></b> Shortlisted job"
+            jobCountTV?.text = Html.fromHtml(styledText)
+            noDataLL?.show()
+            shortListRV?.hide()
+        }
+
     }
 
 }
