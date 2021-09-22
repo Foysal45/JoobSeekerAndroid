@@ -111,8 +111,9 @@ interface VideoResumeApiService {
                     .addInterceptor(loginInterceptor)
                     .addInterceptor(NetworkConnectionInterceptor(context))
                     .addInterceptor(OkHttpProfilerInterceptor())
-                    .readTimeout(600, TimeUnit.SECONDS)
-                    .connectTimeout(600, TimeUnit.SECONDS)
+                    .readTimeout(1200, TimeUnit.SECONDS)
+                    .connectTimeout(1200, TimeUnit.SECONDS)
+                    .retryOnConnectionFailure(true)
                     .build()
 
             return Retrofit.Builder().apply {

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -99,6 +100,8 @@ class RecordVideoResumeFragment : Fragment() {
             startCamera()
         }
 
+
+
         initializeUI()
         setUpObservers()
     }
@@ -112,13 +115,13 @@ class RecordVideoResumeFragment : Fragment() {
 
         cameraProviderFuture.addListener({
             imagePreview = Preview.Builder().apply {
-                setTargetAspectRatio(AspectRatio.RATIO_16_9)
+                setTargetAspectRatio(AspectRatio.RATIO_4_3)
             }.build()
 
 
 
             videoCapture = VideoCapture.Builder().apply {
-                setTargetAspectRatio(AspectRatio.RATIO_16_9)
+                setTargetAspectRatio(AspectRatio.RATIO_4_3)
             }.build()
 
             val cameraProvider = cameraProviderFuture.get()
@@ -205,12 +208,10 @@ class RecordVideoResumeFragment : Fragment() {
     private fun captureVideo() {
         Timber.d("Video capture start")
         try {
-            val dir =
-                File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_resume")
+            val dir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_resume")
             dir.mkdirs()
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-            val newFile =
-                File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
+            val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
 
 
             if (sdk < 23){
@@ -246,6 +247,8 @@ class RecordVideoResumeFragment : Fragment() {
                         recordVideoResumeViewModel.videoResumeManagerData.value?.file = newFile
                         recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
                     showSnackbar()
+                    val file_size: Int = java.lang.String.valueOf(newFile.length() / 1024).toInt()
+                    Log.e("video_size", ""+file_size)
                 }
 
 
@@ -317,6 +320,9 @@ class RecordVideoResumeFragment : Fragment() {
                     recordVideoResumeViewModel.videoResumeManagerData.value?.file = result.file
                     recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
                     showSnackbar()
+
+                    val file_size: Int = java.lang.String.valueOf(videoFile.length() / 1024).toInt()
+                    Log.e("video_size", ""+file_size)
                 }
             }
 
