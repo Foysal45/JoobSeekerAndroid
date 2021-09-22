@@ -423,7 +423,7 @@ class UploadResumeFragment : Fragment() {
     private fun openStorageAccess() {
         val mimeTypes = arrayOf("application/doc", "application/ms-doc", "application/msword", "application/pdf")
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "*/*"
+            type = "application/pdf|application/doc|application/ms-doc|application/msword"
             addCategory(Intent.CATEGORY_OPENABLE)
             putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
             putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
