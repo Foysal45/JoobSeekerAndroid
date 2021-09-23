@@ -248,6 +248,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     var cvUpload: String = "" // if this value = 0 or 4 then cv file is uploaded else not uploaded
     private lateinit var mNotificationHelper: NotificationHelper
 
+    private var time: String = ""
+    private var totalJobCount:Int = 0
 
     private var companyId = ""
     private var companyname = ""
@@ -255,6 +257,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     private val employerJobListFragment = EmployerJobListFragment()
     private val followedEmployersFragment = FollowedEmployersFragment()
     private var followedEmployerList: ArrayList<FollowEmployerListData>? = ArrayList()
+    private var totalFollowedEmployersCount:Int = 0
 
 
     override fun isGetCvUploaded(): String {
@@ -269,8 +272,6 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         shortListedJobFragment.scrollToUndoPosition(position)
     }
 
-    private var time: String = ""
-    private var totalJobCount:Int = 0
 
     override fun goToEmployerViewedMyResume(from: String) {
         startActivity<EmployersBaseActivity>(
@@ -355,11 +356,11 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
     }
 
-    override fun getTotalJobCounter(): Int {
+    override fun getTotalShortlistedJobCounter(): Int {
         return totalJobCount
     }
 
-    override fun setTotalJobCounter(count: Int) {
+    override fun setTotalShortlistedJobCounter(count: Int) {
         this.totalJobCount = count
     }
 
@@ -367,7 +368,11 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         companyId = companyID!!
         companyname = companyName!!
 
-        transitFragment(employerJobListFragment, R.id.fragmentHolder, true)
+        startActivity(Intent(this,EmployersBaseActivity::class.java)
+            .putExtra("from","joblist")
+            .putExtra("companyid",companyID)
+            .putExtra("companyname",companyName)
+        )
     }
 
     override fun positionClicked(position: Int?) {
@@ -396,6 +401,14 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
     override fun getCompanyName(): String {
         return companyname
+    }
+
+    override fun getTotalFollowedEmployersCount(): Int {
+        return totalFollowedEmployersCount
+    }
+
+    override fun setTotalFollowedEmployersCount(count: Int) {
+        this.totalFollowedEmployersCount = count
     }
 
 

@@ -526,7 +526,7 @@ class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdate
 //                val deleteJobID = ShortListedJobDeleteJob.scheduleAdvancedJob(deletedItem?.jobid!!)
                 //undoRemove(actv.mainCL, deletedItem, position, deleteJobID)
 //                homeCommunicator?.decrementCounter()
-                homeCommunicator?.getTotalJobCounter()?.minus(1)?.let { onUpdateCounter.update(it) }
+                homeCommunicator?.getTotalShortlistedJobCounter()?.minus(1)?.let { onUpdateCounter.update(it) }
             } else {
                 context.toast("No items left here!")
             }

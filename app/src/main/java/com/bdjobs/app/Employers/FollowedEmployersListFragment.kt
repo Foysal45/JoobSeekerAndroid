@@ -64,7 +64,12 @@ class FollowedEmployersListFragment : Fragment() {
         }
 
         try {
-            followedEmployersAdapter = FollowedEmployersAdapter(activity)
+            followedEmployersAdapter = FollowedEmployersAdapter(activity,object : FollowedEmployersAdapter.OnUpdateCounter{
+                override fun update(count: Int) {
+
+                }
+
+            })
             followedRV?.adapter = followedEmployersAdapter
             followedRV?.setHasFixedSize(true)
             val layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)

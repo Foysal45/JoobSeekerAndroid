@@ -1,5 +1,6 @@
 package com.bdjobs.app.Employers
 
+//import com.bdjobs.app.BackgroundJob.FollowUnfollowJob
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -18,12 +19,11 @@ import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
-//import com.bdjobs.app.BackgroundJob.FollowUnfollowJob
-import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Workmanager.FollowUnfollowWorker
+import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.sms.BaseActivity
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
@@ -33,7 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FollowedEmployersAdapter(private val context: Context,var onUpdateCounter: OnUpdateCounter) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val activity = context as Activity
     val dataStorage = DataStorage(context)
@@ -393,7 +393,9 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
                     bdJobsUserSession.deccrementFollowedEmployer()
 
                     if (employersCommunicator!=null) employersCommunicator?.decrementCounter(position)
-                    else homeCommunicator?.decrementCounterFollowedEmp(position)
+                    else {
+                        homeCommunicator?.getTotalFollowedEmployersCount()?.minus(1)?.let { onUpdateCounter.update(it) }
+                    }
                 } catch (e: Exception) {
 
                 }
@@ -441,6 +443,11 @@ class FollowedEmployersAdapter(private val context: Context) : RecyclerView.Adap
             followedEmployerList!!.removeAt(position)
             notifyItemRemoved(position)
         }
+    }
+
+
+    interface OnUpdateCounter {
+        fun update(count : Int)
     }
 
 }

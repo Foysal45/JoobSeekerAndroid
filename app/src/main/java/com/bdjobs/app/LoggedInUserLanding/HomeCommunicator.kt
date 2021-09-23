@@ -39,8 +39,8 @@ interface HomeCommunicator {
     fun goToMessages()
     fun goToResumeManager()
 
-    fun getTotalJobCounter():Int
-    fun setTotalJobCounter(count:Int)
+    fun getTotalShortlistedJobCounter():Int
+    fun setTotalShortlistedJobCounter(count:Int)
 
     // followed employers
     fun gotoJobListFragment(companyID : String?, companyName : String?)
@@ -51,4 +51,6 @@ interface HomeCommunicator {
     fun getFollowedEmployerList():ArrayList<FollowEmployerListData>?
     fun getCompanyID() : String
     fun getCompanyName() : String
+    fun getTotalFollowedEmployersCount():Int
+    fun setTotalFollowedEmployersCount(count: Int)
 }

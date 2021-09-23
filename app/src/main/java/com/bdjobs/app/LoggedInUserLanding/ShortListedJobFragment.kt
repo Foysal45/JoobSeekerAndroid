@@ -7,6 +7,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -229,15 +230,33 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
 
 
                         totalRecordsFound = jobResponse.common.totalRecordsFound
-                        homeCommunicator.setTotalJobCounter(totalRecordsFound)
+                        homeCommunicator.setTotalShortlistedJobCounter(totalRecordsFound)
 //                        favListSize = totalRecordsFound
-                        favListSize = homeCommunicator.getTotalJobCounter()
+                        favListSize = homeCommunicator.getTotalShortlistedJobCounter()
                         Timber.d("Fav list size: $favListSize")
                     } else {
                         Timber.d("Unsuccessful Response")
+
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmer()
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Something went wrong! Please try again later",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } catch (e: Exception) {
                     logException(e)
+
+                    shimmer_view_container_JobList?.hide()
+                    shimmer_view_container_JobList?.stopShimmer()
+                    Toast.makeText(
+                        requireContext(),
+                        "Something went wrong! Please try again later",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                 }
 
             }
@@ -245,6 +264,14 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
             override fun onFailure(call: Call<JobListModel>?, t: Throwable) {
                 //Log.d("TAG", "not successful!! onFail")
                 error("onFailure", t)
+
+                shimmer_view_container_JobList?.hide()
+                shimmer_view_container_JobList?.stopShimmer()
+                Toast.makeText(
+                    requireContext(),
+                    "Something went wrong! Please try again later",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -327,7 +354,7 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
 
     override fun update(count: Int) {
         Timber.d("Job Count: $count")
-        homeCommunicator.setTotalJobCounter(count)
+        homeCommunicator.setTotalShortlistedJobCounter(count)
         if (count>0) {
             val styledText = "<b><font color='#13A10E'>$count</font></b> Shortlisted job"
             jobCountTV?.text = Html.fromHtml(styledText)

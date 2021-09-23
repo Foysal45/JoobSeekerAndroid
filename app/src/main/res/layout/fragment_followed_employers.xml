@@ -100,6 +100,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -110,7 +111,6 @@
             android:id="@+id/cl_no_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:padding="16dp">
 
             <com.google.android.material.textview.MaterialTextView
