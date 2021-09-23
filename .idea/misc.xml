@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/activity_main_landing.xml" value="0.16077898550724637" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_home_layout.xml" value="0.33" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_record_video_resume.xml" value="0.16802536231884058" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/menu/navigation.xml" value="0.1921875" />
       </map>
     </option>
   </component>

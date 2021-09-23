@@ -108,12 +108,12 @@ interface VideoResumeApiService {
             }
 
             val loginOkHttpClient = OkHttpClient.Builder()
-                    .addInterceptor(loginInterceptor)
+                   // .addInterceptor(loginInterceptor)
                     .addInterceptor(NetworkConnectionInterceptor(context))
                     .addInterceptor(OkHttpProfilerInterceptor())
                     .readTimeout(1200, TimeUnit.SECONDS)
                     .connectTimeout(1200, TimeUnit.SECONDS)
-                    .retryOnConnectionFailure(true)
+                 //   .retryOnConnectionFailure(true)
                     .build()
 
             return Retrofit.Builder().apply {
