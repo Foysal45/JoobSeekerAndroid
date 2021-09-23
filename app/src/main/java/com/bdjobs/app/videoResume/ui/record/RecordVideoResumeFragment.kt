@@ -119,9 +119,9 @@ class RecordVideoResumeFragment : Fragment() {
             }.build()
 
 
-
             videoCapture = VideoCapture.Builder().apply {
-                setTargetAspectRatio(AspectRatio.RATIO_4_3)
+                setTargetAspectRatio(AspectRatio.RATIO_16_9)
+                setVideoFrameRate(100)
             }.build()
 
             val cameraProvider = cameraProviderFuture.get()

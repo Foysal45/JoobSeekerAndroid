@@ -9,14 +9,15 @@ import com.bdjobs.app.videoResume.data.models.VideoResumeStatistics
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
+import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 private const val VIDEO_RESUME_BASE_URL = "https://my.bdjobs.com/apps/mybdjobs/v1/"
 private const val ANSWER_UPLOAD_BASE_URL = "https://vdo.bdjobs.com/apps/mybdjobs/"
@@ -55,6 +56,7 @@ interface VideoResumeApiService {
             @Field("lang") lang: String?
     ): VideoResumeQuestionList
 
+
     @Multipart
     @POST("https://vdo.bdjobs.com/apps/mybdjobs/app_video_resume_upload_answer.asp")
     suspend fun uploadVideo(
@@ -88,7 +90,6 @@ interface VideoResumeApiService {
         @Volatile
         private var retrofit: Retrofit? = null
 
-        //0 base url, 1 answer upload url
         @Synchronized
         fun create(context: Context, type: Int? = 0): VideoResumeApiService {
 
@@ -99,22 +100,30 @@ interface VideoResumeApiService {
             return retrofit?.create(VideoResumeApiService::class.java)!!
         }
 
+
+
         private fun buildRetrofit(context: Context, type: Int? = 0): Retrofit {
 
-          //  Log.d("salvin type ", "$type")
+            Log.d("salvin type ", "$type")
+//            val loggerInterceptor = HttpLoggingInterceptor().apply {
+//                level = HttpLoggingInterceptor.Level.HEADERS
+//            }
 
-            val loginInterceptor = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
+
 
             val loginOkHttpClient = OkHttpClient.Builder()
-                   // .addInterceptor(loginInterceptor)
                     .addInterceptor(NetworkConnectionInterceptor(context))
                     .addInterceptor(OkHttpProfilerInterceptor())
                     .readTimeout(1200, TimeUnit.SECONDS)
                     .connectTimeout(1200, TimeUnit.SECONDS)
-                 //   .retryOnConnectionFailure(true)
+                    .writeTimeout(1200, TimeUnit.SECONDS)
+//                    .retryOnConnectionFailure(true)
+
                     .build()
+
+
+
+
 
             return Retrofit.Builder().apply {
                 addConverterFactory(MoshiConverterFactory.create(moshi))

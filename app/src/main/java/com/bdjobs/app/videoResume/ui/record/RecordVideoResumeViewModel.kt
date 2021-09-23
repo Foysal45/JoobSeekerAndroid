@@ -7,6 +7,7 @@ import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.videoInterview.util.Event
 import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -77,7 +78,7 @@ class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) 
         //Log.d("rakib", "$videoManager")
         //repository.setDataForUpload(videoManager)
         Constants.createVideoResumeManagerDataForUpload(videoResumeManager)
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.Main) {
 //            val constraints = androidx.work.Constraints.Builder()
 //                    .setRequiredNetworkType(NetworkType.CONNECTED)
 //                    .build()
