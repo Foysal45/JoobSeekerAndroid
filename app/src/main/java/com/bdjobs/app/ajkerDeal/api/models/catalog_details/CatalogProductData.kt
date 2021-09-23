@@ -1,7 +1,7 @@
 package com.bdjobs.app.ajkerDeal.api.models.catalog_details
 
 
-import com.example.livevideoshopping.api.models.ImageInfo
+import com.bdjobs.app.ajkerDeal.api.models.ImageInfo
 import com.google.gson.annotations.SerializedName
 
 data class CatalogProductData(

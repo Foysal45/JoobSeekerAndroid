@@ -1,7 +1,7 @@
 package com.bdjobs.app.ajkerDeal.api.endpoints
 
-import com.example.livevideoshopping.api.models.location.DistrictInfoModel
-import com.example.livevideoshopping.api.models.location.LocationResponse
+import com.bdjobs.app.ajkerDeal.api.models.location.DistrictInfoModel
+import com.bdjobs.app.ajkerDeal.api.models.location.LocationResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -39,7 +39,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        when {
+        finish()
+        /*when {
             navController.currentDestination?.id != navController.graph.startDestination -> {
                 super.onBackPressed()
             }
@@ -54,7 +55,7 @@ class HomeActivity : AppCompatActivity() {
                     doubleBackToExitPressedOnce = false
                 }, 2000L)
             }
-        }
+        }*/
     }
 
 

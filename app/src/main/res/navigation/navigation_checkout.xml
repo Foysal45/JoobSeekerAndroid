@@ -8,14 +8,14 @@
     
     <fragment
         android:id="@+id/nav_checkout"
-        android:name="com.example.livevideoshopping.ui.checkout_live.CheckoutFragment"
+        android:name="com.bdjobs.app.ajkerDeal.ui.checkout_live.CheckoutFragment"
         android:label="চেকআউট"
         tools:layout="@layout/fragment_checkout"
         />
     
     <fragment
         android:id="@+id/nav_webView"
-        android:name="com.example.livevideoshopping.ui.webview.WebViewFragment"
+        android:name="com.bdjobs.app.ajkerDeal.ui.webview.WebViewFragment"
         android:label="পেমেন্ট"
         tools:layout="@layout/fragment_web_view"
         />

@@ -1,7 +1,7 @@
 package com.bdjobs.app.ajkerDeal.api
 
 import android.app.Application
-import com.example.livevideoshopping.BuildConfig
+import com.bdjobs.app.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory

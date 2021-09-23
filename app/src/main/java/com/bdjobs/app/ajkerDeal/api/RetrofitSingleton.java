@@ -2,7 +2,7 @@ package com.bdjobs.app.ajkerDeal.api;
 
 import android.content.Context;
 
-import com.example.livevideoshopping.BuildConfig;
+import com.bdjobs.app.BuildConfig;
 
 import java.util.concurrent.TimeUnit;
 

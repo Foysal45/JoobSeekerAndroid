@@ -50,7 +50,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.example.livevideoshopping.ui.video_shopping.player.HomeLiveExoRecyclerView
+        <com.bdjobs.app.ajkerDeal.ui.video_shopping.player.HomeLiveExoRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

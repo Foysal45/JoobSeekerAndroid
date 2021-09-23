@@ -253,6 +253,8 @@
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="true"
             android:theme="@style/AppTheme.VideoPager" />
+        <activity android:name=".ajkerDeal.ui.home.HomeActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ajkerDeal.ui.checkout_live.CheckoutLiveActivity"
             android:screenOrientation="portrait"
