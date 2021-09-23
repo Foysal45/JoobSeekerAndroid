@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.livevideoshopping.databinding.FragmentLiveOrderManagementBinding
-import com.example.livevideoshopping.utilities.*
+import com.bdjobs.app.ajkerDeal.api.PagingModel
+import com.bdjobs.app.ajkerDeal.api.models.live_order_management.LiveOrderManagementResponseBody
+import com.bdjobs.app.ajkerDeal.utilities.*
+import com.bdjobs.app.databinding.FragmentLiveOrderManagementBinding
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -62,7 +64,7 @@ class LiveOrderManagementFragment : Fragment() {
         pendingPagingState()
         setDataToRecyclerView()
 
-        viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
+        viewModel.viewState.observe(viewLifecycleOwner, Observer { state:ViewState ->
             when (state) {
                 is ViewState.ShowMessage -> {
                     context?.toast(state.message)
@@ -135,7 +137,7 @@ class LiveOrderManagementFragment : Fragment() {
 
         Timber.d("FlowOfTheProcess 41")
 
-        viewModel.pagingState.observe(viewLifecycleOwner, Observer { state ->
+        viewModel.pagingState.observe(viewLifecycleOwner, Observer { state:PagingModel<List<LiveOrderManagementResponseBody>> ->
             isLoading = false
             binding?.swipeRefreshLayout?.isRefreshing = false
 

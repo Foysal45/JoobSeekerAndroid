@@ -1,109 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingStart="12dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="12dp"
-    android:paddingBottom="8dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/productImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:contentDescription="@string/cd"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="5dp"
-        android:maxLines="1"
-        android:textColor="@color/black_90"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/price"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/productImage"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:text="@tools:sample/lorem/random" />
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="8dp">
 
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:maxLines="1"
-        android:textColor="@color/aDheaderColor"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/item_view_shop_cart_deal_count_layout"
-        app:layout_constraintStart_toEndOf="@id/productImage"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        tools:text="@tools:sample/us_zipcodes" />
-
-    <LinearLayout
-        android:id="@+id/item_view_shop_cart_deal_count_layout"
-        android:layout_width="78dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/bg_cart_product"
-        android:gravity="center_vertical"
-        android:padding="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/removeBtn">
+        <ImageView
+            android:id="@+id/productImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/cd"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/item_view_shop_cart_quantity_decrease"
-            android:layout_width="wrap_content"
+            android:id="@+id/title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="-"
-            android:textColor="#707070"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/item_view_shop_cart_quantity_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:textColor="#6E6F72"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="5dp"
+            android:maxLines="1"
+            android:textColor="@color/black_90"
             android:textSize="16sp"
-
-            tools:text="৯৯" />
+            app:layout_constraintBottom_toTopOf="@id/price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/productImage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="@tools:sample/lorem/random" />
 
         <TextView
-            android:id="@+id/item_view_shop_cart_quantity_increase"
-            android:layout_width="wrap_content"
+            android:id="@+id/price"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="+"
-            android:textColor="#707070"
-            android:textSize="20sp" />
-    </LinearLayout>
+            android:layout_marginStart="8dp"
+            android:maxLines="1"
+            android:textColor="@color/aDheaderColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/item_view_shop_cart_deal_count_layout"
+            app:layout_constraintStart_toEndOf="@id/productImage"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="@tools:sample/us_zipcodes" />
 
-    <ImageView
-        android:id="@+id/removeBtn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:contentDescription="@string/cd"
-        android:src="@drawable/ic_close_white_24dp"
-        app:layout_constraintBottom_toTopOf="@id/item_view_shop_cart_deal_count_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/colorPrimary" />
+        <LinearLayout
+            android:id="@+id/item_view_shop_cart_deal_count_layout"
+            android:layout_width="78dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_cart_product"
+            android:gravity="center_vertical"
+            android:padding="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/removeBtn">
+
+            <TextView
+                android:id="@+id/item_view_shop_cart_quantity_decrease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="-"
+                android:textColor="#707070"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/item_view_shop_cart_quantity_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColor="#6E6F72"
+                android:textSize="16sp"
+
+                tools:text="৯৯" />
+
+            <TextView
+                android:id="@+id/item_view_shop_cart_quantity_increase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="#707070"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/removeBtn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/cd"
+            android:src="@drawable/ic_close_white_24dp"
+            app:layout_constraintBottom_toTopOf="@id/item_view_shop_cart_deal_count_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorPrimary" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

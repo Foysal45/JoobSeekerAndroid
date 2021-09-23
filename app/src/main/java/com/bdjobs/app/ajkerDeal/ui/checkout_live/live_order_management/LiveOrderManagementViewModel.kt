@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.livevideoshopping.api.PagingModel
-import com.example.livevideoshopping.api.models.live_order_management.LiveOrderManagementResponseBody
-import com.example.livevideoshopping.repository.AppRepository
-import com.example.livevideoshopping.utilities.ViewState
+import com.bdjobs.app.ajkerDeal.api.PagingModel
+import com.bdjobs.app.ajkerDeal.api.models.live_order_management.LiveOrderManagementResponseBody
+import com.bdjobs.app.ajkerDeal.repository.AppRepository
+import com.bdjobs.app.ajkerDeal.utilities.ViewState
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

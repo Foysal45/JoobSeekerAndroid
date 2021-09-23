@@ -5,10 +5,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.ajkerDeal.api.models.live_order_management.LiveOrderManagementResponseBody
+import com.bdjobs.app.ajkerDeal.utilities.DigitConverter
+import com.bdjobs.app.databinding.ItemViewLiveScheduleProductListBinding
 import com.bumptech.glide.Glide
-import com.example.livevideoshopping.api.models.live_order_management.LiveOrderManagementResponseBody
-import com.example.livevideoshopping.databinding.ItemViewLiveScheduleProductListBinding
-import com.example.livevideoshopping.utilities.DigitConverter
 
 class LiveOrderManagementAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -47,8 +47,8 @@ class LiveOrderManagementAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         init {
             binding.root.setOnClickListener {
-                if (absoluteAdapterPosition != RecyclerView.NO_POSITION)
-                    onItemClicked?.invoke(dataList[absoluteAdapterPosition])
+                if (adapterPosition != RecyclerView.NO_POSITION)
+                    onItemClicked?.invoke(dataList[adapterPosition])
             }
         }
     }
