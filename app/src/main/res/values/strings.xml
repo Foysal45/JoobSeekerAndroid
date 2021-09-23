@@ -517,4 +517,37 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
         <item>All</item>
     </string-array>
 
+
+<!--    Ajker Deal Strings-->
+    <string name="app_name_folder">Ajkerdeal</string>
+
+    <string name="content_description">image</string>
+    <string name="cd">image</string>
+
+    <string name="menu_home">হোম</string>
+    <string name="buyNow">এখনই কিনুন</string>
+    <string name="addToCart">কার্টে যোগ করুন</string>
+
+    <string name="select_district">জেলা নির্বাচন করুন</string>
+    <string name="select_thana">থানা সিলেক্ট করুন</string>
+    <string name="select_aria">এরিয়া/পোস্ট কোড সিলেক্ট করুন</string>
+    <string name="no_aria">এরিয়া/পোস্ট কোড নেই</string>
+    <string name="no_address">বিস্তারিত ঠিকানা লিখুন</string>
+    <string name="delivery_charge">ডেলিভারি চার্জ</string>
+    <string name="dialog_title">লক্ষ্য করুন</string>
+
+    <string name="details_address">ঠিকানা আরও বিস্তারিত লিখুন (কম পক্ষে ১৫ অক্ষর)</string>
+    <string name="write_phone_number">আপনার মোবাইল নাম্বার লিখুন</string>
+    <string name="write_alternative_phone_number">আপনার বিকল্প মোবাইল নাম্বার লিখুন</string>
+    <string name="write_proper_phone_number">আপনার মোবাইল নাম্বার সঠিক করে লিখুন</string>
+    <string name="write_proper_alternative_phone_number">আপনার বিকল্প মোবাইল নাম্বার সঠিক করে লিখুন</string>
+    <string name="order_processing_failed">দুঃখিত,অর্ডার প্রসেসিং এ সমস্যা হচ্ছে</string>
+    <string name="order_success">আপনার অর্ডারটি সফল ভাবে গ্রহণ করা হয়েছে</string>
+
+    <string name="loading_checkorder_process">অপেক্ষা করুন...</string>
+
+    <string name="notification_channel_id_reminder">Reminder</string>
+    <string name="notification_channel_name_reminder">Reminder</string>
+    <string name="notification_channel_description_reminder">Reminder notification channel</string>
+
 </resources>

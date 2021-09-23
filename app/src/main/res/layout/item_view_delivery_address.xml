@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingStart="8dp"
+    android:paddingEnd="0dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:id="@+id/addressBookParent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_envelop_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/addressBookCheckBox1"
+        app:layout_constraintStart_toStartOf="@+id/main_envelop_layout"
+        app:layout_constraintTop_toTopOf="@+id/main_envelop_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/stepperProgressStyle"
+        android:clickable="false"
+        />
+
+    <TextView
+        android:id="@+id/addressBookAddress1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="16dp"
+        android:text="Ajkerdeal ltd, Sumona Gani Trade Center, Kawran bazar, Dhaka-1215"
+        android:textColor="@color/colorText"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/main_envelop_layout"
+        app:layout_constraintEnd_toStartOf="@id/addressBookEditLayout"
+        app:layout_constraintStart_toEndOf="@id/addressBookCheckBox1"
+        app:layout_constraintTop_toTopOf="@+id/main_envelop_layout" />
+
+    <LinearLayout
+        android:id="@+id/addressBookEditLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/main_envelop_layout"
+        app:layout_constraintTop_toTopOf="@+id/main_envelop_layout"
+        app:layout_constraintBottom_toBottomOf="@+id/main_envelop_layout"
+        android:gravity="center"
+        android:paddingStart="0dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        >
+
+        <ImageView
+            android:id="@+id/addressBookEdit1"
+            app:layout_constraintEnd_toEndOf="@+id/main_envelop_layout"
+            app:layout_constraintTop_toTopOf="@+id/main_envelop_layout"
+            app:srcCompat="@drawable/ic_edit"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/cd"
+            android:tint="@color/gray_500" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginStart="2dp"
+            android:textColor="@color/colorText"
+            android:text="এডিট"
+            />
+
+    </LinearLayout>
+
+     <!--   <ImageView
+            android:id="@+id/iv_address_evelop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd"
+            android:src="@drawable/ic_envelop_check"
+            android:layout_marginTop="50dp"
+            app:layout_constraintTop_toTopOf="@id/main_envelop_layout"
+            app:layout_constraintBottom_toBottomOf="@id/main_envelop_layout" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

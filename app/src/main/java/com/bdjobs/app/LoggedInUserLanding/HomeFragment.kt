@@ -2,6 +2,7 @@ package com.bdjobs.app.LoggedInUserLanding
 
 import android.app.Dialog
 import android.app.Fragment
+import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -34,6 +35,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.liveInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
+import com.bdjobs.app.ajkerDeal.ui.home.HomeActivity
 import com.bdjobs.app.videoResume.VideoResumeActivity
 
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
@@ -193,7 +195,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             homeCommunicator.gotoAllJobSearch()
         }
         newSearchBTN?.setOnClickListener {
-            homeCommunicator.gotoAllJobSearch()
+//            homeCommunicator.gotoAllJobSearch()
+            //test
+            context.startActivity(Intent(context,HomeActivity::class.java))
         }
         notificationIMGV?.setOnClickListener {
             homeCommunicator.goToNotifications()
