@@ -7,7 +7,9 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.util.DisplayMetrics
 import android.util.Log
+import android.util.Size
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -43,6 +45,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
+import kotlin.math.abs
 
 
 @SuppressLint("RestrictedApi")
@@ -63,6 +66,10 @@ class RecordVideoResumeFragment : Fragment() {
     private var videoCapture: VideoCapture? = null
     private var cameraControl: CameraControl? = null
     private var cameraInfo: CameraInfo? = null
+    private var metrics: DisplayMetrics? = null
+    private var screenAspectRatio = 0
+    var RATIO_4_3_VALUE = 4.0 / 3.0
+    var RATIO_16_9_VALUE = 16.0 / 9.0
 
 
     override fun onCreateView(
@@ -107,11 +114,20 @@ class RecordVideoResumeFragment : Fragment() {
     }
 
 
+    private fun aspectRatio(width: Int, height: Int): Int {
+        val previewRatio = Math.max(width, height).toDouble() / Math.min(width, height).toDouble()
+        return if (Math.abs(previewRatio - RATIO_4_3_VALUE) <= Math.abs(previewRatio -RATIO_16_9_VALUE)) {
+            AspectRatio.RATIO_4_3
+        } else AspectRatio.RATIO_16_9
+    }
+
+
     @SuppressLint("RestrictedApi")
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireActivity())
-        var cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT).build()
-
+        val cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT).build()
+        metrics = requireContext().resources.displayMetrics
+        screenAspectRatio = aspectRatio(metrics!!.widthPixels, metrics!!.heightPixels)
 
         cameraProviderFuture.addListener({
             imagePreview = Preview.Builder().apply {
@@ -120,8 +136,9 @@ class RecordVideoResumeFragment : Fragment() {
 
 
             videoCapture = VideoCapture.Builder().apply {
-                setTargetAspectRatio(AspectRatio.RATIO_16_9)
-                setVideoFrameRate(100)
+                setTargetAspectRatio(screenAspectRatio)
+                setMaxResolution(Size(abs(metrics!!.widthPixels / 3), abs(metrics!!.heightPixels / 3)))
+                useCaseConfig
             }.build()
 
             val cameraProvider = cameraProviderFuture.get()
@@ -132,7 +149,7 @@ class RecordVideoResumeFragment : Fragment() {
                 imagePreview,
                 videoCapture
             )
-            camera_view.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+            camera_view.implementationMode = PreviewView.ImplementationMode.PERFORMANCE
             imagePreview?.setSurfaceProvider(camera_view.surfaceProvider)
             cameraControl = camera.cameraControl
             cameraInfo = camera.cameraInfo
@@ -150,10 +167,10 @@ class RecordVideoResumeFragment : Fragment() {
             progressPercentage.observe(viewLifecycleOwner, {
                 seekbar_video_duration.progress = it.toInt()
             })
-            progressPercentage.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            progressPercentage.observe(viewLifecycleOwner, {
                 seekbar_video_duration.progress = it.toInt()
             })
-            elapsedTimeInString.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            elapsedTimeInString.observe(viewLifecycleOwner, {
                 tv_time_remaining_value?.text = it
             })
 
@@ -241,14 +258,15 @@ class RecordVideoResumeFragment : Fragment() {
 
 
         videoCapture?.startRecording(outputFileOptions, cameraExecutor, object : VideoCapture.OnVideoSavedCallback {
+            @SuppressLint("TimberArgCount", "BinaryOperationInTimber")
             override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
                 if (recordVideoResumeViewModel.onVideoDoneEvent.value == true) {
                         videoFile = newFile
                         recordVideoResumeViewModel.videoResumeManagerData.value?.file = newFile
                         recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
                     showSnackbar()
-                    val file_size: Int = java.lang.String.valueOf(newFile.length() / 1024).toInt()
-                    Log.e("video_size", ""+file_size)
+                    fileSize(newFile)
+
                 }
 
 
@@ -265,6 +283,14 @@ class RecordVideoResumeFragment : Fragment() {
 
     }
 
+
+    fun fileSize(file : File){
+
+        val fileSizeInBytes: Long = file.length()
+        val fileSizeInKB = fileSizeInBytes / 1024
+        val fileSizeInMB = fileSizeInKB / 1024
+        Log.e("video_size", ""+fileSizeInMB+"MB")
+    }
 
     @SuppressLint("SetTextI18n")
     private fun initializeUI() {
@@ -321,8 +347,6 @@ class RecordVideoResumeFragment : Fragment() {
                     recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
                     showSnackbar()
 
-                    val file_size: Int = java.lang.String.valueOf(videoFile.length() / 1024).toInt()
-                    Log.e("video_size", ""+file_size)
                 }
             }
 
