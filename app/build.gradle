@@ -14,7 +14,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 761 // huawei build 738 // Current Production - 761 // Current QA - 759
-        versionName "2.9.1.1"  //714.0.1 current internal test // Current Production - 2.9.1.0
+        versionName "2.9.1.1AD"  //714.0.1 current internal test // Current Production - 2.9.1.0
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

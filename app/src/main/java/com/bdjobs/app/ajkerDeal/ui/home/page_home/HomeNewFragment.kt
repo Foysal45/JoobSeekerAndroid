@@ -32,7 +32,7 @@ class HomeNewFragment : Fragment() {
     private val mHomePageDataList = ArrayList<RecommendedDealPayload>()
     private val liveList: MutableList<LiveListData> = mutableListOf()
 
-    private val totalItemToBeViewed = 5
+    private val totalItemToBeViewed = 20
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,7 +87,7 @@ class HomeNewFragment : Fragment() {
 //        }
 
         dataAdapter.onItemClick = { model, parentPosition ->
-            Timber.d("requestBody ${model}")
+            Timber.d("requestBody $model")
 
             if (model.statusName == "live") {
                 goToViewShow(model, model.statusName, parentPosition)

@@ -139,6 +139,7 @@ class LiveShowFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Timber.d("Normal Live")
         sessionManager = SessionManager
         bdjobsUserSession = BdjobsUserSession(requireContext())
         liveStreamId = model?.catalogId?.toString() ?: "0"
@@ -220,6 +221,13 @@ class LiveShowFragment() : Fragment() {
 
         binding?.commentBtn?.setOnClickListener {
             binding?.chatLayout?.isVisible = binding?.chatLayout?.isVisible == false
+            binding.apply {
+                if (binding?.chatLayout?.isVisible!!) {
+                    binding?.commentBtn?.setBackgroundResource(R.drawable.ic_sms_disabled)
+                } else {
+                    binding?.commentBtn?.setBackgroundResource(R.drawable.ic_sms)
+                }
+            }
         }
 
         binding?.muteBtn?.setOnClickListener {

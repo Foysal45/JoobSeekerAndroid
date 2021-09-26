@@ -24,7 +24,7 @@ data class RegistrationRequest(
     @SerializedName("LocationId")
     var locationId: Int = 0,
     @SerializedName("IsSignUpByLivePlaza")
-    var isSignUpByLivePlaza: Int = 0,
+    var isSignUpByLivePlaza: Int = 5,
     @SerializedName("FacebookPageUrl")
     var facebookPageUrl: String? = ""
 )

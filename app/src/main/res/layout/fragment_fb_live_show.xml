@@ -583,6 +583,7 @@
             android:id="@+id/likeLottie"
             android:layout_width="100dp"
             android:layout_height="0dp"
+            android:visibility="gone"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@id/actionLayout"
             app:layout_constraintEnd_toEndOf="parent"

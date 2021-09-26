@@ -140,6 +140,8 @@ class FBLiveShowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Timber.d("FBLive")
+
         sessionManager = SessionManager
         bdJobsUserSession = BdjobsUserSession(requireContext())
         liveStreamId = model?.catalogId?.toString() ?: "0"
@@ -243,6 +245,14 @@ class FBLiveShowFragment : Fragment() {
 
         binding?.commentBtn?.setOnClickListener {
             binding?.chatLayout?.isVisible = binding?.chatLayout?.isVisible == false
+
+            binding.apply {
+                if (binding?.chatLayout?.isVisible!!) {
+                    binding?.commentBtn?.setBackgroundResource(R.drawable.ic_sms)
+                } else {
+                    binding?.commentBtn?.setBackgroundResource(R.drawable.ic_sms_disabled)
+                }
+            }
         }
 
         if (model?.sellingText == "live") {
