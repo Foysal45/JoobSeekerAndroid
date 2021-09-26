@@ -137,7 +137,8 @@ class RecordVideoResumeFragment : Fragment() {
 
             videoCapture = VideoCapture.Builder().apply {
                 setTargetAspectRatio(screenAspectRatio)
-                setMaxResolution(Size(abs(metrics!!.widthPixels / 3), abs(metrics!!.heightPixels / 3)))
+                //setMaxResolution(Size(abs(metrics!!.widthPixels / 3), abs(metrics!!.heightPixels / 3)))
+                setMaxResolution(Size(abs(176), abs(144)))
                 useCaseConfig
             }.build()
 
@@ -200,6 +201,14 @@ class RecordVideoResumeFragment : Fragment() {
                     showSnackbar()
                 }
             })
+
+            onUploadStartEvent.observe(viewLifecycleOwner, EventObserver{uload -> })
+
+           onVideoUploadException.observe(viewLifecycleOwner, EventObserver{exception ->
+               Toast.makeText(context, "$exception   Please Try again.", Toast.LENGTH_SHORT).show()
+               findNavController().popBackStack()
+           })
+
 
             onUploadDoneEvent.observe(viewLifecycleOwner, EventObserver { uploadDone ->
                 if (uploadDone) {
