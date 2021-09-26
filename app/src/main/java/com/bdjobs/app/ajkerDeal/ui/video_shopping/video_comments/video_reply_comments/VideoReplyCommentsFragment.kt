@@ -13,6 +13,7 @@ import com.bdjobs.app.ajkerDeal.api.models.video_comments.load_all_comments.Vide
 import com.bdjobs.app.ajkerDeal.ui.video_shopping.video_comments.CommentBottomSheet
 import com.bdjobs.app.ajkerDeal.ui.video_shopping.video_comments.CommentBoxBottomSheet
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.databinding.FragmentVideoReplyCommentsBinding
 import com.bdjobs.app.ajkerDeal.utilities.DigitConverter
 import com.bdjobs.app.ajkerDeal.utilities.SessionManager
@@ -31,6 +32,7 @@ class VideoReplyCommentsFragment : Fragment() {
     private lateinit var model: List<VideoReplyCommentsModel>
     private lateinit var bundle: Bundle
     private lateinit var sessionManager: SessionManager
+    private lateinit var bdjobsUserSession: BdjobsUserSession
 
     private lateinit var dataAdapter: VideoReplyCommentsAdapter
 
@@ -63,6 +65,7 @@ class VideoReplyCommentsFragment : Fragment() {
 
         Timber.d("Bundle $model")
         sessionManager = SessionManager
+        bdjobsUserSession = BdjobsUserSession(requireContext())
 
 
         binding?.backBtn?.setImageResource(R.drawable.ic_arrow_back)
@@ -83,7 +86,7 @@ class VideoReplyCommentsFragment : Fragment() {
 
         binding?.commentBox?.setOnClickListener {
 
-            if (sessionManager.isLoggedIn) {
+            if (bdjobsUserSession.isLoggedIn!!) {
                 showCommentBox()
             } else {
                 //removed, use it in your favor
@@ -112,7 +115,7 @@ class VideoReplyCommentsFragment : Fragment() {
     }
 
     private fun sendComment(replyComment: String) {
-        val customerId = sessionManager.userId
+        val customerId = bdjobsUserSession.userId
         val replyComment = replyComment
         val commentId = bundle["CommentId"].toString().toInt()
 
@@ -123,10 +126,10 @@ class VideoReplyCommentsFragment : Fragment() {
         Timber.d("customerId $customerId, comment $replyComment, insertedOn $insertedOn, vsCatalogId $vsCatalogId, commentId $commentId")
         //Toast.makeText(context, "customerId $customerId, comment $replyComment, insertedOn $insertedOn, vsCatalogId $vsCatalogId, commentId $commentId", Toast.LENGTH_SHORT).show()
 
-        if (sessionManager.isLoggedIn) {
+        if (bdjobsUserSession.isLoggedIn!!) {
             if (!replyComment.isNullOrEmpty()) {
                 //binding?.commentBox?.text?.clear()
-                viewModel.insertVideoReplyComments(customerId, replyComment, insertedOn, vsCatalogId, commentId).observe(viewLifecycleOwner, Observer { check->
+                viewModel.insertVideoReplyComments(customerId!!.toInt(), replyComment, insertedOn, vsCatalogId, commentId).observe(viewLifecycleOwner, Observer { check->
                     if (check) {
 
                         Toast.makeText(context, "কমেন্ট অ্যাড করা হয়েছে", Toast.LENGTH_SHORT).show()

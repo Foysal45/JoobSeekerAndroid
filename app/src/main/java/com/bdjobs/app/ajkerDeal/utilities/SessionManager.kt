@@ -282,15 +282,15 @@ object SessionManager {
             }
         }
 
-    var isLoggedIn: Boolean
-        get() {
-            return pref.getBoolean("IsLoggedIn", false)
-        }
-        set(value) {
-            pref.edit {
-                putBoolean("IsLoggedIn", value)
-            }
-        }
+//    var isLoggedIn: Boolean
+//        get() {
+//            return pref.getBoolean("IsLoggedIn", false)
+//        }
+//        set(value) {
+//            pref.edit {
+//                putBoolean("IsLoggedIn", value)
+//            }
+//        }
 
     var customerBlock: Boolean
         get() {

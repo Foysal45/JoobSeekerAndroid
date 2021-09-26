@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.ajkerDeal.api.models.checkout_live.LiveOrderRequest
 import com.bdjobs.app.ajkerDeal.api.models.live_product.LiveProductData
 import com.bdjobs.app.ajkerDeal.api.models.order.DeliveryChargesModel
@@ -64,6 +65,7 @@ class CheckoutFragment: Fragment() {
     private var paymentStatus = "I"
 
     private lateinit var sessionManager: SessionManager
+    private lateinit var bdjobsUserSession: BdjobsUserSession
     private var deliveryChargesModel = DeliveryChargesModel()
 
     private val gson: Gson by inject()
@@ -86,9 +88,10 @@ class CheckoutFragment: Fragment() {
 
 
         sessionManager = SessionManager
+        bdjobsUserSession = BdjobsUserSession(requireContext())
         initProduct()
         //region modified
-        if (sessionManager.isLoggedIn) {
+        if (bdjobsUserSession.isLoggedIn!!) {
             showAddressList()
         } else {
             showCustomerInfo()
@@ -197,7 +200,7 @@ class CheckoutFragment: Fragment() {
             if (!isProcessingOrder && validation()) {
                 //TODO
                 //region Check here whether the user is logged in or not
-                if (sessionManager.isLoggedIn) {
+                if (bdjobsUserSession.isLoggedIn!!) {
                     orderPlace()
                 } else {
                     //registerUser()
@@ -379,7 +382,7 @@ class CheckoutFragment: Fragment() {
         }
 
         val mobileNumber = binding?.mobileNumber?.text?.toString() ?: ""
-        if (!sessionManager.isLoggedIn && (mobileNumber.isEmpty() || !isValidPhone(mobileNumber))) {
+        if (!bdjobsUserSession.isLoggedIn!! && (mobileNumber.isEmpty() || !isValidPhone(mobileNumber))) {
             context?.toast("সঠিক মোবাইল নম্বর লিখুন")
             return false
         }
@@ -390,12 +393,12 @@ class CheckoutFragment: Fragment() {
         }
 
         val deliveryAddress = binding?.deliveryAddress?.text?.toString() ?: ""
-        if (!sessionManager.isLoggedIn && deliveryAddress.isEmpty()) {
+        if (!bdjobsUserSession.isLoggedIn!! && deliveryAddress.isEmpty()) {
             context?.toast("ডেলিভারি ঠিকানা লিখুন")
             return false
         }
 
-        if (sessionManager.isLoggedIn && !isDeliveryAddressSelected) {
+        if (bdjobsUserSession.isLoggedIn!! && !isDeliveryAddressSelected) {
             context?.toast("ডেলিভারি এড্রেস সিলেক্ট করুন")
             return false
         }

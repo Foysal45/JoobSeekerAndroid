@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import androidx.lifecycle.Observer
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.ajkerDeal.api.models.catalog.CatalogData
 import com.bdjobs.app.ajkerDeal.api.models.firebase.LikeCount
 import com.bdjobs.app.ajkerDeal.api.models.firebase.LiveProductEvent
@@ -100,6 +101,7 @@ class LiveShowFragment() : Fragment() {
 
     private var isLike: Boolean = false
     private lateinit var sessionManager: SessionManager
+    private lateinit var bdjobsUserSession: BdjobsUserSession
     private val REQUEST_CODE_CHAT = 789
     private val requestCodeCheckOut = 12920
 
@@ -491,7 +493,7 @@ class LiveShowFragment() : Fragment() {
 
         binding?.chatBox?.setOnClickListener {
 
-            if (sessionManager.isLoggedIn) {
+            if (bdjobsUserSession.isLoggedIn!!) {
                 if (!sessionManager.customerBlock) {
                     if (sessionManager.mobileNumber?.isNotEmpty() == true) {
                         showChatBox()
