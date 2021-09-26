@@ -3,13 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/activity_applied_jobs.xml" value="0.20520833333333333" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/activity_checkout_live.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/activity_home_ajker_deal.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/activity_video_pager.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/custom_exo_controller_view.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/dialog_product_overview.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/district_select_layout.xml" value="0.18333333333333332" />
-        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_add_address_bottom_sheet.xml" value="0.1" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_add_address_bottom_sheet.xml" value="0.18" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_chat_box.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_checkout.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_comment_bottom_sheet.xml" value="0.18333333333333332" />
@@ -17,7 +18,7 @@
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_followed_employers.xml" value="0.20520833333333333" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_home_layout.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_home_new.xml" value="0.11851851851851852" />
-        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_live_cart.xml" value="0.1" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_live_cart.xml" value="0.25" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_live_order_management.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_live_product_list.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_live_show.xml" value="0.1" />

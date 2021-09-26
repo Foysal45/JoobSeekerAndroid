@@ -199,7 +199,7 @@ class CheckoutFragment: Fragment() {
 
         binding?.payNowBtn?.setOnClickListener {
             if (!isProcessingOrder && validation()) {
-                //TODO
+                //
                 //region Check here whether the user is logged in or not
                 if (bdjobsUserSession.isLoggedIn!!) {
                     registerUser(1)

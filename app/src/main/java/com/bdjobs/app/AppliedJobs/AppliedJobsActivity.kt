@@ -118,7 +118,7 @@ class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
         transitFragment(appliedJobsFragment, R.id.fragmentHolder, false)
     }
 
-    fun showAjkerDealLiveView() {
+    private fun showAjkerDealLiveView() {
         transitFragmentX(HomeNewFragment(),R.id.navHostFragment,false)
     }
 
