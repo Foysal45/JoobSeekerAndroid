@@ -4,6 +4,7 @@ import com.bdjobs.app.ajkerDeal.api.models.catalog.CatalogRequest
 import com.bdjobs.app.ajkerDeal.api.models.checkout_live.LiveOrderRequest
 import com.bdjobs.app.ajkerDeal.api.models.live_list.LiveListRequest
 import com.bdjobs.app.ajkerDeal.api.models.live_product.LiveProductRequest
+import com.bdjobs.app.ajkerDeal.api.models.registration.RegistrationRequest
 import com.bdjobs.app.ajkerDeal.api.models.video_comments.VideoInsertCommentsRequest
 
 class AppRepository(
@@ -25,6 +26,8 @@ class AppRepository(
     suspend fun insertLiveOrder(requestBody: List<LiveOrderRequest>) = apiInterfaceAPI.insertLiveOrder(requestBody)
 
     suspend fun insertVideoComments(requestBody: VideoInsertCommentsRequest) = apiInterfaceAPI.insertVideoComments(requestBody)
+
+    suspend fun registerUser(requestBody: RegistrationRequest) = apiInterfaceAPI.registerUser(requestBody)
 
     // Live Order Management
     suspend fun fetchLiveOrderManagementList(customerId: Int, index: Int, count: Int) = apiInterfaceAPI.fetchLiveOrderManagementList(customerId, index, count)

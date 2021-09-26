@@ -10,6 +10,8 @@ import com.bdjobs.app.ajkerDeal.api.models.live_order_management.LiveOrderManage
 import com.bdjobs.app.ajkerDeal.api.models.live_product.LiveProductData
 import com.bdjobs.app.ajkerDeal.api.models.live_product.LiveProductRequest
 import com.bdjobs.app.ajkerDeal.api.models.order.DeliveryInfoModel
+import com.bdjobs.app.ajkerDeal.api.models.registration.RegistrationRequest
+import com.bdjobs.app.ajkerDeal.api.models.registration.RegistrationResponse
 import com.bdjobs.app.ajkerDeal.api.models.video_comments.VideoInsertCommentsRequest
 import com.bdjobs.app.ajkerDeal.api.models.video_comments.VideoInsertReplyCommentsRequest
 import com.bdjobs.app.ajkerDeal.api.models.video_comments.load_all_comments.VideoCommentsModel
@@ -30,6 +32,9 @@ interface ApiInterfaceAPI {
 
     @POST("api/videoshopping/LoadAllHandPickLives")
     suspend fun fetchHandPickLives(@Body requestBody: LiveListRequest): NetworkResponse<ResponseHeader<List<LiveListData>>, ErrorResponse>
+
+    @POST("CustomerAccess/SignUpNew")
+    suspend fun registerUser(@Body requestBody: RegistrationRequest): NetworkResponse<RegistrationResponse, ErrorResponse>
 
     @GET("/api/videoshopping/CheckIsCustomerBlock/{customerId}")
     suspend fun checkIsCustomerBlock(@Path("customerId") customerId: Int): NetworkResponse<ResponseHeader<Int>, ErrorResponse>

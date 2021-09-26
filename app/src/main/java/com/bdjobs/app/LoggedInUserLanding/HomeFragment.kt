@@ -195,9 +195,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             homeCommunicator.gotoAllJobSearch()
         }
         newSearchBTN?.setOnClickListener {
-//            homeCommunicator.gotoAllJobSearch()
+            homeCommunicator.gotoAllJobSearch()
             //test
-            context.startActivity(Intent(context,HomeActivity::class.java))
+//            context.startActivity(Intent(context,HomeActivity::class.java))
         }
         notificationIMGV?.setOnClickListener {
             homeCommunicator.goToNotifications()

@@ -21,6 +21,7 @@ import com.bdjobs.app.ajkerDeal.api.models.live_product.LiveProductData
 import com.bdjobs.app.ajkerDeal.api.models.order.DeliveryChargesModel
 import com.bdjobs.app.ajkerDeal.api.models.order.DeliveryInfoModel
 import com.bdjobs.app.ajkerDeal.api.models.order.PaymentMediumModel
+import com.bdjobs.app.ajkerDeal.api.models.registration.RegistrationRequest
 import com.bdjobs.app.ajkerDeal.checkout.AddAddressBottomSheet
 import com.bdjobs.app.ajkerDeal.checkout.DeliveryAddressAdapter
 import com.bdjobs.app.ajkerDeal.checkout.PaymentMediumAdapter
@@ -201,7 +202,7 @@ class CheckoutFragment: Fragment() {
                 //TODO
                 //region Check here whether the user is logged in or not
                 if (bdjobsUserSession.isLoggedIn!!) {
-                    orderPlace()
+                    registerUser(1)
                 } else {
                     //registerUser()
                     fetchUserData()
@@ -221,7 +222,7 @@ class CheckoutFragment: Fragment() {
                billingAddress = binding?.deliveryAddress?.text.toString()
             }
         }
-        orderPlace()
+        registerUser(0)
     }
 
     private fun initProduct() {
@@ -406,14 +407,22 @@ class CheckoutFragment: Fragment() {
         return true
     }
 
-    /*private fun registerUser() {
+    //0 -> means signed out
+    //1 -> means signed in
+    private fun registerUser(isSignedIn: Int) {
+        var mobile = ""
+        if (isSignedIn == 1) {
+            mobile = BdjobsUserSession(requireContext()).userMobileNumber!!
+        } else {
+            mobile = binding?.mobileNumber?.text?.toString() ?: ""
+        }
 
-        val mobileNumber = binding?.mobileNumber?.text?.toString() ?: ""
-        viewModel.fetchSignUpInfo(
-            RegistrationRequest(
-                mobileNumber, mobileNumber, "User${generateRandomNumber(999)}", sessionManager.deviceId, sessionManager.firebaseToken
-            )
-        ).observe(viewLifecycleOwner, Observer { model ->
+        val requestBody = RegistrationRequest(
+            mobile, mobile, "User${generateRandomNumber(999)}", sessionManager.deviceId, sessionManager.firebaseToken
+        )
+        Timber.d("requestBody CheckOut -> $requestBody")
+        viewModel.fetchSignUpInfo(requestBody).observe(viewLifecycleOwner, Observer { model ->
+            Timber.d("requestBody CheckOut userId-> ${model.id}, currentCustomerId -> ${model.currentCustomerId}")
             if (model.id == 0) {
                 sessionManager.userId = model.currentCustomerId
                 orderPlace()
@@ -423,7 +432,7 @@ class CheckoutFragment: Fragment() {
             }
 
         })
-    }*/
+    }
 
     private fun orderPlace() {
 
@@ -470,7 +479,7 @@ class CheckoutFragment: Fragment() {
             requestBody.add(model)
         }
 
-        Timber.d("requestBody $requestBody")
+        Timber.d("requestBody insertLiveOrder -> $requestBody")
 
         //TODO activate the following api
         viewModel.insertLiveOrder(requestBody).observe(viewLifecycleOwner, Observer { responseList ->

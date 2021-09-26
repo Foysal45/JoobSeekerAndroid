@@ -140,6 +140,7 @@ class LiveShowFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager
+        bdjobsUserSession = BdjobsUserSession(requireContext())
         liveStreamId = model?.catalogId?.toString() ?: "0"
         merchantId = model?.customerId ?: 0
         paymentMode = model?.sellingTag ?: "both"
@@ -589,7 +590,7 @@ class LiveShowFragment() : Fragment() {
     private fun sendChatMessage(msg: String) {
         val key = chatRoomRef.push().key ?: ""
         val date = Date().time
-        val model = ChatData(key, sessionManager.userId.toString(), sessionManager.userName, "", msg, sdf.format(date), date.toString())
+        val model = ChatData(key, sessionManager.userId.toString(), bdjobsUserSession.fullName, "", msg, sdf.format(date), date.toString())
         chatRoomRef.child(key).setValue(model).addOnCompleteListener {
             if (it.isSuccessful) {
                 Timber.d("Msg send successfully")
@@ -758,7 +759,7 @@ class LiveShowFragment() : Fragment() {
 
     private fun addViewer() {
         viewUserKey = liveShowViewRef.push().key ?: ""
-        liveShowViewRef.child(viewUserKey).setValue(sessionManager.userName)
+        liveShowViewRef.child(viewUserKey).setValue(bdjobsUserSession.fullName)
         dbFirestoreViews.document("currentView").update("view", FieldValue.increment(1))
     }
 
