@@ -104,20 +104,12 @@ interface VideoResumeApiService {
 
         private fun buildRetrofit(context: Context, type: Int? = 0): Retrofit {
 
-            Log.d("salvin type ", "$type")
-//            val loggerInterceptor = HttpLoggingInterceptor().apply {
-//                level = HttpLoggingInterceptor.Level.HEADERS
-//            }
-
-
-
             val loginOkHttpClient = OkHttpClient.Builder()
                     .addInterceptor(NetworkConnectionInterceptor(context))
                     .addInterceptor(OkHttpProfilerInterceptor())
                     .readTimeout(1200, TimeUnit.SECONDS)
                     .connectTimeout(1200, TimeUnit.SECONDS)
                     .writeTimeout(1200, TimeUnit.SECONDS)
-//                    .retryOnConnectionFailure(true)
 
                     .build()
 
