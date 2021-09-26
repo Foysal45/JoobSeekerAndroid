@@ -81,10 +81,10 @@ class HomeNewFragment : Fragment() {
 
     private fun manageItemClickListener() {
 
-        binding?.swipeRefresh?.setOnRefreshListener {
-            binding?.swipeRefresh?.isRefreshing = true
-            fetchLiveShowHandPicked(totalItemToBeViewed)
-        }
+//        binding?.swipeRefresh?.setOnRefreshListener {
+//            binding?.swipeRefresh?.isRefreshing = true
+//            fetchLiveShowHandPicked(totalItemToBeViewed)
+//        }
 
         dataAdapter.onItemClick = { model, parentPosition ->
             Timber.d("requestBody ${model}")
@@ -106,7 +106,7 @@ class HomeNewFragment : Fragment() {
     private fun fetchLiveShowHandPicked(count: Int) {
         viewModel.fetchLiveShow(count).observe(viewLifecycleOwner, Observer { list ->
 
-            binding?.swipeRefresh?.isRefreshing = false
+//            binding?.swipeRefresh?.isRefreshing = false
 
             if (BuildConfig.DEBUG) {
                 /*list.add(

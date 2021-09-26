@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/swipeRefresh">
+<!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/swipeRefresh">-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/parent"
@@ -74,6 +74,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+<!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
 </layout>
