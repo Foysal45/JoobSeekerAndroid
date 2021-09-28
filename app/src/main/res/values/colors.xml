@@ -37,6 +37,23 @@
     <color name="btn_green">#0AF899</color>
     <color name="btn_ash">#757575</color>
     <color name="btn_red">#CC2428</color>
+    <color name="privacy_public">#CCFFD9</color>
+    <color name="privacy_private">#FFCCCC</color>
+    <color name="privacy_limited">#FFE0B2</color>
+
+    <color name="remaining_sms_0">#800A0A</color>
+    <color name="remaining_sms_1_9">#A86500</color>
+    <color name="remaining_sms_10_more">#2161CC</color>
+
+    <color name="sms_alert_on">#13A10E</color>
+    <color name="sms_alert_off">#AC0000</color>
+
+    <color name="sms_text_color">#393939</color>
+
+    <color name="sms_package_20">#DF0C59</color>
+    <color name="sms_package_100">#6859EA</color>
+    <color name="sms_package_500">#AB2FFE</color>
+    <color name="sms_package_custom">#11884B</color>
 
 
 <!--    AjkerDeal Colors-->

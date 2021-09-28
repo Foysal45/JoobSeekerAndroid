@@ -3,14 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/ic_sms.xml" value="0.21296296296296297" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/ic_sms_disabled.xml" value="0.17407407407407408" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/activity_applied_jobs.xml" value="0.20520833333333333" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/activity_base.xml" value="0.16203703703703703" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/activity_checkout_live.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/activity_home_ajker_deal.xml" value="0.1" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/activity_live_interview.xml" value="0.16203703703703703" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/activity_resume_dashboard_base.xml" value="0.16203703703703703" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/activity_video_pager.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/custom_exo_controller_view.xml" value="0.18333333333333332" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/dashboard_fragment.xml" value="0.16203703703703703" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/dialog_product_overview.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/district_select_layout.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_add_address_bottom_sheet.xml" value="0.18" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_applied_jobs.xml" value="0.1537037037037037" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_chat_box.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_checkout.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_comment_bottom_sheet.xml" value="0.18333333333333332" />
@@ -18,15 +25,20 @@
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_followed_employers.xml" value="0.20520833333333333" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_home_layout.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_home_new.xml" value="0.11851851851851852" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_interview_session.xml" value="0.16203703703703703" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_live_cart.xml" value="0.25" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_live_order_management.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_live_product_list.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_live_show.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_location_selection_dialog.xml" value="0.18333333333333332" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_payment_sms.xml" value="0.1" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_settings.xml" value="0.16203703703703703" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_shortlisted_job_layout.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_video.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_video_comments.xml" value="0.15925925925925927" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_video_reply_comments.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/fragment_web_view.xml" value="0.18333333333333332" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/item_ajker_deal_live.xml" value="0.1537037037037037" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/item_view_chat_live.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/item_view_delivery_address.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/item_view_feed_comments.xml" value="0.18333333333333332" />
@@ -41,7 +53,11 @@
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/item_view_shimmer_grid.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/item_view_video_shopping_comment.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/layout_dialog_phone_number.xml" value="0.18333333333333332" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/layout_explanation_first_time_pop_up.xml" value="0.1" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/normal_add_raw_item_layout.xml" value="0.20520833333333333" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/package_details_fragment.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/shimmer_loading_grid.xml" value="0.18333333333333332" />
+        <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/standoutjoblist.xml" value="0.20520833333333333" />
       </map>
     </option>
   </component>

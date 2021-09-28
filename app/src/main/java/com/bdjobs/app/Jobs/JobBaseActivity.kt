@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.ClientAdModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
@@ -36,7 +37,7 @@ import retrofit2.Response
 import timber.log.Timber
 import java.util.*
 
-class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+class JobBaseActivity : AppCompatActivity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
 
 
     override fun setTotalAppliedJobs(appliedJobsCount: Int) {

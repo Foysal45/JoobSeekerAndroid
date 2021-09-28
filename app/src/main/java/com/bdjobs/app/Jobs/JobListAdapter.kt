@@ -8,7 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
 import com.bdjobs.app.API.ApiServiceJobs
@@ -23,6 +26,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Workmanager.ShortlistedJobDeleteWorker
+import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
@@ -31,11 +35,12 @@ import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdateCounter) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+@Suppress("SpellCheckingInspection")
+class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         // View Types
@@ -46,6 +51,7 @@ class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdate
         private const val STANDOUT_AD = 4
         private const val FEATURED = 5
         private const val FEATURED_AD = 6
+        private const val AJKER_DEAL_LIVE = 7
         private var showAD = true
     }
 
@@ -96,6 +102,10 @@ class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdate
                 viewHolder = FeaturedListVH(viewLoading)
             }
 
+            AJKER_DEAL_LIVE -> {
+                val viewLive = inflater.inflate(R.layout.item_ajker_deal_live,parent,false)
+                viewHolder = AjkerDealLiveVH(viewLive)
+            }
 
 
             //------------------------------------------------------------------------------------------------------------------------------//
@@ -121,48 +131,96 @@ class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdate
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (position<itemCount-1) {
+            val result =  this.jobList?.get(position) // jobs
 
-        val result = this.jobList?.get(position) // jobs
+            when (getItemViewType(position)) {
+                BASIC -> {
 
-        when (getItemViewType(position)) {
-            BASIC -> {
+                    val jobsVH = holder as JobsListVH
 
-                val jobsVH = holder as JobsListVH
+                    jobsVH.tvPosName.text = result?.jobTitle
+                    jobsVH.tvComName.text = result?.companyName
+                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvEducation.text = result?.eduRec
+                    jobsVH.tvExperience.text = result?.experience
 
-                jobsVH.tvPosName.text = result?.jobTitle
-                jobsVH.tvComName.text = result?.companyName
-                jobsVH.tvDeadline.text = result?.deadline
-                jobsVH.tvEducation.text = result?.eduRec
-                jobsVH.tvExperience.text = result?.experience
-
-                doAsync {
-                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
-                    uiThread {
-                        if (homeCommunicator == null) {
-                            if (shortListed) {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                    doAsync {
+                        val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                        uiThread {
+                            if (homeCommunicator == null) {
+                                if (shortListed) {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                } else {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
                             }
-                        } else {
-                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
-                        }
 
-                        if (appliedJobs.isEmpty()) {
-                            jobsVH.appliedBadge.hide()
-                        } else {
-                            jobsVH.appliedBadge.show()
+                            if (appliedJobs.isEmpty()) {
+                                jobsVH.appliedBadge.hide()
+                            } else {
+                                jobsVH.appliedBadge.show()
+                            }
+                        }
+                    }
+
+                    jobsVH.shortListIconIV.setOnClickListener {
+                        shorlistAndUnshortlistJob(position)
+                    }
+
+                    jobsVH.linearLayout.setOnClickListener {
+                        try {
+                            jobCommunicator?.onItemClicked(position)
+                            val jobids = ArrayList<String>()
+                            val lns = ArrayList<String>()
+                            val deadline = ArrayList<String>()
+                            jobids.add(jobList?.get(position)?.jobid!!)
+                            lns.add(jobList?.get(position)?.lantype!!)
+                            deadline.add(jobList?.get(position)?.deadlineDB!!)
+                            homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
+                        } catch (e: Exception) {
+                            logException(e)
                         }
                     }
                 }
 
-                jobsVH.shortListIconIV.setOnClickListener {
-                    shorlistAndUnshortlistJob(position)
+                LOADING -> {
+
+                    /*   //Log.d("Check", " LOADING " + LOADING)*/
+                    val loadingVH = holder as LoadingVH
+
+                    if (retryPageLoad) {
+                        loadingVH.mErrorLayout?.visibility = View.VISIBLE
+                        /*loadingVH.mProgressBar!!.visibility = View.GONE*/
+
+                        loadingVH.mErrorTxt?.text = if (errorMsg != null)
+                            errorMsg
+                        else
+                            context.getString(R.string.app_name)
+
+                    } else {
+                        loadingVH.mErrorLayout?.visibility = View.GONE
+                        /*loadingVH.mProgressBar.visibility = View.VISIBLE*/
+                    }
                 }
 
-                jobsVH.linearLayout.setOnClickListener {
-                    try {
+                STANDOUT -> {
+
+                    //Log.d("ouiouii", " STANDOUT ${result?.jobTitle}")
+
+                    val jobsVH = holder as StandOutListVH
+
+                    jobsVH.tvPosName.text = result?.jobTitle
+                    jobsVH.tvComName.text = result?.companyName
+                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvEducation.text = result?.eduRec
+                    jobsVH.tvExperience.text = result?.experience
+
+
+                    jobsVH.linearLayout.setOnClickListener {
                         jobCommunicator?.onItemClicked(position)
                         val jobids = ArrayList<String>()
                         val lns = ArrayList<String>()
@@ -171,323 +229,55 @@ class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdate
                         lns.add(jobList?.get(position)?.lantype!!)
                         deadline.add(jobList?.get(position)?.deadlineDB!!)
                         homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
-                    } catch (e: Exception) {
-                        logException(e)
                     }
-                }
-            }
 
-            LOADING -> {
+                    jobsVH.shortListIconIV.setOnClickListener {
+                        shorlistAndUnshortlistJob(position)
 
-                /*   //Log.d("Check", " LOADING " + LOADING)*/
-                val loadingVH = holder as LoadingVH
+                    }
+                    if (result?.logo != null) {
+                        jobsVH.logoImageView.visibility = View.VISIBLE
+                        Picasso.get()?.load(result.logo)?.into(jobsVH.logoImageView)
 
-                if (retryPageLoad) {
-                    loadingVH.mErrorLayout?.visibility = View.VISIBLE
-                    /*loadingVH.mProgressBar!!.visibility = View.GONE*/
+                    }
 
-                    loadingVH.mErrorTxt?.text = if (errorMsg != null)
-                        errorMsg
-                    else
-                        context.getString(R.string.app_name)
+                    doAsync {
+                        val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                        uiThread {
 
-                } else {
-                    loadingVH.mErrorLayout?.visibility = View.GONE
-                    /*loadingVH.mProgressBar.visibility = View.VISIBLE*/
-                }
-            }
-
-            STANDOUT -> {
-
-                //Log.d("ouiouii", " STANDOUT ${result?.jobTitle}")
-
-                val jobsVH = holder as StandOutListVH
-
-                jobsVH.tvPosName.text = result?.jobTitle
-                jobsVH.tvComName.text = result?.companyName
-                jobsVH.tvDeadline.text = result?.deadline
-                jobsVH.tvEducation.text = result?.eduRec
-                jobsVH.tvExperience.text = result?.experience
-
-
-                jobsVH.linearLayout.setOnClickListener {
-                    jobCommunicator?.onItemClicked(position)
-                    val jobids = ArrayList<String>()
-                    val lns = ArrayList<String>()
-                    val deadline = ArrayList<String>()
-                    jobids.add(jobList?.get(position)?.jobid!!)
-                    lns.add(jobList?.get(position)?.lantype!!)
-                    deadline.add(jobList?.get(position)?.deadlineDB!!)
-                    homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
-                }
-
-                jobsVH.shortListIconIV.setOnClickListener {
-                    shorlistAndUnshortlistJob(position)
-
-                }
-                if (result?.logo != null) {
-                    jobsVH.logoImageView.visibility = View.VISIBLE
-                    Picasso.get()?.load(result.logo)?.into(jobsVH.logoImageView)
-
-                }
-
-                doAsync {
-                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
-                    uiThread {
-
-                        if (homeCommunicator == null) {
-                            if (shortListed) {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                            if (homeCommunicator == null) {
+                                if (shortListed) {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                } else {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
-                            }
-                        } else {
-                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
-                        }
-
-                        if (appliedJobs.isEmpty()) {
-                            jobsVH.appliedBadge.hide()
-                        } else {
-                            jobsVH.appliedBadge.show()
-                        }
-                    }
-                }
-
-
-            }
-
-            FEATURED -> {
-
-                val jobsVH = holder as FeaturedListVH
-                jobsVH.tvPosName.text = result?.jobTitle
-                jobsVH.tvComName.text = result?.companyName
-                jobsVH.tvDeadline.text = result?.deadline
-                jobsVH.tvEducation.text = result?.eduRec
-                jobsVH.tvExperience.text = result?.experience
-
-
-                jobsVH.cardView.setOnClickListener {
-                    jobCommunicator?.onItemClicked(position)
-                    val jobids = ArrayList<String>()
-                    val lns = ArrayList<String>()
-                    val deadline = ArrayList<String>()
-                    jobids.add(jobList?.get(position)?.jobid!!)
-                    lns.add(jobList?.get(position)?.lantype!!)
-                    deadline.add(jobList?.get(position)?.deadlineDB!!)
-                    homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
-                }
-
-
-                jobsVH.ivDropArrow.setOnClickListener {
-                    jobsVH.ivDropArrow.visibility = View.GONE
-                    jobsVH.clHiddenLayout.visibility = View.VISIBLE
-//                    ExpandAndCollapseViewUtil.expand(jobsVH.clHiddenLayout, 300)
-                }
-
-                jobsVH.shortListIconIV.setOnClickListener {
-                    shorlistAndUnshortlistJob(position)
-
-                }
-                if (result?.logo != null) {
-                    jobsVH.logoImageView.visibility = View.VISIBLE
-                    Picasso.get()?.load(result.logo)?.into(jobsVH.logoImageView)
-
-                }
-
-                doAsync {
-                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
-                    uiThread {
-
-                        if (homeCommunicator == null) {
-                            if (shortListed) {
                                 jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
-                            } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
                             }
-                        } else {
-                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
-                        }
 
-                        if (appliedJobs.isEmpty()) {
-                            //jobsVH.appliedBadge.hide()
-                        } else {
-                            //jobsVH.appliedBadge.show()
+                            if (appliedJobs.isEmpty()) {
+                                jobsVH.appliedBadge.hide()
+                            } else {
+                                jobsVH.appliedBadge.show()
+                            }
                         }
                     }
-                }
 
-
-            }
-
-            FEATURED_AD -> {
-
-                val jobsVH = holder as FeaturedAdListVH
-                Ads.showNativeAd(jobsVH.ad_small_template, context)
-                jobsVH.tvPosName.text = result?.jobTitle
-                jobsVH.tvComName.text = result?.companyName
-                jobsVH.tvDeadline.text = result?.deadline
-                jobsVH.tvEducation.text = result?.eduRec
-                jobsVH.tvExperience.text = result?.experience
-
-
-                jobsVH.cardView.setOnClickListener {
-                    jobCommunicator?.onItemClicked(position)
-                    val jobids = ArrayList<String>()
-                    val lns = ArrayList<String>()
-                    val deadline = ArrayList<String>()
-                    jobids.add(jobList?.get(position)?.jobid!!)
-                    lns.add(jobList?.get(position)?.lantype!!)
-                    deadline.add(jobList?.get(position)?.deadlineDB!!)
-                    homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
-                }
-
-
-                jobsVH.ivDropArrow.setOnClickListener {
-                    jobsVH.ivDropArrow.visibility = View.GONE
-                    jobsVH.clHiddenLayout.visibility = View.VISIBLE
-//                    ExpandAndCollapseViewUtil.expand(jobsVH.clHiddenLayout, 300)
-                }
-
-                jobsVH.shortListIconIV.setOnClickListener {
-                    shorlistAndUnshortlistJob(position)
-
-                }
-                if (result?.logo != null) {
-                    jobsVH.logoImageView.visibility = View.VISIBLE
-                    Picasso.get()?.load(result.logo)?.into(jobsVH.logoImageView)
 
                 }
 
-                doAsync {
-                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
-                    uiThread {
+                FEATURED -> {
 
-                        if (homeCommunicator == null) {
-                            if (shortListed) {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
-                            } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
-                            }
-                        } else {
-                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
-                        }
-
-                        if (appliedJobs.isEmpty()) {
-                            //jobsVH.appliedBadge.hide()
-                        } else {
-                            //jobsVH.appliedBadge.show()
-                        }
-                    }
-                }
+                    val jobsVH = holder as FeaturedListVH
+                    jobsVH.tvPosName.text = result?.jobTitle
+                    jobsVH.tvComName.text = result?.companyName
+                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvEducation.text = result?.eduRec
+                    jobsVH.tvExperience.text = result?.experience
 
 
-            }
-
-            STANDOUT_AD -> {
-                //Log.d("ouiouii", " STANDOUT_AD ${result?.jobTitle}")
-
-                val jobsVH = holder as StandOutAdJobListVH
-
-                Ads.showNativeAd(jobsVH.ad_small_template, context)
-
-                jobsVH.tvPosName.text = result?.jobTitle
-                jobsVH.tvComName.text = result?.companyName
-                jobsVH.tvDeadline.text = result?.deadline
-                jobsVH.tvEducation.text = result?.eduRec
-                jobsVH.tvExperience.text = result?.experience
-
-
-                jobsVH.linearLayout.setOnClickListener {
-                    jobCommunicator?.onItemClicked(position)
-                    val jobids = ArrayList<String>()
-                    val lns = ArrayList<String>()
-                    val deadline = ArrayList<String>()
-                    jobids.add(jobList?.get(position)?.jobid!!)
-                    lns.add(jobList?.get(position)?.lantype!!)
-                    deadline.add(jobList?.get(position)?.deadlineDB!!)
-                    homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
-                }
-
-                jobsVH.shortListIconIV.setOnClickListener {
-                    shorlistAndUnshortlistJob(position)
-                }
-
-                if (result?.logo != null) {
-                    jobsVH.logoImageView.visibility = View.VISIBLE
-                    Picasso.get()?.load(result.logo)?.into(jobsVH.logoImageView)
-
-                }
-
-                doAsync {
-                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
-                    uiThread {
-
-                        if (homeCommunicator == null) {
-                            if (shortListed) {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
-                            } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
-                            }
-                        } else {
-                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
-                        }
-
-                        if (appliedJobs.isEmpty()) {
-                            jobsVH.appliedBadge.hide()
-                        } else {
-                            jobsVH.appliedBadge.show()
-                        }
-                    }
-                }
-
-
-            }
-
-            BASIC_AD -> {
-                //Log.d("ouiouii", " BASIC_AD ${result?.jobTitle}")
-
-                val jobsVH = holder as BasicAdobListVH
-
-                Ads.showNativeAd(jobsVH.ad_small_template, context)
-
-                jobsVH.tvPosName.text = result?.jobTitle
-                jobsVH.tvComName.text = result?.companyName
-                jobsVH.tvDeadline.text = result?.deadline
-                jobsVH.tvEducation.text = result?.eduRec
-                jobsVH.tvExperience.text = result?.experience
-
-                doAsync {
-                    val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                    val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
-                    uiThread {
-                        if (homeCommunicator == null) {
-                            if (shortListed) {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
-                            } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
-                            }
-                        } else {
-                            jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
-                        }
-
-                        if (appliedJobs.isEmpty()) {
-                            jobsVH.appliedBadge.hide()
-                        } else {
-                            jobsVH.appliedBadge.show()
-                        }
-                    }
-                }
-
-                jobsVH.shortListIconIV.setOnClickListener {
-                    shorlistAndUnshortlistJob(position)
-                }
-
-                jobsVH.linearLayout.setOnClickListener {
-                    try {
+                    jobsVH.cardView.setOnClickListener {
                         jobCommunicator?.onItemClicked(position)
                         val jobids = ArrayList<String>()
                         val lns = ArrayList<String>()
@@ -496,12 +286,235 @@ class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdate
                         lns.add(jobList?.get(position)?.lantype!!)
                         deadline.add(jobList?.get(position)?.deadlineDB!!)
                         homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
-                    } catch (e: Exception) {
-                        logException(e)
+                    }
+
+
+                    jobsVH.ivDropArrow.setOnClickListener {
+                        jobsVH.ivDropArrow.visibility = View.GONE
+                        jobsVH.clHiddenLayout.visibility = View.VISIBLE
+//                    ExpandAndCollapseViewUtil.expand(jobsVH.clHiddenLayout, 300)
+                    }
+
+                    jobsVH.shortListIconIV.setOnClickListener {
+                        shorlistAndUnshortlistJob(position)
+
+                    }
+                    if (result?.logo != null) {
+                        jobsVH.logoImageView.visibility = View.VISIBLE
+                        Picasso.get()?.load(result.logo)?.into(jobsVH.logoImageView)
+
+                    }
+
+                    doAsync {
+                        val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                        uiThread {
+
+                            if (homeCommunicator == null) {
+                                if (shortListed) {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                } else {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                }
+                            } else {
+                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                            }
+
+                            if (appliedJobs.isEmpty()) {
+                                //jobsVH.appliedBadge.hide()
+                            } else {
+                                //jobsVH.appliedBadge.show()
+                            }
+                        }
+                    }
+
+
+                }
+
+                FEATURED_AD -> {
+
+                    val jobsVH = holder as FeaturedAdListVH
+                    Ads.showNativeAd(jobsVH.ad_small_template, context)
+                    jobsVH.tvPosName.text = result?.jobTitle
+                    jobsVH.tvComName.text = result?.companyName
+                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvEducation.text = result?.eduRec
+                    jobsVH.tvExperience.text = result?.experience
+
+
+                    jobsVH.cardView.setOnClickListener {
+                        jobCommunicator?.onItemClicked(position)
+                        val jobids = ArrayList<String>()
+                        val lns = ArrayList<String>()
+                        val deadline = ArrayList<String>()
+                        jobids.add(jobList?.get(position)?.jobid!!)
+                        lns.add(jobList?.get(position)?.lantype!!)
+                        deadline.add(jobList?.get(position)?.deadlineDB!!)
+                        homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
+                    }
+
+
+                    jobsVH.ivDropArrow.setOnClickListener {
+                        jobsVH.ivDropArrow.visibility = View.GONE
+                        jobsVH.clHiddenLayout.visibility = View.VISIBLE
+//                    ExpandAndCollapseViewUtil.expand(jobsVH.clHiddenLayout, 300)
+                    }
+
+                    jobsVH.shortListIconIV.setOnClickListener {
+                        shorlistAndUnshortlistJob(position)
+
+                    }
+                    if (result?.logo != null) {
+                        jobsVH.logoImageView.visibility = View.VISIBLE
+                        Picasso.get()?.load(result.logo)?.into(jobsVH.logoImageView)
+
+                    }
+
+                    doAsync {
+                        val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                        uiThread {
+
+                            if (homeCommunicator == null) {
+                                if (shortListed) {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                } else {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                }
+                            } else {
+                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                            }
+
+                            if (appliedJobs.isEmpty()) {
+                                //jobsVH.appliedBadge.hide()
+                            } else {
+                                //jobsVH.appliedBadge.show()
+                            }
+                        }
+                    }
+
+
+                }
+
+                STANDOUT_AD -> {
+                    //Log.d("ouiouii", " STANDOUT_AD ${result?.jobTitle}")
+
+                    val jobsVH = holder as StandOutAdJobListVH
+
+                    Ads.showNativeAd(jobsVH.ad_small_template, context)
+
+                    jobsVH.tvPosName.text = result?.jobTitle
+                    jobsVH.tvComName.text = result?.companyName
+                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvEducation.text = result?.eduRec
+                    jobsVH.tvExperience.text = result?.experience
+
+
+                    jobsVH.linearLayout.setOnClickListener {
+                        jobCommunicator?.onItemClicked(position)
+                        val jobids = ArrayList<String>()
+                        val lns = ArrayList<String>()
+                        val deadline = ArrayList<String>()
+                        jobids.add(jobList?.get(position)?.jobid!!)
+                        lns.add(jobList?.get(position)?.lantype!!)
+                        deadline.add(jobList?.get(position)?.deadlineDB!!)
+                        homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
+                    }
+
+                    jobsVH.shortListIconIV.setOnClickListener {
+                        shorlistAndUnshortlistJob(position)
+                    }
+
+                    if (result?.logo != null) {
+                        jobsVH.logoImageView.visibility = View.VISIBLE
+                        Picasso.get()?.load(result.logo)?.into(jobsVH.logoImageView)
+
+                    }
+
+                    doAsync {
+                        val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                        uiThread {
+
+                            if (homeCommunicator == null) {
+                                if (shortListed) {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                } else {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                }
+                            } else {
+                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                            }
+
+                            if (appliedJobs.isEmpty()) {
+                                jobsVH.appliedBadge.hide()
+                            } else {
+                                jobsVH.appliedBadge.show()
+                            }
+                        }
+                    }
+
+
+                }
+
+                BASIC_AD -> {
+                    //Log.d("ouiouii", " BASIC_AD ${result?.jobTitle}")
+
+                    val jobsVH = holder as BasicAdobListVH
+
+                    Ads.showNativeAd(jobsVH.ad_small_template, context)
+
+                    jobsVH.tvPosName.text = result?.jobTitle
+                    jobsVH.tvComName.text = result?.companyName
+                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvEducation.text = result?.eduRec
+                    jobsVH.tvExperience.text = result?.experience
+
+                    doAsync {
+                        val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
+                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+                        uiThread {
+                            if (homeCommunicator == null) {
+                                if (shortListed) {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                } else {
+                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                }
+                            } else {
+                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                            }
+
+                            if (appliedJobs.isEmpty()) {
+                                jobsVH.appliedBadge.hide()
+                            } else {
+                                jobsVH.appliedBadge.show()
+                            }
+                        }
+                    }
+
+                    jobsVH.shortListIconIV.setOnClickListener {
+                        shorlistAndUnshortlistJob(position)
+                    }
+
+                    jobsVH.linearLayout.setOnClickListener {
+                        try {
+                            jobCommunicator?.onItemClicked(position)
+                            val jobids = ArrayList<String>()
+                            val lns = ArrayList<String>()
+                            val deadline = ArrayList<String>()
+                            jobids.add(jobList?.get(position)?.jobid!!)
+                            lns.add(jobList?.get(position)?.lantype!!)
+                            deadline.add(jobList?.get(position)?.deadlineDB!!)
+                            homeCommunicator?.shortListedClicked(jobids = jobids, lns = lns, deadline = deadline)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
                     }
                 }
+
             }
         }
+
     }
 
     private fun deleteShortListedJobwithUndo(position: Int) {
@@ -657,49 +670,51 @@ class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdate
     }
 
     override fun getItemCount(): Int {
-        return if (this.jobList == null) 0 else this.jobList!!.size
+        return if (jobList!=null && jobList!!.size>0) jobList!!.size+1 else 0
+//        return if (this.jobList == null) 0 else if (this.jobList!!.size>0) this.jobList!!.size +1 else this.jobList!!.size
     }
 
     override fun getItemViewType(position: Int): Int {
 
-        if (showAD && (position % 3 == 0) && position != 0 && position < 21) {
-            if (position == this.jobList!!.size - 1 && isLoadingAdded) {
+        Timber.d("Position: $position .. ItemCount: $itemCount Total: ${jobCommunicator?.getTotalJobCount()}")
 
-                return LOADING
+        if ( position<itemCount-1) {
+            if (showAD && (position % 3 == 0) && position != 0 && position < 21) {
+               if (this.jobList?.get(position)?.standout?.equalIgnoreCase("2")!!) {
 
-            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("2")!!) {
+                    return FEATURED_AD
 
-                return FEATURED_AD
+                } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!!) {
 
-            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!!) {
+                    return STANDOUT_AD
 
-                return STANDOUT_AD
+                } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
 
-            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
-
-                return BASIC_AD
-            } else{
-                return BASIC_AD
+                    return BASIC_AD
+                } else{
+                    return BASIC_AD
+                }
             }
+            else {
+                if (this.jobList?.get(position)?.standout?.equalIgnoreCase("2")!!) {
+
+                    return FEATURED
+
+                } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!!) {
+
+                    return STANDOUT
+
+                } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
+
+                    return BASIC
+                } else{
+                    return BASIC
+                }
+            }
+        } else if (jobCommunicator?.getTotalJobCount()!! <= position) {
+            return AJKER_DEAL_LIVE
         } else {
-            if (position == this.jobList!!.size - 1 && isLoadingAdded) {
-
-                return LOADING
-
-            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("2")!!) {
-
-                return FEATURED
-
-            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!!) {
-
-                return STANDOUT
-
-            } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
-
-                return BASIC
-            } else{
-                return BASIC
-            }
+            return LOADING
         }
     }
 
@@ -709,7 +724,6 @@ class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdate
         notifyItemInserted(this.jobList!!.size - 1)
 
     }
-
 
     fun addAll(moveResults: List<JobListModelData>) {
         for (result in moveResults) {
@@ -761,6 +775,14 @@ class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdate
         return this.jobList!![position]
     }
 
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        if (holder is AjkerDealLiveVH) {
+            holder.fragment(HomeNewFragment())
+        }
+        super.onViewAttachedToWindow(holder)
+
+
+    }
 
     /**
      * Main list's content ViewHolder
@@ -860,6 +882,19 @@ class JobListAdapter(private val context: Context, var onUpdateCounter: OnUpdate
             }
         }
 
+    }
+
+    inner class AjkerDealLiveVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private var container: FrameLayout = itemView.findViewById(R.id.live_container)
+
+        fun fragment(fragment: Fragment) {
+
+            (context as AppCompatActivity)
+                .supportFragmentManager
+                .beginTransaction()
+                .replace(container.id, fragment)
+                .commitNowAllowingStateLoss()
+        }
     }
 
     interface OnUpdateCounter {
