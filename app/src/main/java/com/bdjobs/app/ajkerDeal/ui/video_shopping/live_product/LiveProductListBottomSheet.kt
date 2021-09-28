@@ -310,7 +310,11 @@ class LiveProductListBottomSheet : BottomSheetDialogFragment() {
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        productUpdateRef.removeEventListener(productUpdateLister)
+
+        try {
+            productUpdateRef.removeEventListener(productUpdateLister)
+        } catch (e: Exception) {
+        }
     }
 
     override fun onDestroyView() {

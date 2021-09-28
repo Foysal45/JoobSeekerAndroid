@@ -48,6 +48,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.isDeviceInfromationSent
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
 import com.bdjobs.app.Utilities.Constants.Companion.sendDeviceInformation
 import com.bdjobs.app.Web.WebActivity
+import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
@@ -82,6 +83,10 @@ import kotlin.collections.ArrayList
 class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     BackgroundJobBroadcastReceiver.NotificationUpdateListener {
 
+    override fun goToAjkerDealLive() {
+        transitFragmentX(HomeNewFragment(),R.id.navHostFragment,false)
+
+    }
 
     override fun onUpdateNotification() {
         BdjobsUserSession(this@MainLandingActivity).let {

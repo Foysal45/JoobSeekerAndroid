@@ -79,6 +79,8 @@ class  MyBdjobsFragment : Fragment() {
         bdjobsUserSession = BdjobsUserSession(requireContext())
         bdjobsDB = BdjobsDB.getInstance(requireContext())
 
+        communicator.goToAjkerDealLive()
+
     }
 
     override fun onResume() {

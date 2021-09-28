@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.bdjobs.app.LoggedInUserLanding
 
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
@@ -38,6 +40,8 @@ interface HomeCommunicator {
     fun goToNotifications()
     fun goToMessages()
     fun goToResumeManager()
+
+    fun goToAjkerDealLive()
 
     fun getTotalShortlistedJobCounter():Int
     fun setTotalShortlistedJobCounter(count:Int)
