@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="8dp"
+        tools:background="@drawable/bg_live_product_overview">
+
+        <ImageView
+            android:id="@+id/productImage"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:contentDescription="@string/cd"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/downloadBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/cd"
+            android:padding="2dp"
+            android:src="@drawable/ic_download_fill"
+            app:layout_constraintBottom_toBottomOf="@id/productImage"
+            app:layout_constraintStart_toStartOf="@id/productImage" />
+
+        <LinearLayout
+            android:id="@+id/detailsLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="center|start"
+            android:orientation="vertical"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/buyNowBtn"
+            app:layout_constraintStart_toEndOf="@id/productImage"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="5dp"
+                android:maxLines="1"
+                android:textColor="@color/black_90"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/price"
+                app:layout_constraintEnd_toStartOf="@id/buyNowBtn"
+                app:layout_constraintStart_toEndOf="@id/productImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="@tools:sample/lorem/random" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="5dp"
+                android:maxLines="1"
+                android:textColor="@color/aDheaderColor"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/buyNowBtn"
+                app:layout_constraintStart_toEndOf="@id/productImage"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                tools:text="@tools:sample/us_zipcodes" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/cartBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/cd"
+            android:src="@drawable/ic_vec_cart"
+            app:layout_constraintEnd_toEndOf="@id/buyNowBtn"
+            app:layout_constraintStart_toStartOf="@id/buyNowBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/gray" />
+
+        <TextView
+            android:id="@+id/buyNowBtn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_live_buy"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
+            android:text="@string/buyNow"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cartBtn" />
+
+        <ImageView
+            android:id="@+id/fbBuyNowBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/cd"
+            android:src="@drawable/ic_order_fb"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,5 +1,6 @@
 package com.bdjobs.app
 
+import android.Manifest
 import android.app.*
 import android.content.Context
 import android.content.Intent
@@ -30,8 +31,10 @@ import com.bdjobs.app.SessionManger.DeviceProtectedSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
+import com.fondesa.kpermissions.*
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.fondesa.kpermissions.extension.send
 import com.fondesa.kpermissions.request.PermissionRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd
@@ -47,6 +50,7 @@ import com.squareup.picasso.PicassoTools
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.no_internet.*
 import org.jetbrains.anko.startActivity
+import timber.log.Timber
 import java.security.MessageDigest
 
 
@@ -102,12 +106,10 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         super.onResume()
         pref = getSharedPreferences(name_sharedPref, Context.MODE_PRIVATE)
         ConnectivityReceiver.connectivityReceiverListener = this
-        ////Log.d("rakib", "check for permission")
-        //Log.d("rakib", "called onresume")
-
     }
 
     private fun showExplanationFirstTimePopup(isConnected: Boolean) {
+        Timber.d("First")
         firstDialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
         firstDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         firstDialog?.setCancelable(false)
@@ -122,35 +124,59 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         }
 
         agreedBtn?.setOnClickListener {
+            Timber.d("Agreed button clicked")
 
-            request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
-            request.send()
-            request.listeners {
+//            request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
+//            request.send()
+//            request.listeners {
+//
+//                onAccepted { permissions ->
+//                    Timber.d("Accepted access")
+//                    // Notified when the permissions are accepted.
+//                    dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
+//                    firstDialog?.dismiss()
+//                    //Log.d("rakib", "on accepted")
+//                    doWork(connectionStatus)
+//                }
+//
+//                onDenied { permissions ->
+//                    // Notified when the permissions are denied.
+//                }
+//
+//                onPermanentlyDenied { permissions ->
+//                    // Notified when the permissions are permanently denied.
+//                    //Log.d("rakib", "permanently denied")
+//                    showPermanentlyDeniedPopup(firstDialog as Dialog)
+//
+//                }
+//
+//                onShouldShowRationale { permissions, nonce ->
+//                    // Notified when the permissions should show a rationale.
+//                    // The nonce can be used to request the permissions again.
+//                }
+//            }
 
-                onAccepted { permissions ->
-                    // Notified when the permissions are accepted.
-                    dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
-                    firstDialog?.dismiss()
-                    //Log.d("rakib", "on accepted")
-                    doWork(connectionStatus)
-                }
+            permissionsBuilder(Manifest.permission.WRITE_EXTERNAL_STORAGE).build().send { result ->
+                when {
+                    result.allGranted() -> {
+                        Timber.d("All granted!!")
+                        // Notified when the permissions are accepted.
+                        dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
+                        firstDialog?.dismiss()
+                        //Log.d("rakib", "on accepted")
+                        doWork(connectionStatus)
+                    }
+                    result.allDenied() || result.anyDenied() -> {
+                        Timber.d("Denied!!")
+                    }
 
-                onDenied { permissions ->
-                    // Notified when the permissions are denied.
-                }
+                    result.allPermanentlyDenied() || result.anyPermanentlyDenied() -> {
 
-                onPermanentlyDenied { permissions ->
-                    // Notified when the permissions are permanently denied.
-                    //Log.d("rakib", "permanently denied")
-                    showPermanentlyDeniedPopup(firstDialog as Dialog)
-
-                }
-
-                onShouldShowRationale { permissions, nonce ->
-                    // Notified when the permissions should show a rationale.
-                    // The nonce can be used to request the permissions again.
+                        showPermanentlyDeniedPopup(firstDialog as Dialog)
+                    }
                 }
             }
+
 
         }
         firstDialog?.show()
@@ -252,104 +278,11 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
                 version_name_tv?.text = "v${getAppVersion()} (${getAppVersionCode()})"
             } catch (e: Exception) {
             }
-
-//            val dbUpdateDate = pref.getString(key_db_update, dfault_date_db_update)
-            //debug("getDbInfo: Update_date = $dbUpdateDate")
-
-
             showAdAndGoToNextActivity()
-
-//            ApiServiceJobs.create().getDbInfo(dbUpdateDate!!).enqueue(object : Callback<DatabaseUpdateModel> {
-//                override fun onFailure(call: Call<DatabaseUpdateModel>?, t: Throwable?) {
-//                    try {
-//                        debug("getDbInfo: ${t?.message!!}")
-//                        showAdAndGoToNextActivity()
-//                    } catch (e: Exception) {
-//                        logException(e)
-//                    }
-//                }
-//
-//                override fun onResponse(call: Call<DatabaseUpdateModel>?, response: Response<DatabaseUpdateModel>?) {
-//
-//                    try {
-//                        if (response?.body()?.messageType == "1") {
-//
-//                            if (response.body()?.update == "1") {
-//                                //Log.d("Rakib", response.body()?.dblink)
-//                                downloadDatabase(response.body()?.dblink!!, response.body()?.lastupdate!!)
-//                            } else {
-//                                showAdAndGoToNextActivity()
-//                            }
-//                        } else {
-//                            showAdAndGoToNextActivity()
-//                        }
-//                    } catch (e: Exception) {
-//                        logException(e)
-//                    }
-//                }
-//
-//            })
         }
     }
 
-//    @RequiresApi(Build.VERSION_CODES.M)
-//    private fun scheduleNotification() {
-//        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        val alarmIntent = Intent(this, TestBroadcastReceiver::class.java).let {
-//            PendingIntent.getBroadcast(this, 50, it, PendingIntent.FLAG_ONE_SHOT)
-//        }
-//
-//        val calendar: Calendar = Calendar.getInstance().apply {
-////            timeInMillis = System.currentTimeMillis()
-//            set(Calendar.HOUR_OF_DAY, 11)
-//            set(Calendar.MINUTE, 16)
-//        }
-//
-////        if (calendar.timeInMillis < System.currentTimeMillis()){
-////            calendar.add(Calendar.DATE,1)
-////        }
-//
-//        alarmManager.setExactAndAllowWhileIdle(
-//                AlarmManager.RTC_WAKEUP,
-//                calendar.timeInMillis,
-//                alarmIntent
-//        )
-//    }
-
-//    fun downloadDatabase(dbDownloadLink: String, updateDate: String) {
-//
-//        ApiServiceJobs.create().downloadDatabaseFile(dbDownloadLink).enqueue(object : Callback<ResponseBody> {
-//            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-//                showAdAndGoToNextActivity()
-//            }
-//
-//            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
-//                try {
-//                    if (response?.isSuccessful!!) {
-//                        //debug("getDbInfo: server contacted and has file")
-//                        val writtenToDisk = writeResponseBodyToDisk(response.body()!!)
-//                        // debug("getDbInfo: file download was a success? $writtenToDisk")
-//
-//                        if (writtenToDisk) {
-//                            pref.edit {
-//                                putString(key_db_update, updateDate)
-//                            }
-//                        }
-//                        showAdAndGoToNextActivity()
-//
-//                    } else {
-//                        debug("getDbInfo: server contact failed")
-//                        showAdAndGoToNextActivity()
-//                    }
-//                } catch (e: Exception) {
-//                    logException(e)
-//                }
-//            }
-//
-//        })
-//    }
-
-    fun showAdAndGoToNextActivity() {
+    private fun showAdAndGoToNextActivity() {
         checkUpdate()
     }
 
@@ -362,6 +295,7 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
     }
 
     private fun goToNextActivity() {
+        Timber.d("Going to nextActivity")
         try {
             //Log.d("XZXfg", "The interstitial wasn't loaded yet.")
             //Log.d("XZXfg", "showAdAndGoToNextActivity :${bdjobsUserSession.isLoggedIn!!}")
@@ -428,58 +362,6 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         takeDecisions(isConnected)
         //Log.d("splash", "called")
     }
-
-//    private fun writeResponseBodyToDisk(body: ResponseBody): Boolean {
-//        try {
-//
-//            val dbFile = File(DB_PATH + DB_NAME)
-//
-//            var inputStream: InputStream? = null
-//            var outputStream: OutputStream? = null
-//
-//            try {
-//                val fileReader = ByteArray(4096)
-//
-//                val fileSize = body.contentLength()
-//                var fileSizeDownloaded: Long = 0
-//
-//                inputStream = body.byteStream()
-//                outputStream = FileOutputStream(dbFile)
-//
-//                while (true) {
-//                    val read = inputStream!!.read(fileReader)
-//
-//                    if (read == -1) {
-//                        break
-//                    }
-//
-//                    outputStream.write(fileReader, 0, read)
-//
-//                    fileSizeDownloaded += read.toLong()
-//
-//                    debug("dbFile download: $fileSizeDownloaded of $fileSize")
-//                }
-//
-//                outputStream.flush()
-//
-//                return true
-//            } catch (e: IOException) {
-//                logException(e)
-//                return false
-//            } finally {
-//                if (inputStream != null) {
-//                    inputStream.close()
-//                }
-//
-//                if (outputStream != null) {
-//                    outputStream.close()
-//                }
-//            }
-//        } catch (e: IOException) {
-//            logException(e)
-//            return false
-//        }
-//    }
 
     private fun generateKeyHash() {
         try {
