@@ -422,9 +422,9 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                             logException(e)
                         }
                     }
-                    holder?.interactionBTN?.setOnClickListener {
+                    holder.interactionBTN.setOnClickListener {
                         try {
-                            communicator?.setFrom("employerInteraction")
+                            communicator.setFrom("employerInteraction")
                             communicator?.setjobID(appliedJobsLists?.get(position)?.jobId!!)
                             communicator?.gotoEmployerInteractionFragment()
                             communicator?.setComapany(appliedJobsLists?.get(position)?.companyName!!)

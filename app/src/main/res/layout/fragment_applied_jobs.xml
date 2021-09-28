@@ -230,9 +230,9 @@
                     android:layout_marginEnd="5dp"
                     android:alpha=".6"
                     android:src="@drawable/ic_not_contacted"
-                    android:tint="#FFF"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="#FFF" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -293,9 +293,9 @@
                     android:layout_marginEnd="5dp"
                     android:alpha=".6"
                     android:src="@drawable/ic_contacted"
-                    android:tint="#FFF"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="#FFF" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -355,9 +355,9 @@
                     android:layout_marginEnd="5dp"
                     android:alpha=".6"
                     android:src="@drawable/ic_hired"
-                    android:tint="#FFF"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="#FFF" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

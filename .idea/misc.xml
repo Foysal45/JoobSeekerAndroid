@@ -7,6 +7,9 @@
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/drawable/test_add_button.xml" value="0.20833333333333334" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/activity_edit_res_landing.xml" value="0.1921875" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/activity_main_landing.xml" value="0.16077898550724637" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/applied_jobs.xml" value="0.33" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_applied_jobs.xml" value="0.25" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_employer_interaction.xml" value="0.25" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_home_layout.xml" value="0.33" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_record_video_resume.xml" value="0.16802536231884058" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_video_resume_questions.xml" value="0.25" />
