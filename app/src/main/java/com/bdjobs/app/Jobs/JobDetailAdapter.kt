@@ -13,9 +13,11 @@ import android.text.Spannable
 import android.text.method.LinkMovementMethod
 import android.view.*
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -33,6 +35,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.appliedJobsCount
 import com.bdjobs.app.Web.WebActivity
+import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
@@ -203,6 +206,7 @@ class JobDetailAdapter(private val context: Context) :
                 jobCommunicator?.hideShortListIcon()
 
 
+                jobsVH
 
                 ApiServiceJobs.create().getJobdetailData(
                     Constants.ENCODED_JOBS,
@@ -1425,6 +1429,7 @@ class JobDetailAdapter(private val context: Context) :
                 applyStatus = true
 
                 if (okButton.isVisible) {
+                    bdjobsUserSession.lastExpectedSalary = salaryTIET.text.toString()
                     applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph,cvUpdateLater)
 //                    showConfirmationDialog(
 //                        position,
@@ -1439,6 +1444,7 @@ class JobDetailAdapter(private val context: Context) :
 
             } else {
                 if (okButton.isVisible) {
+                    bdjobsUserSession.lastExpectedSalary = salaryTIET.text.toString()
                     applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph,cvUpdateLater)
                     dialog.dismiss()
                 }
@@ -1713,15 +1719,26 @@ class JobDetailAdapter(private val context: Context) :
         if (errorMsg != null) this.errorMsg = errorMsg
     }
 
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        if (holder is JobsListVH) {
+            holder.fragment(HomeNewFragment())
+        }
+        super.onViewAttachedToWindow(holder)
+
+
+    }
+
     /**
      * Main list's content ViewHolder
      */
 
-    private class JobsListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
+    inner class JobsListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
 
         val horizontalViewTwo: View = viewItem?.findViewById(R.id.horizontalViewTwo) as View
         val horizontalView: View = viewItem?.findViewById(R.id.horizontalView) as View
         val horizontalViewfour: View = viewItem?.findViewById(R.id.horizontalViewfour) as View
+
+        val parentScroll: ScrollView = viewItem?.findViewById(R.id.jobDetailSCRLV)!!
 
         val jobInfo: TextView = viewItem?.findViewById(R.id.jobInfo) as TextView
         val govtJobsIMGV: ImageView = viewItem?.findViewById(R.id.govtJobsIMGV) as ImageView
@@ -1814,6 +1831,18 @@ class JobDetailAdapter(private val context: Context) :
         val workingPlaceTV: TextView = viewItem?.findViewById(R.id.tv_working_place) as TextView
         val workingPlaceValueTV: TextView =
             viewItem?.findViewById(R.id.tv_working_place_value) as TextView
+
+        val container : FrameLayout = viewItem?.findViewById(R.id.navHostFragment)!!
+
+
+        fun fragment(fragment: Fragment) {
+
+            (context as AppCompatActivity)
+                .supportFragmentManager
+                .beginTransaction()
+                .replace(container.id, fragment)
+                .commitNowAllowingStateLoss()
+        }
 
 
     }

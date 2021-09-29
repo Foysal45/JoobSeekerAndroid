@@ -1,6 +1,7 @@
 package com.bdjobs.app.Jobs
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.text.Html
@@ -11,7 +12,6 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
 import com.bdjobs.app.API.ApiServiceJobs
@@ -334,7 +334,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                 FEATURED_AD -> {
 
                     val jobsVH = holder as FeaturedAdListVH
-                    Ads.showNativeAd(jobsVH.ad_small_template, context)
+                    Ads.showNativeAd(jobsVH.adSmallTemplate, context)
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
                     jobsVH.tvDeadline.text = result?.deadline
@@ -401,7 +401,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     val jobsVH = holder as StandOutAdJobListVH
 
-                    Ads.showNativeAd(jobsVH.ad_small_template, context)
+                    Ads.showNativeAd(jobsVH.adSmallTemplate, context)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
@@ -462,7 +462,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     val jobsVH = holder as BasicAdobListVH
 
-                    Ads.showNativeAd(jobsVH.ad_small_template, context)
+                    Ads.showNativeAd(jobsVH.adSmallTemplate, context)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
@@ -567,6 +567,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
         notifyItemInserted(pos)
     }
 
+    @SuppressLint("NotifyDataSetChanged", "SimpleDateFormat")
     private fun shorlistAndUnshortlistJob(position: Int) {
         val bdjobsUserSession = BdjobsUserSession(context)
         if (!bdjobsUserSession.isLoggedIn!!) {
@@ -608,11 +609,11 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                             val todayDate = SimpleDateFormat("MM/dd/yyyy").parse(today)
 
                             val deadline = jobList?.get(position)?.deadlineDB
-                            val deadlineDate = SimpleDateFormat("MM/dd/yyyy").parse(deadline)
+                            val deadlineDate = SimpleDateFormat("MM/dd/yyyy").parse(deadline!!)
 
                             //Log.d("fphwrpeqspm", "todayDate: $todayDate deadlineDate:$deadlineDate")
 
-                            if (todayDate > deadlineDate) {
+                            if (todayDate!! > deadlineDate) {
                                 context.toast("This job's deadline has been expired. You can not shortlist this job")
                             } else {
 
@@ -639,11 +640,11 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                                     var deadline: Date? = null
                                     try {
-                                        deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB)
+                                        deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB!!)
                                     } catch (e: Exception) {
                                         logException(e)
                                     }
-                                    //Log.d("DeadLine", "DeadLineParsed: $deadline \n DeadLine: ${jobList?.get(position)?.deadlineDB}")
+
                                     val shortlistedJob = ShortListedJobs(
                                             jobid = jobList?.get(position)?.jobid!!,
                                             jobtitle = jobList?.get(position)?.jobTitle!!,
@@ -671,7 +672,6 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
     override fun getItemCount(): Int {
         return if (jobList!=null && jobList!!.size>0) jobList!!.size+1 else 0
-//        return if (this.jobList == null) 0 else if (this.jobList!!.size>0) this.jobList!!.size +1 else this.jobList!!.size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -680,35 +680,45 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
         if ( position<itemCount-1) {
             if (showAD && (position % 3 == 0) && position != 0 && position < 21) {
-               if (this.jobList?.get(position)?.standout?.equalIgnoreCase("2")!!) {
+                return when {
+                    this.jobList?.get(position)?.standout?.equalIgnoreCase("2")!! -> {
 
-                    return FEATURED_AD
+                        FEATURED_AD
 
-                } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!!) {
+                    }
+                    this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!! -> {
 
-                    return STANDOUT_AD
+                        STANDOUT_AD
 
-                } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
+                    }
+                    this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!! -> {
 
-                    return BASIC_AD
-                } else{
-                    return BASIC_AD
+                        BASIC_AD
+                    }
+                    else -> {
+                        BASIC_AD
+                    }
                 }
             }
             else {
-                if (this.jobList?.get(position)?.standout?.equalIgnoreCase("2")!!) {
+                return when {
+                    this.jobList?.get(position)?.standout?.equalIgnoreCase("2")!! -> {
 
-                    return FEATURED
+                        FEATURED
 
-                } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!!) {
+                    }
+                    this.jobList?.get(position)?.standout?.equalIgnoreCase("1")!! -> {
 
-                    return STANDOUT
+                        STANDOUT
 
-                } else if (this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!!) {
+                    }
+                    this.jobList?.get(position)?.standout?.equalIgnoreCase("0")!! -> {
 
-                    return BASIC
-                } else{
-                    return BASIC
+                        BASIC
+                    }
+                    else -> {
+                        BASIC
+                    }
                 }
             }
         } else if (jobCommunicator?.getTotalJobCount()!! <= position) {
@@ -761,9 +771,6 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
         val position = this.jobList!!.size - 1
         val result = getItem(position)
 
-        //Log.d("riuhghugr", "getItemViewType" + getItemViewType(position))
-
-        //Log.d("riuhghugr", " result: $result")
         if (result?.jobid.isNullOrBlank()) {
             this.jobList!!.removeAt(position)
             notifyItemRemoved(position)
@@ -797,7 +804,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
         val logoImageView: ImageView = viewItem?.findViewById(R.id.imageViewCompanyLogoStandOut) as ImageView
         var shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
         var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
-        val ad_small_template: TemplateView = viewItem?.findViewById(R.id.ad_small_template) as TemplateView
+        val adSmallTemplate: TemplateView = viewItem?.findViewById(R.id.ad_small_template) as TemplateView
     }
 
     private class BasicAdobListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
@@ -809,7 +816,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
         val tvEducation: TextView = viewItem?.findViewById(R.id.textViewEducationName) as TextView
         var shortListIconIV: ImageView = viewItem?.findViewById(R.id.shortlist_icon) as ImageView
         var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
-        val ad_small_template: TemplateView = viewItem?.findViewById(R.id.ad_small_template) as TemplateView
+        val adSmallTemplate: TemplateView = viewItem?.findViewById(R.id.ad_small_template) as TemplateView
     }
 
     private class JobsListVH(viewItem: View?) : RecyclerView.ViewHolder(viewItem!!) {
@@ -862,17 +869,17 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
         var ivDropArrow: ImageView = viewItem?.findViewById(R.id.img_drop_arrow) as ImageView
         var clHiddenLayout: ConstraintLayout = viewItem?.findViewById(R.id.hidden_cl) as ConstraintLayout
 //        var linearLayout: LinearLayout = viewItem?.findViewById(R.id.linearLayout) as LinearLayout
-        val ad_small_template: TemplateView = viewItem?.findViewById(R.id.ad_small_template) as TemplateView
+        val adSmallTemplate: TemplateView = viewItem?.findViewById(R.id.ad_small_template) as TemplateView
         var cardView : MaterialCardView = viewItem?.findViewById(R.id.cardViewFeatured) as MaterialCardView
 
 
     }
 
     private class LoadingVH(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        internal var mProgressBar: ProgressBar? = itemView.findViewById(R.id.loadmore_progress) as ProgressBar?
+        var mProgressBar: ProgressBar? = itemView.findViewById(R.id.loadmore_progress) as ProgressBar?
         private var mRetryBtn: ImageButton? = itemView.findViewById(R.id.loadmore_retry) as ImageButton?
-        internal var mErrorTxt: TextView? = itemView.findViewById(R.id.loadmore_errortxt) as TextView?
-        internal var mErrorLayout: LinearLayout? = itemView.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
+        var mErrorTxt: TextView? = itemView.findViewById(R.id.loadmore_errortxt) as TextView?
+        var mErrorLayout: LinearLayout? = itemView.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
         override fun onClick(view: View) {
             when (view.id) {
                 R.id.loadmore_retry, R.id.loadmore_errorlayout -> {
