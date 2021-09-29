@@ -20,6 +20,12 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.recyclerview.widget.LinearLayoutManager
+
+import androidx.recyclerview.widget.RecyclerView
+
+
+
 
 class HomeNewFragment : Fragment() {
     private var binding: FragmentHomeNewBinding? = null
