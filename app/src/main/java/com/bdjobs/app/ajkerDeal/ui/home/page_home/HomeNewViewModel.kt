@@ -18,13 +18,15 @@ class HomeNewViewModel(private val repository: AppRepository): ViewModel() {
 
     val viewState = MutableLiveData<ViewState>(ViewState.NONE)
 
-    fun fetchLiveShow(count: Int): LiveData<MutableList<LiveListData>> {
+    fun fetchLiveShow(count: Int,liveListRequest: LiveListRequest): LiveData<MutableList<LiveListData>> {
 
         viewState.value = ViewState.ProgressState(true)
         val responseData = MutableLiveData<MutableList<LiveListData>>()
         viewModelScope.launch(Dispatchers.IO) {
 
-            val response = repository.fetchHandPickLives(LiveListRequest(0, count, 0))
+            val response = repository.fetchHandPickLives(
+                liveListRequest
+            )
             withContext(Dispatchers.Main) {
                 viewState.value = ViewState.ProgressState(false)
                 when (response) {

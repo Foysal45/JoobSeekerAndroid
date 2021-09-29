@@ -660,6 +660,10 @@ class ContactEditFragment : Fragment() {
 
                         if (response.body()?.statuscode == "4") {
                             session.updateEmail(contactEmailAddressTIET.getString())
+                            session.userPresentDistrict = prContactDistrictTIET.getString()
+                            session.userPresentThana = prContactThanaTIET.getString()
+                            session.userPresentPostOffice = prContactPostOfficeTIET1.getString()
+
                             contactInfo.setBackFrom(Constants.contactUpdate)
                             contactInfo.goBack()
                             //onDestroy()

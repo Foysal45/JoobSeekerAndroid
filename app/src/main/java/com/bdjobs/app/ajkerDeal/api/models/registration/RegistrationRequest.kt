@@ -26,5 +26,18 @@ data class RegistrationRequest(
     @SerializedName("IsSignUpByLivePlaza")
     var isSignUpByLivePlaza: Int = 5,
     @SerializedName("FacebookPageUrl")
-    var facebookPageUrl: String? = ""
+    var facebookPageUrl: String? = "",
+    @SerializedName("AltMobile")
+    var altMobile: String? = "",
+    @SerializedName("Age")
+    var age: String? = "",
+    @SerializedName("CurrentSalary")
+    var currentSalary:String? = "",
+    @SerializedName("ExpectedSalary")
+    var expectedSalary:String? = "",
+    @SerializedName("LocationName")
+    var locationName:String? = "",
+    @SerializedName("KnowingSource")
+    var knowingSource:String? = "",
+
 )

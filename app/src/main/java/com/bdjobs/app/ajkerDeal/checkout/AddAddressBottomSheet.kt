@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.ajkerDeal.checkout.location_dialog.LocationSelectionDialog
 import com.bdjobs.app.ajkerDeal.checkout.location_dialog.LocationType
 import com.bdjobs.app.ajkerDeal.checkout.model.CheckoutDataModel
@@ -17,6 +18,7 @@ import com.bdjobs.app.ajkerDeal.utilities.hideKeyboard
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import timber.log.Timber
 import kotlin.concurrent.thread
 
 /**
@@ -67,6 +69,7 @@ class AddAddressBottomSheet : BottomSheetDialogFragment() {
     private var uid: Long = 0
     private var flagArea: Int = 0
     private var checkoutDataModel: CheckoutDataModel? = null
+    private lateinit var bdJobsUserSession: BdjobsUserSession
 
     private lateinit var bottomSheet: FrameLayout
 
@@ -106,6 +109,8 @@ class AddAddressBottomSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        bdJobsUserSession = BdjobsUserSession(requireContext())
+
         val backBtn: ImageView = view.findViewById(R.id.back_btn)
         parentLayout = view.findViewById(R.id.parent_layout)
         districtSelect = view.findViewById(R.id.select_district)
@@ -142,6 +147,7 @@ class AddAddressBottomSheet : BottomSheetDialogFragment() {
         //autoCompleteAddressAdapter = AutoCompleteAddressAdapter(getApplicationContext(), countryList)
 
         checkoutUserData?.let { model ->
+            Timber.d("Model: ${model.toString()}")
             districtId = model.districtId
             thanaId = model.thanaId
             areaId = model.areaId
@@ -164,6 +170,13 @@ class AddAddressBottomSheet : BottomSheetDialogFragment() {
             areaSelectTV.text = model.areaName
             uid = model.uid
         }
+
+//        deliveryAddressET.setText(bdJobsUserSession.userPresentAddress)
+//        mobileET.setText(bdJobsUserSession.userMobileNumber)
+//        alternateMobileET.setText(bdJobsUserSession.userMobileNumber)
+//        districtSelectTV.text = bdJobsUserSession.userPresentDistrict
+//        thanaSelectTV.text = bdJobsUserSession.userPresentThana
+//        areaSelectTV.text = bdJobsUserSession.userPresentPostOffice
 
 
         districtSelect.setOnClickListener {

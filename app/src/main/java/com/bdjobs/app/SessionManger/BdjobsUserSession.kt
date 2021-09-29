@@ -577,4 +577,32 @@ class BdjobsUserSession(val context: Context) {
         pref!!.edit().putBoolean(Constants.session_key_show_video_resume_to_emp,value).apply()
     }
 
+    var lastExpectedSalary : String?
+    get() = pref!!.getString("LastExpectedSalary","")
+    set(value) {pref!!.edit().putString("LastExpectedSalary",value).apply()}
+
+
+    var expectedSalary : String?
+        get() = pref!!.getString("ExpectedSalary",null)
+        set(value) {pref!!.edit().putString("ExpectedSalary",value).apply()}
+
+
+    var presentSalary : String?
+        get() = pref!!.getString("PresentSalary","")
+        set(value) {pref!!.edit().putString("PresentSalary",value).apply()}
+
+    var userPresentDistrict: String?
+    get() = pref!!.getString("PresentDist","")
+    set(value) {pref!!.edit().putString("PresentDist",value).apply()}
+
+
+    var userPresentThana: String?
+        get() = pref!!.getString("PresentThana","")
+        set(value) {pref!!.edit().putString("PresentThana",value).apply()}
+
+
+    var userPresentPostOffice: String?
+        get() = pref!!.getString("PresentPostOffice","")
+        set(value) {pref!!.edit().putString("PresentPostOffice",value).apply()}
+
 }

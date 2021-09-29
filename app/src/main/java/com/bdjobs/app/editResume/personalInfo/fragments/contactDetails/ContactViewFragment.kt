@@ -16,7 +16,10 @@ import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.editResume.adapters.models.C_DataItem
 import com.bdjobs.app.editResume.adapters.models.GetContactInfo
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
+import kotlinx.android.synthetic.main.fragment_contact_edit.*
 import kotlinx.android.synthetic.main.fragment_contact_view.*
+import kotlinx.android.synthetic.main.fragment_contact_view.tv_email_change_user_id
+import kotlinx.android.synthetic.main.fragment_contact_view.tv_mobile_change_user_id
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -84,6 +87,12 @@ class ContactViewFragment : Fragment() {
                         rlContactMain.show()
                         val respo = response.body()
                         contactCB.passContactData(respo?.data?.get(0)!!)
+                        val d = respo.data[0]
+
+                        session.userPresentDistrict = dataStorage.getLocationNameByID(d?.presentDistrict)
+                        session.userPresentThana = dataStorage.getLocationNameByID(d?.presentThana)
+                        session.userPresentPostOffice = dataStorage.getLocationNameByID(d?.presentPostOffice)
+
                         setupView(respo?.data?.get(0)!!)
                         contactCB.setEditButton(true, "editContact")
 

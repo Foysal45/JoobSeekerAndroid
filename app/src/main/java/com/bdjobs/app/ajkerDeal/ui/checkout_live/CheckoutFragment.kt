@@ -152,7 +152,7 @@ class CheckoutFragment: Fragment() {
 
     private fun showAddressBook(model: CheckoutUserData? = null) {
 
-        Timber.d("showAddressBook called")
+        Timber.d("showAddressBook called: ${model.toString()}")
         val dialog = AddAddressBottomSheet.newInstance(model, CheckoutDataModel())
         val tag = AddAddressBottomSheet.tag
         dialog.show(childFragmentManager, tag)
@@ -418,7 +418,20 @@ class CheckoutFragment: Fragment() {
         }
 
         val requestBody = RegistrationRequest(
-            mobile, mobile, "User${generateRandomNumber(999)}", sessionManager.deviceId, sessionManager.firebaseToken
+            mobile = mobile,
+            password = mobile,
+            name = bdjobsUserSession.fullName,
+            deviceId = sessionManager.deviceId,
+            fireBaseToken = sessionManager.firebaseToken,
+            address = bdjobsUserSession.userPresentAddress,
+            email = bdjobsUserSession.email,
+            gender = bdjobsUserSession.gender,
+            altMobile = bdjobsUserSession.userMobileNumber,
+            age = bdjobsUserSession.age,
+            currentSalary = bdjobsUserSession.presentSalary,
+            expectedSalary = bdjobsUserSession.expectedSalary?:bdjobsUserSession.lastExpectedSalary ,
+            locationName = bdjobsUserSession.userPresentAddress,
+            knowingSource = ""
         )
         Timber.d("requestBody CheckOut -> $requestBody")
         viewModel.fetchSignUpInfo(requestBody).observe(viewLifecycleOwner, Observer { model ->

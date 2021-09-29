@@ -23,8 +23,8 @@ import java.util.*
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import androidx.recyclerview.widget.RecyclerView
-
-
+import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.ajkerDeal.api.models.live_list.LiveListRequest
 
 
 class HomeNewFragment : Fragment() {
@@ -39,6 +39,7 @@ class HomeNewFragment : Fragment() {
     private val liveList: MutableList<LiveListData> = mutableListOf()
 
     private val totalItemToBeViewed = 20
+    private lateinit var bdJobsUserSession: BdjobsUserSession
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +55,7 @@ class HomeNewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dataAdapter = HomeNewAdapter()
+        bdJobsUserSession = BdjobsUserSession(requireContext())
 
         val gridLayoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
         with(binding?.recyclerView!!) {
@@ -110,7 +112,15 @@ class HomeNewFragment : Fragment() {
     }
 
     private fun fetchLiveShowHandPicked(count: Int) {
-        viewModel.fetchLiveShow(count).observe(viewLifecycleOwner, Observer { list ->
+        viewModel.fetchLiveShow(count, LiveListRequest(
+            index = 0,
+            count = count,
+            liveId =  0,
+            gender = bdJobsUserSession.gender,
+            currentSalary = bdJobsUserSession.presentSalary,
+            expectedSalary = bdJobsUserSession.expectedSalary
+        )
+        ).observe(viewLifecycleOwner, Observer { list ->
 
 //            binding?.swipeRefresh?.isRefreshing = false
 
