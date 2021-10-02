@@ -137,6 +137,6 @@ class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
         //Log.d("time", "time: " + time)
         gotoAppliedJobsFragment()
 
-        showAjkerDealLiveView()
+//        showAjkerDealLiveView()
     }
 }
