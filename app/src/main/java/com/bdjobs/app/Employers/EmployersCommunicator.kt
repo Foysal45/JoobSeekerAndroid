@@ -37,6 +37,8 @@ interface EmployersCommunicator {
     fun setEmployerMessageList(employerMessageList : ArrayList<MessageDataModel>?)
     fun getTotalRecords(): Int?
     fun setTotalRecords(value:Int?)
+    fun getTotalFollowedEmployersCount():Int
+    fun setTotalFollowedEmployersCount(count: Int)
 
 
 }

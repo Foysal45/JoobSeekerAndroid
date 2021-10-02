@@ -2,6 +2,7 @@ package com.bdjobs.app.Employers
 
 import android.app.Activity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.MessageDataModel
@@ -9,10 +10,7 @@ import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.logDataForAnalytics
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.activity_employers_base.*
 import org.jetbrains.anko.doAsync
 import retrofit2.Call
@@ -45,12 +43,13 @@ import kotlin.collections.ArrayList
  |
  +-----------------------------------------------------------------------------
  */
-class EmployersBaseActivity : Activity(), EmployersCommunicator {
+class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
 
     lateinit var bdjobsDB: BdjobsDB
     lateinit var bdjobsUserSession: BdjobsUserSession
 
     var records: Int? = null
+    private var totalJobCount:Int = 0
 
     override fun getTotalRecords(): Int? {
         return records
@@ -58,6 +57,14 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
 
     override fun setTotalRecords(value: Int?) {
         this.records = value
+    }
+
+    override fun getTotalFollowedEmployersCount(): Int {
+        return totalJobCount
+    }
+
+    override fun setTotalFollowedEmployersCount(count: Int) {
+        this.totalJobCount = count
     }
 
     override fun setEmployerMessageList(employerMessageList: ArrayList<MessageDataModel>?) {
@@ -245,7 +252,7 @@ class EmployersBaseActivity : Activity(), EmployersCommunicator {
         //   transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         //Log.d("value", "value = $value")
         if (value?.equals("follow")) {
-            transitFragment(followedEmployersListFragment, R.id.fragmentHolder)
+            transitFragmentX(followedEmployersListFragment, R.id.fragmentHolder,false)
         } else if (value?.equals("employer")) {
             transitFragment(employerListFragment, R.id.fragmentHolder)
         } else if (value?.equals("joblist")) {
