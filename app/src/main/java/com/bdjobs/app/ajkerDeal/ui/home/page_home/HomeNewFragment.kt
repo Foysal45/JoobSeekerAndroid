@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bdjobs.app.BuildConfig
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.ajkerDeal.api.models.catalog.CatalogData
 import com.bdjobs.app.ajkerDeal.api.models.live_list.LiveListData
+import com.bdjobs.app.ajkerDeal.api.models.live_list.LiveListRequest
 import com.bdjobs.app.ajkerDeal.api.models.response_body.recommended_deal_payload.RecommendedDealPayload
 import com.bdjobs.app.ajkerDeal.ui.video_shopping.video_pager.VideoPagerActivity
 import com.bdjobs.app.ajkerDeal.utilities.*
@@ -20,11 +22,6 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.recyclerview.widget.LinearLayoutManager
-
-import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.ajkerDeal.api.models.live_list.LiveListRequest
 
 
 class HomeNewFragment : Fragment() {
@@ -118,116 +115,120 @@ class HomeNewFragment : Fragment() {
             liveId =  0,
             gender = bdJobsUserSession.gender,
             currentSalary = bdJobsUserSession.presentSalary,
-            expectedSalary = bdJobsUserSession.expectedSalary
+            expectedSalary = bdJobsUserSession.expectedSalary,
+            location = bdJobsUserSession.userPresentAddress
         )
         ).observe(viewLifecycleOwner, Observer { list ->
 
 //            binding?.swipeRefresh?.isRefreshing = false
 
-            if (BuildConfig.DEBUG) {
-                /*list.add(
-                    0,
-                    LiveListData(
-                        id = 384,
-                        videoTitle = "Test live",
-                        coverPhoto = "",
-                        //videoChannelLink = "https://ad-live-streaming.s3-ap-southeast-1.amazonaws.com/live_show/1433045/384/Fantastic_Salwar_Kameez.m3u8",
-                        channelLogo = "https://static.ajkerdeal.com/images/banners/1433045/logo.jpg",
-                        customerName = "Fabliha Live",
-                        customerId = 328702,
-                        channelId = 3232712,
-                        statusName = "replay", // live replay
-                        channelType = "customer",
-                        facebookVideoUrl = "https://www.facebook.com/flashfashionhouse/videos/557937342187835",
-                        redirectToFB = true,
-                        isShowMobile = true,
-                        mobile = "01555555555",
-                        alternativeMobile = "01666666666",
-                        isShowComment = true,
-                        isShowProductCart = false,
-                        orderPlaceFlag = 1,
-                        isYoutubeVideo = 1,
-                        videoId = "lhj-6LwNXCk"
+            try {
+                if (BuildConfig.DEBUG) {
+                    /*list.add(
+                        0,
+                        LiveListData(
+                            id = 384,
+                            videoTitle = "Test live",
+                            coverPhoto = "",
+                            //videoChannelLink = "https://ad-live-streaming.s3-ap-southeast-1.amazonaws.com/live_show/1433045/384/Fantastic_Salwar_Kameez.m3u8",
+                            channelLogo = "https://static.ajkerdeal.com/images/banners/1433045/logo.jpg",
+                            customerName = "Fabliha Live",
+                            customerId = 328702,
+                            channelId = 3232712,
+                            statusName = "replay", // live replay
+                            channelType = "customer",
+                            facebookVideoUrl = "https://www.facebook.com/flashfashionhouse/videos/557937342187835",
+                            redirectToFB = true,
+                            isShowMobile = true,
+                            mobile = "01555555555",
+                            alternativeMobile = "01666666666",
+                            isShowComment = true,
+                            isShowProductCart = false,
+                            orderPlaceFlag = 1,
+                            isYoutubeVideo = 1,
+                            videoId = "lhj-6LwNXCk"
+                        )
+                    )*/
+                    list.add(
+                        0,
+                        LiveListData(
+                            id=5789,
+                            liveDate="14/09/2021",
+                            fromTime="17:53:00",
+                            toTime="18:53:00",
+                            channelId=1696416,
+                            channelType="customer",
+                            isActive=1,
+                            insertedBy=746,
+                            scheduleId=0,
+                            coverPhoto="https://static.ajkerdeal.com/LiveVideoImage/LiveVideoCoverPhoto/5789/livecoverphoto.jpg",
+                            videoTitle="Test Live",
+                            customerName=null,
+                            profileID=null,
+                            compStringName="",
+                            channelLogo="https://static.ajkerdeal.com/images/banners/1696416/logo.jpg",
+                            channelName="Flash",
+                            liveChannelName=null,
+                            videoChannelLink="",
+                            customerId=0,
+                            merchantId=0,
+                            statusName="replay",
+                            paymentMode="both",
+                            facebookPageUrl="https://www.facebook.com/flashfashionhouse/videos/557937342187835",
+                            mobile="01853165356", alternativeMobile="",
+                            redirectToFB=false, isShowMobile=true,
+                            isShowComment=true, isShowProductCart=false,
+                            facebookVideoUrl="https://www.facebook.com/flashfashionhouse/videos/557937342187835",
+                            orderPlaceFlag=1, categoryId=7, subCategoryId=111, subSubCategoryId=0,
+                            isThirdPartyProductUrl=0, isNotificationSended=true, videoId="557937342187835",
+                        )
                     )
-                )*/
-                list.add(
-                    0,
-                    LiveListData(
-                        id=5789,
-                        liveDate="14/09/2021",
-                        fromTime="17:53:00",
-                        toTime="18:53:00",
-                        channelId=1696416,
-                        channelType="customer",
-                        isActive=1,
-                        insertedBy=746,
-                        scheduleId=0,
-                        coverPhoto="https://static.ajkerdeal.com/LiveVideoImage/LiveVideoCoverPhoto/5789/livecoverphoto.jpg",
-                        videoTitle="Test Live",
-                        customerName=null,
-                        profileID=null,
-                        compStringName="",
-                        channelLogo="https://static.ajkerdeal.com/images/banners/1696416/logo.jpg",
-                        channelName="Flash",
-                        liveChannelName=null,
-                        videoChannelLink="",
-                        customerId=0,
-                        merchantId=0,
-                        statusName="replay",
-                        paymentMode="both",
-                        facebookPageUrl="https://www.facebook.com/flashfashionhouse/videos/557937342187835",
-                        mobile="01853165356", alternativeMobile="",
-                        redirectToFB=false, isShowMobile=true,
-                        isShowComment=true, isShowProductCart=false,
-                        facebookVideoUrl="https://www.facebook.com/flashfashionhouse/videos/557937342187835",
-                        orderPlaceFlag=1, categoryId=7, subCategoryId=111, subSubCategoryId=0,
-                        isThirdPartyProductUrl=0, isNotificationSended=true, videoId="557937342187835",
+                    list.add(
+                        0,
+                        LiveListData(
+                            id=5928,
+                            liveDate="19/09/2021",
+                            fromTime="22:27:21",
+                            toTime="23:00:21",
+                            channelId=1412606,
+                            channelType="customer",
+                            isActive=1,
+                            insertedBy=1412606,
+                            scheduleId=0,
+                            coverPhoto="https://static.ajkerdeal.com/LiveVideoImage/LiveVideoCoverPhoto/5928/livecoverphoto.jpg",
+                            videoTitle="Test Live LP",
+                            customerName=null,
+                            profileID=null,
+                            compStringName="",
+                            channelLogo="https://static.ajkerdeal.com/images/banners/1412606/logo.jpg",
+                            channelName="Gm - Gents Mart",
+                            liveChannelName=null,
+                            videoChannelLink="https://ad-live-streaming.s3-ap-southeast-1.amazonaws.com/live_show/1412606/5928/live_hls.m3u8",
+                            customerId=0,
+                            merchantId=0,
+                            statusName="replay",
+                            paymentMode="both",
+                            facebookPageUrl="",
+                            mobile="", alternativeMobile="",
+                            redirectToFB=false, isShowMobile=false,
+                            isShowComment=true, isShowProductCart=false,
+                            facebookVideoUrl="",
+                            orderPlaceFlag=0, categoryId=0, subCategoryId=0, subSubCategoryId=0,
+                            isThirdPartyProductUrl=0, isNotificationSended=false, videoId="",
+                        )
                     )
-                )
-                list.add(
-                    0,
-                    LiveListData(
-                        id=5928,
-                        liveDate="19/09/2021",
-                        fromTime="22:27:21",
-                        toTime="23:00:21",
-                        channelId=1412606,
-                        channelType="customer",
-                        isActive=1,
-                        insertedBy=1412606,
-                        scheduleId=0,
-                        coverPhoto="https://static.ajkerdeal.com/LiveVideoImage/LiveVideoCoverPhoto/5928/livecoverphoto.jpg",
-                        videoTitle="Test Live LP",
-                        customerName=null,
-                        profileID=null,
-                        compStringName="",
-                        channelLogo="https://static.ajkerdeal.com/images/banners/1412606/logo.jpg",
-                        channelName="Gm - Gents Mart",
-                        liveChannelName=null,
-                        videoChannelLink="https://ad-live-streaming.s3-ap-southeast-1.amazonaws.com/live_show/1412606/5928/live_hls.m3u8",
-                        customerId=0,
-                        merchantId=0,
-                        statusName="replay",
-                        paymentMode="both",
-                        facebookPageUrl="",
-                        mobile="", alternativeMobile="",
-                        redirectToFB=false, isShowMobile=false,
-                        isShowComment=true, isShowProductCart=false,
-                        facebookVideoUrl="",
-                        orderPlaceFlag=0, categoryId=0, subCategoryId=0, subSubCategoryId=0,
-                        isThirdPartyProductUrl=0, isNotificationSended=false, videoId="",
-                    )
-                )
-            }
+                }
 
-            liveList.clear()
-            liveList.addAll(list)
-            dataAdapter.initList(list)
-            Timber.d("requestBody ${dataAdapter.itemCount}, ${list?.size}, ${liveList.size}, ${list}")
-            //val position = mHomePageDataList.indexOfFirst { it.homeViewType == HomeViewType.TYPE_LIVE }
-            val position = classifiedHashMap["1"] ?: -1
-            if (position == -1) return@Observer
-            Timber.d("LiveHandPickDebug api call actionType1 $position")
+                liveList.clear()
+                liveList.addAll(list)
+                dataAdapter.initList(list)
+                Timber.d("requestBody ${dataAdapter.itemCount}, ${list?.size}, ${liveList.size}, ${list}")
+                //val position = mHomePageDataList.indexOfFirst { it.homeViewType == HomeViewType.TYPE_LIVE }
+                val position = classifiedHashMap["1"] ?: -1
+                if (position == -1) return@Observer
+                Timber.d("LiveHandPickDebug api call actionType1 $position")
+            } catch (e: Exception) {
+            }
 
         })
     }

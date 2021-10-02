@@ -17,10 +17,7 @@ import com.bdjobs.app.ajkerDeal.api.models.video_comments.VideoInsertReplyCommen
 import com.bdjobs.app.ajkerDeal.api.models.video_comments.load_all_comments.VideoCommentsModel
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.Retrofit
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface ApiInterfaceAPI {
 
@@ -75,4 +72,11 @@ interface ApiInterfaceAPI {
         @Path("count") count: Int
     ): NetworkResponse<ResponseHeader<List<LiveOrderManagementResponseBody>>, ErrorResponse>
 
+    @FormUrlEncoded
+    @POST("https://adm.ajkerdeal.com/LivePlaza/TakeLogForLivePlaza")
+    suspend fun logForLivePlaza(
+        @Field("LiveId") liveId:Int,
+        @Field("DeviceName") deviceName:String,
+        @Field("Source") source:String,
+    ) : String
 }

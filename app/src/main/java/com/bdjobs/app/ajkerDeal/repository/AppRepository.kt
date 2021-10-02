@@ -32,4 +32,6 @@ class AppRepository(
     // Live Order Management
     suspend fun fetchLiveOrderManagementList(customerId: Int, index: Int, count: Int) = apiInterfaceAPI.fetchLiveOrderManagementList(customerId, index, count)
 
+    // live plaza log
+    suspend fun logLivePlaza(liveId: Int) = apiInterfaceAPI.logForLivePlaza(liveId,"android","bdjobs")
 }

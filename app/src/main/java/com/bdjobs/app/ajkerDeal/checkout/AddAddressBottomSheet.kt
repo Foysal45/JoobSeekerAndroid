@@ -171,9 +171,9 @@ class AddAddressBottomSheet : BottomSheetDialogFragment() {
             uid = model.uid
         }
 
-//        deliveryAddressET.setText(bdJobsUserSession.userPresentAddress)
-//        mobileET.setText(bdJobsUserSession.userMobileNumber)
-//        alternateMobileET.setText(bdJobsUserSession.userMobileNumber)
+        deliveryAddressET.setText(bdJobsUserSession.userPresentAddress)
+        mobileET.setText(bdJobsUserSession.userMobileNumber)
+        alternateMobileET.setText(bdJobsUserSession.userMobileNumber)
 //        districtSelectTV.text = bdJobsUserSession.userPresentDistrict
 //        thanaSelectTV.text = bdJobsUserSession.userPresentThana
 //        areaSelectTV.text = bdJobsUserSession.userPresentPostOffice

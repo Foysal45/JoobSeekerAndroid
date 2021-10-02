@@ -33,6 +33,9 @@ class LiveProductListViewModel(private val repository: AppRepository): ViewModel
                         if (!dataList.isNullOrEmpty()) {
                             catalogList.value = dataList!!
                         }
+
+                        val logResponse = repository.logLivePlaza(liveId)
+                        Timber.d("Log response: $logResponse")
                     }
                     is NetworkResponse.ServerError -> {
                         val message = "দুঃখিত, এই মুহূর্তে আমাদের সার্ভার কানেকশনে সমস্যা হচ্ছে, কিছুক্ষণ পর আবার চেষ্টা করুন"

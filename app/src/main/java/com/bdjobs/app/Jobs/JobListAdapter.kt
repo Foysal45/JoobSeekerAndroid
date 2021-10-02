@@ -676,7 +676,9 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
     override fun getItemViewType(position: Int): Int {
 
-        Timber.d("Position: $position .. ItemCount: $itemCount Total: ${jobCommunicator?.getTotalJobCount()}")
+        val totalJobCount = if (homeCommunicator==null) jobCommunicator?.getTotalJobCount() else homeCommunicator?.getTotalShortlistedJobCounter()
+
+        Timber.d("Position: $position .. ItemCount: $itemCount Total: $totalJobCount")
 
         if ( position<itemCount-1) {
             if (showAD && (position % 3 == 0) && position != 0 && position < 21) {
@@ -721,7 +723,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                     }
                 }
             }
-        } else if (jobCommunicator?.getTotalJobCount()!! <= position) {
+        } else if (totalJobCount!! <= position) {
             return AJKER_DEAL_LIVE
         } else {
             return LOADING
