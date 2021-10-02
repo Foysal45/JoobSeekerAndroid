@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.camera.core.*
+import androidx.camera.core.impl.VideoCaptureConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
@@ -70,6 +71,8 @@ class RecordVideoResumeFragment : Fragment() {
     private var screenAspectRatio = 0
     var RATIO_4_3_VALUE = 4.0 / 3.0
     var RATIO_16_9_VALUE = 16.0 / 9.0
+    val RESOLUTION_WEIDTH = 640
+    val RESOLUTION_HEIGHT = 480
 
 
     override fun onCreateView(
@@ -134,12 +137,13 @@ class RecordVideoResumeFragment : Fragment() {
                 setTargetAspectRatio(AspectRatio.RATIO_4_3)
             }.build()
 
-
             videoCapture = VideoCapture.Builder().apply {
-                setTargetAspectRatio(screenAspectRatio)
-                setMaxResolution(Size(abs(640), abs(480)))
-                setBitRate(1*640*480)
-                useCaseConfig
+                setTargetAspectRatio(AspectRatio.RATIO_4_3)
+             //   setMaxResolution(Size(abs(metrics!!.heightPixels/3 ), abs(metrics!!.widthPixels /2)))
+
+                setMaxResolution(Size(abs(RESOLUTION_HEIGHT), abs(RESOLUTION_WEIDTH)))
+                setBitRate(1*RESOLUTION_HEIGHT*RESOLUTION_WEIDTH)
+
             }.build()
 
             val cameraProvider = cameraProviderFuture.get()
@@ -284,9 +288,9 @@ class RecordVideoResumeFragment : Fragment() {
 
             override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
                 val msg = "Video capture failed: $message"
-                camera_view.post {
-                    Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
-                }
+//                camera_view.post {
+//                   // Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+//                }
             }
         })
 
