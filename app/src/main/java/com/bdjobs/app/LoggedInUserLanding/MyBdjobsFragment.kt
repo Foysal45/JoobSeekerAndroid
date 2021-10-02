@@ -79,7 +79,7 @@ class  MyBdjobsFragment : Fragment() {
         bdjobsUserSession = BdjobsUserSession(requireContext())
         bdjobsDB = BdjobsDB.getInstance(requireContext())
 
-        communicator.goToAjkerDealLive()
+        communicator.goToAjkerDealLive(R.id.navHostFragmentADMB)
 
     }
 

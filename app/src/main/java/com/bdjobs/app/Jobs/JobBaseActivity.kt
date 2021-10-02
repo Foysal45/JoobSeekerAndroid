@@ -40,10 +40,10 @@ import java.util.*
 
 class JobBaseActivity : AppCompatActivity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
 
-    override fun goToAjkerDealLive() {
+    override fun goToAjkerDealLive(containerId:Int) {
 
         Timber.d("going to Ajker deal")
-        transitFragmentX(HomeNewFragment(),R.id.navHostFragment,false)
+        transitFragmentX(HomeNewFragment(),containerId,false)
     }
 
     override fun setTotalAppliedJobs(appliedJobsCount: Int) {

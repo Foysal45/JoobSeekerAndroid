@@ -1719,14 +1719,14 @@ class JobDetailAdapter(private val context: Context) :
         if (errorMsg != null) this.errorMsg = errorMsg
     }
 
-    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
-        if (holder is JobsListVH) {
-            holder.fragment(HomeNewFragment())
-        }
-        super.onViewAttachedToWindow(holder)
-
-
-    }
+//    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+//        if (holder is JobsListVH) {
+//            holder.fragment(HomeNewFragment())
+//        }
+//        super.onViewAttachedToWindow(holder)
+//
+//
+//    }
 
     /**
      * Main list's content ViewHolder
@@ -1840,8 +1840,8 @@ class JobDetailAdapter(private val context: Context) :
             (context as AppCompatActivity)
                 .supportFragmentManager
                 .beginTransaction()
-                .replace(container.id, fragment)
-                .commitNowAllowingStateLoss()
+                .add(container.id, fragment)
+                .commitNow()
         }
 
 

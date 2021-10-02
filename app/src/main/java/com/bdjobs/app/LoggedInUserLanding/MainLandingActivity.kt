@@ -83,8 +83,8 @@ import kotlin.collections.ArrayList
 class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     BackgroundJobBroadcastReceiver.NotificationUpdateListener {
 
-    override fun goToAjkerDealLive() {
-        transitFragmentX(HomeNewFragment(),R.id.navHostFragment,false)
+    override fun goToAjkerDealLive(containerId:Int) {
+        transitFragmentX(HomeNewFragment(),containerId,false)
 
     }
 

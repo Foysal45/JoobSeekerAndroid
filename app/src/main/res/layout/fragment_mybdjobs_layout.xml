@@ -254,7 +254,7 @@
 
 
             <FrameLayout
-                android:id="@+id/navHostFragment"
+                android:id="@+id/navHostFragmentADMB"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/myBdjobsgridView_RV"

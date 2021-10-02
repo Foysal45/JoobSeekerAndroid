@@ -40,7 +40,7 @@ interface JobCommunicator {
 
     fun gotoJobList()
 
-    fun goToAjkerDealLive()
+    fun goToAjkerDealLive(containerId:Int)
 
 
     // search params

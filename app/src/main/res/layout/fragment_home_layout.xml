@@ -427,12 +427,17 @@
                     android:visibility="gone" />
 
                 <include
-
                     android:id="@+id/followedEmployerView"
                     layout="@layout/my_followed_employers_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
+
+                <FrameLayout
+                    android:visibility="gone"
+                    android:id="@+id/navHostFragmentAD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
 
             </LinearLayout>

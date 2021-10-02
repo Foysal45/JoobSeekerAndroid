@@ -97,6 +97,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
+
+
        // showGeneralPopUp()
         //showAd()
     }
@@ -242,6 +244,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             mainLL?.show()
             bdjobsUserSession = BdjobsUserSession(requireContext())
             if (bdjobsUserSession.liveInterviewCount == 0 && bdjobsUserSession.videoInterviewCount == 0 && bdjobsUserSession.generalInterviewCount == 0){
+                Timber.d("Showing blank")
                 allInterview?.hide()
                 allInterview?.hide()
                 blankCL?.show()
@@ -446,6 +449,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                                 if (response.body()?.data?.get(0)?.totaljobs?.length!! > 3) {
                                     lastSearchcounterTV?.textSize = 14.0F
                                 }
+
+//                                homeCommunicator.goToAjkerDealLive(R.id.navHostFragmentAD)
+//                                navHostFragmentAD.visibility = View.VISIBLE
+
                             } catch (e: Exception) {
                                 lastPrgrs?.hide()
                                 lastSearchcounterTV?.text = "0"
@@ -479,6 +486,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     mainLL?.show()
                     newSearchBTN?.show()
                     newSearchBTN?.show()
+                }
+                else {
+//                    homeCommunicator.goToAjkerDealLive(R.id.navHostFragmentAD)
+//                    navHostFragmentAD.visibility = View.VISIBLE
                 }
             }
         }

@@ -191,8 +191,7 @@ class JobDetailsFragment : Fragment() {
 
         })
 
-//        communicator.goToAjkerDealLive()
-
+//        communicator.goToAjkerDealLive(R.id.navHostFragmentADJD)
     }
 
     private fun getCurrentItem(): Int {

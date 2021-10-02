@@ -41,7 +41,7 @@ interface HomeCommunicator {
     fun goToMessages()
     fun goToResumeManager()
 
-    fun goToAjkerDealLive()
+    fun goToAjkerDealLive(containerId: Int)
 
     fun getTotalShortlistedJobCounter():Int
     fun setTotalShortlistedJobCounter(count:Int)
