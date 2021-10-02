@@ -588,5 +588,6 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="notification_channel_id_reminder">Reminder</string>
     <string name="notification_channel_name_reminder">Reminder</string>
     <string name="notification_channel_description_reminder">Reminder notification channel</string>
+    <string name="label_sms_alert">SMS Alert</string>
 
 </resources>

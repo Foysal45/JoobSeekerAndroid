@@ -9,6 +9,64 @@
     android:layout_height="match_parent"
     android:background="#F2F2F2">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="8dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            tools:layout_editor_absoluteX="16dp">
+
+            <TextView
+                android:id="@+id/suggestiveSearchET"
+                android:layout_width="0dp"
+                android:layout_height="29dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="32dp"
+                android:drawablePadding="5dp"
+                android:ems="10"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:text="@string/followed_employers"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/backIMV"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/backIMV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_arrow_back_white_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container_JobList"
         android:layout_width="match_parent"
@@ -17,7 +75,7 @@
         android:orientation="vertical"
         android:visibility="gone"
         ads:layout_constraintBottom_toBottomOf="parent"
-        ads:layout_constraintTop_toTopOf="parent"
+        ads:layout_constraintTop_toBottomOf="@id/toolbar2"
         shimmer:layout_constraintEnd_toEndOf="parent"
         shimmer:layout_constraintStart_toStartOf="parent"
         shimmer:shimmer_duration="1200">
@@ -54,7 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-        ads:layout_constraintTop_toTopOf="parent">
+        ads:layout_constraintTop_toBottomOf="@id/toolbar2">
 
         <TextView
             android:id="@+id/favCountTV"
@@ -79,6 +137,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:visibility="gone"
             android:letterSpacing="0"
             android:minHeight="5dp"
             android:text="SMS Settings"
@@ -233,12 +292,28 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
-        tools:visibility="gone"
+        tools:visibility="visible"
         android:layout_marginTop="8dp"
+        tools:listitem="@layout/followed_employers"
         android:layout_marginEnd="15dp"
         ads:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cl_total_count" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btn_sms_alert_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#13A10E"
+        android:text="@string/label_sms_alert"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto_medium"
+        ads:icon="@drawable/ic_sms_package_service"
+        ads:iconTint="@color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

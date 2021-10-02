@@ -1,12 +1,19 @@
 package com.bdjobs.app.LoggedInUserLanding.myJobs
 
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,20 +26,21 @@ import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.sms.BaseActivity
+import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.fragment_followed_employers.*
+import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.textColor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class FollowedEmployersFragment : Fragment(),FollowedEmployersAdapter.OnUpdateCounter {
+class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateCounter {
 
     private lateinit var bdJobsDB: BdjobsDB
     private var followedEmployersAdapter: FollowedEmployersAdapter? = null
@@ -62,14 +70,15 @@ class FollowedEmployersFragment : Fragment(),FollowedEmployersAdapter.OnUpdateCo
 
         try {
 
-            followedEmployersAdapter = FollowedEmployersAdapter(requireContext(),this)
+            toolbar2.visibility = View.GONE
+
+            followedEmployersAdapter = FollowedEmployersAdapter(requireContext(), this)
             followedRV?.adapter = followedEmployersAdapter
             followedRV?.setHasFixedSize(true)
             val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             followedRV?.layoutManager = layoutManager
             followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
 
-            loadData(1)
 
             followedRV?.addOnScrollListener(object :
                 PaginationScrollListener((followedRV.layoutManager as LinearLayoutManager?)!!) {
@@ -101,13 +110,32 @@ class FollowedEmployersFragment : Fragment(),FollowedEmployersAdapter.OnUpdateCo
         }
 
         btn_job_list.setOnClickListener {
-            requireContext().startActivity(Intent(requireContext(), EmployersBaseActivity::class.java).putExtra("from","employer"))
+            requireContext().startActivity(
+                Intent(
+                    requireContext(),
+                    EmployersBaseActivity::class.java
+                ).putExtra("from", "employer")
+            )
+        }
+
+        btn_sms_alert_fab.setOnClickListener {
+            openSmsAlertDialog()
         }
 
     }
 
     override fun onResume() {
         super.onResume()
+
+        try {
+            loadData(1)
+        } catch (e:Exception) {
+            Toast.makeText(
+                requireContext(),
+                "Something went wrong! Please try again later",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun loadNextPage() {
@@ -175,6 +203,8 @@ class FollowedEmployersFragment : Fragment(),FollowedEmployersAdapter.OnUpdateCo
             override fun onFailure(call: Call<FollowEmployerListModelClass>, t: Throwable) {
                 Timber.e("onFailure: ${t.localizedMessage}")
                 //Log.d("getFEmployerListLazy", t.message)
+                shimmer_view_container_JobList?.hide()
+                shimmer_view_container_JobList?.stopShimmer()
                 Toast.makeText(
                     requireContext(),
                     "Something went wrong! Please try again later",
@@ -196,7 +226,7 @@ class FollowedEmployersFragment : Fragment(),FollowedEmployersAdapter.OnUpdateCo
 
                     followedEmployerList = response.body()?.data
 
-                    if (followedEmployerList!=null && followedEmployerList!!.isNotEmpty()) {
+                    if (followedEmployerList != null && followedEmployerList!!.isNotEmpty()) {
 
 
                         followEmployerNoDataLL?.hide()
@@ -213,8 +243,7 @@ class FollowedEmployersFragment : Fragment(),FollowedEmployersAdapter.OnUpdateCo
                         } else {
                             isLastPages = true
                         }
-                    }
-                    else {
+                    } else {
                         // no followed employers
                         followedRV?.hide()
                         followEmployerNoDataLL?.show()
@@ -289,5 +318,29 @@ class FollowedEmployersFragment : Fragment(),FollowedEmployersAdapter.OnUpdateCo
             followEmployerNoDataLL?.show()
         }
     }
+
+    private fun openSmsAlertDialog() {
+        val builder = AlertDialog.Builder(context)
+        val inflater = requireContext().layoutInflater
+        builder.setView(inflater.inflate(R.layout.dialog_sms_alert, null))
+        builder.create().apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            show()
+            findViewById<ImageView>(R.id.img_close).setOnClickListener {
+                this.cancel()
+            }
+            findViewById<MaterialButton>(R.id.btn_purchase).setOnClickListener {
+                requireContext().startActivity(Intent(requireContext(), BaseActivity::class.java))
+                this.cancel()
+            }
+            findViewById<MaterialButton>(R.id.btn_sms_settings).setOnClickListener {
+                requireContext().startActivity<BaseActivity>("from" to "employer")
+                this.cancel()
+            }
+            findViewById<TextView>(R.id.tv_body).text =
+                "Buy SMS to get job alert from subscribed Followed Employers"
+        }
+    }
+
 
 }

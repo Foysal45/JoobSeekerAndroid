@@ -37,13 +37,19 @@
     <color name="btn_green">#0AF899</color>
     <color name="btn_ash">#757575</color>
     <color name="btn_red">#CC2428</color>
+    <color name="btn_light_blue">#E3F2FD</color>
     <color name="privacy_public">#CCFFD9</color>
     <color name="privacy_private">#FFCCCC</color>
     <color name="privacy_limited">#FFE0B2</color>
 
+    <color name="text_blue">#1565C0</color>
+
     <color name="remaining_sms_0">#800A0A</color>
     <color name="remaining_sms_1_9">#A86500</color>
     <color name="remaining_sms_10_more">#2161CC</color>
+
+    <color name="border_blue">#90CAF9</color>
+    <color name="border_grey">#707070</color>
 
     <color name="sms_alert_on">#13A10E</color>
     <color name="sms_alert_off">#AC0000</color>

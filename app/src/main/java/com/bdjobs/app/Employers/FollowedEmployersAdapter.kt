@@ -1,9 +1,11 @@
 package com.bdjobs.app.Employers
 
 //import com.bdjobs.app.BackgroundJob.FollowUnfollowJob
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
@@ -11,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
 import com.bdjobs.app.API.ApiServiceMyBdjobs
@@ -330,6 +333,7 @@ class FollowedEmployersAdapter(private val context: Context,var onUpdateCounter:
         }*/
     }
 
+    @SuppressLint("SetTextI18n")
     private fun openSubscribeInfoDialog() {
         val builder = AlertDialog.Builder(context)
         val inflater = context.layoutInflater
@@ -341,7 +345,17 @@ class FollowedEmployersAdapter(private val context: Context,var onUpdateCounter:
                 this.cancel()
             }
             findViewById<MaterialButton>(R.id.btn_purchase).apply {
-                text = if (isNewPurchaseNeeded!!.equalIgnoreCase("True")) "Purchase SMS Package" else "SMS Settings"
+                if (isNewPurchaseNeeded!!.equalIgnoreCase("True")) {
+                    text = "Buy SMS"
+                    setBackgroundColor(ContextCompat.getColor(context,R.color.btn_green))
+                    strokeColor = ColorStateList.valueOf(ContextCompat.getColor(context,R.color.border_grey))
+                    textColor = ContextCompat.getColor(context,R.color.white)
+                } else {
+                    text =  "SMS Settings"
+                    setBackgroundColor(ContextCompat.getColor(context,R.color.btn_light_blue))
+                    strokeColor = ColorStateList.valueOf(ContextCompat.getColor(context,R.color.border_blue))
+                    textColor = ContextCompat.getColor(context,R.color.text_blue)
+                }
             }.setOnClickListener {
                 if (isNewPurchaseNeeded!!.equalIgnoreCase("False")) {
                     context.startActivity<BaseActivity>("from" to "employer")
@@ -353,11 +367,12 @@ class FollowedEmployersAdapter(private val context: Context,var onUpdateCounter:
             }
             findViewById<TextView>(R.id.tv_body).text =
                     if (isNewPurchaseNeeded!!.equalIgnoreCase("True"))
-                        "You have successfully subscribed to get SMS job alert for this employer. Purchase an SMS package to get job alert!"
+                        "You have successfully subscribed to get SMS job alert for this employer. You will get SMS alert based on subscription."
                     else
-                        "You have successfully subscribed to get SMS job alert for this employer. You will get sms alert based on subscription."
+                        "You have successfully subscribed to get SMS job alert for this employer. You will get SMS alert based on subscription."
         }
     }
+
     override fun getItemViewType(position: Int): Int {
         return if (position % 3 == 0 && position !=0)
             ITEM_WITH_AD
@@ -392,7 +407,10 @@ class FollowedEmployersAdapter(private val context: Context,var onUpdateCounter:
 
                     bdJobsUserSession.deccrementFollowedEmployer()
 
-                    if (employersCommunicator!=null) employersCommunicator?.decrementCounter(position)
+                    if (employersCommunicator!=null) {
+                        employersCommunicator?.decrementCounter(position)
+                        employersCommunicator?.getTotalFollowedEmployersCount()?.minus(1)?.let { onUpdateCounter.update(it) }
+                    }
                     else {
                         homeCommunicator?.getTotalFollowedEmployersCount()?.minus(1)?.let { onUpdateCounter.update(it) }
                     }
