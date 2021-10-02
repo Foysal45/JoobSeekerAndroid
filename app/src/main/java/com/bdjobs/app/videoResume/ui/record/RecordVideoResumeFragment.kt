@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.media.CamcorderProfile
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -139,10 +140,8 @@ class RecordVideoResumeFragment : Fragment() {
 
             videoCapture = VideoCapture.Builder().apply {
                 setTargetAspectRatio(AspectRatio.RATIO_4_3)
-             //   setMaxResolution(Size(abs(metrics!!.heightPixels/3 ), abs(metrics!!.widthPixels /2)))
-
                 setMaxResolution(Size(abs(RESOLUTION_HEIGHT), abs(RESOLUTION_WEIDTH)))
-                setBitRate(1*RESOLUTION_HEIGHT*RESOLUTION_WEIDTH)
+                setBitRate(CamcorderProfile.QUALITY_LOW)
 
             }.build()
 
@@ -287,10 +286,7 @@ class RecordVideoResumeFragment : Fragment() {
             }
 
             override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
-                val msg = "Video capture failed: $message"
-//                camera_view.post {
-//                   // Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
-//                }
+
             }
         })
 
