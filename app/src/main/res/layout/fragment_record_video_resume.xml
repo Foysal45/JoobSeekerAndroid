@@ -47,8 +47,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:cameraFacing="front"
-            app:cameraSnapshotMaxHeight="500"
-            app:cameraSnapshotMaxWidth="300"
             app:cameraMode="video"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -137,8 +137,8 @@ class RecordVideoResumeFragment : Fragment() {
 
             videoCapture = VideoCapture.Builder().apply {
                 setTargetAspectRatio(screenAspectRatio)
-                //setMaxResolution(Size(abs(metrics!!.widthPixels / 3), abs(metrics!!.heightPixels / 3)))
-                setMaxResolution(Size(abs(176), abs(144)))
+                setMaxResolution(Size(abs(640), abs(480)))
+                setBitRate(1*640*480)
                 useCaseConfig
             }.build()
 
@@ -418,11 +418,6 @@ class RecordVideoResumeFragment : Fragment() {
             e.printStackTrace()
         }
     }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
 
 
 }
