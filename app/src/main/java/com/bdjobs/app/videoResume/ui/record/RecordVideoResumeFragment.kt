@@ -241,9 +241,6 @@ class RecordVideoResumeFragment : Fragment() {
     }
 
     private fun startRecord(newFile: File) {
-
-        val outputFileOptions = VideoCapture.OutputFileOptions.Builder(newFile).build()
-
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.RECORD_AUDIO
@@ -252,6 +249,7 @@ class RecordVideoResumeFragment : Fragment() {
             return
         }
 
+        val outputFileOptions = VideoCapture.OutputFileOptions.Builder(newFile).build()
 
         videoCapture?.startRecording(outputFileOptions, cameraExecutor, object : VideoCapture.OnVideoSavedCallback {
             @SuppressLint("TimberArgCount", "BinaryOperationInTimber")
