@@ -70,7 +70,7 @@ class MyJobsFragment : Fragment() {
                 when(tabs.selectedTabPosition) {
                     0 -> activity?.transitFragment(ShortListedJobFragment(),R.id.fragment_container,false)
                     1 -> activity?.transitFragment(FollowedEmployersFragment(),R.id.fragment_container,false)
-//                    2 -> activity?.transitFragment(FavouriteSearchBaseActivity(),R.id.fragment_container)
+                    2 -> activity?.transitFragment(FavouriteSearchList(),R.id.fragment_container,false)
                 }
             }
 

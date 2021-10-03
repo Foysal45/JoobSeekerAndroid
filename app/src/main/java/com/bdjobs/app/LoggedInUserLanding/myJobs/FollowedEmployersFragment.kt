@@ -265,27 +265,6 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
                     logException(e)
                 }
 
-//                try {
-//                    if (followedEmployerList?.size!! > 0) {
-//                        Timber.d("Size is greater then 0")
-//                        followEmployerNoDataLL?.hide()
-//                        followedRV?.show()
-//                        //Log.d("totalJobs", "data ase")
-//                    } else {
-//                        Timber.d("Size is lower then 0")
-//                        followEmployerNoDataLL?.show()
-//                        followedRV?.hide()
-//                        //Log.d("totalJobs", "zero")
-//                    }
-//                } catch (e: Exception) {
-//                    Timber.e("Exception: 2: ${e.localizedMessage}")
-//                    shimmer_view_container_JobList?.hide()
-//                    shimmer_view_container_JobList?.stopShimmer()
-//                    followedRV?.hide()
-//                    followEmployerNoDataLL?.show()
-//                    logException(e)
-//                }
-
                 try {
                     if (followedListSize > 1) {
                         val styledText =
