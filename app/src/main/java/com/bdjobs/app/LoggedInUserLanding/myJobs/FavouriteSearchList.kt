@@ -84,6 +84,7 @@ class FavouriteSearchList : Fragment() {
                     if (favListSize > 0) {
                         favouriteFilterNoDataLL?.hide()
                         favRV?.show()
+                        btn_sms_alert_fab.show()
                         //Log.d("totalJobs", "data ase")
                     } else {
                         favouriteFilterNoDataLL?.show()

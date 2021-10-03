@@ -25,13 +25,6 @@ import com.bdjobs.app.sms.BaseActivity
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.*
-import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.adView
-import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.btn_job_list
-import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.btn_sms_alert_fab
-import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.btn_sms_settings
-import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.favCountTV
-import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.favRV
-import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.favouriteFilterNoDataLL
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.startActivity
@@ -73,6 +66,12 @@ class FavouriteSearchFilterListFragment : Fragment() {
             startActivity<JobBaseActivity>("from" to "alljobsearch")
         }
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         doAsync {
             val favouriteSearchFilters = bdJobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
             uiThread {
@@ -87,6 +86,7 @@ class FavouriteSearchFilterListFragment : Fragment() {
                     if (favListSize > 0) {
                         favouriteFilterNoDataLL?.hide()
                         favRV?.show()
+                        btn_sms_alert_fab.show()
                         //Log.d("totalJobs", "data ase")
                     } else {
                         favouriteFilterNoDataLL?.show()
