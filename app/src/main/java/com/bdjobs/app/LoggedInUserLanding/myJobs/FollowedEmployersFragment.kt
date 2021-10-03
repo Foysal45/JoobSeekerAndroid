@@ -72,13 +72,6 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
 
             toolbar2.visibility = View.GONE
 
-            followedEmployersAdapter = FollowedEmployersAdapter(requireContext(), this)
-            followedRV?.adapter = followedEmployersAdapter
-            followedRV?.setHasFixedSize(true)
-            val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            followedRV?.layoutManager = layoutManager
-            followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-
 
             followedRV?.addOnScrollListener(object :
                 PaginationScrollListener((followedRV.layoutManager as LinearLayoutManager?)!!) {
@@ -128,6 +121,14 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
         super.onResume()
 
         try {
+            followedEmployersAdapter = FollowedEmployersAdapter(requireContext(), this)
+            followedRV?.adapter = followedEmployersAdapter
+            followedRV?.setHasFixedSize(true)
+            val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            followedRV?.layoutManager = layoutManager
+            followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+
+
             loadData(1)
         } catch (e:Exception) {
             Toast.makeText(
