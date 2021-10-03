@@ -8,7 +8,6 @@ import android.media.CamcorderProfile
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
-import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
 import android.view.LayoutInflater
@@ -17,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.camera.core.*
-import androidx.camera.core.impl.VideoCaptureConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
@@ -68,10 +66,6 @@ class RecordVideoResumeFragment : Fragment() {
     private var videoCapture: VideoCapture? = null
     private var cameraControl: CameraControl? = null
     private var cameraInfo: CameraInfo? = null
-    private var metrics: DisplayMetrics? = null
-    private var screenAspectRatio = 0
-    var RATIO_4_3_VALUE = 4.0 / 3.0
-    var RATIO_16_9_VALUE = 16.0 / 9.0
     val RESOLUTION_WEIDTH = 640
     val RESOLUTION_HEIGHT = 480
 
@@ -118,20 +112,11 @@ class RecordVideoResumeFragment : Fragment() {
     }
 
 
-    private fun aspectRatio(width: Int, height: Int): Int {
-        val previewRatio = Math.max(width, height).toDouble() / Math.min(width, height).toDouble()
-        return if (Math.abs(previewRatio - RATIO_4_3_VALUE) <= Math.abs(previewRatio -RATIO_16_9_VALUE)) {
-            AspectRatio.RATIO_4_3
-        } else AspectRatio.RATIO_16_9
-    }
-
 
     @SuppressLint("RestrictedApi")
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireActivity())
         val cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT).build()
-        metrics = requireContext().resources.displayMetrics
-        screenAspectRatio = aspectRatio(metrics!!.widthPixels, metrics!!.heightPixels)
 
         cameraProviderFuture.addListener({
             imagePreview = Preview.Builder().apply {
@@ -139,8 +124,7 @@ class RecordVideoResumeFragment : Fragment() {
             }.build()
 
             videoCapture = VideoCapture.Builder().apply {
-                setTargetAspectRatio(AspectRatio.RATIO_4_3)
-                setMaxResolution(Size(abs(RESOLUTION_HEIGHT), abs(RESOLUTION_WEIDTH)))
+                setTargetResolution(Size(abs(RESOLUTION_HEIGHT), abs(RESOLUTION_WEIDTH)))
                 setBitRate(CamcorderProfile.QUALITY_LOW)
 
             }.build()
@@ -298,7 +282,7 @@ class RecordVideoResumeFragment : Fragment() {
         val fileSizeInBytes: Long = file.length()
         val fileSizeInKB = fileSizeInBytes / 1024
         val fileSizeInMB = fileSizeInKB / 1024
-        Log.e("video_size", ""+fileSizeInMB+"MB")
+        Log.e("video_size", "$fileSizeInBytes kb /"+fileSizeInMB+"MB")
     }
 
     @SuppressLint("SetTextI18n")
