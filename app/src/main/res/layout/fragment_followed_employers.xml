@@ -313,7 +313,9 @@
         android:text="@string/label_sms_alert"
         android:textColor="@color/white"
         android:fontFamily="@font/roboto_medium"
-        ads:icon="@drawable/ic_sms_package_service"
-        ads:iconTint="@color/white"/>
+        app:icon="@drawable/ic_sms_package_service"
+        app:iconGravity="textStart"
+        app:iconSize="15dp"
+        app:iconTint="@color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

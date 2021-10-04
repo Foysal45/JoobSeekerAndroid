@@ -27,7 +27,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Workmanager.FollowUnfollowWorker
 import com.bdjobs.app.databases.External.DataStorage
-import com.bdjobs.app.sms.BaseActivity
+import com.bdjobs.app.sms.SmsBaseActivity
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
 import org.jetbrains.anko.*
@@ -358,10 +358,10 @@ class FollowedEmployersAdapter(private val context: Context,var onUpdateCounter:
                 }
             }.setOnClickListener {
                 if (isNewPurchaseNeeded!!.equalIgnoreCase("False")) {
-                    context.startActivity<BaseActivity>("from" to "employer")
+                    context.startActivity<SmsBaseActivity>("from" to "employer")
                     this.cancel()
                 } else {
-                    context.startActivity<BaseActivity>()
+                    context.startActivity<SmsBaseActivity>()
                     this.cancel()
                 }
             }

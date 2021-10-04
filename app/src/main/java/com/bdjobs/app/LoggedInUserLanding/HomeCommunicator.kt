@@ -57,4 +57,9 @@ interface HomeCommunicator {
     fun getCompanyName() : String
     fun getTotalFollowedEmployersCount():Int
     fun setTotalFollowedEmployersCount(count: Int)
+
+    // favourite search
+    fun getTotalFavouriteSearchCount():Int
+    fun setTotalFavouriteSearchCount(count: Int)
+    fun goToEditMode(favID:String)
 }

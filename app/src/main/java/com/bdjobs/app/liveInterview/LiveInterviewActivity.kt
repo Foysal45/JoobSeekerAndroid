@@ -6,7 +6,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.bdjobs.app.R
 import com.bdjobs.app.liveInterview.data.socketClient.SignalingServer
-import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_live_interview.*
 import timber.log.Timber
 

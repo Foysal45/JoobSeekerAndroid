@@ -20,6 +20,7 @@ import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
 import com.bdjobs.app.API.ModelClasses.SMSSubscribeModel
 import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.Jobs.JobListAdapter
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
@@ -30,7 +31,7 @@ import com.bdjobs.app.Workmanager.FavouriteSearchDeleteWorker
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.FavouriteSearch
-import com.bdjobs.app.sms.BaseActivity
+import com.bdjobs.app.sms.SmsBaseActivity
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
@@ -42,7 +43,7 @@ import retrofit2.Response
 import timber.log.Timber
 
 
-class FavouriteSearchFilterAdapter(private val context: Context, private val items: MutableList<FavouriteSearch>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FavouriteSearchFilterAdapter(private val context: Context, private val items: MutableList<FavouriteSearch>,private val from: String = "",var onUpdateCounter: OnUpdateCounter) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     val dataStorage = DataStorage(context)
@@ -177,11 +178,64 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                             logException(e)
                         }
                     }
-                } else {
-                    holder.deleteTV.hide()
-                    holder.editTV.hide()
-                    holder.subscribeButton.hide()
-                    holder.unsubscribeButton.hide()
+                }
+                else {
+                    if (from=="") {
+                        holder.deleteTV.hide()
+                        holder.editTV.hide()
+                        holder.subscribeButton.hide()
+                        holder.unsubscribeButton.hide()
+                    }
+                    else {
+                        holder.deleteTV.show()
+                        holder.editTV.show()
+
+                        if (items[position].isSubscribed!!.equalIgnoreCase("True")) {
+                            holder.subscribeButton.hide()
+                            holder.unsubscribeButton.show()
+                        }
+                        else {
+                            holder.subscribeButton.show()
+                            holder.unsubscribeButton.hide()
+                        }
+
+                        holder.deleteTV.setOnClickListener {
+                            activity.alert("Are you sure you want to delete this favorite search?", "Confirmation") {
+                                yesButton {
+                                    deleteFavSearch(position)
+                                }
+                                noButton { dialog ->
+                                    dialog.dismiss()
+                                }
+                            }.show()
+                        }
+
+                        holder.editTV.setOnClickListener {
+                            try {
+                                homeCommunicator?.goToEditMode(items[position].filterid!!)
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
+                        }
+
+                        holder.subscribeButton.setOnClickListener {
+
+                            makeSubscribeUnsubscribeApiCall(items[position], 1)
+
+                            holder.unsubscribeButton.show()
+                            it.hide()
+                        }
+
+                        holder.unsubscribeButton.setOnClickListener {
+
+                            makeSubscribeUnsubscribeApiCall(items[position], 0)
+
+                            holder.subscribeButton.show()
+                            it.hide()
+                        }
+
+                    }
+
                 }
 
 
@@ -225,7 +279,8 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                             }
                         }
                     })
-                } else {
+                }
+                else {
                     try {
                         //Log.d("filterCount", "filterCount= $filterCount")
                         holder.progressBar.hide()
@@ -238,30 +293,6 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         logException(e)
                     }
                 }
-
-//                if (items[position].isSubscribed!!.equalIgnoreCase("True")) {
-//                    holder.subscribeButton.show()
-//                    holder.unsubscribeButton.hide()
-//                } else {
-//                    holder.subscribeButton.hide()
-//                    holder.unsubscribeButton.show()
-//                }
-
-//                holder?.subscribeButton?.setOnClickListener {
-//
-//                    makeSubscribeUnsubscribeApiCall(items[position], 1)
-//
-//                    holder.unsubscribeButton.show()
-//                    it.hide()
-//                }
-//
-//                holder?.unsubscribeButton?.setOnClickListener {
-//
-//                    makeSubscribeUnsubscribeApiCall(items[position], 0)
-//
-//                    holder.subscribeButton.show()
-//                    it.hide()
-//                }
             }
 
             ITEM_WITH_AD -> {
@@ -348,11 +379,54 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                         it.hide()
                     }
 
-                } else {
-                    holder.deleteTV.hide()
-                    holder.editTV.hide()
-                    holder.subscribeButton.hide()
-                    holder.unsubscribeButton.hide()
+                }
+                else {
+                    holder.deleteTV.show()
+                    holder.editTV.show()
+
+                    if (items[position].isSubscribed!!.equalIgnoreCase("True")) {
+                        holder.subscribeButton.hide()
+                        holder.unsubscribeButton.show()
+                    }
+                    else {
+                        holder.subscribeButton.show()
+                        holder.unsubscribeButton.hide()
+                    }
+
+                    holder.deleteTV.setOnClickListener {
+                        activity.alert("Are you sure you want to delete this favorite search?", "Confirmation") {
+                            yesButton {
+                                deleteFavSearch(position)
+                            }
+                            noButton { dialog ->
+                                dialog.dismiss()
+                            }
+                        }.show()
+                    }
+
+                    holder.editTV.setOnClickListener {
+                        try {
+                            homeCommunicator?.goToEditMode(items[position].filterid!!)
+                        } catch (e: Exception) {
+                            logException(e)
+                        }
+                    }
+
+                    holder.subscribeButton.setOnClickListener {
+
+                        makeSubscribeUnsubscribeApiCall(items[position], 1)
+
+                        holder.unsubscribeButton.show()
+                        it.hide()
+                    }
+
+                    holder.unsubscribeButton.setOnClickListener {
+
+                        makeSubscribeUnsubscribeApiCall(items[position], 0)
+
+                        holder.subscribeButton.show()
+                        it.hide()
+                    }
                 }
 
 
@@ -397,7 +471,8 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                             }
                         }
                     })
-                } else {
+                }
+                else {
                     try {
                         //Log.d("filterCount", "filterCount= $filterCount")
                         holder.progressBar.hide()
@@ -488,10 +563,10 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
                 }
             }.setOnClickListener {
                 if (isNewPurchaseNeeded!!.equalIgnoreCase("False")) {
-                    context.startActivity<BaseActivity>("from" to "favourite")
+                    context.startActivity<SmsBaseActivity>("from" to "favourite")
                     this.cancel()
                 } else {
-                    context.startActivity<BaseActivity>()
+                    context.startActivity<SmsBaseActivity>()
                     this.cancel()
                 }
             }
@@ -536,7 +611,13 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
 
 //                val deleteJobID = FavSearchDeleteJob.scheduleAdvancedJob(deletedItem.filterid!!)
                 //undoRemove(activity.baseCL, deletedItem, position, deleteJobID)
-                favCommunicator?.decrementCounter()
+                if (favCommunicator!=null) favCommunicator?.decrementCounter()
+                else {
+                    if (from!="") {
+                        homeCommunicator?.getTotalFavouriteSearchCount()?.minus(1)?.let { onUpdateCounter.update(it) }
+
+                    }
+                }
             } else {
                 context.toast("No items left here!")
             }
@@ -629,6 +710,10 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
         //Log.d("allValuesN", allValues)
 
         return allValues.removeLastComma()
+    }
+
+    interface OnUpdateCounter {
+        fun update(count : Int)
     }
 }
 

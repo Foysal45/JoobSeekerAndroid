@@ -14,12 +14,16 @@ class FavouriteSearchBaseActivity : AppCompatActivity(), FavCommunicator {
     private val favouriteSearchFilterListFragment = FavouriteSearchFilterListFragment()
 
     private val favouriteSearchFilterEditFragment = FavouriteSearchFilterEditFragment()
-    private var filterID = ""
+    private var filterID :String?= ""
+    private var from :String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favourite_search_base)
-        transitFragmentX(favouriteSearchFilterListFragment, R.id.fragmentHolder,false)
+        from = intent.getStringExtra("from")
+        filterID = intent.getStringExtra("favID")
+        if (from=="MyJobs") goToEditMode(filterID!!)
+        else transitFragmentX(favouriteSearchFilterListFragment, R.id.fragmentHolder,false)
     }
 
     override fun backButtonPressed() {
@@ -32,11 +36,12 @@ class FavouriteSearchBaseActivity : AppCompatActivity(), FavCommunicator {
 
     override fun goToEditMode(favID: String) {
         this.filterID = favID
-        transitFragment(favouriteSearchFilterEditFragment, R.id.fragmentHolder, true)
+        if (from=="MyJobs") transitFragment(favouriteSearchFilterEditFragment, R.id.fragmentHolder, false)
+        else transitFragment(favouriteSearchFilterEditFragment, R.id.fragmentHolder, true)
     }
 
     override fun getFilterID(): String {
-        return filterID
+        return filterID!!
     }
 
     override fun scrollToUndoPosition(position: Int) {

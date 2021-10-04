@@ -40,7 +40,11 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
     private var layoutManager: RecyclerView.LayoutManager? = null
     var favListSize = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_shortlisted_job_layout, container, false)!!
     }
 
@@ -132,7 +136,8 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
         jobListAdapter = JobListAdapter(requireContext(), this)
         shortListRV?.adapter = jobListAdapter
 
-        shortListRV?.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
+        shortListRV?.addOnScrollListener(object :
+            PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
 
             override val totalPageCount: Int
                 get() = totalPages!!
@@ -146,17 +151,17 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
                 currentPage += 1
 
                 loadNextPage(
-                        deadline = deadline,
-                        pageNumber = currentPage,
-                        rpp = "10"
+                    deadline = deadline,
+                    pageNumber = currentPage,
+                    rpp = "10"
                 )
             }
         })
 
         loadFirstPageList(
-                deadline = deadline,
-                pageNumber = currentPage,
-                rpp = "10"
+            deadline = deadline,
+            pageNumber = currentPage,
+            rpp = "10"
         )
 
     }
@@ -172,11 +177,11 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
         shimmer_view_container_JobList?.startShimmer()
 
         val call = ApiServiceJobs.create().getStoreJobList(
-                p_id = bdJobsUserSession.userId,
-                encoded = Constants.ENCODED_JOBS,
-                deadline = deadline,
-                rpp = rpp,
-                pg = pageNumber
+            p_id = bdJobsUserSession.userId,
+            encoded = Constants.ENCODED_JOBS,
+            deadline = deadline,
+            rpp = rpp,
+            pg = pageNumber
         )
         call.enqueue(object : Callback<JobListModel> {
 
@@ -220,11 +225,13 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
                         }
 
 
-                        if (totalJobs> 1) {
-                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted jobs"
+                        if (totalJobs > 1) {
+                            val styledText =
+                                "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted jobs"
                             jobCountTV?.text = Html.fromHtml(styledText)
                         } else {
-                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted job"
+                            val styledText =
+                                "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted job"
                             jobCountTV?.text = Html.fromHtml(styledText)
                         }
 
@@ -251,11 +258,12 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
 
                     shimmer_view_container_JobList?.hide()
                     shimmer_view_container_JobList?.stopShimmer()
-                    Toast.makeText(
-                        requireContext(),
-                        "Something went wrong! Please try again later",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (isAdded)
+                        Toast.makeText(
+                            requireContext(),
+                            "Something went wrong! Please try again later",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                 }
 
@@ -280,11 +288,11 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
         //Log.d("ArrayTest", " loadNextPage called")
 
         val call = ApiServiceJobs.create().getStoreJobList(
-                p_id = bdJobsUserSession.userId,
-                encoded = Constants.ENCODED_JOBS,
-                deadline = deadline,
-                rpp = rpp,
-                pg = pageNumber
+            p_id = bdJobsUserSession.userId,
+            encoded = Constants.ENCODED_JOBS,
+            deadline = deadline,
+            rpp = rpp,
+            pg = pageNumber
         )
         call.enqueue(object : Callback<JobListModel> {
 
@@ -338,9 +346,9 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
     }
 
     @Suppress("DEPRECATION")
-    fun decrementCounter(total:Int) {
+    fun decrementCounter(total: Int) {
 
-        val size = total-1
+        val size = total - 1
         if (size > 1) {
             val styledText = "<b><font color='#13A10E'>$size</font></b> Shortlisted jobs"
             Timber.d("Styled Text: $styledText")
@@ -355,7 +363,7 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
     override fun update(count: Int) {
         Timber.d("Job Count: $count")
         homeCommunicator.setTotalShortlistedJobCounter(count)
-        if (count>0) {
+        if (count > 0) {
             val styledText = "<b><font color='#13A10E'>$count</font></b> Shortlisted job"
             jobCountTV?.text = Html.fromHtml(styledText)
         } else {

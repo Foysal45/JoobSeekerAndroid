@@ -21,7 +21,7 @@ import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.FavouriteSearch
-import com.bdjobs.app.sms.BaseActivity
+import com.bdjobs.app.sms.SmsBaseActivity
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.*
@@ -37,7 +37,11 @@ class FavouriteSearchFilterListFragment : Fragment() {
     private lateinit var favCommunicator: FavCommunicator
     var favListSize = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_favourite_search_filter_list, container, false)!!
     }
 
@@ -55,7 +59,7 @@ class FavouriteSearchFilterListFragment : Fragment() {
         }
 
         btn_sms_settings?.setOnClickListener {
-            startActivity<BaseActivity>("from" to "favourite")
+            startActivity<SmsBaseActivity>("from" to "favourite")
         }
 
         btn_sms_alert_fab.setOnClickListener {
@@ -73,7 +77,8 @@ class FavouriteSearchFilterListFragment : Fragment() {
         super.onResume()
 
         doAsync {
-            val favouriteSearchFilters = bdJobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
+            val favouriteSearchFilters =
+                bdJobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
             uiThread {
                 try {
                     favListSize = favouriteSearchFilters.size
@@ -95,9 +100,17 @@ class FavouriteSearchFilterListFragment : Fragment() {
                         //Log.d("totalJobs", "zero")
                     }
 
-                    val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favourite search $data"
-                    favCountTV?.text = Html.fromHtml(styledText,FROM_HTML_MODE_LEGACY)
-                    val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = favouriteSearchFilters as MutableList<FavouriteSearch>, context = requireContext())
+                    val styledText =
+                        "<b><font color='#13A10E'>$favListSize</font></b> favourite search $data"
+                    favCountTV?.text = Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY)
+                    val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(
+                        items = favouriteSearchFilters as MutableList<FavouriteSearch>,
+                        context = requireContext(),
+                        onUpdateCounter = object : FavouriteSearchFilterAdapter.OnUpdateCounter {
+                            override fun update(count: Int) {
+
+                            }
+                        })
                     favRV?.adapter = favouriteSearchFilterAdapter
                 } catch (e: Exception) {
                     logException(e)
@@ -107,18 +120,18 @@ class FavouriteSearchFilterListFragment : Fragment() {
 
     }
 
-    fun scrollToUndoPosition(position:Int){
+    fun scrollToUndoPosition(position: Int) {
         favRV?.scrollToPosition(position)
         favListSize++
         val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favourite search filter"
-        favCountTV.text = Html.fromHtml(styledText,FROM_HTML_MODE_LEGACY)
+        favCountTV.text = Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY)
     }
 
-    fun decrementCounter(){
+    fun decrementCounter() {
         favListSize--
         val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favourite search filter"
-        favCountTV.text = Html.fromHtml(styledText,FROM_HTML_MODE_LEGACY)
-        if (favListSize==0) {
+        favCountTV.text = Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY)
+        if (favListSize == 0) {
             favouriteFilterNoDataLL?.show()
             btn_sms_alert_fab?.hide()
             favRV?.hide()
@@ -136,11 +149,16 @@ class FavouriteSearchFilterListFragment : Fragment() {
                 this.cancel()
             }
             findViewById<MaterialButton>(R.id.btn_purchase).setOnClickListener {
-                requireContext().startActivity(Intent(requireContext(), BaseActivity::class.java))
+                requireContext().startActivity(
+                    Intent(
+                        requireContext(),
+                        SmsBaseActivity::class.java
+                    )
+                )
                 this.cancel()
             }
             findViewById<MaterialButton>(R.id.btn_sms_settings).setOnClickListener {
-                requireContext().startActivity<BaseActivity>("from" to "employer")
+                requireContext().startActivity<SmsBaseActivity>("from" to "employer")
                 this.cancel()
             }
             findViewById<TextView>(R.id.tv_body).text =

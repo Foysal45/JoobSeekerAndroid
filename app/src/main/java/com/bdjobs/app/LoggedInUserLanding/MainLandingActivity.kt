@@ -263,6 +263,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     private val followedEmployersFragment = FollowedEmployersFragment()
     private var followedEmployerList: ArrayList<FollowEmployerListData>? = ArrayList()
     private var totalFollowedEmployersCount:Int = 0
+    private var totalFavSearchCount:Int = 0
 
 
     override fun isGetCvUploaded(): String {
@@ -414,6 +415,21 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
     override fun setTotalFollowedEmployersCount(count: Int) {
         this.totalFollowedEmployersCount = count
+    }
+
+    override fun getTotalFavouriteSearchCount(): Int {
+        return totalFavSearchCount
+    }
+
+    override fun setTotalFavouriteSearchCount(count: Int) {
+        this.totalFavSearchCount = count
+    }
+
+    override fun goToEditMode(favID: String) {
+        startActivity(Intent(this,FavouriteSearchBaseActivity::class.java)
+            .putExtra("from","MyJobs")
+            .putExtra("favID",favID)
+        )
     }
 
 

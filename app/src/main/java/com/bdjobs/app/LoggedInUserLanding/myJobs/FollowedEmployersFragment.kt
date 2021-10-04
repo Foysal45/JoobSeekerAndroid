@@ -2,7 +2,6 @@ package com.bdjobs.app.LoggedInUserLanding.myJobs
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -13,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,13 +26,12 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.sms.BaseActivity
+import com.bdjobs.app.sms.SmsBaseActivity
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.fragment_followed_employers.*
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
-import org.jetbrains.anko.textColor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -99,7 +96,7 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
         }
 
         btn_sms_settings?.setOnClickListener {
-            startActivity<BaseActivity>("from" to "employer")
+            startActivity<SmsBaseActivity>("from" to "employer")
         }
 
         btn_job_list.setOnClickListener {
@@ -310,11 +307,11 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
                 this.cancel()
             }
             findViewById<MaterialButton>(R.id.btn_purchase).setOnClickListener {
-                requireContext().startActivity(Intent(requireContext(), BaseActivity::class.java))
+                requireContext().startActivity(Intent(requireContext(), SmsBaseActivity::class.java))
                 this.cancel()
             }
             findViewById<MaterialButton>(R.id.btn_sms_settings).setOnClickListener {
-                requireContext().startActivity<BaseActivity>("from" to "employer")
+                requireContext().startActivity<SmsBaseActivity>("from" to "employer")
                 this.cancel()
             }
             findViewById<TextView>(R.id.tv_body).text =

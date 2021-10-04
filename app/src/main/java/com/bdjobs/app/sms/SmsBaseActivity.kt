@@ -8,14 +8,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.assessment.HomeFragmentDirections
-import kotlinx.android.synthetic.main.activity_base.*
-import kotlinx.android.synthetic.main.activity_base.view.*
+import kotlinx.android.synthetic.main.activity_sms_base.*
+import kotlinx.android.synthetic.main.activity_sms_base.view.*
 
-class BaseActivity : AppCompatActivity() {
+class SmsBaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_base)
+        setContentView(R.layout.activity_sms_base)
 
         val from = intent.getStringExtra("from")
 

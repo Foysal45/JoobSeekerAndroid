@@ -28,7 +28,7 @@ import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.sms.BaseActivity
+import com.bdjobs.app.sms.SmsBaseActivity
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.fragment_followed_employers.*
 import org.jetbrains.anko.layoutInflater
@@ -77,7 +77,7 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
 
 
         btn_sms_settings?.setOnClickListener {
-            requireContext().startActivity<BaseActivity>("from" to "employer")
+            requireContext().startActivity<SmsBaseActivity>("from" to "employer")
         }
 
         btn_job_list.setOnClickListener {
@@ -347,11 +347,11 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
                 this.cancel()
             }
             findViewById<MaterialButton>(R.id.btn_purchase).setOnClickListener {
-                requireContext().startActivity(Intent(requireContext(), BaseActivity::class.java))
+                requireContext().startActivity(Intent(requireContext(), SmsBaseActivity::class.java))
                 this.cancel()
             }
             findViewById<MaterialButton>(R.id.btn_sms_settings).setOnClickListener {
-                requireContext().startActivity<BaseActivity>("from" to "employer")
+                requireContext().startActivity<SmsBaseActivity>("from" to "employer")
                 this.cancel()
             }
             findViewById<TextView>(R.id.tv_body).text =
