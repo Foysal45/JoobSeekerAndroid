@@ -312,6 +312,16 @@
                     tools:visibility="visible" />
 
                 <include
+                    android:id="@+id/smsAlertView"
+                    layout="@layout/layout_sms_job_alert_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginBottom="5dp"
+                    tools:visibility="visible" />
+
+                <include
                     android:id="@+id/videoInvitationView"
                     layout="@layout/my_video_interview_invitations_layout"
                     android:layout_width="match_parent"
