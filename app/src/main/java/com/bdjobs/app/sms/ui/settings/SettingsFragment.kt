@@ -46,7 +46,7 @@ class SettingsFragment : Fragment() {
         setUpObservers()
 
         binding.tvPurchaseSms.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToSmsHomeFragment())
         }
     }
 
