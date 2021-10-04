@@ -109,6 +109,8 @@ class RecordVideoResumeFragment : Fragment() {
 
         initializeUI()
         setUpObservers()
+
+
     }
 
 
@@ -125,7 +127,7 @@ class RecordVideoResumeFragment : Fragment() {
 
             videoCapture = VideoCapture.Builder().apply {
                 setTargetResolution(Size(abs(RESOLUTION_HEIGHT), abs(RESOLUTION_WEIDTH)))
-                setBitRate(CamcorderProfile.QUALITY_LOW)
+                setBitRate(CamcorderProfile.QUALITY_QVGA)
 
             }.build()
 
@@ -241,9 +243,10 @@ class RecordVideoResumeFragment : Fragment() {
     }
 
     private fun startRecord(newFile: File) {
+
+
         if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.RECORD_AUDIO
+                requireContext(), Manifest.permission.RECORD_AUDIO
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
