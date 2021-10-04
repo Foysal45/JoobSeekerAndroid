@@ -303,6 +303,7 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btn_sms_alert_fab"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         ads:layout_constraintEnd_toEndOf="parent"

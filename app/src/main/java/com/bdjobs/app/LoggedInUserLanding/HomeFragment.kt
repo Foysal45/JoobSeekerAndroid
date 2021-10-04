@@ -61,12 +61,6 @@ import java.util.*
 
 class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
 
-//    override fun onSaveInstanceState(outState: Bundle?) {
-//        super.onSaveInstanceState(outState)
-//        Timber.d("called onSaveInstanceState")
-//    }
-
-
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private lateinit var bdjobsDB: BdjobsDB
     private lateinit var backgroundJobBroadcastReceiver: BackgroundJobBroadcastReceiver
@@ -135,7 +129,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         adLoader.loadAd(AdRequest.Builder().build())
     }
 
-
     private fun alertAboutShortlistedJobs() {
         try {
             val shortlistedDate = bdjobsUserSession.shortListedDate
@@ -150,7 +143,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             logException(e)
         }
     }
-
 
     private fun onClickListeners() {
 
@@ -704,7 +696,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                                 for (item in it) {
                                     if (item.isNotEmpty()) {
                                         requireActivity().subscribeToFCMTopic(item)
-                                        //Log.d("rakib", item)
                                     }
                                 }
                             } catch (e: Exception) {
@@ -716,7 +707,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                                 for (item in it) {
                                     if (item.isNotEmpty()) {
                                         requireActivity().unsubscribeFromFCMTopic(item)
-                                        //Log.d("rakib", item)
                                     }
                                 }
                             } catch (e: Exception) {
@@ -725,17 +715,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     }
 
 
-                    //Log.d("rakib cat id", "${catIds?.size}")
-
                     inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview
                     videoInterviview = response.body()?.data?.get(0)?.videoInterviview
                     liveInterview = response.body()?.data?.get(0)?.liveInterview
-
-                    //Log.d("google", "google = $inviteInterviview")
-
-//                    if (inviteInterviview?.toInt()!! > 0 || videoInterviview?.toInt()!! > 0 || liveInterview?.toInt()!! > 0) {
-//                        showInterviewInvitationPop()
-//                    }
 
                     try {
                         Constants.changePassword_Eligibility =
@@ -752,9 +734,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         bdjobsUserSession.updateJobApplyLimit(response.body()?.data?.get(0)?.jobApplyLimit)
                         bdjobsUserSession.updateJobApplyThreshold(response.body()?.data?.get(0)?.appliedJobsThreshold)
                         bdjobsUserSession.updatePostingDate(response.body()?.data?.get(0)?.postingDate!!)
-//                        Constants.applyRestrictionStatus = response.body()?.data?.get(0)?.applyRestrictionStatus!!
-//                        Constants.appliedJobsThreshold = response.body()?.data?.get(0)?.appliedJobsThreshold!!.toInt()
-                        //Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
                     } catch (e: Exception) {
                         logException(e)
                     }
