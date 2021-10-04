@@ -108,8 +108,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="tv_start_sms_alert"
-                app:layout_constraintBottom_toBottomOf="tv_start_sms_alert"
+                app:layout_constraintTop_toTopOf="@+id/tv_start_sms_alert"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_start_sms_alert"
                 app:srcCompat="@drawable/ic_sms_settings"
                 app:tint="#404040"
                 android:id="@+id/iv_sms_setting_icon_home"/>
