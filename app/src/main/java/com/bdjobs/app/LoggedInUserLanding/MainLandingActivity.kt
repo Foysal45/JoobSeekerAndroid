@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
@@ -878,7 +879,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         if (personalInfo.equals("True", ignoreCase = true)) {
             personalImageView.setBackgroundResource(R.drawable.acount_right_icon)
         } else {
-            personalImageView.setBackgroundResource(R.drawable.resume_add_icon)
+            personalImageView.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.resume_add_icon))
             personalImageView.setOnClickListener {
                 setClickListener("personal")
                 cancelIconImgv.performClick()
@@ -889,7 +890,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         if (educationInfo.equals("True", ignoreCase = true)) {
             educationaImageView.setBackgroundResource(R.drawable.acount_right_icon)
         } else {
-            educationaImageView.setBackgroundResource(R.drawable.resume_add_icon)
+            educationaImageView.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.resume_add_icon))
             educationaImageView.setOnClickListener {
                 setClickListener("education")
                 cancelIconImgv.performClick()
@@ -899,7 +900,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         if (photoInfo.equals("True", ignoreCase = true)) {
             photInfoImageView.setBackgroundResource(R.drawable.acount_right_icon)
         } else {
-            photInfoImageView.setBackgroundResource(R.drawable.resume_add_icon)
+            photInfoImageView.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.resume_add_icon))
             photInfoImageView.setOnClickListener {
                 setClickListener("photo")
                 cancelIconImgv.performClick()
@@ -909,7 +910,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         if (skillInfo.equals("True", ignoreCase = true)) {
             skillIMGV.setBackgroundResource(R.drawable.acount_right_icon)
         } else {
-            skillIMGV.setBackgroundResource(R.drawable.resume_add_icon)
+            skillIMGV.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.resume_add_icon))
             skillIMGV.setOnClickListener {
                 setClickListener("experience")
                 cancelIconImgv.performClick()
