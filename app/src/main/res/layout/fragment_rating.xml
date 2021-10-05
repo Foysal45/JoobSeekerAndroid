@@ -54,13 +54,14 @@
                     android:layout_marginEnd="40dp"
                     android:textSize="18sp"
                     android:gravity="center"
-                    android:text="You have submitted Video Interview successfully."
+                    android:text="You have attended Video Interview Successfully."
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/img_rate"
                     android:layout_marginTop="18dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/tv_rate"
@@ -103,6 +104,7 @@
                     android:hint="Write Feedback"
                     android:maxLines="15"
                     android:minLines="5"
+                    android:maxLength="700"
                     android:text="@={viewModel.feedback}"
                     android:afterTextChanged="@{(feedback)->viewModel.afterFeedbackTextChanged(feedback)}"
                     android:paddingStart="10dp"
@@ -110,7 +112,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/tv_rate"
                     app:layout_constraintStart_toStartOf="@id/tv_rate"
-                    app:layout_constraintTop_toBottomOf="@id/rating" />
+                    app:layout_constraintTop_toBottomOf="@id/rating"
+                    tools:ignore="HardcodedText" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
