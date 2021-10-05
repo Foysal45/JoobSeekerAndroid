@@ -1,6 +1,7 @@
 package com.bdjobs.app.LoggedInUserLanding
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
@@ -32,6 +34,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.liveInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.internal.*
+import com.bdjobs.app.sms.SmsBaseActivity
 import com.bdjobs.app.videoResume.VideoResumeActivity
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.ads.nativetemplates.TemplateView
@@ -42,12 +45,14 @@ import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.layout_all_interview_invitation.*
+import kotlinx.android.synthetic.main.layout_sms_job_alert_home.*
 import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
 import kotlinx.android.synthetic.main.my_favourite_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_followed_employers_layout.*
 import kotlinx.android.synthetic.main.my_interview_invitation_layout.*
 import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_video_interview_invitations_layout.*
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.uiThread
@@ -100,6 +105,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         // showGeneralPopUp()
         //showAd()
     }
+
 
     private fun showAd() {
         val adLoader = AdLoader.Builder(requireContext(), "ca-app-pub-3940256099942544/2247696110")
@@ -202,6 +208,24 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         messageIMGV?.setOnClickListener {
             homeCommunicator.goToMessages()
         }
+
+        cl_start_sms_alert_view.setOnClickListener {
+            requireContext().startActivity(Intent(requireContext(), SmsBaseActivity::class.java)
+                .putExtra("from", "settings")
+            )
+        }
+
+        tv_sms_setting_home.setOnClickListener {
+            requireContext().startActivity(
+                Intent(requireContext(), SmsBaseActivity::class.java)
+                    .putExtra("from", "settings")
+            )
+        }
+
+        tv_purchase_sms.setOnClickListener {
+            requireContext().startActivity(Intent(requireContext(), SmsBaseActivity::class.java))
+        }
+
     }
 
     private fun showData() {
@@ -245,10 +269,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             mainLL?.show()
             bdjobsUserSession = BdjobsUserSession(requireContext())
             if (bdjobsUserSession.liveInterviewCount == 0 && bdjobsUserSession.videoInterviewCount == 0 && bdjobsUserSession.generalInterviewCount == 0) {
-                Timber.d("Showing blank")
+                Timber.d("Showing blank1")
                 allInterview?.hide()
                 allInterview?.hide()
                 blankCL?.show()
+                smsAlertView.hide()
                 newSearchBTN?.hide()
             } else {
                 bdjobsUserSession = BdjobsUserSession(requireContext())
@@ -313,10 +338,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
         Timber.d("onResume Triggered")
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
+
+        getSmsAlertStatus()
         showNotificationCount()
         showMessageCount()
         showData()
         alertAboutShortlistedJobs()
+
 
     }
 
@@ -498,7 +526,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     lastSearchView?.show()
                     blankCL?.hide()
                     mainLL?.show()
-                    newSearchBTN?.show()
                     newSearchBTN?.show()
                 } else {
 //                    homeCommunicator.goToAjkerDealLive(R.id.navHostFragmentAD)
@@ -744,6 +771,122 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             }
 
         })
+    }
+
+    /**
+     * fetching SMS Alert Status
+     */
+    private fun getSmsAlertStatus() {
+        lifecycleScope.launch {
+            try {
+                val response = ApiServiceMyBdjobs.create().getSMSSetting(
+                    bdjobsUserSession.userId,
+                    bdjobsUserSession.decodId,
+                    Constants.APP_ID
+                )
+
+                if (response.statuscode == "0" && response.message == "Success") {
+
+                    blankCL?.hide()
+                    newSearchBTN?.show()
+                    smsAlertView.visibility = View.VISIBLE
+
+                    val data = response.data!![0]
+                    val remainingSms = data.remainingSMSAmount?.toInt() ?: 0
+                    val smsLimit = data.dailySmsLimit?.toInt() ?: 0
+
+                    smsAlertView.visibility = View.VISIBLE
+                    cl_label_views.visibility = View.VISIBLE
+                    tv_label_sms_alert_home.visibility = View.VISIBLE
+                    cl_left_views.visibility = View.VISIBLE
+
+                    /**
+                     * when SMS alert feature is on
+                     * checking count of remainingSMS & dailySMSLimit
+                     * and showing them both
+                     * else only showing remainingSMS value
+                     */
+                    if (data.smsAlertOn == "True") {
+                        tv_sms_alert_status_off_home.visibility = View.GONE
+                        tv_sms_alert_status_on_home.visibility = View.VISIBLE
+
+                        /**
+                         * if remainingSMS is greater then zero
+                         * then showing SMS setting view
+                         * else showing the Buy SMS view
+                         */
+                        if (remainingSms > 0) {
+                            tv_purchase_sms.visibility = View.GONE
+                            cl_start_sms_alert_view.visibility = View.GONE
+                            tv_sms_setting_home.visibility = View.VISIBLE
+
+                            tv_no_package.visibility = View.GONE
+                            ll_daily_limit_sms_home.visibility = View.VISIBLE
+                            ll_remaining_sms_home.visibility = View.VISIBLE
+
+                            tv_remaining_sms_count_home.text = "$remainingSms"
+                            tv_sms_limit_count_home.text = "$smsLimit"
+                        } else {
+                            cl_start_sms_alert_view.visibility = View.GONE
+                            tv_sms_setting_home.visibility = View.GONE
+                            tv_purchase_sms.visibility = View.VISIBLE
+
+                            tv_no_package.visibility = View.GONE
+                            ll_daily_limit_sms_home.visibility = View.VISIBLE
+                            ll_remaining_sms_home.visibility = View.VISIBLE
+
+                            tv_remaining_sms_count_home.text = "$remainingSms"
+                            tv_sms_limit_count_home.text = "$smsLimit"
+                        }
+
+                    } else {
+                        tv_sms_alert_status_on_home.visibility = View.GONE
+                        tv_sms_alert_status_off_home.visibility = View.VISIBLE
+
+                        tv_purchase_sms.visibility = View.GONE
+                        tv_sms_setting_home.visibility = View.GONE
+                        cl_start_sms_alert_view.visibility = View.VISIBLE
+
+                        tv_no_package.visibility = View.GONE
+                        ll_daily_limit_sms_home.visibility = View.GONE
+                        ll_remaining_sms_home.visibility = View.VISIBLE
+
+                        tv_remaining_sms_count_home.text = "$remainingSms"
+                    }
+
+
+                } else if (response.statuscode == "3") {
+                    /*
+                     * Showing the SMS alert buy UI
+                     * if no package is available
+                     */
+                    blankCL?.hide()
+                    newSearchBTN?.show()
+                    smsAlertView.visibility = View.VISIBLE
+                    cl_label_views.visibility = View.VISIBLE
+                    tv_label_sms_alert_home.visibility = View.VISIBLE
+                    tv_sms_alert_status_on_home.visibility = View.GONE
+                    tv_sms_alert_status_off_home.visibility = View.GONE
+
+                    cl_left_views.visibility = View.VISIBLE
+                    tv_purchase_sms.visibility = View.VISIBLE
+                    tv_sms_setting_home.visibility = View.GONE
+                    cl_start_sms_alert_view.visibility = View.GONE
+
+                    tv_no_package.visibility = View.VISIBLE
+
+
+                } else {
+                    /**
+                     * not showing the SMS alert view. if status is not 0 or 3
+                     */
+                    smsAlertView.visibility = View.GONE
+                }
+            } catch (e: Exception) {
+                Timber.e("Exception while fetching SMS Alert Status")
+                smsAlertView.visibility = View.GONE
+            }
+        }
     }
 
     private fun showShortListedJobsExpirationPopUP() {

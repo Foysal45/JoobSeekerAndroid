@@ -244,6 +244,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="visible"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -298,6 +299,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -317,8 +319,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:layout_marginHorizontal="15dp"
                     android:layout_marginBottom="5dp"
+                    android:visibility="gone"
                     tools:visibility="visible" />
 
                 <include
@@ -328,6 +330,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -336,6 +340,8 @@
                     layout="@layout/my_interview_invitation_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -344,6 +350,8 @@
                     layout="@layout/layout_all_interview_invitation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -352,6 +360,8 @@
                     layout="@layout/my_assessment_filter_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone" />
 
                 <include
@@ -359,6 +369,8 @@
                     layout="@layout/my_followed_employers_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone" />
 
                 <FrameLayout
