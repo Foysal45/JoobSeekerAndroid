@@ -208,6 +208,8 @@ class SettingsViewModel(private val repository: SMSRepository) : ViewModel() {
                 }
 
             } catch (e:Exception){
+                _isSubmitDataLoading.value = false
+                _showToastMessage.value = "Something went wrong! Please make sure you availed any of the packages"
                e.printStackTrace()
             }
 
