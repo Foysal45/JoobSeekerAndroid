@@ -244,6 +244,7 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
                     if (followedEmployerList != null && followedEmployerList!!.isNotEmpty()) {
                         followEmployerNoDataLL?.hide()
                         followedRV?.show()
+                        btn_sms_alert_fab?.show()
 
                         followedListSize = response.body()?.common?.totalRecordsFound?.toInt()!!
                         followedEmployersAdapter?.addAll(followedEmployerList!!)
@@ -260,6 +261,7 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
                     } else {
                         followedRV?.hide()
                         followEmployerNoDataLL?.show()
+                        btn_sms_alert_fab?.hide()
                     }
 
                 } catch (e: Exception) {
@@ -326,12 +328,14 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
         run {
             followedRV?.scrollToPosition(position)
         }
-        if (followedListSize > 1) {
+        if (followedListSize > 0) {
             val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employers"
             favCountTV?.text = Html.fromHtml(styledText)
+            btn_sms_alert_fab?.show()
         } else {
             val styledText = "<b><font color='#13A10E'>$followedListSize</font></b> Followed Employer"
             favCountTV?.text = Html.fromHtml(styledText)
+            btn_sms_alert_fab?.hide()
         }
     }
 
@@ -380,11 +384,13 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
         if (count > 0) {
             val styledText = "<b><font color='#13A10E'>$count</font></b> Followed Employers"
             favCountTV?.text = Html.fromHtml(styledText)
+            btn_sms_alert_fab?.show()
         } else {
             val styledText = "<b><font color='#13A10E'>$count</font></b> Followed Employer"
             favCountTV?.text = Html.fromHtml(styledText)
             followedRV?.hide()
             followEmployerNoDataLL?.show()
+            btn_sms_alert_fab?.hide()
         }
     }
 
