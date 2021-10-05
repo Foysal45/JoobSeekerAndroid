@@ -370,9 +370,15 @@ class QuestionListFragment : Fragment() {
                 Log.d("rakib", "size ${it.size}")
                 img_previous_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_previous_question_grey)
                 img_previous_question?.isEnabled = false
+                img_previous_question.visibility = View.INVISIBLE
                 img_next_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_next_question_grey)
                 img_next_question?.isEnabled = false
+                img_next_question.visibility = View.INVISIBLE
+
             } else {
+                img_previous_question.visibility = View.VISIBLE
+                img_next_question.visibility = View.VISIBLE
+
                 if (position == 0) {
                     Log.d("rakib", "camer if")
                     img_previous_question?.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_previous_question_grey)
