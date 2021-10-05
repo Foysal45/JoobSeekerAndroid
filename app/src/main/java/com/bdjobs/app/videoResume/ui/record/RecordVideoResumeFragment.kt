@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.pm.PackageManager
-import android.media.CamcorderProfile
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -127,7 +126,7 @@ class RecordVideoResumeFragment : Fragment() {
 
             videoCapture = VideoCapture.Builder().apply {
                 setTargetResolution(Size(abs(RESOLUTION_HEIGHT), abs(RESOLUTION_WEIDTH)))
-                setBitRate(CamcorderProfile.QUALITY_QVGA)
+                setBitRate(1*RESOLUTION_HEIGHT*RESOLUTION_WEIDTH)
 
             }.build()
 
@@ -206,11 +205,8 @@ class RecordVideoResumeFragment : Fragment() {
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-                    Toast.makeText(
-                        context,
-                        "Your video has been uploaded successfully.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(context, "Your video has been uploaded successfully.", Toast.LENGTH_SHORT).show()
+
                     findNavController().popBackStack()
                 } else {
                     Toast.makeText(context, "There was an error", Toast.LENGTH_SHORT).show()
@@ -262,7 +258,7 @@ class RecordVideoResumeFragment : Fragment() {
                         recordVideoResumeViewModel.videoResumeManagerData.value?.file = newFile
                         recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
                     showSnackbar()
-                    fileSize(newFile)
+                    //fileSize(newFile)
 
                 }
 
