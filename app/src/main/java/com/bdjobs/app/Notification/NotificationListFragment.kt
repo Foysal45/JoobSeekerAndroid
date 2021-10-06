@@ -1,7 +1,8 @@
 package com.bdjobs.app.Notification
 
-import android.os.Bundle
+import android.annotation.SuppressLint
 import android.app.Fragment
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +12,19 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
-import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.Notification
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_notification_list.*
+import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import timber.log.Timber
 
 
 class NotificationListFragment : Fragment() {
@@ -42,6 +44,14 @@ class NotificationListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_notification_list, container, false)
     }
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        Timber.d("notification list view created!")
+
+    }
+
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
         notificationCommunicator = activity as NotificationCommunicatior
@@ -50,9 +60,9 @@ class NotificationListFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(activity)
         notificationHelper = NotificationHelper(activity)
 
-        showDataFromDB()
-        //Log.d("rakib", "${notificationCommunicator.getPositionClicked()}")
+        textView10.text = "You currently have no notifications."
 
+        showDataFromDB()
     }
 
     private fun showDataFromDB() {

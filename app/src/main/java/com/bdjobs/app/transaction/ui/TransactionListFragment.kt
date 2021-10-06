@@ -15,6 +15,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.databinding.FragmentTransactionListBinding
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import kotlinx.android.synthetic.main.fragment_transaction_list.*
+import kotlinx.android.synthetic.main.layout_no_data_found.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -134,6 +135,12 @@ class TransactionListFragment : Fragment() {
         }
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        textView10.text = "You don't have any transactions yet."
     }
 
 

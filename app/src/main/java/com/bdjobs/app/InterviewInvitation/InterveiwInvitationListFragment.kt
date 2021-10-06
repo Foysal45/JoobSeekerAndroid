@@ -1,5 +1,6 @@
 package com.bdjobs.app.InterviewInvitation
 
+import android.annotation.SuppressLint
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
@@ -18,6 +19,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import kotlinx.android.synthetic.main.fragment_interview_invitation_list.*
 //import kotlinx.android.synthetic.main.fragment_interview_invitation_list.adView
 import kotlinx.android.synthetic.main.fragment_interview_invitation_list.backIMV
+import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
@@ -38,6 +40,7 @@ class InterveiwInvitationListFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bdjobsUserSession = BdjobsUserSession(activity)
@@ -46,6 +49,9 @@ class InterveiwInvitationListFragment : Fragment() {
         backIMV.setOnClickListener {
             interviewInvitationCommunicator.backButtonClicked()
         }
+
+
+        textView10.text = "You don't have any Interview Invitation yet."
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
 

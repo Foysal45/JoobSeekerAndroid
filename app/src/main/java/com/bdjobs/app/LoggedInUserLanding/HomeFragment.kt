@@ -46,12 +46,9 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd
 import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.layout_all_interview_invitation.*
 import kotlinx.android.synthetic.main.layout_sms_job_alert_home.*
-import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
 import kotlinx.android.synthetic.main.my_favourite_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_followed_employers_layout.*
-import kotlinx.android.synthetic.main.my_interview_invitation_layout.*
 import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
-import kotlinx.android.synthetic.main.my_video_interview_invitations_layout.*
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.startActivity
@@ -340,7 +337,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
 
         showData()
-        getSmsAlertStatus()
+        safeFetchSmsAlertStatus()
         showNotificationCount()
         showMessageCount()
         alertAboutShortlistedJobs()
@@ -781,7 +778,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     /**
      * fetching SMS Alert Status
      */
-    private fun getSmsAlertStatus() {
+    private fun safeFetchSmsAlertStatus() {
         lifecycleScope.launch {
             try {
                 val response = ApiServiceMyBdjobs.create().getSMSSetting(
@@ -889,7 +886,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 }
             } catch (e: Exception) {
                 Timber.e("Exception while fetching SMS Alert Status")
-                smsAlertView.visibility = View.GONE
+                if (isAdded) smsAlertView.visibility = View.GONE
             }
         }
     }

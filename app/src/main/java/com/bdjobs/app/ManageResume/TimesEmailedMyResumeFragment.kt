@@ -1,6 +1,7 @@
 package com.bdjobs.app.ManageResume
 
 
+import android.annotation.SuppressLint
 import android.app.Fragment
 import android.graphics.Color
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 //import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_times_emailed_my_resume.*
+import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -92,8 +94,11 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
+
+        textView10.text = "You didn't email any Resume yet."
 
         if (manageCommunicator.getBackFrom() == "filter") {
             manageCommunicator.setBackFrom("")
