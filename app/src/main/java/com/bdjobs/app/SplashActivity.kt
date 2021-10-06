@@ -43,8 +43,12 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import com.google.firebase.remoteconfig.ktx.get
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoTools
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -67,7 +71,6 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
     private var firstDialog: Dialog? = null
     lateinit var request: PermissionRequest
     private var connectionStatus = false
-    private lateinit var remoteConfig: FirebaseRemoteConfig
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
 
@@ -88,18 +91,48 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
          mPublisherInterstitialAd.loadAd(PublisherAdRequest.Builder().build())*/
         PicassoTools().clearCache(Picasso.get())
 
-        remoteConfig = FirebaseRemoteConfig.getInstance()
+//        remoteConfig = FirebaseRemoteConfig.getInstance()
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.setUserId(bdjobsUserSession.userId)
 
-        val configSettings = FirebaseRemoteConfigSettings.Builder()
-                .build()
-        remoteConfig.setConfigSettingsAsync(configSettings)
-        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+//        val configSettings = FirebaseRemoteConfigSettings.Builder()
+//                .build()
+//        remoteConfig.setConfigSettingsAsync(configSettings)
+//        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+
+        setRemoteConfigValues()
 
         val deviceProtectedSession = DeviceProtectedSession(this)
         deviceProtectedSession.isLoggedIn = bdjobsUserSession.isLoggedIn
 
+    }
+
+    private fun setRemoteConfigValues() {
+        val remoteConfig = Firebase.remoteConfig
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 360
+        }
+
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+
+        remoteConfig.fetchAndActivate().addOnCompleteListener(this) {task ->
+            if (task.isSuccessful) {
+                val updated = task.result
+                Timber.d("Config params updated: $updated")
+                Timber.d("Config value for MyBdJobs Ad: ${remoteConfig["AD_IN_MYBDJOBS"].asString()}")
+                Timber.d("Config value for JobList Ad: ${remoteConfig["AD_IN_JOBLIST"].asString()}")
+                Timber.d("Config value for Landing Ad: ${remoteConfig["AD_IN_MAIN_LANDING"].asString()}")
+                bdjobsUserSession.adTypeMyBdJobs = remoteConfig["AD_IN_MYBDJOBS"].asString()
+                bdjobsUserSession.adTypeJobList = remoteConfig["AD_IN_JOBLIST"].asString()
+                bdjobsUserSession.adTypeLanding = remoteConfig["AD_IN_MAIN_LANDING"].asString()
+                Timber.d("Session value for MyBdJobs Ad: ${bdjobsUserSession.adTypeMyBdJobs}")
+                Timber.d("Session value for Job List Ad: ${bdjobsUserSession.adTypeJobList}")
+                Timber.d("Session value for Landing Ad: ${bdjobsUserSession.adTypeLanding}")
+            } else {
+                Timber.e("Remote config task failed")
+            }
+        }
     }
 
     override fun onResume() {

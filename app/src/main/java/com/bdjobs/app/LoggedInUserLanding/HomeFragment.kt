@@ -492,8 +492,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                                     lastSearchcounterTV?.textSize = 14.0F
                                 }
 
-//                                homeCommunicator.goToAjkerDealLive(R.id.navHostFragmentAD)
-//                                navHostFragmentAD.visibility = View.VISIBLE
+                                if (bdjobsUserSession.adTypeLanding=="2") {
+                                    navHostFragmentAD.visibility = View.VISIBLE
+                                    homeCommunicator.goToAjkerDealLive(R.id.navHostFragmentAD)
+                                } else {
+                                    navHostFragmentAD.visibility = View.GONE
+                                }
+
 
                             } catch (e: Exception) {
                                 lastPrgrs?.hide()

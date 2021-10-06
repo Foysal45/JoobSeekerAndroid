@@ -1,5 +1,6 @@
 package com.bdjobs.app.SessionManger
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.AlarmManager
@@ -604,5 +605,18 @@ class BdjobsUserSession(val context: Context) {
     var userPresentPostOffice: String?
         get() = pref!!.getString("PresentPostOffice","")
         set(value) {pref!!.edit().putString("PresentPostOffice",value).apply()}
+
+    var adTypeMyBdJobs : String?
+    get() = pref!!.getString("AD_IN_MYBDJOBS","2")
+    set(value) {pref!!.edit().putString("AD_IN_MYBDJOBS",value).apply()}
+
+    var adTypeJobList : String?
+        get() = pref!!.getString("AD_IN_JOBLIST","2")
+        set(value) {pref!!.edit().putString("AD_IN_JOBLIST",value).apply()}
+
+    var adTypeLanding : String?
+        get() = pref!!.getString("AD_IN_MAIN_LANDING","2")
+        set(value) {pref!!.edit().putString("AD_IN_MAIN_LANDING",value).apply()}
+
 
 }

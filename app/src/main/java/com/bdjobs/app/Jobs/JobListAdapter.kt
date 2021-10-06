@@ -786,7 +786,12 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         if (holder is AjkerDealLiveVH) {
-            holder.fragment(HomeNewFragment())
+            if (BdjobsUserSession(context).adTypeJobList=="2") {
+                holder.container.visibility = View.VISIBLE
+                holder.fragment(HomeNewFragment())
+            } else {
+                holder.container.visibility = View.GONE
+            }
         }
         super.onViewAttachedToWindow(holder)
 
@@ -894,7 +899,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
     }
 
     inner class AjkerDealLiveVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var container: FrameLayout = itemView.findViewById(R.id.live_container)
+        var container: FrameLayout = itemView.findViewById(R.id.live_container)
 
         fun fragment(fragment: Fragment) {
 
