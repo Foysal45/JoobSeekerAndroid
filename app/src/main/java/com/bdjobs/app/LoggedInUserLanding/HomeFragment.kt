@@ -272,9 +272,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 Timber.d("Showing blank1")
                 allInterview?.hide()
                 allInterview?.hide()
-                blankCL?.show()
                 smsAlertView.hide()
                 newSearchBTN?.hide()
+                blankCL?.show()
             } else {
                 bdjobsUserSession = BdjobsUserSession(requireContext())
                 allInterview?.show()
@@ -339,10 +339,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         Timber.d("onResume Triggered")
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
 
+        showData()
         getSmsAlertStatus()
         showNotificationCount()
         showMessageCount()
-        showData()
         alertAboutShortlistedJobs()
 
 

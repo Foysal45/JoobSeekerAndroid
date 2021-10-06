@@ -552,7 +552,7 @@ class FavouriteSearchFilterAdapter(private val context: Context, private val ite
             findViewById<MaterialButton>(R.id.btn_purchase).apply {
                 if (isNewPurchaseNeeded!!.equalIgnoreCase("True")) {
                     text = "Buy SMS"
-                    setBackgroundColor(ContextCompat.getColor(context,R.color.btn_green))
+                    setBackgroundColor(ContextCompat.getColor(context,R.color.green))
                     strokeColor = ColorStateList.valueOf(ContextCompat.getColor(context,R.color.border_grey))
                     textColor = ContextCompat.getColor(context,R.color.white)
                 } else {
