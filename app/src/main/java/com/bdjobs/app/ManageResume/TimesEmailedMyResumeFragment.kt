@@ -41,7 +41,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
     private var bdjobsUserSession: BdjobsUserSession? = null
     private lateinit var isActivityDate: String
 
-    private var selectedResumeType = "2"
+    private var selectedResumeType = "1"
 
     private lateinit var manageCommunicator: ManageResumeCommunicator
     private lateinit var timesEmailedMyResumeAdapter: TimesEmailedMyResumeAdapter
