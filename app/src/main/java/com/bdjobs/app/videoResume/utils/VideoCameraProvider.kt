@@ -152,7 +152,7 @@ class VideoCameraProvider(val context : Context, val camera_view : CameraView, v
             override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
 
                 video_file = outputFileResults.savedUri!!.toFile()
-                VideoResultinterface.videoRecordresult(video_file)
+
 
             }
 
