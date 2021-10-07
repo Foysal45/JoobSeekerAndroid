@@ -244,26 +244,31 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
                     } else {
                         Timber.d("Unsuccessful Response")
 
+
+                        if (isAdded) {
+                            shimmer_view_container_JobList?.hide()
+                            shimmer_view_container_JobList?.stopShimmer()
+                            Toast.makeText(
+                                requireContext(),
+                                "Something went wrong! Please try again later",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                    }
+                } catch (e: Exception) {
+                    logException(e)
+
+                    if (isAdded) {
                         shimmer_view_container_JobList?.hide()
                         shimmer_view_container_JobList?.stopShimmer()
-
                         Toast.makeText(
                             requireContext(),
                             "Something went wrong! Please try again later",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                } catch (e: Exception) {
-                    logException(e)
 
-                    shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmer()
-                    if (isAdded)
-                        Toast.makeText(
-                            requireContext(),
-                            "Something went wrong! Please try again later",
-                            Toast.LENGTH_SHORT
-                        ).show()
 
                 }
 
@@ -273,13 +278,16 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
                 //Log.d("TAG", "not successful!! onFail")
                 error("onFailure", t)
 
-                shimmer_view_container_JobList?.hide()
-                shimmer_view_container_JobList?.stopShimmer()
-                Toast.makeText(
-                    requireContext(),
-                    "Something went wrong! Please try again later",
-                    Toast.LENGTH_SHORT
-                ).show()
+                if (isAdded) {
+                    shimmer_view_container_JobList?.hide()
+                    shimmer_view_container_JobList?.stopShimmer()
+                    Toast.makeText(
+                        requireContext(),
+                        "Something went wrong! Please try again later",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             }
         })
     }

@@ -127,7 +127,7 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
 
 
             loadData(1)
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             Toast.makeText(
                 requireContext(),
                 "Something went wrong! Please try again later",
@@ -201,13 +201,16 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
             override fun onFailure(call: Call<FollowEmployerListModelClass>, t: Throwable) {
                 Timber.e("onFailure: ${t.localizedMessage}")
                 //Log.d("getFEmployerListLazy", t.message)
-                shimmer_view_container_JobList?.hide()
-                shimmer_view_container_JobList?.stopShimmer()
-                Toast.makeText(
-                    requireContext(),
-                    "Something went wrong! Please try again later",
-                    Toast.LENGTH_SHORT
-                ).show()
+                if (isAdded) {
+                    shimmer_view_container_JobList?.hide()
+                    shimmer_view_container_JobList?.stopShimmer()
+                    Toast.makeText(
+                        requireContext(),
+                        "Something went wrong! Please try again later",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             }
 
             override fun onResponse(
@@ -251,16 +254,20 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
 
 
                 } catch (e: Exception) {
-                    Timber.e("Exception: ${e.localizedMessage}")
-                    shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmer()
-                    followedRV?.hide()
-                    followEmployerNoDataLL?.hide()
-                    Toast.makeText(
-                        requireContext(),
-                        "Something went wrong! Please try again later",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (isAdded) {
+                        Timber.e("Exception: ${e.localizedMessage}")
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmer()
+                        followedRV?.hide()
+                        followEmployerNoDataLL?.hide()
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Something went wrong! Please try again later",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
                     logException(e)
                 }
 
@@ -311,7 +318,12 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
                 this.cancel()
             }
             findViewById<MaterialButton>(R.id.btn_purchase).setOnClickListener {
-                requireContext().startActivity(Intent(requireContext(), SmsBaseActivity::class.java))
+                requireContext().startActivity(
+                    Intent(
+                        requireContext(),
+                        SmsBaseActivity::class.java
+                    )
+                )
                 this.cancel()
             }
             findViewById<MaterialButton>(R.id.btn_sms_settings).setOnClickListener {
