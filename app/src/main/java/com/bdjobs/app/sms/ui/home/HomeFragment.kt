@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.thirdClFreeTrial.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0,"True",0))
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(homeViewModel.freeSMSLimit.value!!.toInt(),0,"True",0))
         }
 
         binding.thirdCl500Sms.setOnClickListener {
@@ -63,7 +63,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.tvBuyFollowingSmsPackagesDetails.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToPackageDetailsFragment())
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToPackageDetailsFragment(homeViewModel.freeSMSLimit.value))
         }
 
     }

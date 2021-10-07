@@ -128,5 +128,10 @@
         android:id="@+id/packageDetailsFragment"
         android:name="com.bdjobs.app.sms.ui.package_details.PackageDetailsFragment"
         android:label="Package Details"
-        tools:layout="@layout/package_details_fragment" />
+        tools:layout="@layout/package_details_fragment" >
+        <argument
+            android:name="freeSms"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

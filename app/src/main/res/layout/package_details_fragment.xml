@@ -45,19 +45,20 @@
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <LinearLayout
-                        android:gravity="center"
-                        android:padding="12dp"
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/_20_sms"
+                            tools:text="@string/_20_sms"
+                            android:id="@+id/tv_free_sms_package"
                             android:textColor="@color/white"
                             android:textSize="20sp"
-                            app:fontFamily="@font/roboto_bold"/>
+                            app:fontFamily="@font/roboto_bold" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
@@ -65,7 +66,7 @@
                             android:text="@string/free_trial"
                             android:textColor="@color/white"
                             android:textSize="16sp"
-                            app:fontFamily="@font/roboto"/>
+                            app:fontFamily="@font/roboto" />
 
                     </LinearLayout>
 
