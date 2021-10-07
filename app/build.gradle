@@ -96,6 +96,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:17.4.1'
     implementation 'com.google.firebase:firebase-inappmessaging-display:19.1.5'
     implementation 'com.google.firebase:firebase-analytics:18.0.2'
+    implementation 'com.google.firebase:firebase-config-ktx:21.0.1'
 
 
     //-----google sign in
