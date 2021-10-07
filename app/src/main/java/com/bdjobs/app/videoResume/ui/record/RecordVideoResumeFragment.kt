@@ -33,6 +33,7 @@ import com.bdjobs.app.databinding.FragmentRecordVideoResumeBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModel
+import com.bdjobs.app.videoResume.utils.VideoCameraProvider
 import com.google.android.material.snackbar.Snackbar
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.VideoResult
@@ -69,6 +70,9 @@ class RecordVideoResumeFragment : Fragment() {
     val RESOLUTION_HEIGHT = 480
 
 
+    lateinit var mVideoCamera : VideoCameraProvider
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -92,17 +96,20 @@ class RecordVideoResumeFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
-        sdk =  Integer.valueOf(Build.VERSION.SDK_INT)
+        mVideoCamera = VideoCameraProvider(requireContext(), camera_view2, camera_view, viewLifecycleOwner )
+        mVideoCamera.initilizeCamera()
 
-        if (sdk < 23){
-            camera_view2.visibility = View.VISIBLE
-            camera_view.visibility = View.GONE
-            initializeCamera()
-        }else{
-            camera_view.visibility = View.VISIBLE
-            camera_view2.visibility = View.GONE
-            startCamera()
-        }
+//        sdk =  Integer.valueOf(Build.VERSION.SDK_INT)
+//
+//        if (sdk < 23){
+//            camera_view2.visibility = View.VISIBLE
+//            camera_view.visibility = View.GONE
+//            initializeCamera()
+//        }else{
+//            camera_view.visibility = View.VISIBLE
+//            camera_view2.visibility = View.GONE
+//            startCamera()
+//        }
 
 
 
@@ -225,12 +232,22 @@ class RecordVideoResumeFragment : Fragment() {
             val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
 
 
-            if (sdk < 23){
-                camera_view2.mode = Mode.VIDEO
-                camera_view2?.takeVideoSnapshot(newFile)
-            }else{
-                startRecord(newFile)
+           videoFile =  mVideoCamera.recordVideo(newFile)
+
+            if (recordVideoResumeViewModel.onVideoDoneEvent.value == true) {
+                //videoFile = result.file
+                recordVideoResumeViewModel.videoResumeManagerData.value?.file = videoFile
+                recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
+                showSnackbar()
+
             }
+
+//            if (sdk < 23){
+//                camera_view2.mode = Mode.VIDEO
+//                camera_view2?.takeVideoSnapshot(newFile)
+//            }else{
+//                startRecord(newFile)
+//            }
 
 
         } catch (e: Exception) {
