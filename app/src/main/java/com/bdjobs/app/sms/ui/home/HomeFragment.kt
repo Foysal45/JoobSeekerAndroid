@@ -39,7 +39,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.imgBuyFreeTrial.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(20,0,"True",0))
+            findNavController().navigate(HomeFragmentDirections.actionSmsHomeFragmentToSmsPaymentFragment(homeViewModel.freeSMSLimit.value!!.toInt(),0,"True",0))
         }
 
         binding.thirdClFreeTrial.setOnClickListener {

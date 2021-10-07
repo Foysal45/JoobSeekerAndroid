@@ -615,7 +615,7 @@ class BdjobsUserSession(val context: Context) {
         set(value) {pref!!.edit().putString("AD_IN_JOBLIST",value).apply()}
 
     var adTypeLanding : String?
-        get() = pref!!.getString("AD_IN_MAIN_LANDING","2")
+        get() = pref!!.getString("AD_IN_MAIN_LANDING","0")
         set(value) {pref!!.edit().putString("AD_IN_MAIN_LANDING",value).apply()}
 
 

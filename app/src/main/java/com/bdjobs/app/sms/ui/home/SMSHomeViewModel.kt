@@ -57,6 +57,9 @@ class SMSHomeViewModel(private val smsRepository: SMSRepository) : ViewModel() {
     private var _customSmsPrice = MutableLiveData<Int>()
     val customSmsPrice: LiveData<Int> = _customSmsPrice
 
+    private var _freeSMSLimit = MutableLiveData<String>()
+    val freeSMSLimit: LiveData<String> = _freeSMSLimit
+
     init {
         _customSmsAmount.value = 100
         _bonusSmsAmount.value = 0
@@ -88,11 +91,18 @@ class SMSHomeViewModel(private val smsRepository: SMSRepository) : ViewModel() {
                     _isTrialConsumed.value = data.trialConsumed == "True"
                     _remainingSMSCount.value = data.remainingSMSAmount?.toInt() ?: 0
                     _isSMSAlertOn.value = data.smsAlertOn == "True"
+                    _freeSMSLimit.value = data.freeSmsLimite ?: "0"
 
                 } else if (response.statuscode == "3") {
                     _isSuccess.value = true
                     _isTrialConsumed.value = false
                     _isDataFound.value = false
+                    Timber.d("Data Size : ${response.data?.size}")
+                    if (response.data != null && response.data.isNotEmpty()) {
+                        Timber.d("Free limit = ${response.data[0].freeSmsLimite}")
+                        _freeSMSLimit.value = response.data[0].freeSmsLimite ?: "0"
+                    }
+
                 } else {
                     Timber.e("Invalid response: ${response.statuscode} :: Message: ${response.message}")
                     _error.value =

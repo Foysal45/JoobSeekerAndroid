@@ -35,5 +35,7 @@ data class SMSSettingsData(
     @field:Json(name = "totalSMSAmount")
     val totalSMSAmount: String?,
     @field:Json(name = "trialConsumed")
-    val trialConsumed: String?
+    val trialConsumed: String?,
+    @field:Json(name = "freeSmsLimite")
+    val freeSmsLimite: String?
 )
