@@ -593,4 +593,6 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_sms_alert">SMS Alert</string>
     <string name="title_sms_settings">SMS Settings</string>
 
+    <string name="video_resume_encouragement">Applicants are encouraged to submit Video Resume. <u>Learn more about Video Resume</u></string>
+
 </resources>

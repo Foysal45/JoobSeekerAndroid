@@ -529,12 +529,38 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/newSearchBTN"
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="All Jobs"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto_medium"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        app:icon="@drawable/ic_arrow_left"
+        app:iconTint="@color/white"
+        app:iconSize="10dp"
+        app:backgroundTint="#13A10E"
+        app:iconGravity="textEnd"
+        android:clickable="true"
+        android:elevation="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+<!--
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/newSearchBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:visibility="gone"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
@@ -543,6 +569,7 @@
         android:windowSoftInputMode="adjustResize"
         app:backgroundTint="#13A10E"
         app:fabSize="auto"
+        android:textSize="14sp"
         android:textColor="@color/white"
         android:fontFamily="@font/roboto_medium"
         app:icon="@drawable/ic_arrow_left"
@@ -553,6 +580,7 @@
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

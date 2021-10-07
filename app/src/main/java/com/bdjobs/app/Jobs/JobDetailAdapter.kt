@@ -10,7 +10,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.Html
 import android.text.Spannable
+import android.text.SpannableString
 import android.text.method.LinkMovementMethod
+import android.text.style.ImageSpan
+import android.text.style.UnderlineSpan
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -24,10 +27,6 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
-import com.bdjobs.app.databases.internal.AppliedJobs
-import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.databases.internal.FollowedEmployer
-import com.bdjobs.app.databases.internal.ShortListedJobs
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
@@ -35,13 +34,13 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.appliedJobsCount
 import com.bdjobs.app.Web.WebActivity
-import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
+import com.bdjobs.app.databases.internal.AppliedJobs
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.FollowedEmployer
+import com.bdjobs.app.databases.internal.ShortListedJobs
 import com.bdjobs.app.editResume.EditResLandingActivity
-import com.bdjobs.app.editResume.PhotoUploadActivity
-import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
-import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
-import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
+import com.bdjobs.app.videoResume.VideoResumeActivity
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
@@ -52,7 +51,6 @@ import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.*
-import org.jetbrains.anko.support.v4.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -109,6 +107,7 @@ class JobDetailAdapter(private val context: Context) :
     var minSalary = ""
     var maxSalary = ""
     var showSalary = ""
+    var preferVideoResume = 0
     private lateinit var dialog: Dialog
     private val applyonlinePostions = ArrayList<Int>()
     private var language = ""
@@ -170,13 +169,25 @@ class JobDetailAdapter(private val context: Context) :
                 // holder.setIsRecyclable(false)
 
                 val jobsVH = holder as JobsListVH
+
+                val ss =
+                    SpannableString("Applicants are encouraged to submit Video Resume. Learn more about Video Resume    ")
+                val d = ContextCompat.getDrawable(context, R.drawable.ic_external_link)
+                d?.setBounds(0, 0, d.intrinsicWidth, d.intrinsicHeight)
+                val span = ImageSpan(d!!, ImageSpan.ALIGN_BASELINE)
+                ss.setSpan(span, ss.length - 1, ss.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                ss.setSpan(UnderlineSpan(), 50, 79, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+
+
+//                jobsVH.videoResumeEncouragementTV.text = ss
+
                 jobsVH.itemView.setOnClickListener {
                     call?.onItemClicked(position)
                 }
 
                 jobsVH.callBTN.setOnClickListener {
                     try {
-                        (context as Activity)?.callHelpLine()
+                        (context as Activity).callHelpLine()
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -190,23 +201,15 @@ class JobDetailAdapter(private val context: Context) :
                     reportthisJob(position)
                 }
 
-                //Log.d("JobId", "onResponse: ${jobList?.get(position)?.jobid!!}")
 
                 jobsVH.shimmer_view_container.show()
 
-                //Log.d("remote rakib", "${remoteConfig.getBoolean("Apply_Button_Type")}")
-
-//                if (remoteConfig.getBoolean("Apply_Button_Type"))
-//                    jobsVH.applyButton.visibility = View.GONE
-//                else
                 jobsVH.applyFab.hide()
 
                 jobsVH.shimmer_view_container.startShimmer()
                 jobsVH.constraintLayout.hide()
                 jobCommunicator?.hideShortListIcon()
 
-
-                jobsVH
 
                 ApiServiceJobs.create().getJobdetailData(
                     Constants.ENCODED_JOBS,
@@ -259,8 +262,7 @@ class JobDetailAdapter(private val context: Context) :
                             minSalary = jobDetailResponseAll.minSalary!!
                             maxSalary = jobDetailResponseAll.maxSalary!!
                             showSalary = jobDetailResponseAll.jobShowSalary!!
-//
-//                            Log.d("rakib", "$minSalary $maxSalary ${jobDetailResponseAll.jobTitle}" )
+                            preferVideoResume = jobDetailResponseAll.preferVideoResume!!
 
                             if (applyOnline.equalIgnoreCase("True")) {
 
@@ -292,8 +294,32 @@ class JobDetailAdapter(private val context: Context) :
                                 jobsVH.jobApplicationStatusCard.hide()
                             }
 
+                            /**
+                             * checking if employer prefer applicant with Video Resume
+                             * 1 -> yes ; 0 -> no
+                             */
+                            if (preferVideoResume == 1) {
+                                jobsVH.videoResumeEncouragementTV.visibility = View.VISIBLE
+                                jobsVH.viewDivider.visibility = View.VISIBLE
+
+                                jobsVH.videoResumeEncouragementTV.text = ss
+
+                            } else {
+                                jobsVH.videoResumeEncouragementTV.visibility = View.GONE
+                                jobsVH.viewDivider.visibility = View.GONE
+                            }
 
                             try {
+
+                                jobsVH.videoResumeEncouragementTV.setOnClickListener {
+                                    context.startActivity(
+                                        Intent(
+                                            context,
+                                            VideoResumeActivity::class.java
+                                        )
+                                    )
+                                }
+
                                 val date = Date()
                                 val formatter = SimpleDateFormat("MM/dd/yyyy")
                                 val today: String = formatter.format(date)
@@ -1096,8 +1122,15 @@ class JobDetailAdapter(private val context: Context) :
 
 
     private fun updateCV(
-        activity: Context, position: Int, gender: String, jobphotograph: String,
-        minSalary: String, maxSalary: String, dialog: Dialog, updateLater: String,cvUpdateLater: String
+        activity: Context,
+        position: Int,
+        gender: String,
+        jobphotograph: String,
+        minSalary: String,
+        maxSalary: String,
+        dialog: Dialog,
+        updateLater: String,
+        cvUpdateLater: String
     ) {
         ApiServiceJobs.create()
             .updateCV(bdjobsUserSession.userId, bdjobsUserSession.decodId, updateLater)
@@ -1114,17 +1147,17 @@ class JobDetailAdapter(private val context: Context) :
 
                         if (body?.message == "success") {
 //                            if (body.isUpdated == 1) {
-                                // show popup
-                                showSalaryDialog(
-                                    activity,
-                                    position,
-                                    gender,
-                                    jobphotograph,
-                                    minSalary,
-                                    maxSalary,
-                                    cvUpdateLater
-                                )
-                                dialog.dismiss()
+                            // show popup
+                            showSalaryDialog(
+                                activity,
+                                position,
+                                gender,
+                                jobphotograph,
+                                minSalary,
+                                maxSalary,
+                                cvUpdateLater
+                            )
+                            dialog.dismiss()
 //                            } else {
 //                                // don't show popup
 //                                dialog.dismiss()
@@ -1339,7 +1372,13 @@ class JobDetailAdapter(private val context: Context) :
         }
 
         applyAnywayButton?.setOnClickListener {
-            applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph,cvUpdateLater)
+            applyOnlineJob(
+                position,
+                salaryTIET.text.toString(),
+                gender,
+                jobphotograph,
+                cvUpdateLater
+            )
         }
 
         salaryTIET?.easyOnTextChangedListener { text ->
@@ -1430,7 +1469,13 @@ class JobDetailAdapter(private val context: Context) :
 
                 if (okButton.isVisible) {
                     bdjobsUserSession.lastExpectedSalary = salaryTIET.text.toString()
-                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph,cvUpdateLater)
+                    applyOnlineJob(
+                        position,
+                        salaryTIET.text.toString(),
+                        gender,
+                        jobphotograph,
+                        cvUpdateLater
+                    )
 //                    showConfirmationDialog(
 //                        position,
 //                        salaryTIET.text.toString(),
@@ -1445,7 +1490,13 @@ class JobDetailAdapter(private val context: Context) :
             } else {
                 if (okButton.isVisible) {
                     bdjobsUserSession.lastExpectedSalary = salaryTIET.text.toString()
-                    applyOnlineJob(position, salaryTIET.text.toString(), gender, jobphotograph,cvUpdateLater)
+                    applyOnlineJob(
+                        position,
+                        salaryTIET.text.toString(),
+                        gender,
+                        jobphotograph,
+                        cvUpdateLater
+                    )
                     dialog.dismiss()
                 }
             }
@@ -1454,7 +1505,7 @@ class JobDetailAdapter(private val context: Context) :
         dialog.show()
     }
 
-    private fun showConfirmationDialog(message:String) {
+    private fun showConfirmationDialog(message: String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -1486,7 +1537,7 @@ class JobDetailAdapter(private val context: Context) :
         applicantName.text = bdjobsUserSession.fullName
         applicantEmail.text = bdjobsUserSession.email
 
-        if (bdjobsUserSession.userMobileNumber!="") {
+        if (bdjobsUserSession.userMobileNumber != "") {
             applicantMobile.visibility = View.VISIBLE
             applicantMobileLabel.visibility = View.VISIBLE
             applicantMobile.text = bdjobsUserSession.userMobileNumber
@@ -1495,7 +1546,7 @@ class JobDetailAdapter(private val context: Context) :
             applicantMobileLabel.visibility = View.GONE
         }
 
-        if (bdjobsUserSession.userPresentAddress!="") {
+        if (bdjobsUserSession.userPresentAddress != "") {
             applicantPresentAddress.visibility = View.VISIBLE
             applicantPresentAddressLabel.visibility = View.VISIBLE
             applicantPresentAddress.text = bdjobsUserSession.userPresentAddress
@@ -1504,7 +1555,7 @@ class JobDetailAdapter(private val context: Context) :
             applicantPresentAddressLabel.visibility = View.GONE
         }
 
-        if (bdjobsUserSession.userPermanentAddress!="") {
+        if (bdjobsUserSession.userPermanentAddress != "") {
             applicantPermanentAddress.visibility = View.VISIBLE
             applicantPermanentAddressLabel.visibility = View.VISIBLE
             applicantPermanentAddress.text = bdjobsUserSession.userPermanentAddress
@@ -1567,7 +1618,7 @@ class JobDetailAdapter(private val context: Context) :
         salary: String,
         gender: String,
         jobphotograph: String,
-        cvUpdateLater:String
+        cvUpdateLater: String
     ) {
         //Log.d("dlkgj", "gender $gender jobid:${jobList?.get(position)?.jobid!!}")
         val bdjobsUserSession = BdjobsUserSession(context)
@@ -1606,8 +1657,9 @@ class JobDetailAdapter(private val context: Context) :
                     dialog?.dismiss()
                     loadingDialog?.dismiss()
 
-                    val message = if(response.body()!!.data[0].message.endsWith(".")) response.body()!!.data[0].message
-                    else "${response.body()!!.data[0].message}."
+                    val message =
+                        if (response.body()!!.data[0].message.endsWith(".")) response.body()!!.data[0].message
+                        else "${response.body()!!.data[0].message}."
 
                     showConfirmationDialog(message)
 //                    context.longToast(response.body()!!.data[0].message)
@@ -1832,7 +1884,11 @@ class JobDetailAdapter(private val context: Context) :
         val workingPlaceValueTV: TextView =
             viewItem?.findViewById(R.id.tv_working_place_value) as TextView
 
-        val container : FrameLayout = viewItem?.findViewById(R.id.navHostFragment)!!
+        val container: FrameLayout = viewItem?.findViewById(R.id.navHostFragment)!!
+
+        val videoResumeEncouragementTV: MaterialTextView =
+            viewItem?.findViewById(R.id.tv_video_resume_encouragement_text)!!
+        val viewDivider: View = viewItem?.findViewById(R.id.view_divider)!!
 
 
         fun fragment(fragment: Fragment) {
