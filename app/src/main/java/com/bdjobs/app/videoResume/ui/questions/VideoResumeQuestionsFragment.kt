@@ -127,8 +127,7 @@ class VideoResumeQuestionsFragment : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 val snapPosition =
-                    (layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-                Log.d("rakib", "snap position $snapPosition")
+                    layoutManager.findFirstCompletelyVisibleItemPosition()
 
                 adapter.notifyDataSetChanged()
 
@@ -138,15 +137,14 @@ class VideoResumeQuestionsFragment : Fragment() {
 
             }
 
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                //layoutManager?.requestLayout()
-                //cl_root.invalidate()
-            }
         })
 
         adapter.onTipsClicked { data ->
             buildTipsDialog(data.questionTextBng, data.answerHintBn)
+        }
+
+        binding.cvVideoResumeVisibilityRoot.setOnClickListener {
+            findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToVideoResumeLandingFragment())
         }
 
         videoResumeQuestionsViewModel.apply {
@@ -216,7 +214,6 @@ class VideoResumeQuestionsFragment : Fragment() {
     }
 
     private fun updateQuestionStatus(size: Int) {
-        Log.d("rakib size ", "$size")
         if (size > 0) {
 
             when (size) {

@@ -61,6 +61,9 @@
     <color name="sms_package_500">#AB2FFE</color>
     <color name="sms_package_custom">#11884B</color>
 
+    <color name="video_resume_hide">#FAF0F0</color>
+    <color name="video_resume_visible">#F0FAF0</color>
+
 
 <!--    AjkerDeal Colors-->
 

@@ -1,5 +1,6 @@
 package com.bdjobs.app.videoResume.utils
 
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bdjobs.app.R
@@ -70,20 +71,12 @@ fun MaterialTextView.setVideoResumeTextDrawable(value: Boolean?) {
 
             when (value) {
                 true -> {
-                    this.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_check_sign_visible,
-                        0,
-                        0,
-                        0
-                    )
+                    this.textColor = ContextCompat.getColor(context,R.color.green)
+//                    this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_visibility_show, 0, 0, 0)
                 }
                 false -> {
-                    this.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_cross_visible,
-                        0,
-                        0,
-                        0
-                    )
+                    this.textColor = ContextCompat.getColor(context,R.color.btn_red)
+//                    this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_visibility_hide, 0, 0, 0)
                 }
             }
 
@@ -96,12 +89,22 @@ fun MaterialCardView.setBackgroundColor(value: Boolean?) {
     if (value!=null) {
         when(value) {
             true -> {
-                this.background.setTint(ContextCompat.getColor(context,R.color.green))
+                this.background.setTint(ContextCompat.getColor(context,R.color.video_resume_visible))
             }
             false -> {
-                this.background.setTint(ContextCompat.getColor(context,R.color.btn_red))
+                this.background.setTint(ContextCompat.getColor(context,R.color.video_resume_hide))
             }
         }
 
+    }
+}
+
+@BindingAdapter("visibilityIcon")
+fun AppCompatImageView.setVisibilityIcon(value: Boolean?) {
+    if (value!=null) {
+        when (value) {
+            true -> this.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_visibility_show))
+            false -> this.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_visibility_hide))
+        }
     }
 }

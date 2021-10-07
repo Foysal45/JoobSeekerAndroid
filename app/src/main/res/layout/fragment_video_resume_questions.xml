@@ -416,10 +416,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             cardBackground="@{viewModel.isVideoResumeVisible()}"
-            tools:backgroundTint="#333"
-            app:cardCornerRadius="7dp"
-            app:cardElevation="5dp"
-            android:layout_margin="8dp"
+            tools:backgroundTint="#F0FAF0"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            android:id="@+id/cv_video_resume_visibility_root"
+            android:layout_margin="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -431,28 +432,42 @@
                 android:visibility="@{viewModel.showVideoResumeToEmployers ? View.VISIBLE : View.GONE}"
                 android:padding="12dp">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_visibility_icon"
+                    android:layout_width="wrap_content"
+                    visibilityIcon="@{viewModel.isVideoResumeVisible()}"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:src="@drawable/ic_visibility_show"/>
+
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_label_visibility"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="@string/label_video_resume_visibility_to_employer_s"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/iv_visibility_icon"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_visibility_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:drawablePadding="5dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/white"
+                    android:layout_marginStart="10dp"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/green"
                     videoResumeTextDrawable="@{viewModel.isVideoResumeVisible()}"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_visibility_icon"
                     app:layout_constraintTop_toBottomOf="@id/tv_label_visibility"
-                    tools:text="No" />
+                    tools:text="Yes" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_change_visibility"
