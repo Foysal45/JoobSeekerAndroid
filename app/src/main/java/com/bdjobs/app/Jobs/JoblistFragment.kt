@@ -32,6 +32,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_joblist_layout.*
+import kotlinx.android.synthetic.main.layout_no_data_found.*
 import okhttp3.ResponseBody
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -256,6 +257,7 @@ class JoblistFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         session = BdjobsUserSession(activity)
+        textView10.text = "No jobs found"
         currentPage = 1
         jobListRecyclerView?.setHasFixedSize(true)
         communicator = activity as JobCommunicator
