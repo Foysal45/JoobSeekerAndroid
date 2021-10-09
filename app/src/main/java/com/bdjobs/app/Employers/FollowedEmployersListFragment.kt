@@ -261,6 +261,7 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
                     } else {
                         followedRV?.hide()
                         followEmployerNoDataLL?.show()
+                        cl_total_count.hide()
                         btn_sms_alert_fab?.hide()
                     }
 
@@ -269,6 +270,7 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
                     shimmer_view_container_JobList?.stopShimmer()
                     followedRV?.hide()
                     followEmployerNoDataLL?.hide()
+                    cl_total_count.hide()
                     Toast.makeText(
                         requireContext(),
                         "Something went wrong! Please try again later",
@@ -382,6 +384,7 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
         Timber.d("Followed emp count: $count")
         employersCommunicator.setTotalFollowedEmployersCount(count)
         if (count > 0) {
+            cl_total_count.show()
             val styledText = "<b><font color='#13A10E'>$count</font></b> Followed Employers"
             favCountTV?.text = Html.fromHtml(styledText)
             btn_sms_alert_fab?.show()
@@ -390,6 +393,7 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
             favCountTV?.text = Html.fromHtml(styledText)
             followedRV?.hide()
             followEmployerNoDataLL?.show()
+            cl_total_count.hide()
             btn_sms_alert_fab?.hide()
         }
     }

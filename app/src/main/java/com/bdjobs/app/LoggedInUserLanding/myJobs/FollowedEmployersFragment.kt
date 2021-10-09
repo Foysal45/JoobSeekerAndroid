@@ -248,6 +248,7 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
                     } else {
                         // no followed employers
                         followedRV?.hide()
+                        cl_total_count.hide()
                         followEmployerNoDataLL?.show()
                         btn_sms_alert_fab?.hide()
                     }
@@ -259,6 +260,7 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
                         shimmer_view_container_JobList?.hide()
                         shimmer_view_container_JobList?.stopShimmer()
                         followedRV?.hide()
+                        cl_total_count.hide()
                         followEmployerNoDataLL?.hide()
 
                         Toast.makeText(
@@ -298,11 +300,13 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
             val styledText = "<b><font color='#13A10E'>$count</font></b> Followed Employers"
             favCountTV?.text = Html.fromHtml(styledText)
             btn_sms_alert_fab?.show()
+            cl_total_count.show()
         } else {
             val styledText = "<b><font color='#13A10E'>$count</font></b> Followed Employer"
             favCountTV?.text = Html.fromHtml(styledText)
             followedRV?.hide()
             followEmployerNoDataLL?.show()
+            cl_total_count.hide()
             btn_sms_alert_fab?.hide()
         }
     }

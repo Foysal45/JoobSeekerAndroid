@@ -152,51 +152,62 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar2">
 
-        <TextView
-            android:id="@+id/jobCountTV"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#FFFFFF"
-            android:elevation="8dp"
-            android:fontFamily="@font/roboto"
-            android:gravity="center_vertical"
-            android:paddingStart="20dp"
-            android:textColor="#767676"
-            android:textSize="14sp"
-            android:typeface="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="150 favorite search" />
-
-        <TextView
-            android:id="@+id/filterTV"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:drawableRight="@drawable/ic_filter_list_black_14dp"
-            android:drawablePadding="5dp"
-            android:elevation="10dp"
-            android:padding="5dp"
-            android:text="All"
-            android:textColor="#767676"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/jobCountTV"
-            app:layout_constraintEnd_toStartOf="@+id/crossBTN"
-            app:layout_constraintTop_toTopOf="@+id/jobCountTV" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/cl_top"
+            android:background="#FFFFFF">
 
-        <ImageView
-            android:id="@+id/crossBTN"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="8dp"
-            android:elevation="10dp"
-            android:padding="5dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_close_black_14dp"
-            app:layout_constraintBottom_toBottomOf="@+id/filterTV"
-            app:layout_constraintEnd_toEndOf="@+id/jobCountTV"
-            app:layout_constraintTop_toTopOf="@+id/filterTV" />
+            <TextView
+                android:id="@+id/jobCountTV"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:elevation="8dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:textColor="#767676"
+                android:textSize="14sp"
+                android:typeface="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="150 favorite search" />
+
+            <TextView
+                android:id="@+id/filterTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:drawableRight="@drawable/ic_filter_list_black_14dp"
+                android:drawablePadding="5dp"
+                android:elevation="10dp"
+                android:padding="5dp"
+                android:text="All"
+                android:textColor="#767676"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/crossBTN"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/crossBTN"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="8dp"
+                android:elevation="10dp"
+                android:padding="5dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_close_black_14dp"
+                app:layout_constraintBottom_toBottomOf="@+id/filterTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/filterTV" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <LinearLayout
             android:id="@+id/noDataLL"
@@ -206,7 +217,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/jobCountTV"
+            app:layout_constraintTop_toBottomOf="@id/cl_top"
             app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -327,7 +338,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/jobCountTV"
+            app:layout_constraintTop_toBottomOf="@+id/cl_top"
             tools:visibility="gone" />
 
 

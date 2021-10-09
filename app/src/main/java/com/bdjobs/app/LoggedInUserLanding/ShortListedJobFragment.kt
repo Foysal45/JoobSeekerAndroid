@@ -200,11 +200,16 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
 
                         if (totalJobs!! > 0) {
                             noDataLL?.hide()
+                            jobCountTV.show()
+                            crossBTN.show()
                             shortListRV?.show()
                             //Log.d("totalJobs", "data ase")
                         } else {
-                            noDataLL?.show()
                             shortListRV?.hide()
+                            noDataLL?.show()
+                            jobCountTV.hide()
+                            crossBTN.hide()
+
                             //Log.d("totalJobs", "zero")
                         }
 
@@ -372,6 +377,9 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
         Timber.d("Job Count: $count")
         homeCommunicator.setTotalShortlistedJobCounter(count)
         if (count > 0) {
+
+            jobCountTV.show()
+            crossBTN.show()
             val styledText = "<b><font color='#13A10E'>$count</font></b> Shortlisted job"
             jobCountTV?.text = Html.fromHtml(styledText)
         } else {
@@ -379,6 +387,8 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
             jobCountTV?.text = Html.fromHtml(styledText)
             noDataLL?.show()
             shortListRV?.hide()
+            jobCountTV.hide()
+            crossBTN.hide()
         }
 
     }

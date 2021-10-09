@@ -69,10 +69,12 @@ class LiveInterviewListFragment : Fragment() {
             liveInterviewListData.observe(viewLifecycleOwner, {
                 if (it!=null && it.isNotEmpty()) {
                     binding.invitationNoDataLL.visibility = View.GONE
+                    binding.headerLayout.visibility = View.VISIBLE
                     binding.rvLiveInterview.visibility = View.VISIBLE
                     adapter.submitList(it)
                 } else {
                     binding.rvLiveInterview.visibility = View.GONE
+                    binding.headerLayout.visibility = View.GONE
                     binding.invitationNoDataLL.visibility = View.VISIBLE
                 }
 

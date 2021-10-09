@@ -79,6 +79,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:elevation="8dp"
                 android:id="@+id/headerLayout"
+                android:visibility="@{viewModel.videoInterviewListData.size() > 0 ? View.VISIBLE : View.GONE}"
                 android:layout_width="match_parent"
                 android:paddingStart="16dp"
                 android:layout_height="40dp"

@@ -1,5 +1,6 @@
 package com.bdjobs.app.transaction.ui
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -137,6 +138,7 @@ class TransactionListFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
 

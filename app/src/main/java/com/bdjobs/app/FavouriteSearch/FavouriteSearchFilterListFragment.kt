@@ -24,7 +24,16 @@ import com.bdjobs.app.databases.internal.FavouriteSearch
 import com.bdjobs.app.sms.SmsBaseActivity
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.button.MaterialButton
+import kotlinx.android.synthetic.main.favourite_search_list_fragment.*
 import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.*
+import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.adView
+import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.btn_job_list
+import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.btn_sms_alert_fab
+import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.btn_sms_settings
+import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.cl_top
+import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.favCountTV
+import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.favRV
+import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.favouriteFilterNoDataLL
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.startActivity
@@ -92,11 +101,13 @@ class FavouriteSearchFilterListFragment : Fragment() {
                         favouriteFilterNoDataLL?.hide()
                         favRV?.show()
                         btn_sms_alert_fab.show()
+                        cl_top.show()
                         //Log.d("totalJobs", "data ase")
                     } else {
                         favouriteFilterNoDataLL?.show()
                         btn_sms_alert_fab?.hide()
                         favRV?.hide()
+                        cl_top.hide()
                         //Log.d("totalJobs", "zero")
                     }
 
@@ -133,6 +144,7 @@ class FavouriteSearchFilterListFragment : Fragment() {
         favCountTV.text = Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY)
         if (favListSize == 0) {
             favouriteFilterNoDataLL?.show()
+            cl_top.hide()
             btn_sms_alert_fab?.hide()
             favRV?.hide()
         }

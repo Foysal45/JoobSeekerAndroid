@@ -234,6 +234,8 @@ class AppliedJobsFragment : Fragment() {
                         if (!response?.body()?.data.isNullOrEmpty()) {
 
                             status_card_ll?.show()
+                            job_status_ll?.show()
+
 
                             Constants.totalContacted = response?.body()?.activity?.get(0)?.totalContacted!!.toInt()
                             Constants.totalNotContacted = response?.body()?.activity?.get(0)?.totalNotContacted!!.toInt()
@@ -268,6 +270,7 @@ class AppliedJobsFragment : Fragment() {
                             totalRecords = "0"
 
                             appliedJobsNoDataLL?.show()
+                            job_status_ll.hide()
                             appliedJobsRV?.hide()
                             //Log.d("totalJobs", "zero")
 

@@ -33,7 +33,6 @@ import kotlinx.android.synthetic.main.favourite_search_list_fragment.btn_sms_set
 import kotlinx.android.synthetic.main.favourite_search_list_fragment.favCountTV
 import kotlinx.android.synthetic.main.favourite_search_list_fragment.favRV
 import kotlinx.android.synthetic.main.favourite_search_list_fragment.favouriteFilterNoDataLL
-import kotlinx.android.synthetic.main.fragment_favourite_search_filter_list.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.startActivity
@@ -99,11 +98,13 @@ class FavouriteSearchList : Fragment(), FavouriteSearchFilterAdapter.OnUpdateCou
                         favouriteFilterNoDataLL?.hide()
                         favRV?.show()
                         btn_sms_alert_fab.show()
+                        cl_top.show()
                         //Log.d("totalJobs", "data ase")
                     } else {
                         favouriteFilterNoDataLL?.show()
                         btn_sms_alert_fab.hide()
                         favRV?.hide()
+                        cl_top.hide()
                         //Log.d("totalJobs", "zero")
                     }
 
@@ -177,8 +178,12 @@ class FavouriteSearchList : Fragment(), FavouriteSearchFilterAdapter.OnUpdateCou
         favCountTV.text = Html.fromHtml(styledText, Html.FROM_HTML_MODE_LEGACY)
         if (count == 0) {
             favouriteFilterNoDataLL?.show()
+            cl_top.hide()
             btn_sms_alert_fab?.hide()
             favRV?.hide()
+        } else {
+
+            cl_top.show()
         }
     }
 
