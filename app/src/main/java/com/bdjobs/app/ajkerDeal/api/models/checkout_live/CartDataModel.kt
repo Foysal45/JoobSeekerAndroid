@@ -1,10 +1,12 @@
 package com.bdjobs.app.ajkerDeal.api.models.checkout_live
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.android.parcel.Parcelize
 
 //@Entity(tableName = "cart_table", indices = [Index(value = ["deal_id"], unique = true)])
 @Parcelize
+@Keep
 data class CartDataModel(
 
     //@PrimaryKey(autoGenerate = true)

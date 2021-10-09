@@ -1,7 +1,9 @@
 package com.bdjobs.app.ajkerDeal.api.models.video_comments.load_all_comments
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class VideoCommentsModel(
     @SerializedName("CommentId")
     val commentId: Int = 0,

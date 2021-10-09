@@ -1,10 +1,12 @@
 package com.bdjobs.app.ajkerDeal.api.models.checkout_live
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
+@Keep
 data class DeliveryInfo(
     @SerializedName("ProductSize")
     var productSize: String = "",

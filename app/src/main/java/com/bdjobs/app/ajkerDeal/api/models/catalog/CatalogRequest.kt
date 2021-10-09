@@ -1,8 +1,10 @@
 package com.bdjobs.app.ajkerDeal.api.models.catalog
 
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class CatalogRequest(
     @SerializedName("CustomerId")
     var customerId: Int = 0,

@@ -1,8 +1,10 @@
 package com.bdjobs.app.ajkerDeal.ui.chat.model
 
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class ChatData(
     @SerializedName("key")
     var key: String? = "",

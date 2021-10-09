@@ -1,5 +1,8 @@
 package com.bdjobs.app.ajkerDeal.checkout.model
 
+import androidx.annotation.Keep
+
+@Keep
 data class CheckoutDeliveryData(
     var deliveryCharge: Int = 0,
     var deliveryType: String = "normal",

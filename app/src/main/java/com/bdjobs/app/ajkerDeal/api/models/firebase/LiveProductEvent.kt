@@ -1,5 +1,8 @@
 package com.bdjobs.app.ajkerDeal.api.models.firebase
 
+import androidx.annotation.Keep
+
+@Keep
 data class LiveProductEvent(
     var time: Long = 0L,
     var imageUrl: String = "",

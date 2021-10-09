@@ -1,12 +1,14 @@
 package com.bdjobs.app.ajkerDeal.api.models.response_body.recommended_deal_payload
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.bdjobs.app.ajkerDeal.api.models.HomeViewType
 import com.bdjobs.app.ajkerDeal.api.models.live_list.LiveListData
 import com.bdjobs.app.ajkerDeal.api.models.response_body.recommended_deal_payload.product_thumbnail_response.ProductResponseModel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
+@Keep
 data class RecommendedDealPayload(
     var homeViewType: HomeViewType = HomeViewType.TYPE_RECOMMENDED_DEAL,
     var liveList: MutableList<LiveListData>? = null,

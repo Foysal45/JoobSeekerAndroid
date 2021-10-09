@@ -1,8 +1,10 @@
 package com.bdjobs.app.ajkerDeal.api.models.checkout_live
 
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class LiveOrderRequest(
     @SerializedName("LiveProductId")
     var liveProductId: Int = 0,

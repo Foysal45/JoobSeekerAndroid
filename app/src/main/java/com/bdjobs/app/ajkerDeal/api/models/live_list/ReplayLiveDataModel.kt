@@ -1,8 +1,10 @@
 package com.bdjobs.app.ajkerDeal.api.models.live_list
 
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class ReplayLiveDataModel(
     @SerializedName("Id")
     var id: Int = 0,

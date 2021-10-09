@@ -1,8 +1,10 @@
 package com.bdjobs.app.ajkerDeal.api.models.config
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+@Keep
 data class ActionModel(
     @SerializedName("ActionName")
     val actionName: String? = "",

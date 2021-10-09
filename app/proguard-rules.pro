@@ -161,4 +161,4 @@
 # ----------------------------------------------------------------
 
 -keep class com.shockwave.**
--keep class com.bdjobs.app.ajkerDeal.** {*;}
+#-keep class com.bdjobs.app.ajkerDeal.** {*;}

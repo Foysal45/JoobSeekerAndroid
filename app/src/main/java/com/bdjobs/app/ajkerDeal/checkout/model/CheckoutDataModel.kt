@@ -1,10 +1,12 @@
 package com.bdjobs.app.ajkerDeal.checkout.model
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.bdjobs.app.ajkerDeal.api.models.checkout_live.DeliveryInfo
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
+@Keep
 data class CheckoutDataModel(
 
     var orderType: com.bdjobs.app.ajkerDeal.api.models.checkout.OrderType = com.bdjobs.app.ajkerDeal.api.models.checkout.OrderType.SINGLE,

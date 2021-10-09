@@ -1,8 +1,10 @@
 package com.bdjobs.app.ajkerDeal.api.models.location
 
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class ThanaInfoModel(
     @SerializedName("ThanaId")
     var thanaId: Int = 0,

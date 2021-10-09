@@ -1,9 +1,11 @@
 package com.bdjobs.app.ajkerDeal.api.models.catalog_details
 
 
+import androidx.annotation.Keep
 import com.bdjobs.app.ajkerDeal.api.models.ImageInfo
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class CatalogProductData(
     @SerializedName("DealId")
     var dealId: Int = 0,

@@ -1,8 +1,10 @@
 package com.bdjobs.app.ajkerDeal.api.models.order
 
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class CheckoutLimits(
     @SerializedName("minimunSingleOrderAmount")
     var minimunSingleOrderAmount: Int = 0,

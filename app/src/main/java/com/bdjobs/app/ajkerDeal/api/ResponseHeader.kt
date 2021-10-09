@@ -1,8 +1,10 @@
 package com.bdjobs.app.ajkerDeal.api
 
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class ResponseHeader<T> (
     @SerializedName("MessageCode")
     var messageCode: Int = 0,

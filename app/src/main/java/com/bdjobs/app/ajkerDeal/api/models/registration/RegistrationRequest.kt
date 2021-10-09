@@ -1,7 +1,9 @@
 package com.bdjobs.app.ajkerDeal.api.models.registration
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class RegistrationRequest(
     @SerializedName("Mobile")
     var mobile: String? = "",

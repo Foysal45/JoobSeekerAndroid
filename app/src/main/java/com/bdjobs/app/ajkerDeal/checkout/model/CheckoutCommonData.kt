@@ -1,5 +1,8 @@
 package com.bdjobs.app.ajkerDeal.checkout.model
 
+import androidx.annotation.Keep
+
+@Keep
 data class CheckoutCommonData(
     var orderType: com.bdjobs.app.ajkerDeal.api.models.checkout.OrderType = com.bdjobs.app.ajkerDeal.api.models.checkout.OrderType.SINGLE,
 

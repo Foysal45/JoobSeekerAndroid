@@ -2,10 +2,12 @@ package com.bdjobs.app.ajkerDeal.api.models.catalog
 
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
+@Keep
 data class CatalogData(
     @SerializedName("CatalogId")
     var catalogId: Int = 0,

@@ -1,8 +1,10 @@
 package com.bdjobs.app.ajkerDeal.api.models.location
 
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class LocationResponse(
     @SerializedName("DistrictInfo")
     var districtInfo: List<DistrictInfoModel> = listOf(),

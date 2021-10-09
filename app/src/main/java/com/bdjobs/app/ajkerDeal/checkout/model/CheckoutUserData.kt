@@ -1,7 +1,9 @@
 package com.bdjobs.app.ajkerDeal.checkout.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class CheckoutUserData (
     @SerializedName("uid")
     var uid: Long = 0,

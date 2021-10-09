@@ -1,7 +1,10 @@
 package com.bdjobs.app.ajkerDeal.api.models.checkout;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.SerializedName;
 
+@Keep
 public class ResponseGenericModel<T> {
 
     @SerializedName("MessageCode")
