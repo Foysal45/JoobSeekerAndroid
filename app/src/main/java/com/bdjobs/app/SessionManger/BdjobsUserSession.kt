@@ -579,7 +579,7 @@ class BdjobsUserSession(val context: Context) {
     }
 
     var lastExpectedSalary : String?
-    get() = pref!!.getString("LastExpectedSalary","")
+    get() = pref!!.getString("LastExpectedSalary",null)
     set(value) {pref!!.edit().putString("LastExpectedSalary",value).apply()}
 
 
@@ -589,7 +589,7 @@ class BdjobsUserSession(val context: Context) {
 
 
     var presentSalary : String?
-        get() = pref!!.getString("PresentSalary","")
+        get() = pref!!.getString("PresentSalary",null)
         set(value) {pref!!.edit().putString("PresentSalary",value).apply()}
 
     var userPresentDistrict: String?

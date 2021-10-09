@@ -30,11 +30,11 @@ data class RegistrationRequest(
     @SerializedName("AltMobile")
     var altMobile: String? = "",
     @SerializedName("Age")
-    var age: String? = "",
+    var age: Int? = 0,
     @SerializedName("CurrentSalary")
-    var currentSalary:String? = "",
+    var currentSalary:Int? = 0,
     @SerializedName("ExpectedSalary")
-    var expectedSalary:String? = "",
+    var expectedSalary:Int? = 0,
     @SerializedName("LocationName")
     var locationName:String? = "",
     @SerializedName("KnowingSource")

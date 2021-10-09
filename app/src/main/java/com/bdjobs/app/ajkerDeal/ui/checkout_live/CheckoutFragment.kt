@@ -427,9 +427,9 @@ class CheckoutFragment: Fragment() {
             email = bdjobsUserSession.email,
             gender = bdjobsUserSession.gender,
             altMobile = bdjobsUserSession.userMobileNumber,
-            age = bdjobsUserSession.age,
-            currentSalary = bdjobsUserSession.presentSalary,
-            expectedSalary = bdjobsUserSession.expectedSalary?:bdjobsUserSession.lastExpectedSalary ,
+            age = 0,
+            currentSalary = bdjobsUserSession.presentSalary?.toInt()?:0,
+            expectedSalary = bdjobsUserSession.expectedSalary?.toInt()?:bdjobsUserSession.lastExpectedSalary?.toInt()?:0 ,
             locationName = bdjobsUserSession.userPresentAddress,
             knowingSource = ""
         )
