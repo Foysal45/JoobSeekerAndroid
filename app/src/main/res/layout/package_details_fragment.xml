@@ -52,13 +52,13 @@
                         android:padding="12dp">
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_free_sms_package"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="@string/_20_sms"
-                            android:id="@+id/tv_free_sms_package"
                             android:textColor="@color/white"
                             android:textSize="20sp"
-                            app:fontFamily="@font/roboto_bold" />
+                            app:fontFamily="@font/roboto_bold"
+                            tools:text="@string/_20_sms" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
@@ -92,8 +92,9 @@
                             android:layout_height="wrap_content"
                             app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
                             android:drawablePadding="10dp"
-                            android:text="@string/get_20_sms"
+                            tools:text="@string/get_20_sms"
                             android:textSize="14sp"
+                            android:id="@+id/tv_free_trial_instruction_1"
                             app:fontFamily="@font/roboto"
                             android:textColor="#333333"/>
 

@@ -1,5 +1,6 @@
 package com.bdjobs.app.sms.ui.package_details
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -26,11 +27,13 @@ class PackageDetailsFragment : Fragment() {
         return inflater.inflate(R.layout.package_details_fragment, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(PackageDetailsViewModel::class.java)
 
-        tv_free_sms_package.text = args.freeSms
+        tv_free_sms_package.text = "${args.freeSms} SMS"
+        tv_free_trial_instruction_1.text = "Get ${args.freeSms} SMS"
     }
 
 }
