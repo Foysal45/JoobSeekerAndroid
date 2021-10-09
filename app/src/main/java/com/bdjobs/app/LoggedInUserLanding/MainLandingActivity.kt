@@ -321,30 +321,36 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
     override fun onBackPressed() {
 
-        val exitDialog = Dialog(this@MainLandingActivity)
-        exitDialog?.setContentView(R.layout.dialog_exit_layout)
-        exitDialog?.setCancelable(true)
-        exitDialog?.show()
-        val yesBtn = exitDialog?.findViewById(R.id.onlineApplyOkBTN) as Button
-        val noBtn = exitDialog?.findViewById(R.id.onlineApplyCancelBTN) as Button
-        val ad_small_template = exitDialog?.findViewById<TemplateView>(R.id.ad_small_template)
-        Ads.showNativeAd(ad_small_template, this)
+        if (bottom_navigation.selectedItemId == R.id.navigation_home) {
+            val exitDialog = Dialog(this@MainLandingActivity)
+            exitDialog?.setContentView(R.layout.dialog_exit_layout)
+            exitDialog?.setCancelable(true)
+            exitDialog?.show()
+            val yesBtn = exitDialog?.findViewById(R.id.onlineApplyOkBTN) as Button
+            val noBtn = exitDialog?.findViewById(R.id.onlineApplyCancelBTN) as Button
+            val ad_small_template = exitDialog?.findViewById<TemplateView>(R.id.ad_small_template)
+            Ads.showNativeAd(ad_small_template, this)
 
-        yesBtn?.setOnClickListener {
-            try {
-                exitDialog?.dismiss()
-                if (Ads.mInterstitialAd != null && Ads.mInterstitialAd?.isLoaded!!) {
-                    Ads.mInterstitialAd?.show()
-                } else {
-                    super.onBackPressed()
+            yesBtn?.setOnClickListener {
+                try {
+                    exitDialog?.dismiss()
+                    if (Ads.mInterstitialAd != null && Ads.mInterstitialAd?.isLoaded!!) {
+                        Ads.mInterstitialAd?.show()
+                    } else {
+                        super.onBackPressed()
+                    }
+                } catch (e: Exception) {
                 }
-            } catch (e: Exception) {
             }
+
+            noBtn.setOnClickListener {
+                exitDialog.dismiss()
+            }
+        } else {
+            bottom_navigation.selectedItemId = R.id.navigation_home
         }
 
-        noBtn?.setOnClickListener {
-            exitDialog?.dismiss()
-        }
+
 
     }
 
