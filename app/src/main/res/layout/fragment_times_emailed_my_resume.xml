@@ -81,6 +81,7 @@
             android:id="@+id/titleTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            tools:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/numberTV"
             android:fontFamily="@font/noto_sans"
@@ -96,8 +97,9 @@
             android:fontFamily="@font/noto_sans"
             android:textColor="#13A10E"
             android:visibility="gone"
+            tools:visibility="visible"
             android:textSize="14sp"
-            tools:text="" />
+            tools:text="0" />
 
         <LinearLayout
             android:layout_width="wrap_content"

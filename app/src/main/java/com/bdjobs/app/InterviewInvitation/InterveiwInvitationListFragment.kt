@@ -175,23 +175,30 @@ class InterveiwInvitationListFragment : Fragment() {
 
                     if (interviewInvitations.size!! > 0) {
                         invitationNoDataLL?.hide()
+                        favCountTV.show()
                         followedRV?.show()
                         //Log.d("totalJobs", "data ase")
                     } else {
                         invitationNoDataLL?.show()
+                        favCountTV.hide()
                         followedRV?.hide()
                         //Log.d("totalJobs", "zero")
                     }
 
-                    if (interviewInvitations.size > 1) {
+                    if (interviewInvitations.size > 0) {
                         data = "invitations"
-                    }
-                    val styledText = "<b><font color='#13A10E'>${interviewInvitations.size}</font></b> Interview $data found"
-                    favCountTV.text = Html.fromHtml(styledText)
+                        val styledText = "<b><font color='#13A10E'>${interviewInvitations.size}</font></b> Interview $data found"
+                        favCountTV.text = Html.fromHtml(styledText)
 
-                    favCountTV?.show()
-                    shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmer()
+                        favCountTV?.show()
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmer()
+                    } else {
+                        favCountTV?.hide()
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmer()
+                    }
+
                 } catch (e: Exception) {
                     logException(e)
                 }

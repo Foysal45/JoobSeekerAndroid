@@ -315,15 +315,17 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
                 if (response?.body()?.data.isNullOrEmpty()) {
                     timesEmailedNoDataLL?.show()
+                    titleTV.hide()
+                    numberTV.hide()
                     emailedResumeRV?.hide()
-                    numberTV?.show()
                     shimmer_view_container_emailedResumeList?.hide()
                     shimmer_view_container_emailedResumeList?.stopShimmer()
                     //Log.d("totalJobs", "zero")
                 } else {
                     timesEmailedNoDataLL?.hide()
+                    titleTV.show()
+                    numberTV.show()
                     emailedResumeRV?.show()
-                    numberTV?.show()
                     shimmer_view_container_emailedResumeList?.hide()
                     shimmer_view_container_emailedResumeList?.stopShimmer()
                 }
