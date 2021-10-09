@@ -309,8 +309,8 @@
                             android:id="@+id/cl_remaining_sms_root">
 
                             <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="175dp"
+                                android:layout_width="130dp"
+                                android:layout_height="130dp"
                                 android:gravity="center"
                                 android:id="@+id/ll_remaining_sms_circle"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -353,8 +353,8 @@
                             android:id="@+id/cl_probable_remaining_day_root">
 
                             <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="175dp"
+                                android:layout_width="130dp"
+                                android:layout_height="130dp"
                                 android:gravity="center"
                                 android:id="@+id/ll_probable_remaining_day_circle"
                                 app:layout_constraintStart_toStartOf="parent"
