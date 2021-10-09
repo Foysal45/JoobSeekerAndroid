@@ -77,7 +77,9 @@ class VideoResumeQuestionsFragment : Fragment() {
         session = BdjobsUserSession(requireContext())
 
         val navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
+//        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        val appBarConfiguration =
+            AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
 
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
@@ -853,6 +855,11 @@ class VideoResumeQuestionsFragment : Fragment() {
 //        questionListViewModel.applyId = baseViewModel.applyId.value
 //        questionListViewModel.jobId = baseViewModel.jobId.value
 
+    }
+
+    private fun onNavigateUp(): Boolean {
+        activity?.onBackPressed()
+        return true
     }
 
 }
