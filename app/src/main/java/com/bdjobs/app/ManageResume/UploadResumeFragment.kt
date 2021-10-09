@@ -94,12 +94,12 @@ class UploadResumeFragment : Fragment() {
             if (!checkPermission()){
                 requestPermission()
             } else {
-                browseFile()
-//                if (SDK_INT >= Build.VERSION_CODES.R) {
-//                    openStorageAccess()
-//                } else {
-//                    browseFile()
-//                }
+//                browseFile()
+                if (SDK_INT >= Build.VERSION_CODES.R) {
+                    openStorageAccess()
+                } else {
+                    browseFile()
+                }
             }
         }
         backIV.setOnClickListener {
@@ -301,12 +301,12 @@ class UploadResumeFragment : Fragment() {
                 val writeStoragePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED
                 if (readStoragePermission && writeStoragePermission) {
                     // perform action when allow permission success
-                    browseFile()
-//                    if (SDK_INT >= Build.VERSION_CODES.R) {
-//                        openStorageAccess()
-//                    } else {
-//                        browseFile()
-//                    }
+//                    browseFile()
+                    if (SDK_INT >= Build.VERSION_CODES.R) {
+                        openStorageAccess()
+                    } else {
+                        browseFile()
+                    }
                 } else {
                     Toast.makeText(activity, "Allow permission for storage access!", Toast.LENGTH_SHORT).show()
                 }
