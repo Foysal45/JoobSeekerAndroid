@@ -529,30 +529,51 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+<!--    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
+<!--        android:id="@+id/newSearchBTN"-->
+<!--        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:text="All Jobs"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textSize="14sp"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:fontFamily="@font/roboto_medium"-->
+<!--        android:paddingHorizontal="16dp"-->
+<!--        android:paddingVertical="8dp"-->
+<!--        app:icon="@drawable/ic_arrow_left"-->
+<!--        app:iconTint="@color/white"-->
+<!--        app:iconSize="10dp"-->
+<!--        app:backgroundTint="#13A10E"-->
+<!--        app:iconGravity="textEnd"-->
+<!--        android:clickable="true"-->
+<!--        android:elevation="16dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/newSearchBTN"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:letterSpacing="0"
         android:text="All Jobs"
         android:textAllCaps="false"
-        android:textSize="14sp"
-        android:textColor="@color/white"
-        android:fontFamily="@font/roboto_medium"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
-        app:icon="@drawable/ic_arrow_left"
-        app:iconTint="@color/white"
-        app:iconSize="10dp"
+        android:textColor="#FFF"
         app:backgroundTint="#13A10E"
+        app:icon="@drawable/ic_arrow_forward_24"
         app:iconGravity="textEnd"
-        android:clickable="true"
-        android:elevation="16dp"
+        app:iconSize="20dp"
+        app:iconTint="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 <!--
