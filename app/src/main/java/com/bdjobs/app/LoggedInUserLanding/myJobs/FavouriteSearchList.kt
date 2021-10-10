@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchFilterAdapter
 import com.bdjobs.app.Jobs.JobBaseActivity
@@ -110,7 +111,7 @@ class FavouriteSearchList : Fragment(), FavouriteSearchFilterAdapter.OnUpdateCou
 
                     val styledText =
                         "<b><font color='#13A10E'>$favListSize</font></b> favourite search $data"
-                    favCountTV?.text = Html.fromHtml(styledText, Html.FROM_HTML_MODE_LEGACY)
+                    favCountTV?.text = HtmlCompat.fromHtml(styledText, Html.FROM_HTML_MODE_LEGACY)
                     val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(
                         items = favouriteSearchFilters as MutableList<FavouriteSearch>,
                         context = requireContext(),
@@ -130,13 +131,13 @@ class FavouriteSearchList : Fragment(), FavouriteSearchFilterAdapter.OnUpdateCou
         favRV?.scrollToPosition(position)
         favListSize++
         val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favourite search filter"
-        favCountTV.text = Html.fromHtml(styledText, Html.FROM_HTML_MODE_LEGACY)
+        favCountTV.text = HtmlCompat.fromHtml(styledText, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     fun decrementCounter() {
         favListSize--
         val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favourite search filter"
-        favCountTV.text = Html.fromHtml(styledText, Html.FROM_HTML_MODE_LEGACY)
+        favCountTV.text = HtmlCompat.fromHtml(styledText, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     private fun openSmsAlertDialog() {
@@ -175,7 +176,7 @@ class FavouriteSearchList : Fragment(), FavouriteSearchFilterAdapter.OnUpdateCou
     override fun update(count: Int) {
         homeCommunicator.setTotalFavouriteSearchCount(count)
         val styledText = "<b><font color='#13A10E'>$count</font></b> favourite search filter"
-        favCountTV.text = Html.fromHtml(styledText, Html.FROM_HTML_MODE_LEGACY)
+        favCountTV.text = HtmlCompat.fromHtml(styledText, HtmlCompat.FROM_HTML_MODE_LEGACY)
         if (count == 0) {
             favouriteFilterNoDataLL?.show()
             cl_top.hide()

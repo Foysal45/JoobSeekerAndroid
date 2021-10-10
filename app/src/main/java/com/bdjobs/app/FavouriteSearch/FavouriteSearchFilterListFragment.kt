@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
@@ -113,7 +114,7 @@ class FavouriteSearchFilterListFragment : Fragment() {
 
                     val styledText =
                         "<b><font color='#13A10E'>$favListSize</font></b> favourite search $data"
-                    favCountTV?.text = Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY)
+                    favCountTV?.text = Html.fromHtml(styledText)
                     val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(
                         items = favouriteSearchFilters as MutableList<FavouriteSearch>,
                         context = requireContext(),
@@ -135,13 +136,13 @@ class FavouriteSearchFilterListFragment : Fragment() {
         favRV?.scrollToPosition(position)
         favListSize++
         val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favourite search filter"
-        favCountTV.text = Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY)
+        favCountTV.text = HtmlCompat.fromHtml(styledText, FROM_HTML_MODE_LEGACY)
     }
 
     fun decrementCounter() {
         favListSize--
         val styledText = "<b><font color='#13A10E'>$favListSize</font></b> favourite search filter"
-        favCountTV.text = Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY)
+        favCountTV.text = HtmlCompat.fromHtml(styledText, FROM_HTML_MODE_LEGACY)
         if (favListSize == 0) {
             favouriteFilterNoDataLL?.show()
             cl_top.hide()
