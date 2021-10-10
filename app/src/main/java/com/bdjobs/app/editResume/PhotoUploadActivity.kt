@@ -219,6 +219,7 @@ class PhotoUploadActivity : Activity() {
             .enqueue(object : Callback<PhotoInfoModel> {
                 override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
                     error("onFailure", t)
+                    progressDialog?.dismiss()
                 }
 
                 override fun onResponse(
@@ -252,6 +253,7 @@ class PhotoUploadActivity : Activity() {
                         }
                     } catch (e: Exception) {
                         Timber.e(e)
+                        progressDialog?.dismiss()
                     }
                 }
             })
