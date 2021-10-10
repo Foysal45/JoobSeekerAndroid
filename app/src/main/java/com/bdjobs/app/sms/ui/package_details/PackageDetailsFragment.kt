@@ -34,6 +34,13 @@ class PackageDetailsFragment : Fragment() {
 
         tv_free_sms_package.text = "${args.freeSms} SMS"
         tv_free_trial_instruction_1.text = "Get ${args.freeSms} SMS"
+
+        if (args.freeSms=="0") {
+            cl_sms_package_20.visibility = View.GONE
+        } else {
+            cl_sms_package_20.visibility = View.VISIBLE
+        }
+
     }
 
 }

@@ -79,6 +79,21 @@ class HomeFragment : Fragment() {
             fetchSMSSettingsData()
 
 
+            isFreeSMSAvailable.observe(viewLifecycleOwner,{
+                if (it) {
+                    binding.cardSmsPackFreeTrial.visibility = View.VISIBLE
+                } else {
+                    binding.cardSmsPackFreeTrial.visibility = View.GONE
+                }
+            })
+
+            isTrialConsumed.observe(viewLifecycleOwner,{
+                if (it) {
+                    binding.cardSmsPackFreeTrial.visibility = View.GONE
+                } else {
+                    binding.cardSmsPackFreeTrial.visibility = View.VISIBLE
+                }
+            })
 
             error.observe(viewLifecycleOwner,{
                 Snackbar.make(binding.clParentSmsLanding,it,Snackbar.LENGTH_LONG).show()

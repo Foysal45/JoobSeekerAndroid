@@ -342,7 +342,6 @@
                     android:layout_height="80dp"
                     android:layout_marginTop="10dp"
                     app:cardBackgroundColor="#FFFFFF"
-                    android:visibility="@{viewModel.isTrialConsumed ? View.GONE : View.VISIBLE}"
                     app:cardCornerRadius="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
