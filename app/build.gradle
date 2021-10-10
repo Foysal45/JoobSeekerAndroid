@@ -13,8 +13,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 763 // huawei build 738 // Current Production - 761 // Current QA - 762
-        versionName "715.0.0"  //714.0.1 current internal test // Current Production - 2.9.1.1
+        versionCode 764 // huawei build 738 // Current Production - 761 // Current QA - 763
+        versionName "2.9.2.0"  //715.0.0 current internal test // Current Production - 2.9.1.1
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -24,6 +24,7 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
 
         debug {
