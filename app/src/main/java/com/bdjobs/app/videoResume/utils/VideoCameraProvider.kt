@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import android.util.Size
 import android.view.View
 import androidx.camera.core.*
@@ -13,7 +14,10 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
+import com.bdjobs.app.videoResume.ui.record.RecordVideoResumeFragment
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraView
 import com.otaliastudios.cameraview.VideoResult
@@ -25,7 +29,8 @@ import java.io.File
 import java.util.concurrent.Executors
 import kotlin.math.abs
 
-class VideoCameraProvider(val context : Context, val camera_view : CameraView, val pre_view : PreviewView, val viewLifecycleOwner : LifecycleOwner) {
+class VideoCameraProvider(val context : Context, val camera_view : CameraView, val pre_view : PreviewView,
+                          val viewLifecycleOwner : LifecycleOwner) {
 
 
     var sdk =   Integer.valueOf(Build.VERSION.SDK_INT)
@@ -37,6 +42,9 @@ class VideoCameraProvider(val context : Context, val camera_view : CameraView, v
     private var cameraInfo: CameraInfo? = null
     val RESOLUTION_WEIDTH = 640
     val RESOLUTION_HEIGHT = 480
+    var callback: VideoResumeInterface? = null
+
+
 
     fun initilizeCamera() {
 
@@ -152,8 +160,12 @@ class VideoCameraProvider(val context : Context, val camera_view : CameraView, v
             override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
 
                 video_file = outputFileResults.savedUri!!.toFile()
+                callback?.videoRecordresult(video_file)
+
+                Log.e("VideoCameraProvider", "video done & saved")
 
 
+                
             }
 
             override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
@@ -165,8 +177,26 @@ class VideoCameraProvider(val context : Context, val camera_view : CameraView, v
     }
 
 
-    interface VideoResultinterface{
-        fun videoRecordresult(file : File)
+    @SuppressLint("RestrictedApi")
+   fun stopVideo() {
+
+        Log.e("VideoCameraProvider", "video Stop")
+        if (sdk < 23){
+            camera_view.stopVideo()
+        }else{
+            videoCapture?.stopRecording()
+        }
     }
 
+    fun fileSize(file : File){
+
+        val fileSizeInBytes: Long = file.length()
+        val fileSizeInKB = fileSizeInBytes / 1024
+        val fileSizeInMB = fileSizeInKB / 1024
+        Log.e("video_size", "$fileSizeInBytes kb /"+fileSizeInMB+"MB")
+    }
+
+    interface VideoResumeInterface {
+        fun videoRecordresult(file : File)
+    }
 }

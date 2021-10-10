@@ -3,7 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_record_video_resume.xml" value="0.1" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/activity_resume_manager.xml" value="0.19067028985507245" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_record_video_resume.xml" value="0.22" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/background_video_interview_not_interested_warning.xml" value="0.16018518518518518" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/background_video_interview_question_remaining_time.xml" value="0.16018518518518518" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/background_white_blue.xml" value="0.16018518518518518" />
@@ -143,7 +144,7 @@
       </value>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_13" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
