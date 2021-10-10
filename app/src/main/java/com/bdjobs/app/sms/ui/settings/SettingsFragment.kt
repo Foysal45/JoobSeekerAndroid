@@ -83,15 +83,19 @@ class SettingsFragment : Fragment() {
                 when {
                     remainingSMSCount!!>=10 -> {
                         binding.llRemainingSmsCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_blue)
+                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_blue)
                     }
                     remainingSMSCount in 1..9 -> {
                         binding.llRemainingSmsCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_orange)
+                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_orange)
                     }
                     else -> {
-                        binding.llRemainingSmsCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_violet)}
+                        binding.llRemainingSmsCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_violet)
+                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_violet)
+                    }
                 }
             })
-
+/*
             probableRemainingDays.observe(viewLifecycleOwner,{
                 val probableRemainingDays = it?.toInt()
 
@@ -105,7 +109,7 @@ class SettingsFragment : Fragment() {
                     else -> {
                         binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_violet)}
                 }
-            })
+            })*/
         }
     }
 

@@ -81,7 +81,8 @@ class HomeFragment : Fragment() {
 
             isFreeSMSAvailable.observe(viewLifecycleOwner,{
                 if (it) {
-                    binding.cardSmsPackFreeTrial.visibility = View.VISIBLE
+                    if (isTrialConsumed.value!!) binding.cardSmsPackFreeTrial.visibility = View.GONE
+                    else binding.cardSmsPackFreeTrial.visibility = View.VISIBLE
                 } else {
                     binding.cardSmsPackFreeTrial.visibility = View.GONE
                 }
