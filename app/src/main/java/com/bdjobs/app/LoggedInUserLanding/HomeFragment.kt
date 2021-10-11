@@ -886,7 +886,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 }
             } catch (e: Exception) {
                 Timber.e("Exception while fetching SMS Alert Status")
-                if (isAdded) smsAlertView.visibility = View.GONE
+                try {
+                    if (isAdded) smsAlertView.visibility = View.GONE
+                } catch (e: Exception) {
+                }
             }
         }
     }
