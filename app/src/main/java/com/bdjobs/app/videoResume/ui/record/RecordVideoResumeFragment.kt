@@ -81,9 +81,13 @@ class RecordVideoResumeFragment : Fragment() {
                         recordVideoResumeViewModel.videoResumeManagerData.value?.file = file
                         recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
                         showSnackbar()
-
                     }
 
+                }
+
+                override fun videoRecordfailed(message: String, videoCaptureError: Int) {
+                    Toast.makeText(requireContext(), "Sorry Video Record Faild", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
                 }
             }
         }

@@ -161,15 +161,11 @@ class VideoCameraProvider(val context : Context, val camera_view : CameraView, v
 
                 video_file = outputFileResults.savedUri!!.toFile()
                 callback?.videoRecordresult(video_file)
-
-                Log.e("VideoCameraProvider", "video done & saved")
-
-
-                
             }
 
             override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
 
+                callback?.videoRecordfailed(message, videoCaptureError)
             }
         })
 
@@ -198,5 +194,6 @@ class VideoCameraProvider(val context : Context, val camera_view : CameraView, v
 
     interface VideoResumeInterface {
         fun videoRecordresult(file : File)
+        fun videoRecordfailed(message : String, videoCaptureError: Int)
     }
 }
