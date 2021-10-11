@@ -266,17 +266,20 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
                     }
 
                 } catch (e: Exception) {
-                    shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmer()
-                    followedRV?.hide()
-                    followEmployerNoDataLL?.hide()
-                    cl_total_count.hide()
-                    Toast.makeText(
-                        requireContext(),
-                        "Something went wrong! Please try again later",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    logException(e)
+                    try {
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmer()
+                        followedRV?.hide()
+                        followEmployerNoDataLL?.hide()
+                        cl_total_count.hide()
+                        Toast.makeText(
+                            requireContext(),
+                            "Something went wrong! Please try again later",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        logException(e)
+                    } catch (e: Exception) {
+                    }
                 }
 
                 /*try {

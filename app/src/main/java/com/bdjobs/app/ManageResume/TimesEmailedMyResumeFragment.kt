@@ -1,11 +1,11 @@
 package com.bdjobs.app.ManageResume
 
 
+//import com.google.android.gms.ads.AdRequest
 import android.annotation.SuppressLint
 import android.app.Fragment
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +20,6 @@ import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-//import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_times_emailed_my_resume.*
 import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.toast
@@ -322,12 +321,15 @@ class TimesEmailedMyResumeFragment : Fragment() {
                     shimmer_view_container_emailedResumeList?.stopShimmer()
                     //Log.d("totalJobs", "zero")
                 } else {
-                    timesEmailedNoDataLL?.hide()
-                    titleTV.show()
-                    numberTV.show()
-                    emailedResumeRV?.show()
-                    shimmer_view_container_emailedResumeList?.hide()
-                    shimmer_view_container_emailedResumeList?.stopShimmer()
+                    try {
+                        timesEmailedNoDataLL?.hide()
+                        titleTV.show()
+                        numberTV.show()
+                        emailedResumeRV?.show()
+                        shimmer_view_container_emailedResumeList?.hide()
+                        shimmer_view_container_emailedResumeList?.stopShimmer()
+                    } catch (e: Exception) {
+                    }
                 }
             }
 
