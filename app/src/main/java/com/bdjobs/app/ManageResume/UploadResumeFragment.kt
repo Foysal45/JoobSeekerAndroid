@@ -358,7 +358,13 @@ class UploadResumeFragment : Fragment() {
                 }
             }
         } else {
-            toast("Please select a valid pdf or doc or docx file")
+            try {
+                Toast.makeText(
+                    context,
+                    "Please select a valid pdf or doc or docx file",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } catch (e:Exception){}
         }
     }
 
