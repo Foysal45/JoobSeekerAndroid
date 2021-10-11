@@ -490,8 +490,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                                 }
 
                                 if (bdjobsUserSession.adTypeLanding=="2") {
-                                    navHostFragmentAD.visibility = View.VISIBLE
-                                    homeCommunicator.goToAjkerDealLive(R.id.navHostFragmentAD)
+                                    try {
+                                        navHostFragmentAD.visibility = View.VISIBLE
+                                        homeCommunicator.goToAjkerDealLive(R.id.navHostFragmentAD)
+                                    } catch (e: Exception) {
+                                    }
                                 } else {
                                     navHostFragmentAD.visibility = View.GONE
                                 }

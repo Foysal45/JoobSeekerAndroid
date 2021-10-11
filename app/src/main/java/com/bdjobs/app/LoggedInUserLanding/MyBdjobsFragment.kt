@@ -80,8 +80,11 @@ class  MyBdjobsFragment : Fragment() {
         bdjobsDB = BdjobsDB.getInstance(requireContext())
 
         if (bdjobsUserSession.adTypeMyBdJobs=="2") {
-            navHostFragmentADMB.visibility = View.VISIBLE
-            communicator.goToAjkerDealLive(R.id.navHostFragmentADMB)
+            try {
+                navHostFragmentADMB.visibility = View.VISIBLE
+                communicator.goToAjkerDealLive(R.id.navHostFragmentADMB)
+            } catch (e: Exception) {
+            }
         } else {
             navHostFragmentADMB.visibility = View.GONE
         }

@@ -84,7 +84,10 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     BackgroundJobBroadcastReceiver.NotificationUpdateListener {
 
     override fun goToAjkerDealLive(containerId:Int) {
-        transitFragmentX(HomeNewFragment(),containerId,false)
+        try {
+            transitFragmentX(HomeNewFragment(),containerId,false)
+        } catch (e: Exception) {
+        }
 
     }
 
