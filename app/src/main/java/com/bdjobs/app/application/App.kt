@@ -15,7 +15,11 @@ class App : Application() {
         if (BuildConfig.DEBUG)
             Timber.plant(Timber.DebugTree())
 
-        SessionManager.init(applicationContext)
+        try {
+            SessionManager.init(applicationContext)
+        } catch (e: Exception) {
+            Timber.e("Exception while initializing SessionManager")
+       }
         startKoin {
             androidContext(this@App)
             modules(listOf(appModule))
