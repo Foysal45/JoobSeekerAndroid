@@ -58,6 +58,10 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
         return inflater.inflate(R.layout.fragment_followed_employers, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bdJobsDB = BdjobsDB.getInstance(requireContext())
@@ -65,22 +69,16 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
         isActivityDate = ""
         homeCommunicator = requireActivity() as HomeCommunicator
 
-        try {
+        /*try {
 
             toolbar2.visibility = View.GONE
 
 
-            followedRV?.addOnScrollListener(object :
-                PaginationScrollListener((followedRV.layoutManager as LinearLayoutManager?)!!) {
+            followedRV?.addOnScrollListener(object : PaginationScrollListener((followedRV.layoutManager as LinearLayoutManager?)!!) {
 
-                override val totalPageCount: Int
-                    get() = totalPage!!
-                override val isLastPage: Boolean
-                    get() = isLastPages
-                override val isLoading: Boolean
-                    get() = isLoadings
-
-
+                override val totalPageCount: Int get() = totalPage!!
+                override val isLastPage: Boolean get() = isLastPages
+                override val isLoading: Boolean get() = isLoadings
                 override fun loadMoreItems() {
                     isLoadings = true
                     currentPage += 1
@@ -93,7 +91,9 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
         } catch (e: Exception) {
             logException(e)
             Timber.e("Exception : ${e.localizedMessage}")
-        }
+        }*/
+
+        toolbar2.visibility = View.GONE
 
         btn_sms_settings?.setOnClickListener {
             startActivity<SmsBaseActivity>("from" to "employer")
@@ -124,6 +124,19 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
             val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             followedRV?.layoutManager = layoutManager
             followedRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+
+            followedRV?.addOnScrollListener(object : PaginationScrollListener((followedRV.layoutManager as LinearLayoutManager?)!!) {
+
+                override val totalPageCount: Int get() = totalPage!!
+                override val isLastPage: Boolean get() = isLastPages
+                override val isLoading: Boolean get() = isLoadings
+                override fun loadMoreItems() {
+                    isLoadings = true
+                    currentPage += 1
+
+                    loadNextPage()
+                }
+            })
 
 
             loadData(1)
