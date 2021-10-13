@@ -56,10 +56,13 @@ class VideoCameraProvider(val context : Context, val camera_view : CameraView, v
             camera_view.visibility = View.VISIBLE
             pre_view.visibility = View.GONE
             initializeCamera()
+            Log.e("linit ", "camera2")
         }else{
             pre_view.visibility = View.VISIBLE
             camera_view.visibility = View.GONE
             startCamera()
+
+            Log.e("linit ", "cameraX")
         }
 
     }

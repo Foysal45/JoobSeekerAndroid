@@ -19,16 +19,11 @@ import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentVideoRecordBinding
 import com.bdjobs.app.liveInterview.SharedViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
-import com.bdjobs.app.videoResume.utils.VideoCameraProvider
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Facing
-import kotlinx.android.synthetic.main.fragment_record_video_resume.*
 import kotlinx.android.synthetic.main.fragment_video_record.*
-import kotlinx.android.synthetic.main.fragment_video_record.camera_view
-import kotlinx.android.synthetic.main.fragment_video_record.seekbar_video_duration
-import kotlinx.android.synthetic.main.fragment_video_record.tv_time_remaining_value
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import java.io.File
@@ -45,7 +40,6 @@ class RecordVideoFragment : Fragment() {
 
     private val sharedViewModel : SharedViewModel by activityViewModels()
 
-    lateinit var mVideoCamera : VideoCameraProvider
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -62,40 +56,16 @@ class RecordVideoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         binding.toolBar.setupWithNavController(navController, appBarConfiguration)
         binding.toolBar.title = "Test Recording"
 
-        mVideoCamera = VideoCameraProvider(requireContext(), camera_view, preview, viewLifecycleOwner )
-
-
-        mVideoCamera.apply {
-            callback = object : VideoCameraProvider.VideoResumeInterface{
-                override fun videoRecordresult(file: File) {
-                    if (videoRecordViewModel.onVideoDoneEvent.value == true) {
-                        //videoFile = result.file
-                        Timber.d("Path: ${videoFile.path} :: AbsolutePath: ${videoFile.absolutePath}")
-                        sharedViewModel.storeVideoFile(videoFile)
-                        findNavController().navigate(RecordVideoFragmentDirections.actionRecordVideoFragmentToViewRecordedVideoFragment())
-//                    navigateToVideoView(videoFile)
-
-                    }
-                }
-
-                override fun videoRecordfailed(message: String, videoCaptureError: Int) {
-
-                }
-            }
-        }
-
-        mVideoCamera.initilizeCamera()
-
-    //    initializeCamera()
+        initializeCamera()
 
         initializeUI()
+
         setUpObservers()
 
         binding.btnGuide.setOnClickListener {
@@ -227,8 +197,7 @@ class RecordVideoFragment : Fragment() {
         dir.mkdirs()
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val newFile = File(dir.path + File.separator + "bdjobs_testRecording_$timeStamp.mp4")
-       // camera_view?.takeVideoSnapshot(newFile)
-        videoFile =  mVideoCamera.recordVideo(newFile)
+        camera_view?.takeVideoSnapshot(newFile)
     }
 
 
