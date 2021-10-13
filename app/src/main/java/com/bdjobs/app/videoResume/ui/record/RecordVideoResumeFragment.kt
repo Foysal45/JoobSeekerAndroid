@@ -57,12 +57,7 @@ class RecordVideoResumeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentRecordVideoResumeBinding.inflate(inflater).apply {
             viewModel = recordVideoResumeViewModel
-            lifecycleOwner = viewLifecycleOwner
-        }
-
-
-
-
+            lifecycleOwner = viewLifecycleOwner }
         return binding.root
     }
 
@@ -178,7 +173,7 @@ class RecordVideoResumeFragment : Fragment() {
             dir.mkdirs()
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
-           videoFile =  mVideoCamera.recordVideo(newFile)
+            videoFile =  mVideoCamera.recordVideo(newFile)
 
 
         } catch (e: Exception) {

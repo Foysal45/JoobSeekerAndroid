@@ -44,6 +44,10 @@ class VideoCameraProvider(val context : Context, val camera_view : CameraView, v
     val RESOLUTION_HEIGHT = 480
     var callback: VideoResumeInterface? = null
 
+    init {
+        initilizeCamera()
+    }
+
 
 
     fun initilizeCamera() {
