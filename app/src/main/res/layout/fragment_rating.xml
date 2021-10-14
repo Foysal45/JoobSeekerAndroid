@@ -20,16 +20,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-        </androidx.appcompat.widget.Toolbar>
+            app:layout_constraintVertical_bias="0.0"/>
 
         <ScrollView
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
             android:layout_width="match_parent"
             android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_submit">
+            android:layout_height="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:paddingTop="40dp"
@@ -39,7 +37,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_rate"
-                    app:srcCompat="@drawable/ic_rate_interview"
+                    app:srcCompat="@drawable/banner_video_interview_feedback"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -107,44 +105,47 @@
                     android:afterTextChanged="@{(feedback)->viewModel.afterFeedbackTextChanged(feedback)}"
                     android:paddingStart="10dp"
                     android:paddingTop="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/tv_rate"
                     app:layout_constraintStart_toStartOf="@id/tv_rate"
                     app:layout_constraintTop_toBottomOf="@id/rating" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_submit"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:paddingLeft="55dp"
+                    android:paddingRight="55dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:letterSpacing="0"
+                    android:layout_marginBottom="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Submit"
+                    android:enabled="@{viewModel.enableSubmitButton ? true : false}"
+                    android:alpha="@{viewModel.enableSubmitButton ? 1f : .7f}"
+                    android:onClick="@{()->viewModel.onSubmitButtonClick()}"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/green"
+                    app:cornerRadius="23dp"
+                    app:elevation="0dp"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/editText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:strokeWidth="1dp" />
+
+                <include
+                    android:id="@+id/video_resume_guide"
+                    layout="@layout/layout_create_video_resume_bottom_guide"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_submit"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:paddingLeft="55dp"
-            android:paddingRight="55dp"
-            android:fontFamily="@font/roboto_medium"
-            android:letterSpacing="0"
-            android:layout_marginBottom="16dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:text="Submit"
-            android:enabled="@{viewModel.enableSubmitButton ? true : false}"
-            android:alpha="@{viewModel.enableSubmitButton ? 1f : .7f}"
-            android:onClick="@{()->viewModel.onSubmitButtonClick()}"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/green"
-            app:cornerRadius="23dp"
-            app:elevation="0dp"
-            app:iconGravity="textStart"
-            app:iconTint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:strokeWidth="1dp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>

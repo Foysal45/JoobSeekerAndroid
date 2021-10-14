@@ -47,6 +47,7 @@
     <dimen name="item_name_size">8sp</dimen>
     <dimen name="item_img_size">38sp</dimen>
     <dimen name="text_14">14sp</dimen>
+    <dimen name="text_12">12sp</dimen>
 
 
     <dimen name="activity_padding">16dp</dimen>

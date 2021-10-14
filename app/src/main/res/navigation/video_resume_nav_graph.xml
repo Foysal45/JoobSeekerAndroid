@@ -10,6 +10,10 @@
         android:name="com.bdjobs.app.videoResume.ui.home.VideoResumeLandingFragment"
         android:label="Video Resume"
         tools:layout="@layout/fragment_video_resume_landing">
+        <argument
+            android:name="fromFeedback"
+            app:argType="integer"
+            android:defaultValue="0" />
         <action
             android:id="@+id/action_videoResumeLandingFragment_to_publicVisibilityFragment"
             app:destination="@id/publicVisibilityFragment"

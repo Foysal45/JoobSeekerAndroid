@@ -46,6 +46,7 @@ class VideoInterviewListFragment : Fragment() {
 
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
+
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
         videoInterviewListViewModel.getVideoInterviewList(time)

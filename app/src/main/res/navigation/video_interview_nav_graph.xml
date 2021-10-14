@@ -164,4 +164,22 @@
             app:destination="@id/videoInterviewListFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/afterSubmitFragment"
+        android:name="com.bdjobs.app.videoInterview.ui.rating.AfterSubmitFragment"
+        android:label=""
+        tools:layout="@layout/fragment_after_submit_feedback"/>
+
+    <fragment
+        android:id="@+id/videoResumeLandingFragment2"
+        android:name="com.bdjobs.app.videoResume.ui.home.VideoResumeLandingFragment"
+        android:label="Video Resume"
+        tools:layout="@layout/fragment_video_resume_landing">
+
+        <argument
+            android:name="fromFeedback"
+            app:argType="integer"
+            android:defaultValue="1" />
+
+    </fragment>
 </navigation>

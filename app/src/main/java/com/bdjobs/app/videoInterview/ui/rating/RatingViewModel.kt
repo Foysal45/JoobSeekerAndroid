@@ -38,7 +38,7 @@ class RatingViewModel(
         checkValidation()
     }
 
-    fun checkValidation() {
+    private fun checkValidation() {
         enableSubmitButton.value = !feedback.value.isNullOrBlank() && rating.value!!.toInt() > 0
     }
 
@@ -53,13 +53,13 @@ class RatingViewModel(
     private fun postFeedback() {
         Timber.d("${rating.value} ${feedback.value}")
         viewModelScope.launch {
-            val resposne = repository.submitVideoInterviewFeedback(
+            val response = repository.submitVideoInterviewFeedback(
                     applyId = applyId,
                     jobId = jobId,
                     feedbackComment = feedback.value,
                     rating = rating.value.toString()
             )
-            if(resposne.statuscode == "4"){
+            if(response.statuscode == "4"){
                 navigateToListEvent.value = Event(true)
             }
         }
