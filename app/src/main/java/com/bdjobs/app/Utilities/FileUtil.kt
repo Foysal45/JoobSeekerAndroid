@@ -11,6 +11,8 @@ import android.webkit.MimeTypeMap
 import com.bdjobs.app.ManageResume.FileInformation
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class FileUtil {
@@ -117,4 +119,11 @@ class FileUtil {
         return file.exists() && file.delete()
     }
 
+
+    fun getNewFile(filepath : String, context : Context):File{
+        val dir = File(context.getExternalFilesDir(null)!!.absoluteFile, "video_resume")
+        dir.mkdirs()
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        return  File(dir.path + File.separator + "bdjobs_" + filepath + timeStamp + ".mp4")
+    }
 }

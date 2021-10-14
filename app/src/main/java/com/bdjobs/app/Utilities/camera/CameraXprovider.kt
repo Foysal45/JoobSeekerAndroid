@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import android.util.Size
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -104,6 +105,7 @@ class CameraXprovider(val viewLifecycleOwner : LifecycleOwner, val  previewView 
             @SuppressLint("TimberArgCount", "BinaryOperationInTimber")
             override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
                 callback?.videoRecordSuccess(outputFileResults.savedUri!!.toFile())
+                Log.e("factory", "onVideoSaved $outputFileResults.savedUri!!.toFile()")
             }
 
             override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {

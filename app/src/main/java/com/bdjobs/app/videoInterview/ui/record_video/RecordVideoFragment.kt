@@ -1,6 +1,7 @@
 package com.bdjobs.app.videoInterview.ui.record_video
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -14,6 +15,9 @@ import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.FileUtil
+import com.bdjobs.app.Utilities.camera.CameraFactory
+import com.bdjobs.app.Utilities.camera.CameraProvider
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.toFormattedSeconds
@@ -27,11 +31,23 @@ import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Facing
 import kotlinx.android.synthetic.main.fragment_record_video.*
+import kotlinx.android.synthetic.main.fragment_record_video.btn_done
+import kotlinx.android.synthetic.main.fragment_record_video.camera_view
+import kotlinx.android.synthetic.main.fragment_record_video.cl_timeline
+import kotlinx.android.synthetic.main.fragment_record_video.cl_total_time
+import kotlinx.android.synthetic.main.fragment_record_video.seekbar_video_duration
+import kotlinx.android.synthetic.main.fragment_record_video.tool_bar
+import kotlinx.android.synthetic.main.fragment_record_video.tv_question_heading
+import kotlinx.android.synthetic.main.fragment_record_video.tv_rec
+import kotlinx.android.synthetic.main.fragment_record_video.tv_time_remaining_value
+import kotlinx.android.synthetic.main.fragment_record_video.tv_time_value
+import kotlinx.android.synthetic.main.fragment_record_video.view_timeline
+import kotlinx.android.synthetic.main.fragment_record_video_resume.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RecordVideoFragment : Fragment() {
+class RecordVideoFragment : Fragment(), CameraProvider.OutputCallBack {
 
     lateinit var snackbar: Snackbar
     lateinit var videoFile: File
@@ -39,6 +55,7 @@ class RecordVideoFragment : Fragment() {
     private val questionListViewModel: QuestionListViewModel by navGraphViewModels(R.id.questionListFragment)
     private val recordVideoViewModel: RecordVideoViewModel by viewModels { ViewModelFactoryUtil.provideVideoInterviewRecordVideoViewModelFactory(this) }
     lateinit var binding: FragmentRecordVideoBinding
+    lateinit var provider : CameraProvider
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +75,8 @@ class RecordVideoFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
-        initializeCamera()
+        provider  = CameraFactory.getProvider(requireContext(),camera_view, pre_view, viewLifecycleOwner, this )
+        provider.initlize()
 
         initializeUI()
 
@@ -82,9 +100,7 @@ class RecordVideoFragment : Fragment() {
             })
 
             onVideoDoneEvent.observe(viewLifecycleOwner, Observer {
-                // if (it){
-                camera_view?.close()
-                // }
+                provider.stop()
             })
 
             onUploadStartEvent.observe(viewLifecycleOwner, EventObserver { uploadStarted ->
@@ -112,11 +128,8 @@ class RecordVideoFragment : Fragment() {
     }
 
     private fun captureVideo() {
-        val dir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_interview")
-        dir.mkdirs()
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoViewModel.videoManagerData.value?.applyId}_${recordVideoViewModel.videoManagerData.value?.questionId}_$timeStamp.mp4")
-        camera_view?.takeVideoSnapshot(newFile)
+         provider.record(FileUtil.instance.getNewFile(recordVideoViewModel.videoManagerData.value?.applyId+"_"+recordVideoViewModel.videoManagerData.value?.questionId, requireContext()))
+
     }
 
 
@@ -216,5 +229,19 @@ class RecordVideoFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
+    }
+
+    override fun videoRecordSuccess(file: File) {
+
+        if (recordVideoViewModel.onVideoDoneEvent.value == true) {
+            recordVideoViewModel.videoManagerData.value?.file = file
+           // recordVideoViewModel.uploadSingleVideoToServer(recordVideoViewModel.videoManagerData.value)
+            showSnackbar()
+            Log.e("factory", "videoRecordSuccess"+file)
+        }
+    }
+
+    override fun videoRecordFailed(message: String) {
+
     }
 }

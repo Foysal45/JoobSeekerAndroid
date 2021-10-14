@@ -16,6 +16,7 @@ import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.FileUtil
 import com.bdjobs.app.Utilities.camera.CameraFactory
 import com.bdjobs.app.Utilities.camera.CameraProvider
 import com.bdjobs.app.Utilities.hide
@@ -145,12 +146,7 @@ class RecordVideoResumeFragment : Fragment(), CameraProvider.OutputCallBack {
     private fun captureVideo() {
         Timber.d("Video capture start")
         try {
-            val dir = File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_resume")
-            dir.mkdirs()
-            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-            val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
-            provider.record(newFile)
-
+            provider.record(FileUtil.instance.getNewFile(recordVideoResumeViewModel.videoResumeManagerData.value?.questionId!!, requireContext()))
 
         } catch (e: Exception) {
             Timber.e("captureVideo: ${e.localizedMessage}")
