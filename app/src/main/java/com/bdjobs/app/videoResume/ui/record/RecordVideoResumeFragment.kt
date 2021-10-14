@@ -16,6 +16,8 @@ import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
+import com.bdjobs.app.Utilities.camera.CameraFactory
+import com.bdjobs.app.Utilities.camera.CameraProvider
 import com.bdjobs.app.Utilities.hide
 import com.bdjobs.app.Utilities.show
 import com.bdjobs.app.Utilities.toFormattedSeconds
@@ -23,7 +25,6 @@ import com.bdjobs.app.databinding.FragmentRecordVideoResumeBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModel
-import com.bdjobs.app.videoResume.utils.VideoCameraProvider
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_record_video_resume.*
 import timber.log.Timber
@@ -33,7 +34,7 @@ import java.util.*
 
 
 @SuppressLint("RestrictedApi")
-class RecordVideoResumeFragment : Fragment() {
+class RecordVideoResumeFragment : Fragment(), CameraProvider.OutputCallBack {
     lateinit var snackbar: Snackbar
     lateinit var videoFile: File
 
@@ -44,9 +45,7 @@ class RecordVideoResumeFragment : Fragment() {
         )
     }
     lateinit var binding: FragmentRecordVideoResumeBinding
-
-
-    lateinit var mVideoCamera : VideoCameraProvider
+    lateinit var provider : CameraProvider
 
 
 
@@ -68,25 +67,9 @@ class RecordVideoResumeFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
-        mVideoCamera = VideoCameraProvider(requireContext(), camera_view2, camera_view, viewLifecycleOwner )
-        mVideoCamera.apply {
-            callback = object : VideoCameraProvider.VideoResumeInterface{
-                override fun videoRecordresult(file: File) {
-                    if (recordVideoResumeViewModel.onVideoDoneEvent.value == true) {
-                        recordVideoResumeViewModel.videoResumeManagerData.value?.file = file
-                        recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
-                        showSnackbar()
-                    }
+        provider  = CameraFactory.getProvider(requireContext(),camera_view2, camera_view, viewLifecycleOwner, this )
+        provider.initlize()
 
-                }
-
-                override fun videoRecordfailed(message: String, videoCaptureError: Int) {
-                    Toast.makeText(requireContext(), "Sorry Video Record Faild", Toast.LENGTH_SHORT).show()
-                    findNavController().popBackStack()
-                }
-            }
-        }
-        mVideoCamera.initilizeCamera()
         initializeUI()
         setUpObservers()
 
@@ -122,14 +105,7 @@ class RecordVideoResumeFragment : Fragment() {
 
             onVideoDoneEvent.observe(viewLifecycleOwner, {
                 if (it) {
-
-                    mVideoCamera.stopVideo()
-
-//                    if (sdk < 23){
-//                        camera_view2.stopVideo()
-//                    }else{
-//                        videoCapture?.stopRecording()
-//                    }
+                    provider.stop()
                 }
             })
 
@@ -173,7 +149,7 @@ class RecordVideoResumeFragment : Fragment() {
             dir.mkdirs()
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             val newFile = File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
-            videoFile =  mVideoCamera.recordVideo(newFile)
+            provider.record(newFile)
 
 
         } catch (e: Exception) {
@@ -265,7 +241,18 @@ class RecordVideoResumeFragment : Fragment() {
         }
     }
 
+    override fun videoRecordSuccess(file: File) {
+        if (recordVideoResumeViewModel.onVideoDoneEvent.value == true) {
+            recordVideoResumeViewModel.videoResumeManagerData.value?.file = file
+            recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
+            showSnackbar()
+        }
+    }
 
+    override fun videoRecordFailed(message: String) {
+        Toast.makeText(requireContext(), "Sorry Video Record Faild", Toast.LENGTH_SHORT).show()
+        findNavController().popBackStack()
+    }
 
 
 }
