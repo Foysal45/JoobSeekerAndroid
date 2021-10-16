@@ -48,11 +48,14 @@
             android:layout_height="0dp"
             app:cameraFacing="front"
             app:cameraMode="video"
+            android:screenReaderFocusable="true"
+            android:keepScreenOn="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="MissingClass" />
 
 
 <!--        android:visibility="@{viewModel.onVideoStarted ? View.VISIBLE : View.INVISIBLE}"-->

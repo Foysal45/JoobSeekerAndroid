@@ -49,6 +49,7 @@ class DownloadResumeFragment : android.app.Fragment() {
 
         downloadOrDeleteCV("download")
         fetchPersonalizedResumeStat()
+        fetchPersonalizedResumeStat()
 
         backIV.setOnClickListener {
             communicator.backButtonPressed()
