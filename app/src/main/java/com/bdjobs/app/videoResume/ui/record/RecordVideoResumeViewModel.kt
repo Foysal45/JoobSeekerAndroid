@@ -74,7 +74,7 @@ class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) 
 
     fun onDoneButtonClick() {
         timer.cancel()
-        _onVideoDoneEvent.value = true
+        _onVideoDoneEvent.postValue(true) //= true
 
     }
 

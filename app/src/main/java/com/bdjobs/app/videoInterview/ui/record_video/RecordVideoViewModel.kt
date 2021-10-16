@@ -70,21 +70,9 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
     }
 
     fun uploadSingleVideoToServer(videoManager: VideoManager?) {
-        _onVideoDoneEvent.value = false
-        //Log.d("rakib", "$videoManager")
-        //repository.setDataForUpload(videoManager)
+        _onVideoDoneEvent.postValue(true)
         Constants.createVideoManagerDataForUpload(videoManager)
         viewModelScope.launch {
-//            val constraints = androidx.work.Constraints.Builder()
-//                    .setRequiredNetworkType(NetworkType.CONNECTED)
-//                    .build()
-//            val request = OneTimeWorkRequestBuilder<UploadVideoWorker>()
-//                    .setConstraints(constraints)
-//                    .setBackoffCriteria(BackoffPolicy.LINEAR,
-//                            OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
-//                            TimeUnit.MILLISECONDS)
-//                    .build()
-//            WorkManager.getInstance().enqueue(request)
             _onUploadStartEvent.value = Event(true)
             val response = repository.postVideoToRemote()
             if (response.statuscode == "4" || response.statuscode == 4)

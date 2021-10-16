@@ -31,21 +31,7 @@ import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Facing
 import kotlinx.android.synthetic.main.fragment_record_video.*
-import kotlinx.android.synthetic.main.fragment_record_video.btn_done
-import kotlinx.android.synthetic.main.fragment_record_video.camera_view
-import kotlinx.android.synthetic.main.fragment_record_video.cl_timeline
-import kotlinx.android.synthetic.main.fragment_record_video.cl_total_time
-import kotlinx.android.synthetic.main.fragment_record_video.seekbar_video_duration
-import kotlinx.android.synthetic.main.fragment_record_video.tool_bar
-import kotlinx.android.synthetic.main.fragment_record_video.tv_question_heading
-import kotlinx.android.synthetic.main.fragment_record_video.tv_rec
-import kotlinx.android.synthetic.main.fragment_record_video.tv_time_remaining_value
-import kotlinx.android.synthetic.main.fragment_record_video.tv_time_value
-import kotlinx.android.synthetic.main.fragment_record_video.view_timeline
-import kotlinx.android.synthetic.main.fragment_record_video_resume.*
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 class RecordVideoFragment : Fragment(), CameraProvider.OutputCallBack {
 
@@ -140,48 +126,6 @@ class RecordVideoFragment : Fragment(), CameraProvider.OutputCallBack {
         tv_time_value?.text = "${questionListViewModel.videoManagerData.value?.questionDuration?.toFormattedSeconds()}"
     }
 
-    private fun initializeCamera() {
-        camera_view?.setLifecycleOwner(viewLifecycleOwner)
-
-        try {
-            camera_view?.facing = Facing.FRONT
-        } catch (e: Exception) {
-            camera_view?.facing = Facing.BACK
-        } finally {
-
-        }
-
-        camera_view?.addCameraListener(object : CameraListener() {
-            override fun onVideoRecordingStart() {
-                super.onVideoRecordingStart()
-            }
-
-            override fun onVideoRecordingEnd() {
-                super.onVideoRecordingEnd()
-            }
-
-            override fun onCameraOpened(options: CameraOptions) {
-                super.onCameraOpened(options)
-            }
-
-            override fun onCameraClosed() {
-                super.onCameraClosed()
-            }
-
-            override fun onVideoTaken(result: VideoResult) {
-                super.onVideoTaken(result)
-                if (recordVideoViewModel.onVideoDoneEvent.value == true) {
-                    videoFile = result.file
-                    recordVideoViewModel.videoManagerData.value?.file = result.file
-                    recordVideoViewModel.uploadSingleVideoToServer(recordVideoViewModel.videoManagerData.value)
-                    showSnackbar()
-                }
-
-            }
-
-        })
-    }
-
     private fun showSnackbar() {
         snackbar = Snackbar.make(cl_timeline, "Your recorded video is uploading, please wait...", Snackbar.LENGTH_INDEFINITE).also {
             it.show()
@@ -235,9 +179,8 @@ class RecordVideoFragment : Fragment(), CameraProvider.OutputCallBack {
 
         if (recordVideoViewModel.onVideoDoneEvent.value == true) {
             recordVideoViewModel.videoManagerData.value?.file = file
-           // recordVideoViewModel.uploadSingleVideoToServer(recordVideoViewModel.videoManagerData.value)
+            recordVideoViewModel.uploadSingleVideoToServer(recordVideoViewModel.videoManagerData.value)
             showSnackbar()
-            Log.e("factory", "videoRecordSuccess"+file)
         }
     }
 
