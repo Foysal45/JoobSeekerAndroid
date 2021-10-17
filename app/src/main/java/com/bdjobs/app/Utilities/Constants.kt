@@ -441,5 +441,9 @@ class Constants {
                         "[a-zA-Z0-9][a-zA-Z0-9\\-]{1,25}" +
                         ")+"
         )
+
+        const val DOC = "application/msword"
+        const val DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        const val PDF = "application/pdf"
     }
 }
