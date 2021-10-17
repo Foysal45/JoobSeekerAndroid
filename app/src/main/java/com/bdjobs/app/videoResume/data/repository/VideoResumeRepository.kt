@@ -22,7 +22,7 @@ class VideoResumeRepository(private val application: Application) {
         return listOf(
                 Question("1","Introduce Yourself.","00:30", isNew = false, isSubmitted = false),
                 Question("2","Tell about your academic qualification and trainings (if any).","00:30", isNew = false, isSubmitted = false),
-                Question("3","Discuss about your Job Experience (if any) or Skills.","00:30", isNew = false, isSubmitted = false),
+                Question("3","Discuss about your Job Experience (if any) or Skills.","00:60", isNew = false, isSubmitted = false),
                 Question("4","What are your strengths and  weaknesses ?","00:30", isNew = false, isSubmitted = false),
                 Question("5","Describe about your career goals ?","00:30", isNew = false, isSubmitted = false),
                 Question("6","If you have any achievement or extra-curricular activities, please tell.","00:30", isNew = false, isSubmitted = false),
@@ -33,7 +33,7 @@ class VideoResumeRepository(private val application: Application) {
         return listOf(
             Question("১","নিজের সম্পর্কে কিছু বলুন","০০:৩০", isNew = false, isSubmitted = false),
             Question("২","আপনার শিক্ষাগত যোগ্যতা বা ট্রেনিং সম্পর্কে বলুন (যদি থাকে)","০০:৩০", isNew = false, isSubmitted = false),
-            Question("৩","আপনার চাকরির অভিজ্ঞতা(যদি থাকে) অথবা দক্ষতা সম্পর্কে বলুন।","০০:৩০", isNew = false, isSubmitted = false),
+            Question("৩","আপনার চাকরির অভিজ্ঞতা(যদি থাকে) অথবা দক্ষতা সম্পর্কে বলুন।","০০:৬০", isNew = false, isSubmitted = false),
             Question("৪","আপনার ভাল দিক এবং দুর্বল দিকগুলো সম্পর্কে বলুন ?","০০:৩০", isNew = false, isSubmitted = false),
             Question("৫","আপনার কর্মজীবনের লক্ষ্য সম্পর্কে বলুন ?","০০:৩০", isNew = false, isSubmitted = false),
             Question("৬","আপনার অর্জন এবং এক্সট্রা কারিকুলার এক্টিভিটিস সম্পর্কে বলুন (যদি থাকে)","০০:৩০", isNew = false, isSubmitted = false),

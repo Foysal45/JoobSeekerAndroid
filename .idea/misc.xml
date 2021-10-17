@@ -4,9 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/activity_resume_manager.xml" value="0.19067028985507245" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_guideline.xml" value="0.15" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_question_list.xml" value="0.25" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_record_video.xml" value="0.12138157894736842" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_record_video_resume.xml" value="0.22" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_video_record.xml" value="0.1" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_video_resume_landing.xml" value="0.12171052631578948" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_video_resume_questions.xml" value="0.12171052631578948" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_view_video_resume.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/background_video_interview_not_interested_warning.xml" value="0.16018518518518518" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/background_video_interview_question_remaining_time.xml" value="0.16018518518518518" />
