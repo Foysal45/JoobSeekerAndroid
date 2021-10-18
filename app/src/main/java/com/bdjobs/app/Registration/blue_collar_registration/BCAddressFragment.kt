@@ -8,15 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import com.bdjobs.app.databases.External.DataStorage
-import com.bdjobs.app.databases.External.LocationModel
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.External.LocationModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_adress.*
+
+
+
 
 
 class BCAddressFragment : Fragment() {
@@ -81,13 +84,16 @@ class BCAddressFragment : Fragment() {
         addTextChangedListener()
     }
 
+
     private fun addTextChangedListener() {
         bcDistrictTIET?.easyOnTextChangedListener { charSequence ->
             addressValidation(charSequence.toString(), bcDistrictTIET, bcDistrictTIL, "")
+            bcDistrictTIET.hideKeyboard()
             d("etTrInst : ->$charSequence|")
         }
         bcThanaTIET?.easyOnTextChangedListener { charSequence ->
             addressValidation(charSequence.toString(), bcThanaTIET, bcThanaTIL, "")
+            bcThanaTIET.hideKeyboard()
         }
         bcVillageTIET?.easyOnTextChangedListener { charSequence ->
             addressValidation(charSequence.toString(), bcVillageTIET, bcVillageTIL, "এলাকার ঠিকানা লিখুন")
