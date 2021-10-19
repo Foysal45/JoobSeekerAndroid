@@ -313,12 +313,15 @@ class TimesEmailedMyResumeFragment : Fragment() {
                 }
 
                 if (response?.body()?.data.isNullOrEmpty()) {
-                    timesEmailedNoDataLL?.show()
-                    titleTV.hide()
-                    numberTV.hide()
-                    emailedResumeRV?.hide()
-                    shimmer_view_container_emailedResumeList?.hide()
-                    shimmer_view_container_emailedResumeList?.stopShimmer()
+                    try {
+                        timesEmailedNoDataLL?.show()
+                        titleTV.hide()
+                        numberTV.hide()
+                        emailedResumeRV?.hide()
+                        shimmer_view_container_emailedResumeList?.hide()
+                        shimmer_view_container_emailedResumeList?.stopShimmer()
+                    } catch (e: Exception) {
+                    }
                     //Log.d("totalJobs", "zero")
                 } else {
                     try {

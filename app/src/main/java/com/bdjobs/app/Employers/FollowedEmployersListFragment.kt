@@ -222,13 +222,21 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
 
         ).enqueue(object : Callback<FollowEmployerListModelClass> {
             override fun onFailure(call: Call<FollowEmployerListModelClass>, t: Throwable) {
-                shimmer_view_container_JobList?.hide()
-                shimmer_view_container_JobList?.stopShimmer()
-                Toast.makeText(
-                    requireContext(),
-                    "Something went wrong! Please try again later",
-                    Toast.LENGTH_SHORT
-                ).show()
+                try {
+                    if (isAdded) {
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmer()
+                        Toast.makeText(
+                            requireContext(),
+                            "Something went wrong! Please try again later",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                } catch (e:Exception) {
+
+                }
+
             }
 
             override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
@@ -267,17 +275,20 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
 
                 } catch (e: Exception) {
                     try {
-                        shimmer_view_container_JobList?.hide()
-                        shimmer_view_container_JobList?.stopShimmer()
-                        followedRV?.hide()
-                        followEmployerNoDataLL?.hide()
-                        cl_total_count.hide()
-                        Toast.makeText(
-                            requireContext(),
-                            "Something went wrong! Please try again later",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        logException(e)
+                        if (isAdded) {
+                            shimmer_view_container_JobList?.hide()
+                            shimmer_view_container_JobList?.stopShimmer()
+                            followedRV?.hide()
+                            followEmployerNoDataLL?.hide()
+                            cl_total_count.hide()
+                            Toast.makeText(
+                                requireContext(),
+                                "Something went wrong! Please try again later",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            logException(e)
+                        }
+
                     } catch (e: Exception) {
                     }
                 }
