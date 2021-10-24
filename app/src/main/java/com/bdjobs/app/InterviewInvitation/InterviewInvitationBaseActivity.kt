@@ -293,7 +293,10 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
 
 
     override fun backButtonClicked() {
-        onBackPressed()
+        try {
+            onBackPressed()
+        } catch (e: Exception) {
+        }
     }
 
     override fun goToInvitationDetails(jobID: String, companyName: String, jobTitle: String) {
