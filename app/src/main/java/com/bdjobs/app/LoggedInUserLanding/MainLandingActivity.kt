@@ -369,7 +369,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 //            "time" to time
 //        )
 
-        replaceFragment(R.id.landingPageFragmentHolderFL,myJobsFragment, bundleOf("from" to from,"time" to time))
+        transitFragmentX(myJobsFragment,R.id.landingPageFragmentHolderFL,false, bundleOf("from" to from))
         bottom_navigation?.selectedItemId = R.id.navigation_shortlisted_jobs
     }
 
@@ -831,7 +831,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     override fun goToFavSearchFilters() {
 //        startActivity<FavouriteSearchBaseActivity>()
 //        transitFragmentX(myJobsFragment, R.id.landingPageFragmentHolderFL, false)
-        replaceFragment(R.id.landingPageFragmentHolderFL,myJobsFragment, bundleOf("from" to "favSearch"))
+//        replaceFragment(R.id.landingPageFragmentHolderFL,myJobsFragment, bundleOf("from" to "favSearch"))
+        transitFragmentX(myJobsFragment,R.id.landingPageFragmentHolderFL,false, bundleOf("from" to "favSearch"))
         bottom_navigation?.selectedItemId = R.id.navigation_shortlisted_jobs
     }
 

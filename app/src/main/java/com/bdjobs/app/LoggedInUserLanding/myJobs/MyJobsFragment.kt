@@ -43,6 +43,7 @@ class MyJobsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        Timber.d("From : ${arguments?.getString("from")}")
 
         when (arguments?.getString("from")) {
             "favSearch" -> {
@@ -53,8 +54,11 @@ class MyJobsFragment : Fragment() {
                 }
             }
             "follow" -> {
-                activity?.transitFragment(FollowedEmployersFragment(),R.id.fragment_container,false)
-                tabs.getTabAt(1)?.select()
+                try {
+                    activity?.transitFragment(FollowedEmployersFragment(),R.id.fragment_container,false)
+                    tabs.getTabAt(1)?.select()
+                } catch (e: Exception) {
+                }
             }
             else -> {
                 activity?.transitFragment(ShortListedJobFragment(),R.id.fragment_container,false)

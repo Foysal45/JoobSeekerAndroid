@@ -471,9 +471,13 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int) {
 fun AppCompatActivity.transitFragmentX(
     fragment: androidx.fragment.app.Fragment,
     holderID: Int,
-    addToBackStack: Boolean
+    addToBackStack: Boolean,
+    bundle:Bundle?=null
 ) {
     try {
+        if (bundle!=null) {
+            fragment.arguments = bundle
+        }
         val fragmentManager = this.supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         if (addToBackStack) {
