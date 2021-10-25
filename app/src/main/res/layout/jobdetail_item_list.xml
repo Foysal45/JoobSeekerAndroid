@@ -124,126 +124,132 @@
                     tools:text="CompanyName" />
 
 
-                <TextView
-                    android:id="@+id/vacancyText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginEnd="8dp"
-                    android:drawableLeft="@drawable/ic_vacancies_ic"
-                    android:drawablePadding="5dp"
-                    android:text="Vacancies"
-                    android:textColor="#ffff"
-                    app:layout_constraintEnd_toStartOf="@+id/deadlineText"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/companyName" />
+<!--                <TextView-->
+<!--                    android:id="@+id/vacancyText"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="22dp"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:drawableLeft="@drawable/ic_vacancies_ic"-->
+<!--                    android:drawablePadding="5dp"-->
+<!--                    android:text="Vacancies"-->
+<!--                    android:textColor="#ffff"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/deadlineText"-->
+<!--                    app:layout_constraintHorizontal_bias="0.0"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/companyName" />-->
 
                 <TextView
                     android:id="@+id/vacancyValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="22dp"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="#ffff"
                     android:textIsSelectable="true"
+                    android:drawableLeft="@drawable/ic_vacancies_ic"
+                    android:drawablePadding="5dp"
                     app:layout_constraintEnd_toStartOf="@+id/deadlineValue"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/vacancyText"
+                    app:layout_constraintTop_toBottomOf="@+id/companyName"
                     tools:text="05" />
 
-                <TextView
-                    android:id="@+id/deadlineText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="8dp"
-                    android:drawableLeft="@drawable/ic_deadline_ic"
-                    android:drawablePadding="5dp"
-                    android:text="Deadline"
-                    android:textColor="#ffff"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/salaryText"
-                    app:layout_constraintTop_toBottomOf="@+id/companyName" />
+<!--                <TextView-->
+<!--                    android:id="@+id/deadlineText"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="20dp"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:drawableLeft="@drawable/ic_deadline_ic"-->
+<!--                    android:drawablePadding="5dp"-->
+<!--                    android:text="Deadline"-->
+<!--                    android:textColor="#ffff"-->
+<!--                    android:visibility="gone"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.0"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/salaryText"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/companyName" />-->
 
                 <TextView
                     android:id="@+id/deadlineValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="32dp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="#ffff"
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/deadlineText"
-                    app:layout_constraintTop_toBottomOf="@+id/deadlineText"
-                    tools:text="Dec, 2 2018" />
-
-                <TextView
-                    android:id="@+id/locationText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="8dp"
-                    android:drawableLeft="@drawable/ic_location_ic"
+                    android:drawableLeft="@drawable/ic_deadline_ic"
                     android:drawablePadding="5dp"
-                    android:text="Location"
-                    android:textColor="#ffff"
-                    app:layout_constraintEnd_toStartOf="@+id/salaryText"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/vacancyValue" />
+                    app:layout_constraintTop_toBottomOf="@+id/companyName"
+                    tools:text="10 Dec, 2018" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/locationText"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:drawableLeft="@drawable/ic_location_ic"-->
+<!--                    android:drawablePadding="5dp"-->
+<!--                    android:text="Location"-->
+<!--                    android:textColor="#ffff"-->
+<!--                    android:visibility="gone"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/salaryText"-->
+<!--                    app:layout_constraintHorizontal_bias="0.0"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/vacancyValue" />-->
 
                 <TextView
                     android:id="@+id/locationValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="24dp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="#ffff"
                     android:textIsSelectable="true"
+                    android:drawableLeft="@drawable/ic_location_ic"
+                    android:drawablePadding="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/salaryValue"
-                    app:layout_constraintStart_toStartOf="@+id/locationText"
-                    app:layout_constraintTop_toBottomOf="@+id/locationText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vacancyValue"
                     tools:text="Dhaka" />
 
-                <TextView
-                    android:id="@+id/salaryText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="136dp"
-                    android:drawableLeft="@drawable/ic_salary_ic"
-                    android:drawablePadding="5dp"
-                    android:text="Salary"
-                    android:textColor="#ffff"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/deadlineValue" />
+<!--                <TextView-->
+<!--                    android:id="@+id/salaryText"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginEnd="136dp"-->
+<!--                    android:drawableLeft="@drawable/ic_salary_ic"-->
+<!--                    android:drawablePadding="5dp"-->
+<!--                    android:text="Salary"-->
+<!--                    android:textColor="#ffff"-->
+<!--                    android:visibility="gone"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/deadlineValue" />-->
 
                 <TextView
                     android:id="@+id/salaryValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="32dp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="#ffff"
                     android:textIsSelectable="true"
+                    android:drawableLeft="@drawable/ic_salary_ic"
+                    android:drawablePadding="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/deadlineValue"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@id/salaryText"
-                    app:layout_constraintTop_toBottomOf="@+id/salaryText"
+                    app:layout_constraintTop_toBottomOf="@+id/deadlineValue"
                     tools:text="Negotiable" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -255,6 +261,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="20dp"
                 android:paddingTop="24dp"
+                android:visibility="gone"
                 android:paddingEnd="20dp"
                 android:text="Job Information"
                 android:textColor="#2F64A3"

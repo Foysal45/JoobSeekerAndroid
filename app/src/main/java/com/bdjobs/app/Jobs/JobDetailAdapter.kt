@@ -1698,16 +1698,16 @@ class JobDetailAdapter(private val context: Context) :
 
     override fun getItemViewType(position: Int): Int {
 
-        if (position == jobList!!.size - 1 && isLoadingAdded) {
-            return LOADING
+        return if (position == jobList!!.size - 1 && isLoadingAdded) {
+            LOADING
         } else if (jobList!![position].standout.equals("0")) {
-            return BASIC
+            BASIC
         } else if (jobList!![position].standout.equals("1")) {
-            return BASIC
+            BASIC
         } else if (jobList!![position].standout.equals("2")) {
-            return BASIC
+            BASIC
         } else {
-            return BASIC
+            BASIC
         }
     }
 
