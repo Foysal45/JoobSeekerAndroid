@@ -1,10 +1,15 @@
 package com.bdjobs.app.resume_dashboard.utils
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
 import com.bdjobs.app.R
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import kotlinx.android.synthetic.main.layout_bdjobs_resume_steps.*
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.textColor
 
 //
@@ -41,7 +46,7 @@ fun MaterialTextView.setShowingToEmployerText(value: Boolean) {
 }
 
 @BindingAdapter("textAndDrawable")
-fun MaterialTextView.setTextAndDrawable(value: String?) {
+fun MaterialTextView.setTextDrawableAndBackground(value: String?) {
     if (value != null) {
         this.run {
             this.text = when (value) {
@@ -52,32 +57,62 @@ fun MaterialTextView.setTextAndDrawable(value: String?) {
             }
 
             when (value) {
-                "1" -> this.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_visibility_public,
-                    0,
-                    0,
-                    0
-                )
-                "2" -> this.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_visibility_private,
-                    0,
-                    0,
-                    0
-                )
-                "3" -> this.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_visibility_limited,
-                    0,
-                    0,
-                    0
-                )
-                else -> this.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_visibility_public,
-                    0,
-                    0,
-                    0
-                )
+                "1" -> {
+                    this.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_visibility_public,
+                        0,
+                        0,
+                        0
+                    )
+
+//                    this.compoundDrawableTintList = ColorStateList.valueOf(resources.getColor(R.color.privacy_public))
+
+                }
+                "2" -> {
+                    this.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_visibility_private,
+                        0,
+                        0,
+                        0
+                    )
+//                    this.compoundDrawableTintList = ColorStateList.valueOf(resources.getColor(R.color.privacy_private))
+
+                }
+                "3" -> {
+                    this.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_visibility_limited,
+                        0,
+                        0,
+                        0
+                    )
+//                    this.compoundDrawableTintList = ColorStateList.valueOf(resources.getColor(R.color.privacy_limited))
+
+                }
+                else -> {
+                    this.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_visibility_public,
+                        0,
+                        0,
+                        0
+                    )
+
+//                    this.compoundDrawableTintList = ColorStateList.valueOf(resources.getColor(R.color.privacy_public))
+                }
             }
 
+        }
+    }
+}
+
+@BindingAdapter("setCardBackground")
+fun MaterialCardView.setCardBackground(value: String?) {
+    if (value!=null) {
+        this.run {
+            when(value) {
+                "2" -> this.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.privacy_private))
+                "3" -> this.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.privacy_limited))
+                else -> this.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.privacy_public))
+            }
         }
     }
 }

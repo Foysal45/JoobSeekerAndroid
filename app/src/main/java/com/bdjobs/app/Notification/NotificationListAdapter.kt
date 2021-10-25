@@ -660,30 +660,22 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     if (!items[position].link.isNullOrEmpty()) {
                         Timber.d("Link not null : ${items[position].link}")
                      //   promotionalMessageViewHolder?.messageButton?.show()
-                        promotionalMessageViewHolder.itemView.setOnClickListener {
+                        promotionalMessageViewHolder.parentCL.setOnClickListener {
 
-                            try {
-                                if (!items[position].seen!!) {
-                                    doAsync {
-                                        bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
-                                        val count = bdjobsDB.notificationDao().getMessageCount()
-                                        bdjobsUserSession.updateMessageCount(count)
-                                    }
+                            promotionalMessageClicked(
+                                position,
+                                promotionalMessageViewHolder,
+                                intent
+                            )
+                        }
 
-                                    promotionalMessageViewHolder.parentCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
-                                }
-                            } catch (e: Exception) {
-                                Timber.e("Catch in seen ${e.localizedMessage}")
-                                logException(e)
-                            }
+                        promotionalMessageViewHolder.card.setOnClickListener {
 
-                            try {
-                                Timber.d("Intent: $intent")
-                                if (intent!=null) context.startActivity(intent)
-                                else context.launchUrl(items[position].link)
-                            } catch (e: Exception) {
-                                                            Timber.e("Catch in launch: ${e.localizedMessage}")}
-                            notificationCommunicatior.positionClickedMessage(position)
+                            promotionalMessageClicked(
+                                position,
+                                promotionalMessageViewHolder,
+                                intent
+                            )
                         }
                     } else {
                         promotionalMessageViewHolder?.messageButton?.hide()
@@ -692,7 +684,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 else {
                     if (!items[position].link.isNullOrEmpty()) {
                      //   promotionalMessageViewHolder?.messageButton?.show()
-                        promotionalMessageViewHolder?.itemView?.setOnClickListener {
+                        promotionalMessageViewHolder.parentCL?.setOnClickListener {
 
                             try {
                                 if (!items[position].seen!!) {
@@ -711,8 +703,27 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             } catch (e: Exception) {}
                             notificationCommunicatior.positionClickedMessage(position)
                         }
+                        promotionalMessageViewHolder.card.setOnClickListener {
+
+                            try {
+                                if (!items[position].seen!!) {
+                                    doAsync {
+                                        bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                        val count = bdjobsDB.notificationDao().getMessageCount()
+                                        bdjobsUserSession.updateMessageCount(count)
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                logException(e)
+                            }
+
+                            try {
+                                context.launchUrl(items[position].link)
+                            } catch (e: Exception) {}
+                            notificationCommunicatior.positionClickedMessage(position)
+                        }
                     } else {
-                        promotionalMessageViewHolder?.messageButton?.hide()
+                        promotionalMessageViewHolder.messageButton.hide()
                     }
                 }
 
@@ -797,6 +808,41 @@ class NotificationListAdapter(private val context: Context, private val items: M
             }
         }
 
+    }
+
+    private fun promotionalMessageClicked(
+        position: Int,
+        promotionalMessageViewHolder: PromotionalMessageViewHolder,
+        intent: Intent?
+    ) {
+        try {
+            if (!items[position].seen!!) {
+                doAsync {
+                    bdjobsDB.notificationDao().updateNotification(
+                        Date(),
+                        true,
+                        items[position].notificationId!!,
+                        items[position].type!!
+                    )
+                    val count = bdjobsDB.notificationDao().getMessageCount()
+                    bdjobsUserSession.updateMessageCount(count)
+                }
+
+                promotionalMessageViewHolder.parentCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            }
+        } catch (e: Exception) {
+            Timber.e("Catch in seen ${e.localizedMessage}")
+            logException(e)
+        }
+
+        try {
+            Timber.d("Intent: $intent")
+            if (intent != null) context.startActivity(intent)
+            else context.launchUrl(items[position].link)
+        } catch (e: Exception) {
+            Timber.e("Catch in launch: ${e.localizedMessage}")
+        }
+        notificationCommunicatior.positionClickedMessage(position)
     }
 
     fun removeItem(position: Int) {

@@ -37,6 +37,75 @@
     <color name="btn_green">#0AF899</color>
     <color name="btn_ash">#757575</color>
     <color name="btn_red">#CC2428</color>
+    <color name="btn_light_blue">#E3F2FD</color>
+    <color name="privacy_public">#CCFFD9</color>
+    <color name="privacy_private">#FFCCCC</color>
+    <color name="privacy_limited">#FFE0B2</color>
 
+    <color name="text_blue">#1565C0</color>
+
+    <color name="remaining_sms_0">#800A0A</color>
+    <color name="remaining_sms_1_9">#A86500</color>
+    <color name="remaining_sms_10_more">#2161CC</color>
+
+    <color name="border_blue">#90CAF9</color>
+    <color name="border_grey">#707070</color>
+
+    <color name="sms_alert_on">#13A10E</color>
+    <color name="sms_alert_off">#AC0000</color>
+
+    <color name="sms_text_color">#393939</color>
+
+    <color name="sms_package_20">#DF0C59</color>
+    <color name="sms_package_100">#6859EA</color>
+    <color name="sms_package_500">#AB2FFE</color>
+    <color name="sms_package_custom">#11884B</color>
+
+    <color name="video_resume_hide">#FAF0F0</color>
+    <color name="video_resume_visible">#F0FAF0</color>
+
+
+<!--    AjkerDeal Colors-->
+
+    <color name="aDheaderColor">#f05a2b</color>
+    <color name="colorText">#454545</color>
+    <color name="statusbarcolor">#ae482f</color>
+    <color name="navigationBarColor">@android:color/black</color>
+
+    <color name="separator">#26000000</color>
+    <color name="list_seperator">#25000000</color>
+    <color name="playControlColor">#DCDCDC</color>
+
+    <color name="placeholder_bg">#dddddd</color>
+
+    <color name="checkout_tab_color">#008fd3</color>
+    <color name="checkout_background">#F7F7F7</color>
+    <color name="checkout_toggle_bg">#C6C6C6</color>
+    <color name="spotlightBackground">#BF000000</color>
+
+    <color name="background">#F1F1F1</color>
+    <color name="black_100">#FF000000</color>
+    <color name="black_80">#CC000000</color>
+    <color name="black_90">#E6000000</color>
+    <color name="black_70">#B3000000</color>
+    <color name="black_60">#99000000</color>
+    <color name="black_50">#80000000</color>
+    <color name="black_35">#59000000</color>
+    <color name="black_30">#4D000000</color>
+    <color name="black_25">#40000000</color>
+    <color name="black_15">#26000000</color>
+    <color name="black">#000000</color>
+
+    <color name="gray">#afadad</color>
+    <color name="gray_50">#fafafa</color>
+    <color name="gray_100">#f5f5f5</color>
+    <color name="gray_200">#4De0e0e0</color>
+    <color name="gray_300">#e0e0e0</color>
+    <color name="gray_500">#D6D6D6</color>
+
+    <color name="blue">#303F9F</color>
+    <color name="color_blue">#008fd3</color>
+    <color name="light_blue">#4e6aa4</color>
+    <color name="live_product_selected">#CDE8F8</color>
 
 </resources>

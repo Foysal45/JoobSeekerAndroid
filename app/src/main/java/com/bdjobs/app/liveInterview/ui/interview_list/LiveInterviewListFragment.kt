@@ -1,19 +1,20 @@
 package com.bdjobs.app.liveInterview.ui.interview_list
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.databinding.FragmentLiveInterviewListBinding
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import kotlinx.android.synthetic.main.fragment_live_interview_list.*
+import kotlinx.android.synthetic.main.layout_no_data_found.*
 import timber.log.Timber
 
 class LiveInterviewListFragment : Fragment() {
@@ -37,7 +38,7 @@ class LiveInterviewListFragment : Fragment() {
     lateinit var binding: FragmentLiveInterviewListBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = FragmentLiveInterviewListBinding.inflate(inflater).apply {
             viewModel = liveInterviewListViewModel
             lifecycleOwner = viewLifecycleOwner
@@ -45,11 +46,13 @@ class LiveInterviewListFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Timber.d("$time")
+        Timber.d(time)
 
+        textView10.text = "You don't have any Live Interview yet."
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
@@ -57,20 +60,26 @@ class LiveInterviewListFragment : Fragment() {
         liveInterviewListViewModel.getLiveInterviewList(time)
 
         val adapter = LiveInterviewListAdapter(requireContext(),ClickListener{
-//            it.userSeenLiveInterview = "True"
             findNavController().navigate(LiveInterviewListFragmentDirections.actionLiveInterviewListFragmentToLiveInterviewDetailsFragment(it.jobId!!,it.jobTitle!!))
         })
 
-        rv_live_interview?.adapter = adapter
+        binding.rvLiveInterview.adapter = adapter
 
         liveInterviewListViewModel.apply {
-            liveInterviewListData.observe(viewLifecycleOwner, Observer {
-                adapter.submitList(it)
+            liveInterviewListData.observe(viewLifecycleOwner, {
+                if (it!=null && it.isNotEmpty()) {
+                    binding.invitationNoDataLL.visibility = View.GONE
+                    binding.headerLayout.visibility = View.VISIBLE
+                    binding.rvLiveInterview.visibility = View.VISIBLE
+                    adapter.submitList(it)
+                } else {
+                    binding.rvLiveInterview.visibility = View.GONE
+                    binding.headerLayout.visibility = View.GONE
+                    binding.invitationNoDataLL.visibility = View.VISIBLE
+                }
+
             })
 
-//            list.observe(viewLifecycleOwner, Observer {
-//                adapter.submitList(it)
-//            })
         }
     }
 

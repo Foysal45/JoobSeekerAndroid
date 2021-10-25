@@ -16,8 +16,8 @@ class LiveInterviewListViewModel(
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
-    private val _liveInterviewListData = MutableLiveData<List<LiveInterviewList.Data?>>()
-    val liveInterviewListData: LiveData<List<LiveInterviewList.Data?>> = _liveInterviewListData
+    private val _liveInterviewListData = MutableLiveData<List<LiveInterviewList.Data?>?>()
+    val liveInterviewListData: LiveData<List<LiveInterviewList.Data?>?> = _liveInterviewListData
 
     val list = MutableLiveData<List<LiveInvitation>>()
 
@@ -33,15 +33,13 @@ class LiveInterviewListViewModel(
         viewModelScope.launch {
             try {
                 val response = repository.getLiveInterviewListFromRemote(time)
-                _liveInterviewListData.value = response.data!!
+                _liveInterviewListData.value = response.data
                 _commonData.value = response.common
-//                if (activity == "0")
-//                    list.value = repository.getAllTimeLiveInterviewListFromDatabase()
-//                else
-//                    list.value = repository.getThisMonthLiveInterviewListFromDatabase()
+
                 _dataLoading.value = false
             } catch (e: Exception) {
                 e.printStackTrace()
+                _dataLoading.value = false
             }
         }
     }

@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.bdjobs.app.sms.ui.payment.PaymentViewModel" />
@@ -87,6 +89,20 @@
                 tools:text="100" />
 
             <TextView
+                android:id="@+id/tv_bonus_sms_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/roboto"
+                android:visibility="@{viewModel.showBonusSMSView ? View.VISIBLE : View.GONE}"
+                android:text="@{`+` + viewModel.bonusNumberOfSMS + ` Bonus SMS`}"
+                android:textColor="@color/sms_text_color"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/tv_total_sms"
+                app:layout_constraintTop_toBottomOf="@id/tv_total_sms_value"
+                tools:text="+990 Bonus SMS" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
@@ -124,7 +140,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tv_total_amount_value"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_total_sms_value" />
+                app:layout_constraintTop_toBottomOf="@id/tv_bonus_sms_value" />
 
             <TextView
                 android:id="@+id/tv_total_amount_value"

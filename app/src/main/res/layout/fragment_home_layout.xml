@@ -156,88 +156,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <!--            <RelativeLayout-->
-    <!--                        android:id="@+id/constraintLayout2"-->
-    <!--                        android:layout_width="match_parent"-->
-    <!--                        android:layout_height="138dp"-->
-    <!--                        android:background="@drawable/ic_home_top_new"-->
-    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--                        app:layout_constraintStart_toStartOf="parent"-->
-    <!--                        app:layout_constraintTop_toTopOf="parent">-->
-
-
-    <!--                        <FrameLayout-->
-    <!--                            android:layout_width="wrap_content"-->
-    <!--                            android:layout_height="wrap_content"-->
-    <!--                            android:layout_toLeftOf="@id/searchIMGV">-->
-
-    <!--                            <ImageView-->
-    <!--                                android:id="@+id/notificationIMGV"-->
-    <!--                                android:layout_width="wrap_content"-->
-    <!--                                android:layout_height="wrap_content"-->
-    <!--                                android:layout_marginTop="10dp"-->
-    <!--                                android:background="?android:selectableItemBackgroundBorderless"-->
-    <!--                                android:clickable="true"-->
-    <!--                                android:padding="5dp"-->
-    <!--                                android:src="@drawable/ic_notifications_white_24dp"-->
-    <!--                                android:visibility="visible" />-->
-
-    <!--                            <TextView-->
-    <!--                                android:id="@+id/notificationCountTV"-->
-    <!--                                android:layout_width="17dp"-->
-    <!--                                android:layout_height="17dp"-->
-    <!--                                android:layout_gravity="right"-->
-    <!--                                android:layout_marginTop="5dp"-->
-    <!--                                android:background="@drawable/notification_count_circle"-->
-    <!--                                android:gravity="center"-->
-    <!--                                android:text="20"-->
-    <!--                                android:textColor="#FFF"-->
-    <!--                                android:textSize="12sp"-->
-    <!--                                android:visibility="visible" />-->
-    <!--                        </FrameLayout>-->
-
-    <!--                       -->
-    <!--                        <ImageView-->
-    <!--                            android:id="@+id/profilePicIMGV"-->
-    <!--                            android:layout_width="40dp"-->
-    <!--                            android:layout_height="40dp"-->
-    <!--                            android:layout_marginStart="16dp"-->
-    <!--                            android:layout_marginTop="40dp"-->
-    <!--                            android:layout_marginBottom="8dp"-->
-    <!--                            android:background="@drawable/ic_user_thumb_small"-->
-    <!--                            android:clickable="true" />-->
-
-    <!--                        <TextView-->
-    <!--                            android:id="@+id/nameTV"-->
-    <!--                            android:layout_width="match_parent"-->
-    <!--                            android:layout_height="wrap_content"-->
-    <!--                            android:layout_marginStart="10dp"-->
-    <!--                            android:layout_marginTop="40dp"-->
-    <!--                            android:layout_marginEnd="20dp"-->
-    <!--                            android:layout_toStartOf="@+id/searchIMGV"-->
-    <!--                            android:layout_toEndOf="@+id/profilePicIMGV"-->
-    <!--                            android:fontFamily="@font/roboto"-->
-    <!--                            android:singleLine="true"-->
-    <!--                            android:text="TextView"-->
-    <!--                            android:textColor="#FFFFFF"-->
-    <!--                            android:textSize="18sp"-->
-    <!--                            tools:text="John Doe" />-->
-
-    <!--                        <TextView-->
-    <!--                            android:id="@+id/emailTV"-->
-    <!--                            android:layout_width="match_parent"-->
-    <!--                            android:layout_height="wrap_content"-->
-    <!--                            android:layout_below="@+id/nameTV"-->
-    <!--                            android:layout_marginStart="10dp"-->
-    <!--                            android:layout_marginTop="3dp"-->
-    <!--                            android:layout_toEndOf="@+id/profilePicIMGV"-->
-    <!--                            android:singleLine="true"-->
-    <!--                            android:text="TextView"-->
-    <!--                            android:textColor="#FFFFFF"-->
-    <!--                            android:textSize="14sp"-->
-    <!--                            tools:text="username@email.com  " />-->
-
-    <!--                    </RelativeLayout>-->
 
 
     <androidx.core.widget.NestedScrollView
@@ -326,6 +244,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="visible"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -380,6 +299,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -394,12 +314,24 @@
                     tools:visibility="visible" />
 
                 <include
+                    android:id="@+id/smsAlertView"
+                    layout="@layout/layout_sms_job_alert_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <include
                     android:id="@+id/videoInvitationView"
                     layout="@layout/my_video_interview_invitations_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -408,6 +340,8 @@
                     layout="@layout/my_interview_invitation_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -416,6 +350,8 @@
                     layout="@layout/layout_all_interview_invitation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -424,15 +360,24 @@
                     layout="@layout/my_assessment_filter_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone" />
 
                 <include
-
                     android:id="@+id/followedEmployerView"
                     layout="@layout/my_followed_employers_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone" />
+
+                <FrameLayout
+                    android:visibility="gone"
+                    android:id="@+id/navHostFragmentAD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
 
             </LinearLayout>
@@ -584,12 +529,59 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+<!--    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
+<!--        android:id="@+id/newSearchBTN"-->
+<!--        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:text="All Jobs"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textSize="14sp"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:fontFamily="@font/roboto_medium"-->
+<!--        android:paddingHorizontal="16dp"-->
+<!--        android:paddingVertical="8dp"-->
+<!--        app:icon="@drawable/ic_arrow_left"-->
+<!--        app:iconTint="@color/white"-->
+<!--        app:iconSize="10dp"-->
+<!--        app:backgroundTint="#13A10E"-->
+<!--        app:iconGravity="textEnd"-->
+<!--        android:clickable="true"-->
+<!--        android:elevation="16dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/newSearchBTN"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:letterSpacing="0"
+        android:text="All Jobs"
+        android:textAllCaps="false"
+        android:textColor="#FFF"
+        app:backgroundTint="#13A10E"
+        app:icon="@drawable/ic_arrow_forward_24"
+        app:iconGravity="textEnd"
+        app:iconSize="20dp"
+        app:iconTint="#FFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+<!--
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/newSearchBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:visibility="gone"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
@@ -598,12 +590,18 @@
         android:windowSoftInputMode="adjustResize"
         app:backgroundTint="#13A10E"
         app:fabSize="auto"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto_medium"
+        app:icon="@drawable/ic_arrow_left"
+        app:iconGravity="textEnd"
+        android:textAllCaps="false"
+        android:text="All Jobs"
+        app:iconSize="10dp"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_search_white_24dp"
-        app:tint="#FFF" />
+        app:layout_constraintEnd_toEndOf="parent"/>
+-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

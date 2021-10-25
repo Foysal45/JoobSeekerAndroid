@@ -3,6 +3,7 @@ package com.bdjobs.app.Jobs
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 
 
+@Suppress("SpellCheckingInspection")
 interface JobCommunicator {
     fun showShortListIcon()
     fun hideShortListIcon()
@@ -38,6 +39,8 @@ interface JobCommunicator {
     fun goToSuggestiveSearch(from: String, typedData: String?)
 
     fun gotoJobList()
+
+    fun goToAjkerDealLive(containerId:Int)
 
 
     // search params

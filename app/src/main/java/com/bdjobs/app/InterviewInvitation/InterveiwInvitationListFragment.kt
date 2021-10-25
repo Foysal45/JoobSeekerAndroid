@@ -1,5 +1,6 @@
 package com.bdjobs.app.InterviewInvitation
 
+import android.annotation.SuppressLint
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
@@ -18,6 +19,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
 import kotlinx.android.synthetic.main.fragment_interview_invitation_list.*
 //import kotlinx.android.synthetic.main.fragment_interview_invitation_list.adView
 import kotlinx.android.synthetic.main.fragment_interview_invitation_list.backIMV
+import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
@@ -38,6 +40,7 @@ class InterveiwInvitationListFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bdjobsUserSession = BdjobsUserSession(activity)
@@ -46,6 +49,9 @@ class InterveiwInvitationListFragment : Fragment() {
         backIMV.setOnClickListener {
             interviewInvitationCommunicator.backButtonClicked()
         }
+
+
+        textView10.text = "You don't have any Interview Invitation yet."
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
 
@@ -169,23 +175,30 @@ class InterveiwInvitationListFragment : Fragment() {
 
                     if (interviewInvitations.size!! > 0) {
                         invitationNoDataLL?.hide()
+                        favCountTV.show()
                         followedRV?.show()
                         //Log.d("totalJobs", "data ase")
                     } else {
                         invitationNoDataLL?.show()
+                        favCountTV.hide()
                         followedRV?.hide()
                         //Log.d("totalJobs", "zero")
                     }
 
-                    if (interviewInvitations.size > 1) {
+                    if (interviewInvitations.size > 0) {
                         data = "invitations"
-                    }
-                    val styledText = "<b><font color='#13A10E'>${interviewInvitations.size}</font></b> Interview $data found"
-                    favCountTV.text = Html.fromHtml(styledText)
+                        val styledText = "<b><font color='#13A10E'>${interviewInvitations.size}</font></b> Interview $data found"
+                        favCountTV.text = Html.fromHtml(styledText)
 
-                    favCountTV?.show()
-                    shimmer_view_container_JobList?.hide()
-                    shimmer_view_container_JobList?.stopShimmer()
+                        favCountTV?.show()
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmer()
+                    } else {
+                        favCountTV?.hide()
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmer()
+                    }
+
                 } catch (e: Exception) {
                     logException(e)
                 }

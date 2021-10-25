@@ -92,6 +92,7 @@ class JobDetailsFragment : Fragment() {
 
         snapHelper = PagerSnapHelper()
         jobDetailRecyclerView.onFlingListener = null
+
         (snapHelper as PagerSnapHelper).attachToRecyclerView(jobDetailRecyclerView)
         jobDetailRecyclerView.setHasFixedSize(true)
 
@@ -190,6 +191,7 @@ class JobDetailsFragment : Fragment() {
 
         })
 
+//        communicator.goToAjkerDealLive(R.id.navHostFragmentADJD)
     }
 
     private fun getCurrentItem(): Int {

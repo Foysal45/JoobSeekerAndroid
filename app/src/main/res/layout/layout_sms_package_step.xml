@@ -12,6 +12,7 @@
         android:fadeScrollbars="false"
         android:id="@+id/scroll_step">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:padding="10dp"
@@ -19,6 +20,16 @@
 
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:srcCompat="@drawable/ic_sms_step"/>
+
+
+            <!--<androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_buy_sms"
@@ -187,7 +198,7 @@
                 app:layout_constraintStart_toEndOf="@id/iv_subscribe_sms"
                 app:layout_constraintEnd_toStartOf="@id/iv_job_alert"
                 app:layout_constraintTop_toTopOf="@id/iv_subscribe_sms"
-                app:layout_constraintBottom_toBottomOf="@id/iv_subscribe_sms"/>
+                app:layout_constraintBottom_toBottomOf="@id/iv_subscribe_sms"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

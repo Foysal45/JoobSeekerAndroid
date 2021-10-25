@@ -17,252 +17,593 @@
         android:layout_height="match_parent"
         tools:context=".sms.ui.settings.SettingsFragment">
 
-        <ScrollView
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scrollbars="none"
-            app:layout_constraintBottom_toTopOf="@id/new_sms_plan_btn"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/main_cl"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/tv_sms_balance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="38dp"
-                    android:elevation="0dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="SMS Balance"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ProgressBar
-                    android:id="@+id/circularProgressbar"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="155dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="28dp"
-                    android:indeterminate="false"
-                    android:max="@{viewModel.maxProgress}"
-                    android:progress="@{viewModel.totalProgress}"
-                    android:progressDrawable="@drawable/circular_progress_bar"
-                    android:secondaryProgress="100"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_sms_balance"
-                    tools:max="20"
-                    tools:progress="5" />
-
-                <TextView
-                    android:id="@+id/tv_remaining_sms"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@{viewModel.availedSMS.toString()}"
-                    android:textColor="@color/colorBlack"
-                    android:visibility="@{viewModel.isDataLoading() ? View.GONE : View.VISIBLE}"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="@id/slash"
-                    app:layout_constraintEnd_toStartOf="@id/slash"
-                    app:layout_constraintTop_toTopOf="@id/slash"
-                    tools:text="12" />
-
-                <View
-                    android:id="@+id/view_remaining_sms"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="#EBEBEB"
-                    android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="@id/slash"
-                    app:layout_constraintEnd_toStartOf="@id/slash"
-                    app:layout_constraintTop_toTopOf="@id/slash"
-                    tools:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/slash"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/roboto_medium"
-                    android:gravity="center"
-                    android:paddingStart="1dp"
-                    android:paddingEnd="1dp"
-                    android:text="/"
-                    android:textColor="#000"
-                    android:textSize="26sp"
-                    app:layout_constraintBottom_toBottomOf="@id/circularProgressbar"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_middle"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@id/guideline_middle"
-                    app:layout_constraintTop_toTopOf="@id/circularProgressbar" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@{viewModel.totalSMS}"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="24sp"
-                    android:visibility="@{viewModel.isDataLoading() ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintBottom_toBottomOf="@id/slash"
-                    app:layout_constraintStart_toEndOf="@id/slash"
-                    app:layout_constraintTop_toTopOf="@id/slash"
-                    tools:text="20" />
-
-                <View
-                    android:id="@+id/view_total_sms"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="#EBEBEB"
-                    android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="@id/slash"
-                    app:layout_constraintStart_toEndOf="@id/slash"
-                    app:layout_constraintTop_toTopOf="@id/slash"
-                    tools:visibility="gone" />
-
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_middle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".5" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_view_sms_job_alert"
-                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:letterSpacing="0"
-                    android:onClick="@{()->viewModel.onViewSMSJobAlertButtonClick()}"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:text="View SMS Job Alert"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorBlack"
-                    app:backgroundTint="#E1F6FF"
-                    app:cornerRadius="17dp"
-                    app:icon="@drawable/ic_arrow_forward_blue_24dp"
-                    app:iconGravity="textEnd"
-                    app:iconSize="16dp"
-                    app:iconTint="@color/colorPrimary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/circularProgressbar"
-                    app:strokeColor="#BFE4FF"
-                    app:strokeWidth="1dp" />
-
-                <TextView
-                    android:id="@+id/limit_sms_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="80dp"
-                    android:fontFamily="@font/roboto"
-                    android:text=" Limit of SMS per day"
-                    android:textColor="#303030"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btn_view_sms_job_alert" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_limit"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:onClick="@{()-> viewModel.onChooseLimitButtonClick()}"
-                    android:text="@{viewModel.limit}"
-                    android:textColor="#303030"
-                    app:icon="@drawable/ic_drop_arrow"
-                    app:iconGravity="end"
-                    app:iconSize="6dp"
-                    app:iconTint="#303030"
-                    app:layout_constraintBottom_toBottomOf="@id/limit_sms_tv"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@id/limit_sms_tv"
-                    app:layout_constraintTop_toTopOf="@id/limit_sms_tv"
-                    tools:text="5" />
-
-                <View
-                    android:id="@+id/view_btn_limit"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="#EBEBEB"
-                    android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="@id/limit_sms_tv"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@id/limit_sms_tv"
-                    app:layout_constraintTop_toTopOf="@id/limit_sms_tv"
-                    tools:visibility="gone" />
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="16dp"
-                    android:checked='@{viewModel.isAlertOn().equalsIgnoreCase("True") ? true : false}'
-                    android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"
-                    android:text="Get SMS Job Alert"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/limit_sms_tv"
-                    tools:checked="true" />
-
-                <View
-                    android:id="@+id/view_swicth"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="#EBEBEB"
-                    android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view_btn_limit"
-                    tools:visibility="gone" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </ScrollView>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/new_sms_plan_btn"
-            android:enabled='@{viewModel.statusCode.equals("3") ? false : true}'
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/roboto_medium"
-            android:letterSpacing="0"
-            android:onClick="@{()->viewModel.onSaveButtonClick()}"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="Save"
-            android:textAllCaps="false"
+            android:id="@+id/cl_settings_view"
             android:visibility="@{viewModel.isDataLoading() ? View.GONE : View.VISIBLE}"
-            app:backgroundTint="#13A10E"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toTopOf="@id/new_sms_plan_btn"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!--<androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/main_cl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/tv_sms_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="38dp"
+                        android:elevation="0dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="SMS Balance"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        tools:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ProgressBar
+                        android:id="@+id/circularProgressbar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="155dp"
+                        tools:visibility="gone"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="28dp"
+                        android:indeterminate="false"
+                        android:max="@{viewModel.maxProgress}"
+                        android:progress="@{viewModel.totalProgress}"
+                        android:progressDrawable="@drawable/circular_progress_bar"
+                        android:secondaryProgress="100"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_sms_balance"
+                        tools:max="20"
+                        tools:progress="5" />
+
+                    <TextView
+                        android:id="@+id/tv_remaining_sms"
+                        android:layout_width="wrap_content"
+                        tools:visibility="gone"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@{viewModel.availedSMS.toString()}"
+                        android:textColor="@color/colorBlack"
+                        android:visibility="@{viewModel.isDataLoading() ? View.GONE : View.VISIBLE}"
+                        android:textSize="24sp"
+                        app:layout_constraintBottom_toBottomOf="@id/slash"
+                        app:layout_constraintEnd_toStartOf="@id/slash"
+                        app:layout_constraintTop_toTopOf="@id/slash"
+                        tools:text="12" />
+
+                    <View
+                        android:id="@+id/view_remaining_sms"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="#EBEBEB"
+                        android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@id/slash"
+                        app:layout_constraintEnd_toStartOf="@id/slash"
+                        app:layout_constraintTop_toTopOf="@id/slash"
+                        tools:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/slash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:visibility="gone"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:paddingStart="1dp"
+                        android:paddingEnd="1dp"
+                        android:text="/"
+                        android:textColor="#000"
+                        android:textSize="26sp"
+                        app:layout_constraintBottom_toBottomOf="@id/circularProgressbar"
+                        app:layout_constraintEnd_toEndOf="@id/guideline_middle"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="@id/guideline_middle"
+                        app:layout_constraintTop_toTopOf="@id/circularProgressbar" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        tools:visibility="gone"
+                        android:text="@{viewModel.totalSMS}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="24sp"
+                        android:visibility="@{viewModel.isDataLoading() ? View.GONE : View.VISIBLE}"
+                        app:layout_constraintBottom_toBottomOf="@id/slash"
+                        app:layout_constraintStart_toEndOf="@id/slash"
+                        app:layout_constraintTop_toTopOf="@id/slash"
+                        tools:text="20" />
+
+                    <View
+                        android:id="@+id/view_total_sms"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="#EBEBEB"
+                        android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@id/slash"
+                        app:layout_constraintStart_toEndOf="@id/slash"
+                        app:layout_constraintTop_toTopOf="@id/slash"
+                        tools:visibility="gone" />
+
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline_middle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent=".5" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_view_sms_job_alert"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        tools:visibility="gone"
+                        android:letterSpacing="0"
+                        android:onClick="@{()->viewModel.onViewSMSJobAlertButtonClick()}"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="View SMS Job Alert"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorBlack"
+                        app:backgroundTint="#E1F6FF"
+                        app:cornerRadius="17dp"
+                        app:icon="@drawable/ic_arrow_forward_blue_24dp"
+                        app:iconGravity="textEnd"
+                        app:iconSize="16dp"
+                        app:iconTint="@color/colorPrimary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/circularProgressbar"
+                        app:strokeColor="#BFE4FF"
+                        app:strokeWidth="1dp" />
+
+                    <TextView
+                        android:id="@+id/limit_sms_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="80dp"
+                        android:fontFamily="@font/roboto"
+                        android:text=" Limit of SMS per day"
+                        android:textColor="#303030"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btn_view_sms_job_alert" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_limit"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:onClick="@{()-> viewModel.onChooseLimitButtonClick()}"
+                        android:text="@{viewModel.limit}"
+                        android:textColor="#303030"
+                        app:icon="@drawable/ic_drop_arrow"
+                        app:iconGravity="end"
+                        app:iconSize="6dp"
+                        app:iconTint="#303030"
+                        app:layout_constraintBottom_toBottomOf="@id/limit_sms_tv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@id/limit_sms_tv"
+                        app:layout_constraintTop_toTopOf="@id/limit_sms_tv"
+                        tools:text="5" />
+
+                    <View
+                        android:id="@+id/view_btn_limit"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#EBEBEB"
+                        android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@id/limit_sms_tv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@id/limit_sms_tv"
+                        app:layout_constraintTop_toTopOf="@id/limit_sms_tv"
+                        tools:visibility="gone" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="16dp"
+                        android:checked='@{viewModel.isAlertOn().equalsIgnoreCase("True") ? true : false}'
+                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"
+                        android:text="Get SMS Job Alert"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/limit_sms_tv"
+                        tools:checked="true" />
+
+                    <View
+                        android:id="@+id/view_swicth"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="35dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#EBEBEB"
+                        android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view_btn_limit"
+                        tools:visibility="gone" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:id="@+id/cl_parent_sms_setting">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:padding="16dp"
+                        app:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:id="@+id/tv_sms_setting_label"
+                        android:background="@drawable/bg_blue_interview_start_alert"
+                        android:text="Here you can manage your existing settings of SMS Job Alert Package"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_sms_setting_label"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_black_sms_purchase"
+                        android:text="Buy SMS"
+                        app:drawableStartCompat="@drawable/ic_purchase_sms_setting"
+                        android:textColor="@color/white"
+                        android:padding="8dp"
+                        android:drawablePadding="10dp"
+                        app:fontFamily="@font/roboto"
+                        android:id="@+id/tv_purchase_sms"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_sms_circle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_purchase_sms"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:baselineAligned="false">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.45"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cl_remaining_sms_root">
+
+                            <LinearLayout
+                                android:layout_width="130dp"
+                                android:layout_height="130dp"
+                                android:gravity="center"
+                                android:id="@+id/ll_remaining_sms_circle"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:background="@drawable/bg_round_blue">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/tv_remaining_sms_count"
+                                    android:text="@{viewModel.remainingSMS}"
+                                    android:textColor="@color/black"
+                                    android:textSize="24sp"
+                                    app:fontFamily="@font/roboto"/>
+
+                            </LinearLayout>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Remaining SMS"
+                                android:textColor="#767676"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:textSize="12sp"
+                                app:fontFamily="@font/roboto"
+                                android:gravity="center"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/ll_remaining_sms_circle"
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/tv_label_remaining_sms"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.45"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cl_probable_remaining_day_root">
+
+                            <LinearLayout
+                                android:layout_width="130dp"
+                                android:layout_height="130dp"
+                                android:gravity="center"
+                                android:id="@+id/ll_probable_remaining_day_circle"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:background="@drawable/bg_round_blue">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/tv_probable_remaining_day_count"
+                                    android:text="@{viewModel.probableRemainingDays}"
+                                    android:textColor="@color/black"
+                                    android:textSize="24sp"
+                                    app:fontFamily="@font/roboto"/>
+
+                            </LinearLayout>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Probable Remaining Days"
+                                android:textColor="#767676"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:textSize="12sp"
+                                app:fontFamily="@font/roboto"
+                                android:gravity="center"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/ll_probable_remaining_day_circle"
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/tv_label_probable_remaining_day"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/limit_sms_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Limit of SMS / day"
+                        android:textColor="#303030"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ll_sms_circle"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_limit"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{()-> viewModel.onChooseLimitButtonClick()}"
+                        android:text="@{viewModel.limit}"
+                        android:textColor="#303030"
+                        app:icon="@drawable/ic_drop_arrow"
+                        app:iconGravity="end"
+                        app:iconSize="6dp"
+                        app:iconTint="#303030"
+                        app:layout_constraintBottom_toBottomOf="@id/limit_sms_tv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@id/limit_sms_tv"
+                        app:layout_constraintTop_toTopOf="@id/limit_sms_tv"
+                        tools:text="5" />
+
+                    <View
+                        android:id="@+id/view_btn_limit"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:background="#EBEBEB"
+                        android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@id/limit_sms_tv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@id/limit_sms_tv"
+                        app:layout_constraintTop_toTopOf="@id/limit_sms_tv"
+                        tools:visibility="gone" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:checked='@{viewModel.isAlertOn().equalsIgnoreCase("True") ? true : false}'
+                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChanged(checked)}"
+                        android:text="Get SMS Alert"
+                        android:textSize="14sp"
+                        android:textColor="#303030"
+                        android:id="@+id/switch_job_alert"
+                        android:fontFamily="@font/roboto"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/limit_sms_tv"
+                        tools:checked="true" />
+
+                    <View
+                        android:id="@+id/view_swicth"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="30dp"
+                        android:background="#EBEBEB"
+                        android:visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view_btn_limit"
+                        tools:visibility="gone"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_label_sms_alert_feature"
+                        android:text="SMS Job Alert Features"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/sms_text_color"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/switch_job_alert"
+                        android:layout_marginTop="10dp"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_title_label"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_label_sms_alert_feature"
+                        android:text="Title"
+                        android:textColor="@color/sms_text_color"
+                        android:fontFamily="@font/roboto_bold"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_subscribe_label"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_label_sms_alert_feature"
+                        android:text="Subscribe"
+                        android:textColor="@color/sms_text_color"
+                        android:fontFamily="@font/roboto_bold"/>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Matched Jobs"
+                        android:checked='@{viewModel.isMatchedJobSubscribed().equalsIgnoreCase("True") ? true : false}'
+                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChangedMatchedJob(checked)}"
+                        android:textSize="14sp"
+                        android:textColor="#303030"
+                        android:id="@+id/switch_matched_job"
+                        android:fontFamily="@font/roboto"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title_label"
+                        tools:checked="true" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/switch_matched_job"
+                        android:id="@+id/divider_matched_job"
+                        android:background="#D9D9D9"/>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Followed Employers"
+                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChangedFollowedEmp(checked)}"
+                        android:checked='@{viewModel.isFollowedEmpSubscribed().equalsIgnoreCase("True") ? true : false}'
+                        android:textSize="14sp"
+                        android:textColor="#303030"
+                        android:id="@+id/switch_followed_emp"
+                        android:fontFamily="@font/roboto"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider_matched_job"
+                        tools:checked="true" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/switch_followed_emp"
+                        android:id="@+id/divider_followed_emp"
+                        android:background="#D9D9D9"/>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Favorite Search"
+                        android:onCheckedChanged="@{(switch, checked) -> viewModel.onCheckedChangedFavSearch(checked)}"
+                        android:checked='@{viewModel.isFavSearchSubscribed().equalsIgnoreCase("True") ? true : false}'
+                        android:textSize="14sp"
+                        android:textColor="#303030"
+                        android:id="@+id/switch_fav_search"
+                        android:fontFamily="@font/roboto"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider_followed_emp"
+                        tools:checked="true" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/new_sms_plan_btn"
+                android:enabled='@{viewModel.statusCode.equals("3") ? false : true}'
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/roboto_medium"
+                android:letterSpacing="0"
+                android:onClick="@{()->viewModel.onSaveButtonClick()}"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:visibility="@{viewModel.isSubmitDataLoading() ? View.GONE : View.VISIBLE}"
+                app:backgroundTint="#13A10E"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/new_sms_plan_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                tools:visibility="gone"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="@{viewModel.isSubmitDataLoading() ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <ProgressBar
             android:id="@+id/progress_bar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            visibility="@{viewModel.isSubmitDataLoading() ? View.VISIBLE : View.GONE}"
+            visibility="@{viewModel.isDataLoading() ? View.VISIBLE : View.GONE}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/green"

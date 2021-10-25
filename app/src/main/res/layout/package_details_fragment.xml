@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".sms.ui.package_details.PackageDetailsFragment">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.sms.ui.package_details.PackageDetailsViewModel" />
+    </data>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:background="#F2F2F2"
+        android:fillViewport="true"
+        android:id="@+id/sl_parent_sms_package_details"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:padding="16dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/cl_parent_sms_package_details_20">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/cl_sms_package_20">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="0dp"
+                    android:id="@+id/cv_sms_package_20"
+                    android:backgroundTint="@color/sms_package_20"
+                    android:background="@drawable/bg_sms_package_title"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_free_sms_package"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            app:fontFamily="@font/roboto_bold"
+                            tools:text="@string/_20_sms" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/free_trial"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            app:fontFamily="@font/roboto" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_sms_package_info"
+                    android:backgroundTint="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_sms_package_20">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:padding="16dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            tools:text="@string/get_20_sms"
+                            android:textSize="14sp"
+                            android:id="@+id/tv_free_trial_instruction_1"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_receive_sms_package_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_sms_fav_search_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_sms_following_emp_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/duration_1_month"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_sms_package_20"
+                android:id="@+id/cl_sms_package_100">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_sms_package_title"
+                    android:id="@+id/cv_sms_package_100"
+                    android:backgroundTint="@color/sms_package_100"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/_100_sms"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            app:fontFamily="@font/roboto_bold"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/_50"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            app:fontFamily="@font/roboto"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:background="@drawable/bg_sms_package_info"
+                    android:backgroundTint="@color/white"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_sms_package_100">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:padding="16dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:text="@string/get_100_sms"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_receive_sms_package_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_sms_fav_search_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_sms_following_emp_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/duration_4_month"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_sms_package_100"
+                android:id="@+id/cl_sms_package_500">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_sms_package_title"
+                    android:id="@+id/cv_sms_package_500"
+                    android:backgroundTint="@color/sms_package_500"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/_500_sms"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            app:fontFamily="@font/roboto_bold"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/_250"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            app:fontFamily="@font/roboto"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:background="@drawable/bg_sms_package_info"
+                    android:backgroundTint="@color/white"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_sms_package_500">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:padding="16dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:text="@string/get_500_sms"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_receive_sms_package_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_sms_fav_search_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_sms_following_emp_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/duration_12_month"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_sms_package_500"
+                android:id="@+id/cl_sms_package_custom">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_sms_package_title"
+                    android:id="@+id/cv_sms_package_custom"
+                    android:backgroundTint="@color/sms_package_custom"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_customized_sms_pack"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            app:fontFamily="@font/roboto_bold"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="৳ 250"
+                            android:visibility="gone"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            app:fontFamily="@font/roboto"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@drawable/bg_sms_package_info"
+                    android:backgroundTint="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/cv_sms_package_custom">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:padding="16dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:text="@string/label_get_customized_sms_packs"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_receive_sms_package_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_sms_fav_search_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_sms_following_emp_benefit"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:drawableStartCompat="@drawable/ic_check_sign_sms_package"
+                            android:drawablePadding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/label_duration_unlimited"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/roboto"
+                            android:textColor="#333333"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+
+</layout>

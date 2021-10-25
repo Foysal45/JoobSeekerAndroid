@@ -1,56 +1,59 @@
+@file:Suppress("SameParameterValue")
+
 package com.bdjobs.app.LoggedInUserLanding
 
-import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
-import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.Jobs.JoblistAdapter
+import com.bdjobs.app.Jobs.JobListAdapter
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.internal.BdjobsDB
 import kotlinx.android.synthetic.main.fragment_shortlisted_job_layout.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.selector
+import org.jetbrains.anko.support.v4.selector
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class
-ShortListedJobFragment : Fragment() {
-    lateinit var bdjobsDB: BdjobsDB
-    lateinit var bdjobsUserSession: BdjobsUserSession
-    lateinit var joblistAdapter: JoblistAdapter
+class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
+    lateinit var bdJobsDB: BdjobsDB
+    lateinit var bdJobsUserSession: BdjobsUserSession
+    lateinit var jobListAdapter: JobListAdapter
     lateinit var homeCommunicator: HomeCommunicator
     private var currentPage = 1
-    private var TOTAL_PAGES: Int? = null
+    private var totalPages: Int? = null
     private var isLoadings = false
     private var isLastPages = false
     var totalRecordsFound = 0
     private var layoutManager: RecyclerView.LayoutManager? = null
     var favListSize = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_shortlisted_job_layout, container, false)!!
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bdjobsDB = BdjobsDB.getInstance(activity)
-        bdjobsUserSession = BdjobsUserSession(activity)
-        homeCommunicator = activity as HomeCommunicator
-        profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
+        bdJobsDB = BdjobsDB.getInstance(requireContext())
+        bdJobsUserSession = BdjobsUserSession(requireContext())
+        homeCommunicator = requireActivity() as HomeCommunicator
+        profilePicIMGV?.loadCircularImageFromUrl(bdJobsUserSession.userPicUrl)
         searchIMGV?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
         }
@@ -60,12 +63,12 @@ ShortListedJobFragment : Fragment() {
 
         filterTV?.setOnClickListener {
             val deadline = arrayOf("Today", "Tomorrow", "Next 2 days", "Next 3 days", "Next 4 days")
-            selector("Jobs expire in", deadline.toList()) { dialogInterface, i ->
-                showShortListFIlterList(deadline[i])
+            selector("Jobs expire in", deadline.toList()) { _, i ->
+                showShortListFilterList(deadline[i])
             }
         }
         crossBTN?.setOnClickListener {
-            showShortListFIlterList("")
+            showShortListFilterList("")
         }
 
         notificationIMGV?.setOnClickListener {
@@ -76,75 +79,20 @@ ShortListedJobFragment : Fragment() {
             homeCommunicator.goToMessages()
         }
 
-        val shortListFilter = homeCommunicator.getShortListFilter()
-        showShortListFIlterList(shortListFilter)
+        btn_job_list.setOnClickListener {
+            homeCommunicator.gotoAllJobSearch()
+        }
+
+
     }
 
     override fun onResume() {
         super.onResume()
-        showNotificationCount()
-        showMessageCount()
+        val shortListFilter = homeCommunicator.getShortListFilter()
+        showShortListFilterList(shortListFilter)
     }
 
-    fun updateMessageView(count: Int?) {
-        //Log.d("rakib", "in home fragment $count")
-        if (count!! > 0) {
-            messageCountTV?.show()
-            if (count <= 99)
-                messageCountTV?.text = "$count"
-            else
-                messageCountTV?.text = "99+"
-        } else {
-            messageCountTV?.hide()
-        }
-    }
-
-    private fun showMessageCount() {
-        try {
-
-            doAsync {
-                bdjobsUserSession = BdjobsUserSession(activity)
-                val count = bdjobsDB.notificationDao().getMessageCount()
-                Timber.d("Messages count: $count")
-                bdjobsUserSession.updateMessageCount(count)
-            }
-
-            if (bdjobsUserSession.messageCount!! <= 0) {
-                messageCountTV?.hide()
-            } else {
-                messageCountTV?.show()
-                if (bdjobsUserSession.messageCount!! > 99) {
-                    messageCountTV?.text = "99+"
-
-                } else {
-                    messageCountTV?.text = "${bdjobsUserSession.messageCount!!}"
-
-                }
-            }
-        } catch (e: Exception) {
-        }
-    }
-
-    private fun showNotificationCount() {
-        try {
-            bdjobsUserSession = BdjobsUserSession(activity)
-            if (bdjobsUserSession.notificationCount!! <= 0) {
-                notificationCountTV?.hide()
-            } else {
-                notificationCountTV?.show()
-                if (bdjobsUserSession.notificationCount!! > 99) {
-                    notificationCountTV?.text = "99+"
-
-                } else {
-                    notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
-
-                }
-            }
-        } catch (e: Exception) {
-        }
-    }
-
-    private fun showShortListFIlterList(shortListFilter: String) {
+    private fun showShortListFilterList(shortListFilter: String) {
         filterTV.text = shortListFilter
         homeCommunicator.setShortListFilter(shortListFilter)
         when (shortListFilter) {
@@ -179,19 +127,20 @@ ShortListedJobFragment : Fragment() {
         val styledText = "<b><font color='#13A10E'>0</font></b> Shortlisted job"
         jobCountTV?.text = Html.fromHtml(styledText)
         currentPage = 1
-        TOTAL_PAGES = null
+        totalPages = null
         isLoadings = false
         isLastPages = false
         shortListRV?.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         shortListRV?.layoutManager = layoutManager
-        joblistAdapter = JoblistAdapter(activity)
-        shortListRV?.adapter = joblistAdapter
+        jobListAdapter = JobListAdapter(requireContext(), this)
+        shortListRV?.adapter = jobListAdapter
 
-        shortListRV?.addOnScrollListener(object : PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
+        shortListRV?.addOnScrollListener(object :
+            PaginationScrollListener(layoutManager!! as LinearLayoutManager) {
 
             override val totalPageCount: Int
-                get() = TOTAL_PAGES!!
+                get() = totalPages!!
             override val isLastPage: Boolean
                 get() = isLastPages
             override var isLoading: Boolean = false
@@ -202,33 +151,37 @@ ShortListedJobFragment : Fragment() {
                 currentPage += 1
 
                 loadNextPage(
-                        deadline = deadline,
-                        pageNumber = currentPage,
-                        rpp = "10"
+                    deadline = deadline,
+                    pageNumber = currentPage,
+                    rpp = "10"
                 )
             }
         })
 
-        loadFisrtPageTest(
-                deadline = deadline,
-                pageNumber = currentPage,
-                rpp = "10"
+        loadFirstPageList(
+            deadline = deadline,
+            pageNumber = currentPage,
+            rpp = "10"
         )
 
     }
 
-    private fun loadFisrtPageTest(deadline: String, rpp: String, pageNumber: Int) {
+    @Suppress("DEPRECATION")
+    private fun loadFirstPageList(deadline: String, rpp: String, pageNumber: Int) {
         noDataLL?.hide()
         shortListRV.hide()
+        jobCountTV.hide()
+        filterTV.hide()
+        crossBTN.hide()
         shimmer_view_container_JobList?.show()
         shimmer_view_container_JobList?.startShimmer()
 
         val call = ApiServiceJobs.create().getStoreJobList(
-                p_id = bdjobsUserSession.userId,
-                encoded = Constants.ENCODED_JOBS,
-                deadline = deadline,
-                rpp = rpp,
-                pg = pageNumber
+            p_id = bdJobsUserSession.userId,
+            encoded = Constants.ENCODED_JOBS,
+            deadline = deadline,
+            rpp = rpp,
+            pg = pageNumber
         )
         call.enqueue(object : Callback<JobListModel> {
 
@@ -238,56 +191,90 @@ ShortListedJobFragment : Fragment() {
                     if (response.isSuccessful) {
                         shimmer_view_container_JobList?.hide()
                         shimmer_view_container_JobList?.stopShimmer()
+                        jobCountTV.show()
+                        filterTV.show()
+                        crossBTN.show()
 
                         val jobResponse = response.body()
                         val totalJobs = jobResponse?.common?.totalRecordsFound
 
                         if (totalJobs!! > 0) {
                             noDataLL?.hide()
+                            jobCountTV.show()
+                            crossBTN.show()
                             shortListRV?.show()
                             //Log.d("totalJobs", "data ase")
                         } else {
-                            noDataLL?.show()
                             shortListRV?.hide()
+                            noDataLL?.show()
+                            jobCountTV.hide()
+                            crossBTN.hide()
+
                             //Log.d("totalJobs", "zero")
                         }
 
-                        TOTAL_PAGES = jobResponse?.common?.totalpages
+                        totalPages = jobResponse.common.totalpages
 
-
-                        //Log.d("dkgjn", " Total page " + jobResponse?.common?.totalpages)
-                        //Log.d("dkgjn", " totalRecordsFound " + jobResponse?.common?.totalRecordsFound)
 
                         //communicator.totalJobCount(jobResponse?.common?.totalRecordsFound)
                         val results = response.body()?.data
 
                         if (!results.isNullOrEmpty()) {
-                            joblistAdapter.addAll(results)
+                            jobListAdapter.addAll(results)
                         }
 
-                        if (currentPage >= TOTAL_PAGES!!) {
+                        if (currentPage >= totalPages!!) {
                             isLastPages = true
                         } else {
-                            joblistAdapter.addLoadingFooter()
+                            jobListAdapter.addLoadingFooter()
                         }
 
 
-                        if (totalJobs> 1) {
-                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted jobs"
+                        if (totalJobs > 1) {
+                            val styledText =
+                                "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted jobs"
                             jobCountTV?.text = Html.fromHtml(styledText)
                         } else {
-                            val styledText = "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted job"
+                            val styledText =
+                                "<b><font color='#13A10E'>$totalJobs</font></b> Shortlisted job"
                             jobCountTV?.text = Html.fromHtml(styledText)
                         }
 
 
-                        totalRecordsFound = jobResponse.common?.totalRecordsFound
-                        favListSize = totalRecordsFound
+                        totalRecordsFound = jobResponse.common.totalRecordsFound
+                        homeCommunicator.setTotalShortlistedJobCounter(totalRecordsFound)
+//                        favListSize = totalRecordsFound
+                        favListSize = homeCommunicator.getTotalShortlistedJobCounter()
+                        Timber.d("Fav list size: $favListSize")
                     } else {
-                        /*//Log.d("TAG", "not successful: $TAG")*/
+                        Timber.d("Unsuccessful Response")
+
+
+                        if (isAdded) {
+                            shimmer_view_container_JobList?.hide()
+                            shimmer_view_container_JobList?.stopShimmer()
+                            Toast.makeText(
+                                requireContext(),
+                                "Something went wrong! Please try again later",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
                     }
                 } catch (e: Exception) {
                     logException(e)
+
+                    if (isAdded) {
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmer()
+                        Toast.makeText(
+                            requireContext(),
+                            "Something went wrong! Please try again later",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
                 }
 
             }
@@ -295,6 +282,17 @@ ShortListedJobFragment : Fragment() {
             override fun onFailure(call: Call<JobListModel>?, t: Throwable) {
                 //Log.d("TAG", "not successful!! onFail")
                 error("onFailure", t)
+
+                if (isAdded) {
+                    shimmer_view_container_JobList?.hide()
+                    shimmer_view_container_JobList?.stopShimmer()
+                    Toast.makeText(
+                        requireContext(),
+                        "Something went wrong! Please try again later",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             }
         })
     }
@@ -303,56 +301,38 @@ ShortListedJobFragment : Fragment() {
         //Log.d("ArrayTest", " loadNextPage called")
 
         val call = ApiServiceJobs.create().getStoreJobList(
-                p_id = bdjobsUserSession.userId,
-                encoded = Constants.ENCODED_JOBS,
-                deadline = deadline,
-                rpp = rpp,
-                pg = pageNumber
+            p_id = bdJobsUserSession.userId,
+            encoded = Constants.ENCODED_JOBS,
+            deadline = deadline,
+            rpp = rpp,
+            pg = pageNumber
         )
         call.enqueue(object : Callback<JobListModel> {
 
             override fun onResponse(call: Call<JobListModel>?, response: Response<JobListModel>) {
 
                 try {
-                    //Log.d("Paramtest", "response :   ${response.body().toString()}")
                     if (response.isSuccessful) {
 
                         try {
-                            val resp_jobs = response.body()
-                            TOTAL_PAGES = resp_jobs?.common?.totalpages
-                            joblistAdapter.removeLoadingFooter()
+                            val respJobs = response.body()
+                            totalPages = respJobs?.common?.totalpages
+                            jobListAdapter.removeLoadingFooter()
                             isLoadings = false
 
                             val results = response.body()?.data
-                            joblistAdapter.addAll(results as List<JobListModelData>)
+                            jobListAdapter.addAll(results as List<JobListModelData>)
 
-                            if (currentPage >= TOTAL_PAGES!!) {
+                            if (currentPage >= totalPages!!) {
                                 isLastPages = true
                             } else {
-                                joblistAdapter.addLoadingFooter()
+                                jobListAdapter.addLoadingFooter()
                             }
-
-                            /*communicator.setIsLoading(isLoadings)
-                            communicator.setLastPasge(isLastPages)
-                            communicator.setTotalJob(resp_jobs?.common!!.totalRecordsFound!!.toInt())*/
-
-
-
-                            //totalRecordsFound = resp_jobs?.common?.totalRecordsFound!!
-                            //favListSize = totalRecordsFound
-
-                            /*if (totalRecordsFound.toInt() > 1) {
-                                val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Shortlisted jobs"
-                                jobCountTV?.text = Html.fromHtml(styledText)
-                            } else {
-                                val styledText = "<b><font color='#13A10E'>$totalRecordsFound</font></b> Shortlisted job"
-                                jobCountTV?.text = Html.fromHtml(styledText)
-                            }*/
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
                     } else {
-                        //Log.d("TAG", "not successful: ")
+                        Timber.d("Unsuccessful response")
                     }
                 } catch (e: Exception) {
                     logException(e)
@@ -365,7 +345,7 @@ ShortListedJobFragment : Fragment() {
         })
     }
 
-
+    @Suppress("DEPRECATION")
     fun scrollToUndoPosition(position: Int) {
         shortListRV?.scrollToPosition(position)
         favListSize++
@@ -378,39 +358,39 @@ ShortListedJobFragment : Fragment() {
         }
     }
 
-    fun decrementCounter() {
-        favListSize--
-        if (favListSize > 1) {
-            val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted jobs"
-            jobCountTV?.text = Html.fromHtml(styledText)
+    @Suppress("DEPRECATION")
+    fun decrementCounter(total: Int) {
+
+        val size = total - 1
+        if (size > 1) {
+            val styledText = "<b><font color='#13A10E'>$size</font></b> Shortlisted jobs"
+            Timber.d("Styled Text: $styledText")
+
         } else {
-            val styledText = "<b><font color='#13A10E'>$favListSize</font></b> Shortlisted job"
-            jobCountTV?.text = Html.fromHtml(styledText)
+            val styledText = "<b><font color='#13A10E'>$size</font></b> Shortlisted job"
+            Timber.d("Styled Text: $styledText")
         }
     }
 
 
-    fun updateNotificationView(count: Int?) {
-        //Log.d("rakib", "in shorlist fragment $count")
-        if (count!! > 0) {
-            notificationCountTV?.show()
-            if (count <= 99)
-                notificationCountTV?.text = "$count"
-            else
-                notificationCountTV?.text = "99+"
+    override fun update(count: Int) {
+        Timber.d("Job Count: $count")
+        homeCommunicator.setTotalShortlistedJobCounter(count)
+        if (count > 0) {
+
+            jobCountTV.show()
+            crossBTN.show()
+            val styledText = "<b><font color='#13A10E'>$count</font></b> Shortlisted job"
+            jobCountTV?.text = Html.fromHtml(styledText)
         } else {
-            notificationCountTV?.hide()
+            val styledText = "<b><font color='#13A10E'>$count</font></b> Shortlisted job"
+            jobCountTV?.text = Html.fromHtml(styledText)
+            noDataLL?.show()
+            shortListRV?.hide()
+            jobCountTV.hide()
+            crossBTN.hide()
         }
 
-//        notificationCountTV?.show()
-//        bdjobsUserSession = BdjobsUserSession(activity)
-//        if (bdjobsUserSession.notificationCount!! > 99){
-//            notificationCountTV?.text = "99+"
-//
-//        } else{
-//            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
-//
-//        }
     }
 
 }

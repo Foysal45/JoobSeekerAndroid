@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.ClientAdModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
@@ -21,6 +22,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.google.android.gms.ads.AdRequest
@@ -36,8 +38,13 @@ import retrofit2.Response
 import timber.log.Timber
 import java.util.*
 
-class JobBaseActivity : Activity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
+class JobBaseActivity : AppCompatActivity(), ConnectivityReceiver.ConnectivityReceiverListener, JobCommunicator {
 
+    override fun goToAjkerDealLive(containerId:Int) {
+
+        Timber.d("going to Ajker deal")
+        transitFragmentX(HomeNewFragment(),containerId,false)
+    }
 
     override fun setTotalAppliedJobs(appliedJobsCount: Int) {
         this.appliedJobsCount = appliedJobsCount

@@ -1,8 +1,7 @@
 package com.bdjobs.app.LoggedInUserLanding
 
 import android.app.Dialog
-import android.app.Fragment
-import android.content.IntentFilter
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -15,16 +14,15 @@ import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationManagerCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
 import com.bdjobs.app.API.ModelClasses.LastUpdateModel
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
-import com.bdjobs.app.databases.External.DataStorage
-import com.bdjobs.app.databases.internal.*
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchFilterAdapter
-import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -34,8 +32,10 @@ import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.liveInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.*
+import com.bdjobs.app.sms.SmsBaseActivity
 import com.bdjobs.app.videoResume.VideoResumeActivity
-
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
@@ -45,15 +45,13 @@ import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.layout_all_interview_invitation.*
-import kotlinx.android.synthetic.main.my_assessment_filter_layout.*
+import kotlinx.android.synthetic.main.layout_sms_job_alert_home.*
 import kotlinx.android.synthetic.main.my_favourite_search_filter_layout.*
 import kotlinx.android.synthetic.main.my_followed_employers_layout.*
-import kotlinx.android.synthetic.main.my_interview_invitation_layout.*
 import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
-import kotlinx.android.synthetic.main.my_video_interview_invitations_layout.*
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
@@ -64,12 +62,6 @@ import java.util.*
 
 
 class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobListener {
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        Timber.d("called onSaveInstanceState")
-    }
-
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private lateinit var bdjobsDB: BdjobsDB
@@ -85,15 +77,19 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private var videoInterviview: String? = ""
     private var liveInterview: String? = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_home_layout, container, false)!!
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bdjobsUserSession = BdjobsUserSession(activity)
-        bdjobsDB = BdjobsDB.getInstance(activity)
-        homeCommunicator = activity as HomeCommunicator
+        bdjobsUserSession = BdjobsUserSession(requireContext())
+        bdjobsDB = BdjobsDB.getInstance(requireContext())
+        homeCommunicator = requireContext() as HomeCommunicator
         backgroundJobBroadcastReceiver = BackgroundJobBroadcastReceiver()
         nameTV?.text = bdjobsUserSession.fullName
         emailTV?.text = bdjobsUserSession.email
@@ -101,35 +97,40 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
         onClickListeners()
         getLastUpdateFromServer()
-       // showGeneralPopUp()
+
+
+        // showGeneralPopUp()
         //showAd()
     }
 
-    private fun showAd() {
-        val adLoader = AdLoader.Builder(activity, "ca-app-pub-3940256099942544/2247696110")
-                .forUnifiedNativeAd { ad: UnifiedNativeAd ->
-                    // Show the ad.
-                    val styles = NativeTemplateStyle.Builder().withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF"))).build()
-                    home_small_template?.setStyles(styles)
-                    home_small_template?.setNativeAd(ad)
 
-                    home_medium_template?.setStyles(styles)
-                    home_medium_template?.setNativeAd(ad)
+    private fun showAd() {
+        val adLoader = AdLoader.Builder(requireContext(), "ca-app-pub-3940256099942544/2247696110")
+            .forUnifiedNativeAd { ad: UnifiedNativeAd ->
+                // Show the ad.
+                val styles = NativeTemplateStyle.Builder()
+                    .withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF"))).build()
+                home_small_template?.setStyles(styles)
+                home_small_template?.setNativeAd(ad)
+
+                home_medium_template?.setStyles(styles)
+                home_medium_template?.setNativeAd(ad)
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdFailedToLoad(errorCode: Int) {
+                    // Handle the failure by logging, altering the UI, and so on.
+                    //Log.d("adLoader", "error code: $errorCode")
                 }
-                .withAdListener(object : AdListener() {
-                    override fun onAdFailedToLoad(errorCode: Int) {
-                        // Handle the failure by logging, altering the UI, and so on.
-                        //Log.d("adLoader", "error code: $errorCode")
-                    }
-                })
-                .withNativeAdOptions(NativeAdOptions.Builder()
-                        // Methods in the NativeAdOptions.Builder class can be
-                        // used here to specify individual options settings.
-                        .build())
-                .build()
+            })
+            .withNativeAdOptions(
+                NativeAdOptions.Builder()
+                    // Methods in the NativeAdOptions.Builder class can be
+                    // used here to specify individual options settings.
+                    .build()
+            )
+            .build()
         adLoader.loadAd(AdRequest.Builder().build())
     }
-
 
     private fun alertAboutShortlistedJobs() {
         try {
@@ -145,7 +146,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             logException(e)
         }
     }
-
 
     private fun onClickListeners() {
 
@@ -173,14 +173,16 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         cl_general_interview?.setOnClickListener {
             homeCommunicator.goToInterviewInvitation("homePage")
             try {
-                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
+                NotificationManagerCompat.from(requireContext())
+                    .cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
             } catch (e: Exception) {
             }
         }
         cl_video_interview?.setOnClickListener {
             homeCommunicator.goToVideoInvitation("homePage")
             try {
-                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
+                NotificationManagerCompat.from(requireContext())
+                    .cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
             } catch (e: Exception) {
             }
         }
@@ -194,6 +196,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
         newSearchBTN?.setOnClickListener {
             homeCommunicator.gotoAllJobSearch()
+            //test
+//            context.startActivity(Intent(context,HomeActivity::class.java))
         }
         notificationIMGV?.setOnClickListener {
             homeCommunicator.goToNotifications()
@@ -201,6 +205,24 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         messageIMGV?.setOnClickListener {
             homeCommunicator.goToMessages()
         }
+
+        cl_start_sms_alert_view.setOnClickListener {
+            requireContext().startActivity(Intent(requireContext(), SmsBaseActivity::class.java)
+                .putExtra("from", "settings")
+            )
+        }
+
+        tv_sms_setting_home.setOnClickListener {
+            requireContext().startActivity(
+                Intent(requireContext(), SmsBaseActivity::class.java)
+                    .putExtra("from", "settings")
+            )
+        }
+
+        tv_purchase_sms.setOnClickListener {
+            requireContext().startActivity(Intent(requireContext(), SmsBaseActivity::class.java))
+        }
+
     }
 
     private fun showData() {
@@ -242,14 +264,16 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         try {
             blankCL?.hide()
             mainLL?.show()
-            bdjobsUserSession = BdjobsUserSession(activity)
-            if (bdjobsUserSession.liveInterviewCount == 0 && bdjobsUserSession.videoInterviewCount == 0 && bdjobsUserSession.generalInterviewCount == 0){
+            bdjobsUserSession = BdjobsUserSession(requireContext())
+            if (bdjobsUserSession.liveInterviewCount == 0 && bdjobsUserSession.videoInterviewCount == 0 && bdjobsUserSession.generalInterviewCount == 0) {
+                Timber.d("Showing blank1")
                 allInterview?.hide()
                 allInterview?.hide()
-                blankCL?.show()
+                smsAlertView.hide()
                 newSearchBTN?.hide()
-            } else{
-                bdjobsUserSession = BdjobsUserSession(activity)
+                blankCL?.show()
+            } else {
+                bdjobsUserSession = BdjobsUserSession(requireContext())
                 allInterview?.show()
                 tv_live_interview_count.text = bdjobsUserSession.liveInterviewCount.toString()
                 tv_video_interview_count.text = bdjobsUserSession.videoInterviewCount.toString()
@@ -263,7 +287,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun showNotificationCount() {
         try {
-            bdjobsUserSession = BdjobsUserSession(activity)
+            bdjobsUserSession = BdjobsUserSession(requireContext())
             if (bdjobsUserSession.notificationCount!! <= 0) {
                 notificationCountTV?.hide()
             } else {
@@ -284,7 +308,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         try {
 
             doAsync {
-                bdjobsUserSession = BdjobsUserSession(activity)
+                bdjobsUserSession = BdjobsUserSession(requireContext())
                 val count = bdjobsDB.notificationDao().getMessageCount()
                 Timber.d("Messages count: $count")
                 bdjobsUserSession.updateMessageCount(count)
@@ -311,10 +335,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
         Timber.d("onResume Triggered")
         BackgroundJobBroadcastReceiver.backgroundJobListener = this
+
+        showData()
+        safeFetchSmsAlertStatus()
         showNotificationCount()
         showMessageCount()
-        showData()
         alertAboutShortlistedJobs()
+
 
     }
 
@@ -350,7 +377,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private fun showFollowedEmployers() {
         doAsync {
             followedEmployerList = bdjobsDB.followedEmployerDao().getAllFollowedEmployer()
-            val followedEmployerJobCount = bdjobsDB.followedEmployerDao().getJobCountOfFollowedEmployer()
+            val followedEmployerJobCount =
+                bdjobsDB.followedEmployerDao().getJobCountOfFollowedEmployer()
             uiThread {
                 followedEmployerView?.hide()
                 if (!followedEmployerList.isNullOrEmpty()) {
@@ -372,13 +400,22 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun showFavouriteSearchFilters() {
         doAsync {
-            favouriteSearchFilters = bdjobsDB.favouriteSearchFilterDao().getLatest2FavouriteSearchFilter()
+            favouriteSearchFilters =
+                bdjobsDB.favouriteSearchFilterDao().getLatest2FavouriteSearchFilter()
             val allfavsearch = bdjobsDB.favouriteSearchFilterDao().getAllFavouriteSearchFilter()
             uiThread {
                 favSearchView?.hide()
                 if (!favouriteSearchFilters.isNullOrEmpty()) {
                     try {
-                        val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(items = (favouriteSearchFilters as MutableList<FavouriteSearch>?)!!, context = activity)
+                        val favouriteSearchFilterAdapter = FavouriteSearchFilterAdapter(
+                            items = (favouriteSearchFilters as MutableList<FavouriteSearch>?)!!,
+                            context = requireContext(),
+                            onUpdateCounter = object :
+                                FavouriteSearchFilterAdapter.OnUpdateCounter {
+                                override fun update(count: Int) {
+
+                                }
+                            })
                         favRV?.adapter = favouriteSearchFilterAdapter
                         blankCL?.hide()
                         mainLL?.show()
@@ -406,40 +443,43 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     lastPrgrs?.show()
                     lastSearchcounterTV?.text = ""
                     ApiServiceJobs.create().getLastSearchCount(
-                            jobLevel = searchData?.jobLevel,
-                            Newspaper = searchData?.newsPaper,
-                            armyp = searchData?.armyp,
-                            bc = searchData?.blueColur,
-                            category = searchData?.category,
-                            deadline = searchData?.deadline,
-                            encoded = ENCODED_JOBS,
-                            experience = searchData?.experince,
-                            gender = searchData?.gender,
-                            genderB = searchData?.genderB,
-                            industry = searchData?.industry,
-                            isFirstRequest = searchData?.isFirstRequest,
-                            jobNature = searchData?.jobnature,
-                            jobType = searchData?.jobType,
-                            keyword = searchData?.keyword,
-                            lastJPD = searchData?.lastJPD,
-                            location = searchData?.location,
-                            org = searchData?.organization,
-                            pageid = searchData?.pageId,
-                            pg = searchData?.pageNumber,
-                            postedWithin = searchData?.postedWithIn,
-                            qAge = searchData?.age,
-                            rpp = searchData?.rpp,
-                            slno = searchData?.slno,
-                            version = searchData?.version,
-                            workPlace = searchData?.workPlace,
-                            personWithDisability = searchData?.personWithDisability,
-                            facilitiesForPWD = searchData?.facilitiesForPWD
+                        jobLevel = searchData?.jobLevel,
+                        Newspaper = searchData?.newsPaper,
+                        armyp = searchData?.armyp,
+                        bc = searchData?.blueColur,
+                        category = searchData?.category,
+                        deadline = searchData?.deadline,
+                        encoded = ENCODED_JOBS,
+                        experience = searchData?.experince,
+                        gender = searchData?.gender,
+                        genderB = searchData?.genderB,
+                        industry = searchData?.industry,
+                        isFirstRequest = searchData?.isFirstRequest,
+                        jobNature = searchData?.jobnature,
+                        jobType = searchData?.jobType,
+                        keyword = searchData?.keyword,
+                        lastJPD = searchData?.lastJPD,
+                        location = searchData?.location,
+                        org = searchData?.organization,
+                        pageid = searchData?.pageId,
+                        pg = searchData?.pageNumber,
+                        postedWithin = searchData?.postedWithIn,
+                        qAge = searchData?.age,
+                        rpp = searchData?.rpp,
+                        slno = searchData?.slno,
+                        version = searchData?.version,
+                        workPlace = searchData?.workPlace,
+                        personWithDisability = searchData?.personWithDisability,
+                        facilitiesForPWD = searchData?.facilitiesForPWD
                     ).enqueue(object : Callback<LastSearchCountModel> {
                         override fun onFailure(call: Call<LastSearchCountModel>, t: Throwable) {
                             error("onFailure", t)
                         }
 
-                        override fun onResponse(call: Call<LastSearchCountModel>, response: Response<LastSearchCountModel>) {
+                        override fun onResponse(
+                            call: Call<LastSearchCountModel>,
+                            response: Response<LastSearchCountModel>
+                        ) {
                             try {
                                 //Log.d("jobCount", "jobCount ${response.body()?.data!![0]?.totaljobs}")
                                 lastPrgrs?.hide()
@@ -448,6 +488,18 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                                 if (response.body()?.data?.get(0)?.totaljobs?.length!! > 3) {
                                     lastSearchcounterTV?.textSize = 14.0F
                                 }
+
+                                if (bdjobsUserSession.adTypeLanding=="2") {
+                                    try {
+                                        navHostFragmentAD.visibility = View.VISIBLE
+                                        homeCommunicator.goToAjkerDealLive(R.id.navHostFragmentAD)
+                                    } catch (e: Exception) {
+                                    }
+                                } else {
+                                    navHostFragmentAD.visibility = View.GONE
+                                }
+
+
                             } catch (e: Exception) {
                                 lastPrgrs?.hide()
                                 lastSearchcounterTV?.text = "0"
@@ -460,7 +512,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 //                    Timber.d("Filter Location: ${searchData?.let { it1 -> getFilterString(it1) }}")
                     searchFilterTV?.text = try {
                         searchData?.let { it1 ->
-                            if (activity!=null) {
+                            if (activity != null) {
                                 getFilterString(it1)
                             } else {
                                 ""
@@ -480,14 +532,16 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     blankCL?.hide()
                     mainLL?.show()
                     newSearchBTN?.show()
-                    newSearchBTN?.show()
+                } else {
+//                    homeCommunicator.goToAjkerDealLive(R.id.navHostFragmentAD)
+//                    navHostFragmentAD.visibility = View.VISIBLE
                 }
             }
         }
     }
 
     private fun getFilterString(search: LastSearch): String? {
-        val dataStorage = DataStorage(activity)
+        val dataStorage = DataStorage(requireContext())
         val age = dataStorage.getAgeRangeNameByID(search.age)
         val newsPaper = dataStorage.getNewspaperNameById(search.newsPaper)
         val functionalCat = dataStorage.getCategoryNameByID(search.category)
@@ -519,8 +573,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                 personWithDisability = "Jobs prefer person with disability"
         }
 
-        search.facilitiesForPWD?.let{
-            if(it =="1")
+        search.facilitiesForPWD?.let {
+            if (it == "1")
                 facilitiesForPWD = "Companies provide facilities for person with disability"
         }
 
@@ -536,7 +590,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
         //Log.d("gender", "genderb: ${search.genderB}")
 
-        var allValues = ("$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability,$facilitiesForPWD")
+        var allValues =
+            ("$functionalCat,$organization,$gender,$genderb,$industrialCat,$location,$age,$jobNature,$jobLevel,$experience,$jobtype,$retiredArmy,$newsPaper,$workPlace,$personWithDisability,$facilitiesForPWD")
         //Log.d("allValuesN", allValues)
 //        allValues = allValues.replace("Any".toRegex(), "")
         allValues = allValues.replace("null".toRegex(), "")
@@ -553,7 +608,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     private fun showInterviewInvitationPop() {
-        val interviewInvitationDialog = Dialog(activity)
+        val interviewInvitationDialog = Dialog(requireContext())
 
         interviewInvitationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         interviewInvitationDialog?.setCancelable(true)
@@ -564,9 +619,12 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         val LiveInterviewCV = interviewInvitationDialog?.findViewById<CardView>(R.id.cardView4)
 
 
-        val InterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv)
-        val VideoInterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv_3)
-        val LiveInterviewTVCount = interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv_4)
+        val InterviewTVCount =
+            interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv)
+        val VideoInterviewTVCount =
+            interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv_3)
+        val LiveInterviewTVCount =
+            interviewInvitationDialog?.findViewById<TextView>(R.id.interview_invitation_count_tv_4)
 
         val cancelBTN = interviewInvitationDialog?.findViewById(R.id.cancel) as ImageView
 
@@ -586,7 +644,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             interviewInvitationDialog?.dismiss()
             homeCommunicator.goToInterviewInvitation("popup")
             try {
-                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
+                NotificationManagerCompat.from(requireContext())
+                    .cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
             } catch (e: Exception) {
             }
             interviewInvitationDialog?.cancel()
@@ -597,7 +656,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             interviewInvitationDialog?.dismiss()
             homeCommunicator.goToVideoInvitation("popup")
             try {
-                NotificationManagerCompat.from(activity).cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
+                NotificationManagerCompat.from(requireContext())
+                    .cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
             } catch (e: Exception) {
             }
             interviewInvitationDialog?.cancel()
@@ -615,7 +675,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     }
 
     private fun showGeneralPopUp() {
-        val generalDialog = Dialog(activity)
+        val generalDialog = Dialog(requireContext())
 
         generalDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         generalDialog?.setCancelable(true)
@@ -647,14 +707,17 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
 
     private fun getLastUpdateFromServer() {
         ApiServiceMyBdjobs.create().getLastUpdate(
-                userId = bdjobsUserSession.userId,
-                decodeId = bdjobsUserSession.decodId
+            userId = bdjobsUserSession.userId,
+            decodeId = bdjobsUserSession.decodId
         ).enqueue(object : Callback<LastUpdateModel> {
             override fun onFailure(call: Call<LastUpdateModel>, t: Throwable) {
                 error("onFailure", t)
             }
 
-            override fun onResponse(call: Call<LastUpdateModel>, response: Response<LastUpdateModel>) {
+            override fun onResponse(
+                call: Call<LastUpdateModel>,
+                response: Response<LastUpdateModel>
+            ) {
                 try {
 
                     val catIds = response.body()?.data?.get(0)?.catId?.split(",")?.toList()
@@ -664,8 +727,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             try {
                                 for (item in it) {
                                     if (item.isNotEmpty()) {
-                                        activity.subscribeToFCMTopic(item)
-                                        //Log.d("rakib", item)
+                                        requireActivity().subscribeToFCMTopic(item)
                                     }
                                 }
                             } catch (e: Exception) {
@@ -676,8 +738,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             try {
                                 for (item in it) {
                                     if (item.isNotEmpty()) {
-                                        activity.unsubscribeFromFCMTopic(item)
-                                        //Log.d("rakib", item)
+                                        requireActivity().unsubscribeFromFCMTopic(item)
                                     }
                                 }
                             } catch (e: Exception) {
@@ -686,20 +747,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     }
 
 
-                    //Log.d("rakib cat id", "${catIds?.size}")
-
                     inviteInterviview = response.body()?.data?.get(0)?.inviteInterviview
                     videoInterviview = response.body()?.data?.get(0)?.videoInterviview
                     liveInterview = response.body()?.data?.get(0)?.liveInterview
 
-                    //Log.d("google", "google = $inviteInterviview")
-
-//                    if (inviteInterviview?.toInt()!! > 0 || videoInterviview?.toInt()!! > 0 || liveInterview?.toInt()!! > 0) {
-//                        showInterviewInvitationPop()
-//                    }
-
                     try {
-                        Constants.changePassword_Eligibility = response.body()?.data?.get(0)?.changePassword_Eligibility!!
+                        Constants.changePassword_Eligibility =
+                            response.body()?.data?.get(0)?.changePassword_Eligibility!!
                         Constants.isSMSFree = response.body()?.data?.get(0)?.isSmsFree!!
                         bdjobsUserSession.updateIsResumeUpdate(response.body()?.data?.get(0)?.isResumeUpdate!!)
                         bdjobsUserSession.updateIsCvPosted(response.body()?.data?.get(0)?.isCVPosted!!)
@@ -712,9 +766,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         bdjobsUserSession.updateJobApplyLimit(response.body()?.data?.get(0)?.jobApplyLimit)
                         bdjobsUserSession.updateJobApplyThreshold(response.body()?.data?.get(0)?.appliedJobsThreshold)
                         bdjobsUserSession.updatePostingDate(response.body()?.data?.get(0)?.postingDate!!)
-//                        Constants.applyRestrictionStatus = response.body()?.data?.get(0)?.applyRestrictionStatus!!
-//                        Constants.appliedJobsThreshold = response.body()?.data?.get(0)?.appliedJobsThreshold!!.toInt()
-                        //Log.d("changePassword", "changePassword_Eligibility = ${response.body()?.data?.get(0)?.changePassword_Eligibility!!}")
                     } catch (e: Exception) {
                         logException(e)
                     }
@@ -727,6 +778,125 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         })
     }
 
+    /**
+     * fetching SMS Alert Status
+     */
+    private fun safeFetchSmsAlertStatus() {
+        lifecycleScope.launch {
+            try {
+                val response = ApiServiceMyBdjobs.create().getSMSSetting(
+                    bdjobsUserSession.userId,
+                    bdjobsUserSession.decodId,
+                    Constants.APP_ID
+                )
+
+                if (response.statuscode == "0" && response.message == "Success") {
+
+                    blankCL?.hide()
+                    newSearchBTN?.show()
+                    smsAlertView.visibility = View.VISIBLE
+
+                    val data = response.data!![0]
+                    val remainingSms = data.remainingSMSAmount?.toInt() ?: 0
+                    val smsLimit = data.dailySmsLimit?.toInt() ?: 0
+
+                    smsAlertView.visibility = View.VISIBLE
+                    cl_label_views.visibility = View.VISIBLE
+                    tv_label_sms_alert_home.visibility = View.VISIBLE
+                    cl_left_views.visibility = View.VISIBLE
+
+                    /**
+                     * when SMS alert feature is on
+                     * checking count of remainingSMS & dailySMSLimit
+                     * and showing them both
+                     * else only showing remainingSMS value
+                     */
+                    if (data.smsAlertOn == "True") {
+                        tv_sms_alert_status_off_home.visibility = View.GONE
+                        tv_sms_alert_status_on_home.visibility = View.VISIBLE
+
+                        /**
+                         * if remainingSMS is greater then zero
+                         * then showing SMS setting view
+                         * else showing the Buy SMS view
+                         */
+                        if (remainingSms > 0) {
+                            tv_purchase_sms.visibility = View.GONE
+                            cl_start_sms_alert_view.visibility = View.GONE
+                            tv_sms_setting_home.visibility = View.VISIBLE
+
+                            tv_no_package.visibility = View.GONE
+                            ll_daily_limit_sms_home.visibility = View.VISIBLE
+                            ll_remaining_sms_home.visibility = View.VISIBLE
+
+                            tv_remaining_sms_count_home.text = "$remainingSms"
+                            tv_sms_limit_count_home.text = "$smsLimit"
+                        } else {
+                            cl_start_sms_alert_view.visibility = View.GONE
+                            tv_sms_setting_home.visibility = View.GONE
+                            tv_purchase_sms.visibility = View.VISIBLE
+
+                            tv_no_package.visibility = View.GONE
+                            ll_daily_limit_sms_home.visibility = View.VISIBLE
+                            ll_remaining_sms_home.visibility = View.VISIBLE
+
+                            tv_remaining_sms_count_home.text = "$remainingSms"
+                            tv_sms_limit_count_home.text = "$smsLimit"
+                        }
+
+                    } else {
+                        tv_sms_alert_status_on_home.visibility = View.GONE
+                        tv_sms_alert_status_off_home.visibility = View.VISIBLE
+
+                        tv_purchase_sms.visibility = View.GONE
+                        tv_sms_setting_home.visibility = View.GONE
+                        cl_start_sms_alert_view.visibility = View.VISIBLE
+
+                        tv_no_package.visibility = View.GONE
+                        ll_daily_limit_sms_home.visibility = View.GONE
+                        ll_remaining_sms_home.visibility = View.VISIBLE
+
+                        tv_remaining_sms_count_home.text = "$remainingSms"
+                    }
+
+
+                } else if (response.statuscode == "3") {
+                    /*
+                     * Showing the SMS alert buy UI
+                     * if no package is available
+                     */
+                    blankCL?.hide()
+                    newSearchBTN?.show()
+                    smsAlertView.visibility = View.VISIBLE
+                    cl_label_views.visibility = View.VISIBLE
+                    tv_label_sms_alert_home.visibility = View.VISIBLE
+                    tv_sms_alert_status_on_home.visibility = View.GONE
+                    tv_sms_alert_status_off_home.visibility = View.GONE
+
+                    cl_left_views.visibility = View.VISIBLE
+                    tv_purchase_sms.visibility = View.VISIBLE
+                    tv_sms_setting_home.visibility = View.GONE
+                    cl_start_sms_alert_view.visibility = View.GONE
+
+                    tv_no_package.visibility = View.VISIBLE
+
+
+                } else {
+                    /**
+                     * not showing the SMS alert view. if status is not 0 or 3
+                     */
+                    smsAlertView.visibility = View.GONE
+                }
+            } catch (e: Exception) {
+                Timber.e("Exception while fetching SMS Alert Status")
+                try {
+                    if (isAdded) smsAlertView.visibility = View.GONE
+                } catch (e: Exception) {
+                }
+            }
+        }
+    }
+
     private fun showShortListedJobsExpirationPopUP() {
 
 
@@ -735,12 +905,13 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         val deadlineNext2Days = calendar.time
 
         doAsync {
-            val shortlistedjobs = bdjobsDB.shortListedJobDao().getShortListedJobsBYDeadline(deadlineNext2Days)
+            val shortlistedjobs =
+                bdjobsDB.shortListedJobDao().getShortListedJobsBYDeadline(deadlineNext2Days)
             uiThread {
                 try {
                     if (shortlistedjobs.isNotEmpty()) {
 
-                        val dialog = Dialog(activity)
+                        val dialog = Dialog(requireContext())
                         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
                         dialog?.setCancelable(true)
                         dialog?.setContentView(R.layout.layout_shortlistedjob_pop_up)
@@ -751,9 +922,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         val jobCountTV = dialog?.findViewById<TextView>(R.id.textView49)
                         val checkBox = dialog?.findViewById<CheckBox>(R.id.checkBox2)
 
-                        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
+                        val ad_small_template =
+                            dialog?.findViewById<TemplateView>(R.id.ad_small_template)
 
-                        Ads.showNativeAd(ad_small_template, activity)
+                        Ads.showNativeAd(ad_small_template, requireContext())
 
                         checkBox?.setOnCheckedChangeListener { _, isChecked ->
                             if (isChecked) {
@@ -817,10 +989,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
     }
 
-    fun updateInvitationCountView(){
+    fun updateInvitationCountView() {
         showAllInvitations()
     }
-
 
 
 }

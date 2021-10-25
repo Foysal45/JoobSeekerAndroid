@@ -1,5 +1,6 @@
 package com.bdjobs.app.SessionManger
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.AlarmManager
@@ -576,5 +577,46 @@ class BdjobsUserSession(val context: Context) {
     set(value) {
         pref!!.edit().putBoolean(Constants.session_key_show_video_resume_to_emp,value).apply()
     }
+
+    var lastExpectedSalary : String?
+    get() = pref!!.getString("LastExpectedSalary",null)
+    set(value) {pref!!.edit().putString("LastExpectedSalary",value).apply()}
+
+
+    var expectedSalary : String?
+        get() = pref!!.getString("ExpectedSalary",null)
+        set(value) {pref!!.edit().putString("ExpectedSalary",value).apply()}
+
+
+    var presentSalary : String?
+        get() = pref!!.getString("PresentSalary",null)
+        set(value) {pref!!.edit().putString("PresentSalary",value).apply()}
+
+    var userPresentDistrict: String?
+    get() = pref!!.getString("PresentDist","")
+    set(value) {pref!!.edit().putString("PresentDist",value).apply()}
+
+
+    var userPresentThana: String?
+        get() = pref!!.getString("PresentThana","")
+        set(value) {pref!!.edit().putString("PresentThana",value).apply()}
+
+
+    var userPresentPostOffice: String?
+        get() = pref!!.getString("PresentPostOffice","")
+        set(value) {pref!!.edit().putString("PresentPostOffice",value).apply()}
+
+    var adTypeMyBdJobs : String?
+    get() = pref!!.getString("AD_IN_MYBDJOBS","2")
+    set(value) {pref!!.edit().putString("AD_IN_MYBDJOBS",value).apply()}
+
+    var adTypeJobList : String?
+        get() = pref!!.getString("AD_IN_JOBLIST","2")
+        set(value) {pref!!.edit().putString("AD_IN_JOBLIST",value).apply()}
+
+    var adTypeLanding : String?
+        get() = pref!!.getString("AD_IN_MAIN_LANDING","0")
+        set(value) {pref!!.edit().putString("AD_IN_MAIN_LANDING",value).apply()}
+
 
 }

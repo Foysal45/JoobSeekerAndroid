@@ -184,6 +184,8 @@ class PhotoUploadActivity : Activity() {
 
                         ic_edit_photo?.show()
                     } catch (e: Exception) {
+
+                        progressDialog?.dismiss()
                         Timber.tag("PhotoUploadActivity").d("Upload response error $e")
 
                     }
@@ -198,6 +200,7 @@ class PhotoUploadActivity : Activity() {
                 ) {
                     try {
                         error?.message?.let { Log.e("photoAPI", it) }
+                        progressDialog?.dismiss()
                     } catch (e: Exception) {
                         Timber.e(e)
                     }
@@ -216,6 +219,7 @@ class PhotoUploadActivity : Activity() {
             .enqueue(object : Callback<PhotoInfoModel> {
                 override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
                     error("onFailure", t)
+                    progressDialog?.dismiss()
                 }
 
                 override fun onResponse(
@@ -249,6 +253,7 @@ class PhotoUploadActivity : Activity() {
                         }
                     } catch (e: Exception) {
                         Timber.e(e)
+                        progressDialog?.dismiss()
                     }
                 }
             })

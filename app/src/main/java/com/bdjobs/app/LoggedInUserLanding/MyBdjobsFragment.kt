@@ -1,12 +1,12 @@
 package com.bdjobs.app.LoggedInUserLanding
 
-import android.app.Fragment
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MybdjobsData
@@ -23,7 +23,7 @@ class  MyBdjobsFragment : Fragment() {
     private lateinit var bdjobsUserSession : BdjobsUserSession
 
     private lateinit var bdjobsDB: BdjobsDB
-    private var mybdjobsAdapter: MybdjobsAdapter? = null
+    private var myBdJobsAdapter: MyBdJobsAdapter? = null
     private var bdjobsList: ArrayList<MybdjobsData> = ArrayList()
     private lateinit var communicator: HomeCommunicator
     private var lastMonthStatsData: List<StatsModelClassData?>? = null
@@ -33,9 +33,9 @@ class  MyBdjobsFragment : Fragment() {
     private lateinit var session: BdjobsUserSession
     private fun populateDataModel() {
         try {
-            mybdjobsAdapter?.removeAll()
+            myBdJobsAdapter?.removeAll()
             bdjobsList.clear()
-            mybdjobsAdapter?.notifyDataSetChanged()
+            myBdJobsAdapter?.notifyDataSetChanged()
             bdjobsList.add(MybdjobsData(session.mybdjobscount_jobs_applied_lastmonth!!, Constants.session_key_mybdjobscount_jobs_applied, background_resources[0], icon_resources[0]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_times_emailed_resume_lastmonth!!, Constants.session_key_mybdjobscount_times_emailed_resume, background_resources[1], icon_resources[1]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_viwed_resume_lastmonth!!, Constants.session_key_mybdjobscount_employers_viwed_resume, background_resources[2], icon_resources[2]))
@@ -45,15 +45,15 @@ class  MyBdjobsFragment : Fragment() {
             bdjobsList.add(MybdjobsData(session.mybdjobscount_video_invitation_lastmonth!!,  Constants.session_key_mybdjobscount_video_invitation,background_resources[6],icon_resources[6]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_live_invitation_lastmonth!!,  Constants.session_key_mybdjobscount_live_invitation,background_resources[7],icon_resources[7]))
 
-            mybdjobsAdapter?.addAll(bdjobsList)
+            myBdJobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
         }
     }
     private fun populateDataModelALL() {
         try {
-            mybdjobsAdapter?.removeAll()
+            myBdJobsAdapter?.removeAll()
             bdjobsList.clear()
-            mybdjobsAdapter?.notifyDataSetChanged()
+            myBdJobsAdapter?.notifyDataSetChanged()
             bdjobsList.add(MybdjobsData(session.mybdjobscount_jobs_applied_alltime!!, Constants.session_key_mybdjobscount_jobs_applied, background_resources[0], icon_resources[0]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_times_emailed_resume_alltime!!, Constants.session_key_mybdjobscount_times_emailed_resume, background_resources[1], icon_resources[1]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_viwed_resume_alltime!!, Constants.session_key_mybdjobscount_employers_viwed_resume, background_resources[2], icon_resources[2]))
@@ -63,7 +63,7 @@ class  MyBdjobsFragment : Fragment() {
             bdjobsList.add(MybdjobsData(session.mybdjobscount_video_invitation_alltime!!,Constants.session_key_mybdjobscount_video_invitation,background_resources[6],icon_resources[6]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_live_invitation_alltime!!,Constants.session_key_mybdjobscount_live_invitation,background_resources[7],icon_resources[7]))
 
-            mybdjobsAdapter?.addAll(bdjobsList)
+            myBdJobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
         }
     }
@@ -75,15 +75,25 @@ class  MyBdjobsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        communicator = activity as HomeCommunicator
-        bdjobsUserSession = BdjobsUserSession(activity)
-        bdjobsDB = BdjobsDB.getInstance(activity)
+        communicator = requireActivity() as HomeCommunicator
+        bdjobsUserSession = BdjobsUserSession(requireContext())
+        bdjobsDB = BdjobsDB.getInstance(requireContext())
+
+        if (bdjobsUserSession.adTypeMyBdJobs=="2") {
+            try {
+                navHostFragmentADMB.visibility = View.VISIBLE
+                communicator.goToAjkerDealLive(R.id.navHostFragmentADMB)
+            } catch (e: Exception) {
+            }
+        } else {
+            navHostFragmentADMB.visibility = View.GONE
+        }
 
     }
 
     override fun onResume() {
         super.onResume()
-        session = BdjobsUserSession(activity)
+        session = BdjobsUserSession(requireContext())
         initializeViews()
         onClick()
 
@@ -93,7 +103,7 @@ class  MyBdjobsFragment : Fragment() {
 
     private fun showNotificationCount() {
         try {
-            bdjobsUserSession = BdjobsUserSession(activity)
+            bdjobsUserSession = BdjobsUserSession(requireContext())
             if (bdjobsUserSession.notificationCount!! <= 0) {
                 notificationCountTV?.hide()
             } else {
@@ -127,7 +137,7 @@ class  MyBdjobsFragment : Fragment() {
         try {
 
             doAsync {
-                bdjobsUserSession = BdjobsUserSession(activity)
+                bdjobsUserSession = BdjobsUserSession(requireContext())
                 val count = bdjobsDB.notificationDao().getMessageCount()
                 Timber.d("Messages count: $count")
                 bdjobsUserSession.updateMessageCount(count)
@@ -151,11 +161,11 @@ class  MyBdjobsFragment : Fragment() {
 
 
     private fun initializeViews() {
-        mybdjobsAdapter = MybdjobsAdapter(activity)
-        myBdjobsgridView_RV?.adapter = mybdjobsAdapter
+        myBdJobsAdapter = MyBdJobsAdapter(requireContext())
+        myBdjobsgridView_RV?.adapter = myBdJobsAdapter
         myBdjobsgridView_RV?.setHasFixedSize(true)
-        myBdjobsgridView_RV?.layoutManager = GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false)
-        //Log.d("initPag", "called")
+        myBdjobsgridView_RV?.isNestedScrollingEnabled = false
+        myBdjobsgridView_RV?.layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         myBdjobsgridView_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         populateDataModel()
     }
@@ -177,7 +187,7 @@ class  MyBdjobsFragment : Fragment() {
             communicator.goToMessages()
         }
 
-        profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(activity).userPicUrl?.trim())
+        profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(requireContext()).userPicUrl?.trim())
 
         lastmonth_MBTN?.setOnClickListener {
             getStatsData(1.toString())
@@ -229,7 +239,7 @@ class  MyBdjobsFragment : Fragment() {
                     //Log.d("vvuu", "${bdjobsList?.get(index)?.itemID} = ${value?.count!!}")
                 }
             }
-            mybdjobsAdapter?.addAll(bdjobsList)
+            myBdJobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
             logException(e)
         }
@@ -242,7 +252,7 @@ class  MyBdjobsFragment : Fragment() {
                     bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
                 }
             }
-            mybdjobsAdapter?.addAll(bdjobsList)
+            myBdJobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
             logException(e)
         }
@@ -251,7 +261,7 @@ class  MyBdjobsFragment : Fragment() {
 
 
     private fun getStatsData(activityDate: String) {
-        //activity.showProgressBar(mybdjobsLoadingProgressBar)
+        //requireContext().showProgressBar(mybdjobsLoadingProgressBar)
 
       /*  mybdjobsLoadingProgressBar?.show()
 
@@ -266,16 +276,16 @@ class  MyBdjobsFragment : Fragment() {
             override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
                 try {
                     error("onFailure", t)
-                    //activity?.stopProgressBar(mybdjobsLoadingProgressBar)
+                    //requireContext()?.stopProgressBar(mybdjobsLoadingProgressBar)
                     mybdjobsLoadingProgressBar?.hide()
-                    activity?.toast(R.string.message_common_error)
+                    requireContext()?.toast(R.string.message_common_error)
                 } catch (e: Exception) {
                     logException(e)
                 }
             }
 
             override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
-                // activity?.stopProgressBar(mybdjobsLoadingProgressBar)
+                // requireContext()?.stopProgressBar(mybdjobsLoadingProgressBar)
                 mybdjobsLoadingProgressBar?.hide()
                 try {
                     if (activityDate == "0") {
@@ -321,7 +331,7 @@ class  MyBdjobsFragment : Fragment() {
         }
 
 //        notificationCountTV?.show()
-//        bdjobsUserSession = BdjobsUserSession(activity)
+//        bdjobsUserSession = BdjobsUserSession(requireContext())
 //        if (bdjobsUserSession.notificationCount!! > 99){
 //            notificationCountTV?.text = "99+"
 //
