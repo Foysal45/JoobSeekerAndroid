@@ -30,8 +30,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_record_video_resume.*
 import timber.log.Timber
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 @SuppressLint("RestrictedApi")
@@ -73,8 +71,6 @@ class RecordVideoResumeFragment : Fragment(), CameraProvider.OutputCallBack {
 
         initializeUI()
         setUpObservers()
-
-
     }
 
 

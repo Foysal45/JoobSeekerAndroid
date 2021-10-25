@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.util.Log
 import android.util.Size
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -13,12 +12,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
 import androidx.lifecycle.LifecycleOwner
+import timber.log.Timber
 import java.io.File
 import java.util.concurrent.Executors
 import kotlin.math.abs
 
 class CameraXprovider(val viewLifecycleOwner : LifecycleOwner, val  previewView : PreviewView, val context : Context) : CameraProvider() {
 
+    companion object {
+        const val RESOLUTION_WIDTH = 640
+        const val RESOLUTION_HEIGHT = 480
+    }
 
 
     private val cameraExecutor = Executors.newSingleThreadExecutor()
@@ -26,8 +30,7 @@ class CameraXprovider(val viewLifecycleOwner : LifecycleOwner, val  previewView 
     private var videoCapture: VideoCapture? = null
     private var cameraControl: CameraControl? = null
     private var cameraInfo: CameraInfo? = null
-    val RESOLUTION_WEIDTH = 640
-    val RESOLUTION_HEIGHT = 480
+
     var callback: OutputCallBack? = null
 
 
@@ -52,8 +55,8 @@ class CameraXprovider(val viewLifecycleOwner : LifecycleOwner, val  previewView 
             }.build()
 
             videoCapture = VideoCapture.Builder().apply {
-                setTargetResolution(Size(abs(RESOLUTION_HEIGHT), abs(RESOLUTION_WEIDTH)))
-                setBitRate(1*RESOLUTION_HEIGHT*RESOLUTION_WEIDTH)
+                setTargetResolution(Size(abs(RESOLUTION_HEIGHT), abs(RESOLUTION_WIDTH)))
+                setBitRate(1*RESOLUTION_HEIGHT*RESOLUTION_WIDTH)
 
             }.build()
 
@@ -105,7 +108,7 @@ class CameraXprovider(val viewLifecycleOwner : LifecycleOwner, val  previewView 
             @SuppressLint("TimberArgCount", "BinaryOperationInTimber")
             override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
                 callback?.videoRecordSuccess(outputFileResults.savedUri!!.toFile())
-                Log.e("factory", "onVideoSaved $outputFileResults.savedUri!!.toFile()")
+                Timber.e("factory", "onVideoSaved $outputFileResults.savedUri!!.toFile()")
             }
 
             override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {

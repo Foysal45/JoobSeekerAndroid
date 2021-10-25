@@ -156,8 +156,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView8"
         android:layout_width="0dp"
