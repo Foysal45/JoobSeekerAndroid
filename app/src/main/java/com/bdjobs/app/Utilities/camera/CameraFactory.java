@@ -9,6 +9,8 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.otaliastudios.cameraview.CameraView;
 
+import timber.log.Timber;
+
 
 public class CameraFactory {
 
@@ -16,7 +18,7 @@ public class CameraFactory {
                                              PreviewView previewView, LifecycleOwner lifecycleOwner, CameraProvider.OutputCallBack callBack) {
 
         if (Build.VERSION.SDK_INT > 23) {
-            Log.e("factory", "CameraXprovider");
+            Timber.e("CameraXProvider");
             CameraXprovider prox   = new CameraXprovider(lifecycleOwner, previewView, context);
             prox.setCallback(callBack);
             return prox;
@@ -24,7 +26,7 @@ public class CameraFactory {
         } else {
             Camera2Provider provider = new Camera2Provider(lifecycleOwner, cameraView, context);
             provider.setCallback(callBack);
-            Log.e("factory", "CameraXprovider");
+            Timber.e("CameraXProvider");
             return provider;
         }
     }
