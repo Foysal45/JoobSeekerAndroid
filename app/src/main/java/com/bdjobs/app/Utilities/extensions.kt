@@ -15,6 +15,7 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Build
+import android.os.Bundle
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.Editable
@@ -34,6 +35,8 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -107,7 +110,11 @@ fun Context.isBlueCollarUser(): Boolean {
     var isBlueCollar = false
     try {
         if (catId != null) {
-            val aList = ArrayList(Arrays.asList<String>(*catId.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+            val aList = ArrayList(
+                Arrays.asList<String>(
+                    *catId.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                )
+            )
             for (i in aList.indices) {
                 println(" -->" + aList[i])
                 //Log.d("ListOutput", "ListOutput " + aList[i])
@@ -136,7 +143,11 @@ fun Context.getBlueCollarUserId(): Int {
     var blueCollarId = 0
     try {
         if (catId != null) {
-            val aList = ArrayList(Arrays.asList<String>(*catId.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+            val aList = ArrayList(
+                Arrays.asList<String>(
+                    *catId.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                )
+            )
             for (i in aList.indices) {
                 println(" -->" + aList[i])
                 //Log.d("ListOutput", "ListOutput " + aList[i])
@@ -157,7 +168,7 @@ fun Context.getBlueCollarUserId(): Int {
     return blueCollarId
 }
 
-fun Context.launchUrl( url: String?) {
+fun Context.launchUrl(url: String?) {
     try {
         val formattedUrl = if (!url!!.startsWith("http://") && !url.startsWith("https://")) {
             "http://$url"
@@ -236,13 +247,13 @@ fun Activity.subscribeToFCMTopic(topicName: String) {
 
 
     FirebaseMessaging.getInstance().subscribeToTopic(topicName)
-            .addOnCompleteListener { task ->
-                var msg = "Firebase topic subscription on : $topicName is Successful"
-                if (!task.isSuccessful) {
-                    msg = "Firebase topic subscription on : $topicName is NOT Successful"
-                }
-                wtf(msg)
+        .addOnCompleteListener { task ->
+            var msg = "Firebase topic subscription on : $topicName is Successful"
+            if (!task.isSuccessful) {
+                msg = "Firebase topic subscription on : $topicName is NOT Successful"
             }
+            wtf(msg)
+        }
 //    FirebaseMessaging.getInstance().subscribeToTopic(topicName)
 //            .addOnCompleteListener(object : OnCompleteListener<Void> {
 //                override fun onComplete(@NonNull task: Task<Void>) {
@@ -258,38 +269,47 @@ fun Activity.subscribeToFCMTopic(topicName: String) {
 
 fun Activity.unsubscribeFromFCMTopic(topicName: String) {
     FirebaseMessaging.getInstance()?.unsubscribeFromTopic(topicName)
-            .addOnCompleteListener { task ->
-                var msg = "Firebase topic unsubscribe on : $topicName is successful"
-                if (!task.isSuccessful) {
-                    var msg = "Firebase topic unsubscribe on : $topicName is not successful"
-                }
-                wtf(msg)
+        .addOnCompleteListener { task ->
+            var msg = "Firebase topic unsubscribe on : $topicName is successful"
+            if (!task.isSuccessful) {
+                var msg = "Firebase topic unsubscribe on : $topicName is not successful"
             }
+            wtf(msg)
+        }
 }
 
-fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener, from: String? = "") {
+fun pickDate(
+    c: Context,
+    cal: Calendar,
+    listener: DatePickerDialog.OnDateSetListener,
+    from: String? = ""
+) {
 
     if (from == "assessment") {
 
         var now: Long = System.currentTimeMillis() - 1000;
 
-        val dpd = DatePickerDialog(c,
-                listener,
-                // set DatePickerDialog to point to today's date when it loads up
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH))
+        val dpd = DatePickerDialog(
+            c,
+            listener,
+            // set DatePickerDialog to point to today's date when it loads up
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        )
         dpd.datePicker.minDate = now
         //dpd.datePicker.maxDate = now+(1000*60*60*24*7)
 
         dpd.show()
     } else {
-        val dpd = DatePickerDialog(c,
-                listener,
-                // set DatePickerDialog to point to today's date when it loads up
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH))
+        val dpd = DatePickerDialog(
+            c,
+            listener,
+            // set DatePickerDialog to point to today's date when it loads up
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        )
         dpd.datePicker.maxDate = Date().time
         dpd.show()
     }
@@ -399,7 +419,8 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: 
             val transaction = fragmentManager.beginTransaction()
 
             if (addToBackStack) {
-                transaction.replace(holderID, fragment, simpleClassName(fragment)).addToBackStack(simpleClassName(fragment))
+                transaction.replace(holderID, fragment, simpleClassName(fragment))
+                    .addToBackStack(simpleClassName(fragment))
             } else {
                 transaction.replace(holderID, fragment, simpleClassName(fragment))
             }
@@ -412,7 +433,11 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: 
     }
 }
 
-fun FragmentActivity.transitFragment(fragment: androidx.fragment.app.Fragment, holderID: Int, addToBackStack: Boolean) {
+fun FragmentActivity.transitFragment(
+    fragment: androidx.fragment.app.Fragment,
+    holderID: Int,
+    addToBackStack: Boolean
+) {
     try {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -443,7 +468,11 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int) {
     }
 }
 
-fun AppCompatActivity.transitFragmentX(fragment: androidx.fragment.app.Fragment, holderID: Int, addToBackStack: Boolean) {
+fun AppCompatActivity.transitFragmentX(
+    fragment: androidx.fragment.app.Fragment,
+    holderID: Int,
+    addToBackStack: Boolean
+) {
     try {
         val fragmentManager = this.supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -463,10 +492,35 @@ fun AppCompatActivity.transitFragmentX(fragment: androidx.fragment.app.Fragment,
     }
 }
 
+inline fun FragmentManager.doTransaction(
+    func: FragmentTransaction.() ->
+    FragmentTransaction
+) {
+    beginTransaction().func().commit()
+}
+
+fun AppCompatActivity.addFragment(frameId: Int, fragment: androidx.fragment.app.Fragment){
+    supportFragmentManager.doTransaction { add(frameId, fragment) }
+}
+
+
+fun AppCompatActivity.replaceFragment(frameId: Int, fragment: androidx.fragment.app.Fragment,bundle:Bundle?=null) {
+    if (bundle!=null) {
+        fragment.arguments = bundle
+    }
+    supportFragmentManager.doTransaction{replace(frameId, fragment)}
+}
+
+fun AppCompatActivity.removeFragment(fragment: androidx.fragment.app.Fragment) {
+    supportFragmentManager.doTransaction{remove(fragment)}
+}
 
 
 fun Activity.disableUserInteraction() {
-    window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+    window.setFlags(
+        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+    )
 }
 
 fun Activity.enableUserInteraction() {
@@ -494,8 +548,10 @@ fun Activity.ACTVValidation(char: String, et: AutoCompleteTextView, til: TextInp
     return true
 }
 
-fun isValidate(etCurrent: TextInputEditText?, tilCurrent: TextInputLayout?,
-               etNext: TextInputEditText?, last: Boolean, validation: Int): Int {
+fun isValidate(
+    etCurrent: TextInputEditText?, tilCurrent: TextInputLayout?,
+    etNext: TextInputEditText?, last: Boolean, validation: Int
+): Int {
     var valid: Int = validation
     if (last) {
         if (TextUtils.isEmpty(etCurrent?.getString())) {
@@ -546,8 +602,10 @@ fun mobileValidation(char: String, et: TextInputEditText, til: TextInputLayout):
     return true
 }
 
-fun isValidateAutoCompleteTV(etCurrent: AutoCompleteTextView?, tilCurrent: TextInputLayout?,
-                             etNext: TextInputEditText?, isEmpty: Boolean, validation: Int): Int {
+fun isValidateAutoCompleteTV(
+    etCurrent: AutoCompleteTextView?, tilCurrent: TextInputLayout?,
+    etNext: TextInputEditText?, isEmpty: Boolean, validation: Int
+): Int {
     var valid: Int = validation
     if (isEmpty) {
         etCurrent?.requestFocus()
@@ -576,8 +634,8 @@ fun Any.logException(e: java.lang.Exception) {
 fun ImageView.loadImageFromUrl(url: String?) {
     try {
         Picasso.get()
-                .load(url?.trim())
-                .into(this)
+            .load(url?.trim())
+            .into(this)
     } catch (e: Exception) {
         logException(e)
     }
@@ -590,9 +648,9 @@ fun TextInputEditText.enableOrdisableEdit(b: Boolean) {
 fun ImageView.loadCircularImageFromUrl(url: String?) {
     try {
         Picasso.get()
-                .load(url?.trim())
-                .transform(CircleTransform())
-                .into(this)
+            .load(url?.trim())
+            .transform(CircleTransform())
+            .into(this)
     } catch (e: Exception) {
         logException(e)
     }
@@ -601,11 +659,11 @@ fun ImageView.loadCircularImageFromUrl(url: String?) {
 fun ImageView.loadCircularImageFromUrlWithoutCach(url: String?) {
     try {
         Picasso.get()
-                .load(url?.trim())
-                .transform(CircleTransform())
-                .networkPolicy(NetworkPolicy.NO_CACHE)
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .into(this)
+            .load(url?.trim())
+            .transform(CircleTransform())
+            .networkPolicy(NetworkPolicy.NO_CACHE)
+            .memoryPolicy(MemoryPolicy.NO_CACHE)
+            .into(this)
     } catch (e: Exception) {
         logException(e)
     }
@@ -617,7 +675,8 @@ fun EditText.clearText() {
 
 fun EditText.showKeyboard(activity: Activity?) {
     this.requestFocus()
-    val imm: InputMethodManager? = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+    val imm: InputMethodManager? =
+        activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
     imm?.showSoftInput(this, InputMethodManager.SHOW_FORCED)
 }
 
@@ -739,46 +798,49 @@ fun Any.wtf(tr: Throwable) {
     Log.wtf(this::class.java.simpleName, tr)
 }
 
-fun RecyclerView.bindFloatingActionButton(fab: FloatingActionButton) = this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-        super.onScrolled(recyclerView, dx, dy)
-        if (dy > 0 && fab.isShown) {
-            fab.hide()
-        } else if (dy <= 0 && !fab.isShown) {
-            fab.show()
+fun RecyclerView.bindFloatingActionButton(fab: FloatingActionButton) =
+    this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if (dy > 0 && fab.isShown) {
+                fab.hide()
+            } else if (dy <= 0 && !fab.isShown) {
+                fab.show()
+            }
         }
-    }
-})
+    })
 
 /**
  * Calls the given function on [TextWatcher.afterTextChanged]
  */
-fun TextView.easyOnTextChangedListener(listener: (e: CharSequence) -> Unit) = this.addTextChangedListener(object : TextWatcher {
-    override fun afterTextChanged(p0: Editable) {
-    }
+fun TextView.easyOnTextChangedListener(listener: (e: CharSequence) -> Unit) =
+    this.addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(p0: Editable) {
+        }
 
-    override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+        override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
 
-    }
+        }
 
-    override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
-        listener(p0)
-    }
-})
+        override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+            listener(p0)
+        }
+    })
 
 
-fun AutoCompleteTextView.easyOnTextChangedListener(listener: (e: CharSequence) -> Unit) = this.addTextChangedListener(object : TextWatcher {
-    override fun afterTextChanged(p0: Editable) {
-    }
+fun AutoCompleteTextView.easyOnTextChangedListener(listener: (e: CharSequence) -> Unit) =
+    this.addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(p0: Editable) {
+        }
 
-    override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+        override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
 
-    }
+        }
 
-    override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
-        listener(p0)
-    }
-})
+        override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+            listener(p0)
+        }
+    })
 
 fun Activity.getAppVersion(): String {
     val pinfo = packageManager.getPackageInfo(packageName, 0)
@@ -816,7 +878,8 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
         val networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
         if (networkInfo != null) {
             if (networkInfo.isConnected) {
-                val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+                val wifiManager =
+                    applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
                 val connectionInfo = wifiManager.connectionInfo
                 if (connectionInfo != null && !TextUtils.isEmpty(connectionInfo.ssid)) {
                     ssid = connectionInfo.ssid
@@ -856,7 +919,8 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
 
     val deviceInfo = HashMap<String, String>()
     deviceInfo[Constants.KEY_MANUFACTURER] = Build.MANUFACTURER.toUpperCase()
-    deviceInfo[Constants.KEY_OS_VERSION] = System.getProperty("os.version") + "(" + Build.VERSION.INCREMENTAL + ")"
+    deviceInfo[Constants.KEY_OS_VERSION] =
+        System.getProperty("os.version") + "(" + Build.VERSION.INCREMENTAL + ")"
     deviceInfo[Constants.KEY_OS_API_LEVEL] = Build.VERSION.SDK_INT.toString()
     deviceInfo[Constants.KEY_DEVICE] = Build.DEVICE
     deviceInfo[Constants.KEY_MODEL_PRODUCT] = Build.MODEL + " (" + Build.PRODUCT + ")"
@@ -915,7 +979,7 @@ fun String.toFormattedSeconds(): String {
 
     val totalSeconds = this.toInt()
     var formattedTime = ""
-    return if (totalSeconds <= 60){
+    return if (totalSeconds <= 60) {
         formattedTime = String.format("%02d:%02d", 0, totalSeconds)
         formattedTime
     } else {
@@ -930,7 +994,7 @@ fun String.toFormattedSeconds(): String {
 
 @SuppressLint("RestrictedApi")
 fun MaterialButton.changeColor(color: Int) {
-    this.supportBackgroundTintList = AppCompatResources.getColorStateList(this.context,color)
+    this.supportBackgroundTintList = AppCompatResources.getColorStateList(this.context, color)
 }
 
 fun Context.openSettingsDialog() {

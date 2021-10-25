@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
@@ -244,7 +245,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     private val homeFragment = HomeFragment()
     private val hotJobsFragmentnew = HotJobsFragmentNew()
     private val moreFragment = MoreFragment()
-    public val shortListedJobFragment = ShortListedJobFragment()
+    private val shortListedJobFragment = ShortListedJobFragment()
     private val myJobsFragment = MyJobsFragment()
     private val mybdjobsFragment = MyBdjobsFragment()
     private lateinit var session: BdjobsUserSession
@@ -359,10 +360,13 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
 
     override fun goToFollowedEmployerList(from: String) {
-        startActivity<EmployersBaseActivity>(
-            "from" to from,
-            "time" to time
-        )
+//        startActivity<EmployersBaseActivity>(
+//            "from" to from,
+//            "time" to time
+//        )
+
+        replaceFragment(R.id.landingPageFragmentHolderFL,myJobsFragment, bundleOf("from" to from))
+        bottom_navigation?.selectedItemId = R.id.navigation_shortlisted_jobs
     }
 
     override fun goToResumeManager() {
@@ -821,7 +825,10 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     }
 
     override fun goToFavSearchFilters() {
-        startActivity<FavouriteSearchBaseActivity>()
+//        startActivity<FavouriteSearchBaseActivity>()
+//        transitFragmentX(myJobsFragment, R.id.landingPageFragmentHolderFL, false)
+        replaceFragment(R.id.landingPageFragmentHolderFL,myJobsFragment, bundleOf("from" to "favSearch"))
+        bottom_navigation?.selectedItemId = R.id.navigation_shortlisted_jobs
     }
 
     override fun goToJoblistFromLastSearch() {
