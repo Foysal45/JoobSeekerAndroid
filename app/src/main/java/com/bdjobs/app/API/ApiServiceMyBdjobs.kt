@@ -12,8 +12,8 @@ import com.bdjobs.app.liveInterview.data.models.*
 import com.bdjobs.app.resume_dashboard.data.models.*
 import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
-import com.bdjobs.app.transaction.data.model.TransactionList
 import com.bdjobs.app.sms.data.model.SMSSettings
+import com.bdjobs.app.transaction.data.model.TransactionList
 import com.bdjobs.app.videoInterview.data.models.CommonResponse
 import com.bdjobs.app.videoInterview.data.models.InterviewFeedback
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
@@ -1411,6 +1411,7 @@ interface ApiServiceMyBdjobs {
 
             val okHttpClient = OkHttpClient.Builder()
                     .addInterceptor(interceptor)
+                    .addInterceptor(OkHttpProfilerInterceptor())
                     .build()
 
             return Retrofit.Builder().apply {
