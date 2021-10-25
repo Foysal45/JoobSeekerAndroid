@@ -66,8 +66,8 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
         super.onActivityCreated(savedInstanceState)
         bdJobsDB = BdjobsDB.getInstance(requireContext())
         bdJobsUserSession = BdjobsUserSession(requireContext())
-        isActivityDate = ""
         homeCommunicator = requireActivity() as HomeCommunicator
+        isActivityDate = homeCommunicator.getTime()
 
         /*try {
 

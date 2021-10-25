@@ -294,6 +294,10 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         this.time = time
     }
 
+    override fun getTime(): String {
+        return time
+    }
+
     override fun goToAppliedJobs() {
         startActivity<AppliedJobsActivity>("time" to time)
     }
@@ -365,7 +369,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 //            "time" to time
 //        )
 
-        replaceFragment(R.id.landingPageFragmentHolderFL,myJobsFragment, bundleOf("from" to from))
+        replaceFragment(R.id.landingPageFragmentHolderFL,myJobsFragment, bundleOf("from" to from,"time" to time))
         bottom_navigation?.selectedItemId = R.id.navigation_shortlisted_jobs
     }
 
