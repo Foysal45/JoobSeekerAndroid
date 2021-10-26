@@ -195,7 +195,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                         notificationViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
 
                         doAsync {
-                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].type!!,items[position].serverId!!)
                             val count = bdjobsDB.notificationDao().getMessageCount()
                             bdjobsUserSession.updateMessageCount(count)
                             uiThread {
@@ -266,7 +266,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                         videoInterviewViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
 
                         doAsync {
-                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].type!!,items[position].serverId!!)
                             val count = bdjobsDB.notificationDao().getMessageCount()
                             bdjobsUserSession.updateMessageCount(count)
                             uiThread {
@@ -337,7 +337,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                         liveInterviewViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
 
                         doAsync {
-                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].type!!,items[position].serverId!!)
                             val count = bdjobsDB.notificationDao().getMessageCount()
                             bdjobsUserSession.updateMessageCount(count)
                             uiThread {
@@ -415,7 +415,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     try {
                         if (!items[position].seen!!) {
                             doAsync {
-                                bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].type!!,items[position].serverId!!)
                                 val count = bdjobsDB.notificationDao().getNotificationCount()
                                 bdjobsUserSession.updateNotificationCount(count)
                             }
@@ -484,7 +484,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     try {
                         if (!items[position].seen!!) {
                             doAsync {
-                                bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                bdjobsDB.notificationDao().updateNotification(Date(), true,  items[position].type!!,items[position].serverId!!)
                                 val count = bdjobsDB.notificationDao().getNotificationCount()
                                 bdjobsUserSession.updateNotificationCount(count)
                             }
@@ -556,7 +556,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     if (!items[position].seen!!) {
 
                         doAsync {
-                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                            bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].type!!,items[position].serverId!!)
                             val count = bdjobsDB.notificationDao().getNotificationCount()
                             bdjobsUserSession.updateNotificationCount(count)
                         }
@@ -689,7 +689,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             try {
                                 if (!items[position].seen!!) {
                                     doAsync {
-                                        bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                        bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].type!!,items[position].serverId!!)
                                         val count = bdjobsDB.notificationDao().getMessageCount()
                                         bdjobsUserSession.updateMessageCount(count)
                                     }
@@ -708,7 +708,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             try {
                                 if (!items[position].seen!!) {
                                     doAsync {
-                                        bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].notificationId!!, items[position].type!!)
+                                        bdjobsDB.notificationDao().updateNotification(Date(), true, items[position].type!!,items[position].serverId!!)
                                         val count = bdjobsDB.notificationDao().getMessageCount()
                                         bdjobsUserSession.updateMessageCount(count)
                                     }
@@ -821,8 +821,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     bdjobsDB.notificationDao().updateNotification(
                         Date(),
                         true,
-                        items[position].notificationId!!,
-                        items[position].type!!
+                        items[position].type!!,items[position].serverId!!
                     )
                     val count = bdjobsDB.notificationDao().getMessageCount()
                     bdjobsUserSession.updateMessageCount(count)
