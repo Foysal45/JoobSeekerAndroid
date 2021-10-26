@@ -34,6 +34,7 @@ import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.appliedJobsCount
 import com.bdjobs.app.Web.WebActivity
+import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 import com.bdjobs.app.databases.internal.AppliedJobs
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.FollowedEmployer
@@ -1771,14 +1772,14 @@ class JobDetailAdapter(private val context: Context) :
         if (errorMsg != null) this.errorMsg = errorMsg
     }
 
-//    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
-//        if (holder is JobsListVH) {
-//            holder.fragment(HomeNewFragment())
-//        }
-//        super.onViewAttachedToWindow(holder)
-//
-//
-//    }
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        if (holder is JobsListVH) {
+            holder.fragment(HomeNewFragment())
+        }
+        super.onViewAttachedToWindow(holder)
+
+
+    }
 
     /**
      * Main list's content ViewHolder
