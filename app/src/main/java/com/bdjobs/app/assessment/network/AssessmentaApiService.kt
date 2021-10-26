@@ -2,6 +2,7 @@ package com.bdjobs.app.assessment.network
 
 //import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.bdjobs.app.assessment.models.*
+import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -24,6 +25,7 @@ val interceptor = HttpLoggingInterceptor().apply {
 
 val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(interceptor)
+        .addInterceptor(OkHttpProfilerInterceptor())
         .build()
 
 private val retrofit = Retrofit.Builder()
