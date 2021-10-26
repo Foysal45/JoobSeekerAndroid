@@ -107,6 +107,14 @@ class MyJobsFragment : Fragment() {
         showMessageCount()
     }
 
+    override fun onDetach() {
+
+        Timber.d("Detached!")
+        arguments?.putString("from","short")
+
+        super.onDetach()
+    }
+
     @SuppressLint("SetTextI18n")
     fun updateMessageView(count: Int?) {
         if (count!! > 0) {

@@ -1,5 +1,6 @@
 package com.bdjobs.app.LoggedInUserLanding
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.Dialog
@@ -24,12 +25,9 @@ import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
-import com.bdjobs.app.BroadCastReceivers.NightNotificationReceiver
 import com.bdjobs.app.BroadCastReceivers.MorningNotificationReceiver
+import com.bdjobs.app.BroadCastReceivers.NightNotificationReceiver
 import com.bdjobs.app.Employers.EmployerJobListFragment
-import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.databases.internal.InviteCodeInfo
-import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
@@ -50,6 +48,9 @@ import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
 import com.bdjobs.app.Utilities.Constants.Companion.sendDeviceInformation
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.InviteCodeInfo
+import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
@@ -331,17 +332,17 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
         if (bottom_navigation.selectedItemId == R.id.navigation_home) {
             val exitDialog = Dialog(this@MainLandingActivity)
-            exitDialog?.setContentView(R.layout.dialog_exit_layout)
-            exitDialog?.setCancelable(true)
-            exitDialog?.show()
-            val yesBtn = exitDialog?.findViewById(R.id.onlineApplyOkBTN) as Button
-            val noBtn = exitDialog?.findViewById(R.id.onlineApplyCancelBTN) as Button
-            val ad_small_template = exitDialog?.findViewById<TemplateView>(R.id.ad_small_template)
-            Ads.showNativeAd(ad_small_template, this)
+            exitDialog.setContentView(R.layout.dialog_exit_layout)
+            exitDialog.setCancelable(true)
+            exitDialog.show()
+            val yesBtn = exitDialog.findViewById(R.id.onlineApplyOkBTN) as Button
+            val noBtn = exitDialog.findViewById(R.id.onlineApplyCancelBTN) as Button
+            val adSmallTemplate = exitDialog.findViewById<TemplateView>(R.id.ad_small_template)
+            Ads.showNativeAd(adSmallTemplate, this)
 
-            yesBtn?.setOnClickListener {
+            yesBtn.setOnClickListener {
                 try {
-                    exitDialog?.dismiss()
+                    exitDialog.dismiss()
                     if (Ads.mInterstitialAd != null && Ads.mInterstitialAd?.isLoaded!!) {
                         Ads.mInterstitialAd?.show()
                     } else {
@@ -510,6 +511,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     /**
      * this fun is just for testing purpose
      */
+    @SuppressLint("SimpleDateFormat")
     private fun insertTempMessage() {
         doAsync {
 
