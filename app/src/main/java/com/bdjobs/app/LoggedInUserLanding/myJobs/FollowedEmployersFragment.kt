@@ -149,6 +149,14 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
         }
     }
 
+    override fun onDetach() {
+        try {
+            homeCommunicator.setTime("0")
+        } catch (e: Exception) {
+        }
+        super.onDetach()
+    }
+
     private fun loadNextPage() {
         if (currentPage <= totalPage ?: 0) {
             try {
