@@ -30,6 +30,7 @@ class VideoResumeActivity : AppCompatActivity() {
         val graph = inflater.inflate(R.navigation.video_resume_nav_graph)
 
         if (from == "ViewEditResume") graph.startDestination = R.id.videoResumeQuestionsFragment
+        else if (from == "JobDetails") graph.startDestination = R.id.guidelineFragment
         else graph.startDestination = R.id.videoResumeLandingFragment
 
         navHostFragment.navController.graph = graph

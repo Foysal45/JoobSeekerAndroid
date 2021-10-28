@@ -259,6 +259,7 @@
                 android:text="Job Information"
                 android:textColor="#2F64A3"
                 android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/govtJobsIMGV" />
 
             <TextView
@@ -273,6 +274,7 @@
                 android:textColor="#000000"
                 android:textIsSelectable="true"
                 android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/jobInfo" />
 
             <TextView
@@ -286,6 +288,7 @@
                 android:textColor="#000000"
                 android:textIsSelectable="true"
                 android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/keyPoints"
                 tools:text="Big Data" />
 
@@ -299,6 +302,7 @@
                 android:paddingEnd="20dp"
                 android:text="Job Context"
                 android:textColor="#000000"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textIsSelectable="true"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/keyPointsTv" />
@@ -314,6 +318,7 @@
                 android:textColor="#000000"
                 android:textIsSelectable="true"
                 android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/jobContext"
                 tools:text="Division Enablars" />
 
@@ -337,6 +342,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
+                app:layout_constraintStart_toStartOf="parent"
                 android:text="Job Description/Responsibility"
                 android:textColor="#000000"
                 android:textSize="17sp"
@@ -351,6 +357,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textIsSelectable="true"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/responsibility"
@@ -365,6 +372,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="Job Nature"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/responsibilityTV" />
@@ -379,6 +387,7 @@
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
                 android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/jobNature"
                 tools:text="Contractual" />
@@ -392,6 +401,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="Working Place"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textColor="#2F64A3"
                 android:textIsSelectable="true"
                 android:textSize="18sp"
@@ -403,6 +413,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/roboto"
+                app:layout_constraintStart_toStartOf="parent"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
@@ -421,6 +432,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="Requirements"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textColor="#2F64A3"
                 android:textIsSelectable="true"
                 android:textSize="18sp"
@@ -433,6 +445,7 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="20dp"
+                app:layout_constraintStart_toStartOf="parent"
                 android:paddingEnd="20dp"
                 android:text="Educational"
                 android:textColor="#000000"
@@ -450,6 +463,7 @@
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
                 android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/education"
                 tools:text="The applicants should have experience in the following business area (s): Software Company, IT Enabled Service" />
@@ -461,6 +475,7 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="20dp"
+                app:layout_constraintStart_toStartOf="parent"
                 android:paddingEnd="20dp"
                 android:text="Experience"
                 android:textColor="#000000"
@@ -477,6 +492,7 @@
                 android:textColor="#000000"
                 android:textIsSelectable="true"
                 android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/Experience"
                 tools:text="The applicants should have experience in the following business area (s): Software Company, IT Enabled ServiceThe applicants should have experience in the following business area (s): Software Company, IT Enabled Service" />
 
@@ -489,6 +505,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="Job Requirements"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/experienceTV" />
@@ -503,6 +520,7 @@
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
                 android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/jobRequirements"
                 tools:text="Only [males/females] are allowed to apply./ Others (except male  female) are allowed to apply. / Both males and females are allowed to apply." />
@@ -540,6 +558,7 @@
                 android:text="Salary and Compensation"
                 android:textColor="#2F64A3"
                 android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/horizontalView" />
 
             <TextView
@@ -553,6 +572,7 @@
                 android:text="Salary"
                 android:textColor="#000000"
                 android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/salaryAndCompensation" />
 
             <TextView
@@ -567,6 +587,7 @@
                 android:textColor="#000000"
                 android:textIsSelectable="true"
                 android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/salaryRange" />
 
             <TextView
@@ -579,6 +600,7 @@
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
                 android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/salaryRangeTV"
                 android:text="Other Benefits" />
 
@@ -593,6 +615,7 @@
                 android:text="Weekly 2 holidays"
                 android:textColor="#000000"
                 android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/otherBenefits" />
 
@@ -618,6 +641,7 @@
                 android:textColor="#2F64A3"
                 android:textSize="18sp"
                 android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@+id/horizontalViewfour" />
 
@@ -650,12 +674,12 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="Read Before Apply"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textColor="#2F64A3"
                 android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@+id/jobSourceTV"
 
                 />
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/readBeforeApplyCL"
@@ -726,7 +750,6 @@
                     tools:text="TextView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             <TextView
                 android:id="@+id/postedDate"
                 android:layout_width="wrap_content"
@@ -738,8 +761,8 @@
                 android:text="Published On"
                 android:textColor="#2F64A3"
                 android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/readBeforeApplyCL"/>
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/postedDateCL"
@@ -1005,7 +1028,7 @@
                 android:scaleType="fitXY"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/newBackgroundlayout"
+                app:layout_constraintTop_toBottomOf="@+id/view_divider"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <LinearLayout
@@ -1018,7 +1041,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="12dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/navHostFragment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent">
@@ -1026,6 +1049,45 @@
                 <include layout="@layout/job_report_layout" />
 
             </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/navHostFragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_video_resume_encouragement_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/newBackgroundlayout"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/video_resume_encouragement"
+                android:fontFamily="@font/roboto"
+                android:textColor="#757575"
+                android:textSize="13sp"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@drawable/ic_video_account"
+                android:drawablePadding="16dp"/>
+
+
+            <View
+                android:id="@+id/view_divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_video_resume_encouragement_text"
+                android:background="#D9D9D9"
+                android:layout_marginTop="16dp"/>
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

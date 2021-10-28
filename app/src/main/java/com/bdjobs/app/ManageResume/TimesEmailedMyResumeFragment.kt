@@ -1,10 +1,11 @@
 package com.bdjobs.app.ManageResume
 
 
+//import com.google.android.gms.ads.AdRequest
+import android.annotation.SuppressLint
 import android.app.Fragment
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +20,8 @@ import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-//import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_times_emailed_my_resume.*
+import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,7 +40,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
     private var bdjobsUserSession: BdjobsUserSession? = null
     private lateinit var isActivityDate: String
 
-    private var selectedResumeType = "2"
+    private var selectedResumeType = "1"
 
     private lateinit var manageCommunicator: ManageResumeCommunicator
     private lateinit var timesEmailedMyResumeAdapter: TimesEmailedMyResumeAdapter
@@ -92,8 +93,11 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
+
+        textView10.text = "You didn't email any Resume yet."
 
         if (manageCommunicator.getBackFrom() == "filter") {
             manageCommunicator.setBackFrom("")
@@ -310,17 +314,22 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
                 if (response?.body()?.data.isNullOrEmpty()) {
                     timesEmailedNoDataLL?.show()
+                    titleTV.hide()
+                    numberTV.hide()
                     emailedResumeRV?.hide()
-                    numberTV?.show()
                     shimmer_view_container_emailedResumeList?.hide()
                     shimmer_view_container_emailedResumeList?.stopShimmer()
                     //Log.d("totalJobs", "zero")
                 } else {
-                    timesEmailedNoDataLL?.hide()
-                    emailedResumeRV?.show()
-                    numberTV?.show()
-                    shimmer_view_container_emailedResumeList?.hide()
-                    shimmer_view_container_emailedResumeList?.stopShimmer()
+                    try {
+                        timesEmailedNoDataLL?.hide()
+                        titleTV.show()
+                        numberTV.show()
+                        emailedResumeRV?.show()
+                        shimmer_view_container_emailedResumeList?.hide()
+                        shimmer_view_container_emailedResumeList?.stopShimmer()
+                    } catch (e: Exception) {
+                    }
                 }
             }
 

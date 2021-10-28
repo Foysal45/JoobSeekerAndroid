@@ -1,15 +1,13 @@
 package com.bdjobs.app.transaction
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Registration.blue_collar_registration.BCPhotoUploadFragment
 import com.bdjobs.app.transaction.ui.TransactionListFragment
-import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.activity_transaction_base.*
 
 class TransactionBaseActivity : AppCompatActivity() {
 

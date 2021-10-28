@@ -32,6 +32,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 //import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_employer_viewed_my_resume.*
+import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -86,9 +87,12 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
         initializeViews()
+
+        textView10.text = "No Employer has viewed your Resume."
 
         favCountTV.setOnClickListener {
             showFilterDialog()

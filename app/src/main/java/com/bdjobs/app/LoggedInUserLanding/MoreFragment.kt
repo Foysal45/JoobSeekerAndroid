@@ -21,17 +21,14 @@ import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.Training.TrainingListAcitivity
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
-import com.bdjobs.app.sms.BaseActivity
+import com.bdjobs.app.sms.SmsBaseActivity
 import com.bdjobs.app.transaction.TransactionBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
 import com.bdjobs.app.videoResume.VideoResumeActivity
 import kotlinx.android.synthetic.main.fragment_more_layout.*
-import org.jetbrains.anko.alert
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.startActivity
 import timber.log.Timber
@@ -193,7 +190,7 @@ class MoreFragment : Fragment() {
         }
 
         sms_package_MBTN?.setOnClickListener {
-            startActivity<BaseActivity>()
+            startActivity<SmsBaseActivity>()
         }
 
         transaction_overview_MBTN?.setOnClickListener {

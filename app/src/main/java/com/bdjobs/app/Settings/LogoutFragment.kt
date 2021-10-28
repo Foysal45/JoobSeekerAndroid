@@ -21,7 +21,7 @@ import com.bdjobs.app.Utilities.getDeviceID
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.removeShortcut
 import com.bdjobs.app.Web.WebActivity
-import com.bdjobs.app.sms.BaseActivity
+import com.bdjobs.app.sms.SmsBaseActivity
 import com.google.android.gms.ads.AdListener
 import kotlinx.android.synthetic.main.fragment_logout.*
 import org.jetbrains.anko.noButton
@@ -88,7 +88,7 @@ class LogoutFragment : Fragment() {
         }
 
         smsSettingsBTN?.setOnClickListener {
-            requireContext().startActivity<BaseActivity>("from" to "settings")
+            requireContext().startActivity<SmsBaseActivity>("from" to "settings")
         }
 
         setUserIdBTN.setOnClickListener{

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="100dp"
+        android:layout_height="167dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:background="@drawable/bg_home_live_border"
+        android:padding="1dp"
+        >
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"
+            app:show_buffering="never"
+            app:use_controller="false"
+            app:resize_mode="zoom"
+            app:surface_type="texture_view"
+            tools:foreground="@color/black_50"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/videoCover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/cd"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_live_placeholder_1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="4dp"
+            >
+
+            <TextView
+                android:id="@+id/liveStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:background="@color/aDheaderColor"
+                android:drawablePadding="4dp"
+                android:includeFontPadding="false"
+                android:paddingStart="4dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                app:drawableStartCompat="@drawable/bg_live_on"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                tools:text="UPCOMING" />
+
+            <TextView
+                android:id="@+id/viewCount"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:background="@color/black_80"
+                android:drawablePadding="4dp"
+                android:includeFontPadding="false"
+                android:paddingStart="4dp"
+                android:paddingTop="1dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                app:drawableStartCompat="@drawable/ic_view1"
+                app:layout_constraintStart_toEndOf="@id/liveStatus"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:visibility="gone"
+
+                tools:visibility="gone"
+                tools:text="৯৯৯" />
+
+            <TextView
+                android:id="@+id/liveSchedule"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:background="@color/black_80"
+                android:drawablePadding="4dp"
+                android:includeFontPadding="false"
+                android:paddingStart="4dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                app:layout_constraintStart_toEndOf="@id/liveStatus"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:visibility="gone"
+
+                tools:visibility="visible"
+                tools:text="৯৯ pm" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_home_live_shade"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:paddingTop="12dp"
+            android:paddingBottom="4dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            >
+
+            <TextView
+                android:id="@+id/titleTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:gravity="center|bottom"
+                android:maxLines="2"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/liveStatus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@tools:sample/lorem/random"
+                />
+
+            <!--<TextView
+                android:id="@+id/liveSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintTop_toBottomOf="@id/liveStatus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@tools:sample/lorem/random"
+                 />-->
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

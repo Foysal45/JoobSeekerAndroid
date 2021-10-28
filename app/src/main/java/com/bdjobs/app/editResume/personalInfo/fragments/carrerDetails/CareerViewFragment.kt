@@ -77,7 +77,9 @@ class CareerViewFragment : Fragment() {
                         val respo = response.body()
                         val data = respo?.data?.get(0)!!
                         careerInfoCB.passCareerData(data)
-                        setupView(respo?.data?.get(0)!!)
+                        session.expectedSalary = data.expectedSalary
+                        session.presentSalary = data.presentSalary
+                        setupView(respo.data[0]!!)
                         careerInfoCB.setEditButton(true, "editCareer")
                     }
                 } catch (e: Exception) {

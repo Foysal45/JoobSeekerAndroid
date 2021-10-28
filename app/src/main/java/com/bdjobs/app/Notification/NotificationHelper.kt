@@ -7,13 +7,10 @@ import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION_CODES.O
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -25,11 +22,8 @@ import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
-import com.bdjobs.app.sms.BaseActivity
+import com.bdjobs.app.sms.SmsBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
-import timber.log.Timber
 import java.lang.Exception
 
 class NotificationHelper(val context: Context) : ContextWrapper(context) {
@@ -229,7 +223,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
             }
 
             Constants.NOTIFICATION_TYPE_SMS -> {
-                val intent = Intent(this, BaseActivity::class.java)?.apply {
+                val intent = Intent(this, SmsBaseActivity::class.java)?.apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 

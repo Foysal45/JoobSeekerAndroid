@@ -23,7 +23,7 @@ class  MyBdjobsFragment : Fragment() {
     private lateinit var bdjobsUserSession : BdjobsUserSession
 
     private lateinit var bdjobsDB: BdjobsDB
-    private var mybdjobsAdapter: MybdjobsAdapter? = null
+    private var myBdJobsAdapter: MyBdJobsAdapter? = null
     private var bdjobsList: ArrayList<MybdjobsData> = ArrayList()
     private lateinit var communicator: HomeCommunicator
     private var lastMonthStatsData: List<StatsModelClassData?>? = null
@@ -33,9 +33,9 @@ class  MyBdjobsFragment : Fragment() {
     private lateinit var session: BdjobsUserSession
     private fun populateDataModel() {
         try {
-            mybdjobsAdapter?.removeAll()
+            myBdJobsAdapter?.removeAll()
             bdjobsList.clear()
-            mybdjobsAdapter?.notifyDataSetChanged()
+            myBdJobsAdapter?.notifyDataSetChanged()
             bdjobsList.add(MybdjobsData(session.mybdjobscount_jobs_applied_lastmonth!!, Constants.session_key_mybdjobscount_jobs_applied, background_resources[0], icon_resources[0]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_times_emailed_resume_lastmonth!!, Constants.session_key_mybdjobscount_times_emailed_resume, background_resources[1], icon_resources[1]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_viwed_resume_lastmonth!!, Constants.session_key_mybdjobscount_employers_viwed_resume, background_resources[2], icon_resources[2]))
@@ -45,15 +45,15 @@ class  MyBdjobsFragment : Fragment() {
             bdjobsList.add(MybdjobsData(session.mybdjobscount_video_invitation_lastmonth!!,  Constants.session_key_mybdjobscount_video_invitation,background_resources[6],icon_resources[6]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_live_invitation_lastmonth!!,  Constants.session_key_mybdjobscount_live_invitation,background_resources[7],icon_resources[7]))
 
-            mybdjobsAdapter?.addAll(bdjobsList)
+            myBdJobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
         }
     }
     private fun populateDataModelALL() {
         try {
-            mybdjobsAdapter?.removeAll()
+            myBdJobsAdapter?.removeAll()
             bdjobsList.clear()
-            mybdjobsAdapter?.notifyDataSetChanged()
+            myBdJobsAdapter?.notifyDataSetChanged()
             bdjobsList.add(MybdjobsData(session.mybdjobscount_jobs_applied_alltime!!, Constants.session_key_mybdjobscount_jobs_applied, background_resources[0], icon_resources[0]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_times_emailed_resume_alltime!!, Constants.session_key_mybdjobscount_times_emailed_resume, background_resources[1], icon_resources[1]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_viwed_resume_alltime!!, Constants.session_key_mybdjobscount_employers_viwed_resume, background_resources[2], icon_resources[2]))
@@ -63,7 +63,7 @@ class  MyBdjobsFragment : Fragment() {
             bdjobsList.add(MybdjobsData(session.mybdjobscount_video_invitation_alltime!!,Constants.session_key_mybdjobscount_video_invitation,background_resources[6],icon_resources[6]))
             bdjobsList.add(MybdjobsData(session.mybdjobscount_live_invitation_alltime!!,Constants.session_key_mybdjobscount_live_invitation,background_resources[7],icon_resources[7]))
 
-            mybdjobsAdapter?.addAll(bdjobsList)
+            myBdJobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
         }
     }
@@ -78,6 +78,16 @@ class  MyBdjobsFragment : Fragment() {
         communicator = requireActivity() as HomeCommunicator
         bdjobsUserSession = BdjobsUserSession(requireContext())
         bdjobsDB = BdjobsDB.getInstance(requireContext())
+
+        if (bdjobsUserSession.adTypeMyBdJobs=="2") {
+            try {
+                navHostFragmentADMB.visibility = View.VISIBLE
+                communicator.goToAjkerDealLive(R.id.navHostFragmentADMB)
+            } catch (e: Exception) {
+            }
+        } else {
+            navHostFragmentADMB.visibility = View.GONE
+        }
 
     }
 
@@ -151,11 +161,11 @@ class  MyBdjobsFragment : Fragment() {
 
 
     private fun initializeViews() {
-        mybdjobsAdapter = MybdjobsAdapter(requireContext())
-        myBdjobsgridView_RV?.adapter = mybdjobsAdapter
+        myBdJobsAdapter = MyBdJobsAdapter(requireContext())
+        myBdjobsgridView_RV?.adapter = myBdJobsAdapter
         myBdjobsgridView_RV?.setHasFixedSize(true)
+        myBdjobsgridView_RV?.isNestedScrollingEnabled = false
         myBdjobsgridView_RV?.layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
-        //Log.d("initPag", "called")
         myBdjobsgridView_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         populateDataModel()
     }
@@ -229,7 +239,7 @@ class  MyBdjobsFragment : Fragment() {
                     //Log.d("vvuu", "${bdjobsList?.get(index)?.itemID} = ${value?.count!!}")
                 }
             }
-            mybdjobsAdapter?.addAll(bdjobsList)
+            myBdJobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
             logException(e)
         }
@@ -242,7 +252,7 @@ class  MyBdjobsFragment : Fragment() {
                     bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
                 }
             }
-            mybdjobsAdapter?.addAll(bdjobsList)
+            myBdJobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
             logException(e)
         }

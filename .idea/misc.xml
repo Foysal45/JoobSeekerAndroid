@@ -3,39 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/activity_assesment_base.xml" value="0.1" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/activity_registration_base.xml" value="0.19157608695652173" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/activity_resume_manager.xml" value="0.19067028985507245" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/footer_bc_layout.xml" value="0.19270833333333334" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/footer_wc_layout.xml" value="0.5" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_bc_adress.xml" value="0.22" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_bc_category.xml" value="0.19270833333333334" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_bc_congratulation.xml" value="0.19270833333333334" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_bc_education.xml" value="0.25" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_bc_mobile_number.xml" value="0.22" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_bc_name.xml" value="0.22" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_bc_otp_code.xml" value="0.1838768115942029" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_booking_overview.xml" value="0.1" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_filter_schedule.xml" value="0.33" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_guideline.xml" value="0.15" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_interview_session.xml" value="0.5" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_more_layout.xml" value="0.25" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_question_list.xml" value="0.25" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_record_video.xml" value="0.12138157894736842" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_record_video_resume.xml" value="0.22" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_registration_landing.xml" value="0.22" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_video_record.xml" value="0.1" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_video_resume_landing.xml" value="0.12171052631578948" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_video_resume_questions.xml" value="0.12171052631578948" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_view_video_resume.xml" value="0.1" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_wc_category.xml" value="0.19270833333333334" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_wc_name.xml" value="0.33" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_wc_otp_code.xml" value="0.1838768115942029" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_wc_phone_email.xml" value="0.19157608695652173" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_wc_social_info.xml" value="0.19157608695652173" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/item_schedule.xml" value="0.1" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/layout_what_is_employability_certification.xml" value="0.33" />
-        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/notification_item_msg.xml" value="0.25" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/background_video_interview_not_interested_warning.xml" value="0.16018518518518518" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/background_video_interview_question_remaining_time.xml" value="0.16018518518518518" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/background_white_blue.xml" value="0.16018518518518518" />

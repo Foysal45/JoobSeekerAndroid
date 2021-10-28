@@ -1,6 +1,7 @@
 package com.bdjobs.app.assessment.adapters
 
 import android.graphics.Color
+import android.text.Html
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -79,7 +80,7 @@ fun bindStatusText(textView: TextView, homeData: HomeData?) {
 @BindingAdapter("venue")
 fun bindVenueText(textView: TextView, venue: String?) {
     venue?.let {
-        textView.text = HtmlCompat.fromHtml(venue, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        textView.text = Html.fromHtml(venue)
     }
 }
 

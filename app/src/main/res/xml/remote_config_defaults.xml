@@ -110,5 +110,17 @@
         <key>Apply_Button_Type</key>
         <value>0</value>
     </entry>
+    <entry>
+        <key>AD_IN_MYBDJOBS</key>
+        <value>2</value>
+    </entry>
+    <entry>
+        <key>AD_IN_MAIN_LANDING</key>
+        <value>0</value>
+    </entry>
+    <entry>
+        <key>AD_IN_JOBLIST</key>
+        <value>2</value>
+    </entry>
 
 </defaultsMap>

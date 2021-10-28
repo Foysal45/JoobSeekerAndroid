@@ -1,6 +1,5 @@
 package com.bdjobs.app.sms.ui.payment
 
-import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.bdjobs.app.Utilities.Constants
@@ -20,7 +19,8 @@ class PaymentViewModel(val repository: SMSRepository,
                        private val totalSMS: Int?,
                        private val totalTaka: Int?,
                        private val isFree: String?,
-                       val fragment: Fragment) : ViewModel() {
+                       val fragment: Fragment,
+                       private val bonusSMS: Int?) : ViewModel() {
 
     private val _quantity = MutableLiveData<Int>().apply {
         value = 1
@@ -34,6 +34,16 @@ class PaymentViewModel(val repository: SMSRepository,
     }
     val totalNumberOfSMS = _totalNumberOfSMS
 
+    private val _bonusNumberOfSMS = MutableLiveData<Int>().apply {
+        value = bonusSMS
+    }
+
+    val bonusNumberOfSMS = _bonusNumberOfSMS
+
+    private val _showBonusSMSView = MutableLiveData<Boolean>().apply {
+        value = bonusSMS!=0
+    }
+    val showBonusSMSView : LiveData<Boolean> = _showBonusSMSView
 
     private val _totalAmountIntTaka = MutableLiveData<Int>().apply {
         value = totalTaka?.times(_quantity.value!!)

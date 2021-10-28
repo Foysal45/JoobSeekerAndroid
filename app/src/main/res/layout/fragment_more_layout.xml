@@ -376,9 +376,9 @@
                 style="@style/more.button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Interview Invitation"
+                android:text="General Interview"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_interview_invitation" />
+                app:icon="@drawable/ic_general_interview_more" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/video_interviewinvitation_MBTN"

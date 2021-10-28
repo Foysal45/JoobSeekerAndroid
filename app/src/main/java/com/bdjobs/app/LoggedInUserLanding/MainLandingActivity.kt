@@ -15,9 +15,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceMyBdjobs
+import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
@@ -26,6 +25,7 @@ import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.BroadCastReceivers.NightNotificationReceiver
 import com.bdjobs.app.BroadCastReceivers.MorningNotificationReceiver
+import com.bdjobs.app.Employers.EmployerJobListFragment
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.InviteCodeInfo
 import com.bdjobs.app.databases.internal.Notification
@@ -33,6 +33,7 @@ import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchBaseActivity
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
+import com.bdjobs.app.LoggedInUserLanding.myJobs.FollowedEmployersFragment
 import com.bdjobs.app.LoggedInUserLanding.myJobs.MyJobsFragment
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.Notification.Models.CommonNotificationModel
@@ -47,6 +48,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.isDeviceInfromationSent
 import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
 import com.bdjobs.app.Utilities.Constants.Companion.sendDeviceInformation
 import com.bdjobs.app.Web.WebActivity
+import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
@@ -55,7 +57,6 @@ import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.resume_dashboard.ResumeDashboardBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
-import com.bdjobs.app.videoResume.ResumeManagerActivity
 import com.bdjobs.app.videoResume.VideoResumeActivity
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdListener
@@ -82,6 +83,13 @@ import kotlin.collections.ArrayList
 class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     BackgroundJobBroadcastReceiver.NotificationUpdateListener {
 
+    override fun goToAjkerDealLive(containerId:Int) {
+        try {
+            transitFragmentX(HomeNewFragment(),containerId,false)
+        } catch (e: Exception) {
+        }
+
+    }
 
     override fun onUpdateNotification() {
         BdjobsUserSession(this@MainLandingActivity).let {
@@ -236,7 +244,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     private val homeFragment = HomeFragment()
     private val hotJobsFragmentnew = HotJobsFragmentNew()
     private val moreFragment = MoreFragment()
-    private val shortListedJobFragment = ShortListedJobFragment()
+    public val shortListedJobFragment = ShortListedJobFragment()
     private val myJobsFragment = MyJobsFragment()
     private val mybdjobsFragment = MyBdjobsFragment()
     private lateinit var session: BdjobsUserSession
@@ -248,20 +256,31 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     var cvUpload: String = "" // if this value = 0 or 4 then cv file is uploaded else not uploaded
     private lateinit var mNotificationHelper: NotificationHelper
 
+    private var time: String = ""
+    private var totalJobCount:Int = 0
+
+    private var companyId = ""
+    private var companyname = ""
+    private var positionClicked: Int? = 0
+    private val employerJobListFragment = EmployerJobListFragment()
+    private val followedEmployersFragment = FollowedEmployersFragment()
+    private var followedEmployerList: ArrayList<FollowEmployerListData>? = ArrayList()
+    private var totalFollowedEmployersCount:Int = 0
+    private var totalFavSearchCount:Int = 0
+
 
     override fun isGetCvUploaded(): String {
         return cvUpload
     }
 
     override fun decrementCounter() {
-        shortListedJobFragment.decrementCounter()
+        shortListedJobFragment.decrementCounter(totalJobCount)
     }
 
     override fun scrollToUndoPosition(position: Int) {
         shortListedJobFragment.scrollToUndoPosition(position)
     }
 
-    private var time: String = ""
 
     override fun goToEmployerViewedMyResume(from: String) {
         startActivity<EmployersBaseActivity>(
@@ -305,30 +324,36 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
     override fun onBackPressed() {
 
-        val exitDialog = Dialog(this@MainLandingActivity)
-        exitDialog?.setContentView(R.layout.dialog_exit_layout)
-        exitDialog?.setCancelable(true)
-        exitDialog?.show()
-        val yesBtn = exitDialog?.findViewById(R.id.onlineApplyOkBTN) as Button
-        val noBtn = exitDialog?.findViewById(R.id.onlineApplyCancelBTN) as Button
-        val ad_small_template = exitDialog?.findViewById<TemplateView>(R.id.ad_small_template)
-        Ads.showNativeAd(ad_small_template, this)
+        if (bottom_navigation.selectedItemId == R.id.navigation_home) {
+            val exitDialog = Dialog(this@MainLandingActivity)
+            exitDialog?.setContentView(R.layout.dialog_exit_layout)
+            exitDialog?.setCancelable(true)
+            exitDialog?.show()
+            val yesBtn = exitDialog?.findViewById(R.id.onlineApplyOkBTN) as Button
+            val noBtn = exitDialog?.findViewById(R.id.onlineApplyCancelBTN) as Button
+            val ad_small_template = exitDialog?.findViewById<TemplateView>(R.id.ad_small_template)
+            Ads.showNativeAd(ad_small_template, this)
 
-        yesBtn?.setOnClickListener {
-            try {
-                exitDialog?.dismiss()
-                if (Ads.mInterstitialAd != null && Ads.mInterstitialAd?.isLoaded!!) {
-                    Ads.mInterstitialAd?.show()
-                } else {
-                    super.onBackPressed()
+            yesBtn?.setOnClickListener {
+                try {
+                    exitDialog?.dismiss()
+                    if (Ads.mInterstitialAd != null && Ads.mInterstitialAd?.isLoaded!!) {
+                        Ads.mInterstitialAd?.show()
+                    } else {
+                        super.onBackPressed()
+                    }
+                } catch (e: Exception) {
                 }
-            } catch (e: Exception) {
             }
+
+            noBtn.setOnClickListener {
+                exitDialog.dismiss()
+            }
+        } else {
+            bottom_navigation.selectedItemId = R.id.navigation_home
         }
 
-        noBtn?.setOnClickListener {
-            exitDialog?.dismiss()
-        }
+
 
     }
 
@@ -344,6 +369,76 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         startActivity<ResumeDashboardBaseActivity>()
 //        startActivity<ResumeManagerActivity>()
 
+    }
+
+    override fun getTotalShortlistedJobCounter(): Int {
+        return totalJobCount
+    }
+
+    override fun setTotalShortlistedJobCounter(count: Int) {
+        this.totalJobCount = count
+    }
+
+    override fun gotoJobListFragment(companyID: String?, companyName: String?) {
+        companyId = companyID!!
+        companyname = companyName!!
+
+        startActivity(Intent(this,EmployersBaseActivity::class.java)
+            .putExtra("from","joblist")
+            .putExtra("companyid",companyID)
+            .putExtra("companyname",companyName)
+        )
+    }
+
+    override fun positionClicked(position: Int?) {
+        this.positionClicked = position
+    }
+
+    override fun getPositionClicked(): Int? {
+        return this.positionClicked
+    }
+
+    override fun decrementCounterFollowedEmp(position: Int) {
+//        followedEmployersFragment.decrementCounter(position)
+    }
+
+    override fun setFollowedEmployerList(empList: java.util.ArrayList<FollowEmployerListData>?) {
+        this.followedEmployerList=empList
+    }
+
+    override fun getFollowedEmployerList(): java.util.ArrayList<FollowEmployerListData>? {
+        return  followedEmployerList
+    }
+
+    override fun getCompanyID(): String {
+        return companyId
+    }
+
+    override fun getCompanyName(): String {
+        return companyname
+    }
+
+    override fun getTotalFollowedEmployersCount(): Int {
+        return totalFollowedEmployersCount
+    }
+
+    override fun setTotalFollowedEmployersCount(count: Int) {
+        this.totalFollowedEmployersCount = count
+    }
+
+    override fun getTotalFavouriteSearchCount(): Int {
+        return totalFavSearchCount
+    }
+
+    override fun setTotalFavouriteSearchCount(count: Int) {
+        this.totalFavSearchCount = count
+    }
+
+    override fun goToEditMode(favID: String) {
+        startActivity(Intent(this,FavouriteSearchBaseActivity::class.java)
+            .putExtra("from","MyJobs")
+            .putExtra("favID",favID)
+        )
     }
 
 
@@ -776,8 +871,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
                 return@OnNavigationItemSelectedListener true
             }
         }
-            false
-        }
+        false
+    }
 
     override fun shortListedClicked(
         jobids: ArrayList<String>,
@@ -879,7 +974,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         if (personalInfo.equals("True", ignoreCase = true)) {
             personalImageView.setBackgroundResource(R.drawable.acount_right_icon)
         } else {
-            personalImageView.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.resume_add_icon))
+            personalImageView.setBackgroundResource(R.drawable.resume_add_icon)
             personalImageView.setOnClickListener {
                 setClickListener("personal")
                 cancelIconImgv.performClick()
@@ -890,7 +985,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         if (educationInfo.equals("True", ignoreCase = true)) {
             educationaImageView.setBackgroundResource(R.drawable.acount_right_icon)
         } else {
-            educationaImageView.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.resume_add_icon))
+            educationaImageView.setBackgroundResource(R.drawable.resume_add_icon)
             educationaImageView.setOnClickListener {
                 setClickListener("education")
                 cancelIconImgv.performClick()
@@ -900,7 +995,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         if (photoInfo.equals("True", ignoreCase = true)) {
             photInfoImageView.setBackgroundResource(R.drawable.acount_right_icon)
         } else {
-            photInfoImageView.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.resume_add_icon))
+            photInfoImageView.setBackgroundResource(R.drawable.resume_add_icon)
             photInfoImageView.setOnClickListener {
                 setClickListener("photo")
                 cancelIconImgv.performClick()
@@ -910,7 +1005,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         if (skillInfo.equals("True", ignoreCase = true)) {
             skillIMGV.setBackgroundResource(R.drawable.acount_right_icon)
         } else {
-            skillIMGV.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.resume_add_icon))
+            skillIMGV.setBackgroundResource(R.drawable.resume_add_icon)
             skillIMGV.setOnClickListener {
                 setClickListener("experience")
                 cancelIconImgv.performClick()

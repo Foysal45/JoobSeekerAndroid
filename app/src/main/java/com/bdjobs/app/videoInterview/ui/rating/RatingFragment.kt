@@ -52,15 +52,14 @@ class RatingFragment : Fragment() {
 
         tool_bar?.title = questionDetailsViewModel.jobTitle.value
 
-        rating?.onRatingBarChange { ratingBar, rating, fromUser ->
-            //toast("${rating.toInt()}")
+        rating?.onRatingBarChange { _, rating, _ ->
             ratingViewModel.apply {
                 this.rating.value = rating.toInt()
                 onRatingChanged()
             }
         }
 
-        ratingViewModel.navigateToListEvent.observe(viewLifecycleOwner,EventObserver{
+        ratingViewModel.navigateToListEvent.observe(viewLifecycleOwner,EventObserver {
             if (it)
                 findNavController().popBackStack(R.id.videoInterviewListFragment,false)
         })

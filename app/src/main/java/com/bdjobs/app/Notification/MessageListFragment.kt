@@ -1,6 +1,7 @@
 package com.bdjobs.app.Notification
 
 
+import android.annotation.SuppressLint
 import android.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,9 +22,9 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.Notification
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_message_list.*
+import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import java.util.*
 
 
 class MessageListFragment : Fragment() {
@@ -41,11 +42,14 @@ class MessageListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_message_list, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
         notificationCommunicator = activity as NotificationCommunicatior
         bdjobsDB = BdjobsDB.getInstance(activity)
         linearLayoutManager = LinearLayoutManager(activity)
+
+        textView10.text = "You currently have no messages."
 
         showDataFromDB()
     }

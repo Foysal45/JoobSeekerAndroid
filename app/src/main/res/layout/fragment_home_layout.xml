@@ -156,6 +156,8 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView8"
         android:layout_width="0dp"
@@ -240,9 +242,9 @@
                 android:id="@+id/mainLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 android:orientation="vertical"
                 android:visibility="visible"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -297,6 +299,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -311,12 +314,24 @@
                     tools:visibility="visible" />
 
                 <include
+                    android:id="@+id/smsAlertView"
+                    layout="@layout/layout_sms_job_alert_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <include
                     android:id="@+id/videoInvitationView"
                     layout="@layout/my_video_interview_invitations_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -325,6 +340,8 @@
                     layout="@layout/my_interview_invitation_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -333,6 +350,8 @@
                     layout="@layout/layout_all_interview_invitation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -341,15 +360,24 @@
                     layout="@layout/my_assessment_filter_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone" />
 
                 <include
-
                     android:id="@+id/followedEmployerView"
                     layout="@layout/my_followed_employers_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:visibility="gone" />
+
+                <FrameLayout
+                    android:visibility="gone"
+                    android:id="@+id/navHostFragmentAD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
 
             </LinearLayout>
@@ -501,12 +529,59 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+<!--    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
+<!--        android:id="@+id/newSearchBTN"-->
+<!--        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:text="All Jobs"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textSize="14sp"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:fontFamily="@font/roboto_medium"-->
+<!--        android:paddingHorizontal="16dp"-->
+<!--        android:paddingVertical="8dp"-->
+<!--        app:icon="@drawable/ic_arrow_left"-->
+<!--        app:iconTint="@color/white"-->
+<!--        app:iconSize="10dp"-->
+<!--        app:backgroundTint="#13A10E"-->
+<!--        app:iconGravity="textEnd"-->
+<!--        android:clickable="true"-->
+<!--        android:elevation="16dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/newSearchBTN"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:letterSpacing="0"
+        android:text="All Jobs"
+        android:textAllCaps="false"
+        android:textColor="#FFF"
+        app:backgroundTint="#13A10E"
+        app:icon="@drawable/ic_arrow_forward_24"
+        app:iconGravity="textEnd"
+        app:iconSize="20dp"
+        app:iconTint="#FFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+<!--
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/newSearchBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:visibility="gone"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
@@ -515,12 +590,18 @@
         android:windowSoftInputMode="adjustResize"
         app:backgroundTint="#13A10E"
         app:fabSize="auto"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto_medium"
+        app:icon="@drawable/ic_arrow_left"
+        app:iconGravity="textEnd"
+        android:textAllCaps="false"
+        android:text="All Jobs"
+        app:iconSize="10dp"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_search_white_24dp"
-        app:tint="#FFF" />
+        app:layout_constraintEnd_toEndOf="parent"/>
+-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

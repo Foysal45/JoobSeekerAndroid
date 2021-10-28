@@ -1,6 +1,7 @@
 package com.bdjobs.app.AppliedJobs
 
 
+import android.annotation.SuppressLint
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
@@ -20,6 +21,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import kotlinx.android.synthetic.main.fragment_applied_jobs.*
+import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -121,6 +123,7 @@ class AppliedJobsFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
 
@@ -133,6 +136,8 @@ class AppliedJobsFragment : Fragment() {
                 appliedJobsCommunicator.backButtonPressed()
             }
         }
+
+        textView10.text = "You didn't apply for any job yet."
 
     }
 
@@ -225,6 +230,8 @@ class AppliedJobsFragment : Fragment() {
                         if (!response?.body()?.data.isNullOrEmpty()) {
 
                             status_card_ll?.show()
+                            job_status_ll?.show()
+
 
                             Constants.totalContacted = response?.body()?.activity?.get(0)?.totalContacted!!.toInt()
                             Constants.totalNotContacted = response?.body()?.activity?.get(0)?.totalNotContacted!!.toInt()
@@ -259,6 +266,7 @@ class AppliedJobsFragment : Fragment() {
                             totalRecords = "0"
 
                             appliedJobsNoDataLL?.show()
+                            job_status_ll.hide()
                             appliedJobsRV?.hide()
                             //Log.d("totalJobs", "zero")
 
@@ -328,14 +336,14 @@ class AppliedJobsFragment : Fragment() {
         }
     }
 
-    fun addExp(r: AppliedJobModelExprience) {
+    private fun addExp(r: AppliedJobModelExprience) {
         experienceList?.add(r)
         // notifyItemInserted(appliedJobsLists!!.size - 1)
     }
 
 
     fun addAll(moveResults: List<AppliedJobModelExprience>) {
-        for (result in moveResults!!) {
+        for (result in moveResults) {
             addExp(result)
         }
     }

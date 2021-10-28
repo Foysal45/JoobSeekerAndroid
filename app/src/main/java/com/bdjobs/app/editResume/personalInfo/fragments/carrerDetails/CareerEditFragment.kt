@@ -164,11 +164,13 @@ class CareerEditFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<AddorUpdateModel>, response: Response<AddorUpdateModel>) {
+                activity?.stopProgressBar(loadingProgressBar)
                 try {
                     if (response.isSuccessful) {
-                        activity?.stopProgressBar(loadingProgressBar)
                         response.body()?.message?.let { activity?.toast(it) }
                         if (response.body()?.statuscode == "4") {
+                            session.presentSalary = etCrPresentSalary.text.toString()
+                            session.expectedSalary = etCrExpSalary.text.toString()
                             personalInfo.setBackFrom(Constants.caiUpdate)
                             personalInfo.goBack()
                         }

@@ -68,7 +68,8 @@ data class JobDetailData(
         @SerializedName("JobSalaryMinSalary") val minSalary: String?,
         @SerializedName("JobSalaryMaxSalary") val maxSalary: String?,
         @SerializedName("JobWorkPlace") val jobWorkPlace: String?,
-        @SerializedName("ShowSalary") val jobShowSalary: String?
+        @SerializedName("ShowSalary") val jobShowSalary: String?,
+        @SerializedName("PreferVideoResume") val preferVideoResume: Int? = 0 // 1 -yes 0- no,
 
 )
 

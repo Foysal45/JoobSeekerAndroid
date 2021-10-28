@@ -94,6 +94,7 @@ class UploadResumeFragment : Fragment() {
             if (!checkPermission()){
                 requestPermission()
             } else {
+//                browseFile()
                 if (SDK_INT >= Build.VERSION_CODES.R) {
                     openStorageAccess()
                 } else {
@@ -300,6 +301,7 @@ class UploadResumeFragment : Fragment() {
                 val writeStoragePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED
                 if (readStoragePermission && writeStoragePermission) {
                     // perform action when allow permission success
+//                    browseFile()
                     if (SDK_INT >= Build.VERSION_CODES.R) {
                         openStorageAccess()
                     } else {
@@ -356,7 +358,13 @@ class UploadResumeFragment : Fragment() {
                 }
             }
         } else {
-            toast("Please select a valid pdf or doc or docx file")
+            try {
+                Toast.makeText(
+                    context,
+                    "Please select a valid pdf or doc or docx file",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } catch (e:Exception){}
         }
     }
 
