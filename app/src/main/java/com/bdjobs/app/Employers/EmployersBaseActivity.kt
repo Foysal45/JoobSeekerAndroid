@@ -251,15 +251,15 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
 
         //   transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
         //Log.d("value", "value = $value")
-        if (value?.equals("follow")) {
+        if (value.equals("follow")) {
             transitFragmentX(followedEmployersListFragment, R.id.fragmentHolder,false)
-        } else if (value?.equals("employer")) {
+        } else if (value.equals("employer")) {
             transitFragment(employerListFragment, R.id.fragmentHolder)
-        } else if (value?.equals("joblist")) {
+        } else if (value.equals("joblist")) {
             transitFragment(employerJobListFragment, R.id.fragmentHolder)
-        } else if (value?.equals("vwdMyResume")) {
+        } else if (value.equals("vwdMyResume")) {
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
-        } else if (value?.equals("notificationList")) {
+        } else if (value.equals("notificationList")) {
 
             if (!seen) {
                 try {
@@ -294,7 +294,7 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
 
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
 
-        } else if (value?.equals("notification")) {
+        } else if (value.equals("notification")) {
 
             if (!seen) {
                 try {
@@ -334,7 +334,7 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
                 //Log.d("rakib", "noti count $count $jobId")
             }
             transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
-        } else if (value?.equals("employerMessageList")) {
+        } else if (value.equals("employerMessageList")) {
             transitFragment(employerMessageListFragment, R.id.fragmentHolder)
         }
 

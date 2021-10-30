@@ -328,18 +328,18 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                         val totalRecords = response.body()?.common?.totalNumberOfItems
-                        if (!response?.body()?.data.isNullOrEmpty()) {
+                        if (!response.body()?.data.isNullOrEmpty()) {
                             resumeViewNoDataLL?.hide()
                             viewedMyResumeRV?.show()
                             ////Log.d("oooooo", "url: ${response?.body()?.data} and ")
 
                             val value = response.body()?.data
-                            employerViewedMyResumeAdapter?.removeAll()
-                            employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<DataEmpV>)
+                            employerViewedMyResumeAdapter.removeAll()
+                            employerViewedMyResumeAdapter.addAll(response.body()?.data as List<DataEmpV>)
 
                             if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                                 //Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
-                                employerViewedMyResumeAdapter?.addLoadingFooter()
+                                employerViewedMyResumeAdapter.addLoadingFooter()
                             } else {
                                 //Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
                                 isLastPages = true
@@ -352,7 +352,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                                 val styledText =
                                     "<b><font color='#13A10E'>$totalRecords</font></b> Employers viewed my Resume"
                                 favCountTV?.text = Html.fromHtml(styledText)
-                            } else if (totalRecords?.toInt()!! <= 1 || (totalRecords.toInt()!! == null)) {
+                            } else if (totalRecords.toInt() <= 1 || (totalRecords.toInt() == null)) {
                                 val styledText =
                                     "<b><font color='#13A10E'>$totalRecords</font></b> Employer viewed my Resume"
                                 favCountTV?.text = Html.fromHtml(styledText)
@@ -425,14 +425,14 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
                     try {
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
-                        employerViewedMyResumeAdapter?.removeLoadingFooter()
+                        employerViewedMyResumeAdapter.removeLoadingFooter()
                         isLoadings = false
 
-                        employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<DataEmpV>)
+                        employerViewedMyResumeAdapter.addAll(response.body()?.data as List<DataEmpV>)
 
 
                         if (pgNo != TOTAL_PAGES)
-                            employerViewedMyResumeAdapter?.addLoadingFooter()
+                            employerViewedMyResumeAdapter.addLoadingFooter()
                         else {
                             isLastPages = true
                         }

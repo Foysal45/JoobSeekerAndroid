@@ -176,27 +176,29 @@ class GeneralSearch : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        keywordET?.setText(jobCommunicator?.getKeyword())
+        keywordET?.setText(jobCommunicator.getKeyword())
         //Log.d("eryfdh", "category Adv : ${jobCommunicator?.getCategory()}")
 
         try {
-            val catid = jobCommunicator?.getCategory()?.trim()?.toInt()
+            val catid = jobCommunicator.getCategory()?.trim()?.toInt()
             if (catid!! > 60 || catid == -11) {
                 //Log.d("eryfdh", "blue")
-                specialCatET?.setText(dataStorage?.getCategoryBanglaNameByID(jobCommunicator?.getCategory()))
+                specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
                 generalCatET.text?.clear()
             } else if (catid in 1..30 || catid == -10) {
                 //Log.d("eryfdh", "white")
-                generalCatET?.setText(dataStorage?.getCategoryNameByID(jobCommunicator?.getCategory()))
+                generalCatET?.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
                 specialCatET?.text?.clear()
             }
         } catch (e: Exception) {
             logException(e)
         }
 
-        loacationET?.setText(dataStorage?.getLocationNameByID(jobCommunicator?.getLocation()))
+        loacationET?.setText(dataStorage.getLocationNameByID(jobCommunicator.getLocation()))
         try {
-            selectChip(experienceCG, dataStorage?.getJobExperineceByID(jobCommunicator?.getExperience()))
+            selectChip(experienceCG,
+                dataStorage.getJobExperineceByID(jobCommunicator.getExperience())
+            )
         } catch (e: Exception) {
             logException(e)
         }
@@ -222,11 +224,11 @@ class GeneralSearch : Fragment() {
 
     private fun showHideCrossButton(editText: EditText) {
         try {
-            if (editText?.text?.isBlank()!!) {
-                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_advance_search_24dp, 0)
+            if (editText.text?.isBlank()!!) {
+                editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_advance_search_24dp, 0)
             } else {
-                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-                editText?.clearTextOnDrawableRightClick()
+                editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+                editText.clearTextOnDrawableRightClick()
             }
         } catch (e: Exception) {
             logException(e)

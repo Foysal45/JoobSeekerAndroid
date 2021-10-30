@@ -171,10 +171,6 @@ class RecordVideoFragment : Fragment(), CameraProvider.OutputCallBack {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-    }
-
     override fun videoRecordSuccess(file: File) {
 
         if (recordVideoViewModel.onVideoDoneEvent.value == true) {

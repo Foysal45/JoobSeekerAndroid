@@ -37,14 +37,6 @@ class LangPrViewFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_lang_pr_view, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-
-        //doWork()
-    }
-
     override fun onResume() {
         super.onResume()
         session = BdjobsUserSession(activity)

@@ -257,7 +257,7 @@ fun Activity.subscribeToFCMTopic(topicName: String) {
 }
 
 fun Activity.unsubscribeFromFCMTopic(topicName: String) {
-    FirebaseMessaging.getInstance()?.unsubscribeFromTopic(topicName)
+    FirebaseMessaging.getInstance().unsubscribeFromTopic(topicName)
             .addOnCompleteListener { task ->
                 var msg = "Firebase topic unsubscribe on : $topicName is successful"
                 if (!task.isSuccessful) {
@@ -271,7 +271,7 @@ fun pickDate(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetList
 
     if (from == "assessment") {
 
-        var now: Long = System.currentTimeMillis() - 1000;
+        var now: Long = System.currentTimeMillis() - 1000
 
         val dpd = DatePickerDialog(c,
                 listener,
@@ -394,7 +394,7 @@ fun Context.setLanguage(localeName: String) {
 fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: Boolean) {
     try {
         fragmentManager?.executePendingTransactions()
-        if (!fragment?.isAdded) {
+        if (!fragment.isAdded) {
             Log.d("rakib", "fragment if")
             val transaction = fragmentManager.beginTransaction()
 
@@ -803,7 +803,7 @@ fun Context.getDeviceInformation(): HashMap<String, String> {
     val freeBytesInternal = File(filesDir.absoluteFile.toString()).freeSpace
     val totalBytesInternal = File(filesDir.absoluteFile.toString()).totalSpace
     val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-    val carrierName = manager?.networkOperatorName
+    val carrierName = manager.networkOperatorName
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         totalRAM = mi.totalMem / 1048576L

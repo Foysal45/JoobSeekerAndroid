@@ -59,7 +59,4 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

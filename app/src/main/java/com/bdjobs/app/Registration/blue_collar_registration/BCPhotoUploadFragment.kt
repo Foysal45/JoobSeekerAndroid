@@ -161,7 +161,7 @@ class BCPhotoUploadFragment : Fragment() {
 
     fun makeHTTPCall() {
         val client = AsyncHttpClient()
-        client?.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", params, object : AsyncHttpResponseHandler() {
+        client.post("http://my.bdjobs.com/apps/mybdjobs/v1/upload_img.aspx", params, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
                 try {
                     val response = String(responseBody)

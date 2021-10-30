@@ -35,7 +35,7 @@ class VideoShoppingViewModel(private val repository: AppRepository) : ViewModel(
                     is NetworkResponse.Success -> {
                         val dataList = response.body.data
                         if (dataList != null) {
-                            responseData.value = dataList!!
+                            responseData.value = dataList
                         }
                     }
                     is NetworkResponse.ServerError -> {

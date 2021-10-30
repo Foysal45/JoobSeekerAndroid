@@ -97,7 +97,7 @@ class TransactionFilterFragment : Fragment() {
 
             }
         }
-        binding.startDateTIET?.setOnClickListener {
+        binding.startDateTIET.setOnClickListener {
             if (startDateTIET.text.toString().isEmpty())
                 pickDate(requireContext(), cal, startDateSetListener)
             else {
@@ -108,7 +108,7 @@ class TransactionFilterFragment : Fragment() {
 
 
         }
-        binding.endDateTIET?.setOnClickListener {
+        binding.endDateTIET.setOnClickListener {
             if (endDateTIET.text.toString().isNotEmpty()) {
                 date = formatter.parse(endDate)
                 cal.time = date
@@ -119,7 +119,7 @@ class TransactionFilterFragment : Fragment() {
 
 
         }
-        binding.transactionFilterFab?.onClick {
+        binding.transactionFilterFab.onClick {
 
             var startDate = ""
             var endDate = ""
@@ -155,12 +155,6 @@ class TransactionFilterFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
     }
 
 

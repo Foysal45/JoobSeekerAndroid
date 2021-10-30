@@ -1330,7 +1330,7 @@ class FBLiveShowFragment : Fragment() {
         }
     }
 
-    inner class WebAppInterface() {
+    inner class WebAppInterface {
 
         @JavascriptInterface
         fun showToast(msg: String?) {

@@ -165,7 +165,7 @@ class MessageListFragment : Fragment() {
                             )
                             snackbar.show()
 
-                            if (adapter?.itemCount == 0) {
+                            if (adapter.itemCount == 0) {
                                 notificationNoDataLL?.show()
                             } else {
                                 notificationNoDataLL?.hide()
@@ -196,8 +196,8 @@ class MessageListFragment : Fragment() {
     }
 
     fun updateView(item: Notification) {
-        adapter?.addItem(item)
-        adapter?.notifyDataSetChanged()
+        adapter.addItem(item)
+        adapter.notifyDataSetChanged()
     }
 
 }

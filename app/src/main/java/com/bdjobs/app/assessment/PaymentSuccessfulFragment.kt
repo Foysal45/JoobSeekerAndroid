@@ -48,9 +48,9 @@ class PaymentSuccessfulFragment : Fragment() {
 
         scheduleData?.let {
             binding.tvMessageDetails.text = "Dear ${paymentViewModel.fullname}, your test booking is\n" + "successfully placed"
-            binding.tvTestDate?.text = formatDate(scheduleData?.testDate)
-            binding.tvTestTime?.text = scheduleData?.testTime
-            binding.tvVenue?.text = if (scheduleData?.testCenter!!.equalIgnoreCase("Dhaka")) "8th Floor - West BDBL Building, 12 Kawran Bazar C/A, Dhaka-1215" else "1745, Sheikh Mujib Road (2nd Floor)\n" +
+            binding.tvTestDate.text = formatDate(scheduleData?.testDate)
+            binding.tvTestTime.text = scheduleData?.testTime
+            binding.tvVenue.text = if (scheduleData?.testCenter!!.equalIgnoreCase("Dhaka")) "8th Floor - West BDBL Building, 12 Kawran Bazar C/A, Dhaka-1215" else "1745, Sheikh Mujib Road (2nd Floor)\n" +
                     "Agrabad (Nearby Hotel Land Mark), Chittagong"
         }
 

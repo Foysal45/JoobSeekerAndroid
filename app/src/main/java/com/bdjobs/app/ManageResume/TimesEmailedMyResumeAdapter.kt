@@ -113,17 +113,17 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                 val loadingVH = holder as TimesEmailedMyResumeLoadingVH
 
                 if (retryPageLoad) {
-                    loadingVH?.mErrorLayout?.visibility = View.VISIBLE
-                    loadingVH?.mProgressBar?.visibility = View.GONE
+                    loadingVH.mErrorLayout.visibility = View.VISIBLE
+                    loadingVH.mProgressBar.visibility = View.GONE
 
-                    loadingVH?.mErrorTxt?.text = if (errorMsg != null)
+                    loadingVH.mErrorTxt.text = if (errorMsg != null)
                         errorMsg
                     else
-                        context?.getString(R.string.error_msg_unknown)
+                        context.getString(R.string.error_msg_unknown)
 
                 } else {
-                    loadingVH?.mErrorLayout?.visibility = View.GONE
-                    loadingVH?.mProgressBar?.visibility = View.VISIBLE
+                    loadingVH.mErrorLayout.visibility = View.GONE
+                    loadingVH.mProgressBar.visibility = View.VISIBLE
                 }
             }
 
@@ -189,22 +189,22 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
         when (getItemViewType(position)) {
             ITEM -> {
                 val holder = viewHolder as TimesEmailedMyResumeViewHolder
-                holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
-                holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
+                holder.subjectTV.text = timesEmailedList?.get(position)?.subject?.trim()
+                holder.emailTV.text = timesEmailedList?.get(position)?.emailTo?.trim()
                 if (timesEmailedList?.get(position)?.cvType=="0") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_bdjobs_resume_count))
                 else if (timesEmailedList?.get(position)?.cvType=="1") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_personalized_resume_count))
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
-                holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
+                holder.appliedDateTV.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
             }
             ITEM_WITH_AD -> {
                 val holder = viewHolder as TimesEmailedMyResumeWithAdViewHolder
-                holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
-                holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
+                holder.subjectTV.text = timesEmailedList?.get(position)?.subject?.trim()
+                holder.emailTV.text = timesEmailedList?.get(position)?.emailTo?.trim()
                 if (timesEmailedList?.get(position)?.cvType=="0") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_bdjobs_resume_count))
                 else if (timesEmailedList?.get(position)?.cvType=="1") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_personalized_resume_count))
 
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
-                holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
+                holder.appliedDateTV.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
             }
         }
 
@@ -236,16 +236,16 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
             ITEMJOBID -> {
                 val holder = viewHolder as TimesEmailedMyResumeVHJobID
-                holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
-                holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
+                holder.subjectTV.text = timesEmailedList?.get(position)?.subject?.trim()
+                holder.emailTV.text = timesEmailedList?.get(position)?.emailTo?.trim()
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
                 if (timesEmailedList?.get(position)?.cvType=="0") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_bdjobs_resume_count))
                 else if (timesEmailedList?.get(position)?.cvType=="1") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_personalized_resume_count))
 
-                holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
+                holder.appliedDateTV.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
 
                 if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
-                    holder?.itemView?.setOnClickListener {
+                    holder.itemView.setOnClickListener {
                         //Log.d("mumu", "mumu ")
                         try {
                             val jobids = ArrayList<String>()
@@ -253,7 +253,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                             jobids.add(timesEmailedList?.get(position)?.jobid.toString())
                             lns.add("0")
                             // communicator.setFrom("")
-                            activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0)
+                            activity.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0)
                         } catch (e: Exception) {
                             logException(e)
                         }
@@ -265,16 +265,16 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 
             ITEM_JOB_ID_WITH_AD -> {
                 val holder = viewHolder as TimesEmailedMyResumeWithAdVHJobID
-                holder?.subjectTV?.text = timesEmailedList?.get(position)?.subject?.trim()
-                holder?.emailTV?.text = timesEmailedList?.get(position)?.emailTo?.trim()
+                holder.subjectTV.text = timesEmailedList?.get(position)?.subject?.trim()
+                holder.emailTV.text = timesEmailedList?.get(position)?.emailTo?.trim()
                 //  holder?.emailTV?.text = timesEmailedList?.get(position)?.sl?.trim()
                 if (timesEmailedList?.get(position)?.cvType=="0") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_bdjobs_resume_count))
                 else if (timesEmailedList?.get(position)?.cvType=="1") holder.resumeTypeIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_personalized_resume_count))
 
-                holder?.appliedDateTV?.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
+                holder.appliedDateTV.text = SimpleDateFormat("M/d/yyyy").parse(timesEmailedList?.get(position)?.emailedOn?.trim()).toSimpleDateString()
 
                 if (!timesEmailedList?.get(position)?.jobid?.equals("0")!!) {
-                    holder?.itemView?.setOnClickListener {
+                    holder.itemView.setOnClickListener {
                         //Log.d("mumu", "mumu ")
                         try {
                             val jobids = ArrayList<String>()
@@ -282,7 +282,7 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
                             jobids.add(timesEmailedList?.get(position)?.jobid.toString())
                             lns.add("0")
                             // communicator.setFrom("")
-                            activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0)
+                            activity.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0)
                         } catch (e: Exception) {
                             logException(e)
                         }
@@ -297,9 +297,9 @@ class TimesEmailedMyResumeAdapter(private var context: Context) : RecyclerView.A
 }
 
 class TimesEmailedMyResumeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val subjectTV = view?.findViewById(R.id.subjectTV) as TextView
-    val emailTV = view?.findViewById(R.id.emailTV) as TextView
-    val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView
+    val subjectTV = view.findViewById(R.id.subjectTV) as TextView
+    val emailTV = view.findViewById(R.id.emailTV) as TextView
+    val appliedDateTV = view.findViewById(R.id.appliedDateTV) as TextView
     val resumeTypeIV = view.findViewById<AppCompatImageView>(R.id.iv_resume_type)
 
 //    val followUnfollow = view?.findViewById(R.id.follownfollow_BTN) as MaterialButton
@@ -308,10 +308,10 @@ class TimesEmailedMyResumeViewHolder(view: View) : RecyclerView.ViewHolder(view)
 }
 
 class TimesEmailedMyResumeWithAdViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val subjectTV = view?.findViewById(R.id.subjectTV) as TextView
-    val emailTV = view?.findViewById(R.id.emailTV) as TextView
-    val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView
-    val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
+    val subjectTV = view.findViewById(R.id.subjectTV) as TextView
+    val emailTV = view.findViewById(R.id.emailTV) as TextView
+    val appliedDateTV = view.findViewById(R.id.appliedDateTV) as TextView
+    val ad_small_template: TemplateView = view.findViewById(R.id.ad_small_template) as TemplateView
     val resumeTypeIV = view.findViewById<AppCompatImageView>(R.id.iv_resume_type)
 
 //    val followUnfollow = view?.findViewById(R.id.follownfollow_BTN) as MaterialButton
@@ -320,32 +320,32 @@ class TimesEmailedMyResumeWithAdViewHolder(view: View) : RecyclerView.ViewHolder
 }
 
 class TimesEmailedMyResumeVHJobID(view: View) : RecyclerView.ViewHolder(view) {
-    val subjectTV = view?.findViewById(R.id.subjectTV) as TextView
-    val emailTV = view?.findViewById(R.id.emailTV) as TextView
-    val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView
+    val subjectTV = view.findViewById(R.id.subjectTV) as TextView
+    val emailTV = view.findViewById(R.id.emailTV) as TextView
+    val appliedDateTV = view.findViewById(R.id.appliedDateTV) as TextView
     val resumeTypeIV = view.findViewById<AppCompatImageView>(R.id.iv_resume_type)
 
 }
 
 class TimesEmailedMyResumeWithAdVHJobID(view: View) : RecyclerView.ViewHolder(view) {
-    val subjectTV = view?.findViewById(R.id.subjectTV) as TextView
-    val emailTV = view?.findViewById(R.id.emailTV) as TextView
-    val appliedDateTV = view?.findViewById(R.id.appliedDateTV) as TextView
-    val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
+    val subjectTV = view.findViewById(R.id.subjectTV) as TextView
+    val emailTV = view.findViewById(R.id.emailTV) as TextView
+    val appliedDateTV = view.findViewById(R.id.appliedDateTV) as TextView
+    val ad_small_template: TemplateView = view.findViewById(R.id.ad_small_template) as TemplateView
     val resumeTypeIV = view.findViewById<AppCompatImageView>(R.id.iv_resume_type)
 }
 
 class TimesEmailedMyResumeLoadingVH(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-    val mProgressBar: ProgressBar = itemView?.findViewById(R.id.loadmore_progress_1) as ProgressBar
-    val mRetryBtn: ImageButton = itemView?.findViewById(R.id.loadmore_retry_1) as ImageButton
-    val mErrorTxt: TextView = itemView?.findViewById(R.id.loadmore_errortxt_1) as TextView
-    val mErrorLayout: LinearLayout = itemView?.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
+    val mProgressBar: ProgressBar = itemView.findViewById(R.id.loadmore_progress_1) as ProgressBar
+    val mRetryBtn: ImageButton = itemView.findViewById(R.id.loadmore_retry_1) as ImageButton
+    val mErrorTxt: TextView = itemView.findViewById(R.id.loadmore_errortxt_1) as TextView
+    val mErrorLayout: LinearLayout = itemView.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
 
     init {
 
-        mRetryBtn?.setOnClickListener(this)
-        mErrorLayout?.setOnClickListener(this)
+        mRetryBtn.setOnClickListener(this)
+        mErrorLayout.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {

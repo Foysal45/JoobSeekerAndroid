@@ -20,9 +20,9 @@ import timber.log.Timber
 @KoinApiExtension
 class HomeLiveExoRecyclerView : RecyclerView, KoinComponent {
 
-    constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {}
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private val exoPlayer: SimpleExoPlayer by inject()
     private var handlerMain = Handler(Looper.getMainLooper())

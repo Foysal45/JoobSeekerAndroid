@@ -88,7 +88,7 @@ class VideoResumeRepository(private val application: Application) {
     }
 
     suspend fun postVideoResumeToRemote(): CommonResponse {
-        val file: File? = Constants?.file?.absoluteFile
+        val file: File? = Constants.file?.absoluteFile
         Log.d("salvin-resume", "$file")
         val userId = session.userId?.toRequestBody()
         val decodeId = session.decodId?.toRequestBody()

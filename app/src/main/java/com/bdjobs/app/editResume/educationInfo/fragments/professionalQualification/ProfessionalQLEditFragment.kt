@@ -92,7 +92,7 @@ class ProfessionalQLEditFragment : Fragment() {
         updateDateInView(0)
     }
     private val endDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-        calendar?.set(Calendar.YEAR, year)
+        calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, monthOfYear)
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
@@ -184,7 +184,7 @@ class ProfessionalQLEditFragment : Fragment() {
 
             if (isEdit) {
                 try {
-                    date = if (eduCB?.getProfessionalData().to == "Continuing") {
+                    date = if (eduCB.getProfessionalData().to == "Continuing") {
                         if (!etPqEndDate.text.toString().isNullOrEmpty()) {
                             formatter.parse(etPqEndDate.text.toString())
                         } else {

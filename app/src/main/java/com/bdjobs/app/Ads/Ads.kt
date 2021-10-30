@@ -30,8 +30,8 @@ class Ads {
                         .Builder()
                         .withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF")))
                         .build()
-                    nativeAdTemplete?.setStyles(styles)
-                    nativeAdTemplete?.setNativeAd(nativeAdvertisement)
+                    nativeAdTemplete.setStyles(styles)
+                    nativeAdTemplete.setNativeAd(nativeAdvertisement)
                 } else {
 //                    MobileAds.initialize(context)
                     val adLoader = AdLoader.Builder(context, ADMOB_NATIVE_AD_UNIT_ID)
@@ -41,8 +41,8 @@ class Ads {
                                 .Builder()
                                 .withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF")))
                                 .build()
-                            nativeAdTemplete?.setStyles(styles)
-                            nativeAdTemplete?.setNativeAd(ad)
+                            nativeAdTemplete.setStyles(styles)
+                            nativeAdTemplete.setNativeAd(ad)
 
                         }
                         .withAdListener(object : AdListener() {

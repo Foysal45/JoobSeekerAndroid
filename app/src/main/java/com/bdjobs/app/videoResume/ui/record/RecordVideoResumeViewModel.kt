@@ -128,7 +128,4 @@ class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) 
         _videoResumeManagerData.value = videoResumeManager
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
 }

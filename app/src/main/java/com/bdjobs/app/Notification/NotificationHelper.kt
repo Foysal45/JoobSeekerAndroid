@@ -86,7 +86,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             Constants.NOTIFICATION_TYPE_INTERVIEW_INVITATION -> {
 
-                val intent = Intent(this, InterviewInvitationBaseActivity::class.java)?.apply {
+                val intent = Intent(this, InterviewInvitationBaseActivity::class.java).apply {
                     putExtra("from", "notification")
                     putExtra("jobid", jobid)
                     putExtra("companyname", companyName)
@@ -139,7 +139,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             Constants.NOTIFICATION_TYPE_LIVE_INTERVIEW -> {
 
-                val intent = Intent(this, LiveInterviewActivity::class.java)?.apply {
+                val intent = Intent(this, LiveInterviewActivity::class.java).apply {
                     putExtra("from", "notification")
                     putExtra("jobId", jobid)
                     putExtra("jobTitle", jobTitle)
@@ -161,7 +161,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             Constants.NOTIFICATION_TYPE_CV_VIEWED -> {
 
-                val intent = Intent(this, EmployersBaseActivity::class.java)?.apply {
+                val intent = Intent(this, EmployersBaseActivity::class.java).apply {
                     putExtra("from", "notification")
                     putExtra("jobId", jobid)
                     putExtra("nid", nId)
@@ -198,7 +198,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                 } catch (e: Exception) {
                 }
 
-                val intent = Intent(this, JobBaseActivity::class.java)?.apply {
+                val intent = Intent(this, JobBaseActivity::class.java).apply {
                     putExtra("from", "notification")
                     putExtra("jobids", jobids)
                     putExtra("lns", lns)
@@ -223,7 +223,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
             }
 
             Constants.NOTIFICATION_TYPE_SMS -> {
-                val intent = Intent(this, SmsBaseActivity::class.java)?.apply {
+                val intent = Intent(this, SmsBaseActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
 
@@ -306,7 +306,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             Constants.NOTIFICATION_TYPE_ALERT_NOTIFICATION->{
 
-                val intent = Intent(this, MainLandingActivity::class.java)?.apply {
+                val intent = Intent(this, MainLandingActivity::class.java).apply {
                     putExtra("from", "notification")
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
@@ -328,7 +328,7 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
 
             else -> {
 
-                val intent = Intent(this, MainLandingActivity::class.java)?.apply {
+                val intent = Intent(this, MainLandingActivity::class.java).apply {
                 }
 
                 val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)

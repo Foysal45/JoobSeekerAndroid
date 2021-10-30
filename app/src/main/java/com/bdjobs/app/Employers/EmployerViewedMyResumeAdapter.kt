@@ -73,17 +73,17 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
                 val ResumeLoadingVH = holder as ResumeLoadingVH
 
                 if (retryPageLoad) {
-                    ResumeLoadingVH?.mErrorLayout?.visibility = View.VISIBLE
-                    ResumeLoadingVH?.mProgressBar?.visibility = View.GONE
+                    ResumeLoadingVH.mErrorLayout.visibility = View.VISIBLE
+                    ResumeLoadingVH.mProgressBar.visibility = View.GONE
 
-                    ResumeLoadingVH?.mErrorTxt?.text = if (errorMsg != null)
+                    ResumeLoadingVH.mErrorTxt.text = if (errorMsg != null)
                         errorMsg
                     else
-                        context?.getString(R.string.error_msg_unknown)
+                        context.getString(R.string.error_msg_unknown)
 
                 } else {
-                    ResumeLoadingVH?.mErrorLayout?.visibility = View.GONE
-                    ResumeLoadingVH?.mProgressBar?.visibility = View.VISIBLE
+                    ResumeLoadingVH.mErrorLayout.visibility = View.GONE
+                    ResumeLoadingVH.mProgressBar.visibility = View.VISIBLE
                 }
             }
             ITEM_WITH_AD -> {

@@ -27,10 +27,6 @@ class EmployerJobListFragment : Fragment() {
 
     //  private var listener: OnFragmentInteractionListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -44,10 +40,10 @@ class EmployerJobListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         communicator = activity as EmployersCommunicator
         backIMV?.setOnClickListener {
-            communicator?.backButtonPressed()
+            communicator.backButtonPressed()
         }
 
-        suggestiveSearchET?.text = communicator?.getCompanyName()
+        suggestiveSearchET?.text = communicator.getCompanyName()
         loadJobList()
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
@@ -95,7 +91,7 @@ class EmployerJobListFragment : Fragment() {
                         totalRecords = 0
                     }
 
-                    if (totalRecords?.toInt()!! > 1){
+                    if (totalRecords.toInt() > 1){
                         val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Jobs"
                         favCountTV?.text = Html.fromHtml(styledText)
                     }

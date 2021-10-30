@@ -95,35 +95,11 @@ class EmployerInteractionFragment : androidx.fragment.app.Fragment() {
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_employer_interaction, container, false)
 
 
-    }
-
-    override fun onPause() {
-        super.onPause()
-        //Log.d("calling", " onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        //Log.d("calling", " onStop")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //Log.d("calling", " onDestroyView")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        //Log.d("calling", " onDetach")
     }
 
     @SuppressLint("SetTextI18n")
@@ -151,15 +127,15 @@ class EmployerInteractionFragment : androidx.fragment.app.Fragment() {
         }
 
         expAPIcall("0")
-        EmpInteractionFab?.setEnabled(false)
+        EmpInteractionFab?.isEnabled = false
         //  EmpInteractionFab?.setBackgroundColor(Color.parseColor("#757575"))
         //Log.d("expEXP", "hire = $hire")
         if (hire.equals("1") || contracted.equals("1") || Ncontracted.equals("1")) {
-            EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
-            EmpInteractionFab?.setEnabled(true)
+            EmpInteractionFab?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#13A10E"))
+            EmpInteractionFab?.isEnabled = true
         } else {
-            EmpInteractionFab?.setEnabled(false)
-            EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#88D086")))
+            EmpInteractionFab?.isEnabled = false
+            EmpInteractionFab?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#88D086"))
 
         }
     }
@@ -201,8 +177,8 @@ class EmployerInteractionFragment : androidx.fragment.app.Fragment() {
 
                     val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
                     val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-                    designationradioBTN.setTextSize(16F)
-                    companyTV.setTextSize(14F)
+                    designationradioBTN.textSize = 16F
+                    companyTV.textSize = 14F
                     designationradioBTN.layoutParams = params
                     companyTV.layoutParams = paramsTV
                     params.setMargins(0, 10, 0, 0)
@@ -244,8 +220,8 @@ class EmployerInteractionFragment : androidx.fragment.app.Fragment() {
         expTV.text = "New work experience"
         val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         val paramsTV = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        expTV.setTextSize(14F)
-        addExp.setTextSize(16F)
+        expTV.textSize = 14F
+        addExp.textSize = 16F
         addExp.layoutParams = params
         expTV.layoutParams = paramsTV
         params.setMargins(0, 10, 0, 0)
@@ -282,11 +258,6 @@ class EmployerInteractionFragment : androidx.fragment.app.Fragment() {
     }
 
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-    }
-
     @SuppressLint("UseCompatLoadingForColorStateLists")
     private fun notcontracted() {
         notContractedBTN.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.colorWhite)
@@ -304,8 +275,8 @@ class EmployerInteractionFragment : androidx.fragment.app.Fragment() {
         //     registrationCommunicator.bcGenderSelected("M")
         status = "1"
         hiredLayoutHide()
-        EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
-        EmpInteractionFab?.setEnabled(true)
+        EmpInteractionFab?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#13A10E"))
+        EmpInteractionFab?.isEnabled = true
         Ncontracted = "1"
         contracted = "0"
         hire = "0"
@@ -331,8 +302,8 @@ class EmployerInteractionFragment : androidx.fragment.app.Fragment() {
         //  registrationCommunicator.bcGenderSelected("F")
         status = "2"
         hiredLayoutHide()
-        EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
-        EmpInteractionFab?.setEnabled(true)
+        EmpInteractionFab?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#13A10E"))
+        EmpInteractionFab?.isEnabled = true
         Ncontracted = "0"
         contracted = "1"
         hire = "0"
@@ -361,8 +332,8 @@ class EmployerInteractionFragment : androidx.fragment.app.Fragment() {
 //            if (populateshowExp == "no") {
 //                //addRadioButton()
 //            }
-        EmpInteractionFab?.setEnabled(true)
-        EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
+        EmpInteractionFab?.isEnabled = true
+        EmpInteractionFab?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#13A10E"))
 
 
         // registrationCommunicator.bcGenderSelected("O")
@@ -388,8 +359,8 @@ class EmployerInteractionFragment : androidx.fragment.app.Fragment() {
             //     registrationCommunicator.bcGenderSelected("M")
             status = "1"
             hiredLayoutHide()
-            EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
-            EmpInteractionFab?.setEnabled(true)
+            EmpInteractionFab?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#13A10E"))
+            EmpInteractionFab?.isEnabled = true
             Ncontracted = "1"
             contracted = "0"
             hire = "0"
@@ -412,8 +383,8 @@ class EmployerInteractionFragment : androidx.fragment.app.Fragment() {
             //  registrationCommunicator.bcGenderSelected("F")
             status = "2"
             hiredLayoutHide()
-            EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
-            EmpInteractionFab?.setEnabled(true)
+            EmpInteractionFab?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#13A10E"))
+            EmpInteractionFab?.isEnabled = true
             Ncontracted = "0"
             contracted = "1"
             hire = "0"
@@ -442,8 +413,8 @@ class EmployerInteractionFragment : androidx.fragment.app.Fragment() {
 //            if (populateshowExp == "no") {
 //                //addRadioButton()
 //            }
-            EmpInteractionFab?.setEnabled(true)
-            EmpInteractionFab?.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13A10E")))
+            EmpInteractionFab?.isEnabled = true
+            EmpInteractionFab?.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#13A10E"))
 
 
             // registrationCommunicator.bcGenderSelected("O")

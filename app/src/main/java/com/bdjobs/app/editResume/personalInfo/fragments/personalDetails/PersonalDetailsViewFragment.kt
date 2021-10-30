@@ -47,7 +47,7 @@ class PersonalDetailsViewFragment : Fragment() {
         personalInfoCB = activity as PersonalInfo
         personalInfoCB.setTitle(getString(R.string.title_personal))
         if (personalInfoCB.getBackFrom() == "") {
-            val respo = personalInfoCB?.getPersonalData()
+            val respo = personalInfoCB.getPersonalData()
             setupViews(respo)
             personalInfoCB.setEditButton(true, "editPersonal")
         } else {
@@ -85,7 +85,7 @@ class PersonalDetailsViewFragment : Fragment() {
                         clPrefAreaView.show()
                         val respo = response.body()
                         personalInfoCB.passPersonalData(respo?.data?.get(0)!!)
-                        setupViews(respo.data?.get(0)!!)
+                        setupViews(respo.data.get(0)!!)
                         personalInfoCB.setEditButton(true, "editPersonal")
                     }
                 } catch (e: Exception) {

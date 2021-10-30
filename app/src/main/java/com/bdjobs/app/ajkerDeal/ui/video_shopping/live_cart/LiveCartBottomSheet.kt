@@ -147,10 +147,6 @@ class LiveCartBottomSheet: BottomSheetDialogFragment() {
         }
     }
 
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
-    }
-
     override fun onDestroyView() {
         binding = null
         super.onDestroyView()

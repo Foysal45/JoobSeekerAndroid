@@ -97,7 +97,7 @@ class FileUtil {
     fun getFileInformation(ctx: Context, uri: Uri): FileInformation {
         val fileInfo = FileInformation()
         val file = getFileFromUri(ctx, uri)
-        fileInfo.extension = file.extension;
+        fileInfo.extension = file.extension
         fileInfo.fileName = file.name
         fileInfo.fileSize = file.length()
         fileInfo.extensionwithDot = "." + file.extension

@@ -53,7 +53,7 @@ class BCSkillAdapter(private val context: Activity, private val items: ArrayList
                     holder.filter_chip4.show()
                 }
                 "5" -> {
-                    holder.filter_chip5.text = "NTVQF:${items?.get(position)?.NTVQF}"
+                    holder.filter_chip5.text = "NTVQF:${items.get(position).NTVQF}"
                     holder.filter_chip5.show()
                 }
                 "-1" -> {
@@ -82,9 +82,9 @@ class BCSkillAdapter(private val context: Activity, private val items: ArrayList
 
 
         holder.skillDeleteIcon.setOnClickListener {
-            items?.removeAt(position)
+            items.removeAt(position)
             notifyItemRemoved(position)
-            notifyItemRangeRemoved(position, items?.size!!)
+            notifyItemRangeRemoved(position, items.size)
 
         }
 

@@ -17,9 +17,9 @@ class UpcomingTrainingAdapter(private var context: Context) : RecyclerView.Adapt
     private var trainingList: ArrayList<TrainingListData>? = ArrayList()
 
     override fun onBindViewHolder(holder: TrainingListViewHolder, position: Int) {
-        holder?.trainingName.text = trainingList?.get(position)?.topic
-        holder?.trainingVenue.text = trainingList?.get(position)?.venue
-        holder?.trainingDate.text = trainingList?.get(position)?.date
+        holder.trainingName.text = trainingList?.get(position)?.topic
+        holder.trainingVenue.text = trainingList?.get(position)?.venue
+        holder.trainingDate.text = trainingList?.get(position)?.date
        // holder.adapterPosition(position)
         holder.itemView.setOnClickListener {
             try {
@@ -68,8 +68,8 @@ class UpcomingTrainingAdapter(private var context: Context) : RecyclerView.Adapt
 }
 
 class TrainingListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val trainingName = view?.findViewById(R.id.jobtitleTV) as TextView
-    val trainingVenue = view?.findViewById(R.id.companyNameTV) as TextView
-    val trainingDate = view?.findViewById(R.id.appliedDateTV) as TextView
+    val trainingName = view.findViewById(R.id.jobtitleTV) as TextView
+    val trainingVenue = view.findViewById(R.id.companyNameTV) as TextView
+    val trainingDate = view.findViewById(R.id.appliedDateTV) as TextView
 
 }

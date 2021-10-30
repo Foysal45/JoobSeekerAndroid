@@ -45,7 +45,7 @@ object DigitConverter {
             if (englishDigits is String) {
                 engCahrReplacer(englishDigits.toString())
             } else if (englishDigits is Int || englishDigits is Long) {
-                engCahrReplacer(formatNumber(englishDigits ?: 0, "##,##,##,##0"))
+                engCahrReplacer(formatNumber(englishDigits, "##,##,##,##0"))
             } else {
                 engCahrReplacer(formatNumber(englishDigits ?: 0, "##,##,##,##0.00"))
             }

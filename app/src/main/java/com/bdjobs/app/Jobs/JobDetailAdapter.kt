@@ -537,8 +537,8 @@ class JobDetailAdapter(private val context: Context) :
                                             position,
                                             jobDetailResponseAll.gender!!,
                                             jobDetailResponseAll.photograph!!,
-                                            jobDetailResponseAll.minSalary!!,
-                                            jobDetailResponseAll.maxSalary!!
+                                            jobDetailResponseAll.minSalary,
+                                            jobDetailResponseAll.maxSalary
                                         )
                                         //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
                                     }
@@ -1187,28 +1187,28 @@ class JobDetailAdapter(private val context: Context) :
             dialog.setContentView(R.layout.job_apply_limit_reached_popup)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-            val titleTV = dialog?.findViewById<TextView>(R.id.job_apply_limit_reached_title_tv)
+            val titleTV = dialog.findViewById<TextView>(R.id.job_apply_limit_reached_title_tv)
             titleTV.text = "Job seekers can apply for $jobApplyLimit jobs every month."
 
-            val applyCountTV = dialog?.findViewById<TextView>(R.id.apply_count_tv)
+            val applyCountTV = dialog.findViewById<TextView>(R.id.apply_count_tv)
             applyCountTV.text = "$appliedJobsCount"
 
-            val remainingDaysTV = dialog?.findViewById<TextView>(R.id.remaining_days_tv)
+            val remainingDaysTV = dialog.findViewById<TextView>(R.id.remaining_days_tv)
             remainingDaysTV.text = "${Constants.daysAvailable} days"
 
-            val okBtn = dialog?.findViewById<MaterialButton>(R.id.job_apply_limit_reached_ok_button)
+            val okBtn = dialog.findViewById<MaterialButton>(R.id.job_apply_limit_reached_ok_button)
             okBtn.setOnClickListener {
-                dialog?.dismiss()
+                dialog.dismiss()
             }
 
             val appliedJobsBtn =
-                dialog?.findViewById<MaterialButton>(R.id.job_apply_limit_reached_applied_jobs_button)
+                dialog.findViewById<MaterialButton>(R.id.job_apply_limit_reached_applied_jobs_button)
             appliedJobsBtn.setOnClickListener {
-                dialog?.dismiss()
+                dialog.dismiss()
                 context.startActivity<AppliedJobsActivity>("time" to "1")
             }
 
-            dialog?.show()
+            dialog.show()
         } catch (e: Exception) {
         }
     }
@@ -1223,18 +1223,18 @@ class JobDetailAdapter(private val context: Context) :
     ) {
         try {
             val dialog = Dialog(context)
-            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog?.setCancelable(true)
-            dialog?.setContentView(R.layout.layout_warning_popup)
-            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(true)
+            dialog.setContentView(R.layout.layout_warning_popup)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-            var warningTitleTV = dialog?.findViewById<TextView>(R.id.txt_warning_title)
-            var warningMessageTV = dialog?.findViewById<TextView>(R.id.txt_warning_message)
-            val translateIV = dialog?.findViewById<ImageView>(R.id.img_translate)
-            val cancelBtn = dialog?.findViewById<Button>(R.id.btn_cancel)
-            val agreedBtn = dialog?.findViewById<Button>(R.id.btn_agreed)
-            val agreedCheckBox = dialog?.findViewById<CheckBox>(R.id.chk_bx_agreed)
-            val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
+            var warningTitleTV = dialog.findViewById<TextView>(R.id.txt_warning_title)
+            var warningMessageTV = dialog.findViewById<TextView>(R.id.txt_warning_message)
+            val translateIV = dialog.findViewById<ImageView>(R.id.img_translate)
+            val cancelBtn = dialog.findViewById<Button>(R.id.btn_cancel)
+            val agreedBtn = dialog.findViewById<Button>(R.id.btn_agreed)
+            val agreedCheckBox = dialog.findViewById<CheckBox>(R.id.chk_bx_agreed)
+            val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
             Ads.showNativeAd(ad_small_template, context)
 
             translateIV?.setOnClickListener {
@@ -1274,7 +1274,7 @@ class JobDetailAdapter(private val context: Context) :
             }
             cancelBtn?.setOnClickListener { dialog.dismiss() }
             agreedBtn?.setOnClickListener {
-                dialog?.dismiss()
+                dialog.dismiss()
                 checkApplyEligibility(
                     context,
                     position,
@@ -1284,7 +1284,7 @@ class JobDetailAdapter(private val context: Context) :
                     maxSalary
                 )
             }
-            dialog?.show()
+            dialog.show()
         } catch (e: Exception) {
         }
 
@@ -1305,28 +1305,28 @@ class JobDetailAdapter(private val context: Context) :
         cvUpdateLater: String
     ) {
         dialog = Dialog(activity)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 //        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-        dialog?.setCancelable(true)
-        dialog?.setContentView(R.layout.online_apply_dialog_layout)
-        val cancelButton = dialog?.findViewById<Button>(R.id.onlineApplyCancelBTN)
-        val okButton = dialog?.findViewById<Button>(R.id.onlineApplyOkBTN)
-        val applyAnywayButton = dialog?.findViewById<Button>(R.id.applyAnywayBTN)
-        val salaryTIET = dialog?.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
-        val salaryTIL = dialog?.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
-        val ad_small_template = dialog?.findViewById<TemplateView>(R.id.ad_small_template)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.online_apply_dialog_layout)
+        val cancelButton = dialog.findViewById<Button>(R.id.onlineApplyCancelBTN)
+        val okButton = dialog.findViewById<Button>(R.id.onlineApplyOkBTN)
+        val applyAnywayButton = dialog.findViewById<Button>(R.id.applyAnywayBTN)
+        val salaryTIET = dialog.findViewById<TextInputEditText>(R.id.salaryAmountTIET)
+        val salaryTIL = dialog.findViewById<TextInputLayout>(R.id.salaryAmountTIL)
+        val ad_small_template = dialog.findViewById<TemplateView>(R.id.ad_small_template)
         val salaryExceededTextView: TextView =
-            dialog?.findViewById(R.id.salary_limit_exceeded_tv) as TextView
-        val scrollView = dialog?.findViewById(R.id.scroll) as ScrollView
+            dialog.findViewById(R.id.salary_limit_exceeded_tv) as TextView
+        val scrollView = dialog.findViewById(R.id.scroll) as ScrollView
 
         val jobApplicationStatusCard =
-            dialog?.findViewById<ConstraintLayout>(R.id.job_detail_job_application_status_card)
+            dialog.findViewById<ConstraintLayout>(R.id.job_detail_job_application_status_card)
         val appliedJobsCountTV =
-            dialog?.findViewById<TextView>(R.id.job_detail_job_application_count_tv)
+            dialog.findViewById<TextView>(R.id.job_detail_job_application_count_tv)
         val remainingJobsCountTV =
-            dialog?.findViewById<TextView>(R.id.job_detail_job_application_remaining_tv)
-        val whyIAmSeeingThisTV = dialog?.findViewById<TextView>(R.id.why_i_am_seeing_this_text)
+            dialog.findViewById<TextView>(R.id.job_detail_job_application_remaining_tv)
+        val whyIAmSeeingThisTV = dialog.findViewById<TextView>(R.id.why_i_am_seeing_this_text)
 
         Ads.showNativeAd(ad_small_template, context)
 
@@ -1364,7 +1364,7 @@ class JobDetailAdapter(private val context: Context) :
         salaryTIET.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
             } else {
-                salaryExceededTextView?.hide()
+                salaryExceededTextView.hide()
                 okButton?.show()
                 applyAnywayButton?.hide()
                 salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
@@ -1387,7 +1387,7 @@ class JobDetailAdapter(private val context: Context) :
         }
 
         cancelButton?.setOnClickListener {
-            dialog?.dismiss()
+            dialog.dismiss()
         }
 
         okButton?.setOnClickListener {
@@ -1404,26 +1404,26 @@ class JobDetailAdapter(private val context: Context) :
                 if (minSalary != "0" && maxSalary != "0") {
                     if (salaryTIET.text.toString().toInt() > maxSalary.toInt()) {
                         //disableSalaryText(salaryTIET,salaryTIL,dialog)
-                        salaryExceededTextView?.show()
+                        salaryExceededTextView.show()
                         applyAnywayButton?.show()
-                        okButton?.hide()
+                        okButton.hide()
 //                        scrollView?.post {
 //                            scrollView.fullScroll(View.FOCUS_DOWN)
 //                        }
                         salaryTIET.clearFocus()
                         salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
                     } else {
-                        salaryExceededTextView?.hide()
+                        salaryExceededTextView.hide()
                         applyAnywayButton?.hide()
-                        okButton?.show()
+                        okButton.show()
                         salaryTIL.boxStrokeColor =
                             ContextCompat.getColor(context, R.color.colorPrimary)
                     }
                 } else {
                     if (maxSalary != "0" && minSalary == "0") {
                         if (salaryTIET.text.toString().toInt() > maxSalary.toInt()) {
-                            salaryExceededTextView?.show()
-                            okButton?.hide()
+                            salaryExceededTextView.show()
+                            okButton.hide()
                             applyAnywayButton?.show()
                             salaryTIET.clearFocus()
                             salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
@@ -1431,16 +1431,16 @@ class JobDetailAdapter(private val context: Context) :
 //                                scrollView.fullScroll(View.FOCUS_DOWN)
 //                            }
                         } else {
-                            salaryExceededTextView?.hide()
-                            okButton?.show()
+                            salaryExceededTextView.hide()
+                            okButton.show()
                             applyAnywayButton?.hide()
                             salaryTIL.boxStrokeColor =
                                 ContextCompat.getColor(context, R.color.colorPrimary)
                         }
                     } else if (maxSalary == "0" && minSalary != "0") {
                         if (salaryTIET.text.toString().toInt() > minSalary.toInt()) {
-                            salaryExceededTextView?.show()
-                            okButton?.hide()
+                            salaryExceededTextView.show()
+                            okButton.hide()
                             applyAnywayButton?.show()
                             salaryTIET.clearFocus()
                             salaryTIL.boxStrokeColor = Color.parseColor("#c0392b")
@@ -1448,8 +1448,8 @@ class JobDetailAdapter(private val context: Context) :
 //                                scrollView.fullScroll(View.FOCUS_DOWN)
 //                            }
                         } else {
-                            salaryExceededTextView?.hide()
-                            okButton?.show()
+                            salaryExceededTextView.hide()
+                            okButton.show()
                             applyAnywayButton?.hide()
                             salaryTIL.boxStrokeColor =
                                 ContextCompat.getColor(context, R.color.colorPrimary)
@@ -1458,8 +1458,8 @@ class JobDetailAdapter(private val context: Context) :
                 }
             } catch (e: Exception) {
                 applyAnywayButton?.hide()
-                okButton?.show()
-                salaryExceededTextView?.hide()
+                okButton.show()
+                salaryExceededTextView.hide()
                 salaryTIL.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
 
             }
@@ -1623,8 +1623,8 @@ class JobDetailAdapter(private val context: Context) :
         //Log.d("dlkgj", "gender $gender jobid:${jobList?.get(position)?.jobid!!}")
         val bdjobsUserSession = BdjobsUserSession(context)
         val loadingDialog = context.indeterminateProgressDialog("Applying")
-        loadingDialog?.setCancelable(false)
-        loadingDialog?.show()
+        loadingDialog.setCancelable(false)
+        loadingDialog.show()
         ApiServiceJobs.create().applyJob(
             bdjobsUserSession.userId,
             bdjobsUserSession.decodId,
@@ -1638,8 +1638,8 @@ class JobDetailAdapter(private val context: Context) :
             override fun onFailure(call: Call<ApplyOnlineModel>, t: Throwable) {
 
                 //Log.d("dlkgj", "respone ${t.message}")
-                loadingDialog?.dismiss()
-                dialog?.dismiss()
+                loadingDialog.dismiss()
+                dialog.dismiss()
                 applyStatus = false
                 d("applyTest onFailure ")
 
@@ -1654,8 +1654,8 @@ class JobDetailAdapter(private val context: Context) :
                 try {
 
                     d("applyTest onResponse ")
-                    dialog?.dismiss()
-                    loadingDialog?.dismiss()
+                    dialog.dismiss()
+                    loadingDialog.dismiss()
 
                     val message =
                         if (response.body()!!.data[0].message.endsWith(".")) response.body()!!.data[0].message
@@ -1906,13 +1906,13 @@ class JobDetailAdapter(private val context: Context) :
 
     private class LoadingVH(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        internal var mProgressBar: ProgressBar? =
+        var mProgressBar: ProgressBar? =
             itemView.findViewById(R.id.loadmore_progress) as ProgressBar?
         private var mRetryBtn: ImageButton? =
             itemView.findViewById(R.id.loadmore_retry) as ImageButton?
-        internal var mErrorTxt: TextView? =
+        var mErrorTxt: TextView? =
             itemView.findViewById(R.id.loadmore_errortxt) as TextView?
-        internal var mErrorLayout: LinearLayout? =
+        var mErrorLayout: LinearLayout? =
             itemView.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
 
 

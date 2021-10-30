@@ -99,31 +99,31 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                             //Log.d("createdon", "created on: $cratedOn \n updatedOn on: $updatedOn")
 
                             val favouriteSearch = FavouriteSearch(
-                                    filterid = item?.filterid,
-                                    filtername = item?.filtername,
-                                    industrialCat = item?.industrialCat,
-                                    functionalCat = item?.functionalCat,
-                                    location = item?.location,
-                                    organization = item?.organization,
-                                    jobnature = item?.jobnature,
-                                    joblevel = item?.joblevel,
-                                    postedon = item?.postedon,
-                                    deadline = item?.deadline,
-                                    keyword = item?.keyword,
-                                    newspaper = item?.newspaper,
-                                    gender = item?.gender,
-                                    genderb = item?.genderb,
-                                    experience = item?.experience,
-                                    age = item?.age,
-                                    jobtype = item?.jobtype,
-                                    retiredarmy = item?.retiredarmy,
+                                    filterid = item.filterid,
+                                    filtername = item.filtername,
+                                    industrialCat = item.industrialCat,
+                                    functionalCat = item.functionalCat,
+                                    location = item.location,
+                                    organization = item.organization,
+                                    jobnature = item.jobnature,
+                                    joblevel = item.joblevel,
+                                    postedon = item.postedon,
+                                    deadline = item.deadline,
+                                    keyword = item.keyword,
+                                    newspaper = item.newspaper,
+                                    gender = item.gender,
+                                    genderb = item.genderb,
+                                    experience = item.experience,
+                                    age = item.age,
+                                    jobtype = item.jobtype,
+                                    retiredarmy = item.retiredarmy,
                                     createdon = cratedOn,
                                     updatedon = updatedOn,
-                                    totaljobs = item?.totaljobs,
-                                    isSubscribed = item?.isSubscribed,
-                                    workPlace = item?.workPlace,
-                                    personWithDisability = item?.personWithDisability,
-                                    facilitiesForPWD = item?.facilityForPWD
+                                    totaljobs = item.totaljobs,
+                                    isSubscribed = item.isSubscribed,
+                                    workPlace = item.workPlace,
+                                    personWithDisability = item.personWithDisability,
+                                    facilitiesForPWD = item.facilityForPWD
 
                             )
                             bdjobsInternalDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)
@@ -432,7 +432,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                 outputStream = FileOutputStream(dbFile)
 
                 while (true) {
-                    val read = inputStream!!.read(fileReader)
+                    val read = inputStream.read(fileReader)
 
                     if (read == -1) {
                         break
@@ -513,31 +513,31 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     var liveInvitation: String? = ""
 
 
-                    response?.body()?.data?.forEach { itt ->
+                    response.body()?.data?.forEach { itt ->
                         when (itt?.title) {
                             Constants.session_key_mybdjobscount_jobs_applied -> {
-                                jobsApplied = itt?.count
+                                jobsApplied = itt.count
                             }
                             Constants.session_key_mybdjobscount_times_emailed_resume -> {
-                                emailResume = itt?.count
+                                emailResume = itt.count
                             }
                             Constants.session_key_mybdjobscount_employers_viwed_resume -> {
-                                viewdResume = itt?.count
+                                viewdResume = itt.count
                             }
                             Constants.session_key_mybdjobscount_employers_followed -> {
-                                followedEmployers = itt?.count
+                                followedEmployers = itt.count
                             }
                             Constants.session_key_mybdjobscount_interview_invitation -> {
-                                interviewInvitation = itt?.count
+                                interviewInvitation = itt.count
                             }
                             Constants.session_key_mybdjobscount_message_by_employers -> {
-                                employerMessage = itt?.count
+                                employerMessage = itt.count
                             }
                             Constants.session_key_mybdjobscount_video_invitation -> {
-                                videoInvitation = itt?.count
+                                videoInvitation = itt.count
                             }
                             Constants.session_key_mybdjobscount_live_invitation -> {
-                                liveInvitation = itt?.count
+                                liveInvitation = itt.count
                             }
                         }
 
@@ -659,7 +659,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                         for (item in items) {
                             var followedOn: Date? = null
                             try {
-                                followedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item?.followedOn)
+                                followedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item.followedOn)
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }
@@ -667,9 +667,10 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
 
                             val followedEmployer = FollowedEmployer(
                                     CompanyID = item.companyID,
-                                    CompanyName = item?.companyName,
+                                    CompanyName = item.companyName,
                                     FollowedOn = followedOn,
-                                    JobCount = item?.jobCount)
+                                    JobCount = item.jobCount
+                            )
                             bdjobsInternalDB.followedEmployerDao().insertFollowedEmployer(followedEmployer)
                         }
 

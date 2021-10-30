@@ -55,17 +55,17 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                 val loadingVH = holder as LoadingVH
 
                 if (retryPageLoad) {
-                    loadingVH?.mErrorLayout?.visibility = View.VISIBLE
-                    loadingVH?.mProgressBar?.visibility = View.GONE
+                    loadingVH.mErrorLayout.visibility = View.VISIBLE
+                    loadingVH.mProgressBar.visibility = View.GONE
 
-                    loadingVH?.mErrorTxt?.text = if (errorMsg != null)
+                    loadingVH.mErrorTxt.text = if (errorMsg != null)
                         errorMsg
                     else
-                        context?.getString(R.string.error_msg_unknown)
+                        context.getString(R.string.error_msg_unknown)
 
                 } else {
-                    loadingVH?.mErrorLayout?.visibility = View.GONE
-                    loadingVH?.mProgressBar?.visibility = View.VISIBLE
+                    loadingVH.mErrorLayout.visibility = View.GONE
+                    loadingVH.mProgressBar.visibility = View.VISIBLE
                 }
             }
             ITEM_WITH_AD -> {
@@ -89,8 +89,8 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
             ITEM -> {
                 val holder = viewHolder as EmployerListViewHolder
                 try {
-                    holder?.employerCompany?.text = employerList?.get(position)?.companyname
-                    holder?.offeringJobs?.text = employerList?.get(position)?.totaljobs
+                    holder.employerCompany.text = employerList?.get(position)?.companyname
+                    holder.offeringJobs.text = employerList?.get(position)?.totaljobs
 
                     var jobCount = employerList?.get(position)?.totaljobs
                     var jobCountint = jobCount?.toInt()
@@ -113,16 +113,16 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
                         uiThread {
                             if (isitFollowed) {
-                                holder?.followUnfollow?.text = "Unfollow"
+                                holder.followUnfollow.text = "Unfollow"
                             } else {
-                                holder?.followUnfollow?.text = "Follow "
+                                holder.followUnfollow.text = "Follow "
                             }
                         }
                     }
-                    holder?.followUnfollow?.setOnClickListener {
+                    holder.followUnfollow.setOnClickListener {
 
-                        if (holder?.followUnfollow?.text?.equals("Unfollow")!!) {
-                            activity?.alert("Are you sure you want to unfollow this company?", "Confirmation") {
+                        if (holder.followUnfollow.text?.equals("Unfollow")!!) {
+                            activity.alert("Are you sure you want to unfollow this company?", "Confirmation") {
                                 yesButton {
                                     try {
                                         followUnfollowEmployer(position)
@@ -150,8 +150,8 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
             ITEM_WITH_AD -> {
                 val holder = viewHolder as EmployerListViewHolderWithAd
                 try {
-                    holder?.employerCompany?.text = employerList?.get(position)?.companyname
-                    holder?.offeringJobs?.text = employerList?.get(position)?.totaljobs
+                    holder.employerCompany.text = employerList?.get(position)?.companyname
+                    holder.offeringJobs.text = employerList?.get(position)?.totaljobs
 
                     var jobCount = employerList?.get(position)?.totaljobs
                     var jobCountint = jobCount?.toInt()
@@ -174,16 +174,16 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
                         uiThread {
                             if (isitFollowed) {
-                                holder?.followUnfollow?.text = "Unfollow"
+                                holder.followUnfollow.text = "Unfollow"
                             } else {
-                                holder?.followUnfollow?.text = "Follow "
+                                holder.followUnfollow.text = "Follow "
                             }
                         }
                     }
-                    holder?.followUnfollow?.setOnClickListener {
+                    holder.followUnfollow.setOnClickListener {
 
-                        if (holder?.followUnfollow?.text?.equals("Unfollow")!!) {
-                            activity?.alert("Are you sure you want to unfollow this company?", "Confirmation") {
+                        if (holder.followUnfollow.text?.equals("Unfollow")!!) {
+                            activity.alert("Are you sure you want to unfollow this company?", "Confirmation") {
                                 yesButton {
                                     try {
                                         followUnfollowEmployer(position)
@@ -316,10 +316,10 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 
             override fun onResponse(call: Call<FollowUnfollowModelClass>, response: Response<FollowUnfollowModelClass>) {
                 try {
-                    val statuscode = response?.body()?.statuscode
-                    val message = response?.body()?.data?.get(0)?.message
+                    val statuscode = response.body()?.statuscode
+                    val message = response.body()?.data?.get(0)?.message
                     //Log.d("jobCount", "jobCount: ${response.body()?.data?.get(0)?.jobcount}")
-                    bdjobsUserSession?.incrementFollowedEmployer()
+                    bdjobsUserSession.incrementFollowedEmployer()
                     doAsync {
                         val followedEmployer = FollowedEmployer(
                                 CompanyID = companyid,
@@ -356,7 +356,7 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
                     var statuscode = response.body()?.statuscode
                     var message = response.body()?.data?.get(0)?.message
                     //Log.d("msg", message)
-                    bdjobsUserSession?.deccrementFollowedEmployer()
+                    bdjobsUserSession.deccrementFollowedEmployer()
                     doAsync {
                         bdjobsDB.followedEmployerDao().deleteFollowedEmployerByCompanyID(companyid, companyName)
 
@@ -376,34 +376,34 @@ class EmployerListAdapter(private var context: Context) : RecyclerView.Adapter<R
 }
 
 class EmployerListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val employerCompany = view?.findViewById(R.id.employers_company_TV) as TextView
-    val offeringJobs = view?.findViewById(R.id.offering_jobs_number_TV) as TextView
-    val followUnfollow = view?.findViewById(R.id.follownfollow_BTN) as MaterialButton
-    val employersListCard = view?.findViewById(R.id.empList_cardview) as CardView
+    val employerCompany = view.findViewById(R.id.employers_company_TV) as TextView
+    val offeringJobs = view.findViewById(R.id.offering_jobs_number_TV) as TextView
+    val followUnfollow = view.findViewById(R.id.follownfollow_BTN) as MaterialButton
+    val employersListCard = view.findViewById(R.id.empList_cardview) as CardView
 
 }
 
 class EmployerListViewHolderWithAd(view: View) : RecyclerView.ViewHolder(view) {
-    val employerCompany = view?.findViewById(R.id.employers_company_TV) as TextView
-    val offeringJobs = view?.findViewById(R.id.offering_jobs_number_TV) as TextView
-    val followUnfollow = view?.findViewById(R.id.follownfollow_BTN) as MaterialButton
-    val employersListCard = view?.findViewById(R.id.empList_cardview) as CardView
-    val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
+    val employerCompany = view.findViewById(R.id.employers_company_TV) as TextView
+    val offeringJobs = view.findViewById(R.id.offering_jobs_number_TV) as TextView
+    val followUnfollow = view.findViewById(R.id.follownfollow_BTN) as MaterialButton
+    val employersListCard = view.findViewById(R.id.empList_cardview) as CardView
+    val ad_small_template: TemplateView = view.findViewById(R.id.ad_small_template) as TemplateView
 
 
 }
 
 class LoadingVH(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-    val mProgressBar: ProgressBar = itemView?.findViewById(R.id.loadmore_progress_1) as ProgressBar
-    val mRetryBtn: ImageButton = itemView?.findViewById(R.id.loadmore_retry_1) as ImageButton
-    val mErrorTxt: TextView = itemView?.findViewById(R.id.loadmore_errortxt_1) as TextView
-    val mErrorLayout: LinearLayout = itemView?.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
+    val mProgressBar: ProgressBar = itemView.findViewById(R.id.loadmore_progress_1) as ProgressBar
+    val mRetryBtn: ImageButton = itemView.findViewById(R.id.loadmore_retry_1) as ImageButton
+    val mErrorTxt: TextView = itemView.findViewById(R.id.loadmore_errortxt_1) as TextView
+    val mErrorLayout: LinearLayout = itemView.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
 
     init {
 
-        mRetryBtn?.setOnClickListener(this)
-        mErrorLayout?.setOnClickListener(this)
+        mRetryBtn.setOnClickListener(this)
+        mErrorLayout.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {

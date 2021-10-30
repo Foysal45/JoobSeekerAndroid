@@ -141,7 +141,7 @@ class NotificationListFragment : Fragment() {
                                                         bdjobsUserSession = BdjobsUserSession(activity)
                                                         bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
                                                     }
-                                                    if (notificationListAdapter?.itemCount == 0) {
+                                                    if (notificationListAdapter.itemCount == 0) {
                                                         notificationNoDataLL?.show()
                                                     } else {
                                                         notificationNoDataLL?.hide()
@@ -153,7 +153,7 @@ class NotificationListFragment : Fragment() {
                                         snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.undo))
                                         snackbar.show()
 
-                                        if (notificationListAdapter?.itemCount == 0) {
+                                        if (notificationListAdapter.itemCount == 0) {
                                             notificationNoDataLL?.show()
                                         } else {
                                             notificationNoDataLL?.hide()
@@ -186,8 +186,8 @@ class NotificationListFragment : Fragment() {
     }
 
     fun updateView(item: Notification) {
-        notificationListAdapter?.addItem(item)
-        notificationListAdapter?.notifyDataSetChanged()
+        notificationListAdapter.addItem(item)
+        notificationListAdapter.notifyDataSetChanged()
     }
 
 }

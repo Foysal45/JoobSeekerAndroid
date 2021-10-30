@@ -33,7 +33,7 @@ class Login2OTPFragment : android.app.Fragment() {
     private lateinit var counter: CountDownTimer
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater?.inflate(R.layout.fragment_login2_otp, container, false)!!
+        rootView = inflater.inflate(R.layout.fragment_login2_otp, container, false)!!
         return rootView
     }
 
@@ -75,7 +75,7 @@ class Login2OTPFragment : android.app.Fragment() {
 
     private fun onClicks() {
         backBtnIMGV?.setOnClickListener {
-            login2Communicator?.backButtonClicked()
+            login2Communicator.backButtonClicked()
         }
 
         otpTIET?.easyOnTextChangedListener { charSequence ->
@@ -84,7 +84,7 @@ class Login2OTPFragment : android.app.Fragment() {
 
 
 
-        rootView?.viewTreeObserver.addOnGlobalLayoutListener {
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
             try {
                 val r = Rect()
                 rootView.getWindowVisibleDisplayFrame(r)
@@ -123,10 +123,10 @@ class Login2OTPFragment : android.app.Fragment() {
 
                     try {
                         if (response.isSuccessful) {
-                            if(response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)){
+                            if(response.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)){
                                 otpTIL?.hideError()
                                 val bdjobsUserSession = BdjobsUserSession(activity)
-                                bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
+                                bdjobsUserSession.createSession(response.body()?.data?.get(0)!!)
                                 login2Communicator.goToHomePage()
                             }else{
                                 activity?.stopProgressBar(progressBar)
@@ -157,7 +157,7 @@ class Login2OTPFragment : android.app.Fragment() {
     }
 
     override fun onStop() {
-        counter?.cancel()
+        counter.cancel()
         super.onStop()
     }
 

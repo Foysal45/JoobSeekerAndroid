@@ -122,7 +122,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
     }
 
     override fun getItemCount(): Int {
-        return items?.size
+        return items.size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -188,7 +188,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 }
 
 
-                notificationViewHolder?.notificationCV?.setOnClickListener {
+                notificationViewHolder.notificationCV.setOnClickListener {
                     NotificationManagerCompat.from(context).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
                     notificationCommunicatior.positionClicked(position)
                     if (!items[position].seen!!) {
@@ -206,13 +206,13 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                     notificationCommunicatior.positionClickedMessage(position)
 
-                    context?.startActivity<InterviewInvitationBaseActivity>(
-                            "from" to "notificationList",
-                            "jobid" to items[position].serverId,
-                            "companyname" to items[position].companyName,
-                            "jobtitle" to items[position].jobTitle,
-                            "seen" to items[position].seen,
-                            "nid" to items[position].notificationId
+                    context.startActivity<InterviewInvitationBaseActivity>(
+                        "from" to "notificationList",
+                        "jobid" to items[position].serverId,
+                        "companyname" to items[position].companyName,
+                        "jobtitle" to items[position].jobTitle,
+                        "seen" to items[position].seen,
+                        "nid" to items[position].notificationId
 
                     )
                 }
@@ -259,7 +259,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 }
 
 
-                videoInterviewViewHolder?.notificationCV?.setOnClickListener {
+                videoInterviewViewHolder.notificationCV.setOnClickListener {
                     NotificationManagerCompat.from(context).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
                     notificationCommunicatior.positionClicked(position)
                     if (!items[position].seen!!) {
@@ -274,15 +274,15 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             }
                         }
                     }
-//                    context?.startActivity<InterviewInvitationBaseActivity>(
-//                            "from" to "videoInterviewNotificationList",
-//                            "jobid" to items[position].serverId,
-//                            "companyname" to items[position].companyName,
-//                            "jobtitle" to items[position].jobTitle,
-//                            "seen" to items[position].seen,
-//                            "nid" to items[position].notificationId,
-//                            "videoUrl" to items[position].link
-//                    )
+            //                    context?.startActivity<InterviewInvitationBaseActivity>(
+            //                            "from" to "videoInterviewNotificationList",
+            //                            "jobid" to items[position].serverId,
+            //                            "companyname" to items[position].companyName,
+            //                            "jobtitle" to items[position].jobTitle,
+            //                            "seen" to items[position].seen,
+            //                            "nid" to items[position].notificationId,
+            //                            "videoUrl" to items[position].link
+            //                    )
 
                     notificationCommunicatior.positionClickedMessage(position)
                     context.startActivity<VideoInterviewActivity>()
@@ -330,7 +330,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 }
 
 
-                liveInterviewViewHolder?.notificationCV?.setOnClickListener {
+                liveInterviewViewHolder.notificationCV.setOnClickListener {
                     NotificationManagerCompat.from(context).cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
                     notificationCommunicatior.positionClicked(position)
                     if (!items[position].seen!!) {
@@ -345,22 +345,22 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             }
                         }
                     }
-//                    context?.startActivity<InterviewInvitationBaseActivity>(
-//                            "from" to "notificationList",
-//                            "jobid" to items[position].serverId,
-//                            "companyname" to items[position].companyName,
-//                            "jobtitle" to items[position].jobTitle,
-//                            "seen" to items[position].seen,
-//                            "nid" to items[position].notificationId
-//                    )
+            //                    context?.startActivity<InterviewInvitationBaseActivity>(
+            //                            "from" to "notificationList",
+            //                            "jobid" to items[position].serverId,
+            //                            "companyname" to items[position].companyName,
+            //                            "jobtitle" to items[position].jobTitle,
+            //                            "seen" to items[position].seen,
+            //                            "nid" to items[position].notificationId
+            //                    )
 
 
                     notificationCommunicatior.positionClickedMessage(position)
 
                     context.startActivity<LiveInterviewActivity>(
-                            "from" to "notificationList",
-                            "jobId" to items[position].serverId,
-                            "jobTitle" to items[position].jobTitle
+                        "from" to "notificationList",
+                        "jobId" to items[position].serverId,
+                        "jobTitle" to items[position].jobTitle
                     )
                 }
             }
@@ -400,15 +400,15 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 try {
                     if (items[position].seen!!) {
-                        cvViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                        cvViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     } else
-                        cvViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFF2FA"))
+                        cvViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFF2FA"))
                 } catch (e: Exception) {
 
                 }
 
 
-                cvViewedViewHolder?.notificationCV?.setOnClickListener {
+                cvViewedViewHolder.notificationCV.setOnClickListener {
                     cvViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
 
 
@@ -427,8 +427,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     notificationCommunicatior.positionClicked(position)
 
                     context.startActivity<EmployersBaseActivity>(
-                            "seen" to items[position].seen,
-                            "from" to "notificationList"
+                        "seen" to items[position].seen,
+                        "from" to "notificationList"
                     )
 
 
@@ -469,15 +469,15 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 try {
                     if (items[position].seen!!) {
-                        smsViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                        smsViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     } else
-                        smsViewedViewHolder?.notificationCL?.setBackgroundColor(Color.parseColor("#FFF2FA"))
+                        smsViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFF2FA"))
                 } catch (e: Exception) {
 
                 }
 
 
-                smsViewedViewHolder?.notificationButton?.setOnClickListener {
+                smsViewedViewHolder.notificationButton.setOnClickListener {
                     smsViewedViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
 
 
@@ -496,8 +496,8 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     notificationCommunicatior.positionClicked(position)
 
                     context.startActivity<EmployersBaseActivity>(
-                            "seen" to items[position].seen,
-                            "from" to "notificationList"
+                        "seen" to items[position].seen,
+                        "from" to "notificationList"
                     )
 
 
@@ -543,7 +543,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                     matchedJobViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFF2FA"))
 
 
-                matchedJobViewHolder?.notificationCV?.setOnClickListener {
+                matchedJobViewHolder.notificationCV.setOnClickListener {
 
                     matchedJobViewHolder.notificationCL.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     val jobids = ArrayList<String>()
@@ -562,13 +562,13 @@ class NotificationListAdapter(private val context: Context, private val items: M
                         }
                     }
 
-                    context?.startActivity<JobBaseActivity>(
-                            "from" to "notificationList",
-                            "jobids" to jobids,
-                            "lns" to lns,
-                            "position" to 0,
-                            "deadline" to deadline,
-                            "seen" to items[position].seen
+                    context.startActivity<JobBaseActivity>(
+                        "from" to "notificationList",
+                        "jobids" to jobids,
+                        "lns" to lns,
+                        "position" to 0,
+                        "deadline" to deadline,
+                        "seen" to items[position].seen
                     )
 
                     notificationCommunicatior.positionClicked(position)
@@ -678,7 +678,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             )
                         }
                     } else {
-                        promotionalMessageViewHolder?.messageButton?.hide()
+                        promotionalMessageViewHolder.messageButton.hide()
                     }
                 }
                 else {
@@ -699,7 +699,7 @@ class NotificationListAdapter(private val context: Context, private val items: M
                             }
 
                             try {
-                                context?.launchUrl(items[position].link)
+                                context.launchUrl(items[position].link)
                             } catch (e: Exception) {}
                             notificationCommunicatior.positionClickedMessage(position)
                         }
@@ -730,7 +730,9 @@ class NotificationListAdapter(private val context: Context, private val items: M
                 if (!commonNotificationModel?.LogoSrc.isNullOrEmpty()){
                     Timber.d("Logo not empty: ${commonNotificationModel?.LogoSrc}")
                     try {
-                        Picasso.get().load(commonNotificationModel?.LogoSrc?.trim()).into(promotionalMessageViewHolder?.headerImage)
+                        Picasso.get().load(commonNotificationModel?.LogoSrc?.trim()).into(
+                            promotionalMessageViewHolder.headerImage
+                        )
                     }catch (e: Exception) {
                         promotionalMessageViewHolder.headerImage.setImageResource(R.drawable.logo_video_resume)
                     }
@@ -741,15 +743,17 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 if (!items[position].imageLink.isNullOrEmpty()) {
                     Timber.d("imagee not empty: ${commonNotificationModel?.imageLink}")
-                    promotionalMessageViewHolder?.card?.show()
-                    promotionalMessageViewHolder?.messageImage.show()
+                    promotionalMessageViewHolder.card.show()
+                    promotionalMessageViewHolder.messageImage.show()
                     try {
-                        Picasso.get().load(items[position].imageLink).into(promotionalMessageViewHolder?.messageImage)
+                        Picasso.get().load(items[position].imageLink).into(
+                            promotionalMessageViewHolder.messageImage
+                        )
                     } catch (e: Exception) {
                     }
                 } else {
-                    promotionalMessageViewHolder?.card?.hide()
-                    promotionalMessageViewHolder?.messageImage.hide()
+                    promotionalMessageViewHolder.card.hide()
+                    promotionalMessageViewHolder.messageImage.hide()
                 }
             }
 
@@ -764,18 +768,18 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
                 val title = Html.fromHtml(items[position].title)
                 if (!items[position].title.isNullOrEmpty()) {
-                    promotionalMessageViewHolder.messageTitle?.show()
-                    promotionalMessageViewHolder.messageTitle?.text = title
+                    promotionalMessageViewHolder.messageTitle.show()
+                    promotionalMessageViewHolder.messageTitle.text = title
                 } else {
-                    promotionalMessageViewHolder.messageTitle?.hide()
+                    promotionalMessageViewHolder.messageTitle.hide()
                 }
 
                 val body = Html.fromHtml(items[position].body)
                 if (!items[position].body.isNullOrEmpty()) {
-                    promotionalMessageViewHolder.messageText?.show()
-                    promotionalMessageViewHolder.messageText?.text = body
+                    promotionalMessageViewHolder.messageText.show()
+                    promotionalMessageViewHolder.messageText.text = body
                 } else {
-                    promotionalMessageViewHolder.messageText?.hide()
+                    promotionalMessageViewHolder.messageText.hide()
                 }
 
                 promotionalMessageViewHolder.messageButton.setOnClickListener {
@@ -784,22 +788,26 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
 
                 if (!items[position].imageLink.isNullOrEmpty()) {
-                    promotionalMessageViewHolder?.card?.show()
-                    promotionalMessageViewHolder?.messageImage.show()
+                    promotionalMessageViewHolder.card.show()
+                    promotionalMessageViewHolder.messageImage.show()
                     try {
-                        Picasso.get().load(R.drawable.banner_video_resume).into(promotionalMessageViewHolder?.messageImage)
+                        Picasso.get().load(R.drawable.banner_video_resume).into(
+                            promotionalMessageViewHolder.messageImage
+                        )
                     } catch (e: Exception) {
                     }
                 } else {
-                    promotionalMessageViewHolder?.card?.show()
-                    promotionalMessageViewHolder?.messageImage.show()
+                    promotionalMessageViewHolder.card.show()
+                    promotionalMessageViewHolder.messageImage.show()
                     try {
-                        Picasso.get().load(R.drawable.banner_video_resume).into(promotionalMessageViewHolder?.messageImage)
+                        Picasso.get().load(R.drawable.banner_video_resume).into(
+                            promotionalMessageViewHolder.messageImage
+                        )
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-                    promotionalMessageViewHolder?.card?.hide()
-                    promotionalMessageViewHolder?.messageImage.hide()
+                    promotionalMessageViewHolder.card.hide()
+                    promotionalMessageViewHolder.messageImage.hide()
                 }
 
                 promotionalMessageViewHolder.card.setOnClickListener {
@@ -846,95 +854,95 @@ class NotificationListAdapter(private val context: Context, private val items: M
     }
 
     fun removeItem(position: Int) {
-        items?.removeAt(position)
+        items.removeAt(position)
         notifyItemRemoved(position)
-        notifyItemRangeChanged(position, items?.size)
+        notifyItemRangeChanged(position, items.size)
     }
 
     fun restoreItem(position: Int, notification: Notification) {
-        items?.add(position, notification)
+        items.add(position, notification)
         notifyItemInserted(position)
     }
 
     fun addItem(notification: Notification) {
-        items?.add(0, notification)
+        items.add(0, notification)
         notifyItemInserted(0)
     }
 
 }
 
 class NotificationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val notificationTitleTV = view?.findViewById(R.id.notification_interview_text) as TextView
-    val notificationTimeTV = view?.findViewById(R.id.notification_interview_time_text) as TextView
-    val notificationIMG = view?.findViewById(R.id.notification_interview_img) as ImageView
-    val notificationCL = view?.findViewById(R.id.notification_cl) as ConstraintLayout
-    val notificationCV = view?.findViewById(R.id.notification_interview_card_view) as CardView
+    val notificationTitleTV = view.findViewById(R.id.notification_interview_text) as TextView
+    val notificationTimeTV = view.findViewById(R.id.notification_interview_time_text) as TextView
+    val notificationIMG = view.findViewById(R.id.notification_interview_img) as ImageView
+    val notificationCL = view.findViewById(R.id.notification_cl) as ConstraintLayout
+    val notificationCV = view.findViewById(R.id.notification_interview_card_view) as CardView
 }
 
 class VideoInterviewViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val notificationTitleTV = view?.findViewById(R.id.notification_video_interview_text) as TextView
-    val notificationTimeTV = view?.findViewById(R.id.notification_video_interview_time_text) as TextView
+    val notificationTitleTV = view.findViewById(R.id.notification_video_interview_text) as TextView
+    val notificationTimeTV = view.findViewById(R.id.notification_video_interview_time_text) as TextView
 
     //val notificationIMG = view?.findViewById(R.id.notification_interview_img) as ImageView
-    val notificationCL = view?.findViewById(R.id.notification_video__cl) as ConstraintLayout
-    val notificationCV = view?.findViewById(R.id.notification_interview_video_card_view) as CardView
-    val notificationRecordButton = view?.findViewById(R.id.record_button) as MaterialButton
+    val notificationCL = view.findViewById(R.id.notification_video__cl) as ConstraintLayout
+    val notificationCV = view.findViewById(R.id.notification_interview_video_card_view) as CardView
+    val notificationRecordButton = view.findViewById(R.id.record_button) as MaterialButton
 }
 
 class LiveInterviewViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val notificationTitleTV = view?.findViewById(R.id.notification_live_interview_text) as TextView
-    val notificationTimeTV = view?.findViewById(R.id.notification_live_interview_time_text) as TextView
+    val notificationTitleTV = view.findViewById(R.id.notification_live_interview_text) as TextView
+    val notificationTimeTV = view.findViewById(R.id.notification_live_interview_time_text) as TextView
 
     //val notificationIMG = view?.findViewById(R.id.notification_interview_img) as ImageView
-    val notificationCL = view?.findViewById(R.id.notification_live_cl) as ConstraintLayout
-    val notificationCV = view?.findViewById(R.id.notification_interview_live_card_view) as CardView
+    val notificationCL = view.findViewById(R.id.notification_live_cl) as ConstraintLayout
+    val notificationCV = view.findViewById(R.id.notification_interview_live_card_view) as CardView
 }
 
 class CVViewedViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val notificationTitleTV = view?.findViewById(R.id.notification_cv_viewed_text) as TextView
-    val notificationTimeTV = view?.findViewById(R.id.notification_cv_viewed_time_text) as TextView
-    val notificationIMG = view?.findViewById(R.id.notification_cv_viewed_img) as ImageView
-    val notificationCL = view?.findViewById(R.id.notification_cv_viewed_cl) as ConstraintLayout
-    val notificationCV = view?.findViewById(R.id.notification_cv_viewed_card_view) as CardView
+    val notificationTitleTV = view.findViewById(R.id.notification_cv_viewed_text) as TextView
+    val notificationTimeTV = view.findViewById(R.id.notification_cv_viewed_time_text) as TextView
+    val notificationIMG = view.findViewById(R.id.notification_cv_viewed_img) as ImageView
+    val notificationCL = view.findViewById(R.id.notification_cv_viewed_cl) as ConstraintLayout
+    val notificationCV = view.findViewById(R.id.notification_cv_viewed_card_view) as CardView
 }
 
 class SMSViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val notificationTitleTV = view?.findViewById(R.id.notification_cv_viewed_text) as TextView
-    val notificationTimeTV = view?.findViewById(R.id.notification_cv_viewed_time_text) as TextView
-    val notificationIMG = view?.findViewById(R.id.notification_cv_viewed_img) as ImageView
-    val notificationCL = view?.findViewById(R.id.notification_cv_viewed_cl) as ConstraintLayout
-    val notificationCV = view?.findViewById(R.id.notification_cv_viewed_card_view) as CardView
-    val notificationButton = view?.findViewById(R.id.btn_purchase_new_plan) as MaterialButton
+    val notificationTitleTV = view.findViewById(R.id.notification_cv_viewed_text) as TextView
+    val notificationTimeTV = view.findViewById(R.id.notification_cv_viewed_time_text) as TextView
+    val notificationIMG = view.findViewById(R.id.notification_cv_viewed_img) as ImageView
+    val notificationCL = view.findViewById(R.id.notification_cv_viewed_cl) as ConstraintLayout
+    val notificationCV = view.findViewById(R.id.notification_cv_viewed_card_view) as CardView
+    val notificationButton = view.findViewById(R.id.btn_purchase_new_plan) as MaterialButton
 }
 
 class MatchedJobViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val notificationTitleTV = view?.findViewById(R.id.notification_matched_job_text) as TextView
-    val notificationTimeTV = view?.findViewById(R.id.notification_matched_job_time_text) as TextView
-    val notificationIMG = view?.findViewById(R.id.notification_matched_job_img) as ImageView
-    val notificationCL = view?.findViewById(R.id.notification_matched_job_cl) as ConstraintLayout
-    val notificationCV = view?.findViewById(R.id.notification_matched_job_card_view) as CardView
+    val notificationTitleTV = view.findViewById(R.id.notification_matched_job_text) as TextView
+    val notificationTimeTV = view.findViewById(R.id.notification_matched_job_time_text) as TextView
+    val notificationIMG = view.findViewById(R.id.notification_matched_job_img) as ImageView
+    val notificationCL = view.findViewById(R.id.notification_matched_job_cl) as ConstraintLayout
+    val notificationCV = view.findViewById(R.id.notification_matched_job_card_view) as CardView
 }
 
 class PromotionalMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val messageTitle = view?.findViewById(R.id.message_title) as TextView
-    val messageText = view?.findViewById(R.id.message_text) as TextView
-    val messageButton = view?.findViewById(R.id.message_btn) as MaterialButton
-    val messageTime = view?.findViewById(R.id.message_time_text) as TextView
-    val messageImage = view?.findViewById(R.id.message_image) as ImageView
-    val card = view?.findViewById(R.id.card) as CardView
-    val headerImage = view?.findViewById(R.id.message_header_img) as ImageView
+    val messageTitle = view.findViewById(R.id.message_title) as TextView
+    val messageText = view.findViewById(R.id.message_text) as TextView
+    val messageButton = view.findViewById(R.id.message_btn) as MaterialButton
+    val messageTime = view.findViewById(R.id.message_time_text) as TextView
+    val messageImage = view.findViewById(R.id.message_image) as ImageView
+    val card = view.findViewById(R.id.card) as CardView
+    val headerImage = view.findViewById(R.id.message_header_img) as ImageView
     val parentCL = view.findViewById<ConstraintLayout>(R.id.notification_cv_viewed_cl)
 
 }
 
 class BannerPromotionalViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val messageTitle = view?.findViewById(R.id.message_title) as TextView
-    val messageText = view?.findViewById(R.id.message_text) as TextView
-    val messageButton = view?.findViewById(R.id.message_btn) as MaterialButton
-    val messageTime = view?.findViewById(R.id.message_time_text) as TextView
-    val messageImage = view?.findViewById(R.id.message_image) as ImageView
-    val card = view?.findViewById(R.id.card) as CardView
-    val headerImage = view?.findViewById(R.id.message_header_img) as ImageView
-    val timeImage = view?.findViewById(R.id.notification_time_image) as ImageView
+    val messageTitle = view.findViewById(R.id.message_title) as TextView
+    val messageText = view.findViewById(R.id.message_text) as TextView
+    val messageButton = view.findViewById(R.id.message_btn) as MaterialButton
+    val messageTime = view.findViewById(R.id.message_time_text) as TextView
+    val messageImage = view.findViewById(R.id.message_image) as ImageView
+    val card = view.findViewById(R.id.card) as CardView
+    val headerImage = view.findViewById(R.id.message_header_img) as ImageView
+    val timeImage = view.findViewById(R.id.notification_time_image) as ImageView
 
 }

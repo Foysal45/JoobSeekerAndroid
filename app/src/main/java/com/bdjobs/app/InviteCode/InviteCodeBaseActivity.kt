@@ -77,11 +77,6 @@ class InviteCodeBaseActivity : FragmentActivity(), InviteCodeCommunicator{
         flag = 1
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
-
     override fun getPaymentMethod(): String? {
         return paymentMethod
     }

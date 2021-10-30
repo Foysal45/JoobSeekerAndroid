@@ -45,29 +45,29 @@ class HomeFragment : Fragment() {
 
         binding.homeViewModel = viewModel
 
-        binding.whatIsEmployabilityCertificationCl.learnMoreBtn?.setOnClickListener {
+        binding.whatIsEmployabilityCertificationCl.learnMoreBtn.setOnClickListener {
             Log.d("rakib","clicked")
             context?.openUrlInBrowser(Constants.url_assessment_help)
         }
 
-        binding.whatIsEmployabilityCertificationFirstTimeCl.learnMoreBtn?.setOnClickListener {
+        binding.whatIsEmployabilityCertificationFirstTimeCl.learnMoreBtn.setOnClickListener {
             context?.openUrlInBrowser(Constants.url_assessment_help)
         }
 
-        binding.btnCl?.setOnClickListener {
+        binding.btnCl.setOnClickListener {
             it.findNavController().navigate(R.id.action_viewPagerFragment_to_modulesViewFragment)
         }
 
-        binding.noPendingTest?.takeNewTestBtn?.setOnClickListener {
+        binding.noPendingTest.takeNewTestBtn.setOnClickListener {
             findNavController().navigate(R.id.action_viewPagerFragment_to_modulesViewFragment)
         }
 
-        binding.assessmentInfo?.changeBtn?.setOnClickListener {
+        binding.assessmentInfo.changeBtn.setOnClickListener {
             Log.d("rakib", "${viewModel.homeData.value?.paymentStatus}")
             findNavController().navigate(R.id.action_viewPagerFragment_to_chooseScheduleFragment)
         }
 
-        binding.assessmentInfo?.cancelBtn?.setOnClickListener {
+        binding.assessmentInfo.cancelBtn.setOnClickListener {
             Log.d("rakib", "${viewModel.homeData.value?.resumeTestBtnFormat}")
 
 

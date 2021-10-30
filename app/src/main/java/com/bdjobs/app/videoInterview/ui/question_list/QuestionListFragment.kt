@@ -113,7 +113,7 @@ class QuestionListFragment : Fragment() {
         rv_question?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                val snapPosition = (layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                val snapPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
                 Log.d("rakib", "snap position $snapPosition")
 
                 adapter.notifyDataSetChanged()
@@ -124,11 +124,6 @@ class QuestionListFragment : Fragment() {
 
             }
 
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                //layoutManager?.requestLayout()
-                //cl_root.invalidate()
-            }
         })
 
         questionListViewModel.apply {
@@ -523,7 +518,7 @@ class QuestionListFragment : Fragment() {
                 }
             }
         }
-        return permissionGranted!!
+        return permissionGranted
     }
 
     private fun openSettingsDialog() {

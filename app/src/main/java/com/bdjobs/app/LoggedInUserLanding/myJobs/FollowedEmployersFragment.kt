@@ -58,10 +58,6 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
         return inflater.inflate(R.layout.fragment_followed_employers, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bdJobsDB = BdjobsDB.getInstance(requireContext())

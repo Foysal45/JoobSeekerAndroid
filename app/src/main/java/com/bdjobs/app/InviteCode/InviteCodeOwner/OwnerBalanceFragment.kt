@@ -59,12 +59,6 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback, ConnectivityReceive
         mapView.onResume()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        //Log.d("rakib", "onCreate $i++")
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onPause() {
         super.onPause()
         mapView.onPause()

@@ -102,7 +102,7 @@ class SpecializationNewEditFragment : Fragment() {
         activity?.showProgressBar(newSpecializationLoadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateExtraCuriculam(session.userId, session.decodId,
                 session.IsResumeUpdate, etSkillDescription.getString(), etCaricular.getString())
-        call?.enqueue(object : Callback<AddorUpdateModel> {
+        call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 try {
                     activity?.stopProgressBar(newSpecializationLoadingProgressBar)

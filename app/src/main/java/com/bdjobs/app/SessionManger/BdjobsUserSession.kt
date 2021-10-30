@@ -139,7 +139,7 @@ class BdjobsUserSession(val context: Context) {
     private fun killCurrentApp(context: Context) {
         val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val appTasks = am!!.getAppTasks()
+            val appTasks = am!!.appTasks
             if (appTasks.size > 0) {
                 val appTask = appTasks[0]
                 appTask.finishAndRemoveTask()
@@ -474,7 +474,7 @@ class BdjobsUserSession(val context: Context) {
             val value = pref?.getString(key, "0")
             val count = (value?.toInt()!! + 1).toString()
             //Log.d("rakib", "$key -> $count")
-            pref?.edit() {
+            pref?.edit {
                 putString(key, count)
             }
         } catch (e: Exception) {
@@ -488,7 +488,7 @@ class BdjobsUserSession(val context: Context) {
             if (value?.toInt()!! > 0) {
                 val count = (value.toInt() - 1).toString()
                 //Log.d("rakib", "$key -> $count")
-                pref?.edit() {
+                pref?.edit {
                     putString(key, count)
                 }
             }

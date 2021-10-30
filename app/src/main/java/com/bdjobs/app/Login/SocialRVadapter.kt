@@ -33,14 +33,14 @@ class SocialRVadapter(private val items: List<SocialLoginAccountListData?>?, val
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder?.nameTV?.text = items?.get(position)?.fullName
-        holder?.emailTV?.text = items?.get(position)?.email
+        holder.nameTV.text = items?.get(position)?.fullName
+        holder.emailTV.text = items?.get(position)?.email
 
         //Log.d("CheckPhotoUrl", "Url: ${items?.get(position)?.photo} ")
 
         val photoUrl = base_url_mybdjobs_photo + items?.get(position)?.photo
-        holder?.profilePicIMGV?.loadCircularImageFromUrl(photoUrl)
-        holder?.mainCL?.setOnClickListener {
+        holder.profilePicIMGV.loadCircularImageFromUrl(photoUrl)
+        holder.mainCL.setOnClickListener {
             doLogin(items?.get(position))
         }
 
@@ -97,8 +97,8 @@ class SocialRVadapter(private val items: List<SocialLoginAccountListData?>?, val
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each animal to
-    val nameTV = view?.findViewById(R.id.nameTV) as TextView
-    val emailTV = view?.findViewById(R.id.emailTV) as TextView
-    val profilePicIMGV = view?.findViewById(R.id.profilePicIMGV) as ImageView
-    val mainCL = view?.findViewById(R.id.mainCL) as ConstraintLayout
+    val nameTV = view.findViewById(R.id.nameTV) as TextView
+    val emailTV = view.findViewById(R.id.emailTV) as TextView
+    val profilePicIMGV = view.findViewById(R.id.profilePicIMGV) as ImageView
+    val mainCL = view.findViewById(R.id.mainCL) as ConstraintLayout
 }
