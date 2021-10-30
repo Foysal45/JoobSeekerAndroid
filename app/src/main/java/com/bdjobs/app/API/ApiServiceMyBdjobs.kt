@@ -804,6 +804,7 @@ interface ApiServiceMyBdjobs {
         @Field("toDate") toDate: String? = "",
         @Field("compName") compName: String? = "",
         @Field("txtStatus") txtStatus: String? = "",
+        @Field("isActivityDate") isActivityDate: String? = "",
     ): Call<EmpViewedResumeModel>
 
     @FormUrlEncoded

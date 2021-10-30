@@ -258,7 +258,7 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
         } else if (value?.equals("joblist")) {
             transitFragment(employerJobListFragment, R.id.fragmentHolder)
         } else if (value?.equals("vwdMyResume")) {
-            transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+            transitFragmentX(employerViewedMyResumeFragment, R.id.fragmentHolder,false)
         } else if (value?.equals("notificationList")) {
 
             if (!seen) {
@@ -292,7 +292,7 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
                 }
             }
 
-            transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+            transitFragmentX(employerViewedMyResumeFragment, R.id.fragmentHolder,false)
 
         } else if (value?.equals("notification")) {
 
@@ -333,7 +333,7 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
                 bdjobsUserSession.updateNotificationCount(count)
                 //Log.d("rakib", "noti count $count $jobId")
             }
-            transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+            transitFragmentX(employerViewedMyResumeFragment, R.id.fragmentHolder,false)
         } else if (value?.equals("employerMessageList")) {
             transitFragment(employerMessageListFragment, R.id.fragmentHolder)
         }
