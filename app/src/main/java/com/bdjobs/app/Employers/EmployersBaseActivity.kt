@@ -208,7 +208,7 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
         bdjobsUserSession = BdjobsUserSession(applicationContext)
 
         try {
-            time = intent.getStringExtra("time") ?: "1"
+            time = intent.getStringExtra("time") ?: "0"
         } catch (e: Exception) {
         }
 
@@ -334,7 +334,7 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
                 //Log.d("rakib", "noti count $count $jobId")
             }
             transitFragmentX(employerViewedMyResumeFragment, R.id.fragmentHolder,false)
-        } else if (value?.equals("employerMessageList")) {
+        } else if (value.equals("employerMessageList")) {
             transitFragment(employerMessageListFragment, R.id.fragmentHolder)
         }
 

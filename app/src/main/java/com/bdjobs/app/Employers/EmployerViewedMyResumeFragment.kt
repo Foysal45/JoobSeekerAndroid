@@ -71,10 +71,10 @@ class EmployerViewedMyResumeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         employerCommunicator = activity as EmployersCommunicator
         isActivityDate = employerCommunicator.getTime()
+
+        Timber.d("Stats showing of: $isActivityDate") // 1 overall ;; 0 current month
         if (isActivityDate == "")
-            isActivityDate = "1"
-        //Log.d("test", "test" + isActivityDate)
-        //Log.d("called", "onActivityCreated")
+            isActivityDate = "0"
 
         backIMV?.setOnClickListener {
             employerCommunicator.backButtonPressed()
@@ -230,14 +230,15 @@ class EmployerViewedMyResumeFragment : Fragment() {
     }
 
     private fun initializeViews() {
+
         bdJobsUserSession = BdjobsUserSession(requireContext())
         employerViewedMyResumeAdapter = EmployerViewedMyResumeAdapter(requireContext())
         viewedMyResumeRV!!.adapter = employerViewedMyResumeAdapter
         viewedMyResumeRV!!.setHasFixedSize(true)
         viewedMyResumeRV?.layoutManager =
             LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        //Log.d("initPag", "called")
         viewedMyResumeRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+
         viewedMyResumeRV?.addOnScrollListener(object :
             PaginationScrollListener((viewedMyResumeRV.layoutManager as LinearLayoutManager?)!!) {
             override val isLoading: Boolean
@@ -275,7 +276,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                    userId = bdJobsUserSession.userId,
                    decodeId = bdJobsUserSession.decodId,
                    pageNumber = pgNo.toString(),
-                   itemsPerPage = "30",
+                   itemsPerPage = "50",
                    fromDate = fromText,
                    toDate = toText,
                    txtStatus = selectedType,
@@ -370,7 +371,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                 userId = bdJobsUserSession.userId,
                 decodeId = bdJobsUserSession.decodId,
                 pageNumber = pgNo.toString(),
-                itemsPerPage = "30",
+                itemsPerPage = "50",
                 fromDate = fromText,
                 toDate = toText,
                 txtStatus = selectedType,
