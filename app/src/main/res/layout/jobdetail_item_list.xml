@@ -1023,11 +1023,13 @@
                     android:textIsSelectable="true"
                     android:textSize="14sp"
                     android:visibility="gone"
+                    android:paddingTop="24dp"
+                    tools:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/jobInfo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@+id/jobInfo"
-                    app:layout_constraintTop_toTopOf="@+id/jobInfo" />
+                    app:layout_constraintTop_toBottomOf="@+id/govtJobsIMGV" />
 
                 <ImageView
                     android:id="@+id/govtJobsIMGV"
