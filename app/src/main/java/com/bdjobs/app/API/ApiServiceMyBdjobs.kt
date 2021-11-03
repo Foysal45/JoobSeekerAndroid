@@ -19,6 +19,7 @@ import com.bdjobs.app.videoInterview.data.models.InterviewFeedback
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.gson.GsonBuilder
+import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.MultipartBody
@@ -1418,6 +1419,7 @@ interface ApiServiceMyBdjobs {
 
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .addInterceptor(OkHttpProfilerInterceptor())
                 .build()
 
             return Retrofit.Builder().apply {
@@ -1442,6 +1444,7 @@ interface ApiServiceMyBdjobs {
 
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .addInterceptor(OkHttpProfilerInterceptor())
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)

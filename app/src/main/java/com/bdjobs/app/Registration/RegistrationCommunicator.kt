@@ -1,6 +1,7 @@
 package com.bdjobs.app.Registration
 
 import com.bdjobs.app.API.ModelClasses.AddExpModel
+import com.bdjobs.app.Registration.blue_collar_registration.frgCommunicator.FragmentCommunicator
 
 interface RegistrationCommunicator {
 
@@ -25,6 +26,7 @@ interface RegistrationCommunicator {
     fun wcSetPassAndConfirmPassword(password: String, confirmPass: String)
 
     fun wcCreateAccount()
+    fun wcCreateAccount(fragmentCommunicator: FragmentCommunicator)
     fun wcUserNameSelected(userName: String)
     fun wcCountrySeledted(countryCode: String)
     fun wcOtpVerify()

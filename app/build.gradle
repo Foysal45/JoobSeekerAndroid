@@ -17,6 +17,7 @@ android {
         versionName "2.9.2.0"  //715.0.0 current internal test // Current Production - 2.9.1.1
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -88,6 +89,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation "com.google.android.material:material:1.3.0"
     implementation "androidx.appcompat:appcompat:1.2.0"
+    //noinspection GradleCompatible
     // google sign in activity get crash without this library
 
     //----firebase
