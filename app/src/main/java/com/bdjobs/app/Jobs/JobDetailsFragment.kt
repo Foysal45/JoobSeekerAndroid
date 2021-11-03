@@ -32,7 +32,7 @@ import timber.log.Timber
 
 class JobDetailsFragment : Fragment() {
 
-    private var layoutManager: RecyclerView.LayoutManager? = null
+    private var layoutManager: CustomLayoutManager? = null
     var jobDetailAdapter: JobDetailAdapter? = null
     private var currentPage = 1
     private lateinit var communicator: JobCommunicator
@@ -95,8 +95,7 @@ class JobDetailsFragment : Fragment() {
 
         (snapHelper as PagerSnapHelper).attachToRecyclerView(jobDetailRecyclerView)
         jobDetailRecyclerView.setHasFixedSize(true)
-
-        layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+        layoutManager = CustomLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         jobDetailRecyclerView?.layoutManager = layoutManager
         //Log.d("PositionTest", "snapHelper   ${snapHelper!!.getSnapPosition(jobDetailRecyclerView)}")
         jobDetailAdapter = JobDetailAdapter(activity!!)
@@ -490,11 +489,11 @@ class JobDetailsFragment : Fragment() {
         }
 
         shortListIMGV?.setOnClickListener {
-            jobDetailAdapter!!.shorlistAndUnshortlistJob(shareJobPosition)
+            jobDetailAdapter!!.shortlistAndNoShortlistedJobs(shareJobPosition)
 
         }
         shortListIMGV2?.setOnClickListener {
-            jobDetailAdapter!!.reportthisJob(shareJobPosition)
+            jobDetailAdapter!!.reportThisJob(shareJobPosition)
 
         }
     }

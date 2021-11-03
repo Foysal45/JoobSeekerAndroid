@@ -71,7 +71,7 @@ object RetrofitUtils {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .baseUrl(baseUrl)
-            .client(httpClient)
+//            .client(httpClient)
             .build()
     }
 }
