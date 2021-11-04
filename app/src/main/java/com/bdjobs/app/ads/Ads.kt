@@ -1,4 +1,4 @@
-package com.bdjobs.app.Ads
+package com.bdjobs.app.ads
 
 import android.content.Context
 import android.graphics.Color
@@ -15,9 +15,9 @@ class Ads {
 
 
     companion object {
-        val ADMOB_NATIVE_AD_UNIT_ID = "ca-app-pub-5130888087776673/8613851148"
-        val ADMOB_APP_ID = "ca-app-pub-5130888087776673~6094744346"
-        val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-5130888087776673/3622884741"
+        private const val ADMOB_NATIVE_AD_UNIT_ID = "ca-app-pub-5130888087776673/8613851148"
+        const val ADMOB_APP_ID = "ca-app-pub-5130888087776673~6094744346"
+        const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-5130888087776673/3622884741"
         var nativeAdvertisement: UnifiedNativeAd? = null
         var mInterstitialAd: InterstitialAd? = null
 
@@ -30,8 +30,8 @@ class Ads {
                         .Builder()
                         .withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF")))
                         .build()
-                    nativeAdTemplete?.setStyles(styles)
-                    nativeAdTemplete?.setNativeAd(nativeAdvertisement)
+                    nativeAdTemplete.setStyles(styles)
+                    nativeAdTemplete.setNativeAd(nativeAdvertisement)
                 } else {
 //                    MobileAds.initialize(context)
                     val adLoader = AdLoader.Builder(context, ADMOB_NATIVE_AD_UNIT_ID)
@@ -41,8 +41,8 @@ class Ads {
                                 .Builder()
                                 .withMainBackgroundColor(ColorDrawable(Color.parseColor("#FFFFFF")))
                                 .build()
-                            nativeAdTemplete?.setStyles(styles)
-                            nativeAdTemplete?.setNativeAd(ad)
+                            nativeAdTemplete.setStyles(styles)
+                            nativeAdTemplete.setNativeAd(ad)
 
                         }
                         .withAdListener(object : AdListener() {

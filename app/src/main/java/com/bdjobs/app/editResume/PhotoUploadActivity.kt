@@ -32,7 +32,7 @@ import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PhotoInfoModel
 import com.bdjobs.app.API.ModelClasses.PhotoUploadResponseModel
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -45,7 +45,6 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoTools
 import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_photo_upload.*
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback

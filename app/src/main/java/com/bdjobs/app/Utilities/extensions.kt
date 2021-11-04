@@ -56,6 +56,7 @@ import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.layoutInflater
+import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -237,8 +238,9 @@ fun View.closeKeyboard(activity: Context) {
 fun Activity.getFCMtoken() {
 
     FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
-        val token = instanceIdResult.token.toString()
-        info("newToken $token")
+        val token = instanceIdResult.token
+
+        Timber.d("token: $token")
     }
 
 }

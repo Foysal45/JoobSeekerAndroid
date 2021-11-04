@@ -2,7 +2,6 @@ package com.bdjobs.app.ManageResume
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +13,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.TimesEmailedData
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.toSimpleDateString

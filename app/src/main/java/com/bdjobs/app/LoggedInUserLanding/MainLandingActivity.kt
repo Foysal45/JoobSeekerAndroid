@@ -22,7 +22,7 @@ import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.BroadCastReceivers.MorningNotificationReceiver
@@ -365,13 +365,19 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
 
     override fun goToFollowedEmployerList(from: String) {
-//        startActivity<EmployersBaseActivity>(
-//            "from" to from,
-//            "time" to time
-//        )
 
-        transitFragmentX(myJobsFragment,R.id.landingPageFragmentHolderFL,false, bundleOf("from" to from))
-        bottom_navigation?.selectedItemId = R.id.navigation_shortlisted_jobs
+        if (from=="employer") {
+            startActivity<EmployersBaseActivity>(
+                "from" to from,
+                "time" to time
+            )
+        } else {
+            transitFragmentX(myJobsFragment,R.id.landingPageFragmentHolderFL,false, bundleOf("from" to from))
+            bottom_navigation?.selectedItemId = R.id.navigation_shortlisted_jobs
+        }
+
+
+
     }
 
     override fun goToResumeManager() {
@@ -736,7 +742,6 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         } catch (e: Exception) {
         }
     }
-
 
     private fun getInviteCodeInformation() {
         doAsync {
