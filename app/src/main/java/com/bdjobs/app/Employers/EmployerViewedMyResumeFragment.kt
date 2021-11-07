@@ -341,6 +341,9 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
                             resumeViewNoDataLL?.show()
                             viewedMyResumeRV?.hide()
+                            val styledText =
+                                "<b><font color='#13A10E'>0</font></b> Employer viewed my Resume"
+                            favCountTV?.text = Html.fromHtml(styledText)
                             //Log.d("totalJobs", "zero")
 
 
