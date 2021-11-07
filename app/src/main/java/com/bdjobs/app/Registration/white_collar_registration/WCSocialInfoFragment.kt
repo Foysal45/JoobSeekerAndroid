@@ -2,6 +2,7 @@ package com.bdjobs.app.Registration.white_collar_registration
 
 import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,17 @@ class WCSocialInfoFragment : Fragment() {
 
         enterInfoButton?.setOnClickListener {
             registrationCommunicator.wcGoToStepName()
+            val mail1 =  registrationCommunicator.wcGetEmail()
+            Log.e("email", "before = "+mail1)
+
+
+            registrationCommunicator.wcSetEmail("")
+            registrationCommunicator.wcSetOther()
+
+
+
+            val mail =  registrationCommunicator.wcGetEmail()
+            Log.e("email", "after = "+mail)
         }
         wcSupportTextView?.setOnClickListener {
             activity.callHelpLine()

@@ -4,15 +4,16 @@ package com.bdjobs.app.Registration.white_collar_registration
 import android.app.Fragment
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.External.DataStorage
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_phone_email.*
 import org.jetbrains.anko.selector
@@ -111,6 +112,8 @@ class WCPhoneEmailFragment : Fragment() {
     private fun initialization() {
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
+        emailTIET.setText("")
+        Log.e("email ", "P+E ="+emailTIET.text.toString())
     }
 
     private fun validateMobileNumber(): Boolean {
@@ -213,7 +216,12 @@ class WCPhoneEmailFragment : Fragment() {
 
 
     fun setEmail() {
-        emailTIET?.setText(registrationCommunicator.getEmail())
+        val mail = registrationCommunicator.wcGetEmail()
+        Log.e("email", "p+E set = "+mail)
+        if(mail != ""){
+            emailTIET?.setText(mail)
+        }
+//        emailTIET?.setText(registrationCommunicator.wcGetEmail())//getEmail())
     }
 
 }
