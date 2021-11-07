@@ -54,8 +54,8 @@ class EmailResumeFragment : Fragment() {
 
         if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
             try {
-                val alertd = alert("To Access this feature please post your resume") {
-                    title = "Your resume is not posted!"
+                val alertd = alert("To access this feature post Bdjobs Resume.") {
+                    title = "Your Bdjobs Resume is not posted."
                     positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
                     negativeButton("Cancel") {
                         communicator.backButtonPressed()
