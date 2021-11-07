@@ -91,16 +91,28 @@ class UploadResumeFragment : Fragment() {
         fetchPersonalizedResumeStat()
 
         submitTV?.setOnClickListener {
-            if (!checkPermission()){
-                requestPermission()
-            } else {
-//                browseFile()
-                if (SDK_INT >= Build.VERSION_CODES.R) {
-                    openStorageAccess()
+            if (bdjobsUserSession.isCvPosted.equals("True",ignoreCase = true)) {
+                if (!checkPermission()){
+                    requestPermission()
                 } else {
-                    browseFile()
+                    if (SDK_INT >= Build.VERSION_CODES.R) {
+                        openStorageAccess()
+                    } else {
+                        browseFile()
+                    }
                 }
+            } else {
+                try {
+                    if (isAdded) {
+                        Toast.makeText(
+                            context,
+                            "Please post Bdjobs resume to upload personalized resume",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e:Exception){}
             }
+
         }
         backIV.setOnClickListener {
             communicator.backButtonPressed()
@@ -359,11 +371,14 @@ class UploadResumeFragment : Fragment() {
             }
         } else {
             try {
-                Toast.makeText(
-                    context,
-                    "Please select a valid pdf or doc or docx file",
-                    Toast.LENGTH_SHORT
-                ).show()
+                if (isAdded) {
+                    Toast.makeText(
+                        context,
+                        "Please select a valid pdf or doc or docx file",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             } catch (e:Exception){}
         }
     }
