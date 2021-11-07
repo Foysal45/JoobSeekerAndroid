@@ -51,7 +51,7 @@ class InterveiwInvitationListFragment : Fragment() {
         }
 
 
-        textView10.text = "You don't have any Interview Invitation yet."
+        textView10.text = "You don't have any General Interview yet."
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
 
