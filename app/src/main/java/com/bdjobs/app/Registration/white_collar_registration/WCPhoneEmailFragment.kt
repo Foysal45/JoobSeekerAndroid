@@ -2,8 +2,11 @@ package com.bdjobs.app.Registration.white_collar_registration
 
 
 import android.app.Fragment
+import android.app.FragmentManager
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -55,6 +58,7 @@ class WCPhoneEmailFragment : Fragment() {
                 mobileNumberTIL?.hideError()
             }
         }
+
 
         phoneEmailFAButton?.setOnClickListener {
             if (mobileNumberTIET?.getString().isNullOrEmpty() && emailTIET?.getString().isNullOrEmpty()) {
@@ -164,6 +168,7 @@ class WCPhoneEmailFragment : Fragment() {
                     } catch (e: Exception) {
                         logException(e)
                     }
+                    setMail(false)
                     return false
                 }
                 isValidEmail(email) == false -> {
@@ -173,18 +178,33 @@ class WCPhoneEmailFragment : Fragment() {
                     } catch (e: Exception) {
                         logException(e)
                     }
+                    setMail(false)
                     return false
                 }
                 else -> emailTIL?.hideError()
             }
+
             return true
+
+
         }
 
+        setMail(true)
         return true
 
 
     }
 
+    private fun setMail(state : Boolean){
+
+        val email = emailTIET.text.toString()
+        if (state){
+            registrationCommunicator.wcSetEmail(email)
+        }else{
+            registrationCommunicator.wcSetEmail(email)
+        }
+
+    }
 
     private fun getCountryCode(): String {
         val inputData = countryCodeTIET?.text.toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
@@ -214,16 +234,15 @@ class WCPhoneEmailFragment : Fragment() {
 
 
     fun setEmail() {
-        val mail = registrationCommunicator.wcGetEmail()
-        emailTIL.editText?.text?.clear()
-        Log.e("email", "p+E set = "+mail)
-        if(mail != ""){
-            emailTIET?.setText(mail)
-        }
-//        else{
-//            emailTIET.text = null
-//        }
-//        emailTIET?.setText(registrationCommunicator.wcGetEmail())//getEmail())
+        emailTIET?.setText(registrationCommunicator.wcGetEmail())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+//        val email = emailTIET.text.toString()
+//        Log.e("email", "p+E set = "+email)
+//        registrationCommunicator.wcSetEmail(email)
+
     }
 
 }

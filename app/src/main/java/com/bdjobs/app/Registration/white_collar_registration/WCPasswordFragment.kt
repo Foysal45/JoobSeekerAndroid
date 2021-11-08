@@ -45,7 +45,6 @@ class WCPasswordFragment : Fragment() {
 
     private fun onClick(){
 
-        email_button.text = ""
         passwordFAButton?.setOnClickListener {
             if (passwordValidityCheck(passwordTIET?.text.toString())) {
                 if (confirmPassValidityCheck(confirmPassTIET?.text.toString())) {
@@ -115,7 +114,6 @@ class WCPasswordFragment : Fragment() {
             phone_button.text = "Mobile Number"
             phone_button.isEnabled = false
             email_button.text = registrationCommunicator.wcGetEmail()
-            Log.e("email", "pass "+registrationCommunicator.wcGetEmail())
             phone_button.iconTint = resources.getColorStateList(R.color.inactive_text_color)
             phone_button.setTextColor(resources.getColor(R.color.inactive_text_color))
             email_button.iconTint = resources.getColorStateList(R.color.colorWhite)

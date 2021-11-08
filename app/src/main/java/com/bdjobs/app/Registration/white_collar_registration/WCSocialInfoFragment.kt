@@ -37,17 +37,7 @@ class WCSocialInfoFragment : Fragment() {
 
         enterInfoButton?.setOnClickListener {
             registrationCommunicator.wcGoToStepName()
-            val mail1 =  registrationCommunicator.wcGetEmail()
-            Log.e("email", "before = "+mail1)
-
-
-            registrationCommunicator.wcSetEmail("")
             registrationCommunicator.wcSetOther()
-
-
-
-            val mail =  registrationCommunicator.wcGetEmail()
-            Log.e("email", "after = "+mail)
         }
         wcSupportTextView?.setOnClickListener {
             activity.callHelpLine()
