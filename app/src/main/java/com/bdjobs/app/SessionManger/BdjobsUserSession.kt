@@ -618,5 +618,13 @@ class BdjobsUserSession(val context: Context) {
         get() = pref!!.getString("AD_IN_MAIN_LANDING","0")
         set(value) {pref!!.edit().putString("AD_IN_MAIN_LANDING",value).apply()}
 
+    var isFirstInstall: Boolean?
+        get() = pref!!.getBoolean("IS_FIRST_INSTALL",false)
+        set(value) {pref!!.edit().putBoolean("IS_FIRST_INSTALL",value!!).commit()}
+
+    var firstInstallAt: String?
+    get() = pref!!.getString("FIRST_INSTALL_DATE","")
+    set(value) {pref!!.edit().putString("FIRST_INSTALL_DATE",value).commit()}
+
 
 }

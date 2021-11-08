@@ -40,7 +40,6 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Settings.ResumePrivacyFragment
 import com.bdjobs.app.SplashActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
@@ -61,6 +60,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.math.abs
 
 
 fun Activity.callHelpLine() {
@@ -1023,4 +1023,56 @@ fun Context.openSettingsDialog() {
 private fun createAppSettingsIntent(context: Context) = Intent().apply {
     action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
     data = Uri.fromParts("package", context.packageName, null)
+}
+
+fun Context.isFirstInstall(): Boolean {
+    return try {
+        val firstInstallTime =
+            this.packageManager.getPackageInfo(this.packageName, 0).firstInstallTime
+        val lastUpdateTime =
+            this.packageManager.getPackageInfo(this.packageName, 0).lastUpdateTime
+        firstInstallTime == lastUpdateTime
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+        true
+    }
+}
+
+
+fun Context.isInstallFromUpdate(): Boolean {
+    return try {
+        val firstInstallTime =
+            this.packageManager.getPackageInfo(this.packageName, 0).firstInstallTime
+        val lastUpdateTime =
+            this.packageManager.getPackageInfo(this.packageName, 0).lastUpdateTime
+        firstInstallTime != lastUpdateTime
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+        false
+    }
+}
+
+val currentDate: String
+    @SuppressLint("SimpleDateFormat")
+    get() = SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().time)
+
+val currentTime: String
+    @SuppressLint("SimpleDateFormat")
+    get() = SimpleDateFormat("hh:mm:ss a").format(Calendar.getInstance().time)
+
+@SuppressLint("SimpleDateFormat")
+fun getDifferenceBetweenDates(currentDate: String, installedAt: String): String {
+
+    val date1: Date
+    val date2: Date
+
+    val dates = SimpleDateFormat("MM/dd/yyyy")
+    date1 = dates.parse(installedAt)!!
+    date2 = dates.parse(currentDate)!!
+
+    val difference: Long = abs(date1.time - date2.time)
+    val differenceDates = difference / (24 * 60 * 60 * 1000)
+
+    return differenceDates.toString()
+
 }

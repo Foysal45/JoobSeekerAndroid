@@ -105,6 +105,14 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         val deviceProtectedSession = DeviceProtectedSession(this)
         deviceProtectedSession.isLoggedIn = bdjobsUserSession.isLoggedIn
 
+        if (!bdjobsUserSession.isFirstInstall!!) {
+            if (this.isFirstInstall() || this.isInstallFromUpdate()) {
+                Timber.d("Splash: FirstInstall")
+                bdjobsUserSession.isFirstInstall = true
+                bdjobsUserSession.firstInstallAt = currentDate
+            }
+        }
+
     }
 
     private fun setRemoteConfigValues() {
@@ -159,36 +167,6 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         agreedBtn?.setOnClickListener {
             Timber.d("Agreed button clicked")
 
-//            request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
-//            request.send()
-//            request.listeners {
-//
-//                onAccepted { permissions ->
-//                    Timber.d("Accepted access")
-//                    // Notified when the permissions are accepted.
-//                    dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
-//                    firstDialog?.dismiss()
-//                    //Log.d("rakib", "on accepted")
-//                    doWork(connectionStatus)
-//                }
-//
-//                onDenied { permissions ->
-//                    // Notified when the permissions are denied.
-//                }
-//
-//                onPermanentlyDenied { permissions ->
-//                    // Notified when the permissions are permanently denied.
-//                    //Log.d("rakib", "permanently denied")
-//                    showPermanentlyDeniedPopup(firstDialog as Dialog)
-//
-//                }
-//
-//                onShouldShowRationale { permissions, nonce ->
-//                    // Notified when the permissions should show a rationale.
-//                    // The nonce can be used to request the permissions again.
-//                }
-//            }
-
             permissionsBuilder(Manifest.permission.WRITE_EXTERNAL_STORAGE).build().send { result ->
                 when {
                     result.allGranted() -> {
@@ -220,8 +198,8 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         //Log.d("rakib", "take decisions called")
 
         if (isConnected) {
-            if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+            if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
             ) {
                 showExplanationFirstTimePopup(isConnected)
             } else {

@@ -413,10 +413,38 @@ class JobDetailAdapter(private val context: Context) :
 
                             jobsVH.tvPosName.text = jobDetailResponseAll.jobTitle
                             jobsVH.tvComName.text = jobDetailResponseAll.compnayName
+
+                            if (bdJobsUserSession.isFirstInstall!!) {
+                                // this is installed first
+                                val daysDiff = getDifferenceBetweenDates(currentDate,bdJobsUserSession.firstInstallAt!!)
+                                Timber.d("Days Diff: $daysDiff")
+
+                                if (daysDiff.toInt() < 30) {
+                                    // show both
+                                    jobsVH.rootBothView.visibility = View.VISIBLE
+                                    jobsVH.rootOnlyValueView.visibility = View.GONE
+                                }
+                                else {
+                                    // only show value
+                                    jobsVH.rootBothView.visibility = View.GONE
+                                    jobsVH.rootOnlyValueView.visibility = View.VISIBLE
+                                }
+
+                            }
+                            else {
+                                //show both
+                                jobsVH.rootBothView.visibility = View.VISIBLE
+                                jobsVH.rootOnlyValueView.visibility = View.GONE
+                            }
+
                             jobsVH.tvSalary.text = jobDetailResponseAll.jobSalaryRange
+                            jobsVH.tvSalary2.text = jobDetailResponseAll.jobSalaryRange
                             jobsVH.tvDeadline.text = jobDetailResponseAll.deadline
+                            jobsVH.tvDeadline2.text = jobDetailResponseAll.deadline
                             jobsVH.tvLocation.text = jobDetailResponseAll.jobLocation
+                            jobsVH.tvLocation2.text = jobDetailResponseAll.jobLocation
                             jobsVH.tvVacancies.text = jobDetailResponseAll.jobVacancies
+                            jobsVH.tvVacancies2.text = jobDetailResponseAll.jobVacancies
 
 
 //                            if (remoteConfig.getBoolean("Apply_Button_Type"))
@@ -2059,10 +2087,20 @@ class JobDetailAdapter(private val context: Context) :
         val appliedBadge: TextView = viewItem?.findViewById(R.id.appliedBadge) as TextView
         val tvPosName: TextView = viewItem?.findViewById(R.id.positionName) as TextView
         val tvComName: TextView = viewItem?.findViewById(R.id.companyName) as TextView
+        val rootBothView: ConstraintLayout = viewItem?.findViewById(R.id.cl_both_view) as ConstraintLayout
+        val rootOnlyValueView: ConstraintLayout = viewItem?.findViewById(R.id.cl_only_value_view) as ConstraintLayout
         val tvLocation: TextView = viewItem?.findViewById(R.id.locationValue) as TextView
+        val tvLocation2: TextView = viewItem?.findViewById(R.id.locationValue2) as TextView
+        val tvLocationTitle: TextView = viewItem?.findViewById(R.id.locationText) as TextView
         val tvDeadline: TextView = viewItem?.findViewById(R.id.deadlineValue) as TextView
+        val tvDeadline2: TextView = viewItem?.findViewById(R.id.deadlineValue2) as TextView
+        val tvDeadlineTitle: TextView = viewItem?.findViewById(R.id.deadlineText) as TextView
         val tvVacancies: TextView = viewItem?.findViewById(R.id.vacancyValue) as TextView
+        val tvVacancies2: TextView = viewItem?.findViewById(R.id.vacancyValue2) as TextView
+        val tvVacanciesTitle: TextView = viewItem?.findViewById(R.id.vacancyText) as TextView
         val tvSalary: TextView = viewItem?.findViewById(R.id.salaryValue) as TextView
+        val tvSalary2: TextView = viewItem?.findViewById(R.id.salaryValue2) as TextView
+        val tvSalaryTitle: TextView = viewItem?.findViewById(R.id.salaryText) as TextView
         val tvKeyPoints: TextView = viewItem?.findViewById(R.id.keyPointsTv) as TextView
         val tvJobContextValue: TextView = viewItem?.findViewById(R.id.jobContextTV) as TextView
         val tvJobContext: TextView = viewItem?.findViewById(R.id.jobContext) as TextView
