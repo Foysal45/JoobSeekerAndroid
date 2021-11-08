@@ -43,6 +43,7 @@ import kotlinx.android.synthetic.main.fragment_bc_education.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
 import kotlinx.android.synthetic.main.fragment_wc_otp_code.*
+import kotlinx.android.synthetic.main.fragment_wc_phone_email.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -275,7 +276,7 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
     override fun wcGoToStepPhoneEmail() {
 
-        transitFragment(wcPhoneEmailFragment, R.id.registrationFragmentHolderFL, true)
+        transitFragment(WCPhoneEmailFragment(), R.id.registrationFragmentHolderFL, true)
         stepProgressBar.visibility = View.VISIBLE
         stepProgressBar.progress = 85
 

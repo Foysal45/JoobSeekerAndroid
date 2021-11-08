@@ -112,8 +112,6 @@ class WCPhoneEmailFragment : Fragment() {
     private fun initialization() {
         registrationCommunicator = activity as RegistrationCommunicator
         dataStorage = DataStorage(activity)
-        emailTIET.setText("")
-        Log.e("email ", "P+E ="+emailTIET.text.toString())
     }
 
     private fun validateMobileNumber(): Boolean {
@@ -217,10 +215,14 @@ class WCPhoneEmailFragment : Fragment() {
 
     fun setEmail() {
         val mail = registrationCommunicator.wcGetEmail()
+        emailTIL.editText?.text?.clear()
         Log.e("email", "p+E set = "+mail)
         if(mail != ""){
             emailTIET?.setText(mail)
         }
+//        else{
+//            emailTIET.text = null
+//        }
 //        emailTIET?.setText(registrationCommunicator.wcGetEmail())//getEmail())
     }
 
