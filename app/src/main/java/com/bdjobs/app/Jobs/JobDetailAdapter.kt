@@ -314,7 +314,8 @@ class JobDetailAdapter(private val context: Context) :
                                 jobsVH.whyIAmSeeingThisTV.setOnClickListener {
                                     Constants.showJobApplicationGuidelineDialog(context)
                                 }
-                            } else {
+                            }
+                            else {
                                 jobsVH.jobApplicationStatusTitle.hide()
                                 jobsVH.jobApplicationStatusCard.hide()
                             }
@@ -589,6 +590,13 @@ class JobDetailAdapter(private val context: Context) :
                                         jobsVH.appliedBadge.hide()
                                     } else {
                                         jobsVH.appliedBadge.show()
+                                        jobsVH.videoResumeEncouragementTV.visibility = View.GONE
+                                        jobsVH.viewDivider.visibility = View.GONE
+
+                                        if (preferVideoResume==1) {
+                                            jobsVH.videoResumeEncBottomRoot.visibility = View.VISIBLE
+                                            jobsVH.alertTv.visibility = View.GONE
+                                        }
 //                                        if (remoteConfig.getBoolean("Apply_Button_Type"))
 //                                        jobsVH.applyButton.visibility = View.GONE
 //                                        else
@@ -608,6 +616,16 @@ class JobDetailAdapter(private val context: Context) :
                                     }
                                 }
                             }
+
+                            jobsVH.closeIcon.setOnClickListener {
+                                jobsVH.videoResumeEncBottomRoot.visibility = View.GONE
+                                jobsVH.alertTv.visibility = View.VISIBLE
+                            }
+
+                            jobsVH.videoResumeEncBottomRoot.setOnClickListener {
+                                context.startActivity(Intent(context,VideoResumeActivity::class.java))
+                            }
+
                             //Job Information Checking Start
 
                             if (jobDetailResponseAll.jObIMage.isNullOrBlank()) {
@@ -2187,6 +2205,11 @@ class JobDetailAdapter(private val context: Context) :
         val videoResumeEncouragementTV: MaterialTextView =
             viewItem?.findViewById(R.id.tv_video_resume_encouragement_text)!!
         val viewDivider: View = viewItem?.findViewById(R.id.view_divider)!!
+
+        val videoResumeEncBottomRoot : ConstraintLayout = viewItem?.findViewById(R.id.cv_video_encouragement)!!
+        val closeIcon : ImageView = viewItem?.findViewById(R.id.iv_close_enc)!!
+
+        val alertTv : TextView = viewItem?.findViewById(R.id.alertTVJD)!!
 
 
         fun fragment(fragment: Fragment) {

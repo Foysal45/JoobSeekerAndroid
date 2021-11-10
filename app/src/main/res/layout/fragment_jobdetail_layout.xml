@@ -186,6 +186,7 @@
         android:scrollHorizontally="true"
         android:background="@drawable/alert_bg"
         android:textSize="14sp"
+        android:visibility="gone"
         android:padding="10dp"
         android:id="@+id/alertTV"
         android:layout_width="0dp"

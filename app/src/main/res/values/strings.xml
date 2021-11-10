@@ -552,6 +552,8 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
 
     <string name="favourite_search_step_3">- Tap ❤<font color ="#979797"> Save Search</font> button.</string>
 
+    <string name="label_video_resume_encouragement">This Employer has encouraged you to submit your Video Resume. <b>Submit Now</b></string>
+
     <string-array name="spinnerFilterItemEmailResume">
         <item>All</item>
         <item>Bdjobs Resume</item>
