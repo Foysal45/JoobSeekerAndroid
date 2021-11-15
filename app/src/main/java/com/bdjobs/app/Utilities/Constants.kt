@@ -205,11 +205,14 @@ class Constants {
         const val session_key_mybdjobscount_live_invitation_alltime = "live_invitation_alltime"
 
         const val session_key_mybdjobscount_jobs_applied = "Jobs\nApplied"
+        const val session_key_mybdjobscount_jobs_applied_label = "Applied\nJobs"
         const val session_key_mybdjobscount_times_emailed_resume = "Times Emailed\nResume"
         const val session_key_mybdjobscount_employers_viwed_resume = "Employers Viewed\nResume"
         const val session_key_mybdjobscount_employers_followed = "Employers\nFollowed"
         const val session_key_mybdjobscount_interview_invitation = "Interview\nInvitations"
+        const val session_key_mybdjobscount_interview_invitation_label = "General\nInterview"
         const val session_key_mybdjobscount_message_by_employers = "Messages by\nEmployers"
+        const val session_key_mybdjobscount_message_by_employers_label = "Employers\nMessage"
         const val session_key_mybdjobscount_video_invitation = "Video Interview\nInvitations"
         const val session_key_mybdjobscount_live_invitation = "Live Interview\nInvitations"
 
