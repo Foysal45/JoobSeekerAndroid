@@ -3,7 +3,6 @@ package com.bdjobs.app.Employers
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerListModelClass
 import com.bdjobs.app.API.ModelClasses.EmployerListModelData
-import com.bdjobs.app.API.ModelClasses.TestJsonModel
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_employer_list.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 
 class EmployerListFragment : Fragment() {
     // TODO: Rename and change types of parameters
