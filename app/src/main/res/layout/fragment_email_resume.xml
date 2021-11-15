@@ -235,7 +235,7 @@
                     android:id="@+id/mybdjobsResume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="My Bdjobs Resume Format" />
+                    android:text="Bdjobs Resume" />
 
                 <RadioButton
                     android:id="@+id/uploadResume"
