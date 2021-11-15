@@ -736,7 +736,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
                 }
 
                 override fun onAdClosed() {
-                    finish()
+                    session.isExpirationMessageShown = false
+                    finishAffinity()
                 }
             }
         } catch (e: Exception) {

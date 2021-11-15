@@ -626,5 +626,9 @@ class BdjobsUserSession(val context: Context) {
     get() = pref!!.getString("FIRST_INSTALL_DATE","")
     set(value) {pref!!.edit().putString("FIRST_INSTALL_DATE",value).commit()}
 
+    var isExpirationMessageShown : Boolean
+    get() = pref!!.getBoolean("EXP_MSG_SHOWN",false)
+    set(value) {pref!!.edit().putBoolean("EXP_MSG_SHOWN",value).commit()}
+
 
 }

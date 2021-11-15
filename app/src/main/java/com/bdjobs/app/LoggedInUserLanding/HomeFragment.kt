@@ -23,9 +23,9 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.LastSearchCountModel
 import com.bdjobs.app.API.ModelClasses.LastUpdateModel
-import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.FavouriteSearch.FavouriteSearchFilterAdapter
+import com.bdjobs.app.Notification.Models.CommonNotificationModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
@@ -35,6 +35,7 @@ import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
 import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.liveInvitationSynced
 import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.internal.*
 import com.bdjobs.app.sms.SmsBaseActivity
@@ -46,6 +47,7 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.layout_all_interview_invitation.*
 import kotlinx.android.synthetic.main.layout_sms_job_alert_home.*
@@ -70,10 +72,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private lateinit var bdJobsDB: BdjobsDB
     private lateinit var backgroundJobBroadcastReceiver: BackgroundJobBroadcastReceiver
     private var followedEmployerList: List<FollowedEmployer>? = null
-    private var jobInvitations: List<JobInvitation>? = null
-    private var videoInvitations: List<VideoInvitation>? = null
+//    private var jobInvitations: List<JobInvitation>? = null
+//    private var videoInvitations: List<VideoInvitation>? = null
     private var favouriteSearchFilters: List<FavouriteSearch>? = null
-    private var b2CCertificationList: List<B2CCertification>? = null
+//    private var b2CCertificationList: List<B2CCertification>? = null
     private var lastSearch: List<LastSearch>? = null
     private lateinit var homeCommunicator: HomeCommunicator
     private var inviteInterview: String? = ""
@@ -101,6 +103,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         onClickListeners()
         getLastUpdateFromServer()
 
+        if (!bdJobsUserSession.isExpirationMessageShown) {
+            alertAboutShortlistedJobs()
+
+            bdJobsUserSession.isExpirationMessageShown = true
+        }
 
         // showGeneralPopUp()
         //showAd()
@@ -143,8 +150,10 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
             val dtcrnt = df.format(c)
             //Log.d("formattedDate", "dtprev: $shortlistedDate  dtcrnt: $dtcrnt")
             if (shortlistedDate != dtcrnt) {
-                showShortListedJobsExpirationPopUP()
+                showShortlistJobExpirationInMessageBox()
+//                showShortListedJobsExpirationPopUP()
             }
+
         } catch (e: Exception) {
             logException(e)
         }
@@ -343,7 +352,6 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         safeFetchSmsAlertStatus()
         showNotificationCount()
         showMessageCount()
-        alertAboutShortlistedJobs()
 
 
     }
@@ -892,11 +900,74 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     smsAlertView.visibility = View.GONE
                 }
             } catch (e: Exception) {
-                Timber.e("Exception while fetching SMS Alert Status")
+                Timber.e("Exception while fetching SMS Alert Status : ${e.localizedMessage}")
                 try {
                     if (isAdded) smsAlertView.visibility = View.GONE
                 } catch (e: Exception) {
                 }
+            }
+        }
+    }
+
+    private fun showShortlistJobExpirationInMessageBox() {
+        Timber.d("here")
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, 2)
+        val deadlineNext2Days = calendar.time
+
+        doAsync {
+           val shortlistedJobs =
+                bdJobsDB.shortListedJobDao().getShortListedJobsBYDeadline(deadlineNext2Days)
+
+            uiThread {
+                try {
+                    if (shortlistedJobs.isNotEmpty()) {
+
+                        Timber.d("here2")
+
+                        var job = "Job"
+                        if (shortlistedJobs.size > 1)
+                            job = "Jobs"
+
+                        val body = "${shortlistedJobs.size} $job found"
+
+                        val notificationModel = CommonNotificationModel(
+                            title = "Expiration of shortlisted job within next 2 days",
+                            body = body,
+                            type = "exp",
+                            activityNode = "com.bdjobs.app.LoggedInUserLanding.MainLandingActivity",
+                            notificationId = "1000"
+                        )
+                        Timber.d("here3: Title: ${notificationModel.title}")
+
+                        // checking if the notification contents are same or not
+                        //
+
+                        doAsync {
+
+                            bdJobsDB.notificationDao().deleteNotificationByNotificationId("1000")
+
+                            val notification = Notification(
+                                title = notificationModel.title,
+                                body = notificationModel.body,
+                                type = notificationModel.type,
+                                imageLink = notificationModel.imageLink,
+                                link = notificationModel.link,
+                                notificationId = notificationModel.notificationId,
+                                arrivalTime = Date(),
+                                payload = Gson().toJson(notificationModel).replace("\\n", "\n")
+                            )
+
+                                bdJobsDB.notificationDao().insertNotification(notification)
+
+                            bdJobsUserSession.updateMessageCount(
+                                bdJobsDB.notificationDao().getMessageCount()
+                            )
+
+                        }
+
+                    }
+                } catch (e:Exception) {}
             }
         }
     }

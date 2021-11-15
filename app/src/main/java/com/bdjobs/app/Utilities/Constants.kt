@@ -267,6 +267,7 @@ class Constants {
         const val NOTIFICATION_TYPE_APPLIED_JOBS = "aj"
         const val NOTIFICATION_TYPE_LIVE_INTERVIEW = "li"
         const val NOTIFICATION_TYPE_ALERT_NOTIFICATION = "an"
+        const val NOTIFICATION_TYPE_JOB_EXPIRATION_NOTIFICATION = "exp"
 
         const val NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE = "bpm"
 
