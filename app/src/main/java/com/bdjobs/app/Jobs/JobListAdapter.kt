@@ -17,16 +17,16 @@ import androidx.work.*
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.ShortlistJobModel
-import com.bdjobs.app.ads.Ads
-import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.databases.internal.ShortListedJobs
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Workmanager.ShortlistedJobDeleteWorker
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.ShortListedJobs
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
@@ -35,7 +35,6 @@ import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -678,7 +677,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
         val totalJobCount = if (homeCommunicator==null) jobCommunicator?.getTotalJobCount() else homeCommunicator?.getTotalShortlistedJobCounter()
 
-        Timber.d("Position: $position .. ItemCount: $itemCount Total: $totalJobCount")
+//        Timber.d("Position: $position .. ItemCount: $itemCount Total: $totalJobCount")
 
         if ( position<itemCount-1) {
             if (showAD && (position % 3 == 0) && position != 0 && position < 21) {
