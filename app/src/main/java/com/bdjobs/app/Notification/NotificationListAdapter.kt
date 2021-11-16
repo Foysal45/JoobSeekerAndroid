@@ -146,6 +146,16 @@ class NotificationListAdapter(private val context: Context, private val items: M
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
 //        val time = items[position].arrivalTime
+        try {
+            val hashMap = getDateTimeAsAgo(items[position].arrivalTime)
+            val days = hashMap["days"]
+
+            if (days!=null && days>=7) {
+                Timber.d("Deleting notification")
+                bdJobsDB.notificationDao().deleteNotification(items[position])
+            }
+        } catch (e: Exception) {
+        }
 
         when (getItemViewType(position)) {
 
