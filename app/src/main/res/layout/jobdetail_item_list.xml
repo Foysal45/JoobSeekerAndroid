@@ -137,7 +137,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/companyName"
-                        tools:visibility="visible">
+                        tools:visibility="gone">
 
                         <TextView
                             android:id="@+id/vacancyText"
@@ -416,7 +416,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/companyName"
-                        tools:visibility="gone">
+                        tools:visibility="visible">
 
                         <TextView
                             android:id="@+id/vacancyValue2"

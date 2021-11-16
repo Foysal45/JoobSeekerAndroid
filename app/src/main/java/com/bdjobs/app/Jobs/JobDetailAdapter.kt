@@ -122,6 +122,7 @@ class JobDetailAdapter(private val context: Context) :
     var maxSalary = ""
     var showSalary = ""
     var preferVideoResume = 0
+    var bottomAlertMsg = ""
     private lateinit var dialog: Dialog
     private val applyOnlinePositions = ArrayList<Int>()
     private var language = ""
@@ -233,6 +234,8 @@ class JobDetailAdapter(private val context: Context) :
                 jobsVH.liveViewRoot.hide()
                 jobCommunicator?.hideShortListIcon()
 
+                jobsVH.alertTv.isSelected = true
+
 
                 ApiServiceJobs.create().getJobdetailData(
                     Constants.ENCODED_JOBS,
@@ -288,6 +291,7 @@ class JobDetailAdapter(private val context: Context) :
                             maxSalary = jobDetailResponseAll.maxSalary!!
                             showSalary = jobDetailResponseAll.jobShowSalary!!
                             preferVideoResume = jobDetailResponseAll.preferVideoResume!!
+                            bottomAlertMsg = jobDetailResponseAll.bottomAlertMsg!!
 
                             if (applyOnline.equalIgnoreCase("True")) {
 
@@ -318,6 +322,14 @@ class JobDetailAdapter(private val context: Context) :
                             else {
                                 jobsVH.jobApplicationStatusTitle.hide()
                                 jobsVH.jobApplicationStatusCard.hide()
+                            }
+
+                            // checking bottom alert message content
+                            if (bottomAlertMsg!="") {
+                                jobsVH.alertTv.visibility = View.VISIBLE
+                                jobsVH.alertTv.text = bottomAlertMsg
+                            } else {
+                                jobsVH.alertTv.visibility = View.GONE
                             }
 
                             /**
