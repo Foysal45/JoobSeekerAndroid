@@ -29,7 +29,7 @@ class  MyBdjobsFragment : Fragment() {
     private var lastMonthStatsData: List<StatsModelClassData?>? = null
     private var allStatsData: List<StatsModelClassData?>? = null
     val background_resources = intArrayOf(R.drawable.online_application, R.drawable.times_emailed, R.drawable.viewed_resume, R.drawable.employer_followed, R.drawable.interview_invitation, R.drawable.message_employers,R.drawable.video_interview, R.drawable.live_interview)
-    val icon_resources = intArrayOf(R.drawable.ic_online_application, R.drawable.ic_times_emailed_my_resume, R.drawable.ic_view_resum, R.drawable.ic_employers_followed, R.drawable.ic_interview_invitation_1, R.drawable.ic_messages_by_employer,R.drawable.ic_video_camera_gray, R.drawable.ic_live_interview_grey)
+    val icon_resources = intArrayOf(R.drawable.ic_applied_jobs_new, R.drawable.ic_times_emailed_my_resume, R.drawable.ic_view_resum, R.drawable.ic_followed_emp_new, R.drawable.ic_general_interview_more, R.drawable.ic_emp_message_new,R.drawable.ic_video_camera_gray, R.drawable.ic_live_interview_more)
     private lateinit var session: BdjobsUserSession
     private fun populateDataModel() {
         try {
