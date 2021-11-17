@@ -378,7 +378,7 @@
                 android:layout_height="wrap_content"
                 android:text="General Interview"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_general_interview_more" />
+                app:icon="@drawable/ic_general_interview_new" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/video_interviewinvitation_MBTN"
@@ -396,7 +396,7 @@
                 android:layout_height="wrap_content"
                 android:text="Live Interview"
                 android:textSize="14sp"
-                app:icon="@drawable/ic_live_interview_more" />
+                app:icon="@drawable/ic_live_interview_new" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/training_MBTN"
