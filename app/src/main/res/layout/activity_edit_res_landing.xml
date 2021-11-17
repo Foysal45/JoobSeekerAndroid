@@ -703,7 +703,7 @@
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/title_emp_his"
-                    app:icon="@drawable/ic_employment_history" />
+                    app:icon="@drawable/ic_emp_history_new" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnEmpItem2"
@@ -791,7 +791,7 @@
                     android:layout_marginBottom="20dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/hint.upload_photo"
-                    app:icon="@drawable/ic_photo_upload_er" />
+                    app:icon="@drawable/ic_photograph_new" />
 
             </LinearLayout>
 
