@@ -22,6 +22,8 @@ interface RegistrationCommunicator {
     fun wcEmailSelected(email: String)
     fun wcGetMobileNumber(): String
     fun wcGetEmail(): String
+    fun wcSetEmail(email: String)
+    fun wcSetOther()
     fun wcUserNameTypeSelected(userId: String)
     fun wcSetPassAndConfirmPassword(password: String, confirmPass: String)
 
