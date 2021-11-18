@@ -268,7 +268,6 @@
                     android:background="@drawable/background_new_question"
                     android:fontFamily="@font/roboto_medium"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="5dp"
                     android:paddingStart="4dp"
                     android:paddingTop="2dp"
                     android:paddingEnd="4dp"
