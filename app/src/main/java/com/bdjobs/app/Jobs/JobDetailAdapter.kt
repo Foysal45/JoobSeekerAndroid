@@ -137,7 +137,9 @@ class JobDetailAdapter(private val context: Context) :
 
     private val totalItemToBeViewed = 20
 
-    var customLayoutManager: CustomLayoutManager ? = null
+    var customLayoutManager: CustomLayoutManager? = null
+
+    private val givenDatePattern = SimpleDateFormat("MMM d, yyyy", Locale.US)
 
     init {
         jobList = java.util.ArrayList()
@@ -318,14 +320,13 @@ class JobDetailAdapter(private val context: Context) :
                                 jobsVH.whyIAmSeeingThisTV.setOnClickListener {
                                     Constants.showJobApplicationGuidelineDialog(context)
                                 }
-                            }
-                            else {
+                            } else {
                                 jobsVH.jobApplicationStatusTitle.hide()
                                 jobsVH.jobApplicationStatusCard.hide()
                             }
 
                             // checking bottom alert message content
-                            if (bottomAlertMsg!="") {
+                            if (bottomAlertMsg != "") {
                                 jobsVH.alertTv.visibility = View.VISIBLE
                                 jobsVH.alertTv.text = bottomAlertMsg
                             } else {
@@ -429,22 +430,23 @@ class JobDetailAdapter(private val context: Context) :
 
                             if (bdJobsUserSession.isFirstInstall!!) {
                                 // this is installed first
-                                val daysDiff = getDifferenceBetweenDates(currentDate,bdJobsUserSession.firstInstallAt!!)
+                                val daysDiff = getDifferenceBetweenDates(
+                                    currentDate,
+                                    bdJobsUserSession.firstInstallAt!!
+                                )
                                 Timber.d("Days Diff: $daysDiff")
 
                                 if (daysDiff.toInt() < 30) {
                                     // show both
                                     jobsVH.rootBothView.visibility = View.VISIBLE
                                     jobsVH.rootOnlyValueView.visibility = View.GONE
-                                }
-                                else {
+                                } else {
                                     // only show value
                                     jobsVH.rootBothView.visibility = View.GONE
                                     jobsVH.rootOnlyValueView.visibility = View.VISIBLE
                                 }
 
-                            }
-                            else {
+                            } else {
                                 //show both
                                 jobsVH.rootBothView.visibility = View.VISIBLE
                                 jobsVH.rootOnlyValueView.visibility = View.GONE
@@ -452,8 +454,14 @@ class JobDetailAdapter(private val context: Context) :
 
                             jobsVH.tvSalary.text = jobDetailResponseAll.jobSalaryRange
                             jobsVH.tvSalary2.text = jobDetailResponseAll.jobSalaryRange
-                            jobsVH.tvDeadline.text = jobDetailResponseAll.deadline
-                            jobsVH.tvDeadline2.text = jobDetailResponseAll.deadline
+                            jobsVH.tvDeadline.text =
+                                if (jobDetailResponseAll.deadline != "") givenDatePattern.parse(
+                                    jobDetailResponseAll.deadline!!
+                                )!!.toSimpleDateString() else jobDetailResponseAll.deadline
+                            jobsVH.tvDeadline2.text =
+                                if (jobDetailResponseAll.deadline != "") givenDatePattern.parse(
+                                    jobDetailResponseAll.deadline
+                                )!!.toSimpleDateString() else jobDetailResponseAll.deadline
                             jobsVH.tvLocation.text = jobDetailResponseAll.jobLocation
                             jobsVH.tvLocation2.text = jobDetailResponseAll.jobLocation
                             jobsVH.tvVacancies.text = jobDetailResponseAll.jobVacancies
@@ -605,8 +613,9 @@ class JobDetailAdapter(private val context: Context) :
                                         jobsVH.videoResumeEncouragementTV.visibility = View.GONE
                                         jobsVH.viewDivider.visibility = View.GONE
 
-                                        if (preferVideoResume==1) {
-                                            jobsVH.videoResumeEncBottomRoot.visibility = View.VISIBLE
+                                        if (preferVideoResume == 1) {
+                                            jobsVH.videoResumeEncBottomRoot.visibility =
+                                                View.VISIBLE
                                             jobsVH.alertTv.visibility = View.GONE
                                         }
 //                                        if (remoteConfig.getBoolean("Apply_Button_Type"))
@@ -635,7 +644,12 @@ class JobDetailAdapter(private val context: Context) :
                             }
 
                             jobsVH.videoResumeEncBottomRoot.setOnClickListener {
-                                context.startActivity(Intent(context,VideoResumeActivity::class.java))
+                                context.startActivity(
+                                    Intent(
+                                        context,
+                                        VideoResumeActivity::class.java
+                                    )
+                                )
                             }
 
                             //Job Information Checking Start
@@ -870,7 +884,9 @@ class JobDetailAdapter(private val context: Context) :
                                 }
 
                                 jobsVH.tvCompanyName.text = companyName
-                                jobsVH.tvPostedDate.text = postedDate
+                                jobsVH.tvPostedDate.text =
+                                    if (postedDate != "") givenDatePattern.parse(postedDate)!!
+                                        .toSimpleDateString() else postedDate
 
                                 if (jobDetailResponseAll.companyOtherJ0bs.equalIgnoreCase("0")) {
                                     jobsVH.allJobsButtonLayout.hide()
@@ -905,8 +921,7 @@ class JobDetailAdapter(private val context: Context) :
                                     logException(e)
                                 }
 
-                            }
-                            else {
+                            } else {
 
 
                                 if (jobSourceData.isNullOrBlank() || jobSourceData.isNullOrEmpty()) {
@@ -1006,16 +1021,15 @@ class JobDetailAdapter(private val context: Context) :
                             // ajker deal live part
                             if (bdJobsUserSession.isLoggedIn!!) {
                                 if (applyOnline.equalIgnoreCase("True")) {
-                                    holder.liveProgressBar.visibility =View.GONE
-                                    holder.liveViewContainer.visibility =View.GONE
+                                    holder.liveProgressBar.visibility = View.GONE
+                                    holder.liveViewContainer.visibility = View.GONE
 
                                 } else {
-                                    fetchLiveShowHandPicked(totalItemToBeViewed,jobsVH)
+                                    fetchLiveShowHandPicked(totalItemToBeViewed, jobsVH)
                                     manageItemClickListener()
                                 }
-                            }
-                            else {
-                                fetchLiveShowHandPicked(totalItemToBeViewed,jobsVH)
+                            } else {
+                                fetchLiveShowHandPicked(totalItemToBeViewed, jobsVH)
                                 manageItemClickListener()
                             }
 
@@ -1026,12 +1040,14 @@ class JobDetailAdapter(private val context: Context) :
                     }
                 })
 
-                jobsVH.liveRecyclerView.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+                jobsVH.liveRecyclerView.addOnItemTouchListener(object :
+                    RecyclerView.OnItemTouchListener {
                     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                        when(e.action) {
+                        when (e.action) {
                             MotionEvent.ACTION_MOVE -> {
                                 customLayoutManager?.setScrollingEnable(false)
-                            } else -> customLayoutManager?.setScrollingEnable(true)
+                            }
+                            else -> customLayoutManager?.setScrollingEnable(true)
                         }
                         return false
                     }
@@ -1073,9 +1089,9 @@ class JobDetailAdapter(private val context: Context) :
 
     }
 
-    private fun fetchLiveShowHandPicked(count: Int,holder: JobDetailAdapter.JobsListVH) {
+    private fun fetchLiveShowHandPicked(count: Int, holder: JobDetailAdapter.JobsListVH) {
 
-        holder.liveProgressBar.visibility =View.VISIBLE
+        holder.liveProgressBar.visibility = View.VISIBLE
         holder.liveTitleTV.visibility = View.GONE
 
         dataAdapter = HomeNewAdapter()
@@ -1107,16 +1123,16 @@ class JobDetailAdapter(private val context: Context) :
                     expectedSalary = bdJobsUserSession.expectedSalary,
                     location = bdJobsUserSession.userPresentAddress
                 )
-            ).enqueue(object : Callback<ResponseHeader<List<LiveListData>>>{
+            ).enqueue(object : Callback<ResponseHeader<List<LiveListData>>> {
                 override fun onResponse(
                     call: Call<ResponseHeader<List<LiveListData>>>,
                     response: Response<ResponseHeader<List<LiveListData>>>
                 ) {
 
                     if (response.isSuccessful) {
-                        holder.liveProgressBar.visibility =View.GONE
-                        holder.liveViewContainer.visibility =View.VISIBLE
-                        if (response.code()==200) {
+                        holder.liveProgressBar.visibility = View.GONE
+                        holder.liveViewContainer.visibility = View.VISIBLE
+                        if (response.code() == 200) {
                             holder.liveTitleTV.visibility = View.VISIBLE
                             val list = response.body()?.data as MutableList<LiveListData>
 
@@ -1126,69 +1142,85 @@ class JobDetailAdapter(private val context: Context) :
                                     list.add(
                                         0,
                                         LiveListData(
-                                            id=5789,
-                                            liveDate="14/09/2021",
-                                            fromTime="17:53:00",
-                                            toTime="18:53:00",
-                                            channelId=1696416,
-                                            channelType="customer",
-                                            isActive=1,
-                                            insertedBy=746,
-                                            scheduleId=0,
-                                            coverPhoto="https://static.ajkerdeal.com/LiveVideoImage/LiveVideoCoverPhoto/5789/livecoverphoto.jpg",
-                                            videoTitle="Test Live",
-                                            customerName=null,
-                                            profileID=null,
-                                            compStringName="",
-                                            channelLogo="https://static.ajkerdeal.com/images/banners/1696416/logo.jpg",
-                                            channelName="Flash",
-                                            liveChannelName=null,
-                                            videoChannelLink="",
-                                            customerId=0,
-                                            merchantId=0,
-                                            statusName="replay",
-                                            paymentMode="both",
-                                            facebookPageUrl="https://www.facebook.com/flashfashionhouse/videos/557937342187835",
-                                            mobile="01853165356", alternativeMobile="",
-                                            redirectToFB=false, isShowMobile=true,
-                                            isShowComment=true, isShowProductCart=false,
-                                            facebookVideoUrl="https://www.facebook.com/flashfashionhouse/videos/557937342187835",
-                                            orderPlaceFlag=1, categoryId=7, subCategoryId=111, subSubCategoryId=0,
-                                            isThirdPartyProductUrl=0, isNotificationSended=true, videoId="557937342187835",
+                                            id = 5789,
+                                            liveDate = "14/09/2021",
+                                            fromTime = "17:53:00",
+                                            toTime = "18:53:00",
+                                            channelId = 1696416,
+                                            channelType = "customer",
+                                            isActive = 1,
+                                            insertedBy = 746,
+                                            scheduleId = 0,
+                                            coverPhoto = "https://static.ajkerdeal.com/LiveVideoImage/LiveVideoCoverPhoto/5789/livecoverphoto.jpg",
+                                            videoTitle = "Test Live",
+                                            customerName = null,
+                                            profileID = null,
+                                            compStringName = "",
+                                            channelLogo = "https://static.ajkerdeal.com/images/banners/1696416/logo.jpg",
+                                            channelName = "Flash",
+                                            liveChannelName = null,
+                                            videoChannelLink = "",
+                                            customerId = 0,
+                                            merchantId = 0,
+                                            statusName = "replay",
+                                            paymentMode = "both",
+                                            facebookPageUrl = "https://www.facebook.com/flashfashionhouse/videos/557937342187835",
+                                            mobile = "01853165356",
+                                            alternativeMobile = "",
+                                            redirectToFB = false,
+                                            isShowMobile = true,
+                                            isShowComment = true,
+                                            isShowProductCart = false,
+                                            facebookVideoUrl = "https://www.facebook.com/flashfashionhouse/videos/557937342187835",
+                                            orderPlaceFlag = 1,
+                                            categoryId = 7,
+                                            subCategoryId = 111,
+                                            subSubCategoryId = 0,
+                                            isThirdPartyProductUrl = 0,
+                                            isNotificationSended = true,
+                                            videoId = "557937342187835",
                                         )
                                     )
                                     list.add(
                                         0,
                                         LiveListData(
-                                            id=5928,
-                                            liveDate="19/09/2021",
-                                            fromTime="22:27:21",
-                                            toTime="23:00:21",
-                                            channelId=1412606,
-                                            channelType="customer",
-                                            isActive=1,
-                                            insertedBy=1412606,
-                                            scheduleId=0,
-                                            coverPhoto="https://static.ajkerdeal.com/LiveVideoImage/LiveVideoCoverPhoto/5928/livecoverphoto.jpg",
-                                            videoTitle="Test Live LP",
-                                            customerName=null,
-                                            profileID=null,
-                                            compStringName="",
-                                            channelLogo="https://static.ajkerdeal.com/images/banners/1412606/logo.jpg",
-                                            channelName="Gm - Gents Mart",
-                                            liveChannelName=null,
-                                            videoChannelLink="https://ad-live-streaming.s3-ap-southeast-1.amazonaws.com/live_show/1412606/5928/live_hls.m3u8",
-                                            customerId=0,
-                                            merchantId=0,
-                                            statusName="replay",
-                                            paymentMode="both",
-                                            facebookPageUrl="",
-                                            mobile="", alternativeMobile="",
-                                            redirectToFB=false, isShowMobile=false,
-                                            isShowComment=true, isShowProductCart=false,
-                                            facebookVideoUrl="",
-                                            orderPlaceFlag=0, categoryId=0, subCategoryId=0, subSubCategoryId=0,
-                                            isThirdPartyProductUrl=0, isNotificationSended=false, videoId="",
+                                            id = 5928,
+                                            liveDate = "19/09/2021",
+                                            fromTime = "22:27:21",
+                                            toTime = "23:00:21",
+                                            channelId = 1412606,
+                                            channelType = "customer",
+                                            isActive = 1,
+                                            insertedBy = 1412606,
+                                            scheduleId = 0,
+                                            coverPhoto = "https://static.ajkerdeal.com/LiveVideoImage/LiveVideoCoverPhoto/5928/livecoverphoto.jpg",
+                                            videoTitle = "Test Live LP",
+                                            customerName = null,
+                                            profileID = null,
+                                            compStringName = "",
+                                            channelLogo = "https://static.ajkerdeal.com/images/banners/1412606/logo.jpg",
+                                            channelName = "Gm - Gents Mart",
+                                            liveChannelName = null,
+                                            videoChannelLink = "https://ad-live-streaming.s3-ap-southeast-1.amazonaws.com/live_show/1412606/5928/live_hls.m3u8",
+                                            customerId = 0,
+                                            merchantId = 0,
+                                            statusName = "replay",
+                                            paymentMode = "both",
+                                            facebookPageUrl = "",
+                                            mobile = "",
+                                            alternativeMobile = "",
+                                            redirectToFB = false,
+                                            isShowMobile = false,
+                                            isShowComment = true,
+                                            isShowProductCart = false,
+                                            facebookVideoUrl = "",
+                                            orderPlaceFlag = 0,
+                                            categoryId = 0,
+                                            subCategoryId = 0,
+                                            subSubCategoryId = 0,
+                                            isThirdPartyProductUrl = 0,
+                                            isNotificationSended = false,
+                                            videoId = "",
                                         )
                                     )
                                 }
@@ -1206,26 +1238,29 @@ class JobDetailAdapter(private val context: Context) :
                             }
 
                         } else {
-                            holder.liveProgressBar.visibility =View.GONE
-                            holder.liveViewContainer.visibility =View.GONE
+                            holder.liveProgressBar.visibility = View.GONE
+                            holder.liveViewContainer.visibility = View.GONE
                         }
                     } else {
-                        holder.liveProgressBar.visibility =View.GONE
-                        holder.liveViewContainer.visibility =View.GONE
+                        holder.liveProgressBar.visibility = View.GONE
+                        holder.liveViewContainer.visibility = View.GONE
                     }
                 }
 
-                override fun onFailure(call: Call<ResponseHeader<List<LiveListData>>>, t: Throwable) {
+                override fun onFailure(
+                    call: Call<ResponseHeader<List<LiveListData>>>,
+                    t: Throwable
+                ) {
 
                     Timber.e("$t")
-                    holder.liveProgressBar.visibility =View.GONE
-                    holder.liveViewContainer.visibility =View.GONE
+                    holder.liveProgressBar.visibility = View.GONE
+                    holder.liveViewContainer.visibility = View.GONE
                 }
 
             })
         } catch (e: Exception) {
-            holder.liveProgressBar.visibility=View.GONE
-            holder.liveViewContainer.visibility =View.GONE
+            holder.liveProgressBar.visibility = View.GONE
+            holder.liveViewContainer.visibility = View.GONE
             Timber.e("$e")
         }
 
@@ -1247,7 +1282,12 @@ class JobDetailAdapter(private val context: Context) :
                 "upcoming" -> {
                     val formatDate = "${model.liveDate} ${model.fromTime}"
                     val date = sdf.parse(formatDate)
-                    context.alertAd("আপকামিং", "এই লাইভটি শুরু হবে ${DigitConverter.relativeWeekday(date!!)}।", false, "ঠিক আছে") {
+                    context.alertAd(
+                        "আপকামিং",
+                        "এই লাইভটি শুরু হবে ${DigitConverter.relativeWeekday(date!!)}।",
+                        false,
+                        "ঠিক আছে"
+                    ) {
 
                     }.show()
                 }
@@ -1275,7 +1315,10 @@ class JobDetailAdapter(private val context: Context) :
         }
         Intent(context, VideoPagerActivity::class.java).apply {
             putExtra("playIndex", if (playIndex > -1) playIndex else 0)
-            putParcelableArrayListExtra("videoList", videoList as java.util.ArrayList<out Parcelable>)
+            putParcelableArrayListExtra(
+                "videoList",
+                videoList as java.util.ArrayList<out Parcelable>
+            )
             putExtra("noCache", true)
             putExtra("isLiveShow", true)
         }.also {
@@ -1283,7 +1326,10 @@ class JobDetailAdapter(private val context: Context) :
         }
     }
 
-    private fun generateLiveVideoList(model: LiveListData, list: MutableList<CatalogData>): MutableList<CatalogData> {
+    private fun generateLiveVideoList(
+        model: LiveListData,
+        list: MutableList<CatalogData>
+    ): MutableList<CatalogData> {
         list.add(
             CatalogData(
                 model.id,
@@ -2091,12 +2137,12 @@ class JobDetailAdapter(private val context: Context) :
     }
 
 
-  /*  fun showRetry(show: Boolean, errorMsg: String?) {
-        retryPageLoad = show
-        jobList?.size?.minus(1)?.let { notifyItemChanged(it) }
+    /*  fun showRetry(show: Boolean, errorMsg: String?) {
+          retryPageLoad = show
+          jobList?.size?.minus(1)?.let { notifyItemChanged(it) }
 
-        if (errorMsg != null) this.errorMsg = errorMsg
-    }*/
+          if (errorMsg != null) this.errorMsg = errorMsg
+      }*/
 
     /**
      * Main list's content ViewHolder
@@ -2117,8 +2163,10 @@ class JobDetailAdapter(private val context: Context) :
         val appliedBadge: TextView = viewItem?.findViewById(R.id.appliedBadge) as TextView
         val tvPosName: TextView = viewItem?.findViewById(R.id.positionName) as TextView
         val tvComName: TextView = viewItem?.findViewById(R.id.companyName) as TextView
-        val rootBothView: ConstraintLayout = viewItem?.findViewById(R.id.cl_both_view) as ConstraintLayout
-        val rootOnlyValueView: ConstraintLayout = viewItem?.findViewById(R.id.cl_only_value_view) as ConstraintLayout
+        val rootBothView: ConstraintLayout =
+            viewItem?.findViewById(R.id.cl_both_view) as ConstraintLayout
+        val rootOnlyValueView: ConstraintLayout =
+            viewItem?.findViewById(R.id.cl_only_value_view) as ConstraintLayout
         val tvLocation: TextView = viewItem?.findViewById(R.id.locationValue) as TextView
         val tvLocation2: TextView = viewItem?.findViewById(R.id.locationValue2) as TextView
         val tvLocationTitle: TextView = viewItem?.findViewById(R.id.locationText) as TextView
@@ -2207,7 +2255,7 @@ class JobDetailAdapter(private val context: Context) :
         val workingPlaceValueTV: TextView =
             viewItem?.findViewById(R.id.tv_working_place_value) as TextView
 
-        val liveViewRoot : RelativeLayout = viewItem?.findViewById(R.id.live_parent)!!
+        val liveViewRoot: RelativeLayout = viewItem?.findViewById(R.id.live_parent)!!
         val container: FrameLayout = viewItem?.findViewById(R.id.navHostFragment)!!
         val liveViewContainer: ConstraintLayout = viewItem?.findViewById(R.id.parent)!!
         val liveRecyclerView: RecyclerView = viewItem?.findViewById(R.id.recyclerView)!!
@@ -2218,10 +2266,11 @@ class JobDetailAdapter(private val context: Context) :
             viewItem?.findViewById(R.id.tv_video_resume_encouragement_text)!!
         val viewDivider: View = viewItem?.findViewById(R.id.view_divider)!!
 
-        val videoResumeEncBottomRoot : ConstraintLayout = viewItem?.findViewById(R.id.cv_video_encouragement)!!
-        val closeIcon : ImageView = viewItem?.findViewById(R.id.iv_close_enc)!!
+        val videoResumeEncBottomRoot: ConstraintLayout =
+            viewItem?.findViewById(R.id.cv_video_encouragement)!!
+        val closeIcon: ImageView = viewItem?.findViewById(R.id.iv_close_enc)!!
 
-        val alertTv : TextView = viewItem?.findViewById(R.id.alertTVJD)!!
+        val alertTv: TextView = viewItem?.findViewById(R.id.alertTVJD)!!
 
 
         fun fragment(fragment: Fragment) {
