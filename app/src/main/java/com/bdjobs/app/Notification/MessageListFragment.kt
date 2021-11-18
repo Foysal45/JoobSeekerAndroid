@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_message_list.*
 import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import timber.log.Timber
 
 
 class MessageListFragment : Fragment() {
@@ -59,6 +60,7 @@ class MessageListFragment : Fragment() {
             notificationList = bdjobsDB.notificationDao().getMessage() as? MutableList
 
             uiThread {
+
                 adapter = NotificationListAdapter(activity, notificationList as MutableList<Notification>)
                 notificationsRV?.also {
                     it.setHasFixedSize(true)
@@ -67,6 +69,23 @@ class MessageListFragment : Fragment() {
                     it.layoutManager = linearLayoutManager
                     try {
                         it.scrollToPosition(notificationCommunicator.getPositionClickedMessage())
+                    } catch (e: Exception) {
+                    }
+                }
+
+                for (i in notificationList!!.indices) {
+                    try {
+                        val hashMap = Constants.getDateTimeAsAgo(notificationList!![i].arrivalTime)
+                        val days = hashMap["days"]
+                        val minutes = hashMap["minutes"]
+
+                        Timber.d("Min: $minutes Days: $days")
+
+                        if (days!=null && days>=7) {
+                            Timber.d("Deleting notification")
+//                            adapter.removeItem(i)
+                            softDeleteNotificationFromDB(notificationList!![i])
+                        }
                     } catch (e: Exception) {
                     }
                 }
@@ -144,8 +163,8 @@ class MessageListFragment : Fragment() {
                                         }
                                         if (!notification.seen!!) {
                                             bdjobsUserSession = BdjobsUserSession(activity)
-                                            bdjobsUserSession.updateNotificationCount(
-                                                bdjobsUserSession.notificationCount!! + 1
+                                            bdjobsUserSession.updateMessageCount(
+                                                bdjobsUserSession.messageCount!! + 1
                                             )
                                         }
                                         if (adapter.itemCount == 0) {
@@ -186,7 +205,7 @@ class MessageListFragment : Fragment() {
 //            bdjobsDB.notificationDao().softDeleteNotification(notification.id!!)
             if (!notification.seen!!) {
                 bdjobsUserSession = BdjobsUserSession(activity)
-                bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! - 1)
+                bdjobsUserSession.updateMessageCount(bdjobsUserSession.messageCount!! - 1)
             }
 
             uiThread {

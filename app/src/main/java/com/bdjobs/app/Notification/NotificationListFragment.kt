@@ -47,8 +47,6 @@ class NotificationListFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Timber.d("notification list view created!")
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -70,6 +68,7 @@ class NotificationListFragment : Fragment() {
             notificationList = bdjobsDB.notificationDao().getNotification()
             uiThread {
                 try {
+
                     notificationListAdapter = NotificationListAdapter(activity, notificationList as MutableList<Notification>)
                     notificationsRV?.also {
                         it.setHasFixedSize(true)
@@ -81,6 +80,24 @@ class NotificationListFragment : Fragment() {
                         } catch (e: Exception) {
                         }
                     }
+
+                    for (i in notificationList!!.indices) {
+                        try {
+                            val hashMap = Constants.getDateTimeAsAgo(notificationList!![i].arrivalTime)
+                            val days = hashMap["days"]
+                            val minutes = hashMap["minutes"]
+
+                            Timber.d("Min: $minutes Days: $days")
+
+                            if (days!=null && days>=7) {
+                                Timber.d("Deleting notification")
+//                                notificationListAdapter.removeItem(i)
+                                softDeleteNotificationFromDB(notificationList!![i])
+                            }
+                        } catch (e: Exception) {
+                        }
+                    }
+
                 } catch (e: Exception) {
                 }
 
@@ -141,7 +158,7 @@ class NotificationListFragment : Fragment() {
                                                         bdjobsUserSession = BdjobsUserSession(activity)
                                                         bdjobsUserSession.updateNotificationCount(bdjobsUserSession.notificationCount!! + 1)
                                                     }
-                                                    if (notificationListAdapter?.itemCount == 0) {
+                                                    if (notificationListAdapter.itemCount == 0) {
                                                         notificationNoDataLL?.show()
                                                     } else {
                                                         notificationNoDataLL?.hide()
@@ -153,7 +170,7 @@ class NotificationListFragment : Fragment() {
                                         snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.undo))
                                         snackbar.show()
 
-                                        if (notificationListAdapter?.itemCount == 0) {
+                                        if (notificationListAdapter.itemCount == 0) {
                                             notificationNoDataLL?.show()
                                         } else {
                                             notificationNoDataLL?.hide()
@@ -186,8 +203,8 @@ class NotificationListFragment : Fragment() {
     }
 
     fun updateView(item: Notification) {
-        notificationListAdapter?.addItem(item)
-        notificationListAdapter?.notifyDataSetChanged()
+        notificationListAdapter.addItem(item)
+        notificationListAdapter.notifyDataSetChanged()
     }
 
 }

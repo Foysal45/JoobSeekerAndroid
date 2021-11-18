@@ -46,6 +46,7 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import timber.log.Timber
 import java.util.*
+import kotlin.math.min
 
 
 @Suppress("SpellCheckingInspection")
@@ -144,18 +145,6 @@ class NotificationListAdapter(private val context: Context, private val items: M
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
-//        val time = items[position].arrivalTime
-        try {
-            val hashMap = getDateTimeAsAgo(items[position].arrivalTime)
-            val days = hashMap["days"]
-
-            if (days!=null && days>=7) {
-                Timber.d("Deleting notification")
-                bdJobsDB.notificationDao().deleteNotification(items[position])
-            }
-        } catch (e: Exception) {
-        }
 
         when (getItemViewType(position)) {
 
