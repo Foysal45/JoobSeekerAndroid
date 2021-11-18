@@ -107,7 +107,7 @@
         <entry key="app/src/main/res/layout/fragment_video_record.xml" value="0.2857789855072464" />
         <entry key="app/src/main/res/layout/fragment_view_recorded_video.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/layout_all_interview_invitation.xml" value="0.2767210144927536" />
-        <entry key="app/src/main/res/layout/layout_item_live_interview_details.xml" value="0.30027173913043476" />
+        <entry key="app/src/main/res/layout/layout_item_live_interview_details.xml" value="0.335" />
         <entry key="app/src/main/res/layout/my_interview_invitation_layout.xml" value="0.2767210144927536" />
       </map>
     </option>

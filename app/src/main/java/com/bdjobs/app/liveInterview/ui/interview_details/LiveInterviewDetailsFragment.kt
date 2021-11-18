@@ -89,12 +89,6 @@ class LiveInterviewDetailsFragment : Fragment() {
         tool_bar?.title = args.jobTitle
 
 
-
-
-
-
-        Log.e("viewModel", ""+args.jobId)
-
         adapter = LiveInterviewDetailsAdapter(session,requireContext(), ClickListener {
             liveInterviewDetailsViewModel.apply {
                 liveInterviewDetailsViewModel.onChangeButtonClick()
@@ -398,7 +392,6 @@ class LiveInterviewDetailsFragment : Fragment() {
         super.onPause()
         snackbar?.dismiss()
         liveInterviewDetailsViewModel.setConfirmation(session)
-        Toast.makeText(requireContext(), "onPause", Toast.LENGTH_SHORT).show()
     }
 
 

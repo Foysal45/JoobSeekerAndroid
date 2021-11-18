@@ -148,6 +148,7 @@ class LiveInterviewDetailsViewModel(
                 }else {
                     showConfirmationSection.value = false
                     showPreparationSection.value = true
+                    setTimer(interviewDateTime)
                 }
 
 
@@ -477,17 +478,9 @@ class LiveInterviewDetailsViewModel(
 
     fun setConfirmation(session: BdjobsUserSession) {
 
-        Log.e("viewModel", ""+interviewConfirmClick )
-        Log.e("viewModel", ""+invitationId )
         if (interviewConfirmClick){
-            Log.e("viewModel", ""+interviewConfirmClick )
-            Log.e("viewModel", ""+invitationId )
             session.setliveInterviewConfirmStatus(invitationId, "1")
         }
-    }
-
-    fun getConfirmation(session: BdjobsUserSession): String{
-       return  session.getliveInterviewConfirmStatus(invitationId)
     }
 
 }
