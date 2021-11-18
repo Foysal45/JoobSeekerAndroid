@@ -97,6 +97,18 @@
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/package_details_fragment.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/shimmer_loading_grid.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/standoutjoblist.xml" value="0.20520833333333333" />
+        <entry key="app/src/main/res/layout/activity_live_interview.xml" value="0.2767210144927536" />
+        <entry key="app/src/main/res/layout/fragment_home_layout.xml" value="0.2767210144927536" />
+        <entry key="app/src/main/res/layout/fragment_interview_session.xml" value="0.28125" />
+        <entry key="app/src/main/res/layout/fragment_live_interview_details.xml" value="0.2767210144927536" />
+        <entry key="app/src/main/res/layout/fragment_live_interview_list.xml" value="0.30027173913043476" />
+        <entry key="app/src/main/res/layout/fragment_module_view.xml" value="0.29981884057971014" />
+        <entry key="app/src/main/res/layout/fragment_test_instruction.xml" value="0.29981884057971014" />
+        <entry key="app/src/main/res/layout/fragment_video_record.xml" value="0.2857789855072464" />
+        <entry key="app/src/main/res/layout/fragment_view_recorded_video.xml" value="0.28125" />
+        <entry key="app/src/main/res/layout/layout_all_interview_invitation.xml" value="0.2767210144927536" />
+        <entry key="app/src/main/res/layout/layout_item_live_interview_details.xml" value="0.30027173913043476" />
+        <entry key="app/src/main/res/layout/my_interview_invitation_layout.xml" value="0.2767210144927536" />
       </map>
     </option>
   </component>
@@ -146,7 +158,7 @@
       </value>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_13" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

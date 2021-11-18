@@ -618,5 +618,15 @@ class BdjobsUserSession(val context: Context) {
         get() = pref!!.getString("AD_IN_MAIN_LANDING","0")
         set(value) {pref!!.edit().putString("AD_IN_MAIN_LANDING",value).apply()}
 
+    var liveInterviewConfirmStatus : String?
+        get() = pref!!.getString("AD_IN_MAIN_LANDING","0")
+        set(value) {pref!!.edit().putString("AD_IN_MAIN_LANDING",value).apply()}
+
+    fun getliveInterviewConfirmStatus(invitationId : String) : String{
+      return pref!!.getString(invitationId,"0").toString()
+    }
+    fun setliveInterviewConfirmStatus(invitationId : String, value : String){
+        pref!!.edit().putString(invitationId,value).apply()
+    }
 
 }

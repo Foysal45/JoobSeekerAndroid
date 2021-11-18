@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.databinding.FragmentLiveInterviewDetailsBinding
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.videoInterview.util.EventObserver
@@ -42,6 +44,7 @@ import kotlin.collections.ArrayList
 class LiveInterviewDetailsFragment : Fragment() {
 
     var eventID: Long? = 0
+    lateinit var session: BdjobsUserSession
 
     private var cameraAndAudioPermissionGranted: Boolean = false
 
@@ -78,13 +81,21 @@ class LiveInterviewDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        session = BdjobsUserSession(requireContext())
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
         tool_bar?.title = args.jobTitle
 
-        adapter = LiveInterviewDetailsAdapter(requireContext(), ClickListener {
+
+
+
+
+
+        Log.e("viewModel", ""+args.jobId)
+
+        adapter = LiveInterviewDetailsAdapter(session,requireContext(), ClickListener {
             liveInterviewDetailsViewModel.apply {
                 liveInterviewDetailsViewModel.onChangeButtonClick()
             }
@@ -104,6 +115,7 @@ class LiveInterviewDetailsFragment : Fragment() {
             deadline.add("")
             startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
         }
+
     }
 
     override fun onResume() {
@@ -385,6 +397,14 @@ class LiveInterviewDetailsFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         snackbar?.dismiss()
+        liveInterviewDetailsViewModel.setConfirmation(session)
+        Toast.makeText(requireContext(), "onPause", Toast.LENGTH_SHORT).show()
     }
+
+
+
+
+
+
 
 }

@@ -7,10 +7,12 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.CountDownTimer
 import android.provider.CalendarContract
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
 import com.bdjobs.app.liveInterview.data.repository.LiveInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
@@ -85,6 +87,7 @@ class LiveInterviewDetailsViewModel(
     var cancelReason = ""
     var otherReason = ""
     var rescheduleComment = ""
+    var interviewConfirmClick = false
 
     val showToast = MutableLiveData<Event<String>>()
     val showUndoSnackbar = MutableLiveData<Event<Boolean>>()
@@ -116,7 +119,7 @@ class LiveInterviewDetailsViewModel(
                 }
 
                 //for green section
-                showConfirmationSection.value = liveInterviewDetailsData.value?.get(0)?.confimationStatus == "0" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "5"
+              //  showConfirmationSection.value = liveInterviewDetailsData.value?.get(0)?.confimationStatus == "0" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "5"
 
                 //exam date and time
                 examDate.value = liveInterviewDetailsData.value?.get(0)?.examDate
@@ -136,19 +139,16 @@ class LiveInterviewDetailsViewModel(
                 }
 
                 val confirmationStatus = liveInterviewDetailsData.value?.get(0)?.confimationStatus
-                if (confirmationStatus == "1" || confirmationStatus=="" ){
-                    showPreparationSection.value = true
-                    setTimer(interviewDateTime)
-                }
+                val confirmationDate = liveInterviewDetailsData.value?.get(0)?.confirmationDate
 
-                if (confirmationStatus == "6" || confirmationStatus == "7"){
-                    showJoinSection.value = false
+
+                if (confirmationStatus == "0" && confirmationDate == ""){
+                    showConfirmationSection.value = true
                     showPreparationSection.value = false
+                }else {
+                    showConfirmationSection.value = false
+                    showPreparationSection.value = true
                 }
-
-//                if (confirmationStatus=="") {
-//                    showJoinSection.value = true
-//                }
 
 
             } catch (e: Exception) {
@@ -238,6 +238,7 @@ class LiveInterviewDetailsViewModel(
                 getLiveInterviewDetails()
                 showConfirmationSection.value = false
                 showPreparationSection.value = true
+                interviewConfirmClick = true
             } else {
                 showToast.value = Event(response.message.toString())
             }
@@ -474,5 +475,19 @@ class LiveInterviewDetailsViewModel(
     }
 
 
+    fun setConfirmation(session: BdjobsUserSession) {
+
+        Log.e("viewModel", ""+interviewConfirmClick )
+        Log.e("viewModel", ""+invitationId )
+        if (interviewConfirmClick){
+            Log.e("viewModel", ""+interviewConfirmClick )
+            Log.e("viewModel", ""+invitationId )
+            session.setliveInterviewConfirmStatus(invitationId, "1")
+        }
+    }
+
+    fun getConfirmation(session: BdjobsUserSession): String{
+       return  session.getliveInterviewConfirmStatus(invitationId)
+    }
 
 }
