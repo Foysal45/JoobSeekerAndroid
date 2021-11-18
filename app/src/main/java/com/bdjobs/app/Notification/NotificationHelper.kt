@@ -336,9 +336,9 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                     .setSmallIcon(smallIcon)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
-//                    .setStyle(bigPictureStyle)
-                        .setStyle(NotificationCompat.BigTextStyle()
-                            .bigText(body))
+                    .setStyle(bigPictureStyle)
+//                        .setStyle(NotificationCompat.BigTextStyle()
+//                            .bigText(body))
                     .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
             }
 
