@@ -312,25 +312,30 @@ class TimesEmailedMyResumeFragment : Fragment() {
                     logException(e)
                 }
 
-                if (response?.body()?.data.isNullOrEmpty()) {
+                if (response.body()?.data.isNullOrEmpty()) {
                     try {
-                        timesEmailedNoDataLL?.show()
-                        titleTV.hide()
-                        numberTV.hide()
-                        emailedResumeRV?.hide()
-                        shimmer_view_container_emailedResumeList?.hide()
-                        shimmer_view_container_emailedResumeList?.stopShimmer()
+                        if (isAdded) {
+                            timesEmailedNoDataLL?.show()
+                            titleTV.hide()
+                            numberTV.hide()
+                            emailedResumeRV?.hide()
+                            shimmer_view_container_emailedResumeList?.hide()
+                            shimmer_view_container_emailedResumeList?.stopShimmer()
+                        }
+
                     } catch (e: Exception) {
                     }
                     //Log.d("totalJobs", "zero")
                 } else {
                     try {
-                        timesEmailedNoDataLL?.hide()
-                        titleTV.show()
-                        numberTV.show()
-                        emailedResumeRV?.show()
-                        shimmer_view_container_emailedResumeList?.hide()
-                        shimmer_view_container_emailedResumeList?.stopShimmer()
+                        if (isAdded) {
+                            timesEmailedNoDataLL?.hide()
+                            titleTV.show()
+                            numberTV.show()
+                            emailedResumeRV?.show()
+                            shimmer_view_container_emailedResumeList?.hide()
+                            shimmer_view_container_emailedResumeList?.stopShimmer()
+                        }
                     } catch (e: Exception) {
                     }
                 }
