@@ -493,7 +493,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="personal_details">Personal Details</string>
     <string name="academic_qualification">Academic Qualification</string>
     <string name="training">Training</string>
-    <string name="professional_qualification">Professional Qualification</string>
+    <string name="professional_qualification">Professional Certification</string>
     <string name="experience">Experience</string>
     <string name="specialization">Specialization</string>
     <string name="reference">Reference</string>
