@@ -27,7 +27,7 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
     }
 
     override fun onBindViewHolder(holder: SpecializationSkillViewHolder, position: Int) {
-        holder.experienceValueTV.text = items?.get(position)?.skillName
+        holder.experienceValueTV.text = items.get(position)?.skillName
         holder.workExperienceTV.text = "skill - ${position + 1}"
         /* holder.experienceInstructionTV.text = "কিভাবে '${items?.get(position)?.workExp}' কাজের দক্ষতাটি শিখেছেন?"*/
         /*//Log.d("fdhbjh", "workExp ${items?.get(position)?.skillName}")
@@ -41,7 +41,7 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
         var fourthText = ""
         var fifthText = ""
 
-        val list = items?.get(position)?.skillBy!!
+        val list = items.get(position)?.skillBy!!
         list.forEachIndexed { index, s ->
             //Log.d("expTest", "exp: $s")
             when (s.toString()) {
@@ -130,7 +130,7 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
     }
 
     override fun getItemCount(): Int {
-        return items!!.size
+        return items.size
     }
 
 

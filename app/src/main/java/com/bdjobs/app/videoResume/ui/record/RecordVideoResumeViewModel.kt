@@ -7,8 +7,11 @@ import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.videoInterview.util.Event
 import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.IOException
 
 class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) : ViewModel() {
 
@@ -41,6 +44,10 @@ class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) 
     private val _onVideoDoneEvent = MutableLiveData<Boolean>()
     val onVideoDoneEvent : LiveData<Boolean> = _onVideoDoneEvent
 
+
+    private val _onVideouploadException = MutableLiveData<Event<String>>()
+    val onVideoUploadException : LiveData<Event<String>> = _onVideouploadException
+
 //    private val _onVideoDoneEvent = MutableLiveData<Event<Boolean>>().apply {
 //        value = Event(false)
 //    }
@@ -67,30 +74,23 @@ class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) 
 
     fun onDoneButtonClick() {
         timer.cancel()
-        _onVideoDoneEvent.value = true
+        _onVideoDoneEvent.postValue(true) //= true
+
     }
 
     fun uploadSingleVideoToServer(videoResumeManager: VideoResumeManager?) {
-        _onVideoDoneEvent.value = false
-        //Log.d("rakib", "$videoManager")
-        //repository.setDataForUpload(videoManager)
+        _onVideoDoneEvent.postValue(false)
         Constants.createVideoResumeManagerDataForUpload(videoResumeManager)
-        viewModelScope.launch {
-//            val constraints = androidx.work.Constraints.Builder()
-//                    .setRequiredNetworkType(NetworkType.CONNECTED)
-//                    .build()
-//            val request = OneTimeWorkRequestBuilder<UploadVideoWorker>()
-//                    .setConstraints(constraints)
-//                    .setBackoffCriteria(BackoffPolicy.LINEAR,
-//                            OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
-//                            TimeUnit.MILLISECONDS)
-//                    .build()
-//            WorkManager.getInstance().enqueue(request)
-            _onUploadStartEvent.value = Event(true)
-            val response = repository.postVideoResumeToRemote()
-            if (response.statuscode == "4" || response.statuscode == 4)
-            {
-                _onUploadDoneEvent.value = Event(true)
+        GlobalScope.launch {
+                _onUploadStartEvent.postValue(Event(true))// = Event(true)
+            try {
+                val response = repository.postVideoResumeToRemote()
+                if (response.statuscode == "4" || response.statuscode == 4)
+                {
+                    _onUploadDoneEvent.postValue(Event(true)) //= Event(true)
+                }
+            } catch (e: Exception) {
+                _onVideouploadException.postValue(Event((e.message.toString())))
             }
         }
     }
@@ -128,7 +128,4 @@ class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) 
         _videoResumeManagerData.value = videoResumeManager
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
 }

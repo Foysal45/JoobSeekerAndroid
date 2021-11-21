@@ -31,7 +31,7 @@ class LiveProductListViewModel(private val repository: AppRepository): ViewModel
                     is NetworkResponse.Success -> {
                         val dataList = response.body.data
                         if (!dataList.isNullOrEmpty()) {
-                            catalogList.value = dataList!!
+                            catalogList.value = dataList
                         }
 
                         val logResponse = repository.logLivePlaza(liveId)

@@ -74,15 +74,15 @@ class FilterScheduleFragment : Fragment() {
         }
 
 
-        binding.filterFromTv?.setOnClickListener {
+        binding.filterFromTv.setOnClickListener {
             openDialog(it)
         }
 
-        binding.filterToTv?.setOnClickListener {
+        binding.filterToTv.setOnClickListener {
             openDialog(it)
         }
 
-        binding.filterVenueTv?.setOnClickListener {
+        binding.filterVenueTv.setOnClickListener {
             val venues = listOf("Dhaka", "Chattogram")
             selector("Please select your venue", venues) { dialogInterface, i ->
                 filter_venue_tv?.setText(venues[i])
@@ -94,7 +94,7 @@ class FilterScheduleFragment : Fragment() {
             }
         }
 
-        binding.filterSearchBtn?.setOnClickListener {
+        binding.filterSearchBtn.setOnClickListener {
             if (dateValidationCheck()) {
                 findNavController().navigate(FilterScheduleFragmentDirections.actionScheduleFilterFragmentToChooseScheduleFragment(scheduleViewModel.scheduleRequest))
             }

@@ -37,7 +37,7 @@ class HotJobsFragmentNew : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         homeCommunicator = activity as HomeCommunicator
-        hotjobsAdapterNew = HotjobsAdapterNew(requireContext()!!)
+        hotjobsAdapterNew = HotjobsAdapterNew(requireContext())
         bdjobsUserSession = BdjobsUserSession(requireContext())
         bdjobsDB = BdjobsDB.getInstance(requireContext())
         loadHotJobsData()

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class GuidelineVIewModel() : ViewModel() {
+class GuidelineVIewModel : ViewModel() {
 
     val _viewInBangla = MutableLiveData<Boolean>().apply {
         value = true

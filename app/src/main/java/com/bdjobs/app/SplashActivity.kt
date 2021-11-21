@@ -223,7 +223,7 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         val agreedBtn = dialog?.findViewById<Button>(R.id.btn_next)
 
         agreedBtn?.setOnClickListener {
-            firstDialog?.dismiss()
+            firstDialog.dismiss()
             val intent = createAppSettingsIntent()
             startActivity(intent)
         }
@@ -335,17 +335,17 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 
     private fun checkUpdate() {
         val appUpdateManager = AppUpdateManagerFactory.create(this@SplashActivity)
-        val appUpdateInfoTask = appUpdateManager?.appUpdateInfo
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
-        appUpdateInfoTask?.addOnCompleteListener {
+        appUpdateInfoTask.addOnCompleteListener {
             if (it.isSuccessful) {
                 if (it.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                        it.result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                    appUpdateManager?.startUpdateFlowForResult(
-                            it.result,
-                            AppUpdateType.IMMEDIATE,
-                            this@SplashActivity,
-                            APP_UPDATE_REQUEST_CODE)
+                    it.result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                    appUpdateManager.startUpdateFlowForResult(
+                        it.result,
+                        AppUpdateType.IMMEDIATE,
+                        this@SplashActivity,
+                        APP_UPDATE_REQUEST_CODE)
                 } else {
                     //Log.d("UpdateCheck", "UPDATE_IS_NOT_AVAILABLE")
                     goToNextActivity()

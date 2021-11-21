@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FAFAFA"
     android:orientation="vertical">
 
@@ -256,7 +257,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/account_cross_icon" />
+            app:srcCompat="@drawable/resume_add_icon" />
 
     </RelativeLayout>
 

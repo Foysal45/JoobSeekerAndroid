@@ -31,6 +31,7 @@ class WCPasswordFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+
         onClick()
         initialization()
         setUserId()
@@ -49,6 +50,7 @@ class WCPasswordFragment : Fragment() {
                 if (confirmPassValidityCheck(confirmPassTIET?.text.toString())) {
                     registrationCommunicator.wcSetPassAndConfirmPassword(passwordTIET?.text.toString(), confirmPassTIET?.text.toString())
                     registrationCommunicator.wcCreateAccount()
+
                 }
             }
         }

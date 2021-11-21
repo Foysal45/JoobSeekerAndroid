@@ -99,7 +99,7 @@ class SuggestionListAdapter(var itemList: ArrayList<String>, private val context
         try {
             vh.itemTV?.text = filteredItems?.get(position)
             vh.itemTV?.setOnClickListener {
-                communicator?.suggestionSelected(vh?.itemTV?.text.toString())
+                communicator?.suggestionSelected(vh.itemTV.text.toString())
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -122,6 +122,6 @@ class SuggestionListAdapter(var itemList: ArrayList<String>, private val context
     }
 
     inner class ListRowHolder(row: View) {
-        val itemTV = row?.findViewById<TextView>(R.id.itemNameTV)
+        val itemTV = row.findViewById<TextView>(R.id.itemNameTV)
     }
 }

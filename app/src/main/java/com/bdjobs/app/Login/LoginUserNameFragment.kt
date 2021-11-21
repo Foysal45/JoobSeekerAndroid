@@ -308,7 +308,7 @@ class LoginUserNameFragment : Fragment() {
             }
 
             if (count == 7) {
-                rootView?.view?.isEnabled = false
+                rootView.view?.isEnabled = false
                 openDialog()
             }
         }
@@ -473,22 +473,22 @@ class LoginUserNameFragment : Fragment() {
 
     private fun openDialog() {
         val dialog = Dialog(activity)
-        dialog?.setContentView(R.layout.dialog_pass)
-        dialog?.setCancelable(false)
-        dialog?.show()
-        val passET = dialog?.findViewById<EditText>(R.id.pass_et)
-        val okBtn = dialog?.findViewById<Button>(R.id.ok_btn)
+        dialog.setContentView(R.layout.dialog_pass)
+        dialog.setCancelable(false)
+        dialog.show()
+        val passET = dialog.findViewById<EditText>(R.id.pass_et)
+        val okBtn = dialog.findViewById<Button>(R.id.ok_btn)
 
         okBtn.setOnClickListener {
             passET?.let {
                 //Log.d("rakib", "${Base64.encodeToString(passET.text.toString().toByteArray(), Base64.NO_WRAP)} ${R.string.pass}")
                 if (Base64.encodeToString(passET.text.toString().toByteArray(), Base64.NO_WRAP) == getString(R.string.pass)) {
-                    dialog?.dismiss()
+                    dialog.dismiss()
                     startActivity(intentFor<Login2BaseActivity>(Constants.key_go_to_home to true))
                 } else {
-                    dialog?.dismiss()
+                    dialog.dismiss()
                 }
-                dialog?.dismiss()
+                dialog.dismiss()
             }
 
         }

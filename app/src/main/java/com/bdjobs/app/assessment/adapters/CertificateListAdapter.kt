@@ -32,7 +32,7 @@ class CertificateListAdapter(val context: Context, val clickListener: ClickListe
         }
 
         override fun areContentsTheSame(oldItem: CertificateData, newItem: CertificateData): Boolean {
-            return oldItem?.assessmentId == newItem?.assessmentId
+            return oldItem.assessmentId == newItem.assessmentId
         }
     }
 

@@ -10,10 +10,11 @@ import android.text.TextUtils
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
+import com.bdjobs.app.Registration.blue_collar_registration.frgCommunicator.FragmentCommunicator
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.External.DataStorage
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 import org.jetbrains.anko.selector
@@ -110,7 +111,11 @@ class BCMobileNumberFragment : Fragment() {
                 registrationCommunicator.wcCountrySeledted(countryCode)
                 ///-------------------api------------calling------------------
 
-                registrationCommunicator.wcCreateAccount()
+                registrationCommunicator.wcCreateAccount(object : FragmentCommunicator {
+                    override fun showErrorMsg(msg: String) {
+                        bcMobileNumberTIL?.showError(msg)
+                    }
+                })
                 /* registrationCommunicator.bcGoToStepOtpCode()*/
 
                 dialog.dismiss()
@@ -179,4 +184,5 @@ class BCMobileNumberFragment : Fragment() {
         super.onPause()
         bcCountryCodeTIL?.hideKeyboard()
     }
+
 }

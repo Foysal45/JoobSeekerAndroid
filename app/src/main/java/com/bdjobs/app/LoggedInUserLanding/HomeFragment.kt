@@ -622,8 +622,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private fun showInterviewInvitationPop() {
         val interviewInvitationDialog = Dialog(requireContext())
 
-        interviewInvitationDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        interviewInvitationDialog.setCancelable(true)
+        interviewInvitationDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        interviewInvitationDialog?.setCancelable(true)
 
         interviewInvitationDialog.setContentView(R.layout.interview_invitation_popup)
         val interviewCV = interviewInvitationDialog.findViewById<CardView>(R.id.cardView2)
@@ -638,7 +638,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         val liveInterviewTVCount =
             interviewInvitationDialog.findViewById<TextView>(R.id.interview_invitation_count_tv_4)
 
-        val cancelBTN = interviewInvitationDialog.findViewById(R.id.cancel) as ImageView
+        val cancelBTN = interviewInvitationDialog?.findViewById(R.id.cancel) as ImageView
 
         interviewTVCount?.text = inviteInterview
         videoInterviewTVCount?.text = videoInterview
@@ -648,8 +648,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         if (videoInterview.equals("0")) videoInterviewCV.visibility = View.GONE
         if (liveInterview.equals("0")) liveInterviewCV.visibility = View.GONE
 
-        cancelBTN.setOnClickListener {
-            interviewInvitationDialog.dismiss()
+        cancelBTN?.setOnClickListener {
+            interviewInvitationDialog?.dismiss()
         }
 
         interviewCV?.setOnClickListener {
@@ -660,7 +660,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     .cancel(Constants.NOTIFICATION_INTERVIEW_INVITATTION)
             } catch (e: Exception) {
             }
-            interviewInvitationDialog.cancel()
+            interviewInvitationDialog?.cancel()
 
         }
 
@@ -672,35 +672,35 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     .cancel(Constants.NOTIFICATION_VIDEO_INTERVIEW)
             } catch (e: Exception) {
             }
-            interviewInvitationDialog.cancel()
+            interviewInvitationDialog?.cancel()
 
         }
 
         liveInterviewCV?.setOnClickListener {
             interviewInvitationDialog.dismiss()
             homeCommunicator.goToLiveInvitation("popup")
-            interviewInvitationDialog.cancel()
+            interviewInvitationDialog?.cancel()
         }
 
-        interviewInvitationDialog.show()
+        interviewInvitationDialog?.show()
 
     }
 
     private fun showGeneralPopUp() {
         val generalDialog = Dialog(requireContext())
 
-        generalDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        generalDialog.setCancelable(true)
+        generalDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        generalDialog?.setCancelable(true)
 
         generalDialog.setContentView(R.layout.home_general_popup)
         val mainCL = generalDialog.findViewById<ConstraintLayout>(R.id.main_cl)
         val cardView = generalDialog.findViewById<CardView>(R.id.cv_video_resume)
 
-        val cancelBTN = generalDialog.findViewById(R.id.cancel) as ImageView
+        val cancelBTN = generalDialog?.findViewById(R.id.cancel) as ImageView
 
 
-        cancelBTN.setOnClickListener {
-            generalDialog.dismiss()
+        cancelBTN?.setOnClickListener {
+            generalDialog?.dismiss()
         }
 
         cardView?.setOnClickListener {
@@ -709,11 +709,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
 
         mainCL?.setOnClickListener {
-            generalDialog.dismiss()
+            generalDialog?.dismiss()
             homeCommunicator.goToResumeManager()
 
         }
-        generalDialog.show()
+        generalDialog?.show()
 
     }
 
@@ -987,15 +987,15 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                     if (shortlistedjobs.isNotEmpty()) {
 
                         val dialog = Dialog(requireContext())
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                        dialog.setCancelable(true)
-                        dialog.setContentView(R.layout.layout_shortlistedjob_pop_up)
-                        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                        dialog?.setCancelable(true)
+                        dialog?.setContentView(R.layout.layout_shortlistedjob_pop_up)
+                        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                        val showButton = dialog.findViewById<Button>(R.id.bcYesTV)
-                        val cancelIV = dialog.findViewById<ImageView>(R.id.deleteIV)
-                        val jobCountTV = dialog.findViewById<TextView>(R.id.textView49)
-                        val checkBox = dialog.findViewById<CheckBox>(R.id.checkBox2)
+                        val showButton = dialog?.findViewById<Button>(R.id.bcYesTV)
+                        val cancelIV = dialog?.findViewById<ImageView>(R.id.deleteIV)
+                        val jobCountTV = dialog?.findViewById<TextView>(R.id.textView49)
+                        val checkBox = dialog?.findViewById<CheckBox>(R.id.checkBox2)
 
                         val adSmallTemplate =
                             dialog.findViewById<TemplateView>(R.id.ad_small_template)
@@ -1029,7 +1029,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             homeCommunicator.goToShortListedFragment(2)
                             dialog.dismiss()
                         }
-                        dialog.show()
+                        dialog?.show()
                     }
                 } catch (e: Exception) {
                     logException(e)

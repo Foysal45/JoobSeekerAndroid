@@ -558,7 +558,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
                 body = "Soumik"
             )
 
-            val list = bdjobsDB.notificationDao().getMessages("pm");
+            val list = bdjobsDB.notificationDao().getMessages("pm")
             val timeList = ArrayList<String>()
             val simpleDateFormat = SimpleDateFormat("HH:mm")
 

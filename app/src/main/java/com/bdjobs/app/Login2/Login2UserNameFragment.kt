@@ -67,14 +67,6 @@ class Login2UserNameFragment : android.app.Fragment() {
 
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
 
     private fun checkUserHasAccount(userName: String?) {
         activity?.showProgressBar(loadingProgressBar)
@@ -91,7 +83,7 @@ class Login2UserNameFragment : android.app.Fragment() {
                     if (response?.body()?.messageType == "1") {
                         useNameTIL.hideError()
                         if (response.body()?.isBlueCollar?.equalIgnoreCase(key_true)!!) {
-                            login2Communicator.goToOtpFragment(userName, response.body()?.userId, response?.body()?.userFullName, response.body()?.imageUrl)
+                            login2Communicator.goToOtpFragment(userName, response.body()?.userId, response.body()?.userFullName, response.body()?.imageUrl)
                         } else if (response.body()?.isBlueCollar?.equalIgnoreCase(key_false)!!) {
                             login2Communicator.goToPasswordFragment(userName, response.body()?.userId, response.body()?.userFullName, response.body()?.imageUrl)
                         }

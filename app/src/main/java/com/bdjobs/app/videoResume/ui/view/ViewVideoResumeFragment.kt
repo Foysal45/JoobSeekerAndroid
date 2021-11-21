@@ -1,12 +1,15 @@
 package com.bdjobs.app.videoResume.ui.view
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +33,13 @@ import com.bdjobs.app.databinding.FragmentViewVideoResumeBinding
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
+import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
+import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsFragmentDirections
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModel
+import com.fondesa.kpermissions.*
+import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.fondesa.kpermissions.extension.send
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_view_video.*
 import kotlinx.android.synthetic.main.fragment_view_video_resume.*
 import kotlinx.android.synthetic.main.fragment_view_video_resume.btn_record_again
@@ -45,6 +54,7 @@ import org.jetbrains.anko.support.v4.alert
 class ViewVideoResumeFragment : Fragment() {
 
 
+    private var permissionGranted: Boolean = false
     val args: ViewVideoResumeFragmentArgs by navArgs()
     private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
     private val viewVideoResumeViewModel: ViewVideoResumeViewModel by viewModels {
@@ -76,10 +86,8 @@ class ViewVideoResumeFragment : Fragment() {
 
         medialController = MediaController(requireContext())
 
-
         btn_record_again?.setOnClickListener {
-            if (findNavController().currentDestination?.id == R.id.viewVideoResumeFragment)
-                findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToRecordVideoResumeFragment())
+            askForPermission()
         }
 
         btn_delete_video?.setOnClickListener {
@@ -177,6 +185,52 @@ class ViewVideoResumeFragment : Fragment() {
             }
             return@setOnInfoListener false
         }
+    }
+
+
+    private fun askForPermission(): Boolean {
+
+        permissionsBuilder(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO).build()
+            .send { result ->
+                when {
+                    result.allGranted() -> {
+                        permissionGranted = true
+                        if (findNavController().currentDestination?.id == R.id.viewVideoResumeFragment)
+                            findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToRecordVideoResumeFragment())
+
+                    }
+                    result.allDenied() || result.anyDenied() -> {
+                         openSettingsDialog()
+                    }
+
+                    result.allPermanentlyDenied() || result.anyPermanentlyDenied() -> {
+                        openSettingsDialog()
+                    }
+                }
+            }
+        return permissionGranted
+    }
+
+    private fun openSettingsDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext()).create()
+        val view = layoutInflater.inflate(R.layout.dialog_enable_video_permissions, null)
+        view?.apply {
+            findViewById<Button>(R.id.dialog_btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            findViewById<Button>(R.id.dialog_btn_go_to_settings).setOnClickListener {
+                val intent = createAppSettingsIntent()
+                startActivity(intent)
+                dialog.dismiss()
+            }
+        }
+        dialog.setView(view)
+        dialog.show()
+    }
+
+    private fun createAppSettingsIntent() = Intent().apply {
+        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        data = Uri.fromParts("package", context?.packageName, null)
     }
 
 }

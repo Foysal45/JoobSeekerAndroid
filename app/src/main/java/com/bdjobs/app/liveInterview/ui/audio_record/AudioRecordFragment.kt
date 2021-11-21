@@ -241,13 +241,5 @@ class AudioRecordFragment : Fragment() {
 //        handler.post(updater)
 //    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        handler.removeCallbacks(updater)
-//        recorder.stop()
-//        recorder.reset()
-//        recorder.release()
-    }
-
     private lateinit var snackbar: Snackbar
 }

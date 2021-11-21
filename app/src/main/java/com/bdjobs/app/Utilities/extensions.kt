@@ -289,7 +289,7 @@ fun pickDate(
 
     if (from == "assessment") {
 
-        var now: Long = System.currentTimeMillis() - 1000;
+        var now: Long = System.currentTimeMillis() - 1000
 
         val dpd = DatePickerDialog(
             c,

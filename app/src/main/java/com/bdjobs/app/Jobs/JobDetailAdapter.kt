@@ -589,8 +589,8 @@ class JobDetailAdapter(private val context: Context) :
                                             position,
                                             jobDetailResponseAll.gender!!,
                                             jobDetailResponseAll.photograph!!,
-                                            jobDetailResponseAll.minSalary!!,
-                                            jobDetailResponseAll.maxSalary!!
+                                            jobDetailResponseAll.minSalary,
+                                            jobDetailResponseAll.maxSalary
                                         )
                                         //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
                                     }
@@ -1782,7 +1782,7 @@ class JobDetailAdapter(private val context: Context) :
         }
 
         cancelButton?.setOnClickListener {
-            dialog?.dismiss()
+            dialog.dismiss()
         }
 
         okButton?.setOnClickListener {
@@ -2288,10 +2288,13 @@ class JobDetailAdapter(private val context: Context) :
 
     private class LoadingVH(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        var mErrorTxt: TextView? =
-            itemView.findViewById(R.id.loadmore_errortxt) as TextView?
-        var mErrorLayout: LinearLayout? =
-            itemView.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
+        var mProgressBar: ProgressBar? =
+            itemView.findViewById(R.id.loadmore_progress) as ProgressBar?
+        private var mRetryBtn: ImageButton? =
+            itemView.findViewById(R.id.loadmore_retry) as ImageButton?
+
+        var mErrorTxt: TextView? = itemView.findViewById(R.id.loadmore_errortxt) as TextView?
+        var mErrorLayout: LinearLayout? = itemView.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
 
 
         override fun onClick(view: View) {

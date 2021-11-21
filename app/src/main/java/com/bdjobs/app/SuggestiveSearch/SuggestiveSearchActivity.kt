@@ -94,7 +94,7 @@ class SuggestiveSearchActivity : Activity(), SuggestionCommunicator {
             }
 
             try {
-                suggestionAdapter?.filter?.filter(e)
+                suggestionAdapter.filter.filter(e)
             } catch (e:Exception){
                 e.printStackTrace()
             }

@@ -28,8 +28,8 @@ class InvitecodeCategoryListAdapter(ctx: Context?, private val categoryAmountLis
             vh = view.tag as ListRowHolder
         }
 
-        vh.categoryNameTV?.text = categoryAmountList.get(position).categoryName
-        vh.categoryMoneyTV?.text = categoryAmountList.get(position).ownerAmount.toBanglaDigit() + "/-"
+        vh.categoryNameTV.text = categoryAmountList.get(position).categoryName
+        vh.categoryMoneyTV.text = categoryAmountList.get(position).ownerAmount.toBanglaDigit() + "/-"
 
         return view
     }

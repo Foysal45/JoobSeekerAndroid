@@ -360,7 +360,7 @@ fun bindOneHourInfoVisibility(view: ConstraintLayout, remainingTime: String?, us
 
 @BindingAdapter("videoResumeButtonStatus")
 fun bindVRButton(button: Button, videoResumeQuestionList: VideoResumeQuestionList.Data) {
-    videoResumeQuestionList?.let {
+    videoResumeQuestionList.let {
         if (it.buttonStatus == "1") {
             button.setBackgroundColor(Color.parseColor("#9D0191"))
         } else {

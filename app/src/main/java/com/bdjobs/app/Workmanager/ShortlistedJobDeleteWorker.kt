@@ -43,7 +43,7 @@ class ShortlistedJobDeleteWorker(val appContext: Context, workerParams: WorkerPa
                 override fun onResponse(call: Call<UnshorlistJobModel>, response: Response<UnshorlistJobModel>) {
                     try {
                          val output = workDataOf("jobid" to jobid)
-                        appContext?.toast("${response.body()?.message}")
+                        appContext.toast("${response.body()?.message}")
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }

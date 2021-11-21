@@ -99,31 +99,31 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                             //Log.d("createdon", "created on: $cratedOn \n updatedOn on: $updatedOn")
 
                             val favouriteSearch = FavouriteSearch(
-                                    filterid = item?.filterid,
-                                    filtername = item?.filtername,
-                                    industrialCat = item?.industrialCat,
-                                    functionalCat = item?.functionalCat,
-                                    location = item?.location,
-                                    organization = item?.organization,
-                                    jobnature = item?.jobnature,
-                                    joblevel = item?.joblevel,
-                                    postedon = item?.postedon,
-                                    deadline = item?.deadline,
-                                    keyword = item?.keyword,
-                                    newspaper = item?.newspaper,
-                                    gender = item?.gender,
-                                    genderb = item?.genderb,
-                                    experience = item?.experience,
-                                    age = item?.age,
-                                    jobtype = item?.jobtype,
-                                    retiredarmy = item?.retiredarmy,
+                                    filterid = item.filterid,
+                                    filtername = item.filtername,
+                                    industrialCat = item.industrialCat,
+                                    functionalCat = item.functionalCat,
+                                    location = item.location,
+                                    organization = item.organization,
+                                    jobnature = item.jobnature,
+                                    joblevel = item.joblevel,
+                                    postedon = item.postedon,
+                                    deadline = item.deadline,
+                                    keyword = item.keyword,
+                                    newspaper = item.newspaper,
+                                    gender = item.gender,
+                                    genderb = item.genderb,
+                                    experience = item.experience,
+                                    age = item.age,
+                                    jobtype = item.jobtype,
+                                    retiredarmy = item.retiredarmy,
                                     createdon = cratedOn,
                                     updatedon = updatedOn,
-                                    totaljobs = item?.totaljobs,
-                                    isSubscribed = item?.isSubscribed,
-                                    workPlace = item?.workPlace,
-                                    personWithDisability = item?.personWithDisability,
-                                    facilitiesForPWD = item?.facilityForPWD
+                                    totaljobs = item.totaljobs,
+                                    isSubscribed = item.isSubscribed,
+                                    workPlace = item.workPlace,
+                                    personWithDisability = item.personWithDisability,
+                                    facilitiesForPWD = item.facilityForPWD
 
                             )
                             bdjobsInternalDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)
@@ -432,7 +432,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                 outputStream = FileOutputStream(dbFile)
 
                 while (true) {
-                    val read = inputStream!!.read(fileReader)
+                    val read = inputStream.read(fileReader)
 
                     if (read == -1) {
                         break
@@ -661,7 +661,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                         for (item in items) {
                             var followedOn: Date? = null
                             try {
-                                followedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item?.followedOn)
+                                followedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item.followedOn)
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }
@@ -669,9 +669,10 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
 
                             val followedEmployer = FollowedEmployer(
                                     CompanyID = item.companyID,
-                                    CompanyName = item?.companyName,
+                                    CompanyName = item.companyName,
                                     FollowedOn = followedOn,
-                                    JobCount = item?.jobCount)
+                                    JobCount = item.jobCount
+                            )
                             bdjobsInternalDB.followedEmployerDao().insertFollowedEmployer(followedEmployer)
                         }
 

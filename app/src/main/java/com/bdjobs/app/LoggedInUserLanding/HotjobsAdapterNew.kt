@@ -222,5 +222,5 @@ class HotJobsAdViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val hotjobtitles_RV = view.findViewById(R.id.hotjobtitles_RV) as RecyclerView
     val companyLogo_IV = view.findViewById(R.id.companyLogo_IV) as ImageView
     val expandBtn = view.findViewById(R.id.button2) as MaterialButton
-    val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
+    val ad_small_template: TemplateView = view.findViewById(R.id.ad_small_template) as TemplateView
 }

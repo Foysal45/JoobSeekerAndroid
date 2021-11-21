@@ -17,6 +17,7 @@ android {
         versionName "2.9.2.0"  //715.0.0 current internal test // Current Production - 2.9.1.1
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -88,6 +89,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation "com.google.android.material:material:1.3.0"
     implementation "androidx.appcompat:appcompat:1.2.0"
+    //noinspection GradleCompatible
     // google sign in activity get crash without this library
 
     //----firebase
@@ -120,6 +122,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.8.1'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.8.1'
     implementation "io.grpc:grpc-okhttp:1.32.2"
+    implementation 'com.localebro:okhttpprofiler:1.0.8'
 
     //----jetbrains kotlin extension
     implementation "org.jetbrains.anko:anko:$anko_version"
@@ -141,7 +144,7 @@ dependencies {
 //    implementation 'com.evernote:android-job:1.3.0-rc1'
 
     //----image and upload
-    implementation 'com.yalantis:ucrop:2.2.0'
+   // implementation 'com.yalantis:ucrop:2.2.0'
 //    implementation 'com.github.yalantis:ucrop:2.2.3'
     implementation 'com.loopj.android:android-async-http:1.4.9'
 
@@ -199,10 +202,9 @@ dependencies {
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
-    implementation 'com.google.guava:guava:27.0.1-android'
+   // implementation 'com.google.guava:guava:27.0.1-android'
 
     //camera view
-//    implementation 'com.otaliastudios:cameraview:2.6.4'
     implementation 'com.otaliastudios:cameraview:2.7.0'
 
     //ssl commerz
@@ -218,6 +220,20 @@ dependencies {
     // webRTC
     implementation(name: 'libwebrtc', ext: 'aar')
 
+    // CameraX core library using the camera2 implementation
+    def camerax_version = "1.0.1"
+    // The following line is optional, as the core library is included indirectly by camera-camera2
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    // If you want to additionally use the CameraX Lifecycle library
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    // If you want to additionally use the CameraX View class
+    implementation "androidx.camera:camera-view:1.0.0-alpha28"
+    // If you want to additionally use the CameraX Extensions library
+    implementation "androidx.camera:camera-extensions:1.0.0-alpha28"
+
+
+
     // pdf viewer
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     implementation 'com.mindorks.android:prdownloader:0.6.0'
@@ -230,8 +246,8 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
     implementation 'com.google.android.exoplayer:exoplayer:2.14.1'
-    implementation 'com.github.stfalcon:stfalcon-imageviewer:1.0.1'
-    implementation 'com.github.esafirm:android-image-picker:3.0.0-beta1'
+   // implementation 'com.github.stfalcon:stfalcon-imageviewer:1.0.1'
+    //implementation 'com.github.esafirm:android-image-picker:3.0.0-beta1'
     implementation 'id.zelory:compressor:3.0.1'
     implementation 'com.github.PierfrancescoSoffritti.android-youtube-player:core:10.0.5'
 

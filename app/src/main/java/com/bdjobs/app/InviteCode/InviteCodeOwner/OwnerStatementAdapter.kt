@@ -53,9 +53,9 @@ class OwnerStatementAdapter(ctx: Context, private val inviteCodeOwnerStatementMo
         }
 
 
-        vh.dateTV.setText(date)
-        vh.moneyTV.setText(money)
-        vh.balanceTV.setText(balance)
+        vh.dateTV.text = date
+        vh.moneyTV.text = money
+        vh.balanceTV.text = balance
 
         if (inviteCodeOwnerStatementModelData.get(position).type.equalIgnoreCase("In")) {
             vh.moneyTV.setTextColor(Color.parseColor("#43A047"))

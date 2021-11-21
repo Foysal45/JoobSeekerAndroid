@@ -71,7 +71,8 @@ class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
 
 
     override fun gotoEmployerInteractionFragment() {
-        transitFragment(employerInteractionFragment, R.id.fragmentHolder, true)
+        transitFragmentX(employerInteractionFragment, R.id.fragmentHolder, true)
+
     }
 
     override fun gotoInterviewInvitationDetails(from: String, jobID: String, companyName: String, jobTitle: String) {

@@ -126,26 +126,26 @@ class EmployerMessageDetailFragment : Fragment() {
 
                         if (!response.body()?.data.isNullOrEmpty()) {
 
-                            subjectTV?.text = response?.body()?.data?.get(0)?.subject
+                            subjectTV?.text = response.body()?.data?.get(0)?.subject
 
-                            val from = Html.fromHtml(response?.body()?.data?.get(0)?.from)
+                            val from = Html.fromHtml(response.body()?.data?.get(0)?.from)
 
                             fromTV?.text = from
-                            d("jobtitle onResponse called jobtitle: ${response?.body()?.data?.get(0)?.jobtitle}")
+                            d("jobtitle onResponse called jobtitle: ${response.body()?.data?.get(0)?.jobtitle}")
 
 
 
 
-                            messageDateTV?.text = response?.body()?.data?.get(0)?.mailedon
+                            messageDateTV?.text = response.body()?.data?.get(0)?.mailedon
 
-                            val  messageBody = Html.fromHtml(response?.body()?.data?.get(0)?.msgBody)
+                            val  messageBody = Html.fromHtml(response.body()?.data?.get(0)?.msgBody)
 
                             messageBodyTV?.text = messageBody
-                            lastContentTV?.text = response?.body()!!.data!![0]!!.lastcontent
+                            lastContentTV?.text = response.body()!!.data!![0]!!.lastcontent
                             shimmer_view_container_employerMessageDetail?.hide()
                             shimmer_view_container_employerMessageDetail?.stopShimmer()
                             linearLayoutMain.show()
-                            if (response?.body()?.data?.get(0)?.jobtitle!!.trim() == ""){
+                            if (response.body()?.data?.get(0)?.jobtitle!!.trim() == ""){
 
                                 //Log.d("uuuuuuuu", "dd  $toogleStatus")
 
@@ -167,7 +167,7 @@ class EmployerMessageDetailFragment : Fragment() {
                             } else {
 
                                 //Log.d("uuuuuuuu", "dd fgjh $toogleStatus")
-                                positionTV?.text = response?.body()?.data?.get(0)?.jobtitle
+                                positionTV?.text = response.body()?.data?.get(0)?.jobtitle
 
                                 positionDataNullStatus = false
 

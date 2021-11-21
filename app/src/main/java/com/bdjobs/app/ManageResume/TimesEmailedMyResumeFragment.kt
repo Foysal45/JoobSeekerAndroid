@@ -214,7 +214,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
         emailedResumeRV!!.setHasFixedSize(true)
         emailedResumeRV!!.adapter = timesEmailedMyResumeAdapter
         layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
-        emailedResumeRV!!.layoutManager = layoutManager as RecyclerView.LayoutManager?
+        emailedResumeRV!!.layoutManager = layoutManager
         //Log.d("initPag", "called = ${TOTAL_PAGES}")
         emailedResumeRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
 
@@ -229,10 +229,10 @@ class TimesEmailedMyResumeFragment : Fragment() {
             override fun loadMoreItems() {
                 isLoadings = true
                 pgNo++
-                loadNextPage(isActivityDate!!)
+                loadNextPage(isActivityDate)
             }
         })
-        loadFirstPage(isActivityDate!!)
+        loadFirstPage(isActivityDate)
 
     }
 
@@ -265,8 +265,8 @@ class TimesEmailedMyResumeFragment : Fragment() {
                 /*Log.d("timesemailedresume", "pgNo.toString() = ${pgNo.toString()} " +
                         "isActivityDate = ${isActivityDate}")*/
                 try {
-                    TOTAL_PAGES = response?.body()?.common?.totalNumberOfPage?.toInt()
-                    var totalEmailRecords = response?.body()?.common?.totalNumberOfEmail
+                    TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
+                    var totalEmailRecords = response.body()?.common?.totalNumberOfEmail
 
 
                     if (totalEmailRecords?.isNullOrEmpty()!!) {
@@ -276,10 +276,10 @@ class TimesEmailedMyResumeFragment : Fragment() {
                           titleTV?.text = styledText*/
 
                     }
-                    if (!response?.body()?.data.isNullOrEmpty()) {
+                    if (!response.body()?.data.isNullOrEmpty()) {
                         //  emailedResumeRV!!.visibility = View.VISIBLE
-                        timesEmailedMyResumeAdapter?.removeAll()
-                        timesEmailedMyResumeAdapter?.addAll((response?.body()?.data as List<TimesEmailedData>?)!!)
+                        timesEmailedMyResumeAdapter.removeAll()
+                        timesEmailedMyResumeAdapter.addAll((response.body()?.data as List<TimesEmailedData>?)!!)
                         numberTV.text = totalEmailRecords
 
                         /* if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
@@ -292,13 +292,13 @@ class TimesEmailedMyResumeFragment : Fragment() {
                         if (pgNo == TOTAL_PAGES!!) {
                             isLastPages = true
                         } else {
-                            timesEmailedMyResumeAdapter?.addLoadingFooter()
+                            timesEmailedMyResumeAdapter.addLoadingFooter()
                         }
                     }
 
 
 
-                    if (totalEmailRecords?.toInt()!! > 1) {
+                    if (totalEmailRecords.toInt() > 1) {
                         val styledText = " times Emailed Resume"
                         titleTV?.text = styledText
                     } else {
@@ -360,12 +360,12 @@ class TimesEmailedMyResumeFragment : Fragment() {
                 try {
 
                     TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
-                    timesEmailedMyResumeAdapter?.removeLoadingFooter()
+                    timesEmailedMyResumeAdapter.removeLoadingFooter()
                     isLoadings = false
 
-                    timesEmailedMyResumeAdapter?.addAll((response?.body()?.data as List<TimesEmailedData>?)!!)
+                    timesEmailedMyResumeAdapter.addAll((response.body()?.data as List<TimesEmailedData>?)!!)
                     if (pgNo < TOTAL_PAGES!!)
-                        timesEmailedMyResumeAdapter?.addLoadingFooter()
+                        timesEmailedMyResumeAdapter.addLoadingFooter()
                     else {
                         isLastPages = true
                     }

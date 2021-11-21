@@ -164,7 +164,7 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
 
 
         when {
-            from?.equals("notification") -> {
+            from.equals("notification") -> {
 
                 doAsync {
                     try {
@@ -212,7 +212,7 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
                     goToVideoInterviewDetails(jobID, companyName, jobTitle)
             }
 
-            from?.equals("notificationList") -> {
+            from.equals("notificationList") -> {
 
                 if (!seen) {
 
@@ -248,7 +248,7 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
                 goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
             }
 
-            from?.equals("videoInterviewNotificationList") -> {
+            from.equals("videoInterviewNotificationList") -> {
 
                 if (!seen) {
 
@@ -284,7 +284,7 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
                 goToVideoInterviewDetails(jobID, companyName, jobTitle)
             }
 
-            from?.equals("appliedjobs") -> goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
+            from.equals("appliedjobs") -> goToInvitationDetailsForAppliedJobs(jobID, companyName, jobTitle)
 
             else -> transitFragment(interveiwInvitationListFragment, R.id.interViewfragmentHolder)
         }

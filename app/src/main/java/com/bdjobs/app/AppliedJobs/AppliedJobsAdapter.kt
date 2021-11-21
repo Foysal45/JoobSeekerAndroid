@@ -134,34 +134,34 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
             ITEM -> {
                 try {
                     val holder = vHolder as AppliedjobsViewHolder
-                    holder?.CompanyName?.text = appliedJobsLists?.get(position)?.companyName
-                    holder?.PositionName?.text = appliedJobsLists?.get(position)?.title
+                    holder.CompanyName.text = appliedJobsLists?.get(position)?.companyName
+                    holder.PositionName.text = appliedJobsLists?.get(position)?.title
 
                     try{
-                        holder?.appliedOn?.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.appliedOn).toSimpleDateString()
-                        holder?.deadline?.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.deadLine).toSimpleDateString()
+                        holder.appliedOn.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.appliedOn).toSimpleDateString()
+                        holder.deadline.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.deadLine).toSimpleDateString()
                     }catch (e:Exception){
                         e.printStackTrace()
                     }
 
-                    holder?.expectedSalary?.text = appliedJobsLists?.get(position)?.expectedSalary
+                    holder.expectedSalary.text = appliedJobsLists?.get(position)?.expectedSalary
 
                     //Log.d("activity", appliedjobsActitivityLists?.toString())
 
                     if (appliedJobsLists?.get(position)?.isUserSeenInvitation == "0") {
-                        holder?.cardViewAppliedJobs.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FDFFF6")))
+                        holder.cardViewAppliedJobs.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FDFFF6")))
                     }
 
                     if (appliedJobsLists?.get(position)?.invitaion == "1") {
-                        holder?.interviewBTN?.visibility = View.VISIBLE
+                        holder.interviewBTN.visibility = View.VISIBLE
                     } else if (appliedJobsLists?.get(position)?.invitaion == "0") {
-                        holder?.interviewBTN?.visibility = View.GONE
+                        holder.interviewBTN.visibility = View.GONE
                     }
 
 
                     if (appliedJobsLists?.get(position)?.viewedByEmployer == "No") {
                         // holder?.cancelBTN?.visibility = View.VISIBLE
-                        holder?.employerViewIcon.visibility = View.GONE
+                        holder.employerViewIcon.visibility = View.GONE
                         try {
                             val deadline = deadlinePattern.parse(appliedJobsLists?.get(position)?.deadLine)
                             val todayDate = todaysPattern.parse(todaysPattern.format(Date()))
@@ -170,11 +170,11 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 //                            Log.d("date", "todays date - $todayDate")
 
                             if (deadline >= todayDate) {
-                                holder?.cancelBTN?.visibility = View.VISIBLE
-                                holder?.edit_SalaryIcon?.visibility = View.VISIBLE
+                                holder.cancelBTN.visibility = View.VISIBLE
+                                holder.edit_SalaryIcon.visibility = View.VISIBLE
                             } else if (deadline < todayDate) {
-                                holder?.cancelBTN?.visibility = View.GONE
-                                holder?.edit_SalaryIcon?.visibility = View.GONE
+                                holder.cancelBTN.visibility = View.GONE
+                                holder.edit_SalaryIcon.visibility = View.GONE
                             }
 
 
@@ -184,92 +184,92 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                         }
                     } else if (appliedJobsLists?.get(position)?.viewedByEmployer == "Yes" || appliedJobsLists?.get(position)?.status?.isNullOrEmpty()!!) {
-                        holder?.employerViewIcon?.visibility = View.VISIBLE
-                        holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_done_appliedadap)
-                        holder?.cancelBTN?.visibility = View.GONE
-                        holder?.edit_SalaryIcon?.visibility = View.GONE
+                        holder.employerViewIcon.visibility = View.VISIBLE
+                        holder.employerViewIcon.setBackgroundResource(R.drawable.ic_done_appliedadap)
+                        holder.cancelBTN.visibility = View.GONE
+                        holder.edit_SalaryIcon.visibility = View.GONE
                     }
 
                     if (appliedJobsLists?.get(position)?.status == "1") {
-                        holder?.employerInteractionIcon?.visibility = View.VISIBLE
-                        holder?.employerInteractionIcon?.setBackgroundResource(R.drawable.ic_not_contacted_appliedjobs_adap)
+                        holder.employerInteractionIcon.visibility = View.VISIBLE
+                        holder.employerInteractionIcon.setBackgroundResource(R.drawable.ic_not_contacted_appliedjobs_adap)
                     } else if (appliedJobsLists?.get(position)?.status == "2") {
-                        holder?.employerInteractionIcon?.visibility = View.VISIBLE
-                        holder?.employerInteractionIcon?.setBackgroundResource(R.drawable.ic_contacted_appliedjobs_adap)
+                        holder.employerInteractionIcon.visibility = View.VISIBLE
+                        holder.employerInteractionIcon.setBackgroundResource(R.drawable.ic_contacted_appliedjobs_adap)
                     } else if (appliedJobsLists?.get(position)?.status == "3") {
-                        holder?.employerInteractionIcon?.visibility = View.VISIBLE
-                        holder?.employerInteractionIcon?.setBackgroundResource(R.drawable.ic_hired_appliedjobs)
+                        holder.employerInteractionIcon.visibility = View.VISIBLE
+                        holder.employerInteractionIcon.setBackgroundResource(R.drawable.ic_hired_appliedjobs)
                     } else {
-                        holder?.employerInteractionIcon?.visibility = View.GONE
+                        holder.employerInteractionIcon.visibility = View.GONE
                     }
 
 
-                    holder?.edit_SalaryIcon?.setOnClickListener {
+                    holder.edit_SalaryIcon.setOnClickListener {
                         try {
                             //    //Log.d("huhu", "huhu")
                             var salary = ""
                             var canSubmit = false
                             val saveSearchDialog = Dialog(context)
-                            saveSearchDialog?.setContentView(R.layout.expected_salary_popup)
-                            saveSearchDialog?.setCancelable(true)
+                            saveSearchDialog.setContentView(R.layout.expected_salary_popup)
+                            saveSearchDialog.setCancelable(true)
                             saveSearchDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-                            saveSearchDialog?.show()
-                            val scrollView = saveSearchDialog?.findViewById(R.id.scroll) as ScrollView
-                            val updateBTN = saveSearchDialog?.findViewById(R.id.updateBTN) as Button
-                            val updateAnyWayBTN = saveSearchDialog?.findViewById(R.id.updateAnywayBTN) as Button
-                            val cancelBTN = saveSearchDialog?.findViewById(R.id.cancelBTN) as Button
-//                            val expected_salary_tv = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
-                            val expected_salary_til = saveSearchDialog?.findViewById(R.id.monthly_tv) as TextInputLayout
-                            val accountResult_tv = saveSearchDialog?.findViewById(R.id.accountResult_tv) as TextView
-                            val position_tv = saveSearchDialog?.findViewById(R.id.position_tv) as TextView
-                            val employer_tv = saveSearchDialog?.findViewById(R.id.employer_tv) as TextView
-                            val salaryLimitExceedTV = saveSearchDialog?.findViewById(R.id.salary_limit_exceeded_tv) as TextView
-                            val expected_salary_ET = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
+                            saveSearchDialog.show()
+                            val scrollView = saveSearchDialog.findViewById(R.id.scroll) as ScrollView
+                            val updateBTN = saveSearchDialog.findViewById(R.id.updateBTN) as Button
+                            val updateAnyWayBTN = saveSearchDialog.findViewById(R.id.updateAnywayBTN) as Button
+                            val cancelBTN = saveSearchDialog.findViewById(R.id.cancelBTN) as Button
+                //                            val expected_salary_tv = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
+                            val expected_salary_til = saveSearchDialog.findViewById(R.id.monthly_tv) as TextInputLayout
+                            val accountResult_tv = saveSearchDialog.findViewById(R.id.accountResult_tv) as TextView
+                            val position_tv = saveSearchDialog.findViewById(R.id.position_tv) as TextView
+                            val employer_tv = saveSearchDialog.findViewById(R.id.employer_tv) as TextView
+                            val salaryLimitExceedTV = saveSearchDialog.findViewById(R.id.salary_limit_exceeded_tv) as TextView
+                            val expected_salary_ET = saveSearchDialog.findViewById(R.id.expected_salary_ET) as TextInputEditText
                             position_tv.text = appliedJobsLists?.get(position)?.title
                             employer_tv.text = appliedJobsLists?.get(position)?.companyName
                             accountResult_tv.text = session.userName
-//                    updateBTN?.isEnabled = false
+                //                    updateBTN?.isEnabled = false
                             var expectedSalary = appliedJobsLists?.get(position)?.expectedSalary
                             expected_salary_ET.setText(expectedSalary.toString())
-                            expected_salary_ET.setSelection(expected_salary_ET?.getText()?.length!!)
-                            expected_salary_ET?.easyOnTextChangedListener {
-                                updateBTN?.isEnabled = expected_salary_ET?.text?.length!! > 0
+                            expected_salary_ET.setSelection(expected_salary_ET.text?.length!!)
+                            expected_salary_ET.easyOnTextChangedListener {
+                                updateBTN.isEnabled = expected_salary_ET.text?.length!! > 0
 
                             }
 
                             expected_salary_ET.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
                                 if (!hasFocus) {
-//                                    salaryLimitExceedTV?.hide()
-//                                    updateBTN?.show()
-//                                    updateAnyWayBTN?.hide()
-//                                    expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
-//                                    scrollView?.post {
-//                                        scrollView.fullScroll(View.FOCUS_DOWN)
-//                                    }
+                //                                    salaryLimitExceedTV?.hide()
+                //                                    updateBTN?.show()
+                //                                    updateAnyWayBTN?.hide()
+                //                                    expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                //                                    scrollView?.post {
+                //                                        scrollView.fullScroll(View.FOCUS_DOWN)
+                //                                    }
                                 } else {
-                                    salaryLimitExceedTV?.hide()
-                                    updateBTN?.show()
-                                    updateAnyWayBTN?.hide()
+                                    salaryLimitExceedTV.hide()
+                                    updateBTN.show()
+                                    updateAnyWayBTN.hide()
                                     expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
-                                    scrollView?.post {
+                                    scrollView.post {
                                         scrollView.fullScroll(View.FOCUS_DOWN)
                                     }
                                 }
                             }
 
-                            cancelBTN?.setOnClickListener {
+                            cancelBTN.setOnClickListener {
                                 try {
-                                    saveSearchDialog?.dismiss()
+                                    saveSearchDialog.dismiss()
                                 } catch (e: Exception) {
                                     logException(e)
                                 }
                             }
 
-                            updateAnyWayBTN?.setOnClickListener {
+                            updateAnyWayBTN.setOnClickListener {
                                 val constraints = Constraints.Builder()
-                                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                                        .build()
+                                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                                    .build()
 
                                 val expectedSalaryJobData = workDataOf("userid" to session.userId!!, "decodeid" to session.decodId, "jobid" to appliedJobsLists!![position].jobId!!, "salary" to salary)
                                 val expectedSalaryRequest = OneTimeWorkRequestBuilder<ExpectedSalaryWorker>().setInputData(expectedSalaryJobData).setConstraints(constraints).build()
@@ -294,69 +294,69 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                         if (minSalary != "0" && maxSalary != "0") {
                                             if (salary.toInt() > maxSalary.toInt()) {
                                                 //disableSalaryText(salaryTIET,salaryTIL,dialog)
-                                                salaryLimitExceedTV?.show()
-                                                updateAnyWayBTN?.show()
-                                                expected_salary_ET?.hideKeyboard()
+                                                salaryLimitExceedTV.show()
+                                                updateAnyWayBTN.show()
+                                                expected_salary_ET.hideKeyboard()
 
-                                                updateBTN?.hide()
-//                                                    scrollView?.post {
-//                                                        scrollView.fullScroll(View.FOCUS_DOWN)
-//                                                    }
+                                                updateBTN.hide()
+                //                                                    scrollView?.post {
+                //                                                        scrollView.fullScroll(View.FOCUS_DOWN)
+                //                                                    }
                                                 expected_salary_ET.clearFocus()
                                                 expected_salary_til.boxStrokeColor = Color.parseColor("#c0392b")
                                             } else {
-                                                salaryLimitExceedTV?.hide()
-                                                updateAnyWayBTN?.hide()
-                                                updateBTN?.show()
+                                                salaryLimitExceedTV.hide()
+                                                updateAnyWayBTN.hide()
+                                                updateBTN.show()
                                                 canSubmit = true
                                                 expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                             }
                                         } else {
                                             if (maxSalary != "0" && minSalary == "0") {
                                                 if (salary.toInt() > maxSalary.toInt()) {
-                                                    salaryLimitExceedTV?.show()
-                                                    updateBTN?.hide()
-                                                    updateAnyWayBTN?.show()
-                                                    expected_salary_ET?.hideKeyboard()
+                                                    salaryLimitExceedTV.show()
+                                                    updateBTN.hide()
+                                                    updateAnyWayBTN.show()
+                                                    expected_salary_ET.hideKeyboard()
 
                                                     expected_salary_ET.clearFocus()
                                                     expected_salary_til.boxStrokeColor = Color.parseColor("#c0392b")
-//                                                        scrollView?.post {
-//                                                            scrollView.fullScroll(View.FOCUS_DOWN)
-//                                                        }
+                //                                                        scrollView?.post {
+                //                                                            scrollView.fullScroll(View.FOCUS_DOWN)
+                //                                                        }
                                                 } else {
-                                                    salaryLimitExceedTV?.hide()
-                                                    updateBTN?.show()
+                                                    salaryLimitExceedTV.hide()
+                                                    updateBTN.show()
                                                     canSubmit = true
 
-                                                    updateAnyWayBTN?.hide()
+                                                    updateAnyWayBTN.hide()
                                                     expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                                 }
                                             } else if (maxSalary == "0" && minSalary != "0") {
                                                 if (salary.toInt() > minSalary.toInt()) {
-                                                    salaryLimitExceedTV?.show()
-                                                    updateBTN?.hide()
-                                                    updateAnyWayBTN?.show()
+                                                    salaryLimitExceedTV.show()
+                                                    updateBTN.hide()
+                                                    updateAnyWayBTN.show()
                                                     expected_salary_ET.clearFocus()
-                                                    expected_salary_ET?.hideKeyboard()
+                                                    expected_salary_ET.hideKeyboard()
                                                     expected_salary_til.boxStrokeColor = Color.parseColor("#c0392b")
-//                                                        scrollView?.post {
-//                                                            scrollView.fullScroll(View.FOCUS_DOWN)
-//                                                        }
+                //                                                        scrollView?.post {
+                //                                                            scrollView.fullScroll(View.FOCUS_DOWN)
+                //                                                        }
                                                 } else {
-                                                    salaryLimitExceedTV?.hide()
-                                                    updateBTN?.show()
+                                                    salaryLimitExceedTV.hide()
+                                                    updateBTN.show()
                                                     canSubmit = true
 
-                                                    updateAnyWayBTN?.hide()
+                                                    updateAnyWayBTN.hide()
                                                     expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                                 }
                                             } else {
                                                 Log.d("rakib", "came here")
                                                 canSubmit = true
-                                                salaryLimitExceedTV?.hide()
-                                                updateBTN?.show()
-                                                updateAnyWayBTN?.hide()
+                                                salaryLimitExceedTV.hide()
+                                                updateBTN.show()
+                                                updateAnyWayBTN.hide()
                                             }
                                         }
 
@@ -364,8 +364,8 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                                             //Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
                                             val constraints = Constraints.Builder()
-                                                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                                                    .build()
+                                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                                .build()
                                             val expectedSalaryJobData = workDataOf("userid" to session.userId!!, "decodeid" to session.decodId, "jobid" to appliedJobsLists!![position].jobId!!, "salary" to salary)
                                             val expectedSalaryRequest = OneTimeWorkRequestBuilder<ExpectedSalaryWorker>().setInputData(expectedSalaryJobData).setConstraints(constraints).build()
                                             WorkManager.getInstance(context).enqueue(expectedSalaryRequest)
@@ -376,10 +376,10 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                         }
 
                                     } catch (e: Exception) {
-                                        updateAnyWayBTN?.hide()
-                                        updateBTN?.show()
+                                        updateAnyWayBTN.hide()
+                                        updateBTN.show()
                                         canSubmit = true
-                                        salaryLimitExceedTV?.hide()
+                                        salaryLimitExceedTV.hide()
                                         expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
 
                                         logException(e)
@@ -392,14 +392,14 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
 
                     }
-                    holder?.cancelBTN?.setOnClickListener {
+                    holder.cancelBTN.setOnClickListener {
 
-                        activity?.alert("Are you sure you want to cancel this job application?", "Confirmation") {
+                        activity.alert("Are you sure you want to cancel this job application?", "Confirmation") {
                             yesButton {
                                 try {
-                                    removeItem(position, holder?.cancelBTN)
+                                    removeItem(position, holder.cancelBTN)
                                     Constants.appliedJobsCount--
-                                    session?.decrementJobsApplied()
+                                    session.decrementJobsApplied()
                                 } catch (e: Exception) {
                                     logException(e)
                                 }
@@ -410,31 +410,31 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         }.show()
 
                     }
-                    holder?.interviewBTN?.setOnClickListener {
+                    holder.interviewBTN.setOnClickListener {
                         try {
                             communicator.gotoInterviewInvitationDetails(
-                                    from = "appliedjobs",
-                                    jobID = appliedJobsLists?.get(position)?.jobId!!,
-                                    jobTitle = appliedJobsLists?.get(position)?.title!!,
-                                    companyName = appliedJobsLists?.get(position)?.companyName!!
+                                from = "appliedjobs",
+                                jobID = appliedJobsLists?.get(position)?.jobId!!,
+                                jobTitle = appliedJobsLists?.get(position)?.title!!,
+                                companyName = appliedJobsLists?.get(position)?.companyName!!
                             )
                         } catch (e: Exception) {
                             logException(e)
                         }
                     }
-                    holder?.interactionBTN?.setOnClickListener {
+                    holder.interactionBTN.setOnClickListener {
                         try {
-                            communicator?.setFrom("employerInteraction")
-                            communicator?.setjobID(appliedJobsLists?.get(position)?.jobId!!)
-                            communicator?.gotoEmployerInteractionFragment()
-                            communicator?.setComapany(appliedJobsLists?.get(position)?.companyName!!)
-                            communicator?.setTitle(appliedJobsLists?.get(position)?.title!!)
-                            communicator?.setStatus(appliedJobsLists?.get(position)?.status!!)
+                            communicator.setFrom("employerInteraction")
+                            communicator.setjobID(appliedJobsLists?.get(position)?.jobId!!)
+                            communicator.gotoEmployerInteractionFragment()
+                            communicator.setComapany(appliedJobsLists?.get(position)?.companyName!!)
+                            communicator.setTitle(appliedJobsLists?.get(position)?.title!!)
+                            communicator.setStatus(appliedJobsLists?.get(position)?.status!!)
                         } catch (e: Exception) {
                             logException(e)
                         }
                     }
-                    holder?.itemView?.setOnClickListener {
+                    holder.itemView.setOnClickListener {
                         try {
                             val jobids = ArrayList<String>()
                             val lns = ArrayList<String>()
@@ -444,7 +444,7 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                             lns.add(appliedJobsLists?.get(position)?.langType.toString())
                             communicator.setFrom("")
                             //Log.d("rakib deadline", "$deadline")
-                            activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
+                            activity.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
                         } catch (e: Exception) {
                             logException(e)
                         }
@@ -457,43 +457,43 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
             ITEM_WITH_AD -> {
                 try {
                     val holder = vHolder as AppliedjobsAdViewHolder
-                    holder?.CompanyName?.text = appliedJobsLists?.get(position)?.companyName
-                    holder?.PositionName?.text = appliedJobsLists?.get(position)?.title
+                    holder.CompanyName.text = appliedJobsLists?.get(position)?.companyName
+                    holder.PositionName.text = appliedJobsLists?.get(position)?.title
                     try{
-                        holder?.appliedOn?.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.appliedOn).toSimpleDateString()
-                        holder?.deadline?.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.deadLine).toSimpleDateString()
+                        holder.appliedOn.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.appliedOn).toSimpleDateString()
+                        holder.deadline.text = SimpleDateFormat("M/d/yyyy").parse(appliedJobsLists?.get(position)?.deadLine).toSimpleDateString()
                     }catch (e:Exception){
                         e.printStackTrace()
                     }
-                    holder?.expectedSalary?.text = appliedJobsLists?.get(position)?.expectedSalary
+                    holder.expectedSalary.text = appliedJobsLists?.get(position)?.expectedSalary
 
                     //Log.d("activity", appliedjobsActitivityLists?.toString())
 
                     if (appliedJobsLists?.get(position)?.isUserSeenInvitation == "0") {
-                        holder?.cardViewAppliedJobs.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FDFFF6")))
+                        holder.cardViewAppliedJobs.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FDFFF6")))
                     }
 
                     if (appliedJobsLists?.get(position)?.invitaion == "1") {
-                        holder?.interviewBTN?.visibility = View.VISIBLE
+                        holder.interviewBTN.visibility = View.VISIBLE
                     } else if (appliedJobsLists?.get(position)?.invitaion == "0") {
-                        holder?.interviewBTN?.visibility = View.GONE
+                        holder.interviewBTN.visibility = View.GONE
                     }
 
 
                     if (appliedJobsLists?.get(position)?.viewedByEmployer == "No") {
                         // holder?.cancelBTN?.visibility = View.VISIBLE
-                        holder?.employerViewIcon.visibility = View.GONE
+                        holder.employerViewIcon.visibility = View.GONE
                         try {
                             val deadline = deadlinePattern.parse(appliedJobsLists?.get(position)?.deadLine)
                             val todayDate = todaysPattern.parse(todaysPattern.format(Date()))
 
 
                             if (deadline >= todayDate) {
-                                holder?.cancelBTN?.visibility = View.VISIBLE
-                                holder?.edit_SalaryIcon?.visibility = View.VISIBLE
+                                holder.cancelBTN.visibility = View.VISIBLE
+                                holder.edit_SalaryIcon.visibility = View.VISIBLE
                             } else if (deadline < todayDate) {
-                                holder?.cancelBTN?.visibility = View.GONE
-                                holder?.edit_SalaryIcon?.visibility = View.GONE
+                                holder.cancelBTN.visibility = View.GONE
+                                holder.edit_SalaryIcon.visibility = View.GONE
                             }
 
 
@@ -503,91 +503,91 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                         }
                     } else if (appliedJobsLists?.get(position)?.viewedByEmployer == "Yes" || appliedJobsLists?.get(position)?.status?.isNullOrEmpty()!!) {
-                        holder?.employerViewIcon?.visibility = View.VISIBLE
-                        holder?.employerViewIcon?.setBackgroundResource(R.drawable.ic_done_appliedadap)
-                        holder?.cancelBTN?.visibility = View.GONE
-                        holder?.edit_SalaryIcon?.visibility = View.GONE
+                        holder.employerViewIcon.visibility = View.VISIBLE
+                        holder.employerViewIcon.setBackgroundResource(R.drawable.ic_done_appliedadap)
+                        holder.cancelBTN.visibility = View.GONE
+                        holder.edit_SalaryIcon.visibility = View.GONE
                     }
 
                     if (appliedJobsLists?.get(position)?.status == "1") {
-                        holder?.employerInteractionIcon?.visibility = View.VISIBLE
-                        holder?.employerInteractionIcon?.setBackgroundResource(R.drawable.ic_not_contacted_appliedjobs_adap)
+                        holder.employerInteractionIcon.visibility = View.VISIBLE
+                        holder.employerInteractionIcon.setBackgroundResource(R.drawable.ic_not_contacted_appliedjobs_adap)
                     } else if (appliedJobsLists?.get(position)?.status == "2") {
-                        holder?.employerInteractionIcon?.visibility = View.VISIBLE
-                        holder?.employerInteractionIcon?.setBackgroundResource(R.drawable.ic_contacted_appliedjobs_adap)
+                        holder.employerInteractionIcon.visibility = View.VISIBLE
+                        holder.employerInteractionIcon.setBackgroundResource(R.drawable.ic_contacted_appliedjobs_adap)
                     } else if (appliedJobsLists?.get(position)?.status == "3") {
-                        holder?.employerInteractionIcon?.visibility = View.VISIBLE
-                        holder?.employerInteractionIcon?.setBackgroundResource(R.drawable.ic_hired_appliedjobs)
+                        holder.employerInteractionIcon.visibility = View.VISIBLE
+                        holder.employerInteractionIcon.setBackgroundResource(R.drawable.ic_hired_appliedjobs)
                     } else {
-                        holder?.employerInteractionIcon?.visibility = View.GONE
+                        holder.employerInteractionIcon.visibility = View.GONE
                     }
 
-                    holder?.edit_SalaryIcon?.setOnClickListener {
+                    holder.edit_SalaryIcon.setOnClickListener {
                         try {
                             Log.d("huhu", "huhu")
                             var salary = ""
                             var canSubmit = false
                             val saveSearchDialog = Dialog(context)
-                            saveSearchDialog?.setContentView(R.layout.expected_salary_popup)
-                            saveSearchDialog?.setCancelable(true)
+                            saveSearchDialog.setContentView(R.layout.expected_salary_popup)
+                            saveSearchDialog.setCancelable(true)
                             saveSearchDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-                            saveSearchDialog?.show()
-                            val scrollView = saveSearchDialog?.findViewById(R.id.scroll) as ScrollView
-                            val updateBTN = saveSearchDialog?.findViewById(R.id.updateBTN) as Button
-                            val updateAnyWayBTN = saveSearchDialog?.findViewById(R.id.updateAnywayBTN) as Button
-                            val cancelBTN = saveSearchDialog?.findViewById(R.id.cancelBTN) as Button
-//                            val expected_salary_tv = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
-                            val expected_salary_til = saveSearchDialog?.findViewById(R.id.monthly_tv) as TextInputLayout
-                            val accountResult_tv = saveSearchDialog?.findViewById(R.id.accountResult_tv) as TextView
-                            val position_tv = saveSearchDialog?.findViewById(R.id.position_tv) as TextView
-                            val employer_tv = saveSearchDialog?.findViewById(R.id.employer_tv) as TextView
-                            val salaryLimitExceedTV = saveSearchDialog?.findViewById(R.id.salary_limit_exceeded_tv) as TextView
-                            val expected_salary_ET = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
+                            saveSearchDialog.show()
+                            val scrollView = saveSearchDialog.findViewById(R.id.scroll) as ScrollView
+                            val updateBTN = saveSearchDialog.findViewById(R.id.updateBTN) as Button
+                            val updateAnyWayBTN = saveSearchDialog.findViewById(R.id.updateAnywayBTN) as Button
+                            val cancelBTN = saveSearchDialog.findViewById(R.id.cancelBTN) as Button
+                //                            val expected_salary_tv = saveSearchDialog?.findViewById(R.id.expected_salary_ET) as TextInputEditText
+                            val expected_salary_til = saveSearchDialog.findViewById(R.id.monthly_tv) as TextInputLayout
+                            val accountResult_tv = saveSearchDialog.findViewById(R.id.accountResult_tv) as TextView
+                            val position_tv = saveSearchDialog.findViewById(R.id.position_tv) as TextView
+                            val employer_tv = saveSearchDialog.findViewById(R.id.employer_tv) as TextView
+                            val salaryLimitExceedTV = saveSearchDialog.findViewById(R.id.salary_limit_exceeded_tv) as TextView
+                            val expected_salary_ET = saveSearchDialog.findViewById(R.id.expected_salary_ET) as TextInputEditText
                             position_tv.text = appliedJobsLists?.get(position)?.title
                             employer_tv.text = appliedJobsLists?.get(position)?.companyName
                             accountResult_tv.text = session.userName
-//                    updateBTN?.isEnabled = false
+                //                    updateBTN?.isEnabled = false
                             var expectedSalary = appliedJobsLists?.get(position)?.expectedSalary
                             expected_salary_ET.setText(expectedSalary.toString())
-                            expected_salary_ET.setSelection(expected_salary_ET?.getText()?.length!!)
-                            expected_salary_ET?.easyOnTextChangedListener {
-                                updateBTN?.isEnabled = expected_salary_ET?.text?.length!! > 0
+                            expected_salary_ET.setSelection(expected_salary_ET.text?.length!!)
+                            expected_salary_ET.easyOnTextChangedListener {
+                                updateBTN.isEnabled = expected_salary_ET.text?.length!! > 0
 
                             }
 
                             expected_salary_ET.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
                                 if (!hasFocus) {
-//                                    salaryLimitExceedTV?.hide()
-//                                    updateBTN?.show()
-//                                    updateAnyWayBTN?.hide()
-//                                    expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
-//                                    scrollView?.post {
-//                                        scrollView.fullScroll(View.FOCUS_DOWN)
-//                                    }
+                //                                    salaryLimitExceedTV?.hide()
+                //                                    updateBTN?.show()
+                //                                    updateAnyWayBTN?.hide()
+                //                                    expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                //                                    scrollView?.post {
+                //                                        scrollView.fullScroll(View.FOCUS_DOWN)
+                //                                    }
                                 } else {
-                                    salaryLimitExceedTV?.hide()
-                                    updateBTN?.show()
-                                    updateAnyWayBTN?.hide()
+                                    salaryLimitExceedTV.hide()
+                                    updateBTN.show()
+                                    updateAnyWayBTN.hide()
                                     expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
-                                    scrollView?.post {
+                                    scrollView.post {
                                         scrollView.fullScroll(View.FOCUS_DOWN)
                                     }
                                 }
                             }
 
-                            cancelBTN?.setOnClickListener {
+                            cancelBTN.setOnClickListener {
                                 try {
-                                    saveSearchDialog?.dismiss()
+                                    saveSearchDialog.dismiss()
                                 } catch (e: Exception) {
                                     logException(e)
                                 }
                             }
 
-                            updateAnyWayBTN?.setOnClickListener {
+                            updateAnyWayBTN.setOnClickListener {
                                 val constraints = Constraints.Builder()
-                                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                                        .build()
+                                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                                    .build()
 
                                 val expectedSalaryJobData = workDataOf("userid" to session.userId!!, "decodeid" to session.decodId, "jobid" to appliedJobsLists!![position].jobId!!, "salary" to salary)
                                 val expectedSalaryRequest = OneTimeWorkRequestBuilder<ExpectedSalaryWorker>().setInputData(expectedSalaryJobData).setConstraints(constraints).build()
@@ -612,69 +612,69 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                         if (minSalary != "0" && maxSalary != "0") {
                                             if (salary.toInt() > maxSalary.toInt()) {
                                                 //disableSalaryText(salaryTIET,salaryTIL,dialog)
-                                                salaryLimitExceedTV?.show()
-                                                updateAnyWayBTN?.show()
-                                                expected_salary_ET?.hideKeyboard()
+                                                salaryLimitExceedTV.show()
+                                                updateAnyWayBTN.show()
+                                                expected_salary_ET.hideKeyboard()
 
-                                                updateBTN?.hide()
-//                                                    scrollView?.post {
-//                                                        scrollView.fullScroll(View.FOCUS_DOWN)
-//                                                    }
+                                                updateBTN.hide()
+                //                                                    scrollView?.post {
+                //                                                        scrollView.fullScroll(View.FOCUS_DOWN)
+                //                                                    }
                                                 expected_salary_ET.clearFocus()
                                                 expected_salary_til.boxStrokeColor = Color.parseColor("#c0392b")
                                             } else {
-                                                salaryLimitExceedTV?.hide()
-                                                updateAnyWayBTN?.hide()
-                                                updateBTN?.show()
+                                                salaryLimitExceedTV.hide()
+                                                updateAnyWayBTN.hide()
+                                                updateBTN.show()
                                                 canSubmit = true
                                                 expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                             }
                                         } else {
                                             if (maxSalary != "0" && minSalary == "0") {
                                                 if (salary.toInt() > maxSalary.toInt()) {
-                                                    salaryLimitExceedTV?.show()
-                                                    updateBTN?.hide()
-                                                    updateAnyWayBTN?.show()
-                                                    expected_salary_ET?.hideKeyboard()
+                                                    salaryLimitExceedTV.show()
+                                                    updateBTN.hide()
+                                                    updateAnyWayBTN.show()
+                                                    expected_salary_ET.hideKeyboard()
 
                                                     expected_salary_ET.clearFocus()
                                                     expected_salary_til.boxStrokeColor = Color.parseColor("#c0392b")
-//                                                        scrollView?.post {
-//                                                            scrollView.fullScroll(View.FOCUS_DOWN)
-//                                                        }
+                //                                                        scrollView?.post {
+                //                                                            scrollView.fullScroll(View.FOCUS_DOWN)
+                //                                                        }
                                                 } else {
-                                                    salaryLimitExceedTV?.hide()
-                                                    updateBTN?.show()
+                                                    salaryLimitExceedTV.hide()
+                                                    updateBTN.show()
                                                     canSubmit = true
 
-                                                    updateAnyWayBTN?.hide()
+                                                    updateAnyWayBTN.hide()
                                                     expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                                 }
                                             } else if (maxSalary == "0" && minSalary != "0") {
                                                 if (salary.toInt() > minSalary.toInt()) {
-                                                    salaryLimitExceedTV?.show()
-                                                    updateBTN?.hide()
-                                                    updateAnyWayBTN?.show()
+                                                    salaryLimitExceedTV.show()
+                                                    updateBTN.hide()
+                                                    updateAnyWayBTN.show()
                                                     expected_salary_ET.clearFocus()
-                                                    expected_salary_ET?.hideKeyboard()
+                                                    expected_salary_ET.hideKeyboard()
                                                     expected_salary_til.boxStrokeColor = Color.parseColor("#c0392b")
-//                                                        scrollView?.post {
-//                                                            scrollView.fullScroll(View.FOCUS_DOWN)
-//                                                        }
+                //                                                        scrollView?.post {
+                //                                                            scrollView.fullScroll(View.FOCUS_DOWN)
+                //                                                        }
                                                 } else {
-                                                    salaryLimitExceedTV?.hide()
-                                                    updateBTN?.show()
+                                                    salaryLimitExceedTV.hide()
+                                                    updateBTN.show()
                                                     canSubmit = true
 
-                                                    updateAnyWayBTN?.hide()
+                                                    updateAnyWayBTN.hide()
                                                     expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                                 }
                                             } else {
-                                                salaryLimitExceedTV?.hide()
-                                                updateBTN?.show()
+                                                salaryLimitExceedTV.hide()
+                                                updateBTN.show()
                                                 canSubmit = true
 
-                                                updateAnyWayBTN?.hide()
+                                                updateAnyWayBTN.hide()
                                                 expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
                                             }
                                         }
@@ -683,8 +683,8 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                                             //Log.d("popup", "popup-" + session.userId!! + "de-" + session.decodId!! + "jobid-" + appliedJobsLists!![position].jobId!! + "sal-" + salary)
                                             val constraints = Constraints.Builder()
-                                                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                                                    .build()
+                                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                                .build()
                                             val expectedSalaryJobData = workDataOf("userid" to session.userId!!, "decodeid" to session.decodId, "jobid" to appliedJobsLists!![position].jobId!!, "salary" to salary)
                                             val expectedSalaryRequest = OneTimeWorkRequestBuilder<ExpectedSalaryWorker>().setInputData(expectedSalaryJobData).setConstraints(constraints).build()
                                             WorkManager.getInstance(context).enqueue(expectedSalaryRequest)
@@ -695,10 +695,10 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                                         }
 
                                     } catch (e: Exception) {
-                                        updateAnyWayBTN?.hide()
-                                        updateBTN?.show()
+                                        updateAnyWayBTN.hide()
+                                        updateBTN.show()
                                         canSubmit = true
-                                        salaryLimitExceedTV?.hide()
+                                        salaryLimitExceedTV.hide()
                                         expected_salary_til.boxStrokeColor = ContextCompat.getColor(context, R.color.colorPrimary)
 
                                         logException(e)
@@ -712,15 +712,15 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
                     }
 
-                    holder?.cancelBTN?.setOnClickListener {
+                    holder.cancelBTN.setOnClickListener {
 
-                        activity?.alert("Are you sure you want to cancel this job application?", "Confirmation") {
+                        activity.alert("Are you sure you want to cancel this job application?", "Confirmation") {
                             yesButton {
                                 try {
 
-                                    removeItem(position, holder?.cancelBTN)
+                                    removeItem(position, holder.cancelBTN)
                                     Constants.appliedJobsCount--
-                                    session?.decrementJobsApplied()
+                                    session.decrementJobsApplied()
                                 } catch (e: Exception) {
                                     logException(e)
                                 }
@@ -731,41 +731,41 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         }.show()
 
                     }
-                    holder?.interviewBTN?.setOnClickListener {
+                    holder.interviewBTN.setOnClickListener {
                         try {
                             communicator.gotoInterviewInvitationDetails(
-                                    from = "appliedjobs",
-                                    jobID = appliedJobsLists?.get(position)?.jobId!!,
-                                    jobTitle = appliedJobsLists?.get(position)?.title!!,
-                                    companyName = appliedJobsLists?.get(position)?.companyName!!
+                                from = "appliedjobs",
+                                jobID = appliedJobsLists?.get(position)?.jobId!!,
+                                jobTitle = appliedJobsLists?.get(position)?.title!!,
+                                companyName = appliedJobsLists?.get(position)?.companyName!!
                             )
                         } catch (e: Exception) {
                             logException(e)
                         }
                     }
-                    holder?.interactionBTN?.setOnClickListener {
+                    holder.interactionBTN.setOnClickListener {
                         try {
-                            communicator?.setFrom("employerInteraction")
-                            communicator?.setjobID(appliedJobsLists?.get(position)?.jobId!!)
-                            communicator?.gotoEmployerInteractionFragment()
-                            communicator?.setComapany(appliedJobsLists?.get(position)?.companyName!!)
-                            communicator?.setTitle(appliedJobsLists?.get(position)?.title!!)
-                            communicator?.setStatus(appliedJobsLists?.get(position)?.status!!)
+                            communicator.setFrom("employerInteraction")
+                            communicator.setjobID(appliedJobsLists?.get(position)?.jobId!!)
+                            communicator.gotoEmployerInteractionFragment()
+                            communicator.setComapany(appliedJobsLists?.get(position)?.companyName!!)
+                            communicator.setTitle(appliedJobsLists?.get(position)?.title!!)
+                            communicator.setStatus(appliedJobsLists?.get(position)?.status!!)
                         } catch (e: Exception) {
                             logException(e)
                         }
                     }
-                    holder?.itemView?.setOnClickListener {
+                    holder.itemView.setOnClickListener {
                         try {
                             val jobids = ArrayList<String>()
                             val lns = ArrayList<String>()
                             val deadline = ArrayList<String>()
                             deadline.add(appliedJobsLists?.get(position)?.deadLine.toString())
                             jobids.add(appliedJobsLists?.get(position)?.jobId.toString())
-//                            lns.add("0")
+                //                            lns.add("0")
                             lns.add(appliedJobsLists?.get(position)?.langType.toString())
                             communicator.setFrom("")
-                            activity?.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
+                            activity.startActivity<JobBaseActivity>("from" to "employer", "jobids" to jobids, "lns" to lns, "position" to 0, "deadline" to deadline)
                         } catch (e: Exception) {
                             logException(e)
                         }
@@ -833,11 +833,11 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
                         //                        CancelAppliedJob.cancelJob(deleteJobID)
                         restoreMe(deletedItem!!, deletedIndex)
                         //Log.d("jobiiii", "undo = deleted = ${deletedItem} index = ${deletedIndex}")
-                        communicator?.scrollToUndoPosition(deletedIndex)
+                        communicator.scrollToUndoPosition(deletedIndex)
                         //Log.d("comid", "comid")
                     }
 
-            snack?.show()
+            snack.show()
             //Log.d("swipe", "dir to LEFT")
         } catch (e: Exception) {
             logException(e)
@@ -923,48 +923,48 @@ class AppliedJobsAdapter(private val context: Context) : RecyclerView.Adapter<Re
 
 class AppliedjobsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    val appliedOn = view?.findViewById(R.id.appliedon_tv) as TextView
-    val expectedSalary = view?.findViewById(R.id.exSalary_tv) as TextView
-    val deadline = view?.findViewById(R.id.deadline_tv) as TextView
-    val PositionName = view?.findViewById(R.id.textViewPositionName) as TextView
-    val CompanyName = view?.findViewById(R.id.textViewCompanyName) as TextView
-    val employerViewIcon = view?.findViewById(R.id.employerView_icon) as ImageView
-    val employerInteractionIcon = view?.findViewById(R.id.employerInteraction_icon) as ImageView
-    val interactionBTN = view?.findViewById(R.id.interactionBTN) as MaterialButton
-    val interviewBTN = view?.findViewById(R.id.interviewInvitationBTN) as MaterialButton
-    val cancelBTN = view?.findViewById(R.id.CancelBTN) as MaterialButton
-    val cardViewAppliedJobs = view?.findViewById(R.id.cardView) as CardView
-    val edit_SalaryIcon = view?.findViewById(R.id.edit_SalaryIcon) as ImageView
+    val appliedOn = view.findViewById(R.id.appliedon_tv) as TextView
+    val expectedSalary = view.findViewById(R.id.exSalary_tv) as TextView
+    val deadline = view.findViewById(R.id.deadline_tv) as TextView
+    val PositionName = view.findViewById(R.id.textViewPositionName) as TextView
+    val CompanyName = view.findViewById(R.id.textViewCompanyName) as TextView
+    val employerViewIcon = view.findViewById(R.id.employerView_icon) as ImageView
+    val employerInteractionIcon = view.findViewById(R.id.employerInteraction_icon) as ImageView
+    val interactionBTN = view.findViewById(R.id.interactionBTN) as MaterialButton
+    val interviewBTN = view.findViewById(R.id.interviewInvitationBTN) as MaterialButton
+    val cancelBTN = view.findViewById(R.id.CancelBTN) as MaterialButton
+    val cardViewAppliedJobs = view.findViewById(R.id.cardView) as CardView
+    val edit_SalaryIcon = view.findViewById(R.id.edit_SalaryIcon) as ImageView
 }
 
 class AppliedjobsAdViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    val appliedOn = view?.findViewById(R.id.appliedon_tv) as TextView
-    val expectedSalary = view?.findViewById(R.id.exSalary_tv) as TextView
-    val deadline = view?.findViewById(R.id.deadline_tv) as TextView
-    val PositionName = view?.findViewById(R.id.textViewPositionName) as TextView
-    val CompanyName = view?.findViewById(R.id.textViewCompanyName) as TextView
-    val employerViewIcon = view?.findViewById(R.id.employerView_icon) as ImageView
-    val employerInteractionIcon = view?.findViewById(R.id.employerInteraction_icon) as ImageView
-    val interactionBTN = view?.findViewById(R.id.interactionBTN) as MaterialButton
-    val interviewBTN = view?.findViewById(R.id.interviewInvitationBTN) as MaterialButton
-    val cancelBTN = view?.findViewById(R.id.CancelBTN) as MaterialButton
-    val cardViewAppliedJobs = view?.findViewById(R.id.cardView) as CardView
-    val edit_SalaryIcon = view?.findViewById(R.id.edit_SalaryIcon) as ImageView
-    val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
+    val appliedOn = view.findViewById(R.id.appliedon_tv) as TextView
+    val expectedSalary = view.findViewById(R.id.exSalary_tv) as TextView
+    val deadline = view.findViewById(R.id.deadline_tv) as TextView
+    val PositionName = view.findViewById(R.id.textViewPositionName) as TextView
+    val CompanyName = view.findViewById(R.id.textViewCompanyName) as TextView
+    val employerViewIcon = view.findViewById(R.id.employerView_icon) as ImageView
+    val employerInteractionIcon = view.findViewById(R.id.employerInteraction_icon) as ImageView
+    val interactionBTN = view.findViewById(R.id.interactionBTN) as MaterialButton
+    val interviewBTN = view.findViewById(R.id.interviewInvitationBTN) as MaterialButton
+    val cancelBTN = view.findViewById(R.id.CancelBTN) as MaterialButton
+    val cardViewAppliedJobs = view.findViewById(R.id.cardView) as CardView
+    val edit_SalaryIcon = view.findViewById(R.id.edit_SalaryIcon) as ImageView
+    val ad_small_template: TemplateView = view.findViewById(R.id.ad_small_template) as TemplateView
 }
 
 class LoadingVH(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-    val mProgressBar: ProgressBar = itemView?.findViewById(R.id.loadmore_progress_1) as ProgressBar
-    val mRetryBtn: ImageButton = itemView?.findViewById(R.id.loadmore_retry_1) as ImageButton
-    val mErrorTxt: TextView = itemView?.findViewById(R.id.loadmore_errortxt_1) as TextView
-    val mErrorLayout: LinearLayout = itemView?.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
+    val mProgressBar: ProgressBar = itemView.findViewById(R.id.loadmore_progress_1) as ProgressBar
+    val mRetryBtn: ImageButton = itemView.findViewById(R.id.loadmore_retry_1) as ImageButton
+    val mErrorTxt: TextView = itemView.findViewById(R.id.loadmore_errortxt_1) as TextView
+    val mErrorLayout: LinearLayout = itemView.findViewById(R.id.loadmore_errorlayout_1) as LinearLayout
 
     init {
 
-        mRetryBtn?.setOnClickListener(this)
-        mErrorLayout?.setOnClickListener(this)
+        mRetryBtn.setOnClickListener(this)
+        mErrorLayout.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {

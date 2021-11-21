@@ -162,7 +162,7 @@ class PaymentMethodFragment : Fragment(), ConnectivityReceiver.ConnectivityRecei
                 changeButtonBackground(bkashBTN, R.color.colorWhite, R.color.colorPrimary, R.color.colorWhite)
                 changeButtonBackground(rocketBTN, R.color.colorPrimary, R.color.colorWhite, R.color.colorPrimary)
                 changeButtonBackground(bdjobsBTN, R.color.colorPrimary, R.color.colorWhite, R.color.colorPrimary)
-                accountNumberlayout.setVisibility(View.VISIBLE)
+                accountNumberlayout.visibility = View.VISIBLE
                 if (inviteCodeCommunicator?.getAccountNumber()?.isNotEmpty()!!)
                     accountNumberTIET.setText(inviteCodeCommunicator?.getAccountNumber())
                 validateAccountNumber(accountNumberTIET.getString())
@@ -173,7 +173,7 @@ class PaymentMethodFragment : Fragment(), ConnectivityReceiver.ConnectivityRecei
                 changeButtonBackground(rocketBTN, R.color.colorWhite, R.color.colorPrimary, R.color.colorWhite)
                 changeButtonBackground(bkashBTN, R.color.colorPrimary, R.color.colorWhite, R.color.colorPrimary)
                 changeButtonBackground(bdjobsBTN, R.color.colorPrimary, R.color.colorWhite, R.color.colorPrimary)
-                accountNumberlayout.setVisibility(View.VISIBLE)
+                accountNumberlayout.visibility = View.VISIBLE
                 if (inviteCodeCommunicator?.getAccountNumber()?.isNotEmpty()!!)
                     accountNumberTIET.setText(inviteCodeCommunicator?.getAccountNumber())
                 validateAccountNumber(accountNumberTIET.getString())
@@ -183,7 +183,7 @@ class PaymentMethodFragment : Fragment(), ConnectivityReceiver.ConnectivityRecei
                 changeButtonBackground(bdjobsBTN, R.color.colorWhite, R.color.colorPrimary, R.color.colorWhite)
                 changeButtonBackground(bkashBTN, R.color.colorPrimary, R.color.colorWhite, R.color.colorPrimary)
                 changeButtonBackground(rocketBTN, R.color.colorPrimary, R.color.colorWhite, R.color.colorPrimary)
-                accountNumberlayout.setVisibility(View.GONE)
+                accountNumberlayout.visibility = View.GONE
             }
             else -> {
             }

@@ -309,7 +309,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
 
                         totalPage = response.body()?.common?.totalNumberOfPage?.toInt()
                         val totalRecords = response.body()?.common?.totalNumberOfItems
-                        if (!response.body()?.data.isNullOrEmpty()) {
+                        if (!response?.body()?.data.isNullOrEmpty()) {
                             resumeViewNoDataLL?.hide()
                             viewedMyResumeRV?.show()
 
@@ -399,7 +399,7 @@ class EmployerViewedMyResumeFragment : Fragment() {
                         employerViewedMyResumeAdapter.removeLoadingFooter()
                         isLoadings = false
 
-                        employerViewedMyResumeAdapter.addAll(response.body()?.data as List<DataEmpV>)
+                        employerViewedMyResumeAdapter?.addAll(response?.body()?.data as List<DataEmpV>)
 
 
                         if (pgNo != totalPage)

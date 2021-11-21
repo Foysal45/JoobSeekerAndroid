@@ -69,7 +69,7 @@ class ScheduleListAdapter(val context: Context, private val lifecycleOwner: Life
 //            holder.deselect(context)
     }
 
-    public fun selectItem(id: String) {
+    fun selectItem(id: String) {
         selectedItemIdLive.value = id
     }
 
@@ -80,7 +80,7 @@ class ScheduleListAdapter(val context: Context, private val lifecycleOwner: Life
         }
 
         override fun areContentsTheSame(oldItem: ScheduleData, newItem: ScheduleData): Boolean {
-            return oldItem?.schlId == newItem?.schlId
+            return oldItem.schlId == newItem.schlId
         }
     }
 

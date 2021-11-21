@@ -815,7 +815,7 @@ class VideoResumeQuestionsFragment : Fragment() {
                     }
                 }
             }
-        return permissionGranted!!
+        return permissionGranted
     }
 
     private fun openSettingsDialog() {

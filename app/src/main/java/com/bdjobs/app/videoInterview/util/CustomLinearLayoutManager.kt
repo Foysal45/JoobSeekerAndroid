@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 class CustomLinearLayoutManager: LinearLayoutManager {
     private val mMeasuredDimension = IntArray(2)
-    constructor(context: Context) : super(context) {}
-    constructor(context:Context, orientation:Int, reverseLayout:Boolean) : super(context, orientation, reverseLayout) {}
+    constructor(context: Context) : super(context)
+    constructor(context:Context, orientation:Int, reverseLayout:Boolean) : super(context, orientation, reverseLayout)
+
     override fun onMeasure(recycler: RecyclerView.Recycler, state: RecyclerView.State, widthSpec:Int, heightSpec:Int) {
         val widthMode = View.MeasureSpec.getMode(widthSpec)
         val heightMode = View.MeasureSpec.getMode(heightSpec)
@@ -17,12 +18,12 @@ class CustomLinearLayoutManager: LinearLayoutManager {
         val heightSize = View.MeasureSpec.getSize(heightSpec)
         var width = 0
         var height = 0
-        for (i in 0 until getItemCount())
+        for (i in 0 until itemCount)
         {
             measureScrapChild(recycler, i, View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
                     View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
                     mMeasuredDimension)
-            if (getOrientation() === HORIZONTAL)
+            if (orientation === HORIZONTAL)
             {
                 width = width + mMeasuredDimension[0]
                 if (i == 0)
@@ -54,14 +55,14 @@ class CustomLinearLayoutManager: LinearLayoutManager {
             val view = recycler.getViewForPosition(0)//fix 动态添加时报IndexOutOfBoundsException
             if (view != null)
             {
-                val p = view.getLayoutParams() as RecyclerView.LayoutParams
+                val p = view.layoutParams as RecyclerView.LayoutParams
                 val childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,
-                        getPaddingLeft() + getPaddingRight(), p.width)
+                        paddingLeft + paddingRight, p.width)
                 val childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,
-                        getPaddingTop() + getPaddingBottom(), p.height)
+                        paddingTop + paddingBottom, p.height)
                 view.measure(childWidthSpec, childHeightSpec)
-                measuredDimension[0] = view.getMeasuredWidth() + p.leftMargin + p.rightMargin
-                measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin
+                measuredDimension[0] = view.measuredWidth + p.leftMargin + p.rightMargin
+                measuredDimension[1] = view.measuredHeight + p.bottomMargin + p.topMargin
                 recycler.recycleView(view)
             }
         }
@@ -70,6 +71,6 @@ class CustomLinearLayoutManager: LinearLayoutManager {
         }
     }
     companion object {
-        private val TAG = CustomLinearLayoutManager::class.java!!.getSimpleName()
+        private val TAG = CustomLinearLayoutManager::class.java.simpleName
     }
 }

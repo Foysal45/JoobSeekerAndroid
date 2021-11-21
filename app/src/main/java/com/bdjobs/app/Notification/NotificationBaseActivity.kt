@@ -144,7 +144,7 @@ class NotificationBaseActivity : FragmentActivity(), NotificationCommunicatior, 
         }
 
         when{
-            from?.equals("notification")->{
+            from.equals("notification") ->{
                 logDataForAnalytics(Constants.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE, applicationContext, id,nId)
                 try {
                     ApiServiceJobs.create().sendDataForAnalytics(

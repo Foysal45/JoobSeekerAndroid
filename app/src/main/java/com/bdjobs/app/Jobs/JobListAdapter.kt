@@ -577,19 +577,19 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                 val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid)
                 uiThread {
                     if (shortListed || homeCommunicator != null) {
-                        context?.alert("Are you sure you want to remove this job from shortlisted jobs?", "Confirmation") {
+                        context.alert("Are you sure you want to remove this job from shortlisted jobs?", "Confirmation") {
                             yesButton {
                                 if (homeCommunicator != null) {
                                     deleteShortListedJobwithUndo(position)
                                 } else {
                                     val constraints = Constraints.Builder()
-                                            .setRequiredNetworkType(NetworkType.CONNECTED)
-                                            .build()
+                                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                                        .build()
 
                                     val shortlistedJobDeleteData = workDataOf("jobId" to jobList?.get(position)?.jobid)
                                     val shortlistedJobDeleteRequest = OneTimeWorkRequestBuilder<ShortlistedJobDeleteWorker>().setInputData(shortlistedJobDeleteData).setConstraints(constraints).build()
                                     WorkManager.getInstance(context).enqueue(shortlistedJobDeleteRequest)
-//                                    ShortListedJobDeleteJob.runJobImmediately(jobList?.get(position)?.jobid!!)
+                    //                                    ShortListedJobDeleteJob.runJobImmediately(jobList?.get(position)?.jobid!!)
                                     doAsync {
                                         bdJobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
                                     }

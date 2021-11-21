@@ -82,7 +82,7 @@ class TransactionListFragment : Fragment() {
                         endDate = formatter.format(date2)
                     }
 
-                    transactionListViewModel.getTransactionList(startDate, endDate!!, type)
+                    transactionListViewModel.getTransactionList(startDate, endDate, type)
                 }
 
 

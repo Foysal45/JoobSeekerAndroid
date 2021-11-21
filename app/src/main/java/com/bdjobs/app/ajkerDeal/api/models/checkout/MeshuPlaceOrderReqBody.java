@@ -9,106 +9,106 @@ import com.google.gson.annotations.SerializedName;
 public class MeshuPlaceOrderReqBody {
     @SerializedName("dealId")
     @Expose
-    private int dealId;
+    private final int dealId;
 
     @SerializedName("resellercustomerid")
     @Expose
-    private int customerId;
+    private final int customerId;
 
     @SerializedName("couponQtn")
     @Expose
-    private int couponQtn;
+    private final int couponQtn;
 
     @SerializedName("couponPrice")
     @Expose
-    private int couponPrice;
+    private final int couponPrice;
 
     @SerializedName("paymentType")
     @Expose
-    private String paymentType;
+    private final String paymentType;
 
     @SerializedName("customerBillingAddress")
     @Expose
-    private String customerBillingAddress;
+    private final String customerBillingAddress;
 
     @SerializedName("customerMobile")
     @Expose
-    private String customerMobile;
+    private final String customerMobile;
 
     @SerializedName("deliveryDist")
     @Expose
-    private int deliveryDist;
+    private final int deliveryDist;
 
     @SerializedName("thanaId")
     @Expose
-    private int thanaId;
+    private final int thanaId;
 
     @SerializedName("deliveryCharge")
     @Expose
-    private int deliveryCharge;
+    private final int deliveryCharge;
 
     @SerializedName("sizes")
     @Expose
-    private String sizes;
+    private final String sizes;
 
     @SerializedName("colors")
     @Expose
-    private String colors;
+    private final String colors;
 
     @SerializedName("commission")
     @Expose
-    private int commission;
+    private final int commission;
 
     @SerializedName("orderFrom")
     @Expose
-    private String orderFrom;
+    private final String orderFrom;
 
     @SerializedName("customerAlternateMobile")
     @Expose
-    private String customerAlternateMobile;
+    private final String customerAlternateMobile;
 
     @SerializedName("orderSource")
     @Expose
-    private String orderSource;
+    private final String orderSource;
 
     @SerializedName("merchantId")
     @Expose
-    private int merchantId;
+    private final int merchantId;
 
     @SerializedName("appVersion")
     @Expose
-    private String appVersion;
+    private final String appVersion;
 
     @SerializedName("unitPrice")
     @Expose
-    private int unitPrice;
+    private final int unitPrice;
 
     @SerializedName("cardType")
     @Expose
-    private String cardType;
+    private final String cardType;
 
     @SerializedName("paymentStatus")
     @Expose
-    private String paymentStatus;
+    private final String paymentStatus;
 
     @SerializedName("onlineTransactionId")
     @Expose
-    private String onlineTransactionId;
+    private final String onlineTransactionId;
 
     @SerializedName("transactionId")
     @Expose
-    private String transactionId;
+    private final String transactionId;
 
-    private int resellercommission;
-    private String customername;
+    private final int resellercommission;
+    private final String customername;
 
     @SerializedName("postalInformation")
     @Expose
-    private String postalInformation;
-    private int catalogId;
-    private int areaId;
+    private final String postalInformation;
+    private final int catalogId;
+    private final int areaId;
 
-    private String BkasMobile;
+    private final String BkasMobile;
 
 
     private MeshuPlaceOrderReqBody(Builder builder, OrderType orderType){

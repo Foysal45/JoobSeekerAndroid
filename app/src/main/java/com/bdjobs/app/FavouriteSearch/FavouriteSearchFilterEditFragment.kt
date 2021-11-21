@@ -679,10 +679,10 @@ class FavouriteSearchFilterEditFragment : Fragment() {
     private fun showHideCrossButton(editText: EditText?) {
         try {
             if (editText?.text?.isBlank()!!) {
-                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
             } else {
-                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-                editText?.clearTextOnDrawableRightClick()
+                editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+                editText.clearTextOnDrawableRightClick()
             }
         } catch (e: Exception) {
         }

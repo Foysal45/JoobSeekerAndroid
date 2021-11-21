@@ -56,9 +56,6 @@ class QuestionListAdapter(val context: Context, val clickListener: ClickListener
         }
     }
 
-    override fun getItemCount(): Int {
-        return super.getItemCount()
-    }
 }
 
 
