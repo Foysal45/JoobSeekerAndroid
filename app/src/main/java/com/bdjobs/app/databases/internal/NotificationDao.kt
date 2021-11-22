@@ -36,6 +36,9 @@ interface NotificationDao {
     @Query("DELETE FROM Notification WHERE notification_id = :id")
     fun deleteNotificationByNotificationId(id:String)
 
+    @Query("SELECT COUNT(body) FROM Notification where body = :message")
+    fun checkSameNotificationByMessage(message:String?):Int
+
     @Delete
     fun deleteNotification(notification: Notification)
 

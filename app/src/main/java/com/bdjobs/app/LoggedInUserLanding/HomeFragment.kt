@@ -103,11 +103,11 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         onClickListeners()
         getLastUpdateFromServer()
 
-        if (!bdJobsUserSession.isExpirationMessageShown) {
+//        if (!bdJobsUserSession.isExpirationMessageShown) {
             alertAboutShortlistedJobs()
 
-            bdJobsUserSession.isExpirationMessageShown = true
-        }
+//            bdJobsUserSession.isExpirationMessageShown = true
+//        }
 
         // showGeneralPopUp()
         //showAd()
@@ -940,29 +940,32 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         )
                         Timber.d("here3: Title: ${notificationModel.title}")
 
-                        // checking if the notification contents are same or not
-                        //
 
                         doAsync {
 
-                            bdJobsDB.notificationDao().deleteNotificationByNotificationId("1000")
+                            // checking if the notification contents are same or not
+                            val isSameExist = bdJobsDB.notificationDao().checkSameNotificationByMessage(body)
 
-                            val notification = Notification(
-                                title = notificationModel.title,
-                                body = notificationModel.body,
-                                type = notificationModel.type,
-                                imageLink = notificationModel.imageLink,
-                                link = notificationModel.link,
-                                notificationId = notificationModel.notificationId,
-                                arrivalTime = Date(),
-                                payload = Gson().toJson(notificationModel).replace("\\n", "\n")
-                            )
+                            if (isSameExist==0) {
+                                bdJobsDB.notificationDao().deleteNotificationByNotificationId("1000")
+
+                                val notification = Notification(
+                                    title = notificationModel.title,
+                                    body = notificationModel.body,
+                                    type = notificationModel.type,
+                                    imageLink = notificationModel.imageLink,
+                                    link = notificationModel.link,
+                                    notificationId = notificationModel.notificationId,
+                                    arrivalTime = Date(),
+                                    payload = Gson().toJson(notificationModel).replace("\\n", "\n")
+                                )
 
                                 bdJobsDB.notificationDao().insertNotification(notification)
 
-                            bdJobsUserSession.updateMessageCount(
-                                bdJobsDB.notificationDao().getMessageCount()
-                            )
+                                bdJobsUserSession.updateMessageCount(
+                                    bdJobsDB.notificationDao().getMessageCount()
+                                )
+                            }
 
                         }
 
