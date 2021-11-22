@@ -49,7 +49,7 @@ class InterviewInvitationDetailsAdapter(private val context: Context, private va
     }
 
     override fun getItemCount(): Int {
-        return items?.size
+        return items.size
     }
 
     override fun getItemViewType(position: Int): Int {

@@ -20,18 +20,18 @@ class HotjobsTitlesAdapter (private val context: Context, var hotJobsJobTitleLis
     }
 
     override fun getItemCount(): Int {
-        return return if (hotJobsJobTitleList == null) 0 else hotJobsJobTitleList!!.size
+        return return if (hotJobsJobTitleList == null) 0 else hotJobsJobTitleList.size
     }
 
     override fun onBindViewHolder(holder: HotjobsTitlesAdapterViewHolder, position: Int) {
-        holder?.companyTV.text = hotJobsJobTitleList!![position].jobTitle
-        holder?.companyTV?.setOnClickListener {
+        holder.companyTV.text = hotJobsJobTitleList[position].jobTitle
+        holder.companyTV.setOnClickListener {
             val url = hotJobsJobTitleList.get(position).linkPage
             println("my page $url")
 
             context.startActivity<WebActivity>(
-                    "from" to "hotjobs",
-                    "url" to url
+                "from" to "hotjobs",
+                "url" to url
             )
         }
     }
@@ -39,5 +39,5 @@ class HotjobsTitlesAdapter (private val context: Context, var hotJobsJobTitleLis
 
 }
 class HotjobsTitlesAdapterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val companyTV = view?.findViewById(R.id.companyNameTV) as MaterialButton
+    val companyTV = view.findViewById(R.id.companyNameTV) as MaterialButton
 }

@@ -147,7 +147,7 @@ class AddAddressBottomSheet : BottomSheetDialogFragment() {
         //autoCompleteAddressAdapter = AutoCompleteAddressAdapter(getApplicationContext(), countryList)
 
         checkoutUserData?.let { model ->
-            Timber.d("Model: ${model.toString()}")
+            Timber.d("Model: $model")
             districtId = model.districtId
             thanaId = model.thanaId
             areaId = model.areaId
@@ -260,54 +260,54 @@ class AddAddressBottomSheet : BottomSheetDialogFragment() {
             }
         }
 
-        tv_gap0.setOnClickListener() {
+        tv_gap0.setOnClickListener {
             hideKeyboard()
         }
 
-        tv_gap1.setOnClickListener() {
+        tv_gap1.setOnClickListener {
             hideKeyboard()
         }
 
-        tv_gap2.setOnClickListener() {
+        tv_gap2.setOnClickListener {
             hideKeyboard()
         }
 
-        tv_gap3.setOnClickListener() {
+        tv_gap3.setOnClickListener {
             hideKeyboard()
         }
 
-        tv_gap4.setOnClickListener() {
+        tv_gap4.setOnClickListener {
             hideKeyboard()
         }
 
-        tv_gap5.setOnClickListener() {
+        tv_gap5.setOnClickListener {
             hideKeyboard()
         }
 
-        tv_zila.setOnClickListener() {
+        tv_zila.setOnClickListener {
             hideKeyboard()
         }
 
-        tv_thana.setOnClickListener() {
+        tv_thana.setOnClickListener {
             hideKeyboard()
         }
 
-        tv_post.setOnClickListener() {
+        tv_post.setOnClickListener {
             hideKeyboard()
         }
 
-        tv_thikana.setOnClickListener() {
+        tv_thikana.setOnClickListener {
             hideKeyboard()
         }
 
-        tv_mobile.setOnClickListener() {
+        tv_mobile.setOnClickListener {
             hideKeyboard()
         }
 
-        tv_alt_mobile.setOnClickListener() {
+        tv_alt_mobile.setOnClickListener {
             hideKeyboard()
         }
-        parentLayout.setOnClickListener() {
+        parentLayout.setOnClickListener {
             hideKeyboard()
         }
 
@@ -448,7 +448,7 @@ class AddAddressBottomSheet : BottomSheetDialogFragment() {
         val metrics = resources.displayMetrics
 
 
-        BottomSheetBehavior.from(bottomSheet)?.state = BottomSheetBehavior.STATE_COLLAPSED
+        BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_COLLAPSED
         //BottomSheetBehavior.from(bottomSheet)?.peekHeight = metrics.heightPixels / 2
         thread {
             activity?.runOnUiThread {
@@ -457,10 +457,10 @@ class AddAddressBottomSheet : BottomSheetDialogFragment() {
             }
         }
 
-        BottomSheetBehavior.from(bottomSheet)?.skipCollapsed = true
-        BottomSheetBehavior.from(bottomSheet)?.isHideable = false
+        BottomSheetBehavior.from(bottomSheet).skipCollapsed = true
+        BottomSheetBehavior.from(bottomSheet).isHideable = false
         BottomSheetBehavior.from(bottomSheet)
-            ?.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            .setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onSlide(p0: View, p1: Float) {
                     if (isAdded) {
 
@@ -469,7 +469,7 @@ class AddAddressBottomSheet : BottomSheetDialogFragment() {
 
                 override fun onStateChanged(p0: View, p1: Int) {
                     if (p1 == BottomSheetBehavior.STATE_DRAGGING) {
-                        BottomSheetBehavior.from(bottomSheet)?.state =
+                        BottomSheetBehavior.from(bottomSheet).state =
                             BottomSheetBehavior.STATE_EXPANDED
                         BottomSheetBehavior.STATE_DRAGGING
                     }
@@ -543,7 +543,7 @@ class AddAddressBottomSheet : BottomSheetDialogFragment() {
                 layoutPostOffice.visibility = View.VISIBLE
                 tv_gap2.visibility = View.VISIBLE
                 areaSelectTV.text = "নির্বাচন করুন"
-                BottomSheetBehavior.from(bottomSheet)?.state = BottomSheetBehavior.STATE_EXPANDED
+                BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
             }
             this.areaId = 0
             this.areaName = ""

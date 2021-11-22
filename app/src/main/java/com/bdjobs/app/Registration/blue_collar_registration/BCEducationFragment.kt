@@ -12,11 +12,12 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.core.view.isVisible
-import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.databases.External.DataStorage
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.footer_bc_layout.*
@@ -361,18 +362,22 @@ class BCEducationFragment : Fragment() {
                     ) { dialog, which ->
                         editText.setText(data[which].trim())
 
-                        if (data[which].equals("Other", ignoreCase = true)) {
-                            bcEduDegreeOtherTIET?.show()
-                            bcEduDegreeOtherTIL?.show()
-                            bcEduDegreeOtherTIET?.clear()
-                            bcEduDegreeTIL?.isErrorEnabled = false
-                            bcEduDegreeOtherTIL?.isErrorEnabled = false
-                            /* registrationCommunicator.setEducationType("5")*/
-
-                        } else {
-                            bcEduDegreeOtherTIET?.hide()
-                            bcEduDegreeOtherTIL?.hide()
+                        if (title.equals("পরীক্ষা/ডিগ্রীর নাম")){
+                            if (data[which].equals("Other", ignoreCase = true)) {
+                                Toast.makeText(activity, "other = show", Toast.LENGTH_SHORT).show()
+                                bcEduDegreeOtherTIET?.show()
+                                bcEduDegreeOtherTIL?.show()
+                                bcEduDegreeOtherTIET?.clear()
+                                bcEduDegreeTIL?.isErrorEnabled = false
+                                bcEduDegreeOtherTIL?.isErrorEnabled = false
+                                /* registrationCommunicator.setEducationType("5")*/
+                            }
+                            else {
+                                bcEduDegreeOtherTIET?.hide()
+                                bcEduDegreeOtherTIL?.hide()
+                            }
                         }
+
 
                         if (editText.id == R.id.bcEduLevelTIET) {
 

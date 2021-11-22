@@ -66,7 +66,7 @@ class InviteCodeSubmitFragment : Fragment() {
 
                     override fun onResponse(call: Call<PaymentTypeInsertModel>, response: Response<PaymentTypeInsertModel>) {
                         activity?.stopProgressBar(loadingProgressBar)
-                        if (response?.body()?.data?.get(0)?.inserted?.equalIgnoreCase("True")!!) {
+                        if (response.body()?.data?.get(0)?.inserted?.equalIgnoreCase("True")!!) {
                             promoCodeTIL.hideError()
                             val inviteCodeInfo = InviteCodeInfo(
                                     userId = bdjobsUserSession?.userId,
@@ -83,7 +83,7 @@ class InviteCodeSubmitFragment : Fragment() {
                                 inviteCodeCommunicator?.goToPaymentMethod(fromInviteCodeSubmitPage = true)
                             }
                         } else {
-                            promoCodeTIL.showError(response?.body()?.message)
+                            promoCodeTIL.showError(response.body()?.message)
                         }
                     }
                 })

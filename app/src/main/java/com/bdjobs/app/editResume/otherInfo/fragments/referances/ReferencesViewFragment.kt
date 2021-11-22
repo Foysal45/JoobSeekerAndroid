@@ -39,10 +39,6 @@ class ReferencesViewFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_references_view, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
     override fun onResume() {
         super.onResume()
         session = BdjobsUserSession(activity)

@@ -63,6 +63,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.*
 import retrofit2.Call
@@ -589,8 +590,8 @@ class JobDetailAdapter(private val context: Context) :
                                             position,
                                             jobDetailResponseAll.gender!!,
                                             jobDetailResponseAll.photograph!!,
-                                            jobDetailResponseAll.minSalary!!,
-                                            jobDetailResponseAll.maxSalary!!
+                                            jobDetailResponseAll.minSalary,
+                                            jobDetailResponseAll.maxSalary
                                         )
                                         //checkApplyEligibility(context, position, jobDetailResponseAll.gender!!, jobDetailResponseAll.photograph!!)
                                     }
@@ -1060,6 +1061,7 @@ class JobDetailAdapter(private val context: Context) :
 
                     }
                 })
+
             }
 
             LOADING -> {
@@ -1228,7 +1230,7 @@ class JobDetailAdapter(private val context: Context) :
                                 liveList.clear()
                                 liveList.addAll(list)
                                 dataAdapter.initList(list)
-                                Timber.d("requestBody ${dataAdapter.itemCount}, ${list.size}, ${liveList.size}, $list")
+//                                Timber.d("requestBody ${dataAdapter.itemCount}, ${list.size}, ${liveList.size}, $list")
                                 //val position = mHomePageDataList.indexOfFirst { it.homeViewType == HomeViewType.TYPE_LIVE }
                                 val position = classifiedHashMap["1"] ?: -1
                                 if (position == -1) return
@@ -1782,7 +1784,7 @@ class JobDetailAdapter(private val context: Context) :
         }
 
         cancelButton?.setOnClickListener {
-            dialog?.dismiss()
+            dialog.dismiss()
         }
 
         okButton?.setOnClickListener {
@@ -2288,10 +2290,13 @@ class JobDetailAdapter(private val context: Context) :
 
     private class LoadingVH(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        var mErrorTxt: TextView? =
-            itemView.findViewById(R.id.loadmore_errortxt) as TextView?
-        var mErrorLayout: LinearLayout? =
-            itemView.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
+        var mProgressBar: ProgressBar? =
+            itemView.findViewById(R.id.loadmore_progress) as ProgressBar?
+        private var mRetryBtn: ImageButton? =
+            itemView.findViewById(R.id.loadmore_retry) as ImageButton?
+
+        var mErrorTxt: TextView? = itemView.findViewById(R.id.loadmore_errortxt) as TextView?
+        var mErrorLayout: LinearLayout? = itemView.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
 
 
         override fun onClick(view: View) {

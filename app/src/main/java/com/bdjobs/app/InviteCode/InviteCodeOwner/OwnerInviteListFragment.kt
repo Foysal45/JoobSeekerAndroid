@@ -154,12 +154,12 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
                                 }
 
                             }
-                            numberTV.setText(account_data)
+                            numberTV.text = account_data
 
 
                             if (response.body() != null && response.body()!!.data.isNotEmpty()) {
-                                dataArray = response?.body()?.data as ArrayList<OwnerInviteListModelData>
-                                val accountListAdapter = InvitecodeInviteListAdapter(activity!!, response?.body()?.data as ArrayList<OwnerInviteListModelData>, state)
+                                dataArray = response.body()?.data as ArrayList<OwnerInviteListModelData>
+                                val accountListAdapter = InvitecodeInviteListAdapter(activity!!, response.body()?.data as ArrayList<OwnerInviteListModelData>, state)
                                 accountLV.adapter = accountListAdapter
                                 accountLV.show()
 
@@ -243,7 +243,7 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
                                         response.body()!!.data[0].educationInfo,
                                         response.body()!!.data[0].photoInfo,
                                         response.body()!!.data[0].createdDate,
-                                        response?.body()?.data?.get(0)?.skills!!
+                                        response.body()?.data?.get(0)?.skills!!
                                 )
                             }
                         } catch (e: Exception) {

@@ -3,7 +3,7 @@ package com.bdjobs.demo_connect_employer.streaming
 import org.webrtc.*
 import timber.log.Timber
 
-open class CustomPCObserver(): PeerConnection.Observer {
+open class CustomPCObserver : PeerConnection.Observer {
 
 
     override fun onSignalingChange(p0: PeerConnection.SignalingState?) {

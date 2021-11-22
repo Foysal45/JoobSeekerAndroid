@@ -14,8 +14,8 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
 
             //Log.d("rakib", "Broadcast $action")
 
-            val job = intent?.getStringExtra("job")
-            val notification = intent?.getStringExtra("notification")
+            val job = intent.getStringExtra("job")
+            val notification = intent.getStringExtra("notification")
 
             //Log.d("rakib", "Broadcast $job $notification")
 

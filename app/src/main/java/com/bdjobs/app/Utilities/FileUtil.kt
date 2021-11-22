@@ -13,6 +13,8 @@ import com.bdjobs.app.Utilities.Constants.Companion.DOCX
 import com.bdjobs.app.Utilities.Constants.Companion.PDF
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class FileUtil {
@@ -97,7 +99,7 @@ class FileUtil {
     fun getFileInformation(ctx: Context, uri: Uri): FileInformation {
         val fileInfo = FileInformation()
         val file = getFileFromUri(ctx, uri)
-        fileInfo.extension = file.extension;
+        fileInfo.extension = file.extension
         fileInfo.fileName = file.name
         fileInfo.fileSize = file.length()
         fileInfo.extensionwithDot = "." + file.extension
@@ -129,6 +131,13 @@ class FileUtil {
         return file.exists() && file.delete()
     }
 
+
+    fun getNewFile(filepath : String, context : Context):File{
+        val dir = File(context.getExternalFilesDir(null)!!.absoluteFile, "video_resume")
+        dir.mkdirs()
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        return  File(dir.path + File.separator + "bdjobs_" + filepath + timeStamp + ".mp4")
+    }
     fun getFilename(
         context: Context, uri: Uri?
     ): String? {

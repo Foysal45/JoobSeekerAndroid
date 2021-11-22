@@ -83,9 +83,9 @@ fun bindLiveInterviewTimer(textView: TextView, date: String?, time: String?, sta
 
                 //end_calendar.set(2020, 8, 15) // 10 = November, month start at 0 = January
 
-                val start_millis: Long = start_calendar.getTimeInMillis() //get the start time in milliseconds
+                val start_millis: Long = start_calendar.timeInMillis //get the start time in milliseconds
 
-                val end_millis: Long = end_calendar.getTimeInMillis() //get the end time in milliseconds
+                val end_millis: Long = end_calendar.timeInMillis //get the end time in milliseconds
 
                 val total_millis = end_millis - start_millis //total time in milliseconds
 

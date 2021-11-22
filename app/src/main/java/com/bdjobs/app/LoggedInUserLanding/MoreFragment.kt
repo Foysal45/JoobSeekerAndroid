@@ -94,7 +94,7 @@ class MoreFragment : Fragment() {
 
         profilePicIMGV?.loadCircularImageFromUrl(BdjobsUserSession(requireContext()).userPicUrl?.trim())
 
-        versionInfoTV?.text = "v${requireActivity()?.getAppVersion()} (${requireActivity()?.getAppVersionCode()})"
+        versionInfoTV?.text = "v${requireActivity().getAppVersion()} (${requireActivity().getAppVersionCode()})"
 
         videoResume?.setOnClickListener {
             navigateToVideoResumePage()
@@ -109,26 +109,26 @@ class MoreFragment : Fragment() {
         }
 
         video_guide_MBTN?.setOnClickListener {
-            requireContext()?.openUrlInBrowser("https://mybdjobs.bdjobs.com/mybdjobs/videoHelp.asp")
+            requireContext().openUrlInBrowser("https://mybdjobs.bdjobs.com/mybdjobs/videoHelp.asp")
         }
 
         generalSearch_MBTN?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
         }
         appGuides_MBTN?.setOnClickListener {
-            requireContext()?.openUrlInBrowser("https://bdjobs.com/apps/version2/guide.html")
+            requireContext().openUrlInBrowser("https://bdjobs.com/apps/version2/guide.html")
         }
         rateUs_MBTN?.setOnClickListener {
             goToRateApp()
         }
         feedback_MBTN?.setOnClickListener {
-            requireContext()?.openUrlInBrowser("https://jobs.bdjobs.com/feedback.asp")
+            requireContext().openUrlInBrowser("https://jobs.bdjobs.com/feedback.asp")
         }
         privacypolicy_MBTN?.setOnClickListener {
-            requireContext()?.openUrlInBrowser("https://bdjobs.com/policy/Privacy_policy.asp")
+            requireContext().openUrlInBrowser("https://bdjobs.com/policy/Privacy_policy.asp")
         }
         terms_MBTN?.setOnClickListener {
-            requireContext()?.openUrlInBrowser("https://www.bdjobs.com/tos.asp")
+            requireContext().openUrlInBrowser("https://www.bdjobs.com/tos.asp")
         }
         new_job_MBTN?.setOnClickListener {
             startActivity<JobBaseActivity>("postedWithin" to "1")
@@ -225,7 +225,7 @@ class MoreFragment : Fragment() {
 
     private fun goToRateApp(){
         var intent = Intent(Intent.ACTION_VIEW, Uri.parse("appmarket://details?id=com.bdjobs.app"))
-        val otherApps: MutableList<ResolveInfo> = requireContext()?.getPackageManager()!!.queryIntentActivities(intent, 0)
+        val otherApps: MutableList<ResolveInfo> = requireContext().packageManager!!.queryIntentActivities(intent, 0)
         var agFound = false
 
         for (app in otherApps) {
@@ -239,7 +239,7 @@ class MoreFragment : Fragment() {
             }
         }
         if (!agFound) {
-            requireContext()?.openUrlInBrowser("https://play.google.com/store/apps/details?id=com.bdjobs.app")
+            requireContext().openUrlInBrowser("https://play.google.com/store/apps/details?id=com.bdjobs.app")
         }
     }
 

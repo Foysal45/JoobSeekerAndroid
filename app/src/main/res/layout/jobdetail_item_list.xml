@@ -1316,7 +1316,7 @@
                     android:fontFamily="@font/roboto"
                     android:gravity="center_vertical"
                     android:text="@string/video_resume_encouragement"
-                    android:textColor="#757575"
+                    android:textColor="#9D0191"
                     android:textSize="13sp"
                     app:drawableStartCompat="@drawable/ic_video_account"
                     app:layout_constraintEnd_toEndOf="parent"

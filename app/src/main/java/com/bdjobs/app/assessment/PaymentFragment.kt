@@ -53,7 +53,7 @@ class PaymentFragment : Fragment() {
 
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-        binding.payCashCard?.setOnClickListener {
+        binding.payCashCard.setOnClickListener {
             paymentViewModel.bookSchedule()
         }
 

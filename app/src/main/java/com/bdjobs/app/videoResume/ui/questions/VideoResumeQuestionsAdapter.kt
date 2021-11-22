@@ -71,10 +71,6 @@ class VideoResumeQuestionsAdapter(val context: Context, val clickListener: Click
         }
     }
 
-    override fun getItemCount(): Int {
-        return super.getItemCount()
-    }
-
     fun onTipsClicked(listener: (VideoResumeQuestionList.Data) -> Unit) {
         onTipsClicked = listener
     }

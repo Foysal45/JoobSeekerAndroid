@@ -218,11 +218,6 @@ class EmpHistoryEditFragment : Fragment() {
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //Log.d("onDestroyView", "onDestroyView called")
-    }
-
     private fun doWork() {
 
         val workExperineceList: ArrayList<String> = ArrayList()
@@ -375,7 +370,7 @@ class EmpHistoryEditFragment : Fragment() {
 
                 if (isEdit) {
                     try {
-                        date = if (empHisCB?.getData().to == "Continuing") {
+                        date = if (empHisCB.getData().to == "Continuing") {
                             if (!et_end_date.text.toString().isNullOrEmpty()) {
                                 formatter.parse(et_end_date.text.toString())
                             } else {

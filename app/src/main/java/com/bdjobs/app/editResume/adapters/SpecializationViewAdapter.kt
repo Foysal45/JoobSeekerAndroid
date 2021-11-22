@@ -87,7 +87,7 @@ class SpecializationViewAdapter(private val context: Activity, private val items
                         //Log.d("uhiuhiu", " in 5")
 
                         holder.filter_chip5.show()
-                        when (items?.get(position)?.ntvqfLevel) {
+                        when (items.get(position)?.ntvqfLevel) {
                             "1" -> {
                                 //Log.d("uhiuhiu", " in 1")
                                 holder.filter_chip5.text = "NTVQF:Pre-Voc Level 1"

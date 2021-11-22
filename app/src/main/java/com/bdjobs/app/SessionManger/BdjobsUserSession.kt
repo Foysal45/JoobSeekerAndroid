@@ -474,7 +474,7 @@ class BdjobsUserSession(val context: Context) {
             val value = pref?.getString(key, "0")
             val count = (value?.toInt()!! + 1).toString()
             //Log.d("rakib", "$key -> $count")
-            pref?.edit() {
+            pref?.edit {
                 putString(key, count)
             }
         } catch (e: Exception) {
@@ -488,7 +488,7 @@ class BdjobsUserSession(val context: Context) {
             if (value?.toInt()!! > 0) {
                 val count = (value.toInt() - 1).toString()
                 //Log.d("rakib", "$key -> $count")
-                pref?.edit() {
+                pref?.edit {
                     putString(key, count)
                 }
             }
@@ -618,6 +618,16 @@ class BdjobsUserSession(val context: Context) {
         get() = pref!!.getString("AD_IN_MAIN_LANDING","0")
         set(value) {pref!!.edit().putString("AD_IN_MAIN_LANDING",value).apply()}
 
+    var liveInterviewConfirmStatus : String?
+        get() = pref!!.getString("AD_IN_MAIN_LANDING","0")
+        set(value) {pref!!.edit().putString("AD_IN_MAIN_LANDING",value).apply()}
+
+    fun getliveInterviewConfirmStatus(invitationId : String) : String{
+      return pref!!.getString(invitationId,"0").toString()
+    }
+    fun setliveInterviewConfirmStatus(invitationId : String, value : String){
+        pref!!.edit().putString(invitationId,value).apply()
+    }
     var isFirstInstall: Boolean?
         get() = pref!!.getBoolean("IS_FIRST_INSTALL",false)
         set(value) {pref!!.edit().putBoolean("IS_FIRST_INSTALL",value!!).commit()}

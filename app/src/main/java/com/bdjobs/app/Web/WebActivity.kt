@@ -44,8 +44,8 @@ class WebActivity : Activity() {
 
         cookieSyncManager = CookieSyncManager.createInstance(bdjobsWeb.context)
         cookieManager = CookieManager.getInstance()
-        cookieManager?.setAcceptCookie(true)
-        cookieManager?.removeSessionCookie()
+        cookieManager.setAcceptCookie(true)
+        cookieManager.removeSessionCookie()
 
     }
 
@@ -148,7 +148,7 @@ class WebActivity : Activity() {
             }
 
             "setUserId"->{
-                suggestiveSearchET.text = "Set/Change User Id"
+                suggestiveSearchET.text = "Set/Change User ID"
                 loadUrlWithCookie(url)
             }
 

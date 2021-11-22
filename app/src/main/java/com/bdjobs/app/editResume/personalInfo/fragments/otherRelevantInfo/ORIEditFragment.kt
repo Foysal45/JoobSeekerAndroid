@@ -64,10 +64,6 @@ class ORIEditFragment : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     private fun doWork() {
         try {
             data = oriEditCB.getOriData()
@@ -115,7 +111,7 @@ class ORIEditFragment : Fragment() {
         Timber.d("KeyWords: $keywords")
 
         keywords?.let {
-            toatalLength = keywords!!.length
+            toatalLength = keywords.length
         }
 
         //Log.d("qqqqq", "total length $toatalLength")

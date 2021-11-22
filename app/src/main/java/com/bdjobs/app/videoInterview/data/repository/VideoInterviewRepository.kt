@@ -64,7 +64,7 @@ class VideoInterviewRepository(val application: Application) {
     }
 
     suspend fun postVideoToRemote(): CommonResponse {
-        val file: File? = Constants?.file?.absoluteFile
+        val file: File? = Constants.file?.absoluteFile
         Log.d("rakib", "$file")
         val userId = session.userId?.toRequestBody()
         val decodeId = session.decodId?.toRequestBody()

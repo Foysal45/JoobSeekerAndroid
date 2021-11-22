@@ -2,6 +2,7 @@ package com.bdjobs.app.Registration.white_collar_registration
 
 import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class WCSocialInfoFragment : Fragment() {
 
         enterInfoButton?.setOnClickListener {
             registrationCommunicator.wcGoToStepName()
+            registrationCommunicator.wcSetOther()
         }
         wcSupportTextView?.setOnClickListener {
             activity.callHelpLine()

@@ -55,11 +55,6 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
 
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
-
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
         if (!isConnected) {
             mSnackBar = Snackbar
@@ -163,19 +158,19 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
 
     private fun openDialog() {
         val dialog = Dialog(this)
-        dialog?.setContentView(R.layout.dialog_pass)
-        dialog?.setCancelable(false)
-        dialog?.show()
-        val passET = dialog?.findViewById<EditText>(R.id.pass_et)
-        val okBtn = dialog?.findViewById<Button>(R.id.ok_btn)
+        dialog.setContentView(R.layout.dialog_pass)
+        dialog.setCancelable(false)
+        dialog.show()
+        val passET = dialog.findViewById<EditText>(R.id.pass_et)
+        val okBtn = dialog.findViewById<Button>(R.id.ok_btn)
 
         okBtn.setOnClickListener {
             passET?.let {
                 if (passET.text.toString() == "secret") {
-                    dialog?.dismiss()
+                    dialog.dismiss()
                     startActivity(intentFor<Login2BaseActivity>(key_go_to_home to true))
                 } else {
-                    dialog?.dismiss()
+                    dialog.dismiss()
                 }
             }
 

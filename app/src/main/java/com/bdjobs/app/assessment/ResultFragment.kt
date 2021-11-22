@@ -39,7 +39,7 @@ class ResultFragment : Fragment() {
 
         val result = ResultFragmentArgs.fromBundle(arguments!!).certificateData
 
-        val viewModelFactory = ResultViewModelFactory(result!!,application)
+        val viewModelFactory = ResultViewModelFactory(result,application)
 
         resultViewModel = ViewModelProvider(this,viewModelFactory).get(ResultViewModel::class.java)
 

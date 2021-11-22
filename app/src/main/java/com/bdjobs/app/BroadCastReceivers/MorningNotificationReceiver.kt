@@ -236,7 +236,7 @@ class MorningNotificationReceiver : BroadcastReceiver() {
             is VideoInvitation -> {
                 try {
                     val simpleDateFormat = SimpleDateFormat("d MMM yyyy", Locale.ENGLISH)
-                    val deadlineString = simpleDateFormat.format(data?.deadline)
+                    val deadlineString = simpleDateFormat.format(data.deadline)
                     val notificationText = "Submit your recorded Video Interview by before 12 at night, $deadlineString"
                     doAsync {
                         bdjobsInternalDB.notificationDao().insertNotification(Notification(type = "vi", serverId = data.jobId, seen = false, arrivalTime = date, seenTime = date, payload = "", imageLink = "", link = "", isDeleted = false, jobTitle = data.jobTitle, title = "", body = notificationText, companyName = data.companyName, notificationId = "", lanType = "", deadline = data.dateStringForSubmission.toString()))

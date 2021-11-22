@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat
 fun formatDateVP(lastUpdate: String): String {
     var lastUpdate1 = lastUpdate
     var formatter = SimpleDateFormat("M/dd/yyyy HH:mm:ss a")
-    val date = formatter.parse(lastUpdate1!!)
+    val date = formatter.parse(lastUpdate1)
     formatter = SimpleDateFormat("dd MMM yyyy")
     lastUpdate1 = formatter.format(date!!)
 

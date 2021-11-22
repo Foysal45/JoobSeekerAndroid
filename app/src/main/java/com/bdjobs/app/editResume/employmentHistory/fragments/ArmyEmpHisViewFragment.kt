@@ -102,7 +102,7 @@ class ArmyEmpHisViewFragment : Fragment() {
                             empHisCB.passArmyData(dModel)
                             setupViews(dModel)
                         } else {
-                            empHisCB?.passArmyData(null)
+                            empHisCB.passArmyData(null)
                             armyMainCl?.hide()
                             noData = true
                             nsArmyEmp.hide()

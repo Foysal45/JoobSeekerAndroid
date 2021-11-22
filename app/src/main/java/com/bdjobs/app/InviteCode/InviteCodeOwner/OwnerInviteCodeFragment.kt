@@ -77,7 +77,7 @@ class OwnerInviteCodeFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
             override fun onResponse(call: Call<OwnerInviteCodeModel>, response: Response<OwnerInviteCodeModel>) {
 
                 try {
-                    if (response?.body()?.statuscode == Constants.api_request_result_code_ok) {
+                    if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
                         promoCode = response.body()?.data?.get(0)?.inviteCode!!
                         inviteCodeTV.text = promoCode
                         shareIMGV.isEnabled = true
@@ -100,7 +100,7 @@ class OwnerInviteCodeFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
             override fun onResponse(call: Call<InviteCodeCategoryAmountModel>, response: Response<InviteCodeCategoryAmountModel>) {
 
                 try {
-                    if (response?.body()?.statuscode == Constants.api_request_result_code_ok) {
+                    if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
                         categoryAmountList.clear()
                         response.body()?.data?.let { dt ->
                             dt.forEach { dtt ->
@@ -127,7 +127,7 @@ class OwnerInviteCodeFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
             val categoryLV = dialog.findViewById(R.id.categoryLV) as ListView
             val cancelIconImgv = dialog.findViewById(R.id.cancelIconImgv) as ImageView
             val invitecodeCategoryListAdapter = InvitecodeCategoryListAdapter(activity, categoryAmountList)
-            categoryLV.setAdapter(invitecodeCategoryListAdapter)
+            categoryLV.adapter = invitecodeCategoryListAdapter
 
             dialog.setCancelable(true)
             dialog.show()
@@ -170,11 +170,6 @@ class OwnerInviteCodeFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
         super.onResume()
         ConnectivityReceiver.connectivityReceiverListener = this
         activity!!.registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
     }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {

@@ -173,7 +173,7 @@ class InterveiwInvitationListFragment : Fragment() {
                     followedRV?.adapter = interviewInvitationListAdapter
                     var data = "invitation"
 
-                    if (interviewInvitations.size!! > 0) {
+                    if (interviewInvitations.size > 0) {
                         invitationNoDataLL?.hide()
                         favCountTV.show()
                         followedRV?.show()

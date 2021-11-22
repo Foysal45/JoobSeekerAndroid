@@ -223,19 +223,19 @@ class BCNewExperienceFragment : Fragment() {
         dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
-        dialog?.setContentView(R.layout.add_skill_dialog_layout)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val addExperienceTIET = dialog?.findViewById<TextInputEditText>(R.id.addExperienceTIET)
-        val whereSkillText = dialog?.findViewById<TextView>(R.id.whereSkillText)
-        val firstCheckbox = dialog?.findViewById<CheckBox>(R.id.firstCheckbox)
-        val secondCheckBox = dialog?.findViewById<CheckBox>(R.id.secondCheckBox)
-        val thirdCheckBox = dialog?.findViewById<CheckBox>(R.id.thirdCheckBox)
-        val fourthCheckBox = dialog?.findViewById<CheckBox>(R.id.fourthCheckBox)
-        val fifthCheckBox = dialog?.findViewById<CheckBox>(R.id.fifthCheckBox)
-        val experienceLevelTIL = dialog?.findViewById<TextInputLayout>(R.id.experienceLevelTIL)
-        val experienceLevelTIET = dialog?.findViewById<TextInputEditText>(R.id.experienceLevelTIET)
-        val declineButton = dialog?.findViewById<MaterialButton>(R.id.declineButton)
-        val saveButton = dialog?.findViewById<MaterialButton>(R.id.saveButton)
+        dialog.setContentView(R.layout.add_skill_dialog_layout)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val addExperienceTIET = dialog.findViewById<TextInputEditText>(R.id.addExperienceTIET)
+        val whereSkillText = dialog.findViewById<TextView>(R.id.whereSkillText)
+        val firstCheckbox = dialog.findViewById<CheckBox>(R.id.firstCheckbox)
+        val secondCheckBox = dialog.findViewById<CheckBox>(R.id.secondCheckBox)
+        val thirdCheckBox = dialog.findViewById<CheckBox>(R.id.thirdCheckBox)
+        val fourthCheckBox = dialog.findViewById<CheckBox>(R.id.fourthCheckBox)
+        val fifthCheckBox = dialog.findViewById<CheckBox>(R.id.fifthCheckBox)
+        val experienceLevelTIL = dialog.findViewById<TextInputLayout>(R.id.experienceLevelTIL)
+        val experienceLevelTIET = dialog.findViewById<TextInputEditText>(R.id.experienceLevelTIET)
+        val declineButton = dialog.findViewById<MaterialButton>(R.id.declineButton)
+        val saveButton = dialog.findViewById<MaterialButton>(R.id.saveButton)
         saveButton?.isEnabled = false
 
 //        subCategories = fetchSubCategories(bcCategoryId)
@@ -247,7 +247,7 @@ class BCNewExperienceFragment : Fragment() {
 
                 addExperienceTIET.setText(subCategories[i])
                 whereSkillText.text = "কিভাবে '${subCategories[i]}' কাজের দক্ষতাটি শিখেছেন ?"
-                workExp = subCategories[i]!!
+                workExp = subCategories[i]
                 whereSkillText.show()
                 firstCheckbox.show()
                 secondCheckBox.show()

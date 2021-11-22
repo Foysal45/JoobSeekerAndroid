@@ -190,15 +190,6 @@ class VideoPagerActivity : AppCompatActivity(), ConnectivityReceiver.Connectivit
         exoPlayer.prepare()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)) {
-            showPictureInPicture()
-        } else {
-            super.onBackPressed()
-        }*/
-    }
-
     override fun onStart() {
         super.onStart()
         if (shouldResume) {
@@ -224,11 +215,6 @@ class VideoPagerActivity : AppCompatActivity(), ConnectivityReceiver.Connectivit
     override fun onDestroy() {
         super.onDestroy()
         exoPlayer.removeListener(eventListener)
-    }
-
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
-        //showPictureInPicture()
     }
 
     override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration?) {
@@ -301,10 +287,6 @@ class VideoPagerActivity : AppCompatActivity(), ConnectivityReceiver.Connectivit
         if (previousIndex >= 0) {
             binding.viewPager.currentItem = previousIndex
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun loadMoreVideo(index: Int, count: Int) {

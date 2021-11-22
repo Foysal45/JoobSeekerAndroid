@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.view.Window
 import android.widget.ImageView
 import android.widget.ScrollView
@@ -350,16 +349,16 @@ class Constants {
         fun showJobApplicationGuidelineDialog(context: Context) {
 
             val dialog = Dialog(context, R.style.Theme_Translucent_NoTitleBar)
-            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog?.setCancelable(true)
-            dialog?.setContentView(com.bdjobs.app.R.layout.job_application_guideline)
-            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(true)
+            dialog.setContentView(com.bdjobs.app.R.layout.job_application_guideline)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-            val backImageView = dialog?.findViewById<ImageView>(com.bdjobs.app.R.id.job_application_guideline_back_arrow)
-            val dropArrowImageView = dialog?.findViewById<ImageView>(com.bdjobs.app.R.id.job_application_guideline_drop_arrow)
-            val scrollView = dialog?.findViewById<ScrollView>(com.bdjobs.app.R.id.scroll_view)
-            val titleView = dialog?.findViewById<TextView>(com.bdjobs.app.R.id.job_application_guideline_how_it_works_title)
-            val howItWorksMessageView = dialog?.findViewById<TextView>(com.bdjobs.app.R.id.job_application_guideline_how_it_works_message)
+            val backImageView = dialog.findViewById<ImageView>(com.bdjobs.app.R.id.job_application_guideline_back_arrow)
+            val dropArrowImageView = dialog.findViewById<ImageView>(com.bdjobs.app.R.id.job_application_guideline_drop_arrow)
+            val scrollView = dialog.findViewById<ScrollView>(com.bdjobs.app.R.id.scroll_view)
+            val titleView = dialog.findViewById<TextView>(com.bdjobs.app.R.id.job_application_guideline_how_it_works_title)
+            val howItWorksMessageView = dialog.findViewById<TextView>(com.bdjobs.app.R.id.job_application_guideline_how_it_works_message)
 
             val bdjobsUserSession = BdjobsUserSession(context)
 
@@ -371,10 +370,10 @@ class Constants {
             }
 
             backImageView?.setOnClickListener {
-                dialog?.dismiss()
+                dialog.dismiss()
             }
 
-            dialog?.show()
+            dialog.show()
         }
 
         fun getDateTimeAsAgo(date: Date?): HashMap<String, Long> {

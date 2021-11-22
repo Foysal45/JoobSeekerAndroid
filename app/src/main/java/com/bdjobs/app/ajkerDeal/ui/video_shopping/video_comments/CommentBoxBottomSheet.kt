@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.concurrent.thread
 
-class CommentBoxBottomSheet() : BottomSheetDialogFragment() {
+class CommentBoxBottomSheet : BottomSheetDialogFragment() {
 
     private var binding: FragmentChatBoxBinding? = null
     var onItemClicked: ((message: String) -> Unit)? = null

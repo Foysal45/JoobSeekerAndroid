@@ -225,10 +225,8 @@
 
 
             <TextView
-                app:interviewConfirmationStatus="@{data.confimationStatus}"
-                app:previousScheduleDate="@{data.previousScheduleDate}"
                 android:id="@+id/notifyMsgTV"
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:drawablePadding="7dp"
@@ -236,13 +234,13 @@
                 android:textColor="#13A10E"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:interviewConfirmationStatus="@{data.confimationStatus}"
+                app:previousScheduleDate="@{data.previousScheduleDate}"
                 tools:text="Reschedule Confirmed" />
 
             <TextView
-                android:visibility="@{data.confirmationDate.empty ? View.GONE : View.VISIBLE}"
                 android:id="@+id/notifyDateTV"
                 android:layout_width="wrap_content"
-                android:text="@{data.confirmationDate}"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/notifyMsgTV"
                 android:layout_alignParentRight="true"
@@ -250,9 +248,11 @@
                 android:drawableLeft="@drawable/job_cal_ic"
                 android:drawablePadding="7dp"
                 android:gravity="center"
-                tools:text="13 Sep, 2018"
+                android:text="@{data.confirmationDate}"
                 android:textColor="#7D7D7D"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="@{data.confirmationDate.empty ? View.GONE : View.VISIBLE}"
+                tools:text="13 Sep, 2018" />
 
             <TextView
                 android:text="@{data.confirmationMessage}"

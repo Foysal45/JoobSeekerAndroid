@@ -82,7 +82,7 @@ class PreferredAreasViewFragment : Fragment() {
                         clPrefAreaView.show()
                         val respo = response.body()
                         prefCallBack.passPrefAreasData(respo?.prefData?.get(0)!!)
-                        setupView(respo?.prefData?.get(0)!!)
+                        setupView(respo.prefData.get(0)!!)
                         prefCallBack.setEditButton(true, "editPrefAreas")
                     }
                 } catch (e: Exception) {
@@ -122,7 +122,7 @@ class PreferredAreasViewFragment : Fragment() {
         try {
             if (preferredInsideBDLocs != null) {
                 if (preferredInsideBDLocs.isNotEmpty()) {
-                    preferredInsideBDLocs?.forEach {
+                    preferredInsideBDLocs.forEach {
                         addChip(it?.districtName!!, cg_org_pref_locs)
                         textView50?.show()
                     }
@@ -136,7 +136,7 @@ class PreferredAreasViewFragment : Fragment() {
         removeChips(cg_org_pref_out_locs)
         try {
             if (preferredOutsideBDLocs != null) {
-                if (preferredOutsideBDLocs!!.isNotEmpty()) {
+                if (preferredOutsideBDLocs.isNotEmpty()) {
                     //Log.d("rakib", "preferred area if")
                     textView51.show()
                     preferredOutsideBDLocs.forEach {

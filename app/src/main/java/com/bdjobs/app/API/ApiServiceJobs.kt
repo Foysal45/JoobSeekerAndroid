@@ -5,6 +5,7 @@ import com.bdjobs.app.BuildConfig
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.Constants.Companion.api_jobs_db_update
 import com.google.gson.GsonBuilder
+import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -394,6 +395,7 @@ interface ApiServiceJobs {
 
             val okHttpClient = OkHttpClient.Builder()
                     .addInterceptor(interceptor)
+                    .addInterceptor(OkHttpProfilerInterceptor())
                     .build()
 
             return Retrofit.Builder().apply{

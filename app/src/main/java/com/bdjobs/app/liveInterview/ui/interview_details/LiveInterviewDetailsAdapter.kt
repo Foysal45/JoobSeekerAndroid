@@ -1,15 +1,17 @@
 package com.bdjobs.app.liveInterview.ui.interview_details
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.databinding.LayoutItemLiveInterviewDetailsBinding
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewDetails
 
-class LiveInterviewDetailsAdapter(val context: Context, val clickListener: ClickListener) :
+class LiveInterviewDetailsAdapter(val session: BdjobsUserSession, val context: Context, val clickListener: ClickListener) :
         ListAdapter<LiveInterviewDetails.Data, LiveInterviewDetailsAdapter.LiveInterviewDetailsHolder>(
                 DiffUtilCallback
         ) {
@@ -24,7 +26,7 @@ class LiveInterviewDetailsAdapter(val context: Context, val clickListener: Click
     }
 
     override fun onBindViewHolder(holder: LiveInterviewDetailsHolder, position: Int) {
-        holder.bind(getItem(position), clickListener)
+        holder.bind(session, getItem(position), clickListener)
     }
 
     companion object DiffUtilCallback : DiffUtil.ItemCallback<LiveInterviewDetails.Data>() {
@@ -35,6 +37,8 @@ class LiveInterviewDetailsAdapter(val context: Context, val clickListener: Click
         override fun areContentsTheSame(oldItem: LiveInterviewDetails.Data, newItem: LiveInterviewDetails.Data): Boolean {
             return oldItem.invitationId == newItem.invitationId
         }
+
+
     }
 
     class LiveInterviewDetailsHolder(private var binding: LayoutItemLiveInterviewDetailsBinding) :
@@ -48,12 +52,31 @@ class LiveInterviewDetailsAdapter(val context: Context, val clickListener: Click
             }
         }
 
-        fun bind(liveInterviewDetailsData: LiveInterviewDetails.Data, clickListener: ClickListener) {
+        fun bind(session: BdjobsUserSession, liveInterviewDetailsData: LiveInterviewDetails.Data, clickListener: ClickListener) {
+
+            val showUndo = liveInterviewDetailsData.invitationId?.let {
+                session.getliveInterviewConfirmStatus(
+                    it
+                )
+            }
+
+            Log.e("viewModel adapter", ""+liveInterviewDetailsData.showUndo)
+
+            if (showUndo == "1"){
+                Log.e("viewModel adapter2", ""+showUndo)
+                liveInterviewDetailsData.showUndo = "0"
+
+                Log.e("viewModel adapter3", ""+liveInterviewDetailsData.showUndo)
+            }
             binding.data = liveInterviewDetailsData
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
+
+
     }
+
+
 }
 
 class ClickListener(val clickListener: (liveInterviewDetailsData: LiveInterviewDetails.Data) -> Unit) {

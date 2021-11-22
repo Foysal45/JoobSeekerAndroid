@@ -93,7 +93,7 @@ class ContactViewFragment : Fragment() {
                         session.userPresentThana = dataStorage.getLocationNameByID(d?.presentThana)
                         session.userPresentPostOffice = dataStorage.getLocationNameByID(d?.presentPostOffice)
 
-                        setupView(respo?.data?.get(0)!!)
+                        setupView(respo.data.get(0)!!)
                         contactCB.setEditButton(true, "editContact")
 
                         session.userMobileNumber = respo.data[0]?.primaryMobile
@@ -112,8 +112,8 @@ class ContactViewFragment : Fragment() {
         contactCB.setPostOffice(info?.presentPostOffice)
         contactCB.setPmThana(info?.permanentThana)
         contactCB.setPmPostOffice(info?.permanentPostOffice)
-        contactCB?.setPresentDistrict(info?.presentDistrict)
-        contactCB?.setPermanentDistrict(info?.permanentDistrict)
+        contactCB.setPresentDistrict(info?.presentDistrict)
+        contactCB.setPermanentDistrict(info?.permanentDistrict)
 
         var presentAddress = if (info?.presentDistrict.equals("")) "" else info?.presentVillage +
                 ", " + dataStorage.getLocationNameByID(info?.presentThana) +
@@ -202,7 +202,7 @@ class ContactViewFragment : Fragment() {
         } else if(info?.phoneAsUsername == "1"){
             tv_email_change_user_id.hide()
             tv_mobile_change_user_id.show()
-        }else if (info?.emailAsUsername == "0" && info?.phoneAsUsername == "0"){
+        }else if (info?.emailAsUsername == "0" && info.phoneAsUsername == "0"){
             tv_email_change_user_id.show()
             tv_mobile_change_user_id.show()
         }else{

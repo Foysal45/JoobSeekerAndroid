@@ -56,11 +56,6 @@ class AppliedJobsFragment : Fragment() {
     lateinit var messageValidDate: Date
     lateinit var currentDate: Date
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -224,18 +219,18 @@ class AppliedJobsFragment : Fragment() {
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                         //   TOTAL_PAGES = 5
 
-                        jobsAppliedSize = totalRecords?.toInt()!!
+                        jobsAppliedSize = totalRecords.toInt()
 
 
-                        if (!response?.body()?.data.isNullOrEmpty()) {
+                        if (!response.body()?.data.isNullOrEmpty()) {
 
                             status_card_ll?.show()
                             job_status_ll?.show()
 
 
-                            Constants.totalContacted = response?.body()?.activity?.get(0)?.totalContacted!!.toInt()
-                            Constants.totalNotContacted = response?.body()?.activity?.get(0)?.totalNotContacted!!.toInt()
-                            Constants.totalHired = response?.body()?.activity?.get(0)?.totalHired!!.toInt()
+                            Constants.totalContacted = response.body()?.activity?.get(0)?.totalContacted!!.toInt()
+                            Constants.totalNotContacted = response.body()?.activity?.get(0)?.totalNotContacted!!.toInt()
+                            Constants.totalHired = response.body()?.activity?.get(0)?.totalHired!!.toInt()
 
                             not_contacted_count_tv?.text = "${Constants.totalNotContacted}"
                             contacted_count_tv?.text = "${Constants.totalContacted}"
@@ -251,7 +246,7 @@ class AppliedJobsFragment : Fragment() {
                             experienceList?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
                             //Log.d("callAppliURlex", "size = ${value?.size}")
                             appliedJobsCommunicator.setexperienceList(experienceList!!)
-                            jobsAppliedSize = totalRecords?.toInt()!!
+                            jobsAppliedSize = totalRecords.toInt()
 
 
                             if (pgNo == TOTAL_PAGES!!) {
@@ -276,7 +271,7 @@ class AppliedJobsFragment : Fragment() {
                         /* val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
                          favCountTV.text = Html.fromHtml(styledText)*/
 
-                        if (totalRecords?.toInt()!! > 1) {
+                        if (totalRecords.toInt() > 1) {
                             val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs applied"
                             favCountTV?.text = Html.fromHtml(styledText)
                         } else {
@@ -373,7 +368,7 @@ class AppliedJobsFragment : Fragment() {
                         appliedJobsAdapter?.removeLoadingFooter()
                         isLoadings = false
 
-                        appliedJobsAdapter?.addAll((response?.body()?.data as List<AppliedJobModelData>?)!!)
+                        appliedJobsAdapter?.addAll((response.body()?.data as List<AppliedJobModelData>?)!!)
 
 
                         if (pgNo < TOTAL_PAGES!!)

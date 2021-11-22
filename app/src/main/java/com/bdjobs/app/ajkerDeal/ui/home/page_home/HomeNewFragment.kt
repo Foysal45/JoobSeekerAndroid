@@ -245,7 +245,7 @@ class HomeNewFragment : Fragment() {
 
                 Timber.d("requestBody ${liveList.size}")
                 val replayList = liveList.filter { it.statusName == "replay" }
-                playIndex = replayList.indexOf(model) ?: -1
+                playIndex = replayList.indexOf(model)
                 replayList.forEach { model1 ->
                     generateLiveVideoList(model1, videoList)
                 }

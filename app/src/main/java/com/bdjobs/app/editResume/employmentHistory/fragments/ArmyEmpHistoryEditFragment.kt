@@ -113,7 +113,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
             val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.US)
             if (isEdit) {
                 date = formatter.parse(et_commission.text.toString())
-                cal?.time = date
+                cal.time = date
                 pickDate(activity, cal, commissionDateSetListener)
             } else {
                 if (et_commission.text.isNullOrEmpty())
@@ -131,7 +131,7 @@ class ArmyEmpHistoryEditFragment : Fragment() {
             val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.US)
             if (isEdit) {
                 date = formatter.parse(et_retire.text.toString())
-                cal?.time = date
+                cal.time = date
                 pickDate(activity, cal, retireDateSetListener)
             } else {
                 if (et_retire.text.toString().isNullOrEmpty()){
