@@ -63,6 +63,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.*
 import retrofit2.Call
@@ -1060,6 +1061,7 @@ class JobDetailAdapter(private val context: Context) :
 
                     }
                 })
+
             }
 
             LOADING -> {
@@ -1228,7 +1230,7 @@ class JobDetailAdapter(private val context: Context) :
                                 liveList.clear()
                                 liveList.addAll(list)
                                 dataAdapter.initList(list)
-                                Timber.d("requestBody ${dataAdapter.itemCount}, ${list.size}, ${liveList.size}, $list")
+//                                Timber.d("requestBody ${dataAdapter.itemCount}, ${list.size}, ${liveList.size}, $list")
                                 //val position = mHomePageDataList.indexOfFirst { it.homeViewType == HomeViewType.TYPE_LIVE }
                                 val position = classifiedHashMap["1"] ?: -1
                                 if (position == -1) return
