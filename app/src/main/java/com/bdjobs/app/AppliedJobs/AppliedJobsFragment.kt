@@ -26,6 +26,7 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -137,6 +138,8 @@ class AppliedJobsFragment : Fragment() {
     }
 
     private fun loadFirstPage(activityDate: String) {
+
+        Timber.d("Loading first page: $activityDate")
 //
         try {
             appliedJobsRV?.hide()
@@ -181,8 +184,9 @@ class AppliedJobsFragment : Fragment() {
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
                             favCountTV?.text = Html.fromHtml(styledText)
 
-
+                        }
                             if (appliedJobsCommunicator.getTime() == "1") {
+                                Timber.d("I am here at 1")
                                 availableJobsCountTV?.show()
 
                                 daysRemainingCountTV?.show()
@@ -196,8 +200,8 @@ class AppliedJobsFragment : Fragment() {
                                 }
 
                                 availableJobs = jobApplyLimit - totalRecords.toInt()
-//                                //Log.d("rakib", "load ${availableJobs}")
 
+                                Timber.d("Available Jobs: $availableJobs")
 
                                 if (availableJobs > 1) {
                                     val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
@@ -207,11 +211,13 @@ class AppliedJobsFragment : Fragment() {
                                     availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
                                 }
                             } else {
+
+                                Timber.d("I am here at 2")
                                 availableJobsCountTV?.hide()
 
                                 daysRemainingCountTV?.hide()
                             }
-                        }
+
 
 
 
@@ -296,6 +302,12 @@ class AppliedJobsFragment : Fragment() {
 
                                 availableJobs = jobApplyLimit - totalRecords.toInt()
 
+                                if (availableJobs>50) {
+                                    daysRemainingCountTV?.hide()
+                                } else {
+                                    daysRemainingCountTV?.show()
+                                }
+
                                 if (availableJobs > 1) {
                                     val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
                                     availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -320,7 +332,13 @@ class AppliedJobsFragment : Fragment() {
                     appliedJobsRV?.show()
                     favCountTV?.show()
                     availableJobsCountTV?.show()
-                    daysRemainingCountTV?.show()
+                    if (availableJobs>50) {
+                        Timber.d("Available job is greater than 50")
+                        daysRemainingCountTV?.visibility = View.GONE
+                    } else {
+                        Timber.d("Available job is lesser than 50")
+                        daysRemainingCountTV?.visibility = View.VISIBLE
+                    }
                     shimmer_view_container_appliedJobList?.hide()
                     shimmer_view_container_appliedJobList?.stopShimmer()
                 }
@@ -431,6 +449,13 @@ class AppliedJobsFragment : Fragment() {
     fun incrementAvailableJobCount() {
         try {
             availableJobs = jobApplyLimit - jobsAppliedSize
+
+            if (availableJobs>50) {
+                daysRemainingCountTV?.hide()
+            } else {
+                daysRemainingCountTV?.show()
+            }
+
             if (appliedJobsCommunicator.getTime() == "1") {
                 if (availableJobs > 1) {
                     val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
