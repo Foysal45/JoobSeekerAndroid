@@ -70,6 +70,8 @@ class MyBdJobsAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.
                         Constants.session_key_mybdjobscount_jobs_applied -> Constants.session_key_mybdjobscount_jobs_applied_label
                         Constants.session_key_mybdjobscount_interview_invitation -> Constants.session_key_mybdjobscount_interview_invitation_label
                         Constants.session_key_mybdjobscount_message_by_employers -> Constants.session_key_mybdjobscount_message_by_employers_label
+                        Constants.session_key_mybdjobscount_times_emailed_resume -> Constants.session_key_mybdjobscount_times_emailed_resume_label
+                        Constants.session_key_mybdjobscount_employers_followed -> Constants.session_key_mybdjobscount_employers_followed_label
                         else -> myBdJobsItems?.get(position)?.itemName
 
                     }
