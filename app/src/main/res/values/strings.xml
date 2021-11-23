@@ -531,7 +531,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_receive_sms_package_benefit">Receive SMS according to Matched jobs by default</string>
     <string name="label_sms_fav_search_benefit">Get SMS Job Alert from Favorite Job Search you have subscribed</string>
     <string name="label_sms_following_emp_benefit">Get SMS Job Alert from the Following Employer you have subscribed</string>
-    <string name="label_duration_unlimited">Duration: Unlimited</string>
+    <string name="label_duration_unlimited">Duration: 12 Months (Above 200 SMS)</string>
     <string name="label_get_customized_sms_packs">Get Customized SMS Packs</string>
     <string name="label_customized_sms_pack">Customized SMS Pack</string>
     <string name="_20_sms">20 SMS</string>
