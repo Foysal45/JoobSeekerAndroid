@@ -607,8 +607,14 @@ class JobDetailAdapter(private val context: Context) :
                                 )
 
                                 uiThread {
+
                                     if (appliedJobs.isEmpty()) {
                                         jobsVH.appliedBadge.hide()
+
+                                        jobsVH.videoResumeEncBottomRoot.visibility =
+                                            View.GONE
+                                        jobsVH.alertTv.visibility = View.VISIBLE
+
                                     } else {
                                         jobsVH.appliedBadge.show()
                                         jobsVH.videoResumeEncouragementTV.visibility = View.GONE
