@@ -2,7 +2,6 @@ package com.bdjobs.app.Registration
 
 //import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import android.app.Activity
-import android.app.FragmentManager
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -166,7 +165,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         callbackManager = CallbackManager.Factory.create()
         dataStorage = DataStorage(this)
 
-        transitFragment(registrationLandingFragment, R.id.registrationFragmentHolderFL)
+       // transitFragment(registrationLandingFragment, R.id.registrationFragmentHolderFL)
+        transitFragment(bcEducationFragment, R.id.registrationFragmentHolderFL)
 
         backIcon.setOnClickListener {
             onBackPressed()
