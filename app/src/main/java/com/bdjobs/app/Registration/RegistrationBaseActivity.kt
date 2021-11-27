@@ -165,8 +165,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         callbackManager = CallbackManager.Factory.create()
         dataStorage = DataStorage(this)
 
-       // transitFragment(registrationLandingFragment, R.id.registrationFragmentHolderFL)
-        transitFragment(bcEducationFragment, R.id.registrationFragmentHolderFL)
+        transitFragment(registrationLandingFragment, R.id.registrationFragmentHolderFL)
+       // transitFragment(bcEducationFragment, R.id.registrationFragmentHolderFL)
 
         backIcon.setOnClickListener {
             onBackPressed()
