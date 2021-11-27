@@ -139,7 +139,7 @@ class BdjobsUserSession(val context: Context) {
     private fun killCurrentApp(context: Context) {
         val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val appTasks = am!!.appTasks
+            val appTasks = am!!.getAppTasks()
             if (appTasks.size > 0) {
                 val appTask = appTasks[0]
                 appTask.finishAndRemoveTask()
@@ -628,5 +628,17 @@ class BdjobsUserSession(val context: Context) {
     fun setliveInterviewConfirmStatus(invitationId : String, value : String){
         pref!!.edit().putString(invitationId,value).apply()
     }
+    var isFirstInstall: Boolean?
+        get() = pref!!.getBoolean("IS_FIRST_INSTALL",false)
+        set(value) {pref!!.edit().putBoolean("IS_FIRST_INSTALL",value!!).commit()}
+
+    var firstInstallAt: String?
+    get() = pref!!.getString("FIRST_INSTALL_DATE","")
+    set(value) {pref!!.edit().putString("FIRST_INSTALL_DATE",value).commit()}
+
+    var isExpirationMessageShown : Boolean
+    get() = pref!!.getBoolean("EXP_MSG_SHOWN",false)
+    set(value) {pref!!.edit().putBoolean("EXP_MSG_SHOWN",value).commit()}
+
 
 }

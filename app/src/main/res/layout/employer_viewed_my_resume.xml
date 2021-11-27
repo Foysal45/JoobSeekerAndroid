@@ -70,39 +70,42 @@
                     android:id="@+id/iv_bdjobs_resume"
                     app:srcCompat="@drawable/ic_bdjobs_resume_count"
                     android:paddingEnd="8dp"
-                    tools:visibility="gone"
+                    tools:visibility="visible"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:id="@+id/iv_per_resume"
                     app:srcCompat="@drawable/ic_personalized_resume_count"
                     android:paddingEnd="8dp"
-                    tools:visibility="gone"
+                    tools:visibility="visible"
                     app:layout_constraintStart_toEndOf="@id/iv_bdjobs_resume"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="@id/iv_bdjobs_resume"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_bdjobs_resume"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:id="@+id/iv_video_resume"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:srcCompat="@drawable/ic_video_resume_count"
                     android:paddingEnd="8dp"
+                    tools:visibility="visible"
                     app:layout_constraintStart_toEndOf="@id/iv_per_resume"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="@id/iv_per_resume"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_per_resume"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:id="@+id/iv_summary_view"
                     android:paddingEnd="8dp"
-                    tools:visibility="gone"
+                    tools:visibility="visible"
                     app:srcCompat="@drawable/ic_summary_view"
                     app:layout_constraintStart_toEndOf="@id/iv_video_resume"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="@id/iv_video_resume"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_video_resume"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

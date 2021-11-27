@@ -1,10 +1,9 @@
 package com.bdjobs.app.AppliedJobs
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException

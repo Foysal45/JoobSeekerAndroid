@@ -57,6 +57,7 @@ interface HomeCommunicator {
     fun getCompanyName() : String
     fun getTotalFollowedEmployersCount():Int
     fun setTotalFollowedEmployersCount(count: Int)
+    fun getTime() : String
 
     // favourite search
     fun getTotalFavouriteSearchCount():Int

@@ -204,11 +204,14 @@ class Constants {
         const val session_key_mybdjobscount_live_invitation_alltime = "live_invitation_alltime"
 
         const val session_key_mybdjobscount_jobs_applied = "Jobs\nApplied"
+        const val session_key_mybdjobscount_jobs_applied_label = "Applied\nJobs"
         const val session_key_mybdjobscount_times_emailed_resume = "Times Emailed\nResume"
         const val session_key_mybdjobscount_employers_viwed_resume = "Employers Viewed\nResume"
         const val session_key_mybdjobscount_employers_followed = "Employers\nFollowed"
         const val session_key_mybdjobscount_interview_invitation = "Interview\nInvitations"
+        const val session_key_mybdjobscount_interview_invitation_label = "General\nInterview"
         const val session_key_mybdjobscount_message_by_employers = "Messages by\nEmployers"
+        const val session_key_mybdjobscount_message_by_employers_label = "Employers\nMessage"
         const val session_key_mybdjobscount_video_invitation = "Video Interview\nInvitations"
         const val session_key_mybdjobscount_live_invitation = "Live Interview\nInvitations"
 
@@ -266,6 +269,7 @@ class Constants {
         const val NOTIFICATION_TYPE_APPLIED_JOBS = "aj"
         const val NOTIFICATION_TYPE_LIVE_INTERVIEW = "li"
         const val NOTIFICATION_TYPE_ALERT_NOTIFICATION = "an"
+        const val NOTIFICATION_TYPE_JOB_EXPIRATION_NOTIFICATION = "exp"
 
         const val NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE = "bpm"
 
@@ -440,5 +444,9 @@ class Constants {
                         "[a-zA-Z0-9][a-zA-Z0-9\\-]{1,25}" +
                         ")+"
         )
+
+        const val DOC = "application/msword"
+        const val DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        const val PDF = "application/pdf"
     }
 }

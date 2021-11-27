@@ -29,8 +29,8 @@ import timber.log.Timber
 class MyJobsFragment : Fragment() {
 
 
-    lateinit var bdjobsDB: BdjobsDB
-    lateinit var bdjobsUserSession: BdjobsUserSession
+    lateinit var bdJobsDB: BdjobsDB
+    lateinit var bdJobsUserSession: BdjobsUserSession
     lateinit var homeCommunicator: HomeCommunicator
 
     override fun onCreateView(
@@ -42,14 +42,33 @@ class MyJobsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProvider(this).get(MyJobsViewModel::class.java)
 
-        activity?.transitFragment(ShortListedJobFragment(),R.id.fragment_container,false)
+        Timber.d("From : ${arguments?.getString("from")}")
 
-        bdjobsDB = BdjobsDB.getInstance(requireContext())
-        bdjobsUserSession = BdjobsUserSession(requireContext())
+        when (arguments?.getString("from")) {
+            "favSearch" -> {
+                try {
+                    activity?.transitFragment(FavouriteSearchList(),R.id.fragment_container,false)
+                    tabs.getTabAt(2)?.select()
+                } catch (e: Exception) {
+                }
+            }
+            "follow" -> {
+                try {
+                    activity?.transitFragment(FollowedEmployersFragment(),R.id.fragment_container,false)
+                    tabs.getTabAt(1)?.select()
+                } catch (e: Exception) {
+                }
+            }
+            else -> {
+                activity?.transitFragment(ShortListedJobFragment(),R.id.fragment_container,false)
+            }
+        }
+
+        bdJobsDB = BdjobsDB.getInstance(requireContext())
+        bdJobsUserSession = BdjobsUserSession(requireContext())
         homeCommunicator = requireActivity() as HomeCommunicator
-        profilePicIMGV?.loadCircularImageFromUrl(bdjobsUserSession.userPicUrl)
+        profilePicIMGV?.loadCircularImageFromUrl(bdJobsUserSession.userPicUrl)
         searchIMGV?.setOnClickListener {
             homeCommunicator.gotoJobSearch()
         }
@@ -88,6 +107,14 @@ class MyJobsFragment : Fragment() {
         showMessageCount()
     }
 
+    override fun onDetach() {
+
+        Timber.d("Detached!")
+        arguments?.putString("from","short")
+
+        super.onDetach()
+    }
+
     @SuppressLint("SetTextI18n")
     fun updateMessageView(count: Int?) {
         if (count!! > 0) {
@@ -106,21 +133,21 @@ class MyJobsFragment : Fragment() {
         try {
 
             doAsync {
-                bdjobsUserSession = BdjobsUserSession(requireContext())
-                val count = bdjobsDB.notificationDao().getMessageCount()
+                bdJobsUserSession = BdjobsUserSession(requireContext())
+                val count = bdJobsDB.notificationDao().getMessageCount()
                 Timber.d("Messages count: $count")
-                bdjobsUserSession.updateMessageCount(count)
+                bdJobsUserSession.updateMessageCount(count)
             }
 
-            if (bdjobsUserSession.messageCount!! <= 0) {
+            if (bdJobsUserSession.messageCount!! <= 0) {
                 messageCountTV?.hide()
             } else {
                 messageCountTV?.show()
-                if (bdjobsUserSession.messageCount!! > 99) {
+                if (bdJobsUserSession.messageCount!! > 99) {
                     messageCountTV?.text = "99+"
 
                 } else {
-                    messageCountTV?.text = "${bdjobsUserSession.messageCount!!}"
+                    messageCountTV?.text = "${bdJobsUserSession.messageCount!!}"
 
                 }
             }
@@ -131,16 +158,16 @@ class MyJobsFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun showNotificationCount() {
         try {
-            bdjobsUserSession = BdjobsUserSession(requireContext())
-            if (bdjobsUserSession.notificationCount!! <= 0) {
+            bdJobsUserSession = BdjobsUserSession(requireContext())
+            if (bdJobsUserSession.notificationCount!! <= 0) {
                 notificationCountTV?.hide()
             } else {
                 notificationCountTV?.show()
-                if (bdjobsUserSession.notificationCount!! > 99) {
+                if (bdJobsUserSession.notificationCount!! > 99) {
                     notificationCountTV?.text = "99+"
 
                 } else {
-                    notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
+                    notificationCountTV?.text = "${bdJobsUserSession.notificationCount!!}"
 
                 }
             }

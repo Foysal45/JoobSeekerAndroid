@@ -261,7 +261,7 @@ class BdjobsFirebaseMessagingService : FirebaseMessagingService() {
     private fun insertNotificationInToDatabase(data: String) {
         bdjobsUserSession = BdjobsUserSession(applicationContext)
         bdjobsInternalDB = BdjobsDB.getInstance(applicationContext)
-        val date: Date? = Date()
+        val date: Date = Date()
 
             if (commonNotificationModel.type != "pm") {
             doAsync {

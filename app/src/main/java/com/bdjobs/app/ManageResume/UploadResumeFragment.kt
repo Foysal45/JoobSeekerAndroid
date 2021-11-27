@@ -91,16 +91,28 @@ class UploadResumeFragment : Fragment() {
         fetchPersonalizedResumeStat()
 
         submitTV?.setOnClickListener {
-            if (!checkPermission()){
-                requestPermission()
-            } else {
-//                browseFile()
-                if (SDK_INT >= Build.VERSION_CODES.R) {
-                    openStorageAccess()
+            if (bdjobsUserSession.isCvPosted.equals("True",ignoreCase = true)) {
+                if (!checkPermission()){
+                    requestPermission()
                 } else {
-                    browseFile()
+                    if (SDK_INT >= Build.VERSION_CODES.R) {
+                        openStorageAccess()
+                    } else {
+                        browseFile()
+                    }
                 }
+            } else {
+                try {
+                    if (isAdded) {
+                        Toast.makeText(
+                            context,
+                            "Please post Bdjobs resume to upload personalized resume",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e:Exception){}
             }
+
         }
         backIV.setOnClickListener {
             communicator.backButtonPressed()
@@ -272,7 +284,8 @@ class UploadResumeFragment : Fragment() {
                         try {
                             val inputStream = context.contentResolver.openInputStream(uri)
                             val bytes = inputStream?.readBytes()
-                            val file = FileUtil.instance.writeBytesAsPdf(context, bytes!!)
+                            val fileExtensions = FileUtil.instance.getFileExtension(context.contentResolver.getType(uri)!!)
+                            val file = FileUtil.instance.writeBytes(context, bytes!!, fileExtensions)
                             checkFileSize(Uri.fromFile(file))
                         } catch (ex: java.lang.Exception){
                             ex.printStackTrace()
@@ -359,11 +372,14 @@ class UploadResumeFragment : Fragment() {
             }
         } else {
             try {
-                Toast.makeText(
-                    context,
-                    "Please select a valid pdf or doc or docx file",
-                    Toast.LENGTH_SHORT
-                ).show()
+                if (isAdded) {
+                    Toast.makeText(
+                        context,
+                        "Please select a valid pdf or doc or docx file",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             } catch (e:Exception){}
         }
     }
@@ -429,9 +445,9 @@ class UploadResumeFragment : Fragment() {
     }
 
     private fun openStorageAccess() {
-        val mimeTypes = arrayOf("application/doc", "application/ms-doc", "application/msword", "application/pdf")
+        val mimeTypes = arrayOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/pdf")
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "application/pdf|application/doc|application/ms-doc|application/msword"
+            type = "*/*"
             addCategory(Intent.CATEGORY_OPENABLE)
             putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
             putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)

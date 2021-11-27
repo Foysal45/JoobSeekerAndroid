@@ -1,5 +1,6 @@
 package com.bdjobs.app.videoInterview.util
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.util.Log
 import android.view.View
@@ -274,6 +275,7 @@ fun bindInviteStatus(view: View, videoInvitationData: VideoInterviewList.Data) {
     }
 }
 
+@SuppressLint("SetTextI18n")
 @BindingAdapter("employerSeenStatus")
 fun bindEmployerSeenStatus(view: View, employerSeenDate: String) {
     if (employerSeenDate == "") {
@@ -292,7 +294,7 @@ fun bindEmployerSeenStatus(view: View, employerSeenDate: String) {
             }
             is TextView -> {
                 view.show()
-                view.text = "Seen by: ${employerSeenDate}"
+                view.text = "Seen: $employerSeenDate"
                 view.setTextColor(Color.parseColor("#393939"))
             }
         }

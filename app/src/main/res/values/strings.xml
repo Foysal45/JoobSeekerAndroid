@@ -548,9 +548,11 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="duration_12_month">Duration: 12 Month</string>
 
     <string name="followed_emp_step_3">- Tap <font color="#13A10E"><b>+ Follow</b></font> button.</string>
-    <string name="followed_emp_instruction">You can also follow employers from Company Information in job details page by tapping <font color="#13A10E"><b>+ Follow</b></font> button.</string>
+    <string name="followed_emp_instruction">You can also follow employers from Company Information in job details page by tapping\n<font color="#13A10E"><b>+ Follow</b></font> button.</string>
 
     <string name="favourite_search_step_3">- Tap ❤<font color ="#979797"> Save Search</font> button.</string>
+
+    <string name="label_video_resume_encouragement">This Employer has encouraged you to submit your Video Resume. <b>Submit Now</b></string>
 
     <string-array name="spinnerFilterItemEmailResume">
         <item>All</item>

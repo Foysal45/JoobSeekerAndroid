@@ -20,7 +20,6 @@ import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.Constants
 import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 
 class MyBdJobsAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -37,12 +36,13 @@ class MyBdJobsAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.
         var viewHolder: RecyclerView.ViewHolder? = null
         val inflater = LayoutInflater.from(parent.context)
 
-        when(viewType) {
+        when (viewType) {
             NORMAL -> {
                 viewHolder = MyBdJobsViewHolder(inflater.inflate(R.layout.item_grid, parent, false))
             }
             AJKER_DEAL -> {
-                viewHolder = AjkerDealLiveVH(inflater.inflate(R.layout.item_ajker_deal_live,parent,false))
+                viewHolder =
+                    AjkerDealLiveVH(inflater.inflate(R.layout.item_ajker_deal_live, parent, false))
             }
         }
 
@@ -50,12 +50,12 @@ class MyBdJobsAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.
     }
 
     override fun getItemCount(): Int {
-        return if (myBdJobsItems!=null && myBdJobsItems!!.size>0)  myBdJobsItems!!.size else 0
+        return if (myBdJobsItems != null && myBdJobsItems!!.size > 0) myBdJobsItems!!.size else 0
 
     }
 
     override fun getItemViewType(position: Int): Int {
-        return  NORMAL
+        return NORMAL
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -63,22 +63,44 @@ class MyBdJobsAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.
         try {
 
 
-            when(getItemViewType(position)) {
+            when (getItemViewType(position)) {
                 NORMAL -> {
                     val holderMyBdJobs = holder as MyBdJobsViewHolder
-                    holderMyBdJobs.itemName.text = myBdJobsItems?.get(position)?.itemName
+                    holderMyBdJobs.itemName.text = when (myBdJobsItems?.get(position)?.itemName) {
+                        Constants.session_key_mybdjobscount_jobs_applied -> Constants.session_key_mybdjobscount_jobs_applied_label
+                        Constants.session_key_mybdjobscount_interview_invitation -> Constants.session_key_mybdjobscount_interview_invitation_label
+                        Constants.session_key_mybdjobscount_message_by_employers -> Constants.session_key_mybdjobscount_message_by_employers_label
+                        else -> myBdJobsItems?.get(position)?.itemName
+
+                    }
                     holderMyBdJobs.itemValue.text = myBdJobsItems?.get(position)?.itemID
-                    myBdJobsItems?.get(position)?.backgroundID?.let { holderMyBdJobs.backgroundRRL.setBackgroundResource(it) }
-                    myBdJobsItems?.get(position)?.resourceID?.let { holderMyBdJobs.itemIcon.setBackgroundResource(it) }
+                    myBdJobsItems?.get(position)?.backgroundID?.let {
+                        holderMyBdJobs.backgroundRRL.setBackgroundResource(
+                            it
+                        )
+                    }
+                    myBdJobsItems?.get(position)?.resourceID?.let {
+                        holderMyBdJobs.itemIcon.setBackgroundResource(
+                            it
+                        )
+                    }
                     holderMyBdJobs.itemCard.setOnClickListener {
                         try {
                             if (myBdJobsItems?.get(position)?.itemID?.toInt()!! > 0) {
                                 when (myBdJobsItems?.get(position)?.itemName) {
                                     Constants.session_key_mybdjobscount_jobs_applied -> communicator.goToAppliedJobs()
-                                    Constants.session_key_mybdjobscount_employers_followed -> communicator.goToFollowedEmployerList("follow")
-                                    Constants.session_key_mybdjobscount_interview_invitation -> communicator.goToInterviewInvitation("mybdjobs")
-                                    Constants.session_key_mybdjobscount_video_invitation -> communicator.goToVideoInvitation("mybdjobs")
-                                    Constants.session_key_mybdjobscount_live_invitation -> communicator.goToLiveInvitation("mybdjobs")
+                                    Constants.session_key_mybdjobscount_employers_followed -> communicator.goToFollowedEmployerList(
+                                        "follow"
+                                    )
+                                    Constants.session_key_mybdjobscount_interview_invitation -> communicator.goToInterviewInvitation(
+                                        "mybdjobs"
+                                    )
+                                    Constants.session_key_mybdjobscount_video_invitation -> communicator.goToVideoInvitation(
+                                        "mybdjobs"
+                                    )
+                                    Constants.session_key_mybdjobscount_live_invitation -> communicator.goToLiveInvitation(
+                                        "mybdjobs"
+                                    )
 
                                     Constants.session_key_mybdjobscount_employers_viwed_resume -> {
                                         if (Constants.myBdjobsStatsLastMonth) {
@@ -88,8 +110,12 @@ class MyBdJobsAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.
                                         }
                                         communicator.goToEmployerViewedMyResume("vwdMyResume")
                                     }
-                                    Constants.session_key_mybdjobscount_times_emailed_resume -> communicator.gotoTimesEmailedResume(Constants.timesEmailedResumeLast)
-                                    Constants.session_key_mybdjobscount_message_by_employers -> communicator.goToMessageByEmployers("employerMessageList")
+                                    Constants.session_key_mybdjobscount_times_emailed_resume -> communicator.gotoTimesEmailedResume(
+                                        Constants.timesEmailedResumeLast
+                                    )
+                                    Constants.session_key_mybdjobscount_message_by_employers -> communicator.goToMessageByEmployers(
+                                        "employerMessageList"
+                                    )
                                     else -> { // Note the block
                                         print("not found")
                                     }

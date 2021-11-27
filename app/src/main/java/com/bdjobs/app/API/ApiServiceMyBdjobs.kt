@@ -805,6 +805,7 @@ interface ApiServiceMyBdjobs {
         @Field("toDate") toDate: String? = "",
         @Field("compName") compName: String? = "",
         @Field("txtStatus") txtStatus: String? = "",
+        @Field("isActivityDate") isActivityDate: String? = "",
     ): Call<EmpViewedResumeModel>
 
     @FormUrlEncoded
@@ -1393,16 +1394,6 @@ interface ApiServiceMyBdjobs {
 
             retrofit ?: synchronized(this) {
                 retrofit = buildRetrofit()
-            }
-
-            return retrofit?.create(ApiServiceMyBdjobs::class.java)!!
-        }
-
-        @Synchronized
-        fun createChat(): ApiServiceMyBdjobs {
-
-            retrofit ?: synchronized(this) {
-                retrofit = buildRetrofitChat()
             }
 
             return retrofit?.create(ApiServiceMyBdjobs::class.java)!!

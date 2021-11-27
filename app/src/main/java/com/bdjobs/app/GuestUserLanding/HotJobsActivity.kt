@@ -1,19 +1,16 @@
 package com.bdjobs.app.GuestUserLanding
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.HotJobs
 import com.bdjobs.app.API.ModelClasses.HotJobsData
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.LoggedInUserLanding.HotjobsAdapterNew
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.*
-import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
 import kotlinx.android.synthetic.main.activity_hot_jobs.*
 //import kotlinx.android.synthetic.main.activity_hot_jobs.adView

@@ -19,8 +19,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountDataModelWithID
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
 import com.bdjobs.app.API.ModelClasses.SMSSubscribeModel
-import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.Jobs.JobListAdapter
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R

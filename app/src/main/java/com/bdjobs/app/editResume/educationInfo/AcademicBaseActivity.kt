@@ -7,7 +7,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R

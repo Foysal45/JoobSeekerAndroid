@@ -9,7 +9,7 @@ import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.DataEmpV
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Utilities.toSimpleDateString

@@ -502,6 +502,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
 
             override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
 
+                Timber.d("Here at mybdjobs count")
+
                 try {
                     var jobsApplied: String? = ""
                     var emailResume: String? = ""

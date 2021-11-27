@@ -665,6 +665,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
+                            android:gravity="center_vertical"
                             tools:text="Mybdjobs.pdf" />
 
                         <com.google.android.material.textview.MaterialTextView

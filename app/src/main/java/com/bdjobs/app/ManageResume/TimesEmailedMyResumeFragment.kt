@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.TimesEmailed
 import com.bdjobs.app.API.ModelClasses.TimesEmailedData
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -312,13 +312,16 @@ class TimesEmailedMyResumeFragment : Fragment() {
                     logException(e)
                 }
 
-                if (response.body()?.data.isNullOrEmpty()) {
-                    timesEmailedNoDataLL?.show()
-                    titleTV.hide()
-                    numberTV.hide()
-                    emailedResumeRV?.hide()
-                    shimmer_view_container_emailedResumeList?.hide()
-                    shimmer_view_container_emailedResumeList?.stopShimmer()
+                if (response?.body()?.data.isNullOrEmpty()) {
+                    try {
+                        timesEmailedNoDataLL?.show()
+                        titleTV.hide()
+                        numberTV.hide()
+                        emailedResumeRV?.hide()
+                        shimmer_view_container_emailedResumeList?.hide()
+                        shimmer_view_container_emailedResumeList?.stopShimmer()
+                    } catch (e: Exception) {
+                    }
                     //Log.d("totalJobs", "zero")
                 } else {
                     try {

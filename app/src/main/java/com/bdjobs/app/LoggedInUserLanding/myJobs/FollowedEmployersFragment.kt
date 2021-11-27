@@ -62,8 +62,8 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
         super.onActivityCreated(savedInstanceState)
         bdJobsDB = BdjobsDB.getInstance(requireContext())
         bdJobsUserSession = BdjobsUserSession(requireContext())
-        isActivityDate = ""
         homeCommunicator = requireActivity() as HomeCommunicator
+        isActivityDate = homeCommunicator.getTime()
 
         /*try {
 
@@ -143,6 +143,14 @@ class FollowedEmployersFragment : Fragment(), FollowedEmployersAdapter.OnUpdateC
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+
+    override fun onDetach() {
+        try {
+            homeCommunicator.setTime("0")
+        } catch (e: Exception) {
+        }
+        super.onDetach()
     }
 
     private fun loadNextPage() {

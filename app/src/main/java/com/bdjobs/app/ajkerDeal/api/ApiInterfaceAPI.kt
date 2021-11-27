@@ -16,6 +16,7 @@ import com.bdjobs.app.ajkerDeal.api.models.video_comments.VideoInsertCommentsReq
 import com.bdjobs.app.ajkerDeal.api.models.video_comments.VideoInsertReplyCommentsRequest
 import com.bdjobs.app.ajkerDeal.api.models.video_comments.load_all_comments.VideoCommentsModel
 import com.haroldadmin.cnradapter.NetworkResponse
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.http.*
 
@@ -29,6 +30,10 @@ interface ApiInterfaceAPI {
 
     @POST("api/videoshopping/LoadAllHandPickLives")
     suspend fun fetchHandPickLives(@Body requestBody: LiveListRequest): NetworkResponse<ResponseHeader<List<LiveListData>>, ErrorResponse>
+
+
+    @POST("api/videoshopping/LoadAllHandPickLives")
+    fun fetchHandPickLivesFromJobDetails(@Body requestBody: LiveListRequest): Call<ResponseHeader<List<LiveListData>>>
 
     @POST("CustomerAccess/SignUpNew")
     suspend fun registerUser(@Body requestBody: RegistrationRequest): NetworkResponse<RegistrationResponse, ErrorResponse>

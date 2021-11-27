@@ -8,14 +8,13 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
-import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_notification_base.*
 import kotlinx.android.synthetic.main.activity_notification_base.backIV
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceJobs
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.databases.internal.Notification
 import retrofit2.Call
 import retrofit2.Callback

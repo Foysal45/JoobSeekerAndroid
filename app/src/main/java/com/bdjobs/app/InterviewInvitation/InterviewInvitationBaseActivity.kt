@@ -3,7 +3,7 @@ package com.bdjobs.app.InterviewInvitation
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.bdjobs.app.API.ApiServiceJobs
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -293,7 +293,10 @@ class InterviewInvitationBaseActivity : FragmentActivity(), InterviewInvitationC
 
 
     override fun backButtonClicked() {
-        onBackPressed()
+        try {
+            onBackPressed()
+        } catch (e: Exception) {
+        }
     }
 
     override fun goToInvitationDetails(jobID: String, companyName: String, jobTitle: String) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     app:cardCornerRadius="6dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -26,7 +26,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:srcCompat="@drawable/ic_sms_step"/>
+                app:srcCompat="@drawable/ic_sms_step_3"/>
 
 
             <!--<androidx.appcompat.widget.AppCompatImageView

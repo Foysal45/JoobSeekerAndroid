@@ -1,5 +1,6 @@
 package com.bdjobs.app.LoggedInUserLanding
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.Dialog
@@ -15,12 +16,13 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.InviteCodeHomeModel
 import com.bdjobs.app.API.ModelClasses.InviteCodeUserStatusModel
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.BroadCastReceivers.MorningNotificationReceiver
@@ -244,7 +246,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     private val homeFragment = HomeFragment()
     private val hotJobsFragmentnew = HotJobsFragmentNew()
     private val moreFragment = MoreFragment()
-    val shortListedJobFragment = ShortListedJobFragment()
+    private val shortListedJobFragment = ShortListedJobFragment()
     private val myJobsFragment = MyJobsFragment()
     private val mybdjobsFragment = MyBdjobsFragment()
     private lateinit var session: BdjobsUserSession
@@ -293,6 +295,10 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
         this.time = time
     }
 
+    override fun getTime(): String {
+        return time
+    }
+
     override fun goToAppliedJobs() {
         startActivity<AppliedJobsActivity>("time" to time)
     }
@@ -331,8 +337,8 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
             exitDialog.show()
             val yesBtn = exitDialog.findViewById(R.id.onlineApplyOkBTN) as Button
             val noBtn = exitDialog.findViewById(R.id.onlineApplyCancelBTN) as Button
-            val ad_small_template = exitDialog.findViewById<TemplateView>(R.id.ad_small_template)
-            Ads.showNativeAd(ad_small_template, this)
+            val adSmallTemplate = exitDialog.findViewById<TemplateView>(R.id.ad_small_template)
+            Ads.showNativeAd(adSmallTemplate, this)
 
             yesBtn.setOnClickListener {
                 try {
@@ -359,10 +365,19 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
 
 
     override fun goToFollowedEmployerList(from: String) {
-        startActivity<EmployersBaseActivity>(
-            "from" to from,
-            "time" to time
-        )
+
+        if (from=="employer") {
+            startActivity<EmployersBaseActivity>(
+                "from" to from,
+                "time" to time
+            )
+        } else {
+            transitFragmentX(myJobsFragment,R.id.landingPageFragmentHolderFL,false, bundleOf("from" to from))
+            bottom_navigation?.selectedItemId = R.id.navigation_shortlisted_jobs
+        }
+
+
+
     }
 
     override fun goToResumeManager() {
@@ -502,6 +517,7 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     /**
      * this fun is just for testing purpose
      */
+    @SuppressLint("SimpleDateFormat")
     private fun insertTempMessage() {
         doAsync {
 
@@ -720,13 +736,13 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
                 }
 
                 override fun onAdClosed() {
-                    finish()
+                    session.isExpirationMessageShown = false
+                    finishAffinity()
                 }
             }
         } catch (e: Exception) {
         }
     }
-
 
     private fun getInviteCodeInformation() {
         doAsync {
@@ -821,7 +837,11 @@ class MainLandingActivity : AppCompatActivity(), HomeCommunicator,
     }
 
     override fun goToFavSearchFilters() {
-        startActivity<FavouriteSearchBaseActivity>()
+//        startActivity<FavouriteSearchBaseActivity>()
+//        transitFragmentX(myJobsFragment, R.id.landingPageFragmentHolderFL, false)
+//        replaceFragment(R.id.landingPageFragmentHolderFL,myJobsFragment, bundleOf("from" to "favSearch"))
+        transitFragmentX(myJobsFragment,R.id.landingPageFragmentHolderFL,false, bundleOf("from" to "favSearch"))
+        bottom_navigation?.selectedItemId = R.id.navigation_shortlisted_jobs
     }
 
     override fun goToJoblistFromLastSearch() {

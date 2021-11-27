@@ -18,10 +18,10 @@ interface NotificationDao {
     @Query("SELECT * FROM Notification WHERE type = :type ORDER BY arrival_time DESC")
     fun getNotificationsByType(type: String): List<Notification>
 
-    @Query("SELECT DISTINCT * FROM Notification WHERE (type = :type or type = 'ii' or type = 'vi' or type = 'li') ORDER BY arrival_time DESC")
+    @Query("SELECT DISTINCT * FROM Notification WHERE (type = :type or type = 'ii' or type = 'vi' or type = 'li' or type = 'exp') ORDER BY arrival_time DESC")
     fun getMessages(type: String): List<Notification>
 
-    @Query("SELECT DISTINCT * FROM Notification WHERE type != :type AND type != 'ii' AND type != 'vi' AND type != 'li' AND is_deleted = 0 GROUP BY server_id ORDER BY id DESC")
+    @Query("SELECT DISTINCT * FROM Notification WHERE type != :type AND type != 'ii' AND type != 'vi' AND type != 'li' AND type != 'exp' AND is_deleted = 0 GROUP BY server_id ORDER BY id DESC")
     fun getNotifications(type: String): List<Notification>
 
     @Query("DELETE FROM Notification")
@@ -33,13 +33,16 @@ interface NotificationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNotification(notification: Notification)
 
+    @Query("DELETE FROM Notification WHERE notification_id = :id")
+    fun deleteNotificationByNotificationId(id:String)
+
     @Delete
     fun deleteNotification(notification: Notification)
 
-    @Query("SELECT COUNT(id) FROM Notification WHERE seen = 0 AND (type != :type AND type != 'li' AND type != 'ii' AND type != 'vi')")
+    @Query("SELECT COUNT(id) FROM Notification WHERE seen = 0 AND (type != :type AND type != 'li' AND type != 'ii' AND type != 'vi' AND type != 'exp')")
     fun getNotificationsCount(type: String): Int
 
-    @Query("SELECT COUNT(id) FROM Notification WHERE seen = 0 AND (type = :type or type = 'li' or type = 'ii' or type = 'vi')")
+    @Query("SELECT COUNT(id) FROM Notification WHERE seen = 0 AND (type = :type or type = 'li' or type = 'ii' or type = 'vi' or type = 'exp')")
     fun getMessagesCount(type: String):Int
 
     @Query("SELECT COUNT(arrival_time) FROM Notification where arrival_time = :arrivalTime")
@@ -85,8 +88,8 @@ interface NotificationDao {
     }
 
 
-    @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime WHERE notification_id = :id AND type =:type")
-    fun updateNotification(seenTime: Date, seen: Boolean, id: String, type: String)
+    @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime WHERE type =:type AND server_id = :serverId")
+    fun updateNotification(seenTime: Date, seen: Boolean, type: String, serverId: String)
 
     @Query("UPDATE Notification SET seen = :seen, seen_time = :seenTime  WHERE notification_id = :id AND type = :type")
     fun updateNotificationTableByClickingNotification(seenTime: Date, seen: Boolean, id: String, type: String)

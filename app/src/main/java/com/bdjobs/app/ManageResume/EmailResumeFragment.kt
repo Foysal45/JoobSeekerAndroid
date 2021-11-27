@@ -11,13 +11,11 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.SendEmailCV
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.editResume.EditResLandingActivity
-import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_email_resume.*
-import org.jetbrains.anko.act
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -56,8 +54,8 @@ class EmailResumeFragment : Fragment() {
 
         if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
             try {
-                val alertd = alert("To Access this feature please post your resume") {
-                    title = "Your resume is not posted!"
+                val alertd = alert("To access this feature post Bdjobs Resume.") {
+                    title = "Your Bdjobs Resume is not posted."
                     positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
                     negativeButton("Cancel") {
                         communicator.backButtonPressed()

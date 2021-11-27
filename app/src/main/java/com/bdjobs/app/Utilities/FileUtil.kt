@@ -9,6 +9,8 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import com.bdjobs.app.ManageResume.FileInformation
+import com.bdjobs.app.Utilities.Constants.Companion.DOCX
+import com.bdjobs.app.Utilities.Constants.Companion.PDF
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -67,7 +69,7 @@ class FileUtil {
         selectionArgs: Array<String>?
     ): String? {
         var cursor: Cursor? = null
-        val column = MediaStore.Images.Media.DATA
+        val column = MediaStore.Files.FileColumns.DATA
         val projection = arrayOf(column)
         try {
             cursor = context.contentResolver
@@ -115,6 +117,16 @@ class FileUtil {
         return file
     }
 
+    fun writeBytes(context: Context, bytes : ByteArray, filename: String) : File {
+        val path = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + "/Bdjobs/")
+        val file = File.createTempFile("temp", ".$filename", path)
+        val os = FileOutputStream(file)
+        os.write(bytes)
+        os.flush()
+        os.close()
+        return file
+    }
+
     fun deleteFile(file: File) : Boolean {
         return file.exists() && file.delete()
     }
@@ -125,5 +137,36 @@ class FileUtil {
         dir.mkdirs()
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         return  File(dir.path + File.separator + "bdjobs_" + filepath + timeStamp + ".mp4")
+    }
+    fun getFilename(
+        context: Context, uri: Uri?
+    ): String? {
+        var cursor: Cursor? = null
+        val column = MediaStore.Files.FileColumns.DATA
+        val projection = arrayOf(column)
+        try {
+            cursor = context.contentResolver.query(uri!!, projection, null, null, null)
+            if (cursor != null && cursor.moveToFirst()) {
+                val columnIndex: Int = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(columnIndex)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return null
+    }
+
+    fun getFileExtension(mimeType : String) : String {
+        return when (mimeType) {
+            PDF -> {
+                "pdf"
+            }
+            DOCX -> {
+                "docx"
+            }
+            else -> {
+                "doc"
+            }
+        }
     }
 }
