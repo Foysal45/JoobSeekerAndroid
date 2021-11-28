@@ -166,7 +166,6 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         dataStorage = DataStorage(this)
 
         transitFragment(registrationLandingFragment, R.id.registrationFragmentHolderFL)
-       // transitFragment(bcEducationFragment, R.id.registrationFragmentHolderFL)
 
         backIcon.setOnClickListener {
             onBackPressed()

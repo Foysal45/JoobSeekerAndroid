@@ -257,9 +257,22 @@ class BCEducationFragment : Fragment() {
             bcEduLevelTIL?.showError("সর্বশেষ শিক্ষা পর্যায় নির্বাচন করুন")
 
         }else if (TextUtils.isEmpty(bcEduDegreeTIET.getString())){
-
             bcEduDegreeTIL?.showError("পরীক্ষা/ডিগ্রীর নাম নির্বাচন করুন")
 
+        }else if(bcEduDegreeOtherTIL.isVisible && TextUtils.isEmpty(bcEduDegreeOtherTIET.getString())){
+            if (TextUtils.isEmpty(bcEduDegreeOtherTIET.getString())) {
+                bcEduDegreeOtherTIL?.showError("পরীক্ষা/ডিগ্রীর নাম লিখুন")
+                requestFocus(bcEduDegreeOtherTIET)
+            } else {
+                bcEduDegreeOtherTIL?.isErrorEnabled = false
+            }
+        }else if (bcEduBoardTIL.isVisible && TextUtils.isEmpty(bcEduBoardTIET.getString())){
+            if (TextUtils.isEmpty(bcEduBoardTIET.getString())) {
+                bcEduBoardTIL?.showError("বোর্ডের নাম লিখুন")
+                requestFocus(bcEduBoardTIET)
+            } else {
+                bcEduBoardTIL?.isErrorEnabled = false
+            }
         }else if (TextUtils.isEmpty(bcInstituteNameTIET.getString())){
 
             bcInstituteNameTIL?.showError("শিক্ষা প্রতিষ্ঠানের  নাম লিখুন")
@@ -270,20 +283,6 @@ class BCEducationFragment : Fragment() {
             bcPassingYearTIL?.showError("পাশ করার বছর লিখুন")
             requestFocus(bcPassingYearTIET)
 
-        }else if(bcEduDegreeOtherTIL.isVisible){
-            if (TextUtils.isEmpty(bcEduDegreeOtherTIET.getString())) {
-                bcEduDegreeOtherTIL?.showError("পরীক্ষা/ডিগ্রীর নাম লিখুন")
-                requestFocus(bcEduDegreeOtherTIET)
-            } else {
-                bcEduDegreeOtherTIL?.isErrorEnabled = false
-            }
-        }else if (bcEduBoardTIL.isVisible){
-            if (TextUtils.isEmpty(bcEduBoardTIET.getString())) {
-                bcEduBoardTIL?.showError("বোর্ডের নাম লিখুন")
-                requestFocus(bcEduBoardTIET)
-            } else {
-                bcEduBoardTIL?.isErrorEnabled = false
-            }
         }
         else{
             bcEduLevelTIL?.isErrorEnabled = false
