@@ -405,7 +405,7 @@ class BCEducationFragment : Fragment() {
 
                         if (title.equals("পরীক্ষা/ডিগ্রীর নাম")){
                             if (data[which].equals("Other", ignoreCase = true)) {
-                                Toast.makeText(activity, "other = show", Toast.LENGTH_SHORT).show()
+                              //  Toast.makeText(activity, "other = show", Toast.LENGTH_SHORT).show()
                                 bcEduDegreeOtherTIET?.show()
                                 bcEduDegreeOtherTIL?.show()
                                 bcEduDegreeOtherTIET?.clear()
