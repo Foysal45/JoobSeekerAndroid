@@ -106,7 +106,7 @@ class UploadResumeFragment : Fragment() {
                     if (isAdded) {
                         Toast.makeText(
                             context,
-                            "Please post Bdjobs resume to upload personalized resume",
+                            "Please post Bdjobs resume to upload Personalized Resume",
                             Toast.LENGTH_LONG
                         ).show()
                     }
