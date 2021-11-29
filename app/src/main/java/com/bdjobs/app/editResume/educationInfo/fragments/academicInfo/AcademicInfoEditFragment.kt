@@ -74,8 +74,21 @@ class AcademicInfoEditFragment : Fragment() {
         initialization()
         doWork()
         fragAcaInfoEdit.closeKeyboard(activity)
+
+
+        if (isEdit) {
+            hID = "1"
+            eduCB.setDeleteButton(true)
+            preloadedData()
+        } else {
+            eduCB.setDeleteButton(false)
+            hID = "-1"
+            clearEditText()
+        }
+
     }
 
+/*
     override fun onResume() {
         super.onResume()
 
@@ -92,6 +105,7 @@ class AcademicInfoEditFragment : Fragment() {
             clearEditText()
         }
     }
+*/
 
     private fun initialization() {
 
