@@ -119,7 +119,7 @@ class LiveInterviewDetailsViewModel(
                 }
 
                 //for green section
-              //  showConfirmationSection.value = liveInterviewDetailsData.value?.get(0)?.confimationStatus == "0" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "5"
+                showConfirmationSection.value = liveInterviewDetailsData.value?.get(0)?.confimationStatus == "0" || liveInterviewDetailsData.value?.get(0)?.confimationStatus == "5"
 
                 //exam date and time
                 examDate.value = liveInterviewDetailsData.value?.get(0)?.examDate
@@ -219,7 +219,7 @@ class LiveInterviewDetailsViewModel(
                 remainingMinutes.value = "00"
                 remainingSeconds.value = "00"
                 showPreparationSection.value = false
-                showJoinSection.value = true
+                if ( liveInterviewDetailsData.value?.get(0)?.confimationStatus != "6") showJoinSection.value = true
             }
         }.start()
     }
