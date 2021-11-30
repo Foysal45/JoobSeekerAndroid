@@ -20,6 +20,7 @@ import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsV
 import com.bdjobs.app.videoInterview.util.EventObserver
 import kotlinx.android.synthetic.main.fragment_rating.*
 import kotlinx.android.synthetic.main.fragment_rating.tool_bar
+import kotlinx.android.synthetic.main.layout_create_video_resume_bottom_guide.view.*
 import org.jetbrains.anko.sdk27.coroutines.onRatingBarChange
 
 class RatingFragment : Fragment() {
@@ -65,8 +66,13 @@ class RatingFragment : Fragment() {
         }
 
         ratingViewModel.navigateToListEvent.observe(viewLifecycleOwner,EventObserver {
+            //findNavController().popBackStack(R.id.videoInterviewListFragment,false)
             if (it)
-                findNavController().popBackStack(R.id.videoInterviewListFragment,false)
+                findNavController().navigate(R.id.afterSubmitFragment)
         })
+
+        video_resume_guide.tv_learn_more_label.setOnClickListener {
+            findNavController().navigate(R.id.videoResumeLandingFragment2)
+        }
     }
 }
