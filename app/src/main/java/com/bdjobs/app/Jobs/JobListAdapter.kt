@@ -140,7 +140,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -214,7 +214,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -271,7 +271,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                     val jobsVH = holder as FeaturedListVH
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -336,7 +336,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                     Ads.showNativeAd(jobsVH.adSmallTemplate, context)
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -404,7 +404,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -465,7 +465,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
