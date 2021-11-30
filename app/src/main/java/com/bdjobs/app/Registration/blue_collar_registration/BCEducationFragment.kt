@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.CompoundButton
-import android.widget.Toast
 import androidx.core.view.isVisible
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
@@ -290,50 +289,6 @@ class BCEducationFragment : Fragment() {
             bcInstituteNameTIL?.isErrorEnabled = false
             bcPassingYearTIL?.isErrorEnabled = false
         }
-
-
-
-//        if (TextUtils.isEmpty(bcEduLevelTIET.getString())) {
-//            bcEduLevelTIL?.showError("সর্বশেষ শিক্ষা পর্যায় নির্বাচন করুন")
-//        } else {
-//            bcEduLevelTIL?.isErrorEnabled = false
-//        }
-//        if (TextUtils.isEmpty(bcEduDegreeTIET.getString())) {
-//            bcEduDegreeTIL?.showError("পরীক্ষা/ডিগ্রীর নাম নির্বাচন করুন")
-//        } else {
-//            bcEduDegreeTIL?.isErrorEnabled = false
-//        }
-//        if (TextUtils.isEmpty(bcInstituteNameTIET.getString())) {
-//            bcInstituteNameTIL?.showError("শিক্ষা প্রতিষ্ঠানের  নাম লিখুন")
-//            requestFocus(bcInstituteNameTIET)
-//        } else {
-//            bcInstituteNameTIL?.isErrorEnabled = false
-//        }
-//        if (TextUtils.isEmpty(bcPassingYearTIET.getString())) {
-//            bcPassingYearTIL?.showError("পাশ করার বছর লিখুন")
-//            requestFocus(bcPassingYearTIET)
-//            //scrollview.scrollTo(0, bcPassingYearTIET.bottom)
-//
-//        } else {
-//            bcPassingYearTIL?.isErrorEnabled = false
-//        }
-//        if (bcEduDegreeOtherTIL.isVisible) {
-//            if (TextUtils.isEmpty(bcEduDegreeOtherTIET.getString())) {
-//                bcEduDegreeOtherTIL?.showError("পরীক্ষা/ডিগ্রীর নাম লিখুন")
-//                requestFocus(bcEduDegreeOtherTIET)
-//            } else {
-//                bcEduDegreeOtherTIL?.isErrorEnabled = false
-//            }
-//        }
-//
-//        if (bcEduBoardTIL.isVisible) {
-//            if (TextUtils.isEmpty(bcEduBoardTIET.getString())) {
-//                bcEduBoardTIL?.showError("বোর্ডের নাম লিখুন")
-//                requestFocus(bcEduBoardTIET)
-//            } else {
-//                bcEduBoardTIL?.isErrorEnabled = false
-//            }
-//        }
 
 
     }

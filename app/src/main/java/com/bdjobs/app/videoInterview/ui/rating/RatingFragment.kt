@@ -13,6 +13,7 @@ import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
+import com.bdjobs.app.ajkerDeal.utilities.hideKeyboard
 import com.bdjobs.app.databinding.FragmentRatingBinding
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel
@@ -57,6 +58,10 @@ class RatingFragment : Fragment() {
                 this.rating.value = rating.toInt()
                 onRatingChanged()
             }
+        }
+
+        scrollview_feedback.viewTreeObserver.addOnScrollChangedListener {
+            hideKeyboard()
         }
 
         ratingViewModel.navigateToListEvent.observe(viewLifecycleOwner,EventObserver {

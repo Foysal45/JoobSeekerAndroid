@@ -24,6 +24,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <ScrollView
+            android:id="@+id/scrollview_feedback"
             app:layout_constraintTop_toBottomOf="@id/tool_bar"
             android:layout_width="match_parent"
             android:scrollbars="none"
@@ -104,9 +105,8 @@
                     android:hint="Write Feedback"
                     android:maxLines="15"
                     android:minLines="5"
-                    android:maxLength="700"
+                    android:maxLength="500"
                     android:text="@={viewModel.feedback}"
-                    android:afterTextChanged="@{(feedback)->viewModel.afterFeedbackTextChanged(feedback)}"
                     android:paddingStart="10dp"
                     android:paddingTop="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -134,7 +134,7 @@
             android:paddingBottom="12dp"
             android:text="Submit"
             android:enabled="@{viewModel.enableSubmitButton ? true : false}"
-            android:alpha="@{viewModel.enableSubmitButton ? 1f : .7f}"
+            android:alpha="@{viewModel.enableSubmitButton ? 1f : .5f}"
             android:onClick="@{()->viewModel.onSubmitButtonClick()}"
             android:textAllCaps="false"
             android:textColor="@color/white"

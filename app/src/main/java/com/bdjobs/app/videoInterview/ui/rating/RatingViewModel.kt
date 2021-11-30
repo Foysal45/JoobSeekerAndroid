@@ -39,7 +39,8 @@ class RatingViewModel(
     }
 
     fun checkValidation() {
-        enableSubmitButton.value = !feedback.value.isNullOrBlank() && rating.value!!.toInt() > 0
+       // enableSubmitButton.value = !feedback.value.isNullOrBlank() && rating.value!!.toInt() > 0
+        enableSubmitButton.value = rating.value!!.toInt() > 0
     }
 
     fun onMessageEmployerButtonClick() {
