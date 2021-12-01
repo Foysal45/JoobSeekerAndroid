@@ -1,4 +1,4 @@
-package com.bdjobs.app.Training
+package com.bdjobs.app.training
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -47,7 +47,7 @@ class UpcomingTrainingAdapter(private var context: Context) : RecyclerView.Adapt
     }
 
     override fun getItemCount(): Int {
-        return return if (trainingList == null) 0 else trainingList!!.size
+        return if (trainingList == null) 0 else trainingList!!.size
     }
 
     fun add(r: TrainingListData) {

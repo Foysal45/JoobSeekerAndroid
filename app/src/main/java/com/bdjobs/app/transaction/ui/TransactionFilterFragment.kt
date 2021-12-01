@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.transaction_filter_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
+import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -87,7 +88,7 @@ class TransactionFilterFragment : Fragment() {
 
         } catch (e: Exception) {
 
-            Log.d("OnTransaction", "Exception ${e.message}")
+            Timber.e("Exception onTransaction: ${e.localizedMessage}")
         }
 
         binding.packageTypeTIET.onClick {

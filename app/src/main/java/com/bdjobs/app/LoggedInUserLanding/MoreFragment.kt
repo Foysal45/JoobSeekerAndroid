@@ -18,7 +18,7 @@ import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
-import com.bdjobs.app.Training.TrainingListAcitivity
+import com.bdjobs.app.training.TrainingListActivity
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
@@ -160,7 +160,7 @@ class MoreFragment : Fragment() {
         }
 
         training_MBTN?.setOnClickListener {
-            startActivity<TrainingListAcitivity>()
+            startActivity<TrainingListActivity>()
         }
         settings_MBTN?.setOnClickListener {
             startActivity<SettingBaseActivity>()

@@ -1,4 +1,4 @@
-package com.bdjobs.app.Training
+package com.bdjobs.app.training
 
 interface TrainingCommunicator {
     fun backButtonClicked()

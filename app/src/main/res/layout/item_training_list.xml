@@ -73,7 +73,7 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toTopOf="@id/textView39"
             app:layout_constraintStart_toEndOf="@+id/textView39"
             tools:text="4 April 2018" />
 

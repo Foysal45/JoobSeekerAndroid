@@ -1,11 +1,11 @@
-package com.bdjobs.app.Training
+package com.bdjobs.app.training
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.Utilities.transitFragmentX
 
-class TrainingListAcitivity : AppCompatActivity(), TrainingCommunicator {
+class TrainingListActivity : AppCompatActivity(), TrainingCommunicator {
 
 
     override fun backButtonClicked() {
@@ -18,6 +18,6 @@ class TrainingListAcitivity : AppCompatActivity(), TrainingCommunicator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_training_list_acitivity)
-        transitFragment(upcomingTrainingFragment, R.id.fragmentHolder, false)
+        transitFragmentX(upcomingTrainingFragment, R.id.fragmentHolder, false)
     }
 }

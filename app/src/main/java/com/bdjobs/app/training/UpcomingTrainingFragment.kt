@@ -1,18 +1,16 @@
-package com.bdjobs.app.Training
+package com.bdjobs.app.training
 
 
-import android.app.Fragment
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.TrainingList
-import com.bdjobs.app.API.ModelClasses.TrainingListData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.Constants
@@ -28,20 +26,22 @@ import retrofit2.Response
 class UpcomingTrainingFragment : Fragment() {
     private var topBottomPadding: Int = 0
     private var leftRightPadding: Int = 0
-    private var bdjobsUserSession: BdjobsUserSession? = null
+    private var bdJobsUserSession: BdjobsUserSession? = null
     private var upcomingTrainingAdapter: UpcomingTrainingAdapter? = null
     private var trainingCommunicator: TrainingCommunicator? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_upcoming_training, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bdjobsUserSession = BdjobsUserSession(activity!!)
-        upcomingTrainingAdapter = UpcomingTrainingAdapter(activity!!)
+        bdJobsUserSession = BdjobsUserSession(requireContext())
+        upcomingTrainingAdapter = UpcomingTrainingAdapter(requireContext())
         trainingCommunicator = activity as TrainingCommunicator
 
         val scale = resources.displayMetrics.density
@@ -87,7 +87,6 @@ class UpcomingTrainingFragment : Fragment() {
 
         }
 
-
     }
 
     private fun lastOnClickAction() {
@@ -100,46 +99,46 @@ class UpcomingTrainingFragment : Fragment() {
     private fun allOnClickAction() {
         // allSelected()
         allSelected()
-        loadTrainingList(bdjobsUserSession?.trainingId!!)
+        loadTrainingList(bdJobsUserSession?.trainingId!!)
         Constants.matchedTraining = false
 
     }
 
-    private fun loadTrainingList(trainid: String) {
+    private fun loadTrainingList(trainingId: String) {
         try {
             trainListRV?.hide()
             shimmer_view_container_trainingList?.show()
             shimmer_view_container_trainingList?.startShimmer()
             numberTV.text = "0"
             ApiServiceMyBdjobs.create().getTrainingList(
-                    userID = bdjobsUserSession?.userId,
-                    decodeID = bdjobsUserSession?.decodId,
-                    traingId = trainid,
-                    AppsDate = ""
+                userID = bdJobsUserSession?.userId,
+                decodeID = bdJobsUserSession?.decodId,
+                traingId = trainingId,
+                AppsDate = ""
 
             ).enqueue(object : Callback<TrainingList> {
                 override fun onFailure(call: Call<TrainingList>, t: Throwable) {
 
                 }
 
-                override fun onResponse(call: Call<TrainingList>, response: Response<TrainingList>) {
+                override fun onResponse(
+                    call: Call<TrainingList>,
+                    response: Response<TrainingList>
+                ) {
 
                     try {
-                        /*Log.d("value", "userid = " + bdjobsUserSession?.userId
-                                + "decodeid = " + bdjobsUserSession?.decodId
-                                + "trainid= " + trainid
-                                + "AppsDate= " + ""
-                        )*/
 
                         if (response.isSuccessful) {
 
                             trainListRV?.adapter = upcomingTrainingAdapter
                             trainListRV?.setHasFixedSize(true)
-                            trainListRV?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+                            trainListRV?.layoutManager =
+                                LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
                             //Log.d("initPag", response.body()?.data?.size.toString())
-                            trainListRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+                            trainListRV?.itemAnimator =
+                                androidx.recyclerview.widget.DefaultItemAnimator()
                             upcomingTrainingAdapter?.removeAll()
-                            upcomingTrainingAdapter?.addAll(response.body()?.data as List<TrainingListData>)
+                            upcomingTrainingAdapter?.addAll(response.body()?.data!!)
                             numberTV?.text = response.body()?.data?.size.toString()
                             //
                         }
@@ -159,21 +158,6 @@ class UpcomingTrainingFragment : Fragment() {
         }
 
     }
-
-/*    private fun lastSelected() {
-        lastmonth_MBTN.setBackgroundColor(Color.parseColor("#424242"))
-        all_MBTN.setBackgroundColor(Color.parseColor("#FFFFFF"))
-        all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#424242")))
-        lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
-    }
-
-    private fun allSelected() {
-
-        lastmonth_MBTN.setBackgroundColor(Color.parseColor("#FFFFFF"))
-        all_MBTN.setBackgroundColor(Color.parseColor("#424242"))
-        lastmonth_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#424242")))
-        all_MBTN?.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")))
-    }*/
 
     private fun lastSelected() {
         matchedTV.setTextColor(Color.parseColor("#FFFFFF"))

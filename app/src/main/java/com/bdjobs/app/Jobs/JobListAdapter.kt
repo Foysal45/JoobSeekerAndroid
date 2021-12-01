@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
@@ -150,12 +151,12 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                         uiThread {
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
                             if (appliedJobs.isEmpty()) {
@@ -247,12 +248,12 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
                             if (appliedJobs.isEmpty()) {
@@ -306,24 +307,19 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     doAsync {
                         val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+//                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                         uiThread {
 
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
-                            if (appliedJobs.isEmpty()) {
-                                //jobsVH.appliedBadge.hide()
-                            } else {
-                                //jobsVH.appliedBadge.show()
-                            }
                         }
                     }
 
@@ -371,24 +367,24 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     doAsync {
                         val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+//                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                         uiThread {
 
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
-                            if (appliedJobs.isEmpty()) {
-                                //jobsVH.appliedBadge.hide()
-                            } else {
-                                //jobsVH.appliedBadge.show()
-                            }
+//                            if (appliedJobs.isEmpty()) {
+//                                //jobsVH.appliedBadge.hide()
+//                            } else {
+//                                //jobsVH.appliedBadge.show()
+//                            }
                         }
                     }
 
@@ -437,12 +433,12 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
                             if (appliedJobs.isEmpty()) {
@@ -475,12 +471,12 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                         uiThread {
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
                             if (appliedJobs.isEmpty()) {
@@ -525,7 +521,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                 jobList?.removeAt(position)
                 notifyItemRemoved(position)
                 notifyItemRangeRemoved(position, jobList?.size!!)
-                val actv = context as Activity
+//                val actv = context as Activity
 
                 val constraints = Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -637,9 +633,9 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                                 doAsync {
 
-                                    var deadline: Date? = null
+                                    var deadlineDate: Date? = null
                                     try {
-                                        deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB!!)
+                                        deadlineDate = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB!!)
                                     } catch (e: Exception) {
                                         logException(e)
                                     }
@@ -648,7 +644,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                                             jobid = jobList?.get(position)?.jobid!!,
                                             jobtitle = jobList?.get(position)?.jobTitle!!,
                                             companyname = jobList?.get(position)?.companyName!!,
-                                            deadline = deadline,
+                                            deadline = deadlineDate,
                                             eduRec = jobList?.get(position)?.eduRec!!,
                                             experience = jobList?.get(position)?.experience!!,
                                             standout = jobList?.get(position)?.standout!!,
@@ -882,8 +878,8 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
     }
 
     private class LoadingVH(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var mProgressBar: ProgressBar? = itemView.findViewById(R.id.loadmore_progress) as ProgressBar?
-        private var mRetryBtn: ImageButton? = itemView.findViewById(R.id.loadmore_retry) as ImageButton?
+//        var mProgressBar: ProgressBar? = itemView.findViewById(R.id.loadmore_progress) as ProgressBar?
+//        private var mRetryBtn: ImageButton? = itemView.findViewById(R.id.loadmore_retry) as ImageButton?
         var mErrorTxt: TextView? = itemView.findViewById(R.id.loadmore_errortxt) as TextView?
         var mErrorLayout: LinearLayout? = itemView.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
         override fun onClick(view: View) {
