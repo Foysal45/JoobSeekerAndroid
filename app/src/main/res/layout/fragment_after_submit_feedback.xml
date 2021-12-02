@@ -40,7 +40,15 @@
             android:layout_height="wrap_content"/>
 
         <include
-            layout="@layout/layout_create_video_resume_bottom_guide"/>
+            layout="@layout/layout_create_video_resume_bottom_guide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_submit" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

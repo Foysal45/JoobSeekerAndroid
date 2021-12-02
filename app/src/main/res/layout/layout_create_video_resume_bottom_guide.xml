@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="110dp"
         android:background="@drawable/bg_video_interview_guide"
         android:layout_marginTop="16dp"

@@ -1,6 +1,7 @@
 package com.bdjobs.app.videoInterview.ui.rating
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,4 +49,22 @@ class AfterSubmitFragment : Fragment() {
             findNavController().navigate(R.id.videoResumeLandingFragment2)
         }
     }
+
+
+    override fun onResume() {
+        super.onResume()
+        requireView().isFocusableInTouchMode = true
+        requireView().requestFocus()
+        requireView().setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                // handle back button's click listener
+                findNavController().popBackStack(R.id.videoInterviewListFragment,false)
+                return@OnKeyListener true
+            }
+            false
+        })
+    }
+
+
+
 }
