@@ -13,6 +13,7 @@ import com.bdjobs.app.resume_dashboard.data.models.*
 import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.sms.data.model.SMSSettings
+import com.bdjobs.app.training.data.models.TrainingList
 import com.bdjobs.app.transaction.data.model.TransactionList
 import com.bdjobs.app.videoInterview.data.models.CommonResponse
 import com.bdjobs.app.videoInterview.data.models.InterviewFeedback
@@ -27,6 +28,7 @@ import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -1063,14 +1065,14 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST("app_training.asp")
-    fun getTrainingList(
+    suspend fun getTrainingList(
         @Field("userID") userID: String?,
         @Field("decodeID") decodeID: String? = "",
         @Field("traingId") traingId: String? = "",
         @Field("AppsDate") AppsDate: String? = "",
         @Field("appId") appId: String? = Constants.APP_ID
 
-    ): Call<TrainingList>
+    ): Response<TrainingList>
 
     @FormUrlEncoded
     @POST("apps_SendEmailCV.aspx")

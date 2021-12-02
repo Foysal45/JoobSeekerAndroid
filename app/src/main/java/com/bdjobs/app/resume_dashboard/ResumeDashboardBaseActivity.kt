@@ -1,14 +1,13 @@
 package com.bdjobs.app.resume_dashboard
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.KeyEvent
 import android.view.MenuItem
-import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
@@ -16,8 +15,6 @@ import com.bdjobs.app.R
 import com.bdjobs.app.databinding.ActivityResumeDashboardBaseBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_login_base.*
-import timber.log.Timber
 
 class ResumeDashboardBaseActivity : AppCompatActivity(), ConnectivityReceiver.ConnectivityReceiverListener {
 
@@ -91,7 +88,7 @@ class ResumeDashboardBaseActivity : AppCompatActivity(), ConnectivityReceiver.Co
                 .setAction(getString(R.string.turn_on_wifi)) {
                     startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
                 }
-                .setActionTextColor(resources.getColor(R.color.colorWhite))
+                .setActionTextColor(ContextCompat.getColor(this,R.color.colorWhite))
 
             mSnackBar?.show()
 

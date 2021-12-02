@@ -1,210 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".training.UpcomingTrainingFragment">
+    tools:context=".training.ui.UpcomingTrainingFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="com.bdjobs.app.training.ui.UpcomingTrainingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="8dp"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayoutToolbar"
+        <RelativeLayout
+            android:id="@+id/bLL"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            tools:layout_editor_absoluteX="16dp">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginRight="20dp">
 
-            <TextView
-                android:id="@+id/suggestiveSearchET"
-                android:layout_width="0dp"
-                android:layout_height="29dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="32dp"
-                android:drawablePadding="5dp"
-                android:ems="10"
-                android:fontFamily="@font/roboto"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:singleLine="true"
-                android:text="Training List"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/backIMV"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/backIMV"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/titleTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:padding="5dp"
-                android:src="@drawable/ic_arrow_back_white_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:fontFamily="@font/noto_sans"
+                android:text="Total Number of Trainings"
+                android:textColor="#767676"
+                android:textSize="12sp" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icon1IMGV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleTV"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/account_icon" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.appcompat.widget.Toolbar>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/numberTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleTV"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/icon1IMGV"
+                android:fontFamily="@font/noto_sans"
+                android:textColor="#2F64A3"
+                android:textSize="12sp"
+                tools:text="৩০০" />
 
-    <RelativeLayout
-        android:id="@+id/bLL"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginRight="20dp">
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/allTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                backgroundAppearance="@{viewModel.allSelected}"
+                android:onClick="@{()->viewModel.onAllClicked()}"
+                android:fontFamily="@font/noto_sans"
+                android:gravity="center"
+                android:text="All"
+                android:textColor="#424242"
+                android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/titleTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans"
-            android:text="Total Number of Trainings"
-            android:textColor="#767676"
-            android:textSize="12sp" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/matchedTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/allTV"
+                backgroundAppearance="@{viewModel.suggestedSelected}"
+                android:onClick="@{()->viewModel.onSuggestedClicked()}"
+                android:fontFamily="@font/noto_sans"
+                android:gravity="center"
+                android:text="Suggested"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
 
-        <ImageView
-            android:id="@+id/icon1IMGV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/titleTV"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="3dp"
-            android:src="@drawable/account_icon" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/numberTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/titleTV"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/icon1IMGV"
-            android:fontFamily="@font/noto_sans"
-            android:textColor="#2F64A3"
-            android:textSize="12sp"
-            tools:text="৩০০" />
-
-        <TextView
-            android:id="@+id/allTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/pending_inactive_bg"
-            android:fontFamily="@font/noto_sans"
-            android:gravity="center"
-            android:paddingLeft="16dp"
-            android:paddingTop="8dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="8dp"
-            android:text="All"
-            android:textColor="#424242"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/matchedTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/allTV"
-            android:background="@drawable/success_active_bg"
-            android:fontFamily="@font/noto_sans"
-            android:gravity="center"
-            android:paddingLeft="16dp"
-            android:paddingTop="8dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="8dp"
-            android:text="Suggested"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp" />
-
-    </RelativeLayout>
-
-
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container_trainingList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-
-        app:layout_constraintTop_toBottomOf="@+id/bLL"
-        shimmer:shimmer_duration="1200"
-        shimmer:layout_constraintBottom_toBottomOf="parent"
-        shimmer:layout_constraintEnd_toEndOf="parent"
-        shimmer:layout_constraintStart_toStartOf="parent">
-
-        <!-- Adding 7 rows of placeholders -->
-        <LinearLayout
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container_trainingList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            tools:visibility="gone"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@+id/bLL"
+            shimmer:shimmer_duration="1200"
+            shimmer:layout_constraintBottom_toBottomOf="parent"
+            shimmer:layout_constraintEnd_toEndOf="parent"
+            shimmer:layout_constraintStart_toStartOf="parent">
 
-            <include layout="@layout/view_shimmer_layout" />
+            <!-- Adding 7 rows of placeholders -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <include layout="@layout/list_shimmer_layout" />
+                <include layout="@layout/view_shimmer_layout" />
 
-            <include layout="@layout/list_shimmer_layout" />
+                <include layout="@layout/list_shimmer_layout" />
 
-            <include layout="@layout/list_shimmer_layout" />
+                <include layout="@layout/list_shimmer_layout" />
 
-            <include layout="@layout/list_shimmer_layout" />
+                <include layout="@layout/list_shimmer_layout" />
 
-            <include layout="@layout/list_shimmer_layout" />
+                <include layout="@layout/list_shimmer_layout" />
 
-            <include layout="@layout/list_shimmer_layout" />
+                <include layout="@layout/list_shimmer_layout" />
 
-            <include layout="@layout/list_shimmer_layout" />
+                <include layout="@layout/list_shimmer_layout" />
 
-            <include layout="@layout/list_shimmer_layout" />
-        </LinearLayout>
+                <include layout="@layout/list_shimmer_layout" />
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
+                <include layout="@layout/list_shimmer_layout" />
+            </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trainListRV"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/adView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bLL" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trainListRV"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="16dp"
+            android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            tools:listitem="@layout/item_training_list"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bLL" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id"
-        ads:layout_constraintBottom_toBottomOf="parent"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent"></com.google.android.gms.ads.AdView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

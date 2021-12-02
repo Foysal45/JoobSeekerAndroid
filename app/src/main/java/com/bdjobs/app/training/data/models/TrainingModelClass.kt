@@ -1,4 +1,4 @@
-package com.bdjobs.app.API.ModelClasses
+package com.bdjobs.app.training.data.models
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
@@ -7,7 +7,7 @@ data class TrainingList(
     @SerializedName("common")
     val common: Any?,
     @SerializedName("data")
-    val `data`: List<TrainingListData>?,
+    val `data`: MutableList<TrainingListData>?,
     @SerializedName("message")
     val message: String?,
     @SerializedName("statuscode")

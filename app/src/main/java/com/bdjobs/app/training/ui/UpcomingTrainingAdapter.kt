@@ -1,4 +1,4 @@
-package com.bdjobs.app.training
+package com.bdjobs.app.training.ui
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.API.ModelClasses.TrainingListData
+import com.bdjobs.app.training.data.models.TrainingListData
 import com.bdjobs.app.R
 import com.bdjobs.app.Utilities.logException
 import com.bdjobs.app.Web.WebActivity

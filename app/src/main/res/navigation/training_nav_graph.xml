@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/dest_upcoming_training"
+    android:id="@+id/training_nav_graph">
+
+    <fragment
+        android:id="@+id/dest_upcoming_training"
+        android:name="com.bdjobs.app.training.ui.UpcomingTrainingFragment"
+        android:label="upcoming_training"
+        tools:layout="@layout/fragment_upcoming_training" />
+
+</navigation>
