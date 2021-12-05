@@ -2,31 +2,23 @@ package com.bdjobs.app.training.ui
 
 
 import android.app.Application
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.navGraphViewModels
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.training.data.models.TrainingList
-import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.Utilities.Status
+import com.bdjobs.app.Utilities.showSnackBar
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentUpcomingTrainingBinding
-import com.bdjobs.app.training.TrainingCommunicator
 import com.bdjobs.app.training.data.repository.TrainingRepository
-import kotlinx.android.synthetic.main.fragment_upcoming_training.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class UpcomingTrainingFragment : Fragment() {
 
@@ -75,6 +67,7 @@ class UpcomingTrainingFragment : Fragment() {
         mBinding.trainListRV.apply {
             layoutManager = LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false)
             setHasFixedSize(true)
+            itemAnimator = null
             adapter = mTrainingListAdapter
         }
     }
@@ -104,7 +97,6 @@ class UpcomingTrainingFragment : Fragment() {
                     Status.SUCCESS -> {
                         if (it.data?.data!=null && it.data.data.isNotEmpty()) {
                             mBinding.numberTV.text = it.data.data.size.toString()
-                            mTrainingListAdapter.currentList.clear()
                             mTrainingListAdapter.submitList(it.data.data)
                         } else {
                             mTrainingListAdapter.submitList(emptyList())

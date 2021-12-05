@@ -7,7 +7,7 @@ data class TrainingList(
     @SerializedName("common")
     val common: Any?,
     @SerializedName("data")
-    val `data`: MutableList<TrainingListData>?,
+    val `data`: List<TrainingListData>?,
     @SerializedName("message")
     val message: String?,
     @SerializedName("statuscode")

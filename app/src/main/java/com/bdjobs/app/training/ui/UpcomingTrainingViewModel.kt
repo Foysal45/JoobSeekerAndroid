@@ -43,19 +43,13 @@ class UpcomingTrainingViewModel(private val repository: TrainingRepository) : Vi
 
         viewModelScope.launch {
             try {
-
-//                if (_trainingInfo.value?.data?.data != null && _trainingInfo.value?.data?.data?.isNotEmpty()!!) {
-//                    _trainingInfo.value?.data?.data?.clear()
-//                }
-
-
                 val response = repository.fetchTrainingList(trainingId)
-                _isLoading.value = false
 
                 if (response.isSuccessful && response.code() == 200) {
                     if (response.body()?.message == "Success" && response.body()?.statuscode == "0") {
 
                         _trainingInfo.value = Resource.success(response.body())
+                        _isLoading.value = false
                     } else {
                         _trainingInfo.value = Resource.error(response.body()?.message)
                     }
