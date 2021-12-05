@@ -26,7 +26,7 @@ public class CameraFactory {
         } else {
             Camera2Provider provider = new Camera2Provider(lifecycleOwner, cameraView, context);
             provider.setCallback(callBack);
-            Timber.e("CameraXProvider");
+            Timber.e("Camera2Provider");
             return provider;
         }
     }
