@@ -32,13 +32,13 @@ class TrainingListAdapter(private val callback: ((TrainingListData) -> Unit)?) :
 
     override fun bind(binding: ItemTrainingListBinding, item: TrainingListData) {
         binding.apply {
-            tvTopic.text = item.topic
-            tvVenue.text = item.venue
-            tvDate.text = item.date
+            data = item
 
             root.setOnClickListener {
                 callback?.invoke(item)
             }
+
+            executePendingBindings()
         }
     }
 }

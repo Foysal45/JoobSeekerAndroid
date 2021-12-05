@@ -12,32 +12,25 @@ import androidx.navigation.fragment.NavHostFragment
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.databinding.ActivityTrainingListAcitivityBinding
-import com.bdjobs.app.training.ui.UpcomingTrainingFragment
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_upcoming_training.*
 
-class TrainingListActivity : AppCompatActivity(), TrainingCommunicator,ConnectivityReceiver.ConnectivityReceiverListener {
+class TrainingListActivity : AppCompatActivity(),
+    ConnectivityReceiver.ConnectivityReceiverListener {
 
-    private lateinit var mBinding : ActivityTrainingListAcitivityBinding
+    private lateinit var mBinding: ActivityTrainingListAcitivityBinding
     private var mSnackBar: Snackbar? = null
-
-    override fun backButtonClicked() {
-        onBackPressed()
-    }
-
-    private var upcomingTrainingFragment = UpcomingTrainingFragment()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_training_list_acitivity)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_training_list_acitivity)
 
         setSupportActionBar(mBinding.toolbarTraining)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val hostFragment = supportFragmentManager.findFragmentById(R.id.fragmentHolder) as NavHostFragment
+        val hostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentHolder) as NavHostFragment
         val navController = hostFragment.navController
         val inflater = navController.navInflater
         val graph = inflater.inflate(R.navigation.training_nav_graph)
@@ -47,9 +40,6 @@ class TrainingListActivity : AppCompatActivity(), TrainingCommunicator,Connectiv
 
         val adRequest = AdRequest.Builder().build()
         mBinding.adView.loadAd(adRequest)
-//
-//        setContentView(R.layout.activity_training_list_acitivity)
-//        transitFragmentX(upcomingTrainingFragment, R.id.fragmentHolder, false)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -59,7 +49,7 @@ class TrainingListActivity : AppCompatActivity(), TrainingCommunicator,Connectiv
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if(event?.action == KeyEvent.ACTION_DOWN) {
+        if (event?.action == KeyEvent.ACTION_DOWN) {
             onBackPressed()
             finish()
         }
@@ -74,11 +64,15 @@ class TrainingListActivity : AppCompatActivity(), TrainingCommunicator,Connectiv
 
         if (!isConnected) {
             mSnackBar = Snackbar
-                .make(mBinding.root, getString(R.string.alert_no_internet), Snackbar.LENGTH_INDEFINITE)
+                .make(
+                    mBinding.root,
+                    getString(R.string.alert_no_internet),
+                    Snackbar.LENGTH_INDEFINITE
+                )
                 .setAction(getString(R.string.turn_on_wifi)) {
                     startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
                 }
-                .setActionTextColor(ContextCompat.getColor(this,R.color.colorWhite))
+                .setActionTextColor(ContextCompat.getColor(this, R.color.colorWhite))
 
             mSnackBar?.show()
 

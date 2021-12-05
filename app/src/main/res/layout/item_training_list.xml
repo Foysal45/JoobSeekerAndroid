@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="data"
+            type="com.bdjobs.app.training.data.models.TrainingListData" />
+    </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,6 +32,7 @@
             android:fontFamily="@font/roboto_medium"
             android:textColor="#0078D7"
             android:textSize="16sp"
+            android:text="@{data.topic}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView23"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,6 +47,7 @@
             android:fontFamily="@font/roboto"
             android:textColor="#393939"
             android:textSize="14sp"
+            android:text="@{data.venue}"
             android:drawablePadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -74,6 +82,7 @@
             android:fontFamily="@font/roboto_medium"
             android:textColor="#393939"
             android:textSize="14sp"
+            android:text="@{data.date}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/textView39"

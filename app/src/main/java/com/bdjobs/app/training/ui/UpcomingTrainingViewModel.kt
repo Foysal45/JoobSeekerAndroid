@@ -10,6 +10,7 @@ import com.bdjobs.app.training.data.models.TrainingList
 import com.bdjobs.app.training.data.repository.TrainingRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.IOException
 
 class UpcomingTrainingViewModel(private val repository: TrainingRepository) : ViewModel() {
 
@@ -58,10 +59,11 @@ class UpcomingTrainingViewModel(private val repository: TrainingRepository) : Vi
                     _trainingInfo.value = Resource.error(response.message())
                 }
 
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 _isLoading.value = false
                 Timber.e("Exception while fetching training list: ${e.localizedMessage}")
-                _trainingInfo.value = Resource.error(e.localizedMessage)
+                if (e is IOException) _trainingInfo.value = Resource.error("Please check your internet connection & try again")
+                else _trainingInfo.value = Resource.error(e.localizedMessage)
             }
         }
     }
