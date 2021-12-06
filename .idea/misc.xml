@@ -3,13 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../../../layout/custom_preview.xml" value="0.40572916666666664" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/activity_emplyment_history.xml" value="0.19270833333333334" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_army_emp_his_view.xml" value="0.2" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_army_emp_history.xml" value="0.22" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_bc_education.xml" value="0.33" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_bc_mobile_number.xml" value="0.22" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_bc_name.xml" value="0.22" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_choose_schedule.xml" value="0.33" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_emp_history_edit.xml" value="0.1644021739130435" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_emp_history_view.xml" value="0.16666666666666666" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_payment_successful.xml" value="0.33" />
         <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/fragment_wc_phone_email.xml" value="0.1403985507246377" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/layout_armysingleview1.xml" value="0.67" />
+        <entry key="..\:/Android Projects/JobSeeker-Android/app/src/main/res/layout/view_edit_resume_fragment.xml" value="0.33" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/background_video_interview_not_interested_warning.xml" value="0.16018518518518518" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/background_video_interview_question_remaining_time.xml" value="0.16018518518518518" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/drawable/background_white_blue.xml" value="0.16018518518518518" />
@@ -100,22 +106,11 @@
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/package_details_fragment.xml" value="0.1" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/shimmer_loading_grid.xml" value="0.18333333333333332" />
         <entry key="..\:/Projects/JobSeeker-Android/app/src/main/res/layout/standoutjoblist.xml" value="0.20520833333333333" />
-        <entry key="app/src/main/res/drawable/times_emailed.xml" value="0.40677083333333336" />
-        <entry key="app/src/main/res/drawable/viewed_resume.xml" value="0.40677083333333336" />
-        <entry key="app/src/main/res/layout/activity_applied_jobs.xml" value="0.390625" />
-        <entry key="app/src/main/res/layout/activity_edit_res_landing.xml" value="0.39855072463768115" />
-        <entry key="app/src/main/res/layout/activity_emplyment_history.xml" value="0.39855072463768115" />
         <entry key="app/src/main/res/layout/fragment_after_submit_feedback.xml" value="0.390625" />
-        <entry key="app/src/main/res/layout/fragment_army_emp_history.xml" value="0.39855072463768115" />
-        <entry key="app/src/main/res/layout/fragment_contact_edit.xml" value="0.391304347826087" />
-        <entry key="app/src/main/res/layout/fragment_contact_view.xml" value="0.39855072463768115" />
         <entry key="app/src/main/res/layout/fragment_interview_session.xml" value="0.37604166666666666" />
-        <entry key="app/src/main/res/layout/fragment_mybdjobs_layout.xml" value="0.390625" />
         <entry key="app/src/main/res/layout/fragment_question_details.xml" value="0.26766304347826086" />
         <entry key="app/src/main/res/layout/fragment_rating.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/item_grid.xml" value="0.390625" />
         <entry key="app/src/main/res/layout/layout_create_video_resume_bottom_guide.xml" value="0.37604166666666666" />
-        <entry key="app/src/main/res/layout/view_edit_resume_fragment.xml" value="0.39855072463768115" />
       </map>
     </option>
   </component>
