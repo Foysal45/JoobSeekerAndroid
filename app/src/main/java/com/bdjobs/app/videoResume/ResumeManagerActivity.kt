@@ -7,8 +7,8 @@ import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.logException
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.editResume.EditResLandingActivity
 import com.google.android.ads.nativetemplates.TemplateView

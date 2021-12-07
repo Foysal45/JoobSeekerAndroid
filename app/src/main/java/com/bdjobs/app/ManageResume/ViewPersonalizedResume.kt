@@ -11,8 +11,8 @@ import androidx.databinding.DataBindingUtil
 import com.bdjobs.app.ManageResume.utils.getRootDirPath
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.databinding.ActivityViewPersonalizedResumeBinding
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader

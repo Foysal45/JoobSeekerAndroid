@@ -2,7 +2,6 @@ package com.bdjobs.app.Login
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,8 @@ import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.base_url_mybdjobs_photo
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.base_url_mybdjobs_photo
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback

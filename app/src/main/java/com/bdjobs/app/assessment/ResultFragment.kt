@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bdjobs.app.Utilities.openUrlInBrowser
+import com.bdjobs.app.utilities.openUrlInBrowser
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.ResultViewModel
 import com.bdjobs.app.assessment.viewmodels.ResultViewModelFactory

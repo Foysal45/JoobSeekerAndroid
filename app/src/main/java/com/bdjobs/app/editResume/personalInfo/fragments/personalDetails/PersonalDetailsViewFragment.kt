@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.adapters.models.GetPersInfo
 import com.bdjobs.app.editResume.adapters.models.P_DataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo

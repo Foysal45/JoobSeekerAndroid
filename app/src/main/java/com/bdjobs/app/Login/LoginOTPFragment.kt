@@ -12,12 +12,11 @@ import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.API.ModelClasses.ResendOtpModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
-import com.bdjobs.app.Utilities.Constants.Companion.counterTimeLimit
-import com.bdjobs.app.Utilities.Constants.Companion.timer_countDownInterval
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.api_request_result_code_ok
+import com.bdjobs.app.utilities.Constants.Companion.counterTimeLimit
+import com.bdjobs.app.utilities.Constants.Companion.timer_countDownInterval
 import kotlinx.android.synthetic.main.fragment_login_otp.*
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

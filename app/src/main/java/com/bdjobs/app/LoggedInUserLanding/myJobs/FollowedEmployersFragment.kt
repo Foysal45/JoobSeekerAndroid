@@ -24,7 +24,7 @@ import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.sms.SmsBaseActivity
 import com.google.android.material.button.MaterialButton

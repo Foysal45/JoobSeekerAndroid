@@ -7,8 +7,8 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.FavouriteSearchCountModel
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.error
+import com.bdjobs.app.utilities.logException
 import org.jetbrains.anko.doAsync
 import retrofit2.Call
 import retrofit2.Callback

@@ -6,7 +6,7 @@ import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.bdjobs.app.Notification.NotificationHelper
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import java.util.*
 import java.util.concurrent.TimeUnit
 

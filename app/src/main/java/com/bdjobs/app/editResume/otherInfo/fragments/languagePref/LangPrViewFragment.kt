@@ -3,7 +3,6 @@ package com.bdjobs.app.editResume.otherInfo.fragments.languagePref
 
 import android.app.Fragment
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.adapters.LanguageAdapter
 import com.bdjobs.app.editResume.adapters.models.LanguageDataModel
 import com.bdjobs.app.editResume.adapters.models.LanguageModel

@@ -1,7 +1,6 @@
 package com.bdjobs.app.editResume.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
-import com.bdjobs.app.Utilities.d
-import com.bdjobs.app.Utilities.debug
+import com.bdjobs.app.utilities.ExpandAndCollapseViewUtil
+import com.bdjobs.app.utilities.d
+import com.bdjobs.app.utilities.debug
 import com.bdjobs.app.editResume.adapters.models.ReferenceDataModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 

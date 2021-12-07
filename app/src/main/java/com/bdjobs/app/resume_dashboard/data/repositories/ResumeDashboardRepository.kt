@@ -4,7 +4,7 @@ import android.app.Application
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.resume_dashboard.data.models.ManageResumeDetailsStat
 import com.bdjobs.app.resume_dashboard.data.models.ManageResumeStats
 import com.bdjobs.app.resume_dashboard.data.models.ResumePrivacyStatus

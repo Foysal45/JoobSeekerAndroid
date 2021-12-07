@@ -22,7 +22,7 @@ import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.sms.SmsBaseActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity

@@ -2,7 +2,6 @@ package com.bdjobs.app.videoInterview.util
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -11,12 +10,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
-import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
 import com.google.android.material.button.MaterialButton
 

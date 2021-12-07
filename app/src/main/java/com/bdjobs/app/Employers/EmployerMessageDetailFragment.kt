@@ -3,7 +3,6 @@ package com.bdjobs.app.Employers
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,10 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.MessageDetailModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.d
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.d
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.show
 import kotlinx.android.synthetic.main.fragment_employer_message_detail.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast

@@ -3,8 +3,7 @@ package com.bdjobs.app.BroadCastReceivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
+import com.bdjobs.app.utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
 
 
 class BackgroundJobBroadcastReceiver : BroadcastReceiver() {

@@ -3,7 +3,6 @@ package com.bdjobs.app.assessment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.pickDate
-import com.bdjobs.app.Utilities.toEditable
+import com.bdjobs.app.utilities.pickDate
+import com.bdjobs.app.utilities.toEditable
 import com.bdjobs.app.assessment.viewmodels.ChooseScheduleViewModel
 import com.bdjobs.app.databinding.FragmentFilterScheduleBinding
 import kotlinx.android.synthetic.main.fragment_filter_schedule.*

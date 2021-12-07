@@ -1,7 +1,6 @@
 package com.bdjobs.app.videoInterview.ui.record_video
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -15,21 +14,17 @@ import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.FileUtil
-import com.bdjobs.app.Utilities.camera.CameraFactory
-import com.bdjobs.app.Utilities.camera.CameraProvider
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.Utilities.toFormattedSeconds
+import com.bdjobs.app.utilities.FileUtil
+import com.bdjobs.app.utilities.camera.CameraFactory
+import com.bdjobs.app.utilities.camera.CameraProvider
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
+import com.bdjobs.app.utilities.toFormattedSeconds
 import com.bdjobs.app.databinding.FragmentRecordVideoBinding
 import com.bdjobs.app.videoInterview.ui.question_list.QuestionListViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.google.android.material.snackbar.Snackbar
-import com.otaliastudios.cameraview.CameraListener
-import com.otaliastudios.cameraview.CameraOptions
-import com.otaliastudios.cameraview.VideoResult
-import com.otaliastudios.cameraview.controls.Facing
 import kotlinx.android.synthetic.main.fragment_record_video.*
 import java.io.File
 

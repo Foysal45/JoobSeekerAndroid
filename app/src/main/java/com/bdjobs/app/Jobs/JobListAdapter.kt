@@ -22,7 +22,7 @@ import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.Workmanager.ShortlistedJobDeleteWorker
 import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment

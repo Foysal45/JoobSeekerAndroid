@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.DataEmpV
 import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.toSimpleDateString
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.toSimpleDateString
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.textview.MaterialTextView
 import java.text.SimpleDateFormat

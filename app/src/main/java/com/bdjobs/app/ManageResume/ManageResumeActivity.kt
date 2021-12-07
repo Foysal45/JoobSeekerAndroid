@@ -2,16 +2,13 @@ package com.bdjobs.app.ManageResume
 
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.transitFragment
-import com.otaliastudios.cameraview.CameraView.PERMISSION_REQUEST_CODE
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.transitFragment
 
 
 class ManageResumeActivity : Activity(), ManageResumeCommunicator {

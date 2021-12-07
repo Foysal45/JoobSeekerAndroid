@@ -2,8 +2,8 @@ package com.bdjobs.app.API
 
 import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.BuildConfig
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.Constants.Companion.api_jobs_db_update
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.Constants.Companion.api_jobs_db_update
 import com.google.gson.GsonBuilder
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import okhttp3.OkHttpClient

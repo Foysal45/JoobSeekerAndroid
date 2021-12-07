@@ -88,15 +88,15 @@
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_video_resume"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:id="@+id/iv_video_resume"
-                    app:srcCompat="@drawable/ic_video_resume_count"
                     android:paddingEnd="8dp"
-                    tools:visibility="visible"
-                    app:layout_constraintStart_toEndOf="@id/iv_per_resume"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintStart_toEndOf="@id/iv_per_resume"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_video_resume_count"
+                    tools:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
@@ -104,14 +104,13 @@
                     android:id="@+id/iv_summary_view"
                     android:paddingEnd="8dp"
                     tools:visibility="visible"
+                    android:scaleType="fitXY"
                     app:srcCompat="@drawable/ic_summary_view"
                     app:layout_constraintStart_toEndOf="@id/iv_video_resume"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
             </LinearLayout>
-
-
 
 
             <TextView

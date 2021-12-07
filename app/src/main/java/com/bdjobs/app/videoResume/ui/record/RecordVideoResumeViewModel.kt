@@ -3,15 +3,13 @@ package com.bdjobs.app.videoResume.ui.record
 import android.os.CountDownTimer
 import android.text.format.DateUtils
 import androidx.lifecycle.*
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.videoInterview.util.Event
 import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.bdjobs.app.videoResume.data.repository.VideoResumeRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.IOException
 
 class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) : ViewModel() {
 

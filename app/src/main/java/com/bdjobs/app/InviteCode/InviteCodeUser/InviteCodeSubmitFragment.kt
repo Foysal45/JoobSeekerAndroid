@@ -12,7 +12,7 @@ import com.bdjobs.app.databases.internal.InviteCodeInfo
 import com.bdjobs.app.InviteCode.InviteCodeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.fragment_invite_code_submit.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.toast

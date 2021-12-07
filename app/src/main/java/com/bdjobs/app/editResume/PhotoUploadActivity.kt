@@ -35,7 +35,7 @@ import com.bdjobs.app.API.ModelClasses.PhotoUploadResponseModel
 import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient

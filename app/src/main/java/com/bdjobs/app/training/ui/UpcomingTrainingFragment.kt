@@ -11,9 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.Status
-import com.bdjobs.app.Utilities.showSnackBar
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.Status
+import com.bdjobs.app.utilities.showSnackBar
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentUpcomingTrainingBinding
 import com.bdjobs.app.training.data.repository.TrainingRepository

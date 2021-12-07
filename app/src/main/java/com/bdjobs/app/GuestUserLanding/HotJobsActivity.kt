@@ -10,7 +10,7 @@ import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.LoggedInUserLanding.HotjobsAdapterNew
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
 import kotlinx.android.synthetic.main.activity_hot_jobs.*
 //import kotlinx.android.synthetic.main.activity_hot_jobs.adView

@@ -10,19 +10,16 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.Login2UserModel
-import com.bdjobs.app.API.ModelClasses.LoginUserModel
 
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
-import com.bdjobs.app.Utilities.Constants.Companion.key_false
-import com.bdjobs.app.Utilities.Constants.Companion.key_true
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.key_false
+import com.bdjobs.app.utilities.Constants.Companion.key_true
 import kotlinx.android.synthetic.main.fragment_login2_user_name.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.regex.Pattern
-import kotlin.error
 
 /**
  * A simple [Fragment] subclass.

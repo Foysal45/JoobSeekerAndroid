@@ -16,10 +16,10 @@ import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*

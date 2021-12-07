@@ -5,7 +5,6 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +13,9 @@ import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PaymentTypeInsertModel
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
-import com.bdjobs.app.InviteCode.InviteCodeOwner.OwnerBalanceFragment
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_invite_code_payment_methods.*

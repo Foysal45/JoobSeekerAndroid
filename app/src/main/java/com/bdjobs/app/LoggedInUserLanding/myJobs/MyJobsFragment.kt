@@ -10,10 +10,10 @@ import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.ShortListedJobFragment
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.loadCircularImageFromUrl
-import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.loadCircularImageFromUrl
+import com.bdjobs.app.utilities.show
+import com.bdjobs.app.utilities.transitFragment
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_my_jobs.*

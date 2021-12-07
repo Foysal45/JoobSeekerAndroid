@@ -1,6 +1,5 @@
 package com.bdjobs.app.SessionManger
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.AlarmManager
@@ -9,17 +8,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.edit
 import com.bdjobs.app.API.ModelClasses.DataLoginPasswordModel
 import com.bdjobs.app.BroadCastReceivers.MorningNotificationReceiver
 import com.bdjobs.app.BroadCastReceivers.NightNotificationReceiver
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.Constants.Companion.isDeviceInfromationSent
-import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.Constants.Companion.isDeviceInfromationSent
+import com.bdjobs.app.utilities.Constants.Companion.name_sharedPref
+import com.bdjobs.app.utilities.logException
 import com.bdjobs.app.databases.internal.BdjobsDB
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread

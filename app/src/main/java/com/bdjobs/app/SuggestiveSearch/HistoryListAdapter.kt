@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.logException
 import java.util.*
 
 class HistoryListAdapter(var itemList: ArrayList<String>, private val context: Context) : BaseAdapter() {

@@ -8,16 +8,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.videoInterview.data.models.Guideline
 import kotlinx.android.synthetic.main.fragment_guidelines_viewpager.*
 

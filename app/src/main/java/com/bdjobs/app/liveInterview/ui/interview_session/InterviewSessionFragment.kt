@@ -27,9 +27,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.changeColor
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.changeColor
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.databinding.FragmentInterviewSessionBinding
 import com.bdjobs.app.liveInterview.data.models.Instructions
 import com.bdjobs.app.liveInterview.data.models.Messages

@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.equalIgnoreCase
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.BookingOverviewViewModel
 import com.bdjobs.app.assessment.viewmodels.BookingOverviewViewModelFactory

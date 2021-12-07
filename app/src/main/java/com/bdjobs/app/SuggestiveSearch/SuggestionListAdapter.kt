@@ -10,7 +10,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.logException
 import java.util.*
 
 class SuggestionListAdapter(var itemList: ArrayList<String>, private val context: Context) : BaseAdapter(), Filterable {

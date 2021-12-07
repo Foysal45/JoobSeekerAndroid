@@ -2,7 +2,6 @@ package com.bdjobs.app.transaction.ui
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.pickDate
+import com.bdjobs.app.utilities.pickDate
 import com.bdjobs.app.databinding.TransactionFilterFragmentBinding
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import kotlinx.android.synthetic.main.transaction_filter_fragment.*

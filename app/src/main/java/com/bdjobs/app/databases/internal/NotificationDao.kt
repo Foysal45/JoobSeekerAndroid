@@ -3,7 +3,7 @@ package com.bdjobs.app.databases.internal
 import android.app.Activity
 import android.content.Intent
 import androidx.room.*
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import java.util.*
 
 @Dao

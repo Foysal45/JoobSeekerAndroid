@@ -2,7 +2,6 @@ package com.bdjobs.app.AppliedJobs
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -20,7 +19,7 @@ import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 import com.bdjobs.app.API.ModelClasses.EmployerInteraction
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
 import kotlinx.android.synthetic.main.fragment_employer_interaction.*
 import org.jetbrains.anko.startActivity

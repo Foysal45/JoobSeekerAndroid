@@ -28,11 +28,10 @@ import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SessionManger.DeviceProtectedSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.name_sharedPref
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 import com.fondesa.kpermissions.*
-import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.extension.send
 import com.fondesa.kpermissions.request.PermissionRequest
@@ -44,8 +43,6 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings

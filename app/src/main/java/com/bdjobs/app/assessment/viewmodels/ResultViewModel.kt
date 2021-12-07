@@ -1,13 +1,11 @@
 package com.bdjobs.app.assessment.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.assessment.Event
+import com.bdjobs.app.utilities.equalIgnoreCase
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.models.CertificateData
 import com.bdjobs.app.assessment.models.ResultData

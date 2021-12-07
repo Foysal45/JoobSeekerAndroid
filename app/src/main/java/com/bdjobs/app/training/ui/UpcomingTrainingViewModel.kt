@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.Resource
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.Resource
 import com.bdjobs.app.training.data.models.TrainingList
 import com.bdjobs.app.training.data.repository.TrainingRepository
 import kotlinx.coroutines.launch

@@ -17,7 +17,7 @@ import com.bdjobs.app.databases.internal.FavouriteSearch
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout

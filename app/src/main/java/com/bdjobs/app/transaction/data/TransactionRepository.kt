@@ -1,11 +1,10 @@
 package com.bdjobs.app.transaction.data
 
 import android.app.Application
-import android.graphics.drawable.Drawable
 import android.util.Log
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.transaction.data.model.TransactionList
 import com.bdjobs.app.videoInterview.data.models.VideoManager
 import kotlinx.coroutines.Dispatchers

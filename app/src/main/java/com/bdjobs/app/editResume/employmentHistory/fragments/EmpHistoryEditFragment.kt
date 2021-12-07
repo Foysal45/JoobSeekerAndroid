@@ -4,9 +4,7 @@ package com.bdjobs.app.editResume.employmentHistory.fragments
 import android.app.DatePickerDialog
 import android.app.Fragment
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -17,12 +15,11 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.AutoSuggestionModel
-import com.bdjobs.app.API.ModelClasses.Data
 import com.bdjobs.app.API.ModelClasses.DataAutoSuggestion
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.google.android.material.chip.Chip
@@ -32,7 +29,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_emp_history_edit.*
-import okhttp3.internal.notify
 import org.jetbrains.anko.sdk27.coroutines.onFocusChange
 import org.jetbrains.anko.toast
 import retrofit2.Call

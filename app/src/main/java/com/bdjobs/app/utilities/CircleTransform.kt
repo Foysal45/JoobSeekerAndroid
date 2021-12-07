@@ -1,4 +1,4 @@
-package com.bdjobs.app.Utilities
+package com.bdjobs.app.utilities
 
 import android.graphics.*
 

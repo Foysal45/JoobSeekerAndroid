@@ -16,9 +16,9 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.FollowedEmployer
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.error
+import com.bdjobs.app.utilities.logException
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
 import org.jetbrains.anko.*

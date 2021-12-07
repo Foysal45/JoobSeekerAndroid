@@ -23,7 +23,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.facebook.FacebookSdk.getApplicationContext
 import com.google.android.gms.ads.AdRequest
 import com.otaliastudios.cameraview.CameraView.PERMISSION_REQUEST_CODE

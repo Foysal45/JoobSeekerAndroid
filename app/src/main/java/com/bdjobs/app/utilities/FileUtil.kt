@@ -1,4 +1,4 @@
-package com.bdjobs.app.Utilities
+package com.bdjobs.app.utilities
 
 import android.content.ContentUris
 import android.content.Context
@@ -9,8 +9,8 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import com.bdjobs.app.ManageResume.FileInformation
-import com.bdjobs.app.Utilities.Constants.Companion.DOCX
-import com.bdjobs.app.Utilities.Constants.Companion.PDF
+import com.bdjobs.app.utilities.Constants.Companion.DOCX
+import com.bdjobs.app.utilities.Constants.Companion.PDF
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat

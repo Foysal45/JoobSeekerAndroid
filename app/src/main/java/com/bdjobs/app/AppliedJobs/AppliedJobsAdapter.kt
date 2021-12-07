@@ -24,7 +24,7 @@ import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.Workmanager.CancelAppliedJobWorker
 import com.bdjobs.app.Workmanager.ExpectedSalaryWorker
 import com.google.android.ads.nativetemplates.TemplateView

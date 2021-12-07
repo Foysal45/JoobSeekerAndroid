@@ -12,8 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.openUrlInBrowser
+import com.bdjobs.app.utilities.openUrlInBrowser
 import com.bdjobs.app.databinding.FragmentVideoResumeLandingBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil

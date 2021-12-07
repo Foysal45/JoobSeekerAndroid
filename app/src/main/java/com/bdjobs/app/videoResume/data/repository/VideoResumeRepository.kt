@@ -3,7 +3,7 @@ package com.bdjobs.app.videoResume.data.repository
 import android.app.Application
 import android.util.Log
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.videoResume.data.models.*
 import com.bdjobs.app.videoResume.data.remote.VideoResumeApiService
 import kotlinx.coroutines.Dispatchers

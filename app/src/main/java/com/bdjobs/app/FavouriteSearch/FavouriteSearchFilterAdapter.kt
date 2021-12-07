@@ -24,8 +24,8 @@ import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.api_request_result_code_ok
 import com.bdjobs.app.Workmanager.FavouriteSearchDeleteWorker
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.internal.BdjobsDB

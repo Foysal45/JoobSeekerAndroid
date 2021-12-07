@@ -9,7 +9,7 @@ import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.activity_employers_base.*
 import org.jetbrains.anko.doAsync
 import retrofit2.Call

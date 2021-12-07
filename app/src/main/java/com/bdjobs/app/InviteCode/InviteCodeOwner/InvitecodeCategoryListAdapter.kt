@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.bdjobs.app.API.ModelClasses.InviteCodeCategoryAmountModelData
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.toBanglaDigit
+import com.bdjobs.app.utilities.toBanglaDigit
 import java.util.*
 
 class InvitecodeCategoryListAdapter(ctx: Context?, private val categoryAmountList: ArrayList<InviteCodeCategoryAmountModelData>) : BaseAdapter() {

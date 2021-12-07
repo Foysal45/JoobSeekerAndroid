@@ -11,7 +11,7 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.Notification.Models.CommonNotificationModel
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage

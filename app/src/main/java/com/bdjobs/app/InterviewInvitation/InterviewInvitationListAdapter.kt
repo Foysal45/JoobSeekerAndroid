@@ -9,7 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.databases.internal.JobInvitation
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.toSimpleDateString
+import com.bdjobs.app.utilities.toSimpleDateString
 
 
 class InterviewInvitationListAdapter(private val context: Context, private val items: MutableList<JobInvitation>) : RecyclerView.Adapter<ViewHolder>() {

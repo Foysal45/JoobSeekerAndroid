@@ -17,7 +17,7 @@ import androidx.core.widget.addTextChangedListener
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.External.LocationModel
@@ -31,7 +31,6 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_contact_edit.*
 import kotlinx.android.synthetic.main.fragment_contact_edit.tv_email_change_user_id
 import kotlinx.android.synthetic.main.fragment_contact_edit.tv_mobile_change_user_id
-import kotlinx.android.synthetic.main.fragment_contact_view.*
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast

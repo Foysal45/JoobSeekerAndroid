@@ -24,15 +24,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
+import com.bdjobs.app.utilities.hide
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentQuestionDetailsBinding
 import com.bdjobs.app.videoInterview.VideoInterviewViewModel
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
 import com.bdjobs.app.videoInterview.data.models.VideoManager
-import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
-import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel
-import com.bdjobs.app.videoInterview.ui.interview_list.VideoInterviewListViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.fondesa.kpermissions.*

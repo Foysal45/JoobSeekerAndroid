@@ -1,22 +1,17 @@
 package com.bdjobs.app.assessment.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.assessment.models.ScheduleData
 import com.bdjobs.app.databinding.ItemScheduleBinding
-import timber.log.Timber
 
 class ScheduleListAdapter(val context: Context, private val lifecycleOwner: LifecycleOwner, val clickListener: ScheduleClickListener) :
         ListAdapter<ScheduleData, ScheduleListAdapter.ScheduleViewHolder>(DiffUserCallback) {

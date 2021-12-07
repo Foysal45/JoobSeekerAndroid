@@ -7,7 +7,7 @@ import com.bdjobs.app.BroadCastReceivers.BackgroundJobBroadcastReceiver
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.activity_notification_base.*
 import kotlinx.android.synthetic.main.activity_notification_base.backIV
 import org.jetbrains.anko.doAsync

@@ -6,8 +6,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import kotlinx.android.synthetic.main.activity_sms_base.*
 import kotlinx.android.synthetic.main.activity_sms_base.view.*
 

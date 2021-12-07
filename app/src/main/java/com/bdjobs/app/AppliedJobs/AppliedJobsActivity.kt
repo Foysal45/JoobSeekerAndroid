@@ -6,9 +6,9 @@ import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.transitFragment
-import com.bdjobs.app.Utilities.transitFragmentX
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.transitFragment
+import com.bdjobs.app.utilities.transitFragmentX
 import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 import kotlinx.android.synthetic.main.activity_applied_jobs.*
 import org.jetbrains.anko.startActivity

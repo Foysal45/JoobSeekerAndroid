@@ -11,10 +11,10 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.d
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.d
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.editResume.adapters.models.GetPreferredAreas
 import com.bdjobs.app.editResume.adapters.models.PreferredAreasData
 import com.bdjobs.app.editResume.callbacks.PersonalInfo

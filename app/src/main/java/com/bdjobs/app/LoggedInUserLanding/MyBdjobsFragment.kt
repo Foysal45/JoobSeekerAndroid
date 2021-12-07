@@ -13,7 +13,7 @@ import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.databases.internal.BdjobsDB
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
 import org.jetbrains.anko.doAsync

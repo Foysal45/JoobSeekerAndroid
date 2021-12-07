@@ -14,14 +14,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.openUrlInBrowser
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.openUrlInBrowser
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.viewmodels.HomeViewModel
 import com.bdjobs.app.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.layout_need_more_information.view.*
-import kotlinx.android.synthetic.main.layout_what_is_employability_certification.view.*
 
 /**
  * A simple [Fragment] subclass.

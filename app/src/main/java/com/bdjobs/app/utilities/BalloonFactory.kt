@@ -1,7 +1,6 @@
-package com.bdjobs.app.Utilities
+package com.bdjobs.app.utilities
 
 import android.content.Context
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LifecycleOwner
 import com.bdjobs.app.R
 import com.skydoves.balloon.ArrowConstraints

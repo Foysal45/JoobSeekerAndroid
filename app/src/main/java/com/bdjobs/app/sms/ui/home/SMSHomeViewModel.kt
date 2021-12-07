@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.equalIgnoreCase
 import com.bdjobs.app.sms.data.model.SMSSettingsData
 import com.bdjobs.app.sms.data.repository.SMSRepository
 import kotlinx.coroutines.launch

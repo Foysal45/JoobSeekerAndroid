@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.transitFragment
-import com.bdjobs.app.Utilities.transitFragmentX
+import com.bdjobs.app.utilities.transitFragment
+import com.bdjobs.app.utilities.transitFragmentX
 import org.jetbrains.anko.startActivity
 
 class FavouriteSearchBaseActivity : AppCompatActivity(), FavCommunicator {

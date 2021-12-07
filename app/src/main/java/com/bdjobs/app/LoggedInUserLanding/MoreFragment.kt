@@ -19,7 +19,7 @@ import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.training.TrainingListActivity
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
 import com.bdjobs.app.liveInterview.LiveInterviewActivity

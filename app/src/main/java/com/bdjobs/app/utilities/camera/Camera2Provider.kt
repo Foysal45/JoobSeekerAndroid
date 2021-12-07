@@ -1,4 +1,4 @@
-package com.bdjobs.app.Utilities.camera
+package com.bdjobs.app.utilities.camera
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner

@@ -1,4 +1,4 @@
-package com.bdjobs.app.Utilities
+package com.bdjobs.app.utilities
 
 //
 // Created by Soumik on 11/8/2021.

@@ -1,10 +1,7 @@
 package com.bdjobs.app.assessment.viewmodels
 
 import android.app.Application
-import android.app.DatePickerDialog
-import android.util.Log
 import androidx.lifecycle.*
-import com.bdjobs.app.Utilities.pickDate
 import com.bdjobs.app.assessment.enums.Status
 import com.bdjobs.app.assessment.models.ScheduleData
 import com.bdjobs.app.assessment.models.ScheduleRequest

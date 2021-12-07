@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 import android.content.Context
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.bdjobs.app.Utilities.Constants.Companion.internal_database_name
+import com.bdjobs.app.utilities.Constants.Companion.internal_database_name
 
 
 @Database(entities = [Suggestion::class,

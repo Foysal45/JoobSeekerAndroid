@@ -18,8 +18,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.logException
 
 class MyBdJobsAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

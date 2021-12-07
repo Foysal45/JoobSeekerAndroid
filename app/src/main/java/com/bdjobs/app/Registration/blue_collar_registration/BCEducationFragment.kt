@@ -16,7 +16,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.databases.External.DataStorage
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout

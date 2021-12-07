@@ -18,9 +18,9 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.FavouriteSearch
 import com.bdjobs.app.sms.SmsBaseActivity

@@ -10,7 +10,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_download_resume.*
 import kotlinx.coroutines.GlobalScope

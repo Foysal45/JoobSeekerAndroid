@@ -41,11 +41,11 @@ import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.BdjobsUserRequestCode
-import com.bdjobs.app.Utilities.Constants.Companion.isDeviceInfromationSent
-import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
-import com.bdjobs.app.Utilities.Constants.Companion.sendDeviceInformation
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.BdjobsUserRequestCode
+import com.bdjobs.app.utilities.Constants.Companion.isDeviceInfromationSent
+import com.bdjobs.app.utilities.Constants.Companion.key_typedData
+import com.bdjobs.app.utilities.Constants.Companion.sendDeviceInformation
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 import com.bdjobs.app.databases.internal.BdjobsDB

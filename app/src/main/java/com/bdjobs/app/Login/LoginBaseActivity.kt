@@ -22,8 +22,8 @@ import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationBaseActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.key_go_to_home
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 import com.google.android.material.snackbar.Snackbar

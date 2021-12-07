@@ -1,14 +1,13 @@
 package com.bdjobs.app.editResume.adapters
 
 import android.app.Activity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.editResume.adapters.models.Skill
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity

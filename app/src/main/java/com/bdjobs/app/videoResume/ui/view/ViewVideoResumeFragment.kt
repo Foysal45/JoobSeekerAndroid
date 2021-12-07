@@ -26,15 +26,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.databinding.FragmentViewVideoResumeBinding
-import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
-import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
-import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsFragmentDirections
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModel
 import com.fondesa.kpermissions.*
 import com.fondesa.kpermissions.extension.permissionsBuilder
@@ -47,8 +44,6 @@ import kotlinx.android.synthetic.main.fragment_view_video_resume.img_play
 import kotlinx.android.synthetic.main.fragment_view_video_resume.progress_bar
 import kotlinx.android.synthetic.main.fragment_view_video_resume.tool_bar
 import kotlinx.android.synthetic.main.fragment_view_video_resume.video_view
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.alert
 
 
 class ViewVideoResumeFragment : Fragment() {

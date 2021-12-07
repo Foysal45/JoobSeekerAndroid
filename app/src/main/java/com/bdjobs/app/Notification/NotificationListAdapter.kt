@@ -23,16 +23,16 @@ import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.Notification.Models.CommonNotificationModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE
-import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_CV_VIEWED
-import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_INTERVIEW_INVITATION
-import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_JOB_EXPIRATION_NOTIFICATION
-import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_MATCHED_JOB
-import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE
-import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_SMS
-import com.bdjobs.app.Utilities.Constants.Companion.NOTIFICATION_TYPE_VIDEO_INTERVIEW
-import com.bdjobs.app.Utilities.Constants.Companion.getDateTimeAsAgo
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.NOTIFICATION_TYPE_BANNER_PROMOTIONAL_MESSAGE
+import com.bdjobs.app.utilities.Constants.Companion.NOTIFICATION_TYPE_CV_VIEWED
+import com.bdjobs.app.utilities.Constants.Companion.NOTIFICATION_TYPE_INTERVIEW_INVITATION
+import com.bdjobs.app.utilities.Constants.Companion.NOTIFICATION_TYPE_JOB_EXPIRATION_NOTIFICATION
+import com.bdjobs.app.utilities.Constants.Companion.NOTIFICATION_TYPE_MATCHED_JOB
+import com.bdjobs.app.utilities.Constants.Companion.NOTIFICATION_TYPE_PROMOTIONAL_MESSAGE
+import com.bdjobs.app.utilities.Constants.Companion.NOTIFICATION_TYPE_SMS
+import com.bdjobs.app.utilities.Constants.Companion.NOTIFICATION_TYPE_VIDEO_INTERVIEW
+import com.bdjobs.app.utilities.Constants.Companion.getDateTimeAsAgo
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.Notification
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
@@ -46,7 +46,6 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import timber.log.Timber
 import java.util.*
-import kotlin.math.min
 
 
 @Suppress("SpellCheckingInspection")

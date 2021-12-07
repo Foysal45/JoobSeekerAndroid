@@ -12,7 +12,7 @@ import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.adapters.models.LanguageDataModel
 import com.bdjobs.app.editResume.adapters.models.ReferenceDataModel
 import com.bdjobs.app.editResume.adapters.models.Skill

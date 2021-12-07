@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_general_search_layout.*

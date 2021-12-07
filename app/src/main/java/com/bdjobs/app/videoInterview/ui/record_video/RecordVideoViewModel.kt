@@ -2,17 +2,13 @@ package com.bdjobs.app.videoInterview.ui.record_video
 
 import android.os.CountDownTimer
 import android.text.format.DateUtils
-import android.util.Log
 import androidx.lifecycle.*
-import androidx.work.*
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
-import com.bdjobs.app.videoInterview.worker.UploadVideoWorker
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 class RecordVideoViewModel(private val repository: VideoInterviewRepository) : ViewModel() {
 

@@ -2,11 +2,11 @@ package com.bdjobs.app.API
 
 import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.BuildConfig
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_agent_log
-import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
-import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
-import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.Constants.Companion.api_mybdjobs_app_agent_log
+import com.bdjobs.app.utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
+import com.bdjobs.app.utilities.Constants.Companion.api_mybdjobs_app_signinprocess
+import com.bdjobs.app.utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.liveInterview.data.models.*
 import com.bdjobs.app.resume_dashboard.data.models.*

@@ -2,12 +2,8 @@ package com.bdjobs.app.Registration.white_collar_registration
 
 
 import android.app.Fragment
-import android.app.FragmentManager
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +11,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.databases.External.DataStorage
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_phone_email.*

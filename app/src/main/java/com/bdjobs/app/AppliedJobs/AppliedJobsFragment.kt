@@ -19,7 +19,7 @@ import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.fragment_applied_jobs.*
 import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.toast

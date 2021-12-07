@@ -3,7 +3,6 @@ package com.bdjobs.app.editResume.otherInfo.fragments.referances
 import android.app.Fragment
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +11,8 @@ import android.view.WindowManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.referUpdate
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.referUpdate
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.google.android.material.chip.Chip

@@ -1,8 +1,6 @@
 package com.bdjobs.app.liveInterview.ui
 
 import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.os.CountDownTimer
 import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
@@ -10,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.equalIgnoreCase
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import timber.log.Timber

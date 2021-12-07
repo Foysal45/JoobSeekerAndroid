@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.TimesEmailed
 import com.bdjobs.app.API.ModelClasses.TimesEmailedData
@@ -19,7 +18,7 @@ import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.fragment_times_emailed_my_resume.*
 import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.toast

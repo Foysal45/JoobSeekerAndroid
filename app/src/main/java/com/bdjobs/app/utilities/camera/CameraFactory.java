@@ -1,8 +1,7 @@
-package com.bdjobs.app.Utilities.camera;
+package com.bdjobs.app.utilities.camera;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.camera.view.PreviewView;
 import androidx.lifecycle.LifecycleOwner;

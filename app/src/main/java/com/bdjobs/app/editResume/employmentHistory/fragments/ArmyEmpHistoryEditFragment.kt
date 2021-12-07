@@ -12,8 +12,8 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.armyEmpHistoryList
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.armyEmpHistoryList
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.google.android.material.textfield.TextInputEditText

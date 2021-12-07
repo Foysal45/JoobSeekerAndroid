@@ -1,23 +1,11 @@
 package com.bdjobs.app.BroadCastReceivers
 
 import android.app.AlarmManager
-import android.app.Notification
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.os.SystemClock
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
-import com.bdjobs.app.Notification.NotificationHelper
-import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SessionManger.DeviceProtectedSession
-import com.bdjobs.app.Utilities.logException
-import com.google.firebase.FirebaseApp
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 import java.util.*
 

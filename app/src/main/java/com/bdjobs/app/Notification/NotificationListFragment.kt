@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.Notification
 import com.google.android.material.snackbar.Snackbar

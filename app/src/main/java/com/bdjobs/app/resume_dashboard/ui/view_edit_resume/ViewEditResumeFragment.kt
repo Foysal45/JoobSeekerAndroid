@@ -9,15 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.navGraphViewModels
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.ManageResume.ViewPersonalizedResume
-import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.logException
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.ViewEditResumeFragmentBinding
 import com.bdjobs.app.editResume.EditResLandingActivity
@@ -26,16 +23,12 @@ import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
 import com.bdjobs.app.editResume.personalInfo.PersonalInfoActivity
-import com.bdjobs.app.resume_dashboard.data.models.DataMRD
 import com.bdjobs.app.resume_dashboard.data.repositories.ResumeDashboardRepository
 import com.bdjobs.app.videoResume.VideoResumeActivity
-import kotlinx.android.synthetic.main.layout_bdjobs_resume_steps.*
 import kotlinx.android.synthetic.main.layout_no_bdjobs_resume.*
 import kotlinx.android.synthetic.main.layout_no_personalized_resume.*
 import kotlinx.android.synthetic.main.layout_no_video_resume.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
-import timber.log.Timber
 import java.util.*
 
 class ViewEditResumeFragment : Fragment() {

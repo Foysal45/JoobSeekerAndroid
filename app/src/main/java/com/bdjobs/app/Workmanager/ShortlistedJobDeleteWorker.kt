@@ -8,7 +8,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UnshorlistJobModel
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.error
+import com.bdjobs.app.utilities.error
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import retrofit2.Call

@@ -2,7 +2,6 @@ package com.bdjobs.app.Registration.blue_collar_registration
 
 
 import android.app.Activity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,8 @@ import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationBaseActivity
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import com.google.android.material.chip.Chip
 import java.util.*
 

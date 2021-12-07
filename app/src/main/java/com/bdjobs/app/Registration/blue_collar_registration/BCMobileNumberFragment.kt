@@ -13,7 +13,7 @@ import android.widget.TextView
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.Registration.blue_collar_registration.frgCommunicator.FragmentCommunicator
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.databases.External.DataStorage
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*

@@ -34,8 +34,8 @@ import com.bdjobs.app.Employers.EmployersBaseActivity
 import com.bdjobs.app.ManageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.appliedJobsCount
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.appliedJobsCount
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.ajkerDeal.api.ApiInterfaceAPI
 import com.bdjobs.app.ajkerDeal.api.ResponseHeader
@@ -63,7 +63,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.*
 import retrofit2.Call

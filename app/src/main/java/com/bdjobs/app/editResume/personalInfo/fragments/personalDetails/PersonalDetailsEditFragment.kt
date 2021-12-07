@@ -3,20 +3,16 @@ package com.bdjobs.app.editResume.personalInfo.fragments.personalDetails
 
 import android.app.DatePickerDialog
 import android.app.Fragment
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import androidx.core.content.ContextCompat.getSystemService
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.personalUpdate
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.personalUpdate
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.adapters.models.P_DataItem
@@ -31,7 +27,6 @@ import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*

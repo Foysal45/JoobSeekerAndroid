@@ -2,7 +2,7 @@ package com.bdjobs.app.sms.ui.payment
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.sms.data.repository.SMSRepository
 import com.sslwireless.sslcommerzlibrary.model.initializer.CustomerInfoInitializer

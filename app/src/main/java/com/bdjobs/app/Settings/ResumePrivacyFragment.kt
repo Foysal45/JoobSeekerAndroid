@@ -14,7 +14,7 @@ import com.bdjobs.app.API.ModelClasses.AutoSuggestionModel
 import com.bdjobs.app.API.ModelClasses.DataAutoSuggestion
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.databinding.FragmentResumePrivacyBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable

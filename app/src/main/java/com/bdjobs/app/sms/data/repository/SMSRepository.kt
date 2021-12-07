@@ -3,7 +3,7 @@ package com.bdjobs.app.sms.data.repository
 import android.app.Application
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.sms.data.model.SMSSettings

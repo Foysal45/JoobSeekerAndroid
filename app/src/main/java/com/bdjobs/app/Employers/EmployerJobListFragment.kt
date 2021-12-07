@@ -3,7 +3,6 @@ package com.bdjobs.app.Employers
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,7 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerJobListsModel
 import com.bdjobs.app.API.ModelClasses.EmployerJobListsModelData
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.*
-import com.google.android.gms.ads.AdRequest
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.fragment_employer_job_list.*
 import retrofit2.Call
 import retrofit2.Callback

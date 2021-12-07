@@ -12,7 +12,7 @@ import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.InviteCode.InviteCodeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.PhotoUploadActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity

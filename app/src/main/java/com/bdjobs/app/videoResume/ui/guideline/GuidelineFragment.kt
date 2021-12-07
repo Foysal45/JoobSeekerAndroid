@@ -9,11 +9,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import kotlinx.android.synthetic.main.fragment_guideline.*
 import kotlinx.android.synthetic.main.fragment_guideline.tool_bar
-import kotlinx.android.synthetic.main.fragment_video_resume_landing.*
 
 class GuidelineFragment : Fragment() {
 

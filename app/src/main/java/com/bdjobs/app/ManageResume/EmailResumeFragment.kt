@@ -13,7 +13,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.SendEmailCV
 import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.EditResLandingActivity
 import kotlinx.android.synthetic.main.fragment_email_resume.*
 import org.jetbrains.anko.alert

@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.openUrlInBrowser
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.openUrlInBrowser
 import com.google.android.material.button.MaterialButton
 
 

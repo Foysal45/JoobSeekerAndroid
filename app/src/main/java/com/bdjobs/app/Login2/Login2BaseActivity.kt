@@ -15,8 +15,8 @@ import androidx.work.WorkManager
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.utilities.Constants.Companion.key_go_to_home
+import com.bdjobs.app.utilities.transitFragment
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 
 import kotlinx.android.synthetic.main.activity_login2_base.*

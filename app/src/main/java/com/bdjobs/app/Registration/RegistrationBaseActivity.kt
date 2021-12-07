@@ -2,7 +2,6 @@ package com.bdjobs.app.Registration
 
 //import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import android.app.Activity
-import android.app.FragmentManager
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -25,7 +24,7 @@ import com.bdjobs.app.Registration.blue_collar_registration.*
 import com.bdjobs.app.Registration.blue_collar_registration.frgCommunicator.FragmentCommunicator
 import com.bdjobs.app.Registration.white_collar_registration.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.internal.BdjobsDB
