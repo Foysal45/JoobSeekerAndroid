@@ -741,65 +741,68 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
                             android:id="@+id/iv_minus_custom_package"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_minus_sms_package"
+                            android:layout_marginStart="5dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true"
                             android:focusable="true"
                             android:onClick="@{()->viewModel.onCustomSMSMinusClicked()}"
-                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="10dp"
+                            app:layout_constraintBottom_toBottomOf="@id/img_sms_custom"
                             app:layout_constraintStart_toEndOf="@id/img_sms_custom"
                             app:layout_constraintTop_toTopOf="@id/img_sms_custom"
-                            app:layout_constraintBottom_toBottomOf="@id/img_sms_custom"
-                            android:layout_marginStart="15dp"/>
+                            app:srcCompat="@drawable/ic_minus_sms_package" />
 
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_total_sms_custom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="5dp"
                             android:background="@drawable/border_blue_round"
-                            android:paddingVertical="5dp"
-                            android:paddingHorizontal="8dp"
                             android:fontFamily="@font/roboto_bold"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="5dp"
                             android:text="@{viewModel.customSmsAmount.toString()}"
-                            tools:text="@string/label_500"
                             android:textColor="#110D0D"
                             android:textSize="18sp"
-                            app:layout_constraintStart_toEndOf="@id/iv_minus_custom_package"
                             app:layout_constraintBottom_toBottomOf="@id/img_sms_custom"
-                            app:layout_constraintTop_toTopOf="@id/img_sms_custom" />
+                            app:layout_constraintStart_toEndOf="@id/iv_minus_custom_package"
+                            app:layout_constraintTop_toTopOf="@id/img_sms_custom"
+                            tools:text="@string/label_500" />
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
                             android:id="@+id/iv_add_custom_package"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_plus_sms_package"
+                            android:layout_marginStart="5dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true"
                             android:focusable="true"
                             android:onClick="@{()->viewModel.onCustomSMSAddClicked()}"
+                            android:padding="10dp"
+                            app:layout_constraintBottom_toBottomOf="@id/img_sms_custom"
                             app:layout_constraintStart_toEndOf="@id/tv_total_sms_custom"
                             app:layout_constraintTop_toTopOf="@id/img_sms_custom"
-                            app:layout_constraintBottom_toBottomOf="@id/img_sms_custom"
-                            android:layout_marginStart="15dp"/>
+                            app:srcCompat="@drawable/ic_plus_sms_package" />
 
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_bonus_sms_custom"
+                            setCustomBonusText="@{viewModel.customSmsAmount}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
                             android:fontFamily="@font/roboto_medium"
-                            tools:text="Get Bonus from 200 SMS"
-                            setCustomBonusText="@{viewModel.customSmsAmount}"
                             android:textColor="#0645AD"
                             android:textSize="12sp"
                             app:fontFamily="@font/roboto_bold"
+                            app:layout_constraintEnd_toEndOf="@+id/iv_add_custom_package"
                             app:layout_constraintStart_toStartOf="@id/iv_minus_custom_package"
-                            app:layout_constraintTop_toBottomOf="@id/tv_total_sms_custom" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_total_sms_custom"
+                            tools:text="Get Bonus from 200 SMS" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_total_taka_custom"

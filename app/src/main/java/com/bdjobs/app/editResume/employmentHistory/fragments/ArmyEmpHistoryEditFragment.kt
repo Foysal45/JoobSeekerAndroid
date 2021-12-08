@@ -9,11 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Utilities.*
 import com.bdjobs.app.Utilities.Constants.Companion.armyEmpHistoryList
+import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.google.android.material.textfield.TextInputEditText
@@ -26,6 +26,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+
+
+
 
 class ArmyEmpHistoryEditFragment : Fragment() {
 
@@ -158,16 +161,24 @@ class ArmyEmpHistoryEditFragment : Fragment() {
             validation = isValidate(et_arms, til_arms, et_arms, true, validation)
             validation = isValidate(et_commission, til_commission, et_commission, true, validation)
             validation = isValidate(et_retire, til_retire, et_retire, true, validation)
-            if (validation == 7) updateData()
+
+
+            if (Date(et_commission.text.toString()).toSimpleDateString() == Date(et_retire.text.toString()).toSimpleDateString()){
+                activity?.toast("Date of Commission and Date of Retirement cannot be same!")
+            }else{
+                if (validation == 7 ) updateData()
+            }
         }
     }
+
 
     private fun updateData() {
         clArmyEmpHistory.clearFocus()
         activity?.showProgressBar(loadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateArmyExpsList(userId = session.userId, decodeId = session.decodId, isResumeUpdate = session.IsResumeUpdate,
                 txtBANo = et_ba_no.getString(), comboBANo = et_ba_type.getString(), comboArms = et_arms.getString(), comboRank = et_ranks.getString(), comboType = et_type.getString(),
-                txtCourse = et_course.getString(), txtTrade = et_trade.getString(), cboCommissionDate = et_commission.getString(), cboRetirementDate = et_retire.getString(), arm_id = armyID, hId = hID)
+                txtCourse = et_course.getString(), txtTrade = et_trade.getString(), cboCommissionDate = et_commission.getString(), cboRetirementDate = et_retire.getString(),
+            arm_id = armyID, hId = hID)
 
         /*Log.d("armyHis", "${session.userId}, ${session.decodId}, ${session.IsResumeUpdate},\n" +
                 "comboBANo = ${et_ba_no.getString()}, txtBANo = $baID, comboArms = $armsID, comboRank = $ranksID, comboType = $typeID,\n" +
