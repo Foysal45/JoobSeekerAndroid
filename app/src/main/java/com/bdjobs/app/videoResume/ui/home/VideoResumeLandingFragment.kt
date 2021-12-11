@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
@@ -16,6 +18,7 @@ import com.bdjobs.app.utilities.openUrlInBrowser
 import com.bdjobs.app.databinding.FragmentVideoResumeLandingBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
+import kotlinx.android.synthetic.main.fragment_after_submit_feedback.*
 import kotlinx.android.synthetic.main.fragment_video_resume_landing.*
 import kotlinx.android.synthetic.main.fragment_video_resume_landing.tool_bar
 import timber.log.Timber
@@ -44,9 +47,22 @@ class VideoResumeLandingFragment : Fragment() {
         session = BdjobsUserSession(requireContext())
 
         val navController = findNavController()
-        val appBarConfiguration =
+
+        val args : VideoResumeLandingFragmentArgs by navArgs()
+        val isFromFeedback = args.fromFeedback == 1
+
+        val appBarConfiguration = if (isFromFeedback) {
+            AppBarConfiguration(navController.graph)
+        } else {
             AppBarConfiguration.Builder().setFallbackOnNavigateUpListener { onNavigateUp() }.build()
-        tool_bar?.setupWithNavController(navController, appBarConfiguration)
+        }
+        NavigationUI.setupWithNavController(tool_bar, navController, appBarConfiguration)
+
+        if (isFromFeedback){
+            tool_bar?.setNavigationOnClickListener {
+                findNavController().popBackStack(R.id.videoInterviewListFragment,false)
+            }
+        }
 
         btn_view_questions?.setOnClickListener {
             if (findNavController().currentDestination?.id == R.id.videoResumeLandingFragment) {
@@ -56,20 +72,17 @@ class VideoResumeLandingFragment : Fragment() {
                     )
                 )
             }
-
         }
 
         btn_guidelines?.setOnClickListener {
             if (findNavController().currentDestination?.id == R.id.videoResumeLandingFragment) {
                 findNavController().navigate(VideoResumeLandingFragmentDirections.actionVideoResumeLandingFragmentToGuidelineFragment())
             }
-
         }
 
         img_info?.setOnClickListener {
             openPublicWarningDialog()
         }
-
 
         videoResumeLandingViewModel.apply {
             Timber.d("Loaded")
@@ -165,13 +178,11 @@ class VideoResumeLandingFragment : Fragment() {
         }
         builder.setNegativeButton("CANCEL") { _, _ ->
             Timber.d("no,keep invisible")
-
             this.videoResumeLandingViewModel.noSelected.value = true
             this.videoResumeLandingViewModel.yesSelected.value = false
             this.videoResumeLandingViewModel.notChangeResumeVisibility()
         }
         builder.show()
-
     }
 
     private fun openMessageDialog() {
@@ -182,9 +193,7 @@ class VideoResumeLandingFragment : Fragment() {
             Timber.d("yes")
         }
         builder.show()
-
     }
-
 
     private fun onNavigateUp(): Boolean {
         activity?.onBackPressed()

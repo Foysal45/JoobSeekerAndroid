@@ -13,12 +13,14 @@ import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
+import com.bdjobs.app.ajkerDeal.utilities.hideKeyboard
 import com.bdjobs.app.databinding.FragmentRatingBinding
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
 import kotlinx.android.synthetic.main.fragment_rating.*
 import kotlinx.android.synthetic.main.fragment_rating.tool_bar
+import kotlinx.android.synthetic.main.layout_create_video_resume_bottom_guide.view.*
 import org.jetbrains.anko.sdk27.coroutines.onRatingBarChange
 
 class RatingFragment : Fragment() {
@@ -40,6 +42,7 @@ class RatingFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
         }
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,9 +62,18 @@ class RatingFragment : Fragment() {
             }
         }
 
+        scrollview_feedback.viewTreeObserver.addOnScrollChangedListener {
+            hideKeyboard()
+        }
+
         ratingViewModel.navigateToListEvent.observe(viewLifecycleOwner,EventObserver {
+            //findNavController().popBackStack(R.id.videoInterviewListFragment,false)
             if (it)
-                findNavController().popBackStack(R.id.videoInterviewListFragment,false)
+                findNavController().navigate(R.id.afterSubmitFragment)
         })
+
+        video_resume_guide.tv_learn_more_label.setOnClickListener {
+            findNavController().navigate(R.id.videoResumeLandingFragment2)
+        }
     }
 }
