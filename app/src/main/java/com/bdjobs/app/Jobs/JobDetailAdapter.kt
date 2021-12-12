@@ -1234,7 +1234,7 @@ class JobDetailAdapter(private val context: Context) :
 
                                 liveList.clear()
                                 liveList.addAll(list)
-                                dataAdapter.initList(list)
+                                dataAdapter.submitList(list)
 //                                Timber.d("requestBody ${dataAdapter.itemCount}, ${list.size}, ${liveList.size}, $list")
                                 //val position = mHomePageDataList.indexOfFirst { it.homeViewType == HomeViewType.TYPE_LIVE }
                                 val position = classifiedHashMap["1"] ?: -1

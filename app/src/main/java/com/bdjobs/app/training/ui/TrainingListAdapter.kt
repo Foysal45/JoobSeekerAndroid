@@ -8,7 +8,7 @@ import com.bdjobs.app.databinding.ItemTrainingListBinding
 import com.bdjobs.app.training.data.models.TrainingListData
 
 class TrainingListAdapter(private val callback: ((TrainingListData) -> Unit)?) :
-    CommonAdapter<TrainingListData, ItemTrainingListBinding>(
+        CommonAdapter<TrainingListData, ItemTrainingListBinding>(
         diffCallback = object : DiffUtil.ItemCallback<TrainingListData>() {
             override fun areItemsTheSame(
                 oldItem: TrainingListData,
