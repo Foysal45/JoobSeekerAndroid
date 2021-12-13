@@ -13,8 +13,8 @@ android {
         applicationId "com.bdjobs.app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 766 // huawei build 765 // Current Production - 765 // Current QA - 766
-        versionName "716.0.0"  //715.0.0 current internal test // Current Production - 2.9.2.0
+        versionCode 767 // huawei build 765 // Current Production - 765 // Current QA - 767
+        versionName "716.0.1"  //716.0.1 current internal test // Current Production - 2.9.2.0
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
