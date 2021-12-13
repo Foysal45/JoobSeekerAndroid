@@ -73,8 +73,10 @@ class HomeNewFragment : Fragment() {
                 is ViewState.ProgressState -> {
                     if (state.isShow) {
                         binding?.progressBar?.visibility = View.VISIBLE
+                        binding?.titleLayout?.visibility = View.GONE
                     } else {
                         binding?.progressBar?.visibility = View.GONE
+                        binding?.titleLayout?.visibility = View.VISIBLE
                     }
                 }
             }
