@@ -1,17 +1,14 @@
-package com.bdjobs.app.ManageResume
+package com.bdjobs.app.manageResume
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.utilities.Constants
-import com.bdjobs.app.utilities.equalIgnoreCase
-import com.bdjobs.app.utilities.logException
-import com.bdjobs.app.utilities.transitFragment
+import com.bdjobs.app.utilities.*
 
 
-class ManageResumeActivity : Activity(), ManageResumeCommunicator {
+class ManageResumeActivity : AppCompatActivity(), ManageResumeCommunicator {
 
     private lateinit var bdjobsUserSession: BdjobsUserSession
     private val emailResumeFragment = EmailResumeFragment()
@@ -79,25 +76,25 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
     }
 
     override fun gotoEmailResumeFragment() {
-        transitFragment(emailResumeFragment, R.id.fragmentHolder, addToBackStack = true)
+        transitFragmentX(emailResumeFragment, R.id.fragmentHolder, addToBackStack = true)
     }
 
 
     override fun gotoDownloadResumeFragment() {
-        transitFragment(downloadResumeFragment, R.id.fragmentHolder)
+        transitFragmentX(downloadResumeFragment, R.id.fragmentHolder,false)
     }
 
     override fun gotoResumeUploadFragment() {
-        transitFragment(uploadResumeFragment, R.id.fragmentHolder)
+        transitFragmentX(uploadResumeFragment, R.id.fragmentHolder,false)
     }
 
 
     override fun gotoTimesResumeFrag() {
-        transitFragment(timesEmailedMyResumeFragment, R.id.fragmentHolder)
+        transitFragmentX(timesEmailedMyResumeFragment, R.id.fragmentHolder,false)
     }
 
     override fun gotoTimesResumeFilterFrag() {
-        transitFragment(timesEmailedMyResumeFilterFragment,R.id.fragmentHolder, addToBackStack = false)
+        transitFragmentX(timesEmailedMyResumeFilterFragment,R.id.fragmentHolder, addToBackStack = false)
     }
 
     override fun backButtonPressed() {
@@ -176,10 +173,10 @@ class ManageResumeActivity : Activity(), ManageResumeCommunicator {
                     gotoTimesResumeFrag()
                 }
                 else if(from.equalIgnoreCase("timesEmailedResume")){
-                    transitFragment(timesEmailedMyResumeFragment, R.id.fragmentHolder)
+                    transitFragmentX(timesEmailedMyResumeFragment, R.id.fragmentHolder,false)
                 }
                 else if (from.equalIgnoreCase("emailResumeCompose")){
-                    transitFragment(emailResumeFragment, R.id.fragmentHolder)
+                    transitFragmentX(emailResumeFragment, R.id.fragmentHolder,false)
                 }
 
         } catch (e: Exception) {

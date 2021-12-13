@@ -31,7 +31,7 @@ import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.AppliedJobs.AppliedJobsActivity
 import com.bdjobs.app.BuildConfig
 import com.bdjobs.app.Employers.EmployersBaseActivity
-import com.bdjobs.app.ManageResume.ManageResumeActivity
+import com.bdjobs.app.manageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.utilities.*

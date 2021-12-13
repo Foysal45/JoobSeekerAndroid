@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bdjobs.app.ManageResume.ManageResumeActivity
-import com.bdjobs.app.ManageResume.ViewPersonalizedResume
+import com.bdjobs.app.manageResume.ManageResumeActivity
+import com.bdjobs.app.manageResume.ViewPersonalizedResume
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
 import com.bdjobs.app.utilities.equalIgnoreCase

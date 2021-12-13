@@ -1,4 +1,4 @@
-package com.bdjobs.app.ManageResume
+package com.bdjobs.app.manageResume
 
 interface ManageResumeCommunicator {
     fun backButtonPressed()

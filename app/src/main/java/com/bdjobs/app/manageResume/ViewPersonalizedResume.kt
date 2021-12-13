@@ -1,4 +1,4 @@
-package com.bdjobs.app.ManageResume
+package com.bdjobs.app.manageResume
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.bdjobs.app.ManageResume.utils.getRootDirPath
+import com.bdjobs.app.manageResume.utils.getRootDirPath
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.utilities.hide

@@ -1,10 +1,9 @@
-package com.bdjobs.app.ManageResume
+package com.bdjobs.app.manageResume
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Fragment
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -19,6 +18,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.R
@@ -40,8 +40,8 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.jetbrains.anko.runOnUiThread
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.support.v4.runOnUiThread
+import org.jetbrains.anko.support.v4.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,20 +49,15 @@ import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 private const val ACTION_OPEN_DOCUMENT_REQUEST = 0x1046
 
 class UploadResumeFragment : Fragment() {
 
-    companion object {
-        const val ALL_FILES_ACCESS_REQUEST = 2296
-    }
 
     private lateinit var communicator: ManageResumeCommunicator
-    private lateinit var bdjobsUserSession: BdjobsUserSession
-    val filePaths: ArrayList<String> = ArrayList()
+    private lateinit var bdJobsUserSession: BdjobsUserSession
 
     private lateinit var progressDialog : ProgressDialog
 
@@ -76,9 +71,9 @@ class UploadResumeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        progressDialog = ProgressDialog(activity)
-        communicator = activity as ManageResumeCommunicator
-        bdjobsUserSession = BdjobsUserSession(activity)
+        progressDialog = ProgressDialog(requireContext())
+        communicator = requireActivity() as ManageResumeCommunicator
+        bdJobsUserSession = BdjobsUserSession(requireContext())
 
         val adRequest = AdRequest.Builder().build()
         adView?.loadAd(adRequest)
@@ -91,7 +86,7 @@ class UploadResumeFragment : Fragment() {
         fetchPersonalizedResumeStat()
 
         submitTV?.setOnClickListener {
-            if (bdjobsUserSession.isCvPosted.equals("True",ignoreCase = true)) {
+            if (bdJobsUserSession.isCvPosted.equals("True",ignoreCase = true)) {
                 if (!checkPermission()){
                     requestPermission()
                 } else {
@@ -122,22 +117,22 @@ class UploadResumeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun fetchPersonalizedResumeStat() {
-        activity.showProgressBar(loadingProgressBar)
+        requireActivity().showProgressBar(loadingProgressBar)
         cl_personalized_resume_stat.hide()
         GlobalScope.launch {
             try {
                 val response = ApiServiceMyBdjobs.create().personalizedResumeStat(
-                    bdjobsUserSession.userId,
-                    bdjobsUserSession.decodId,
-                    bdjobsUserSession.isCvPosted
+                    bdJobsUserSession.userId,
+                    bdJobsUserSession.decodId,
+                    bdJobsUserSession.isCvPosted
                 )
 
                 try {
                     if (activity!=null) {
                         runOnUiThread {
 
-                            if (!activity.isFinishing) {
-                                activity.stopProgressBar(loadingProgressBar)
+                            if (!requireActivity().isFinishing) {
+                                requireActivity().stopProgressBar(loadingProgressBar)
                             }
 
                             cl_personalized_resume_stat.show()
@@ -217,7 +212,7 @@ class UploadResumeFragment : Fragment() {
                 try {
                     if (activity!=null) {
                         runOnUiThread {
-                            activity.stopProgressBar(loadingProgressBar)
+                            requireActivity().stopProgressBar(loadingProgressBar)
                             toast("Sorry, personalized resume stat fetching failed: ${e.localizedMessage}")
                         }
                     }
@@ -237,8 +232,8 @@ class UploadResumeFragment : Fragment() {
             val checkWriteStorage = ContextCompat.checkSelfPermission(activity, WRITE_EXTERNAL_STORAGE)
             checkReadStorage == PackageManager.PERMISSION_GRANTED && checkWriteStorage == PackageManager.PERMISSION_GRANTED
         }*/
-        val checkReadStorage = ContextCompat.checkSelfPermission(activity, READ_EXTERNAL_STORAGE)
-        val checkWriteStorage = ContextCompat.checkSelfPermission(activity, WRITE_EXTERNAL_STORAGE)
+        val checkReadStorage = ContextCompat.checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE)
+        val checkWriteStorage = ContextCompat.checkSelfPermission(requireActivity(), WRITE_EXTERNAL_STORAGE)
         return checkReadStorage == PackageManager.PERMISSION_GRANTED && checkWriteStorage == PackageManager.PERMISSION_GRANTED
     }
 
@@ -258,7 +253,7 @@ class UploadResumeFragment : Fragment() {
             //below android 11
             ActivityCompat.requestPermissions(activity, arrayOf(WRITE_EXTERNAL_STORAGE), PERMISSION_REQUEST_CODE)
         }*/
-        ActivityCompat.requestPermissions(activity, arrayOf(WRITE_EXTERNAL_STORAGE), PERMISSION_REQUEST_CODE)
+        ActivityCompat.requestPermissions(requireActivity(), arrayOf(WRITE_EXTERNAL_STORAGE), PERMISSION_REQUEST_CODE)
     }
 
     private fun browseFile() {
@@ -271,7 +266,7 @@ class UploadResumeFragment : Fragment() {
             .showFolderView(true)
             .addFileSupport("MS WORD FILES", wordFileTypes, R.drawable.ic_microsoft_word)
             .addFileSupport("PDF FILES", pdfFileTypes, R.drawable.ic_pdf)
-            .pickFile(activity)
+            .pickFile(requireActivity())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -282,10 +277,10 @@ class UploadResumeFragment : Fragment() {
                 GlobalScope.launch {
                     withContext(Dispatchers.IO){
                         try {
-                            val inputStream = context.contentResolver.openInputStream(uri)
+                            val inputStream = requireContext().contentResolver.openInputStream(uri)
                             val bytes = inputStream?.readBytes()
-                            val fileExtensions = FileUtil.instance.getFileExtension(context.contentResolver.getType(uri)!!)
-                            val file = FileUtil.instance.writeBytes(context, bytes!!, fileExtensions)
+                            val fileExtensions = FileUtil.instance.getFileExtension(requireContext().contentResolver.getType(uri)!!)
+                            val file = FileUtil.instance.writeBytes(requireContext(), bytes!!, fileExtensions)
                             checkFileSize(Uri.fromFile(file))
                         } catch (ex: java.lang.Exception){
                             ex.printStackTrace()
@@ -338,22 +333,28 @@ class UploadResumeFragment : Fragment() {
             //Log.d("UploadResume", "UploadResume size: ${fileSizeInKB} type: ${fileinfo.extension}")
             when {
                 fileSizeInKB == 0L -> {
-                    toast("It is an invalid file")
+                    try {
+                        Toast.makeText(requireContext(), "It is an invalid file", Toast.LENGTH_SHORT).show()
+                    } catch (e: Exception) {
+                    }
                 }
                 fileSizeInKB > 1024 -> {
-                    toast("You can not upload file more than 1MB in size")
+                    try {
+                        Toast.makeText(requireContext(), "You can not upload file more than 1MB in size", Toast.LENGTH_SHORT).show()
+                    } catch (e: Exception) {
+                    }
                 }
                 else -> {
                     val mediaType = "application/" + fileInfo.extension
                     val filePath = uri.path
                     //Log.d("UploadResume", "filePath= $filePath")
                     //val requestFile = File(filePath).asRequestBody(mediaType.toMediaType())
-                    val requestFile = FileUtil.instance.getFileFromUri(activity, uri).asRequestBody(mediaType.toMediaType())
+                    val requestFile = FileUtil.instance.getFileFromUri(requireActivity(), uri).asRequestBody(mediaType.toMediaType())
         //               RequestBody.create(MediaType?.parse(mediaType), File(filePath))
                     val multipartBodyPart = MultipartBody.Part.createFormData("File", fileInfo.fileName, requestFile)
 
-                    val userid = createPartFromString(bdjobsUserSession.userId!!)
-                    val decodeid = createPartFromString(bdjobsUserSession.decodId!!)
+                    val userid = createPartFromString(bdJobsUserSession.userId!!)
+                    val decodeid = createPartFromString(bdJobsUserSession.decodId!!)
                     val status = createPartFromString("upload")
                     val fileExtension = createPartFromString(fileInfo.extensionwithDot!!)
                     val fileType = createPartFromString(fileInfo.type!!)
@@ -366,7 +367,6 @@ class UploadResumeFragment : Fragment() {
                     map["fileExtension"] = fileExtension
                     map["fileType"] = fileType
                     map["fileName"] = fileName
-                    //Log.d("UploadResume", "userid = $userid\ndecodeid= $decodeid\nstatus= $status\nfileExtension= $fileExtension\nfileType= $fileType\nfileName= $fileName")
                     uploadCVtoServer(multipartBodyPart, map, uri)
                 }
             }
@@ -413,7 +413,7 @@ class UploadResumeFragment : Fragment() {
                     progressDialog.dismiss()
                     toast(response.body()?.message!!)
                     //Log.d("UploadResume", "response: ${response.body()}")
-                    bdjobsUserSession.updateUserCVUploadStatus("0")
+                    bdJobsUserSession.updateUserCVUploadStatus("0")
                     communicator.gotoDownloadResumeFragment()
                     val body = response.body()
                     if (SDK_INT >= Build.VERSION_CODES.R && response.isSuccessful && body?.statuscode == "0"){

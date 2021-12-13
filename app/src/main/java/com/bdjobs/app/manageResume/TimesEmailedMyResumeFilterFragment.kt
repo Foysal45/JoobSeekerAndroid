@@ -1,12 +1,11 @@
-package com.bdjobs.app.ManageResume
+package com.bdjobs.app.manageResume
 
 
-import android.app.Fragment
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 
 import com.bdjobs.app.R
 import kotlinx.android.synthetic.main.fragment_times_emailed_my_resume_filter.*
@@ -26,7 +25,7 @@ class TimesEmailedMyResumeFilterFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        manageCommunicator = activity as ManageResumeCommunicator
+        manageCommunicator = requireActivity() as ManageResumeCommunicator
 
         backIMV.setOnClickListener {
             manageCommunicator.backButtonPressed()

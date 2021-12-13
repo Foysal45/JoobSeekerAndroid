@@ -1,23 +1,23 @@
-package com.bdjobs.app.ManageResume
+package com.bdjobs.app.manageResume
 
 
-import android.app.Fragment
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.SendEmailCV
-import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.utilities.*
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.editResume.EditResLandingActivity
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.fragment_email_resume.*
-import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,10 +27,9 @@ import java.util.regex.Pattern
 
 class EmailResumeFragment : Fragment() {
 
-    lateinit var bdjobsUserSession: BdjobsUserSession
+    lateinit var bdJobsUserSession: BdjobsUserSession
     lateinit var symbol: String
     lateinit var communicator: ManageResumeCommunicator
-    private var isResumeUpdate: String = "0"
     private var subject = ""
     private var toEmail = ""
     private var jobID = ""
@@ -39,9 +38,10 @@ class EmailResumeFragment : Fragment() {
         return inflater.inflate(com.bdjobs.app.R.layout.fragment_email_resume, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
-        bdjobsUserSession = BdjobsUserSession(activity)
+        bdJobsUserSession = BdjobsUserSession(requireContext())
         communicator = activity as ManageResumeCommunicator
         subject = communicator.getSubject()
         toEmail = communicator.getEmailTo()
@@ -49,25 +49,25 @@ class EmailResumeFragment : Fragment() {
 
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
-        Ads.loadAdaptiveBanner(activity,adView)
+        Ads.loadAdaptiveBanner(requireContext(),adView)
 
 
-        if (!bdjobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
+        if (!bdJobsUserSession.isCvPosted?.equalIgnoreCase("true")!!) {
             try {
-                val alertd = alert("To access this feature post Bdjobs Resume.") {
+                val alertDialog = alert("To access this feature post Bdjobs Resume.") {
                     title = "Your Bdjobs Resume is not posted."
-                    positiveButton("Post Resume") { startActivity<EditResLandingActivity>() }
+                    positiveButton("Post Resume") { requireContext().startActivity<EditResLandingActivity>() }
                     negativeButton("Cancel") {
                         communicator.backButtonPressed()
                     }
                 }
-                alertd.isCancelable = false
-                alertd.show()
+                alertDialog.isCancelable = false
+                alertDialog.show()
             } catch (e: Exception) {
                 logException(e)
             }
         } else {
-            val emailText = "${bdjobsUserSession.fullName} <${bdjobsUserSession.email}>"
+            val emailText = "${bdJobsUserSession.fullName} <${bdJobsUserSession.email}>"
             et_from.setText(emailText)
             et_Subject?.setText("Application for the post of $subject")
             et_to?.setText(toEmail)
@@ -78,7 +78,7 @@ class EmailResumeFragment : Fragment() {
 
             //Log.d("manage", "===${communicator.getEmailTo()}")
 
-            uploadResume.isEnabled = bdjobsUserSession.cvUploadStatus == "0" || bdjobsUserSession.cvUploadStatus == "4"
+            uploadResume.isEnabled = bdJobsUserSession.cvUploadStatus == "0" || bdJobsUserSession.cvUploadStatus == "4"
 
             mybdjobsResume.performClick()
 
@@ -86,13 +86,13 @@ class EmailResumeFragment : Fragment() {
                 validation()
             }
 
-            et_from.easyOnTextChangedListener { charSequence ->
+            et_from.easyOnTextChangedListener {
                 validateEmail()
             }
-            et_to.easyOnTextChangedListener { charSequence ->
+            et_to.easyOnTextChangedListener {
                 validateEmpEmail()
             }
-            et_Subject.easyOnTextChangedListener { charSequence ->
+            et_Subject.easyOnTextChangedListener {
                 validateSubj()
             }
         }
@@ -117,7 +117,6 @@ class EmailResumeFragment : Fragment() {
         } else if (uploadResume.isChecked) {
             uploaded = "1"
         }
-        //Log.d("isresumeUpdate", "is = $isResumeUpdate")
         callSendEmailCV(uploaded)
     }
 
@@ -125,12 +124,12 @@ class EmailResumeFragment : Fragment() {
     private fun callSendEmailCV(uploadedCV: String) {
         activity?.showProgressBar(EmailResumeLoadingProgressBar)
         ApiServiceMyBdjobs.create().sendEmailCV(
-                userID = bdjobsUserSession.userId,
-                decodeID = bdjobsUserSession.decodId,
+                userID = bdJobsUserSession.userId,
+                decodeID = bdJobsUserSession.decodId,
                 uploadedCv = uploadedCV,
                 application = et_Message?.getString(),
-                isResumeUpdate = bdjobsUserSession.IsResumeUpdate,
-                fullName = bdjobsUserSession.fullName,
+                isResumeUpdate = bdJobsUserSession.IsResumeUpdate,
+                fullName = bdJobsUserSession.fullName,
                 Jobid = jobID,
                 userEmail = et_from?.getString(),
                 companyEmail = et_to?.getString(),
@@ -145,15 +144,20 @@ class EmailResumeFragment : Fragment() {
             override fun onResponse(call: Call<SendEmailCV>, response: Response<SendEmailCV>) {
                 try {
                     if (response.isSuccessful) {
-                        activity?.stopProgressBar(EmailResumeLoadingProgressBar)
-                        //Log.d("isresume", "value = $isResumeUpdate full = ${bdjobsUserSession.fullName}")
-                        activity?.toast(response.body()?.message!!)
-                        bdjobsUserSession.incrementTimesEmailedRessume()
-                        communicator.backButtonPressed()
+                        if (isAdded) {
+                            requireActivity().stopProgressBar(EmailResumeLoadingProgressBar)
+                            requireActivity().toast(response.body()?.message!!)
+                            bdJobsUserSession.incrementTimesEmailedRessume()
+                            communicator.backButtonPressed()
+                        }
+
                     }
                 } catch (e: Exception) {
-                    activity?.stopProgressBar(EmailResumeLoadingProgressBar)
-                    e.printStackTrace()
+                    if (isAdded) {
+                        requireActivity().stopProgressBar(EmailResumeLoadingProgressBar)
+                        e.printStackTrace()
+                    }
+
                 }
             }
 
@@ -162,7 +166,7 @@ class EmailResumeFragment : Fragment() {
 
     private fun validateEmail(): Boolean {
         val email = et_from?.text.toString()
-        if (et_from?.text.toString().trim({ it <= ' ' }).isEmpty()) {
+        if (et_from?.text.toString().trim { it <= ' ' }.isEmpty()) {
             from_TIL?.isErrorEnabled = true
             from_TIL?.error = getString(com.bdjobs.app.R.string.type_email)
             requestFocus(et_from)
@@ -181,7 +185,7 @@ class EmailResumeFragment : Fragment() {
 
     private fun validateEmpEmail(): Boolean {
         val email = et_to?.text.toString()
-        if (et_to?.text.toString().trim({ it <= ' ' }).isEmpty()) {
+        if (et_to?.text.toString().trim { it <= ' ' }.isEmpty()) {
             to_TIL?.isErrorEnabled = true
             to_TIL?.error = getString(com.bdjobs.app.R.string.type_email)
             requestFocus(et_to)
@@ -200,7 +204,7 @@ class EmailResumeFragment : Fragment() {
 
     private fun validateSubj(): Boolean {
 
-        if (et_Subject?.text.toString().trim({ it <= ' ' }).isEmpty()) {
+        if (et_Subject?.text.toString().trim { it <= ' ' }.isEmpty()) {
             Subject_TIL?.isErrorEnabled = true
             Subject_TIL?.error = getString(com.bdjobs.app.R.string.email_subj)
             requestFocus(et_Subject)
@@ -235,12 +239,8 @@ class EmailResumeFragment : Fragment() {
         return false
     }
 
-    fun isValidEmail(target: CharSequence): Boolean {
-        Log.d("rakib","$target")
-        val startIndex = target.toString().indexOf("<")
-        val endIndex = target.toString().indexOf(">")
+    private fun isValidEmail(target: CharSequence): Boolean {
         val email = target.toString().substringAfter("<").substringBefore(">")
-        Log.d("rakib","$target $startIndex $endIndex $email")
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 

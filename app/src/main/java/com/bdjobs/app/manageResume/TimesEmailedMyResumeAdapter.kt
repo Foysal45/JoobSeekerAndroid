@@ -1,4 +1,4 @@
-package com.bdjobs.app.ManageResume
+package com.bdjobs.app.manageResume
 
 import android.app.Activity
 import android.content.Context

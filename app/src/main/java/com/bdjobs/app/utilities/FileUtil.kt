@@ -8,7 +8,7 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
-import com.bdjobs.app.ManageResume.FileInformation
+import com.bdjobs.app.manageResume.FileInformation
 import com.bdjobs.app.utilities.Constants.Companion.DOCX
 import com.bdjobs.app.utilities.Constants.Companion.PDF
 import java.io.File

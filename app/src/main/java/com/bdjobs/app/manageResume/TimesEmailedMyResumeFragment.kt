@@ -1,9 +1,8 @@
-package com.bdjobs.app.ManageResume
+package com.bdjobs.app.manageResume
 
 
 //import com.google.android.gms.ads.AdRequest
 import android.annotation.SuppressLint
-import android.app.Fragment
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.TimesEmailed
 import com.bdjobs.app.API.ModelClasses.TimesEmailedData
@@ -55,8 +55,8 @@ class TimesEmailedMyResumeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        manageCommunicator = activity as ManageResumeCommunicator
-        bdjobsUserSession = BdjobsUserSession(activity!!)
+        manageCommunicator = requireActivity() as ManageResumeCommunicator
+        bdjobsUserSession = BdjobsUserSession(requireContext())
 
         backIMV.setOnClickListener {
             manageCommunicator.backButtonPressed()
@@ -72,7 +72,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
         }
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
-        Ads.loadAdaptiveBanner(activity.applicationContext, adView)
+        Ads.loadAdaptiveBanner(requireContext(), adView)
 
 
         //Log.d("isActivityDate", "vava = ${Constants.timesEmailedResumeLast}")
@@ -160,7 +160,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
     private fun loadSpinner() {
         ArrayAdapter.createFromResource(
-            activity,
+            requireContext(),
             R.array.spinnerFilterItemEmailResume,
             android.R.layout.simple_spinner_dropdown_item
         ).also {
@@ -209,10 +209,10 @@ class TimesEmailedMyResumeFragment : Fragment() {
 
     private fun initPagination() {
         //Log.d("timesemailedresumepgNo", "vava = ${pgNo}")
-        timesEmailedMyResumeAdapter = TimesEmailedMyResumeAdapter(activity!!)
+        timesEmailedMyResumeAdapter = TimesEmailedMyResumeAdapter(requireContext())
         emailedResumeRV!!.setHasFixedSize(true)
         emailedResumeRV!!.adapter = timesEmailedMyResumeAdapter
-        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
         emailedResumeRV!!.layoutManager = layoutManager
         //Log.d("initPag", "called = ${TOTAL_PAGES}")
         emailedResumeRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
@@ -257,18 +257,13 @@ class TimesEmailedMyResumeFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<TimesEmailed>, response: Response<TimesEmailed>) {
-                //Log.d("isActivityDate", "vava = $isActivityDate")
-                /* shimmer_view_container_emailedResumeList?.hide()
-                 shimmer_view_container_emailedResumeList?.stopShimmerAnimation()*/
-                //Log.d("timesemailedresume", "timesemailedresume = ${response?.body()?.data}")
-                /*Log.d("timesemailedresume", "pgNo.toString() = ${pgNo.toString()} " +
-                        "isActivityDate = ${isActivityDate}")*/
+
                 try {
                     TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                     var totalEmailRecords = response.body()?.common?.totalNumberOfEmail
 
 
-                    if (totalEmailRecords?.isNullOrEmpty()!!) {
+                    if (totalEmailRecords?.isEmpty()!!) {
                         totalEmailRecords = "0"
 
                         /*  val styledText = " Time Emailed Resume "
@@ -358,9 +353,7 @@ class TimesEmailedMyResumeFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<TimesEmailed>, response: Response<TimesEmailed>) {
-                //Log.d("timesemailedresume", "vava = ${response?.body()?.data}")
-                /*Log.d("timesemailedresume", "pgNo.toString() = ${pgNo.toString()} " +
-                        "isActivityDate = ${isActivityDate}")*/
+
                 try {
 
                     TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()

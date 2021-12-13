@@ -8,7 +8,7 @@ import android.webkit.*
 import androidx.core.content.ContextCompat
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
-import com.bdjobs.app.ManageResume.ManageResumeActivity
+import com.bdjobs.app.manageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.utilities.*

@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ModelClasses.MoreHorizontalData
 import com.bdjobs.app.assessment.AssesmentBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
-import com.bdjobs.app.ManageResume.ManageResumeActivity
+import com.bdjobs.app.manageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity

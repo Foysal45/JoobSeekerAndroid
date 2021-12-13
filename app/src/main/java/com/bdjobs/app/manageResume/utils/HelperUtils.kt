@@ -1,4 +1,4 @@
-package com.bdjobs.app.ManageResume.utils
+package com.bdjobs.app.manageResume.utils
 
 import android.annotation.SuppressLint
 import android.content.Context

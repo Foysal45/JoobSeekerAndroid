@@ -34,7 +34,7 @@ import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.LoggedInUserLanding.myJobs.FollowedEmployersFragment
 import com.bdjobs.app.LoggedInUserLanding.myJobs.MyJobsFragment
-import com.bdjobs.app.ManageResume.ManageResumeActivity
+import com.bdjobs.app.manageResume.ManageResumeActivity
 import com.bdjobs.app.Notification.Models.CommonNotificationModel
 import com.bdjobs.app.Notification.NotificationBaseActivity
 import com.bdjobs.app.Notification.NotificationHelper

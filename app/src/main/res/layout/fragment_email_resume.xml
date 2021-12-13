@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@color/colorWhite"
-    tools:context=".ManageResume.EmailResumeFragment">
+    tools:context=".manageResume.EmailResumeFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"

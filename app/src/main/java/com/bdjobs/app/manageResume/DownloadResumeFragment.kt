@@ -1,4 +1,4 @@
-package com.bdjobs.app.ManageResume
+package com.bdjobs.app.manageResume
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.UploadResume
 import com.bdjobs.app.R
@@ -16,6 +17,9 @@ import kotlinx.android.synthetic.main.fragment_download_resume.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.support.v4.runOnUiThread
+import org.jetbrains.anko.support.v4.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,7 +27,7 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DownloadResumeFragment : android.app.Fragment() {
+class DownloadResumeFragment : Fragment() {
 
     private lateinit var communicator: ManageResumeCommunicator
     private lateinit var bdjobsUserSession: BdjobsUserSession
@@ -34,15 +38,15 @@ class DownloadResumeFragment : android.app.Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(com.bdjobs.app.R.layout.fragment_download_resume, container, false)
+        return inflater.inflate(R.layout.fragment_download_resume, container, false)
     }
 
 
     override fun onResume() {
         super.onResume()
 
-        communicator = activity as ManageResumeCommunicator
-        bdjobsUserSession = BdjobsUserSession(context = activity)
+        communicator = requireActivity() as ManageResumeCommunicator
+        bdjobsUserSession = BdjobsUserSession(context = requireContext())
 
         val adRequest = AdRequest.Builder().build()
         adView?.loadAd(adRequest)
@@ -56,7 +60,7 @@ class DownloadResumeFragment : android.app.Fragment() {
         }
 
         btn_download_personalized_resume.setOnClickListener {
-            activity.openUrlInBrowser(downloadLink)
+            requireActivity().openUrlInBrowser(downloadLink)
         }
 
         btn_email_personalized_resume.setOnClickListener {
@@ -88,7 +92,7 @@ class DownloadResumeFragment : android.app.Fragment() {
         }
 
         btn_view_personalized_resume.setOnClickListener {
-            activity.startActivity(Intent(activity,ViewPersonalizedResume::class.java)
+            requireActivity().startActivity(Intent(activity,ViewPersonalizedResume::class.java)
                 .putExtra("PDF_URL",downloadLink))
         }
     }
@@ -117,7 +121,10 @@ class DownloadResumeFragment : android.app.Fragment() {
                             downloadLink = response.body()?.data?.get(0)?.path
                             //Log.d("downloadResume", "Downloadlink: $downloadLink")
                         } else {
-                            toast(response.body()?.message!!)
+                            if (isAdded) {
+                                toast(response.body()?.message!!)
+                            }
+
                             bdjobsUserSession.updateUserCVUploadStatus("3")
                             communicator.gotoResumeUploadFragment()
                         }
@@ -131,7 +138,7 @@ class DownloadResumeFragment : android.app.Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun fetchPersonalizedResumeStat() {
-        activity.showProgressBar(loadingProgressBar)
+        requireActivity().showProgressBar(loadingProgressBar)
         cl_personalized_resume_stat.hide()
 
         GlobalScope.launch {
@@ -142,11 +149,9 @@ class DownloadResumeFragment : android.app.Fragment() {
                     bdjobsUserSession.isCvPosted
                 )
 
-                if (activity!=null) {
-                    runOnUiThread {
-                        activity.stopProgressBar(loadingProgressBar)
-                        cl_personalized_resume_stat.show()
-                    }
+                runOnUiThread {
+                    requireActivity().stopProgressBar(loadingProgressBar)
+                    cl_personalized_resume_stat.show()
                 }
 
                 if (response.statuscode == "0" && response.message == "Success") {
@@ -204,7 +209,7 @@ class DownloadResumeFragment : android.app.Fragment() {
                 Timber.e("Exception while fetching personalized resume stat: ${e.localizedMessage}")
                 if (activity!=null) {
                     runOnUiThread {
-                        activity.stopProgressBar(loadingProgressBar)
+                        requireActivity().stopProgressBar(loadingProgressBar)
                         toast("Sorry, personalized resume stat fetching failed: ${e.localizedMessage}")
                     }
                 }
