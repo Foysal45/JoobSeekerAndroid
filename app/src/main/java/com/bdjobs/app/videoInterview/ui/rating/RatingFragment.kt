@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,9 +16,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.ajkerDeal.utilities.hideKeyboard
 import com.bdjobs.app.databinding.FragmentRatingBinding
+import com.bdjobs.app.utilities.showSnackBar
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_booking_overview.*
 import kotlinx.android.synthetic.main.fragment_rating.*
 import kotlinx.android.synthetic.main.fragment_rating.tool_bar
 import kotlinx.android.synthetic.main.layout_create_video_resume_bottom_guide.view.*
@@ -41,6 +45,8 @@ class RatingFragment : Fragment() {
             viewModel = ratingViewModel
             lifecycleOwner = viewLifecycleOwner
         }
+
+
         return binding.root
 
     }
@@ -66,6 +72,12 @@ class RatingFragment : Fragment() {
             hideKeyboard()
         }
 
+        ratingViewModel.showSnackbar.observe(viewLifecycleOwner, Observer { it ->
+            it?.getContentIfNotHandled()?.let {
+                Snackbar.make(cl_root,it, Snackbar.LENGTH_SHORT).show()
+            }
+        })
+
         ratingViewModel.navigateToListEvent.observe(viewLifecycleOwner,EventObserver {
             //findNavController().popBackStack(R.id.videoInterviewListFragment,false)
             if (it)
@@ -75,5 +87,9 @@ class RatingFragment : Fragment() {
         video_resume_guide.tv_learn_more_label.setOnClickListener {
             findNavController().navigate(R.id.videoResumeLandingFragment2)
         }
+    }
+
+    private fun showSnackbar(){
+        Snackbar.make(test_location_cl,"Unable to book schedule. Please try again after some time.", Snackbar.LENGTH_SHORT).show()
     }
 }
