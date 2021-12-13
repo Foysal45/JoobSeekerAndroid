@@ -30,7 +30,7 @@ class TrainingListAdapter(private val callback: ((TrainingListData) -> Unit)?) :
         return ItemTrainingListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     }
 
-    override fun bind(binding: ItemTrainingListBinding, item: TrainingListData) {
+    override fun bind(binding: ItemTrainingListBinding, item: TrainingListData,position:Int) {
         binding.apply {
             data = item
 

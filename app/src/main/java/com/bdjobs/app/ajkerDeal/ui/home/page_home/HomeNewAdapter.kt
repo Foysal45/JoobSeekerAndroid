@@ -76,7 +76,7 @@ class HomeNewAdapter: CommonAdapter<LiveListData, ItemViewHomeLiveShoppingItemBi
         return ItemViewHomeLiveShoppingItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
     }
 
-    override fun bind(binding: ItemViewHomeLiveShoppingItemBinding, item: LiveListData) {
+    override fun bind(binding: ItemViewHomeLiveShoppingItemBinding, item: LiveListData,position: Int) {
             Glide.with(binding.videoCover)
                 .load(item.coverPhoto)
                 .apply(options)
@@ -84,6 +84,10 @@ class HomeNewAdapter: CommonAdapter<LiveListData, ItemViewHomeLiveShoppingItemBi
 
             binding.titleTV.text = item.videoTitle
             binding.liveStatus.text = item.statusName?.toUpperCase(Locale.US)
+
+        binding.root.setOnClickListener {
+            onItemClick?.invoke(item, position)
+        }
     }
 
 }
