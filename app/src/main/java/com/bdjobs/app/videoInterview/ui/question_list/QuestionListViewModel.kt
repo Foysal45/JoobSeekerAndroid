@@ -190,15 +190,4 @@ class QuestionListViewModel(
 //        }.start()
     }
 
-
-
-//    override fun onCleared() {
-//        super.onCleared()
-//        try {
-//            timer?.cancel()
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
-
 }

@@ -31,9 +31,7 @@ import timber.log.Timber
 class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
 
     private val args: VideoInterviewDetailsFragmentArgs by navArgs()
-    private val videoInterviewDetailsViewModel: VideoInterviewDetailsViewModel by navGraphViewModels(
-        R.id.videoInterviewDetailsFragment
-    ) {
+    private val videoInterviewDetailsViewModel: VideoInterviewDetailsViewModel by activityViewModels {
         ViewModelFactoryUtil.provideVideoInterviewInvitationDetailsViewModelFactory(
             this,
             args.jobId
@@ -44,14 +42,13 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
 
     lateinit var bdjobsUserSession: BdjobsUserSession
     lateinit var bdjobsDB: BdjobsDB
-    lateinit var interviewInvitationCommunicator: InterviewInvitationCommunicator
 
     lateinit var binding: FragmentVideoInterviewDetailsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentVideoInterviewDetailsBinding.inflate(inflater).apply {
             viewModel = videoInterviewDetailsViewModel
@@ -78,9 +75,10 @@ class VideoInterviewDetailsFragment : androidx.fragment.app.Fragment() {
             displayQuestionListEvent.observe(viewLifecycleOwner, EventObserver {
                 baseViewModel.jobId = videoInterviewDetailsViewModel.jobID!!
                 baseViewModel.applyId = videoInterviewDetailsViewModel.applyId.value!!
+                baseViewModel.jobTitle = args.jobTitle ?:""
                 //findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment("854375", "182982535"))
                 if (findNavController().currentDestination?.id == R.id.videoInterviewDetailsFragment)
-                    findNavController().navigate(R.id.questionListFragment)
+                    findNavController().navigate(VideoInterviewDetailsFragmentDirections.actionVideoInterviewDetailsFragmentToQuestionListFragment())
             })
 
             displayGuidelineEvent.observe(viewLifecycleOwner, EventObserver {
