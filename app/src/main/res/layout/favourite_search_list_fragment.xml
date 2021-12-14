@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#F2F2F2"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".LoggedInUserLanding.myJobs.FavouriteSearchList">
+    tools:context=".myJobs.FavouriteSearchList">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_top"

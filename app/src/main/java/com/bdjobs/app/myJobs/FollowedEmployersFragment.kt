@@ -1,4 +1,4 @@
-package com.bdjobs.app.LoggedInUserLanding.myJobs
+package com.bdjobs.app.myJobs
 
 import android.app.AlertDialog
 import android.content.Intent

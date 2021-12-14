@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".LoggedInUserLanding.myJobs.MyJobsFragment">
+    tools:context=".myJobs.MyJobsFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:elevation="8dp"

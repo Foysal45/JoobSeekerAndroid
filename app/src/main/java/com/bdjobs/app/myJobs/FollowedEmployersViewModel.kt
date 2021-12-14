@@ -1,4 +1,4 @@
-package com.bdjobs.app.LoggedInUserLanding.myJobs
+package com.bdjobs.app.myJobs
 
 import androidx.lifecycle.ViewModel
 

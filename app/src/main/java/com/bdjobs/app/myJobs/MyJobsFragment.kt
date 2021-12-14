@@ -1,4 +1,4 @@
-package com.bdjobs.app.LoggedInUserLanding.myJobs
+package com.bdjobs.app.myJobs
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,11 +10,8 @@ import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.ShortListedJobFragment
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.utilities.hide
-import com.bdjobs.app.utilities.loadCircularImageFromUrl
-import com.bdjobs.app.utilities.show
-import com.bdjobs.app.utilities.transitFragment
 import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.utilities.*
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_my_jobs.*
 import kotlinx.android.synthetic.main.fragment_my_jobs.messageCountTV
@@ -26,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_my_jobs.searchIMGV
 import org.jetbrains.anko.doAsync
 import timber.log.Timber
 
+@Suppress("SameParameterValue")
 class MyJobsFragment : Fragment() {
 
 
@@ -48,20 +46,32 @@ class MyJobsFragment : Fragment() {
         when (arguments?.getString("from")) {
             "favSearch" -> {
                 try {
-                    activity?.transitFragment(FavouriteSearchList(),R.id.fragment_container,false)
+                    transaction(
+                        FavouriteSearchList(),
+                        R.id.fragment_container,
+                        false
+                    )
                     tabs.getTabAt(2)?.select()
                 } catch (e: Exception) {
                 }
             }
             "follow" -> {
                 try {
-                    activity?.transitFragment(FollowedEmployersFragment(),R.id.fragment_container,false)
+                    transaction(
+                        FollowedEmployersFragment(),
+                        R.id.fragment_container,
+                        false
+                    )
                     tabs.getTabAt(1)?.select()
                 } catch (e: Exception) {
                 }
             }
             else -> {
-                activity?.transitFragment(ShortListedJobFragment(),R.id.fragment_container,false)
+                transaction(
+                    ShortListedJobFragment(),
+                    R.id.fragment_container,
+                    false
+                )
             }
         }
 
@@ -82,14 +92,25 @@ class MyJobsFragment : Fragment() {
         messageIMGV?.setOnClickListener {
             homeCommunicator.goToMessages()
         }
-
-
-        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        
+        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when(tabs.selectedTabPosition) {
-                    0 -> activity?.transitFragment(ShortListedJobFragment(),R.id.fragment_container,false)
-                    1 -> activity?.transitFragment(FollowedEmployersFragment(),R.id.fragment_container,false)
-                    2 -> activity?.transitFragment(FavouriteSearchList(),R.id.fragment_container,false)
+                when (tabs.selectedTabPosition) {
+                    0 -> transaction(
+                        ShortListedJobFragment(),
+                        R.id.fragment_container,
+                        false
+                    )
+                    1 -> transaction(
+                        FollowedEmployersFragment(),
+                        R.id.fragment_container,
+                        false
+                    )
+                    2 -> transaction(
+                        FavouriteSearchList(),
+                        R.id.fragment_container,
+                        false
+                    )
                 }
             }
 
@@ -110,7 +131,7 @@ class MyJobsFragment : Fragment() {
     override fun onDetach() {
 
         Timber.d("Detached!")
-        arguments?.putString("from","short")
+        arguments?.putString("from", "short")
 
         super.onDetach()
     }
@@ -187,18 +208,30 @@ class MyJobsFragment : Fragment() {
         } else {
             notificationCountTV?.hide()
         }
-
-//        notificationCountTV?.show()
-//        bdjobsUserSession = BdjobsUserSession(activity)
-//        if (bdjobsUserSession.notificationCount!! > 99){
-//            notificationCountTV?.text = "99+"
-//
-//        } else{
-//            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
-//
-//        }
     }
 
-
+    private fun transaction(
+        fragment: Fragment,
+        holderID: Int,
+        addToBackStack: Boolean
+    ) {
+        try {
+            val fragmentManager = childFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            if (addToBackStack) {
+                fragmentTransaction.apply {
+                    replace(holderID, fragment)
+                    addToBackStack(fragment::class.java.name)
+                }
+            } else {
+                fragmentTransaction.apply {
+                    replace(holderID, fragment)
+                }
+            }
+            fragmentTransaction.commit()
+        } catch (e: Exception) {
+            logException(e)
+        }
+    }
 
 }
