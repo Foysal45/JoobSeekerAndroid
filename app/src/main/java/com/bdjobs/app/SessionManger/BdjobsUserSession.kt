@@ -604,7 +604,7 @@ class BdjobsUserSession(val context: Context) {
         set(value) {pref!!.edit().putString("PresentPostOffice",value).apply()}
 
     var adTypeMyBdJobs : String?
-    get() = pref!!.getString("AD_IN_MYBDJOBS","2")
+    get() = pref!!.getString("AD_IN_MYBDJOBS","0")
     set(value) {pref!!.edit().putString("AD_IN_MYBDJOBS",value).apply()}
 
     var adTypeJobList : String?

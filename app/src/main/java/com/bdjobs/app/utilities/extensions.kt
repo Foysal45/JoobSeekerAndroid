@@ -416,8 +416,7 @@ fun Context.setLanguage(localeName: String) {
 fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: Boolean) {
     try {
         fragmentManager?.executePendingTransactions()
-        if (!fragment?.isAdded) {
-            Log.d("rakib", "fragment if")
+        if (!fragment.isAdded) {
             val transaction = fragmentManager.beginTransaction()
 
             if (addToBackStack) {
@@ -428,7 +427,6 @@ fun Activity.transitFragment(fragment: Fragment, holderID: Int, addToBackStack: 
             }
             transaction.commit()
         } else {
-            Log.d("rakib", "fragment else")
         }
     } catch (e: Exception) {
         logException(e)
@@ -480,7 +478,7 @@ fun AppCompatActivity.transitFragmentX(
         if (bundle!=null) {
             fragment.arguments = bundle
         }
-        val fragmentManager = this.supportFragmentManager
+        val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         if (addToBackStack) {
             fragmentTransaction.apply {
@@ -496,29 +494,6 @@ fun AppCompatActivity.transitFragmentX(
     } catch (e: Exception) {
         logException(e)
     }
-}
-
-inline fun FragmentManager.doTransaction(
-    func: FragmentTransaction.() ->
-    FragmentTransaction
-) {
-    beginTransaction().func().commit()
-}
-
-fun AppCompatActivity.addFragment(frameId: Int, fragment: androidx.fragment.app.Fragment){
-    supportFragmentManager.doTransaction { add(frameId, fragment) }
-}
-
-
-fun AppCompatActivity.replaceFragment(frameId: Int, fragment: androidx.fragment.app.Fragment,bundle:Bundle?=null) {
-    if (bundle!=null) {
-        fragment.arguments = bundle
-    }
-    supportFragmentManager.doTransaction{replace(frameId, fragment)}
-}
-
-fun AppCompatActivity.removeFragment(fragment: androidx.fragment.app.Fragment) {
-    supportFragmentManager.doTransaction{remove(fragment)}
 }
 
 

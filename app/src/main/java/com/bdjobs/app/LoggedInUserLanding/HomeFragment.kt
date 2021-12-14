@@ -500,15 +500,15 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                                     lastSearchcounterTV?.textSize = 14.0F
                                 }
 
-                                if (bdJobsUserSession.adTypeLanding=="2") {
-                                    try {
-                                        navHostFragmentAD.visibility = View.VISIBLE
-                                        homeCommunicator.goToAjkerDealLive(R.id.navHostFragmentAD)
-                                    } catch (e: Exception) {
-                                    }
-                                } else {
-                                    navHostFragmentAD.visibility = View.GONE
-                                }
+//                                if (bdJobsUserSession.adTypeLanding=="2") {
+//                                    try {
+//                                        navHostFragmentAD.visibility = View.VISIBLE
+//                                        homeCommunicator.goToAjkerDealLive(R.id.navHostFragmentAD)
+//                                    } catch (e: Exception) {
+//                                    }
+//                                } else {
+//                                    navHostFragmentAD.visibility = View.GONE
+//                                }
 
 
                             } catch (e: Exception) {

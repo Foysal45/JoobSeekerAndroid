@@ -13,14 +13,15 @@ import com.bdjobs.app.API.ModelClasses.MybdjobsData
 import com.bdjobs.app.API.ModelClasses.StatsModelClassData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 import com.bdjobs.app.utilities.*
 import com.bdjobs.app.databases.internal.BdjobsDB
 import kotlinx.android.synthetic.main.fragment_mybdjobs_layout.*
 import org.jetbrains.anko.doAsync
 import timber.log.Timber
 
-class  MyBdjobsFragment : Fragment() {
-    private lateinit var bdjobsUserSession : BdjobsUserSession
+class MyBdjobsFragment : Fragment() {
+    private lateinit var bdjobsUserSession: BdjobsUserSession
 
     private lateinit var bdjobsDB: BdjobsDB
     private var myBdJobsAdapter: MyBdJobsAdapter? = null
@@ -28,47 +29,182 @@ class  MyBdjobsFragment : Fragment() {
     private lateinit var communicator: HomeCommunicator
     private var lastMonthStatsData: List<StatsModelClassData?>? = null
     private var allStatsData: List<StatsModelClassData?>? = null
-    val background_resources = intArrayOf(R.drawable.online_application, R.drawable.times_emailed, R.drawable.viewed_resume, R.drawable.employer_followed, R.drawable.interview_invitation, R.drawable.message_employers,R.drawable.video_interview, R.drawable.live_interview)
-    val icon_resources = intArrayOf(R.drawable.ic_applied_jobs_new, R.drawable.ic_times_emailed_my_resume, R.drawable.ic_view_resum, R.drawable.ic_followed_emp_new, R.drawable.ic_general_interview_new, R.drawable.ic_emp_message_new,R.drawable.ic_video_camera_gray, R.drawable.ic_live_interview_new)
+    val background_resources = intArrayOf(
+        R.drawable.online_application,
+        R.drawable.times_emailed,
+        R.drawable.viewed_resume,
+        R.drawable.employer_followed,
+        R.drawable.interview_invitation,
+        R.drawable.message_employers,
+        R.drawable.video_interview,
+        R.drawable.live_interview
+    )
+    val icon_resources = intArrayOf(
+        R.drawable.ic_applied_jobs_new,
+        R.drawable.ic_times_emailed_my_resume,
+        R.drawable.ic_view_resum,
+        R.drawable.ic_followed_emp_new,
+        R.drawable.ic_general_interview_new,
+        R.drawable.ic_emp_message_new,
+        R.drawable.ic_video_camera_gray,
+        R.drawable.ic_live_interview_new
+    )
     private lateinit var session: BdjobsUserSession
     private fun populateDataModel() {
         try {
             myBdJobsAdapter?.removeAll()
             bdjobsList.clear()
             myBdJobsAdapter?.notifyDataSetChanged()
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_jobs_applied_lastmonth!!, Constants.session_key_mybdjobscount_jobs_applied, background_resources[0], icon_resources[0]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_times_emailed_resume_lastmonth!!, Constants.session_key_mybdjobscount_times_emailed_resume, background_resources[1], icon_resources[1]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_viwed_resume_lastmonth!!, Constants.session_key_mybdjobscount_employers_viwed_resume, background_resources[2], icon_resources[2]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_followed_lastmonth!!, Constants.session_key_mybdjobscount_employers_followed, background_resources[3], icon_resources[3]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_interview_invitation_lastmonth!!, Constants.session_key_mybdjobscount_interview_invitation, background_resources[4], icon_resources[4]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_message_by_employers_lastmonth!!,  Constants.session_key_mybdjobscount_message_by_employers, background_resources[5], icon_resources[5]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_video_invitation_lastmonth!!,  Constants.session_key_mybdjobscount_video_invitation,background_resources[6],icon_resources[6]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_live_invitation_lastmonth!!,  Constants.session_key_mybdjobscount_live_invitation,background_resources[7],icon_resources[7]))
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_jobs_applied_lastmonth!!,
+                    Constants.session_key_mybdjobscount_jobs_applied,
+                    background_resources[0],
+                    icon_resources[0]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_times_emailed_resume_lastmonth!!,
+                    Constants.session_key_mybdjobscount_times_emailed_resume,
+                    background_resources[1],
+                    icon_resources[1]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_employers_viwed_resume_lastmonth!!,
+                    Constants.session_key_mybdjobscount_employers_viwed_resume,
+                    background_resources[2],
+                    icon_resources[2]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_employers_followed_lastmonth!!,
+                    Constants.session_key_mybdjobscount_employers_followed,
+                    background_resources[3],
+                    icon_resources[3]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_interview_invitation_lastmonth!!,
+                    Constants.session_key_mybdjobscount_interview_invitation,
+                    background_resources[4],
+                    icon_resources[4]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_message_by_employers_lastmonth!!,
+                    Constants.session_key_mybdjobscount_message_by_employers,
+                    background_resources[5],
+                    icon_resources[5]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_video_invitation_lastmonth!!,
+                    Constants.session_key_mybdjobscount_video_invitation,
+                    background_resources[6],
+                    icon_resources[6]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_live_invitation_lastmonth!!,
+                    Constants.session_key_mybdjobscount_live_invitation,
+                    background_resources[7],
+                    icon_resources[7]
+                )
+            )
 
             myBdJobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
         }
     }
+
     private fun populateDataModelALL() {
         try {
             myBdJobsAdapter?.removeAll()
             bdjobsList.clear()
             myBdJobsAdapter?.notifyDataSetChanged()
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_jobs_applied_alltime!!, Constants.session_key_mybdjobscount_jobs_applied, background_resources[0], icon_resources[0]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_times_emailed_resume_alltime!!, Constants.session_key_mybdjobscount_times_emailed_resume, background_resources[1], icon_resources[1]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_viwed_resume_alltime!!, Constants.session_key_mybdjobscount_employers_viwed_resume, background_resources[2], icon_resources[2]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_employers_followed_alltime!!, Constants.session_key_mybdjobscount_employers_followed, background_resources[3], icon_resources[3]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_interview_invitation_alltime!!, Constants.session_key_mybdjobscount_interview_invitation, background_resources[4], icon_resources[4]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_message_by_employers_alltime!!,  Constants.session_key_mybdjobscount_message_by_employers, background_resources[5], icon_resources[5]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_video_invitation_alltime!!,Constants.session_key_mybdjobscount_video_invitation,background_resources[6],icon_resources[6]))
-            bdjobsList.add(MybdjobsData(session.mybdjobscount_live_invitation_alltime!!,Constants.session_key_mybdjobscount_live_invitation,background_resources[7],icon_resources[7]))
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_jobs_applied_alltime!!,
+                    Constants.session_key_mybdjobscount_jobs_applied,
+                    background_resources[0],
+                    icon_resources[0]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_times_emailed_resume_alltime!!,
+                    Constants.session_key_mybdjobscount_times_emailed_resume,
+                    background_resources[1],
+                    icon_resources[1]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_employers_viwed_resume_alltime!!,
+                    Constants.session_key_mybdjobscount_employers_viwed_resume,
+                    background_resources[2],
+                    icon_resources[2]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_employers_followed_alltime!!,
+                    Constants.session_key_mybdjobscount_employers_followed,
+                    background_resources[3],
+                    icon_resources[3]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_interview_invitation_alltime!!,
+                    Constants.session_key_mybdjobscount_interview_invitation,
+                    background_resources[4],
+                    icon_resources[4]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_message_by_employers_alltime!!,
+                    Constants.session_key_mybdjobscount_message_by_employers,
+                    background_resources[5],
+                    icon_resources[5]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_video_invitation_alltime!!,
+                    Constants.session_key_mybdjobscount_video_invitation,
+                    background_resources[6],
+                    icon_resources[6]
+                )
+            )
+            bdjobsList.add(
+                MybdjobsData(
+                    session.mybdjobscount_live_invitation_alltime!!,
+                    Constants.session_key_mybdjobscount_live_invitation,
+                    background_resources[7],
+                    icon_resources[7]
+                )
+            )
 
             myBdJobsAdapter?.addAll(bdjobsList)
         } catch (e: Exception) {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_mybdjobs_layout, container, false)!!
 
     }
@@ -79,14 +215,18 @@ class  MyBdjobsFragment : Fragment() {
         bdjobsUserSession = BdjobsUserSession(requireContext())
         bdjobsDB = BdjobsDB.getInstance(requireContext())
 
-        if (bdjobsUserSession.adTypeMyBdJobs=="2") {
-            try {
-                navHostFragmentADMB.visibility = View.VISIBLE
-                communicator.goToAjkerDealLive(R.id.navHostFragmentADMB)
-            } catch (e: Exception) {
+        try {
+            if (bdjobsUserSession.adTypeMyBdJobs == "2") {
+                try {
+                    navHostFragmentADMB.visibility = View.VISIBLE
+                    transaction(HomeNewFragment(),R.id.navHostFragmentADMB,false)
+                } catch (e: Exception) {
+                    navHostFragmentADMB.visibility = View.GONE
+                }
+            } else {
+                navHostFragmentADMB.visibility = View.GONE
             }
-        } else {
-            navHostFragmentADMB.visibility = View.GONE
+        } catch (e: Exception) {
         }
 
     }
@@ -165,7 +305,8 @@ class  MyBdjobsFragment : Fragment() {
         myBdjobsgridView_RV?.adapter = myBdJobsAdapter
         myBdjobsgridView_RV?.setHasFixedSize(true)
         myBdjobsgridView_RV?.isNestedScrollingEnabled = false
-        myBdjobsgridView_RV?.layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
+        myBdjobsgridView_RV?.layoutManager =
+            GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         myBdjobsgridView_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         populateDataModel()
     }
@@ -235,7 +376,14 @@ class  MyBdjobsFragment : Fragment() {
         try {
             for ((index, value) in lastMonthStatsData!!.withIndex()) {
                 if (index < (lastMonthStatsData?.size!! - 1)) {
-                    bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
+                    bdjobsList.add(
+                        MybdjobsData(
+                            value?.count!!,
+                            value.title!!,
+                            background_resources[index],
+                            icon_resources[index]
+                        )
+                    )
                     //Log.d("vvuu", "${bdjobsList?.get(index)?.itemID} = ${value?.count!!}")
                 }
             }
@@ -249,7 +397,14 @@ class  MyBdjobsFragment : Fragment() {
         try {
             for ((index, value) in allStatsData!!.withIndex()) {
                 if (index < (allStatsData?.size!! - 1)) {
-                    bdjobsList.add(MybdjobsData(value?.count!!, value.title!!, background_resources[index], icon_resources[index]))
+                    bdjobsList.add(
+                        MybdjobsData(
+                            value?.count!!,
+                            value.title!!,
+                            background_resources[index],
+                            icon_resources[index]
+                        )
+                    )
                 }
             }
             myBdJobsAdapter?.addAll(bdjobsList)
@@ -259,63 +414,62 @@ class  MyBdjobsFragment : Fragment() {
     }
 
 
-
     private fun getStatsData(activityDate: String) {
         //requireContext().showProgressBar(mybdjobsLoadingProgressBar)
 
-      /*  mybdjobsLoadingProgressBar?.show()
+        /*  mybdjobsLoadingProgressBar?.show()
 
-        ApiServiceMyBdjobs.create().mybdjobStats(
-                userId = session.userId,
-                decodeId = session.decodId,
-                isActivityDate = activityDate,
-                trainingId = session.trainingId,
-                isResumeUpdate = session.IsResumeUpdate
+          ApiServiceMyBdjobs.create().mybdjobStats(
+                  userId = session.userId,
+                  decodeId = session.decodId,
+                  isActivityDate = activityDate,
+                  trainingId = session.trainingId,
+                  isResumeUpdate = session.IsResumeUpdate
 
-        ).enqueue(object : Callback<StatsModelClass> {
-            override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
-                try {
-                    error("onFailure", t)
-                    //requireContext()?.stopProgressBar(mybdjobsLoadingProgressBar)
-                    mybdjobsLoadingProgressBar?.hide()
-                    requireContext()?.toast(R.string.message_common_error)
-                } catch (e: Exception) {
-                    logException(e)
-                }
-            }
+          ).enqueue(object : Callback<StatsModelClass> {
+              override fun onFailure(call: Call<StatsModelClass>, t: Throwable) {
+                  try {
+                      error("onFailure", t)
+                      //requireContext()?.stopProgressBar(mybdjobsLoadingProgressBar)
+                      mybdjobsLoadingProgressBar?.hide()
+                      requireContext()?.toast(R.string.message_common_error)
+                  } catch (e: Exception) {
+                      logException(e)
+                  }
+              }
 
-            override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
-                // requireContext()?.stopProgressBar(mybdjobsLoadingProgressBar)
-                mybdjobsLoadingProgressBar?.hide()
-                try {
-                    if (activityDate == "0") {
-                        allStatsData = response.body()?.data
-                        //populateDataAllMonthStats()
-                        if (bdjobsList.isNullOrEmpty()) {
-                            populateDataAllMonthStats()
-                        } else {
-                            mybdjobsAdapter?.removeAll()
-                            bdjobsList.clear()
-                            populateDataAllMonthStats()
-                        }
-                    } else if (activityDate == "1") {
-                        lastMonthStatsData = response.body()?.data
-                        if (bdjobsList.isNullOrEmpty()) {
-                            populateDataLastMonthStats()
-                        } else {
-                            mybdjobsAdapter?.removeAll()
-                            bdjobsList.clear()
-                            populateDataLastMonthStats()
-                        }
-                    }
+              override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
+                  // requireContext()?.stopProgressBar(mybdjobsLoadingProgressBar)
+                  mybdjobsLoadingProgressBar?.hide()
+                  try {
+                      if (activityDate == "0") {
+                          allStatsData = response.body()?.data
+                          //populateDataAllMonthStats()
+                          if (bdjobsList.isNullOrEmpty()) {
+                              populateDataAllMonthStats()
+                          } else {
+                              mybdjobsAdapter?.removeAll()
+                              bdjobsList.clear()
+                              populateDataAllMonthStats()
+                          }
+                      } else if (activityDate == "1") {
+                          lastMonthStatsData = response.body()?.data
+                          if (bdjobsList.isNullOrEmpty()) {
+                              populateDataLastMonthStats()
+                          } else {
+                              mybdjobsAdapter?.removeAll()
+                              bdjobsList.clear()
+                              populateDataLastMonthStats()
+                          }
+                      }
 
-                    // //Log.d("respp", " === $allStatsData \n $lastMonthStatsData")
-                } catch (e: Exception) {
-                    logException(e)
-                }
-            }
+                      // //Log.d("respp", " === $allStatsData \n $lastMonthStatsData")
+                  } catch (e: Exception) {
+                      logException(e)
+                  }
+              }
 
-        })*/
+          })*/
     }
 
     fun updateNotificationView(count: Int?) {
@@ -339,5 +493,29 @@ class  MyBdjobsFragment : Fragment() {
 //            notificationCountTV?.text = "${bdjobsUserSession.notificationCount!!}"
 //
 //        }
+    }
+
+    private fun transaction(
+        fragment: Fragment,
+        holderID: Int,
+        addToBackStack: Boolean
+    ) {
+        try {
+            val fragmentManager = childFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            if (addToBackStack) {
+                fragmentTransaction.apply {
+                    replace(holderID, fragment)
+                    addToBackStack(fragment::class.java.name)
+                }
+            } else {
+                fragmentTransaction.apply {
+                    replace(holderID, fragment)
+                }
+            }
+            fragmentTransaction.commit()
+        } catch (e: Exception) {
+            logException(e)
+        }
     }
 }

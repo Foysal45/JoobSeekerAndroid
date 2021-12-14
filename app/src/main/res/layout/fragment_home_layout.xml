@@ -373,11 +373,11 @@
                     android:layout_marginBottom="5dp"
                     android:visibility="gone" />
 
-                <FrameLayout
-                    android:visibility="gone"
-                    android:id="@+id/navHostFragmentAD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+<!--                <FrameLayout-->
+<!--                    android:visibility="gone"-->
+<!--                    android:id="@+id/navHostFragmentAD"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content" />-->
 
 
             </LinearLayout>
