@@ -14,6 +14,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -43,9 +45,8 @@ import java.io.File
 
 class VideoResumeQuestionsFragment : Fragment() {
 
-//    private val baseVideoResumeViewModel : VideoResumeViewModel by activityViewModels()
 
-    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment) {
+    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by activityViewModels {
         ViewModelFactoryUtil.provideVideoResumeQuestionsViewModelFactory(this)
     }
     lateinit var binding: FragmentVideoResumeQuestionsBinding
@@ -141,7 +142,10 @@ class VideoResumeQuestionsFragment : Fragment() {
         }
 
         binding.cvVideoResumeVisibilityRoot.setOnClickListener {
-            findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToVideoResumeLandingFragment())
+            if (findNavController().currentDestination?.id == R.id.videoResumeQuestionsFragment) {
+                findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToVideoResumeLandingFragment())
+
+            }
         }
 
         videoResumeQuestionsViewModel.apply {

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -37,7 +38,9 @@ class RecordVideoResumeFragment : Fragment(), CameraProvider.OutputCallBack {
     lateinit var snackbar: Snackbar
     lateinit var videoFile: File
 
-    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
+    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by activityViewModels {
+        ViewModelFactoryUtil.provideVideoResumeQuestionsViewModelFactory(this)
+    }
     private val recordVideoResumeViewModel: RecordVideoResumeViewModel by viewModels {
         ViewModelFactoryUtil.provideVideoResumeRecordVideoViewModelFactory(
             this

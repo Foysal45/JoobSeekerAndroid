@@ -18,6 +18,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.MediaController
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -51,7 +52,9 @@ class ViewVideoResumeFragment : Fragment() {
 
     private var permissionGranted: Boolean = false
     val args: ViewVideoResumeFragmentArgs by navArgs()
-    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
+    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by activityViewModels {
+        ViewModelFactoryUtil.provideVideoResumeQuestionsViewModelFactory(this)
+    }
     private val viewVideoResumeViewModel: ViewVideoResumeViewModel by viewModels {
         ViewModelFactoryUtil.provideVideoResumeViewVideoViewModelFactory(
             this
