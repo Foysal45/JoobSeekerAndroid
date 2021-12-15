@@ -44,11 +44,8 @@ class RatingViewModel(
         checkValidation()
     }
 
-//    private fun checkValidation() {
-//        enableSubmitButton.value = !feedback.value.isNullOrBlank() && rating.value!!.toInt() > 0
     fun checkValidation() {
-       // enableSubmitButton.value = !feedback.value.isNullOrBlank() && rating.value!!.toInt() > 0
-        enableSubmitButton.value = rating.value!!.toInt() > 0
+        enableSubmitButton.value = !feedback.value.isNullOrBlank() || rating.value!!.toInt() > 0
     }
 
     fun onMessageEmployerButtonClick() {
@@ -71,7 +68,6 @@ class RatingViewModel(
             if(response.statuscode == "4"){
                 navigateToListEvent.value = Event(true)
             }else{
-
                 _showSnackbar.value = Event(response.message.toString())
             }
         }
