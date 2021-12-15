@@ -103,6 +103,7 @@
                     android:maxLines="15"
                     android:minLines="5"
                     android:maxLength="500"
+                    android:afterTextChanged="@{(feedback)->viewModel.afterFeedbackTextChanged(feedback)}"
                     android:text="@={viewModel.feedback}"
                     android:padding="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
