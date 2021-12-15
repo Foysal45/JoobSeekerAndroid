@@ -245,6 +245,10 @@ fun Activity.getFCMtoken() {
 
 }
 
+//Dec 20, 2021
+
+//MMM dd, yyyy
+
 fun Activity.subscribeToFCMTopic(topicName: String) {
 
 

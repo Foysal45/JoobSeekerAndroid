@@ -130,6 +130,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
     }
 
 
+    @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position<itemCount-1) {
             val result =  this.jobList?.get(position) // jobs
@@ -141,7 +142,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -215,7 +216,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -272,7 +273,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                     val jobsVH = holder as FeaturedListVH
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -332,7 +333,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                     Ads.showNativeAd(jobsVH.adSmallTemplate, context)
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -400,7 +401,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -461,7 +462,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline?.replace(","," ")
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -511,6 +512,16 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
         }
 
     }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun formatDate(result: JobListModelData?) :String {
+        return if (result?.deadlineDB!=null && result.deadlineDB!= "") {
+            SimpleDateFormat("M/d/yyyy").parse(result.deadlineDB)!!.toSimpleDateString()
+        } else {
+            result?.deadline?:""
+        }
+    }
+
 
     private fun deleteShortListedJobwithUndo(position: Int) {
         //Log.d("czcx", "position: $position")
@@ -775,7 +786,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
     }
 
-    private fun getItem(position: Int): JobListModelData? {
+    private fun getItem(position: Int): JobListModelData {
         return this.jobList!![position]
     }
 
