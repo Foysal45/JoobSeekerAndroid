@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bdjobs.app.databinding.FragmentPaymentSmsBinding
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
+import timber.log.Timber
 
 class PaymentFragment : Fragment() {
 
@@ -29,6 +30,8 @@ class PaymentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Timber.d("Total SMS: ${args.totalSMS}")
 
         paymentViewModel.apply {
             paymentStatus.observe(viewLifecycleOwner, { status ->

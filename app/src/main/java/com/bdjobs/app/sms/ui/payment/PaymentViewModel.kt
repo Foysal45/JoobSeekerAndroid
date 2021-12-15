@@ -66,7 +66,8 @@ class PaymentViewModel(val repository: SMSRepository,
     private fun getPaymentInfoBeforeGateway() {
         viewModelScope.launch {
             try {
-                val response = repository.callPaymentInfoBeforeGatewayApi(totalSMS, totalAmountIntTaka.value, isFree)
+                Timber.d("Total Sms with Bonus: ${totalSMS?.plus(bonusSMS?:0)}")
+                val response = repository.callPaymentInfoBeforeGatewayApi(totalSMS?.plus(bonusSMS?:0), totalAmountIntTaka.value, isFree)
                 if (response.statuscode == "0") {
                     paymentInfoData = response.data?.get(0)!!
                     Constants.isSMSFree = paymentInfoData.isSMSFree.toString()
