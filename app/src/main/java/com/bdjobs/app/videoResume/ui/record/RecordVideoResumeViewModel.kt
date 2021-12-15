@@ -83,10 +83,13 @@ class RecordVideoResumeViewModel(private val repository: VideoResumeRepository) 
                 _onUploadStartEvent.postValue(Event(true))// = Event(true)
             try {
                 val response = repository.postVideoResumeToRemote()
-                if (response.statuscode == "4" || response.statuscode == 4)
-                {
-                    _onUploadDoneEvent.postValue(Event(true)) //= Event(true)
+                if (response.isSuccessful && response.code()==200) {
+                    if (response.body()?.statuscode == "4" || response.body()?.statuscode == 4)
+                    {
+                        _onUploadDoneEvent.postValue(Event(true)) //= Event(true)
+                    }
                 }
+
             } catch (e: Exception) {
                 _onVideouploadException.postValue(Event((e.message.toString())))
             }

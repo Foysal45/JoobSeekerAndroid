@@ -1,7 +1,6 @@
 package com.bdjobs.app.videoResume.data.repository
 
 import android.app.Application
-import android.util.Log
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.videoResume.data.models.*
@@ -12,6 +11,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Response
 import java.io.File
 
 class VideoResumeRepository(private val application: Application) {
@@ -40,7 +40,7 @@ class VideoResumeRepository(private val application: Application) {
         )
     }
 
-    suspend fun getStatisticsFromRemote(): VideoResumeStatistics {
+    suspend fun getStatisticsFromRemote(): Response<VideoResumeStatistics> {
         return withContext(Dispatchers.IO) {
             VideoResumeApiService.create(application).getVideoResumeStatistics(
                     userID = session.userId,
@@ -51,7 +51,7 @@ class VideoResumeRepository(private val application: Application) {
         }
     }
 
-    suspend fun getQuestionListFromRemote(): VideoResumeQuestionList {
+    suspend fun getQuestionListFromRemote(): Response<VideoResumeQuestionList> {
         return withContext(Dispatchers.IO) {
             VideoResumeApiService.create(application).getVideoResumeQuestionList(
                     userID = session.userId,
@@ -62,7 +62,7 @@ class VideoResumeRepository(private val application: Application) {
         }
     }
 
-    suspend fun submitStatusVisibility(isVisible : String?): CommonResponse {
+    suspend fun submitStatusVisibility(isVisible : String?): Response<CommonResponse> {
         return withContext(Dispatchers.IO) {
             VideoResumeApiService.create(application).submitStatusVisibility(
                     userID = session.userId,
@@ -74,7 +74,7 @@ class VideoResumeRepository(private val application: Application) {
         }
     }
 
-    suspend fun deleteSingleVideoOfResume(videoResumeManager: VideoResumeManager): CommonResponse {
+    suspend fun deleteSingleVideoOfResume(videoResumeManager: VideoResumeManager): Response<CommonResponse> {
         return withContext(Dispatchers.IO) {
             VideoResumeApiService.create(application,1).deleteSingleVideoOfResume(
                     userID = session.userId,
@@ -87,9 +87,8 @@ class VideoResumeRepository(private val application: Application) {
         }
     }
 
-    suspend fun postVideoResumeToRemote(): CommonResponse {
+    suspend fun postVideoResumeToRemote(): Response<CommonResponse> {
         val file: File? = Constants.file?.absoluteFile
-        Log.d("salvin-resume", "$file")
         val userId = session.userId?.toRequestBody()
         val decodeId = session.decodId?.toRequestBody()
         val questionId = Constants.quesId?.toRequestBody()

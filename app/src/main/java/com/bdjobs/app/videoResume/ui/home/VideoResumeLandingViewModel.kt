@@ -176,57 +176,61 @@ class VideoResumeLandingViewModel(
         viewModelScope.launch {
             try {
                 val response = videoResumeRepository.getStatisticsFromRemote()
-                val data = response.data?.get(0)
-                _isDataLoading.value = false
-                _statusPercentage.value = data?.statusPercentage
-                _lastUpdate.value = data?.lastUpdateDate
-                _totalView.value = data?.totalView
-                _totalCompanyView.value = data?.totalCompanyView
-                _rating.value = data?.rating
-                _overallRating.value = rating.value?.toInt()
-                _totalAnswered.value = data?.totalAnswered
-                _showStat.value = totalAnswered.value!! != "0"
-                Timber.d("ShowStat: ${_showStat.value}")
-                _isAlertOn.value = if (_showStat.value!!) data?.resumeVisibility else "2"
-                _totalQuestions.value = data?.totalQuestion
-                _totalProgress.value = statusPercentage.value?.toInt()
-                _threshold.value = data?.threshold
-                _maxProgress.value = 100
-                _statusCode.value = response.statuscode!!
 
-                Timber.d("isAlertOn: ${_isAlertOn.value}")
+                if (response.isSuccessful && response.code()==200) {
+                    val data = response.body()?.data?.get(0)
+                    _isDataLoading.value = false
+                    _statusPercentage.value = data?.statusPercentage
+                    _lastUpdate.value = data?.lastUpdateDate
+                    _totalView.value = data?.totalView
+                    _totalCompanyView.value = data?.totalCompanyView
+                    _rating.value = data?.rating
+                    _overallRating.value = rating.value?.toInt()
+                    _totalAnswered.value = data?.totalAnswered
+                    _showStat.value = totalAnswered.value!! != "0"
+                    Timber.d("ShowStat: ${_showStat.value}")
+                    _isAlertOn.value = if (_showStat.value!!) data?.resumeVisibility else "2"
+                    _totalQuestions.value = data?.totalQuestion
+                    _totalProgress.value = statusPercentage.value?.toInt()
+                    _threshold.value = data?.threshold
+                    _maxProgress.value = 100
+                    _statusCode.value = response.body()?.statuscode!!
 
-                if (_showStat.value == true) {
-                    _showResumeVisibilityView.value =
-                        totalAnswered.value!!.toInt() >= threshold.value!!.toInt()
-                } else {
-                    _showResumeVisibilityView.value = false
+                    Timber.d("isAlertOn: ${_isAlertOn.value}")
+
+                    if (_showStat.value == true) {
+                        _showResumeVisibilityView.value =
+                            totalAnswered.value!!.toInt() >= threshold.value!!.toInt()
+                    } else {
+                        _showResumeVisibilityView.value = false
+                    }
+
+                    if (_showResumeVisibilityView.value == true)
+                        _showNoAnimatorView.value = _isAlertOn.value == "0"
+                    else _showNoAnimatorView.value = false
+
+                    showVideoResumeToEmployers.value = totalAnswered.value!!.toInt() >= threshold.value!!.toInt()
+
+                    when {
+                        _isAlertOn.value!!.equalIgnoreCase("0") -> {
+                            yesSelected.value = false
+                            noSelected.value = true
+                        }
+                        _isAlertOn.value!!.equalIgnoreCase("1") -> {
+                            noSelected.value = false
+                            yesSelected.value = true
+                        }
+                        else -> {
+                            yesSelected.value = false
+                            noSelected.value = true
+                        }
+                    }
                 }
 
-                if (_showResumeVisibilityView.value == true)
-                    _showNoAnimatorView.value = _isAlertOn.value == "0"
-                else _showNoAnimatorView.value = false
 
-                showVideoResumeToEmployers.value = totalAnswered.value!!.toInt() >= threshold.value!!.toInt()
-
-                when {
-                    _isAlertOn.value!!.equalIgnoreCase("0") -> {
-                        yesSelected.value = false
-                        noSelected.value = true
-                    }
-                    _isAlertOn.value!!.equalIgnoreCase("1") -> {
-                        noSelected.value = false
-                        yesSelected.value = true
-                    }
-                    else -> {
-                        yesSelected.value = false
-                        noSelected.value = true
-                    }
-                }
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                log.d("Salvin", "Got exception")
             }
         }
     }
@@ -238,8 +242,14 @@ class VideoResumeLandingViewModel(
                 val response = videoResumeRepository.submitStatusVisibility(
                     isVisible = isAlertOn.value
                 )
-                log.d("Salvin", response.message.toString())
-                _isSubmitStatusLoading.value = false
+
+                if (response.isSuccessful && response.code()==200) {
+                    _isSubmitStatusLoading.value = false
+                } else {
+                    _isSubmitStatusLoading.value = false
+                }
+
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }

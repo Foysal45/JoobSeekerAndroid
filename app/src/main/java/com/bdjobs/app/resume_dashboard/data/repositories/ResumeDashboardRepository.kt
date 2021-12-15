@@ -12,6 +12,7 @@ import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
 import com.bdjobs.app.videoResume.data.remote.VideoResumeApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 //
 // Created by Soumik on 6/20/2021.
@@ -48,7 +49,7 @@ class ResumeDashboardRepository(val application: Application) {
         }
     }
 
-    suspend fun getQuestionListFromRemote(): VideoResumeQuestionList {
+    suspend fun getQuestionListFromRemote(): Response<VideoResumeQuestionList> {
         return withContext(Dispatchers.IO) {
             VideoResumeApiService.create(application).getVideoResumeQuestionList(
                     userID = bdJobsUserSession.userId,

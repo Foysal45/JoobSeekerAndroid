@@ -10,6 +10,7 @@ import com.bdjobs.app.videoResume.data.models.VideoResumeStatistics
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.*
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
@@ -33,7 +34,7 @@ interface VideoResumeApiService {
             @Field("decodeId") decodeID: String?,
             @Field("appId") appId: String?,
             @Field("lang") lang: String?
-    ): VideoResumeStatistics
+    ): Response<VideoResumeStatistics>
 
     @FormUrlEncoded
     @POST("app_video_resume_visibility_status_update.asp")
@@ -43,7 +44,7 @@ interface VideoResumeApiService {
             @Field("appId") appId: String?,
             @Field("lang") lang: String?,
             @Field("statusVisibility") statusVisibility: String?,
-    ): CommonResponse
+    ): Response<CommonResponse>
 
     @FormUrlEncoded
     @POST("app_video_resume_questionlist_v1.asp")
@@ -52,7 +53,7 @@ interface VideoResumeApiService {
             @Field("decodeId") decodeID: String?,
             @Field("appId") appId: String?,
             @Field("lang") lang: String?
-    ): VideoResumeQuestionList
+    ): Response<VideoResumeQuestionList>
 
 
     @Multipart
@@ -68,7 +69,7 @@ interface VideoResumeApiService {
             @Part("appId") appId: RequestBody?,
             @Part("lang") lang: RequestBody?,
             @Part file: MultipartBody.Part?
-    ): CommonResponse
+    ): Response<CommonResponse>
 
 
     @FormUrlEncoded
@@ -80,7 +81,7 @@ interface VideoResumeApiService {
             @Field("lang") lang: String?,
             @Field("aID") aID: String?,
             @Field("questionId") questionId: String?,
-            ): CommonResponse
+            ): Response<CommonResponse>
 
 
 

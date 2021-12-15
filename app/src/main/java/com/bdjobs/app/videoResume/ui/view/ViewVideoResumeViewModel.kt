@@ -27,10 +27,13 @@ class ViewVideoResumeViewModel(private val repository: VideoResumeRepository) : 
         viewModelScope.launch {
             try {
                 val response = repository.deleteSingleVideoOfResume(videoResumeManagerData.value!!)
-                if (response.statuscode == "0" || response.statuscode == 0)
-                {
-                    _onDeleteDoneEvent.value = Event(true)
+                if (response.isSuccessful && response.code()==200) {
+                    if (response.body()?.statuscode == "0" || response.body()?.statuscode == 0)
+                    {
+                        _onDeleteDoneEvent.value = Event(true)
+                    }
                 }
+
             } catch (e: Exception) {
 
             }
