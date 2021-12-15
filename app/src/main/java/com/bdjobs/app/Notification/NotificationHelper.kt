@@ -302,44 +302,12 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                 val pendingIntent: PendingIntent =
                     PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-//                var imageBitmap: Bitmap? = null
-//
-//                var target = object : Target {
-//                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-//                    }
-//
-//                    override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-//                    }
-//
-//                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-//                        imageBitmap = bitmap
-//                        //Log.d("rakib inside", "$bitmap")
-//                    }
-//
-//                }
-//
-//                Picasso.get().load(imageLink).into(target)
 
-//                //Log.d("rakib outside", "$imageBitmap $imageLink")
-
-                val bigPictureStyle = NotificationCompat.BigPictureStyle()
-                bigPictureStyle.setBigContentTitle(title)
-                bigPictureStyle.setSummaryText(body)
-                if (!imageLink.isNullOrEmpty()) {
-                    bigPictureStyle.bigPicture(getBitmapFromURL(imageLink))
+                return if (!imageLink.isNullOrEmpty()) {
+                    showNotificationWithBigPicture(imageLink, body, title, pendingIntent)
+                } else {
+                    showBigTextNotification(body, title, pendingIntent)
                 }
-
-
-                return NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setSmallIcon(smallIcon)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .setStyle(bigPictureStyle)
-//                        .setStyle(NotificationCompat.BigTextStyle()
-//                            .bigText(body))
-                    .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
             }
 
             Constants.NOTIFICATION_TYPE_ALERT_NOTIFICATION -> {
@@ -393,6 +361,48 @@ class NotificationHelper(val context: Context) : ContextWrapper(context) {
                     .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
             }
         }
+    }
+
+    private fun showBigTextNotification(
+        body: String?,
+        title: String?,
+        pendingIntent: PendingIntent
+    ): NotificationCompat.Builder {
+
+        return NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setSmallIcon(smallIcon)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(body)
+            )
+            .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
+
+    }
+
+    private fun showNotificationWithBigPicture(
+        imageLink: String,
+        body: String?,
+        title: String?,
+        pendingIntent: PendingIntent
+    ): NotificationCompat.Builder {
+        val bigPictureStyle = NotificationCompat.BigPictureStyle()
+        bigPictureStyle.setBigContentTitle(title)
+        bigPictureStyle.setSummaryText(body)
+        bigPictureStyle.bigPicture(getBitmapFromURL(imageLink))
+
+        return NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setSmallIcon(smallIcon)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .setStyle(bigPictureStyle)
+            .setColor(ContextCompat.getColor(context, R.color.colorBdjobsMajenta))
+
     }
 
     @RequiresApi(O)

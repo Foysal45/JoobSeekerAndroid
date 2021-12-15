@@ -45,7 +45,10 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
             if (notificationUpdateListener != null){
                 if (notification == "insertOrUpdateNotification"){
                     //Log.d("rakib", "inside broadcast")
-                    notificationUpdateListener!!.onUpdateNotification()
+                    try {
+                        notificationUpdateListener!!.onUpdateNotification()
+                    } catch (e: Exception) {
+                    }
                 }
             }
         }
