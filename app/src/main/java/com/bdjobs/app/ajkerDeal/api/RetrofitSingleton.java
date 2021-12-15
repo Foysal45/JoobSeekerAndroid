@@ -2,13 +2,10 @@ package com.bdjobs.app.ajkerDeal.api;
 
 import android.content.Context;
 
-import com.bdjobs.app.BuildConfig;
-
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -148,14 +145,14 @@ public class RetrofitSingleton {
         // Cache
         httpClientBuilder.cache(new Cache(context.getCacheDir(),  10 * 1024 * 1024 )); // 10 MB
         // LoggingInterceptor
-        if (BuildConfig.DEBUG) {
-
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            // set your desired log level
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-            httpClientBuilder.addInterceptor(logging);
-        }
+//        if (BuildConfig.DEBUG) {
+//
+//            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+//            // set your desired log level
+//            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+//
+//            httpClientBuilder.addInterceptor(logging);
+//        }
 
         okHttpClient = httpClientBuilder.build();
     }

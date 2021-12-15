@@ -1,18 +1,16 @@
 package com.bdjobs.app.videoResume.data.remote
 
+//import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
+//import okhttp3.logging.HttpLoggingInterceptor
 import android.content.Context
-import android.util.Log
 import com.bdjobs.app.videoInterview.util.NetworkConnectionInterceptor
 import com.bdjobs.app.videoResume.data.models.CommonResponse
 import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
 import com.bdjobs.app.videoResume.data.models.VideoResumeStatistics
-import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.*
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 import java.util.*
@@ -106,7 +104,7 @@ interface VideoResumeApiService {
 
             val loginOkHttpClient = OkHttpClient.Builder()
                     .addInterceptor(NetworkConnectionInterceptor(context))
-                    .addInterceptor(OkHttpProfilerInterceptor())
+//                    .addInterceptor(OkHttpProfilerInterceptor())
                     .readTimeout(1200, TimeUnit.SECONDS)
                     .connectTimeout(1200, TimeUnit.SECONDS)
                     .writeTimeout(1200, TimeUnit.SECONDS)

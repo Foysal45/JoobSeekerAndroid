@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import okhttp3.Cache
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+//import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
@@ -27,12 +27,12 @@ object RetrofitUtils {
     fun createOkHttpClient(cache: Cache?): OkHttpClient {
         return OkHttpClient.Builder().apply {
             if (BuildConfig.DEBUG) {
-                val httpLoggingInterceptor = HttpLoggingInterceptor()
-                val logging =
-                    httpLoggingInterceptor.apply {
-                        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-                    }
-                addInterceptor(logging)
+//                val httpLoggingInterceptor = HttpLoggingInterceptor()
+//                val logging =
+//                    httpLoggingInterceptor.apply {
+//                        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+//                    }
+//                addInterceptor(logging)
             }
             //addInterceptor(NetworkConnectionInterceptor(application))
             //addInterceptor(AuthInterceptor())
@@ -48,12 +48,12 @@ object RetrofitUtils {
     fun createOkHttpClientFile(cache: Cache?): OkHttpClient {
         return OkHttpClient.Builder().apply {
             if (BuildConfig.DEBUG) {
-                val httpLoggingInterceptor = HttpLoggingInterceptor()
-                val logging =
-                    httpLoggingInterceptor.apply {
-                        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-                    }
-                addInterceptor(logging)
+//                val httpLoggingInterceptor = HttpLoggingInterceptor()
+//                val logging =
+//                    httpLoggingInterceptor.apply {
+//                        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+//                    }
+//                addInterceptor(logging)
             }
             //addInterceptor(NetworkConnectionInterceptor(application))
             //addInterceptor(AuthInterceptor())

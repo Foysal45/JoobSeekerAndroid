@@ -20,13 +20,13 @@ import com.bdjobs.app.videoInterview.data.models.InterviewFeedback
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.gson.GsonBuilder
-import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
+//import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.logging.HttpLoggingInterceptor
+//import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -1407,44 +1407,16 @@ interface ApiServiceMyBdjobs {
                 .setLenient()
                 .create()
 
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
-
+//            val interceptor = HttpLoggingInterceptor()
+//            interceptor.level = HttpLoggingInterceptor.Level.BODY
+//
             val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .addInterceptor(OkHttpProfilerInterceptor())
+//                .addInterceptor(interceptor)
+//                .addInterceptor(OkHttpProfilerInterceptor())
                 .build()
 
             return Retrofit.Builder().apply {
                 baseUrl(Constants.baseUrlMyBdjobs)
-                addConverterFactory(GsonConverterFactory.create(gson)).addConverterFactory(
-                    MoshiConverterFactory.create(moshi)
-                )
-                if (BuildConfig.DEBUG) {
-                    client(okHttpClient)
-                }
-            }.build()
-        }
-
-        private fun buildRetrofitChat(): Retrofit {
-
-            val gson = GsonBuilder()
-                .setLenient()
-                .create()
-
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
-
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .addInterceptor(OkHttpProfilerInterceptor())
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .build()
-
-            return Retrofit.Builder().apply {
-                baseUrl(Constants.baseUrlMyBdjobsChat)
                 addConverterFactory(GsonConverterFactory.create(gson)).addConverterFactory(
                     MoshiConverterFactory.create(moshi)
                 )
