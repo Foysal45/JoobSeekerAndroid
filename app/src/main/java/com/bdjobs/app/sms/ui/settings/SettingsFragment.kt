@@ -28,11 +28,17 @@ import org.jetbrains.anko.startActivity
 
 class SettingsFragment : Fragment() {
 
-    private val settingsViewModel: SettingsViewModel by viewModels { ViewModelFactoryUtil.provideSMSSettingsViewModelFactory(this) }
+    private val settingsViewModel: SettingsViewModel by viewModels {
+        ViewModelFactoryUtil.provideSMSSettingsViewModelFactory(
+            this
+        )
+    }
     lateinit var binding: FragmentSettingsBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentSettingsBinding.inflate(inflater).apply {
             viewModel = settingsViewModel
             lifecycleOwner = viewLifecycleOwner
@@ -77,39 +83,30 @@ class SettingsFragment : Fragment() {
                     .show()
             })
 
-            remainingSMS.observe(viewLifecycleOwner,{
+            remainingSMS.observe(viewLifecycleOwner, {
                 val remainingSMSCount = it?.toInt()
 
                 when {
-                    remainingSMSCount!!>=10 -> {
-                        binding.llRemainingSmsCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_blue)
-                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_blue)
+                    remainingSMSCount!! >= 10 -> {
+                        binding.llRemainingSmsCircle.background =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.bg_round_blue)
+                        binding.llProbableRemainingDayCircle.background =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.bg_round_blue)
                     }
                     remainingSMSCount in 1..9 -> {
-                        binding.llRemainingSmsCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_orange)
-                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_orange)
+                        binding.llRemainingSmsCircle.background =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.bg_round_orange)
+                        binding.llProbableRemainingDayCircle.background =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.bg_round_orange)
                     }
                     else -> {
-                        binding.llRemainingSmsCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_violet)
-                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_violet)
+                        binding.llRemainingSmsCircle.background =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.bg_round_violet)
+                        binding.llProbableRemainingDayCircle.background =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.bg_round_violet)
                     }
                 }
             })
-/*
-            probableRemainingDays.observe(viewLifecycleOwner,{
-                val probableRemainingDays = it?.toInt()
-
-                when {
-                    probableRemainingDays!!>2 -> {
-                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_blue)
-                    }
-                    probableRemainingDays in 1..2 -> {
-                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_orange)
-                    }
-                    else -> {
-                        binding.llProbableRemainingDayCircle.background = ContextCompat.getDrawable(requireContext(),R.drawable.bg_round_violet)}
-                }
-            })*/
         }
     }
 
@@ -126,23 +123,29 @@ class SettingsFragment : Fragment() {
             }
             findViewById<MaterialButton>(R.id.btn_following_employer).setOnClickListener {
                 requireContext().startActivity<EmployersBaseActivity>(
-                        "from" to "follow",
-                        "time" to 0
+                    "from" to "follow",
+                    "time" to 0
                 )
             }
             findViewById<MaterialButton>(R.id.btn_favourite_search).setOnClickListener {
-                requireContext().startActivity(Intent(requireActivity(),FavouriteSearchBaseActivity::class.java))
+                requireContext().startActivity(
+                    Intent(
+                        requireActivity(),
+                        FavouriteSearchBaseActivity::class.java
+                    )
+                )
             }
-            findViewById<TextView>(R.id.sms_count_tv).text = "You have more than ${settingsViewModel.remainingSMS.value} SMS Job alert left. Avail this service from following features"
+            findViewById<TextView>(R.id.sms_count_tv).text =
+                "You have more than ${settingsViewModel.remainingSMS.value} SMS Job alert left. Avail this service from following features"
         }
     }
 
     private fun openChooseLimitDialog() {
         val limits = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
         MaterialAlertDialogBuilder(requireContext()).setTitle("Choose Limit")
-                .setItems(limits) { _, which ->
-                    settingsViewModel.setLimit(limits[which])
-                }.show()
+            .setItems(limits) { _, which ->
+                settingsViewModel.setLimit(limits[which])
+            }.show()
     }
 
 

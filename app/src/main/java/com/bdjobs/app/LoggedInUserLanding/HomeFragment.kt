@@ -17,6 +17,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bdjobs.app.API.ApiServiceJobs
@@ -57,6 +58,7 @@ import kotlinx.android.synthetic.main.my_last_search_filter_layout.*
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
@@ -72,10 +74,12 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
     private lateinit var bdJobsDB: BdjobsDB
     private lateinit var backgroundJobBroadcastReceiver: BackgroundJobBroadcastReceiver
     private var followedEmployerList: List<FollowedEmployer>? = null
-//    private var jobInvitations: List<JobInvitation>? = null
+
+    //    private var jobInvitations: List<JobInvitation>? = null
 //    private var videoInvitations: List<VideoInvitation>? = null
     private var favouriteSearchFilters: List<FavouriteSearch>? = null
-//    private var b2CCertificationList: List<B2CCertification>? = null
+
+    //    private var b2CCertificationList: List<B2CCertification>? = null
     private var lastSearch: List<LastSearch>? = null
     private lateinit var homeCommunicator: HomeCommunicator
     private var inviteInterview: String? = ""
@@ -104,7 +108,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         getLastUpdateFromServer()
 
 //        if (!bdJobsUserSession.isExpirationMessageShown) {
-            alertAboutShortlistedJobs()
+        alertAboutShortlistedJobs()
 
 //            bdJobsUserSession.isExpirationMessageShown = true
 //        }
@@ -219,8 +223,9 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
 
         cl_start_sms_alert_view.setOnClickListener {
-            requireContext().startActivity(Intent(requireContext(), SmsBaseActivity::class.java)
-                .putExtra("from", "settings")
+            requireContext().startActivity(
+                Intent(requireContext(), SmsBaseActivity::class.java)
+                    .putExtra("from", "settings")
             )
         }
 
@@ -856,6 +861,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                             tv_sms_limit_count_home.text = "$smsLimit"
                         }
 
+                        smsColorFormatting(remainingSms)
+
                     } else {
                         tv_sms_alert_status_on_home.visibility = View.GONE
                         tv_sms_alert_status_off_home.visibility = View.VISIBLE
@@ -869,6 +876,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         ll_remaining_sms_home.visibility = View.VISIBLE
 
                         tv_remaining_sms_count_home.text = "$remainingSms"
+
+                        smsColorFormatting(remainingSms)
                     }
 
 
@@ -909,6 +918,71 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         }
     }
 
+    private fun smsColorFormatting(remainingSms: Int) {
+        when {
+            remainingSms >= 10 -> {
+                tv_remaining_sms_count_home.background =
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.circle_blue
+                    )
+                tv_remaining_sms_count_home.textColor = ContextCompat.getColor(
+                    requireContext(),
+                    R.color.remaining_sms_10_more
+                )
+                tv_sms_limit_count_home.background =
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.circle_blue
+                    )
+                tv_sms_limit_count_home.textColor = ContextCompat.getColor(
+                    requireContext(),
+                    R.color.remaining_sms_10_more
+                )
+            }
+            remainingSms in 1..9 -> {
+                tv_remaining_sms_count_home.background =
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.circle_yellow
+                    )
+                tv_remaining_sms_count_home.textColor = ContextCompat.getColor(
+                    requireContext(),
+                    R.color.remaining_sms_1_9
+                )
+                tv_sms_limit_count_home.background =
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.circle_yellow
+                    )
+                tv_sms_limit_count_home.textColor = ContextCompat.getColor(
+                    requireContext(),
+                    R.color.remaining_sms_1_9
+                )
+            }
+            else -> {
+                tv_remaining_sms_count_home.background =
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.circle_violet
+                    )
+                tv_remaining_sms_count_home.textColor = ContextCompat.getColor(
+                    requireContext(),
+                    R.color.remaining_sms_0
+                )
+                tv_sms_limit_count_home.background =
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.circle_violet
+                    )
+                tv_sms_limit_count_home.textColor = ContextCompat.getColor(
+                    requireContext(),
+                    R.color.remaining_sms_0
+                )
+            }
+        }
+    }
+
     private fun showShortlistJobExpirationInMessageBox() {
         Timber.d("here")
         val calendar = Calendar.getInstance()
@@ -916,7 +990,7 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
         val deadlineNext2Days = calendar.time
 
         doAsync {
-           val shortlistedJobs =
+            val shortlistedJobs =
                 bdJobsDB.shortListedJobDao().getShortListedJobsBYDeadline(deadlineNext2Days)
 
             uiThread {
@@ -944,10 +1018,12 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         doAsync {
 
                             // checking if the notification contents are same or not
-                            val isSameExist = bdJobsDB.notificationDao().checkSameNotificationByMessage(body)
+                            val isSameExist =
+                                bdJobsDB.notificationDao().checkSameNotificationByMessage(body)
 
-                            if (isSameExist==0) {
-                                bdJobsDB.notificationDao().deleteNotificationByNotificationId("1000")
+                            if (isSameExist == 0) {
+                                bdJobsDB.notificationDao()
+                                    .deleteNotificationByNotificationId("1000")
 
                                 val notification = Notification(
                                     title = notificationModel.title,
@@ -970,7 +1046,8 @@ class HomeFragment : Fragment(), BackgroundJobBroadcastReceiver.BackgroundJobLis
                         }
 
                     }
-                } catch (e:Exception) {}
+                } catch (e: Exception) {
+                }
             }
         }
     }

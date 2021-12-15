@@ -44,9 +44,9 @@
 
     <color name="text_blue">#1565C0</color>
 
-    <color name="remaining_sms_0">#800A0A</color>
+    <color name="remaining_sms_0">#B83100</color>
     <color name="remaining_sms_1_9">#A86500</color>
-    <color name="remaining_sms_10_more">#2161CC</color>
+    <color name="remaining_sms_10_more">#008020</color>
 
     <color name="border_blue">#90CAF9</color>
     <color name="border_grey">#707070</color>
