@@ -12,7 +12,7 @@ import com.bdjobs.app.API.ModelClasses.HotJobs
 import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.databases.internal.BdjobsDB
 import kotlinx.android.synthetic.main.fragment_hot_jobs_fragment_new.*
 import org.jetbrains.anko.doAsync
@@ -37,7 +37,7 @@ class HotJobsFragmentNew : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         homeCommunicator = activity as HomeCommunicator
-        hotjobsAdapterNew = HotjobsAdapterNew(requireContext()!!)
+        hotjobsAdapterNew = HotjobsAdapterNew(requireContext())
         bdjobsUserSession = BdjobsUserSession(requireContext())
         bdjobsDB = BdjobsDB.getInstance(requireContext())
         loadHotJobsData()

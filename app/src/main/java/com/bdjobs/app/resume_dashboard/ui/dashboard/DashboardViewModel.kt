@@ -42,11 +42,6 @@ class DashboardViewModel(private val repository: ResumeDashboardRepository) : Vi
 
     var isLoading = MutableLiveData<Boolean>()
 
-//    init {
-//        resumePrivacyStatus()
-//        manageResumeStats()
-//    }
-
 
     fun manageResumeStats() {
         isLoading.value = true

@@ -1,71 +1,64 @@
 package com.bdjobs.app.videoResume.ui.record
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.openSettingsDialog
-import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.Utilities.toFormattedSeconds
+import com.bdjobs.app.utilities.FileUtil
+import com.bdjobs.app.utilities.camera.CameraFactory
+import com.bdjobs.app.utilities.camera.CameraProvider
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
+import com.bdjobs.app.utilities.toFormattedSeconds
 import com.bdjobs.app.databinding.FragmentRecordVideoResumeBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
-import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
-import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsFragmentDirections
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModel
-import com.fondesa.kpermissions.*
-import com.fondesa.kpermissions.extension.permissionsBuilder
-import com.fondesa.kpermissions.extension.send
 import com.google.android.material.snackbar.Snackbar
-import com.otaliastudios.cameraview.CameraListener
-import com.otaliastudios.cameraview.CameraOptions
-import com.otaliastudios.cameraview.VideoResult
-import com.otaliastudios.cameraview.controls.Facing
-import com.otaliastudios.cameraview.controls.Mode
 import kotlinx.android.synthetic.main.fragment_record_video_resume.*
 import timber.log.Timber
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 
-class RecordVideoResumeFragment : Fragment() {
+@SuppressLint("RestrictedApi")
+class RecordVideoResumeFragment : Fragment(), CameraProvider.OutputCallBack {
     lateinit var snackbar: Snackbar
     lateinit var videoFile: File
 
-    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
+    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by activityViewModels {
+        ViewModelFactoryUtil.provideVideoResumeQuestionsViewModelFactory(this)
+    }
     private val recordVideoResumeViewModel: RecordVideoResumeViewModel by viewModels {
         ViewModelFactoryUtil.provideVideoResumeRecordVideoViewModelFactory(
             this
         )
     }
     lateinit var binding: FragmentRecordVideoResumeBinding
+    lateinit var provider : CameraProvider
+
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentRecordVideoResumeBinding.inflate(inflater).apply {
             viewModel = recordVideoResumeViewModel
-            lifecycleOwner = viewLifecycleOwner
-        }
+            lifecycleOwner = viewLifecycleOwner }
         return binding.root
     }
 
@@ -76,12 +69,13 @@ class RecordVideoResumeFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
-        initializeCamera()
+        provider  = CameraFactory.getProvider(requireContext(),camera_view2, camera_view, viewLifecycleOwner, this )
+        provider.initlize()
 
         initializeUI()
-
         setUpObservers()
     }
+
 
     private fun setUpObservers() {
         recordVideoResumeViewModel.apply {
@@ -93,10 +87,10 @@ class RecordVideoResumeFragment : Fragment() {
             progressPercentage.observe(viewLifecycleOwner, {
                 seekbar_video_duration.progress = it.toInt()
             })
-            progressPercentage.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            progressPercentage.observe(viewLifecycleOwner, {
                 seekbar_video_duration.progress = it.toInt()
             })
-            elapsedTimeInString.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            elapsedTimeInString.observe(viewLifecycleOwner, {
                 tv_time_remaining_value?.text = it
             })
 
@@ -111,7 +105,7 @@ class RecordVideoResumeFragment : Fragment() {
 
             onVideoDoneEvent.observe(viewLifecycleOwner, {
                 if (it) {
-                    camera_view.stopVideo()
+                    provider.stop()
                 }
             })
 
@@ -122,6 +116,14 @@ class RecordVideoResumeFragment : Fragment() {
                 }
             })
 
+            onUploadStartEvent.observe(viewLifecycleOwner, EventObserver{uload -> })
+
+           onVideoUploadException.observe(viewLifecycleOwner, EventObserver{exception ->
+               Toast.makeText(context, "$exception   Please Try again.", Toast.LENGTH_SHORT).show()
+               findNavController().popBackStack()
+           })
+
+
             onUploadDoneEvent.observe(viewLifecycleOwner, EventObserver { uploadDone ->
                 if (uploadDone) {
                     try {
@@ -129,11 +131,8 @@ class RecordVideoResumeFragment : Fragment() {
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-                    Toast.makeText(
-                        context,
-                        "Your video has been uploaded successfully.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(context, "Your video has been uploaded successfully.", Toast.LENGTH_SHORT).show()
+
                     findNavController().popBackStack()
                 } else {
                     Toast.makeText(context, "There was an error", Toast.LENGTH_SHORT).show()
@@ -146,18 +145,13 @@ class RecordVideoResumeFragment : Fragment() {
     private fun captureVideo() {
         Timber.d("Video capture start")
         try {
-            val dir =
-                File(requireContext().getExternalFilesDir(null)!!.absoluteFile, "video_resume")
-            dir.mkdirs()
-            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-            val newFile =
-                File(dir.path + File.separator + "bdjobs_${recordVideoResumeViewModel.videoResumeManagerData.value?.questionId}_$timeStamp.mp4")
-            camera_view.mode = Mode.VIDEO
-            camera_view?.takeVideoSnapshot(newFile)
+            provider.record(FileUtil.instance.getNewFile(recordVideoResumeViewModel.videoResumeManagerData.value?.questionId!!, requireContext()))
+
         } catch (e: Exception) {
             Timber.e("captureVideo: ${e.localizedMessage}")
         }
     }
+
 
 
     @SuppressLint("SetTextI18n")
@@ -194,41 +188,6 @@ class RecordVideoResumeFragment : Fragment() {
         builder.show()
     }
 
-    private fun initializeCamera() {
-        camera_view?.setLifecycleOwner(viewLifecycleOwner)
-
-        try {
-            camera_view?.facing = Facing.FRONT
-        } catch (e: Exception) {
-            camera_view?.facing = Facing.BACK
-        } finally {
-
-        }
-
-        camera_view.addCameraListener(object : CameraListener() {
-            override fun onVideoTaken(result: VideoResult) {
-                super.onVideoTaken(result)
-                Timber.d("video taken!")
-                if (recordVideoResumeViewModel.onVideoDoneEvent.value == true) {
-                    videoFile = result.file
-                    recordVideoResumeViewModel.videoResumeManagerData.value?.file = result.file
-                    recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
-                    showSnackbar()
-                }
-            }
-
-            override fun onVideoRecordingStart() {
-                Timber.d("video recording start!")
-                super.onVideoRecordingStart()
-            }
-
-            override fun onVideoRecordingEnd() {
-                Timber.d("video recording start!")
-                super.onVideoRecordingEnd()
-            }
-        })
-    }
-
     private fun showSnackbar() {
         snackbar = Snackbar.make(
             cl_timeline,
@@ -258,8 +217,6 @@ class RecordVideoResumeFragment : Fragment() {
             tool_bar?.title =
                 "Recording Question ${recordVideoResumeViewModel.videoResumeManagerData.value?.questionSerialNo}"
 
-        } else {
-
         }
     }
 
@@ -279,7 +236,18 @@ class RecordVideoResumeFragment : Fragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun videoRecordSuccess(file: File) {
+        if (recordVideoResumeViewModel.onVideoDoneEvent.value == true) {
+            recordVideoResumeViewModel.videoResumeManagerData.value?.file = file
+            recordVideoResumeViewModel.uploadSingleVideoToServer(recordVideoResumeViewModel.videoResumeManagerData.value)
+            showSnackbar()
+        }
     }
+
+    override fun videoRecordFailed(message: String) {
+        Toast.makeText(requireContext(), "Sorry Video Record Faild", Toast.LENGTH_SHORT).show()
+        findNavController().popBackStack()
+    }
+
+
 }

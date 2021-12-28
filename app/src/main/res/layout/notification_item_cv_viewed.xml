@@ -25,7 +25,9 @@
             android:layout_height="36dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_notification_cv_viewed"
+            android:padding="10dp"
+            android:src="@drawable/ic_view_resume_new"
+            android:background="@drawable/circle_blue_view_resume"
             app:layout_constraintEnd_toStartOf="@+id/notification_cv_viewed_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

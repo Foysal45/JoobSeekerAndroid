@@ -26,7 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_home_top_bg"
+            android:src="@drawable/ic_home_top_bg"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
@@ -42,7 +42,7 @@
             android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_search_white_24dp" />
+            android:src="@drawable/ic_search_white_24dp" />
 
         <ImageView
             android:id="@+id/messageIMGV"
@@ -227,11 +227,11 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
                         android:src="@drawable/ic_arrow_forward_blue_24dp"
-                        android:layout_marginEnd="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -281,7 +281,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
 
-                        app:layout_constraintGuide_begin="15dp" />
+                        app:layout_constraintGuide_end="396dp" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline6"
@@ -373,11 +373,11 @@
                     android:layout_marginBottom="5dp"
                     android:visibility="gone" />
 
-                <FrameLayout
-                    android:visibility="gone"
-                    android:id="@+id/navHostFragmentAD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+<!--                <FrameLayout-->
+<!--                    android:visibility="gone"-->
+<!--                    android:id="@+id/navHostFragmentAD"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content" />-->
 
 
             </LinearLayout>

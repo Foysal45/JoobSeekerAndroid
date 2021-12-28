@@ -1,5 +1,6 @@
 package com.bdjobs.app.Registration
 
+//import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentFilter
@@ -16,18 +17,18 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.*
-//import com.bdjobs.app.BackgroundJob.DatabaseUpdateJob
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
-import com.bdjobs.app.databases.External.DataStorage
-import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.databases.internal.InviteCodeInfo
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.blue_collar_registration.*
+import com.bdjobs.app.Registration.blue_collar_registration.frgCommunicator.FragmentCommunicator
 import com.bdjobs.app.Registration.white_collar_registration.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
+import com.bdjobs.app.databases.External.DataStorage
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.InviteCodeInfo
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -42,12 +43,12 @@ import kotlinx.android.synthetic.main.fragment_bc_education.*
 import kotlinx.android.synthetic.main.fragment_bc_mobile_number.*
 import kotlinx.android.synthetic.main.fragment_bc_otp_code.*
 import kotlinx.android.synthetic.main.fragment_wc_otp_code.*
+import kotlinx.android.synthetic.main.fragment_wc_phone_email.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -151,6 +152,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
     ///-----------socilaMedia---------/////////
     private var mGoogleSignInClient: GoogleApiClient? = null
     private var callbackManager: CallbackManager? = null
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -345,6 +348,16 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         return wcEmail
     }
 
+    override fun wcSetEmail(email: String) {
+        wcEmail = email
+    }
+
+    override fun wcSetOther() {
+        socialMediaId = ""
+        isSMediaLogin = "False"
+        socialMediaType = ""
+    }
+
     override fun wcUserNameTypeSelected(userId: String) {
 
         userNameType = userId
@@ -398,24 +411,24 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         }
 
         Log.d("ResponseTesrt",
-                "Name: " + name + "\n" +
-                        "First Name: " + firstName + "\n" +
-                        "Last Name: " + lastName + "\n" +
-                        "CategoryID: " + categoryId + "\n" +
-                        "Gender: " + gender + "\n" +
-                        "CountryCode: " + wcCountryCode + "\n" +
-                        "Mobile: " + mobileNumber + "\n" +
-                        "userName vbcvb " + userName + "\n" +
-                        "password: " + wcPassword + "\n" +
-                        "confirmPassword " + wcConfirmPass + "\n" +
-                        "Mobile: " + mobileNumber + "\n" +
-                        "categoryType " + categoryType + "\n" +
-                        "userNameType dfdf " + userNameType + "\n" +
-                        "countryCode " + "" + "\n" +
-                        "email " + wcEmail + "\n" +
-                        "sMediatype " + socialMediaType + "\n" +
-                        "isSMLogin " + isSMediaLogin + "\n" +
-                        "sMid " + "" + socialMediaId + "\n"
+            "Name: " + name + "\n" +
+                    "First Name: " + firstName + "\n" +
+                    "Last Name: " + lastName + "\n" +
+                    "CategoryID: " + categoryId + "\n" +
+                    "Gender: " + gender + "\n" +
+                    "CountryCode: " + wcCountryCode + "\n" +
+                    "Mobile: " + mobileNumber + "\n" +
+                    "userName vbcvb " + userName + "\n" +
+                    "password: " + wcPassword + "\n" +
+                    "confirmPassword " + wcConfirmPass + "\n" +
+                    "Mobile: " + mobileNumber + "\n" +
+                    "categoryType " + categoryType + "\n" +
+                    "userNameType dfdf " + userNameType + "\n" +
+                    "countryCode " + "" + "\n" +
+                    "email " + wcEmail + "\n" +
+                    "sMediatype " + socialMediaType + "\n" +
+                    "isSMLogin " + isSMediaLogin + "\n" +
+                    "sMid " + "" + socialMediaId + "\n"
         )
 
         ApiServiceMyBdjobs.create().createAccount(firstName, lastName, gender, wcEmail, userName, wcPassword, wcConfirmPass, mobileNumber, socialMediaId, isSMediaLogin, categoryType, userNameType, socialMediaType, categoryId, wcCountryCode, "", "").enqueue(object : Callback<CreateAccountModel> {
@@ -523,8 +536,8 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
 
 
                                     bdjobsUserSession.createSession(isCVPostedRPS, nameRPS, emailRPS, userID, decodeId,
-                                            userNameRPS, appsDate, ageRPS, experienseRPS, categoryIDRPS, genderRPS,
-                                            resumeUpdateOn, isResumeUpdate, trainingId, userPicUrl)
+                                        userNameRPS, appsDate, ageRPS, experienseRPS, categoryIDRPS, genderRPS,
+                                        resumeUpdateOn, isResumeUpdate, trainingId, userPicUrl)
                                 }
 
                             } else if (response.body()!!.statuscode.equals("2", true)) {
@@ -547,6 +560,169 @@ class RegistrationBaseActivity : Activity(), RegistrationCommunicator, Connectiv
         })
 
 
+    }
+
+
+    override fun wcCreateAccount(fragmentCommunicator: FragmentCommunicator) {
+        loadingProgressBar.visibility = View.VISIBLE
+        var firstName = name
+        var lastName = ""
+        val splitedName = name.trim({ it <= ' ' }).split("\\s+".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+        if (splitedName.size > 0) {
+            firstName = splitedName[0]
+            for (i in 1 until splitedName.size) {
+                lastName = lastName + splitedName[i] + " "
+            }
+            lastName = lastName.trim { it <= ' ' }
+        }
+
+        Log.d("ResponseTesrt",
+            "Name: " + name + "\n" +
+                    "First Name: " + firstName + "\n" +
+                    "Last Name: " + lastName + "\n" +
+                    "CategoryID: " + categoryId + "\n" +
+                    "Gender: " + gender + "\n" +
+                    "CountryCode: " + wcCountryCode + "\n" +
+                    "Mobile: " + mobileNumber + "\n" +
+                    "userName vbcvb " + userName + "\n" +
+                    "password: " + wcPassword + "\n" +
+                    "confirmPassword " + wcConfirmPass + "\n" +
+                    "Mobile: " + mobileNumber + "\n" +
+                    "categoryType " + categoryType + "\n" +
+                    "userNameType dfdf " + userNameType + "\n" +
+                    "countryCode " + "" + "\n" +
+                    "email " + wcEmail + "\n" +
+                    "sMediatype " + socialMediaType + "\n" +
+                    "isSMLogin " + isSMediaLogin + "\n" +
+                    "sMid " + "" + socialMediaId + "\n"
+        )
+
+        ApiServiceMyBdjobs.create().createAccount(firstName, lastName, gender, wcEmail, userName, wcPassword, wcConfirmPass, mobileNumber, socialMediaId, isSMediaLogin, categoryType, userNameType, socialMediaType, categoryId, wcCountryCode, "", "").enqueue(object : Callback<CreateAccountModel> {
+            override fun onFailure(call: Call<CreateAccountModel>, t: Throwable) {
+                //Log.d("ResponseTesrt", " onFailure ${t.message}")
+                loadingProgressBar.visibility = View.GONE
+            }
+
+            override fun onResponse(call: Call<CreateAccountModel>, response: Response<CreateAccountModel>) {
+
+                if (categoryType.equals("1", true)) {
+                    //Log.d("ResponseTesrt", " in blue collar condition ")
+                    try {
+
+                        //Log.d("ResponseTesrt", " onResponse message ${response.body()!!.message}")
+                        //Log.d("ResponseTesrt", " onResponse statuscode ${response.body()!!.statuscode}")
+
+                        if (response.isSuccessful) {
+
+
+                            //Log.d("ResponseTesrt", " 1 ")
+                            if (response.body()!!.statuscode.equals("0", true)) {
+                                //Log.d("ResponseTesrt", " 2 ")
+                                val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
+
+                                //Log.d("ResponseTesrt", " isCvPosted ${isCvPosted}")
+                                if (isCvPosted.equals("null", true)) {
+
+                                    tempId = response.body()!!.data!!.get(0)!!.tmpId!!
+                                    //Log.d("ResponseTesrt", " tempId $tempId")
+                                    //Log.d("ResponseTesrt", " in first Condition")
+
+                                    if (response.body()!!.statuscode.equals("2", true)) {
+
+                                        toast(response.body()!!.message!!)
+                                        //Log.d("ResponseTesrt", " first condition")
+                                    } else {
+                                        bcGoToStepOtpCode()
+
+                                        loadingProgressBar.visibility = View.GONE
+
+                                        //Log.d("ResponseTesrt", " second condition")
+                                    }
+
+
+                                }
+
+                            } else if (response.body()!!.statuscode.equals("2", true)) {
+
+                                loadingProgressBar.visibility = View.GONE
+                                fragmentCommunicator.showErrorMsg(response.body()!!.message!!)
+
+                            }
+
+
+                        }
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+
+
+                } else if (categoryType.equals("0", true)) {
+
+                    try {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.statuscode.equals("0", true)) {
+
+                                val isCvPosted = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
+
+                                //Log.d("ResponseTesrt", " isCvPosted ${isCvPosted}")
+                                if (isCvPosted.equals("null", true)) {
+
+                                    tempId = response.body()!!.data!!.get(0)!!.tmpId!!
+
+                                    //Log.d("ResponseTesrt", " tempId $tempId")
+                                    //Log.d("ResponseTesrt", " in first Condition")
+                                    wcGoToStepMobileVerification()
+                                    loadingProgressBar.visibility = View.GONE
+
+                                } else {
+
+                                    wcGoToStepCongratulation()
+                                    loadingProgressBar.visibility = View.GONE
+                                    val bdjobsUserSession = BdjobsUserSession(this@RegistrationBaseActivity)
+
+
+
+                                    isCVPostedRPS = response.body()!!.data!!.get(0)!!.isCvPosted.toString()
+                                    nameRPS = response.body()!!.data!!.get(0)!!.name.toString()
+                                    emailRPS = response.body()!!.data!!.get(0)!!.email.toString()
+                                    userID = response.body()!!.data!!.get(0)!!.userId.toString()
+                                    decodeId = response.body()!!.data!!.get(0)!!.decodId.toString()
+                                    userNameRPS = response.body()!!.data!!.get(0)!!.userName.toString()
+                                    appsDate = response.body()!!.data!!.get(0)!!.appsDate.toString()
+                                    ageRPS = response.body()!!.data!!.get(0)!!.age.toString()
+                                    experienseRPS = response.body()!!.data!!.get(0)!!.exp.toString()
+                                    categoryIDRPS = response.body()!!.data!!.get(0)!!.catagoryId.toString()
+                                    genderRPS = response.body()!!.data!!.get(0)!!.gender.toString()
+                                    resumeUpdateOn = response.body()!!.data!!.get(0)!!.resumeUpdateON.toString()
+                                    isResumeUpdate = response.body()!!.data!!.get(0)!!.isResumeUpdate.toString()
+                                    trainingId = response.body()!!.data!!.get(0)!!.trainingId.toString()
+                                    userPicUrl = response.body()!!.data!!.get(0)!!.userPicUrl.toString()
+
+
+
+                                    bdjobsUserSession.createSession(isCVPostedRPS, nameRPS, emailRPS, userID, decodeId,
+                                        userNameRPS, appsDate, ageRPS, experienseRPS, categoryIDRPS, genderRPS,
+                                        resumeUpdateOn, isResumeUpdate, trainingId, userPicUrl)
+                                }
+
+                            } else if (response.body()!!.statuscode.equals("2", true)) {
+
+                                loadingProgressBar.visibility = View.GONE
+                                toast(response.body()!!.message!!)
+
+                            }
+
+
+                        }
+                    } catch (e: Exception) {
+                        logException(e)
+                    }
+
+                }
+
+            }
+
+        })
     }
 
     override fun showProgressBar() {

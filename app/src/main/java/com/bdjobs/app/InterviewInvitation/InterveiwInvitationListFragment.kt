@@ -13,8 +13,8 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.JobInvitation
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.api_request_result_code_ok
 //import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_interview_invitation_list.*
 //import kotlinx.android.synthetic.main.fragment_interview_invitation_list.adView
@@ -51,7 +51,7 @@ class InterveiwInvitationListFragment : Fragment() {
         }
 
 
-        textView10.text = "You don't have any Interview Invitation yet."
+        textView10.text = "You don't have any General Interview yet."
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
 
@@ -173,7 +173,7 @@ class InterveiwInvitationListFragment : Fragment() {
                     followedRV?.adapter = interviewInvitationListAdapter
                     var data = "invitation"
 
-                    if (interviewInvitations.size!! > 0) {
+                    if (interviewInvitations.size > 0) {
                         invitationNoDataLL?.hide()
                         favCountTV.show()
                         followedRV?.show()

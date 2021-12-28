@@ -9,10 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.databases.External.DataStorage
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_phone_email.*
 import org.jetbrains.anko.selector
@@ -54,6 +54,7 @@ class WCPhoneEmailFragment : Fragment() {
                 mobileNumberTIL?.hideError()
             }
         }
+
 
         phoneEmailFAButton?.setOnClickListener {
             if (mobileNumberTIET?.getString().isNullOrEmpty() && emailTIET?.getString().isNullOrEmpty()) {
@@ -163,6 +164,7 @@ class WCPhoneEmailFragment : Fragment() {
                     } catch (e: Exception) {
                         logException(e)
                     }
+                    setMail(false)
                     return false
                 }
                 isValidEmail(email) == false -> {
@@ -172,18 +174,33 @@ class WCPhoneEmailFragment : Fragment() {
                     } catch (e: Exception) {
                         logException(e)
                     }
+                    setMail(false)
                     return false
                 }
                 else -> emailTIL?.hideError()
             }
+
             return true
+
+
         }
 
+        setMail(true)
         return true
 
 
     }
 
+    private fun setMail(state : Boolean){
+
+        val email = emailTIET.text.toString()
+        if (state){
+            registrationCommunicator.wcSetEmail(email)
+        }else{
+            registrationCommunicator.wcSetEmail(email)
+        }
+
+    }
 
     private fun getCountryCode(): String {
         val inputData = countryCodeTIET?.text.toString().split("[\\(||//)]".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
@@ -213,7 +230,15 @@ class WCPhoneEmailFragment : Fragment() {
 
 
     fun setEmail() {
-        emailTIET?.setText(registrationCommunicator.getEmail())
+        emailTIET?.setText(registrationCommunicator.wcGetEmail())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+//        val email = emailTIET.text.toString()
+//        Log.e("email", "p+E set = "+email)
+//        registrationCommunicator.wcSetEmail(email)
+
     }
 
 }

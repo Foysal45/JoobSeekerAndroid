@@ -17,7 +17,7 @@ import androidx.core.widget.addTextChangedListener
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.External.LocationModel
@@ -31,7 +31,6 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_contact_edit.*
 import kotlinx.android.synthetic.main.fragment_contact_edit.tv_email_change_user_id
 import kotlinx.android.synthetic.main.fragment_contact_edit.tv_mobile_change_user_id
-import kotlinx.android.synthetic.main.fragment_contact_view.*
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -141,7 +140,7 @@ class ContactEditFragment : Fragment() {
         pmContactPostOfficeTIET?.setOnClickListener(null)
 
 
-        thanaListPm = dataStorage.getDependentEnglishLocationByParentId(contactInfo?.getPermanentDistrict()!!)
+        thanaListPm = dataStorage.getDependentEnglishLocationByParentId(contactInfo.getPermanentDistrict()!!)
         val permanentThanaList = arrayListOf<String>()
 //        if (permanentThanaList.isNullOrEmpty()) {
 //            val otherLocation = LocationModel("Other", "-2")
@@ -156,14 +155,14 @@ class ContactEditFragment : Fragment() {
         setDialog("Please select your district", pmContactDistrictTIET, districtNameList.toTypedArray())
         setDialog("Please select your thana", prContactThanaTIET, thanaNameList.toTypedArray())
         setDialog("Please select your thana", pmContactThanaTIETP, permanentThanaList.toTypedArray())
-        if (pstOfficeNameList!!.size != 0) {
+        if (pstOfficeNameList.size != 0) {
             try {
                 setDialog("Please select your post office", prContactPostOfficeTIET1, pstOfficeNameList.toTypedArray())
             } catch (e: Exception) {
             }
 
         }
-        if (permanentPostOfficeList!!.size != 0) {
+        if (permanentPostOfficeList.size != 0) {
             try {
                 setDialog("Please select your post office", pmContactPostOfficeTIET, permanentPostOfficeList.toTypedArray())
             } catch (e: Exception) {
@@ -197,14 +196,14 @@ class ContactEditFragment : Fragment() {
         val countryList: MutableList<String> = dataStorage.allCountryAndCountryCode.toMutableList()
 
         try {
-            countryList?.removeAll { "" == it.substringAfter("(").substringBefore(")") }
+            countryList.removeAll { "" == it.substringAfter("(").substringBefore(")") }
         } catch (e: Exception) {
             logException(e)
         }
 
 
         try {
-            countryList?.let {
+            countryList.let {
                 if (contactInfo.getContactData().countryCode == "225") {
                     countryNameAndCode = "Cote d'Ivoire (Ivory Coast) (225)"
                 } else {
@@ -863,22 +862,22 @@ class ContactEditFragment : Fragment() {
 
         countryCodeTIET?.setText(countryNameAndCode)
 
-        if (data?.countryCode == "")
+        if (data.countryCode == "")
             countryCodeTIET?.setText("Bangladesh (88)")
 
-        if (data?.emailAsUsername == "1") {
+        if (data.emailAsUsername == "1") {
             tv_email_change_user_id.show()
             tv_mobile_change_user_id.hide()
             contactEmailAddressTIL.isEnabled = false
             contactMobileNumberTIL.isEnabled = true
             contactEmailAddressTIET.setTextColor(Color.parseColor("#bdbdbd"))
-        } else if(data?.phoneAsUsername == "1"){
+        } else if(data.phoneAsUsername == "1"){
             tv_email_change_user_id.hide()
             tv_mobile_change_user_id.show()
             contactEmailAddressTIL.isEnabled = true
             contactMobileNumberTIL.isEnabled = false
             contactMobileNumberTIET.setTextColor(Color.parseColor("#bdbdbd"))
-        }else if(data?.phoneAsUsername == "0" && data?.phoneAsUsername == "0"){
+        }else if(data.phoneAsUsername == "0" && data.phoneAsUsername == "0"){
             tv_email_change_user_id.show()
             tv_mobile_change_user_id.show()
             contactEmailAddressTIL.isEnabled = true
@@ -1064,9 +1063,9 @@ class ContactEditFragment : Fragment() {
         editText.setOnClickListener {
 
 
-            if ((editText?.id == R.id.prContactThanaTIET && prContactDistrictTIET?.text.toString().isNullOrEmpty()) || (editText.id == R.id.pmContactThanaTIETP && pmContactDistrictTIET?.text.toString().isNullOrEmpty())) {
+            if ((editText.id == R.id.prContactThanaTIET && prContactDistrictTIET?.text.toString().isNullOrEmpty()) || (editText.id == R.id.pmContactThanaTIETP && pmContactDistrictTIET?.text.toString().isNullOrEmpty())) {
                 toast("Please select District")
-            } else if ((editText?.id == R.id.prContactPostOfficeTIET1 && prContactThanaTIET?.text.toString().isNullOrEmpty()) || (editText.id == R.id.pmContactPostOfficeTIET && pmContactThanaTIETP?.text.toString().isNullOrEmpty())) {
+            } else if ((editText.id == R.id.prContactPostOfficeTIET1 && prContactThanaTIET?.text.toString().isNullOrEmpty()) || (editText.id == R.id.pmContactPostOfficeTIET && pmContactThanaTIETP?.text.toString().isNullOrEmpty())) {
                 toast("Please select Thana")
             } else {
                 val builder = AlertDialog.Builder(activity)
@@ -1075,7 +1074,7 @@ class ContactEditFragment : Fragment() {
                         ) { dialog, which ->
                             editText.setText(data[which])
 
-                            var thanaId = contactInfo?.getPresentDistrict()!!
+                            var thanaId = contactInfo.getPresentDistrict()!!
                             var postOfficeId = ""
 
                             if (editText.id == R.id.prContactDistrictTIET) {
@@ -1203,24 +1202,24 @@ class ContactEditFragment : Fragment() {
         when {
             TextUtils.isEmpty(email) -> {
                 if (emailTextInputEditText.id != R.id.contactEmailAddressTIET1) {
-                    emailTextInputLayout?.showError(getString(R.string.field_empty_error_message_common))
+                    emailTextInputLayout.showError(getString(R.string.field_empty_error_message_common))
                     try {
 //                        requestFocus(emailTextInputEditText)
                     } catch (e: Exception) {
                         logException(e)
                     }
                     if (!contactMobileNumberTIET.text.toString().isNullOrEmpty()) {
-                        emailTextInputLayout?.hideError()
+                        emailTextInputLayout.hideError()
                     }
 
                 } else {
-                    emailTextInputLayout?.hideError()
+                    emailTextInputLayout.hideError()
                 }
                 return false
             }
             !isValidEmail(email) -> {
-                if (emailTextInputLayout == contactEmailAddressTIL) emailTextInputLayout?.showError("Please type a valid Primary Email Address.")
-                else emailTextInputLayout?.showError("Please type a valid Alternate Email Address.")
+                if (emailTextInputLayout == contactEmailAddressTIL) emailTextInputLayout.showError("Please type a valid Primary Email Address.")
+                else emailTextInputLayout.showError("Please type a valid Alternate Email Address.")
                 //Email Address not valid
                 try {
                     requestFocus(emailTextInputEditText)
@@ -1230,7 +1229,7 @@ class ContactEditFragment : Fragment() {
                 return false
             }
             else -> {
-                emailTextInputLayout?.hideError()
+                emailTextInputLayout.hideError()
                 //Log.d("rakib", "email valid true")
             }
         }

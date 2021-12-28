@@ -9,15 +9,12 @@ import android.view.ViewGroup
 import android.widget.MediaController
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.liveInterview.SharedViewModel
-import com.bdjobs.app.liveInterview.ui.record_video.VideoRecordViewModel
 import kotlinx.android.synthetic.main.fragment_view_recorded_video.*
 import timber.log.Timber
 

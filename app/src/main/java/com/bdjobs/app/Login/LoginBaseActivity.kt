@@ -22,8 +22,8 @@ import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationBaseActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.key_go_to_home
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 import com.google.android.material.snackbar.Snackbar
@@ -255,16 +255,31 @@ finish()
                     var liveInvitation:String?=""
 
 
-                    response?.body()?.data?.forEach {itt ->
+                    response.body()?.data?.forEach { itt ->
                         when(itt?.title){
-                            Constants.session_key_mybdjobscount_jobs_applied->{jobsApplied = itt?.count}
-                            Constants.session_key_mybdjobscount_times_emailed_resume->{emailResume = itt?.count}
-                            Constants.session_key_mybdjobscount_employers_viwed_resume->{viewdResume = itt?.count}
-                            Constants.session_key_mybdjobscount_employers_followed->{followedEmployers = itt?.count}
-                            Constants.session_key_mybdjobscount_interview_invitation->{interviewInvitation = itt?.count}
-                            Constants.session_key_mybdjobscount_message_by_employers->{employerMessage = itt?.count}
-                            Constants.session_key_mybdjobscount_video_invitation->{videoInvitation = itt?.count}
-                            Constants.session_key_mybdjobscount_live_invitation->{liveInvitation = itt?.count}
+                            Constants.session_key_mybdjobscount_jobs_applied->{jobsApplied = itt.count
+                            }
+                            Constants.session_key_mybdjobscount_times_emailed_resume->{emailResume =
+                                itt.count
+                            }
+                            Constants.session_key_mybdjobscount_employers_viwed_resume->{viewdResume =
+                                itt.count
+                            }
+                            Constants.session_key_mybdjobscount_employers_followed->{followedEmployers =
+                                itt.count
+                            }
+                            Constants.session_key_mybdjobscount_interview_invitation->{interviewInvitation =
+                                itt.count
+                            }
+                            Constants.session_key_mybdjobscount_message_by_employers->{employerMessage =
+                                itt.count
+                            }
+                            Constants.session_key_mybdjobscount_video_invitation->{videoInvitation =
+                                itt.count
+                            }
+                            Constants.session_key_mybdjobscount_live_invitation->{liveInvitation =
+                                itt.count
+                            }
 
                         }
 

@@ -7,133 +7,133 @@ public class PlaceOrder {
 
     @SerializedName("dealId")
     @Expose
-    private int dealId;
+    private final int dealId;
     @SerializedName("customerId")
     @Expose
-    private int customerId;
+    private final int customerId;
     @SerializedName("couponQtn")
     @Expose
-    private int couponQtn;
+    private final int couponQtn;
     @SerializedName("couponPrice")
     @Expose
-    private double couponPrice;
+    private final double couponPrice;
     @SerializedName("paymentType")
     @Expose
-    private String paymentType;
+    private final String paymentType;
     @SerializedName("customerBillingAddress")
     @Expose
-    private String customerBillingAddress;
+    private final String customerBillingAddress;
     @SerializedName("customerMobile")
     @Expose
-    private String customerMobile;
+    private final String customerMobile;
     @SerializedName("deliveryDist")
     @Expose
-    private int deliveryDist;
+    private final int deliveryDist;
     @SerializedName("thanaId")
     @Expose
-    private int thanaId;
+    private final int thanaId;
     @SerializedName("deliveryCharge")
     @Expose
-    private int deliveryCharge;
+    private final int deliveryCharge;
     @SerializedName("sizes")
     @Expose
-    private String sizes;
+    private final String sizes;
     @SerializedName("colors")
     @Expose
-    private String colors;
+    private final String colors;
     @SerializedName("commission")
     @Expose
-    private int commission;
+    private final int commission;
     @SerializedName("shopCartId")
     @Expose
-    private int shopCartId;
+    private final int shopCartId;
     @SerializedName("orderFrom")
     @Expose
-    private String orderFrom;
+    private final String orderFrom;
     @SerializedName("customerAlternateMobile")
     @Expose
-    private String customerAlternateMobile;
+    private final String customerAlternateMobile;
     @SerializedName("orderSource")
     @Expose
-    private String orderSource;
+    private final String orderSource;
     @SerializedName("merchantId")
     @Expose
-    private int merchantId;
+    private final int merchantId;
     @SerializedName("voucherId")
     @Expose
-    private int voucherId;
+    private final int voucherId;
     @SerializedName("eventId")
     @Expose
-    private int eventId;
+    private final int eventId;
     @SerializedName("isHoursAvailable")
     @Expose
-    private int isHoursAvailable;
+    private final int isHoursAvailable;
     @SerializedName("specialNotes")
     @Expose
-    private String specialNotes;
+    private final String specialNotes;
     @SerializedName("appVersion")
     @Expose
-    private String appVersion;
+    private final String appVersion;
     @SerializedName("unitPrice")
     @Expose
-    private double unitPrice;
+    private final double unitPrice;
     @SerializedName("cardType")
     @Expose
-    private String cardType;
+    private final String cardType;
     @SerializedName("paymentStatus")
     @Expose
-    private String paymentStatus;
+    private final String paymentStatus;
     @SerializedName("onlineTransactionId")
     @Expose
-    private String onlineTransactionId;
+    private final String onlineTransactionId;
     @SerializedName("transactionId")
     @Expose
-    private String transactionId;
+    private final String transactionId;
     @SerializedName("adCashBackPercentage")
     @Expose
-    private int adCashBackPercentage;
+    private final int adCashBackPercentage;
     @SerializedName("offeredCashBackPercentage")
     @Expose
-    private int offeredCashBackPercentage;
+    private final int offeredCashBackPercentage;
     @SerializedName("adDiscountPercentage")
     @Expose
-    private int adDiscountPercentage;
+    private final int adDiscountPercentage;
     @SerializedName("offeredDiscountPercentage")
     @Expose
-    private int offeredDiscountPercentage;
+    private final int offeredDiscountPercentage;
     @SerializedName("postalInformation")
     @Expose
-    private String postalInformation;
+    private final String postalInformation;
     @SerializedName("groupBuyId")
     @Expose
-    private int groupBuyId;
+    private final int groupBuyId;
     @SerializedName("getFree")
     @Expose
-    private int getFree;
-    private int areaId;
-    private String orderType;
-    private int thirdPartyLocationId;
-    private int unlockCommission;
-    private int EventType;
-    private String VoucherCode;
-    private int VoucherType;
-    private int VoucherCodeId;
-    private int DiscountInAmount;
-    private String dealTitle;
-    private String productsSize;
-    private int EMIPeriod;
+    private final int getFree;
+    private final int areaId;
+    private final String orderType;
+    private final int thirdPartyLocationId;
+    private final int unlockCommission;
+    private final int EventType;
+    private final String VoucherCode;
+    private final int VoucherType;
+    private final int VoucherCodeId;
+    private final int DiscountInAmount;
+    private final String dealTitle;
+    private final String productsSize;
+    private final int EMIPeriod;
 
-    private String ThirdPartySku;
-    private String ThirdPartyImageUrl;
-    private int CollectionCharge;
+    private final String ThirdPartySku;
+    private final String ThirdPartyImageUrl;
+    private final int CollectionCharge;
     @SerializedName("ActualPrice")
-    private int actualPrice;
+    private final int actualPrice;
     @SerializedName("BogoReferenceId")
-    private int bogoReference;
+    private final int bogoReference;
     @SerializedName("SameDayCharge")
-    private int sameDayCharge;
+    private final int sameDayCharge;
     @SerializedName("VSReferenceId")
-    private int vsReferenceId;
+    private final int vsReferenceId;
 
     private PlaceOrder(Builder builder) {
 

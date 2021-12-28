@@ -73,8 +73,10 @@ class HomeNewFragment : Fragment() {
                 is ViewState.ProgressState -> {
                     if (state.isShow) {
                         binding?.progressBar?.visibility = View.VISIBLE
+                        binding?.titleLayout?.visibility = View.GONE
                     } else {
                         binding?.progressBar?.visibility = View.GONE
+                        binding?.titleLayout?.visibility = View.VISIBLE
                     }
                 }
             }
@@ -221,7 +223,7 @@ class HomeNewFragment : Fragment() {
 
                 liveList.clear()
                 liveList.addAll(list)
-                dataAdapter.initList(list)
+                dataAdapter.submitList(list)
                 Timber.d("requestBody ${dataAdapter.itemCount}, ${list?.size}, ${liveList.size}, ${list}")
                 //val position = mHomePageDataList.indexOfFirst { it.homeViewType == HomeViewType.TYPE_LIVE }
                 val position = classifiedHashMap["1"] ?: -1
@@ -245,7 +247,7 @@ class HomeNewFragment : Fragment() {
 
                 Timber.d("requestBody ${liveList.size}")
                 val replayList = liveList.filter { it.statusName == "replay" }
-                playIndex = replayList.indexOf(model) ?: -1
+                playIndex = replayList.indexOf(model)
                 replayList.forEach { model1 ->
                     generateLiveVideoList(model1, videoList)
                 }

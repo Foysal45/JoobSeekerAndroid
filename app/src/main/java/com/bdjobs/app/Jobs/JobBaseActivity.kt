@@ -7,21 +7,19 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.ClientAdModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
-import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.databases.internal.BdjobsDB
@@ -158,14 +156,14 @@ class JobBaseActivity : AppCompatActivity(), ConnectivityReceiver.ConnectivityRe
         val lns = ArrayList<String>()
         val deadline = ArrayList<String>()
 
-        val inte  = getIntent().data
+        val inte  = intent.data
 
         clickedPosition = intent.getIntExtra("position", 0)
         val jobList: MutableList<JobListModelData> = java.util.ArrayList()
 
         try {
             jobids.add(inte?.getQueryParameter("id")!!)
-            lns.add(inte?.getQueryParameter("ln")!!)
+            lns.add(inte.getQueryParameter("ln")!!)
             deadline.add("")
             for (i in 0 until jobids.size) {
                 val jobListModelData = JobListModelData(
@@ -508,7 +506,7 @@ class JobBaseActivity : AppCompatActivity(), ConnectivityReceiver.ConnectivityRe
                     if (jobids != null) {
                         for (i in 0 until jobids.size) {
                             val jobListModelData = JobListModelData(
-                                    jobid = jobids?.get(i),
+                                    jobid = jobids.get(i),
                                     jobTitle = "",
                                     companyName = "",
                                     deadline = "",
@@ -540,7 +538,7 @@ class JobBaseActivity : AppCompatActivity(), ConnectivityReceiver.ConnectivityRe
                     if (jobids != null) {
                         for (i in 0 until jobids.size) {
                             val jobListModelData = JobListModelData(
-                                    jobid = jobids?.get(i),
+                                    jobid = jobids.get(i),
                                     jobTitle = "",
                                     companyName = "",
                                     deadline = "",
@@ -607,7 +605,7 @@ class JobBaseActivity : AppCompatActivity(), ConnectivityReceiver.ConnectivityRe
                     if (jobids != null) {
                         for (i in 0 until jobids.size) {
                             val jobListModelData = JobListModelData(
-                                    jobid = jobids?.get(i),
+                                    jobid = jobids.get(i),
                                     jobTitle = "",
                                     companyName = "",
                                     deadline = "",
@@ -1003,7 +1001,7 @@ class JobBaseActivity : AppCompatActivity(), ConnectivityReceiver.ConnectivityRe
                     Timber.tag("job rakib").d("inner else")
                     super.onBackPressed()
                 }
-            }else if (bdjobsUserSession.isLoggedIn!! && !from.isNullOrBlank() && from?.equalIgnoreCase("employer")!!) {
+            }else if (bdjobsUserSession.isLoggedIn && !from.isNullOrBlank() && from?.equalIgnoreCase("employer")!!) {
                 Timber.tag("job rakib").d("else if")
                 finish()
             } else {

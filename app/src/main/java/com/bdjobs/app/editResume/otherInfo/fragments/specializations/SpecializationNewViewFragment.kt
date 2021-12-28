@@ -23,7 +23,7 @@ import com.bdjobs.app.API.ModelClasses.DataAutoSuggestion
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.adapters.SpecializationSkillAdapter
 import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.editResume.callbacks.OtherInfo
@@ -664,28 +664,29 @@ class SpecializationNewViewFragment : Fragment() {
         workSource.add(4, "-5")
 
         dialog = Dialog(activity)
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog?.setCancelable(true)
-        dialog?.setContentView(R.layout.specialization_add_skill_dialog_layout)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.specialization_add_skill_dialog_layout)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val whereSkillText = dialog?.findViewById<TextView>(R.id.whereSkillText)
-        val firstCheckbox = dialog?.findViewById<CheckBox>(R.id.firstCheckbox)
-        val secondCheckBox = dialog?.findViewById<CheckBox>(R.id.secondCheckBox)
-        val thirdCheckBox = dialog?.findViewById<CheckBox>(R.id.thirdCheckBox)
-        val fourthCheckBox = dialog?.findViewById<CheckBox>(R.id.fourthCheckBox)
-        val fifthCheckBox = dialog?.findViewById<CheckBox>(R.id.fifthCheckBox)
-        val refnameATCTV = dialog?.findViewById<AutoCompleteTextView>(R.id.newRefnameATCTV)
-        val experienceLevelTIET = dialog?.findViewById<TextInputEditText>(R.id.experienceLevelTIET)
-        val experienceLevelTIL = dialog?.findViewById<TextInputLayout>(R.id.experienceLevelTIL)
-        val declineButton = dialog?.findViewById<MaterialButton>(R.id.declineButton)
-        val saveButton = dialog?.findViewById<MaterialButton>(R.id.saveButton)
+        val whereSkillText = dialog.findViewById<TextView>(R.id.whereSkillText)
+        val firstCheckbox = dialog.findViewById<CheckBox>(R.id.firstCheckbox)
+        val secondCheckBox = dialog.findViewById<CheckBox>(R.id.secondCheckBox)
+        val thirdCheckBox = dialog.findViewById<CheckBox>(R.id.thirdCheckBox)
+        val fourthCheckBox = dialog.findViewById<CheckBox>(R.id.fourthCheckBox)
+        val fifthCheckBox = dialog.findViewById<CheckBox>(R.id.fifthCheckBox)
+        val refnameATCTV = dialog.findViewById<AutoCompleteTextView>(R.id.newRefnameATCTV)
+        val experienceLevelTIET = dialog.findViewById<TextInputEditText>(R.id.experienceLevelTIET)
+        val experienceLevelTIL = dialog.findViewById<TextInputLayout>(R.id.experienceLevelTIL)
+        val declineButton = dialog.findViewById<MaterialButton>(R.id.declineButton)
+        val saveButton = dialog.findViewById<MaterialButton>(R.id.saveButton)
         saveButton?.isEnabled = false
 
 
 //        val skillList: Array<String> = dataStorage.allSkills
         val skillList: ArrayList<String> = ArrayList()
-        val skillAdapter = ArrayAdapter<String>(activity!!,
+        val skillAdapter = ArrayAdapter<String>(
+            activity,
                 android.R.layout.simple_dropdown_item_1line, skillList)
         refnameATCTV?.setAdapter(skillAdapter)
         refnameATCTV?.dropDownHeight = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -696,12 +697,12 @@ class SpecializationNewViewFragment : Fragment() {
 
             refnameATCTV.setText(refnameATCTV.getString())
 
-            currentDialogValue = refnameATCTV?.text.toString().slice(0 until refnameATCTV?.text.length - 1)
+            currentDialogValue = refnameATCTV.text.toString().slice(0 until refnameATCTV.text.length - 1)
 
             //Log.d("rakib", "currentDialogValue: ${currentDialogValue}")
 
-            refnameATCTV?.setSelection(refnameATCTV.getString().length)
-            workExp = refnameATCTV?.getString()
+            refnameATCTV.setSelection(refnameATCTV.getString().length)
+            workExp = refnameATCTV.getString()
             whereSkillText?.show()
             firstCheckbox?.show()
             secondCheckBox?.show()
@@ -751,7 +752,7 @@ class SpecializationNewViewFragment : Fragment() {
                             currentDialogValue = ""
                         }
 
-                        refnameATCTV?.clearText()
+                        refnameATCTV.clearText()
                         whereSkillText?.hide()
                         firstCheckbox?.hide()
                         secondCheckBox?.hide()
@@ -890,7 +891,7 @@ class SpecializationNewViewFragment : Fragment() {
                         skillSourceNotEmptyStatus = false
                     } else {
                         if (addExpList!!.size == 10) {
-                            activity?.toast("Skill maximum 10")
+                            activity.toast("Skill maximum 10")
                             skillSourceNotEmptyStatus = false
                             dialog.dismiss()
                         } else {
@@ -903,7 +904,7 @@ class SpecializationNewViewFragment : Fragment() {
                                             skillSourceNotEmptyStatus = false
                                         } else {
                                             NTVQF = ""
-                                            addOrUpdateItem(skill!!, "", updateNewSkilledBy, ntvqf, "-1")
+                                            addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
                                             skillDuplicateStatus = false
                                             skillSourceNotEmptyStatus = false
                                             ntvqfStatus = false
@@ -912,7 +913,7 @@ class SpecializationNewViewFragment : Fragment() {
 
                                     } else {
                                         NTVQF = ""
-                                        addOrUpdateItem(skill!!, "", updateNewSkilledBy, ntvqf, "-1")
+                                        addOrUpdateItem(skill, "", updateNewSkilledBy, ntvqf, "-1")
                                         skillDuplicateStatus = false
                                         skillSourceNotEmptyStatus = false
                                     }
@@ -920,11 +921,11 @@ class SpecializationNewViewFragment : Fragment() {
                                 } else {
 
                                     skillSourceNotEmptyStatus = false
-                                    activity?.toast("Please select how you have learned the skill")
+                                    activity.toast("Please select how you have learned the skill")
 
                                 }
                             } else {
-                                activity?.toast("Please type your Skill")
+                                activity.toast("Please type your Skill")
                                 skillSourceNotEmptyStatus = false
 
                             }
@@ -940,7 +941,7 @@ class SpecializationNewViewFragment : Fragment() {
             }
         } catch (e: Exception) {
         }
-        dialog?.show()
+        dialog.show()
 
     }
 

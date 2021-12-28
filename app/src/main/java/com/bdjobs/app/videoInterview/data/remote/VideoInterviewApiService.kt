@@ -7,12 +7,13 @@ import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewQuestionList
 import com.bdjobs.app.videoInterview.util.NetworkConnectionInterceptor
+//import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.logging.HttpLoggingInterceptor
+//import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
@@ -106,15 +107,14 @@ interface VideoInterviewApiService {
 
         private fun buildRetrofit(context: Context, type: Int? = 0): Retrofit {
 
-            Log.d("rakib type ", "$type")
-
-            val loginInterceptor = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
+//            val loginInterceptor = HttpLoggingInterceptor().apply {
+//                level = HttpLoggingInterceptor.Level.BODY
+//            }
 
             val loginOkHttpClient = OkHttpClient.Builder()
-                    .addInterceptor(loginInterceptor)
+//                    .addInterceptor(loginInterceptor)
                     .addInterceptor(NetworkConnectionInterceptor(context))
+//                    .addInterceptor(OkHttpProfilerInterceptor())
                     .readTimeout(600, TimeUnit.SECONDS)
                     .connectTimeout(600, TimeUnit.SECONDS)
                     .build()

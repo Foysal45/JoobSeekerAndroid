@@ -23,10 +23,10 @@ import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.InviteCode.InviteCodeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.getBlueCollarUserId
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.error
+import com.bdjobs.app.utilities.getBlueCollarUserId
+import com.bdjobs.app.utilities.logException
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.invite_code_owner_invite_code_fragment.*
 import retrofit2.Call
@@ -77,7 +77,7 @@ class OwnerInviteCodeFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
             override fun onResponse(call: Call<OwnerInviteCodeModel>, response: Response<OwnerInviteCodeModel>) {
 
                 try {
-                    if (response?.body()?.statuscode == Constants.api_request_result_code_ok) {
+                    if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
                         promoCode = response.body()?.data?.get(0)?.inviteCode!!
                         inviteCodeTV.text = promoCode
                         shareIMGV.isEnabled = true
@@ -100,7 +100,7 @@ class OwnerInviteCodeFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
             override fun onResponse(call: Call<InviteCodeCategoryAmountModel>, response: Response<InviteCodeCategoryAmountModel>) {
 
                 try {
-                    if (response?.body()?.statuscode == Constants.api_request_result_code_ok) {
+                    if (response.body()?.statuscode == Constants.api_request_result_code_ok) {
                         categoryAmountList.clear()
                         response.body()?.data?.let { dt ->
                             dt.forEach { dtt ->
@@ -127,7 +127,7 @@ class OwnerInviteCodeFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
             val categoryLV = dialog.findViewById(R.id.categoryLV) as ListView
             val cancelIconImgv = dialog.findViewById(R.id.cancelIconImgv) as ImageView
             val invitecodeCategoryListAdapter = InvitecodeCategoryListAdapter(activity, categoryAmountList)
-            categoryLV.setAdapter(invitecodeCategoryListAdapter)
+            categoryLV.adapter = invitecodeCategoryListAdapter
 
             dialog.setCancelable(true)
             dialog.show()
@@ -170,11 +170,6 @@ class OwnerInviteCodeFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
         super.onResume()
         ConnectivityReceiver.connectivityReceiverListener = this
         activity!!.registerReceiver(internetBroadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
     }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {

@@ -2,17 +2,13 @@ package com.bdjobs.app.videoInterview.ui.record_video
 
 import android.os.CountDownTimer
 import android.text.format.DateUtils
-import android.util.Log
 import androidx.lifecycle.*
-import androidx.work.*
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.videoInterview.data.models.VideoManager
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
 import com.bdjobs.app.videoInterview.util.Event
-import com.bdjobs.app.videoInterview.worker.UploadVideoWorker
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 class RecordVideoViewModel(private val repository: VideoInterviewRepository) : ViewModel() {
 
@@ -70,21 +66,9 @@ class RecordVideoViewModel(private val repository: VideoInterviewRepository) : V
     }
 
     fun uploadSingleVideoToServer(videoManager: VideoManager?) {
-        _onVideoDoneEvent.value = false
-        //Log.d("rakib", "$videoManager")
-        //repository.setDataForUpload(videoManager)
+        _onVideoDoneEvent.postValue(true)
         Constants.createVideoManagerDataForUpload(videoManager)
         viewModelScope.launch {
-//            val constraints = androidx.work.Constraints.Builder()
-//                    .setRequiredNetworkType(NetworkType.CONNECTED)
-//                    .build()
-//            val request = OneTimeWorkRequestBuilder<UploadVideoWorker>()
-//                    .setConstraints(constraints)
-//                    .setBackoffCriteria(BackoffPolicy.LINEAR,
-//                            OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
-//                            TimeUnit.MILLISECONDS)
-//                    .build()
-//            WorkManager.getInstance().enqueue(request)
             _onUploadStartEvent.value = Event(true)
             val response = repository.postVideoToRemote()
             if (response.statuscode == "4" || response.statuscode == 4)

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@color/colorWhite"
-    tools:context=".ManageResume.EmailResumeFragment">
+    tools:context=".manageResume.EmailResumeFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
@@ -235,7 +235,7 @@
                     android:id="@+id/mybdjobsResume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="My Bdjobs Resume Format" />
+                    android:text="Bdjobs Resume" />
 
                 <RadioButton
                     android:id="@+id/uploadResume"

@@ -1,12 +1,15 @@
 package com.bdjobs.app.videoResume.ui.view
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +18,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.MediaController
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -23,14 +27,17 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.databinding.FragmentViewVideoResumeBinding
-import com.bdjobs.app.editResume.EditResLandingActivity
 import com.bdjobs.app.videoInterview.util.EventObserver
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import com.bdjobs.app.videoResume.ui.questions.VideoResumeQuestionsViewModel
+import com.fondesa.kpermissions.*
+import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.fondesa.kpermissions.extension.send
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_view_video.*
 import kotlinx.android.synthetic.main.fragment_view_video_resume.*
 import kotlinx.android.synthetic.main.fragment_view_video_resume.btn_record_again
@@ -38,15 +45,16 @@ import kotlinx.android.synthetic.main.fragment_view_video_resume.img_play
 import kotlinx.android.synthetic.main.fragment_view_video_resume.progress_bar
 import kotlinx.android.synthetic.main.fragment_view_video_resume.tool_bar
 import kotlinx.android.synthetic.main.fragment_view_video_resume.video_view
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.alert
 
 
 class ViewVideoResumeFragment : Fragment() {
 
 
+    private var permissionGranted: Boolean = false
     val args: ViewVideoResumeFragmentArgs by navArgs()
-    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment)
+    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by activityViewModels {
+        ViewModelFactoryUtil.provideVideoResumeQuestionsViewModelFactory(this)
+    }
     private val viewVideoResumeViewModel: ViewVideoResumeViewModel by viewModels {
         ViewModelFactoryUtil.provideVideoResumeViewVideoViewModelFactory(
             this
@@ -76,10 +84,8 @@ class ViewVideoResumeFragment : Fragment() {
 
         medialController = MediaController(requireContext())
 
-
         btn_record_again?.setOnClickListener {
-            if (findNavController().currentDestination?.id == R.id.viewVideoResumeFragment)
-                findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToRecordVideoResumeFragment())
+            askForPermission()
         }
 
         btn_delete_video?.setOnClickListener {
@@ -177,6 +183,52 @@ class ViewVideoResumeFragment : Fragment() {
             }
             return@setOnInfoListener false
         }
+    }
+
+
+    private fun askForPermission(): Boolean {
+
+        permissionsBuilder(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO).build()
+            .send { result ->
+                when {
+                    result.allGranted() -> {
+                        permissionGranted = true
+                        if (findNavController().currentDestination?.id == R.id.viewVideoResumeFragment)
+                            findNavController().navigate(ViewVideoResumeFragmentDirections.actionViewVideoResumeFragmentToRecordVideoResumeFragment())
+
+                    }
+                    result.allDenied() || result.anyDenied() -> {
+                         openSettingsDialog()
+                    }
+
+                    result.allPermanentlyDenied() || result.anyPermanentlyDenied() -> {
+                        openSettingsDialog()
+                    }
+                }
+            }
+        return permissionGranted
+    }
+
+    private fun openSettingsDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext()).create()
+        val view = layoutInflater.inflate(R.layout.dialog_enable_video_permissions, null)
+        view?.apply {
+            findViewById<Button>(R.id.dialog_btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            findViewById<Button>(R.id.dialog_btn_go_to_settings).setOnClickListener {
+                val intent = createAppSettingsIntent()
+                startActivity(intent)
+                dialog.dismiss()
+            }
+        }
+        dialog.setView(view)
+        dialog.show()
+    }
+
+    private fun createAppSettingsIntent() = Intent().apply {
+        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        data = Uri.fromParts("package", context?.packageName, null)
     }
 
 }

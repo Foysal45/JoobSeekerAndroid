@@ -3,7 +3,6 @@ package com.bdjobs.app.assessment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.pickDate
-import com.bdjobs.app.Utilities.toEditable
+import com.bdjobs.app.utilities.pickDate
+import com.bdjobs.app.utilities.toEditable
 import com.bdjobs.app.assessment.viewmodels.ChooseScheduleViewModel
 import com.bdjobs.app.databinding.FragmentFilterScheduleBinding
 import kotlinx.android.synthetic.main.fragment_filter_schedule.*
@@ -74,15 +73,15 @@ class FilterScheduleFragment : Fragment() {
         }
 
 
-        binding.filterFromTv?.setOnClickListener {
+        binding.filterFromTv.setOnClickListener {
             openDialog(it)
         }
 
-        binding.filterToTv?.setOnClickListener {
+        binding.filterToTv.setOnClickListener {
             openDialog(it)
         }
 
-        binding.filterVenueTv?.setOnClickListener {
+        binding.filterVenueTv.setOnClickListener {
             val venues = listOf("Dhaka", "Chattogram")
             selector("Please select your venue", venues) { dialogInterface, i ->
                 filter_venue_tv?.setText(venues[i])
@@ -94,7 +93,7 @@ class FilterScheduleFragment : Fragment() {
             }
         }
 
-        binding.filterSearchBtn?.setOnClickListener {
+        binding.filterSearchBtn.setOnClickListener {
             if (dateValidationCheck()) {
                 findNavController().navigate(FilterScheduleFragmentDirections.actionScheduleFilterFragmentToChooseScheduleFragment(scheduleViewModel.scheduleRequest))
             }

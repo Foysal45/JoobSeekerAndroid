@@ -15,8 +15,8 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.acaUpdate
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.acaUpdate
 import com.bdjobs.app.editResume.adapters.models.AcaDataItem
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
@@ -74,8 +74,21 @@ class AcademicInfoEditFragment : Fragment() {
         initialization()
         doWork()
         fragAcaInfoEdit.closeKeyboard(activity)
+
+
+        if (isEdit) {
+            hID = "1"
+            eduCB.setDeleteButton(true)
+            preloadedData()
+        } else {
+            eduCB.setDeleteButton(false)
+            hID = "-1"
+            clearEditText()
+        }
+
     }
 
+/*
     override fun onResume() {
         super.onResume()
 
@@ -92,6 +105,7 @@ class AcademicInfoEditFragment : Fragment() {
             clearEditText()
         }
     }
+*/
 
     private fun initialization() {
 

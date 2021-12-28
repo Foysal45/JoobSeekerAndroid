@@ -10,10 +10,10 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.callHelpLine
-import com.bdjobs.app.Utilities.easyOnTextChangedListener
-import com.bdjobs.app.Utilities.hideError
-import com.bdjobs.app.Utilities.showError
+import com.bdjobs.app.utilities.callHelpLine
+import com.bdjobs.app.utilities.easyOnTextChangedListener
+import com.bdjobs.app.utilities.hideError
+import com.bdjobs.app.utilities.showError
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_name.*
 

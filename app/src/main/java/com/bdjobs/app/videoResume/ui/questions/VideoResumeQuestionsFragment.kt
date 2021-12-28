@@ -13,8 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -28,8 +26,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentVideoResumeQuestionsBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
@@ -48,9 +45,8 @@ import java.io.File
 
 class VideoResumeQuestionsFragment : Fragment() {
 
-//    private val baseVideoResumeViewModel : VideoResumeViewModel by activityViewModels()
 
-    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by navGraphViewModels(R.id.videoResumeQuestionsFragment) {
+    private val videoResumeQuestionsViewModel: VideoResumeQuestionsViewModel by activityViewModels {
         ViewModelFactoryUtil.provideVideoResumeQuestionsViewModelFactory(this)
     }
     lateinit var binding: FragmentVideoResumeQuestionsBinding
@@ -146,7 +142,10 @@ class VideoResumeQuestionsFragment : Fragment() {
         }
 
         binding.cvVideoResumeVisibilityRoot.setOnClickListener {
-            findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToVideoResumeLandingFragment())
+            if (findNavController().currentDestination?.id == R.id.videoResumeQuestionsFragment) {
+                findNavController().navigate(VideoResumeQuestionsFragmentDirections.actionVideoResumeQuestionsFragmentToVideoResumeLandingFragment())
+
+            }
         }
 
         videoResumeQuestionsViewModel.apply {
@@ -815,7 +814,7 @@ class VideoResumeQuestionsFragment : Fragment() {
                     }
                 }
             }
-        return permissionGranted!!
+        return permissionGranted
     }
 
     private fun openSettingsDialog() {

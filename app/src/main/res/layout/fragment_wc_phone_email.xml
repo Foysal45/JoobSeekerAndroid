@@ -156,7 +156,6 @@
                     android:focusableInTouchMode="true"
                     android:fontFamily="@font/roboto"
                     android:hint="Email"
-                    android:importantForAutofill="noExcludeDescendants"
                     android:inputType="textEmailAddress"
                     android:maxLength="50"
                     android:singleLine="true"

@@ -12,12 +12,11 @@ import com.bdjobs.app.API.ModelClasses.LoginSessionModel
 import com.bdjobs.app.API.ModelClasses.ResendOtpModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
-import com.bdjobs.app.Utilities.Constants.Companion.counterTimeLimit
-import com.bdjobs.app.Utilities.Constants.Companion.timer_countDownInterval
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.api_request_result_code_ok
+import com.bdjobs.app.utilities.Constants.Companion.counterTimeLimit
+import com.bdjobs.app.utilities.Constants.Companion.timer_countDownInterval
 import kotlinx.android.synthetic.main.fragment_login_otp.*
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,7 +29,7 @@ class LoginOTPFragment : Fragment() {
     private lateinit var counter: CountDownTimer
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater?.inflate(R.layout.fragment_login_otp, container, false)!!
+        rootView = inflater.inflate(R.layout.fragment_login_otp, container, false)!!
         return rootView
     }
 
@@ -72,7 +71,7 @@ class LoginOTPFragment : Fragment() {
 
     private fun onClicks() {
         backBtnIMGV?.setOnClickListener {
-            loginCommunicator?.backButtonClicked()
+            loginCommunicator.backButtonClicked()
         }
 
         otpTIET?.easyOnTextChangedListener { charSequence ->
@@ -84,7 +83,7 @@ class LoginOTPFragment : Fragment() {
             resendOTP()
         }
 
-        rootView?.viewTreeObserver.addOnGlobalLayoutListener {
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
             try {
                 val r = Rect()
                 rootView.getWindowVisibleDisplayFrame(r)
@@ -157,10 +156,10 @@ class LoginOTPFragment : Fragment() {
 
                     try {
                         if (response.isSuccessful) {
-                           if(response?.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)){
+                           if(response.body()?.statuscode!!.equalIgnoreCase(api_request_result_code_ok)){
                                otpTIL?.hideError()
                                val bdjobsUserSession = BdjobsUserSession(activity)
-                               bdjobsUserSession.createSession(response?.body()?.data?.get(0)!!)
+                               bdjobsUserSession.createSession(response.body()?.data?.get(0)!!)
                                loginCommunicator.goToHomePage()
                            }else{
                                activity?.stopProgressBar(progressBar)
@@ -191,7 +190,7 @@ class LoginOTPFragment : Fragment() {
     }
 
     override fun onStop() {
-        counter?.cancel()
+        counter.cancel()
         super.onStop()
     }
 }

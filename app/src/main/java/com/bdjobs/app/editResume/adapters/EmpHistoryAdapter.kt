@@ -12,8 +12,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.ExpandAndCollapseViewUtil
-import com.bdjobs.app.Utilities.debug
 import com.bdjobs.app.editResume.adapters.models.DataItem
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
 import com.google.gson.Gson

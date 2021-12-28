@@ -197,7 +197,7 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
         xAxis.labelCount = moduleWiseScore.size
 
         val subjectNameList = ArrayList<String>()
-        moduleWiseScore?.forEach {
+        moduleWiseScore.forEach {
             subjectNameList.add(it?.moduleName!!)
         }
 
@@ -244,7 +244,7 @@ fun bindGraph(chart: HorizontalBarChart, moduleWiseScore: List<ModuleWiseScore?>
 
         //Finally set the data and refresh the graph
 
-        data?.let {
+        data.let {
             chart.data = data
             chart.invalidate()
         }

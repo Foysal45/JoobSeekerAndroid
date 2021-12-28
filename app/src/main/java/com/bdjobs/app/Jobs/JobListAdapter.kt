@@ -11,22 +11,23 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.ShortlistJobModel
-import com.bdjobs.app.Ads.Ads
-import com.bdjobs.app.databases.internal.BdjobsDB
-import com.bdjobs.app.databases.internal.ShortListedJobs
 import com.bdjobs.app.LoggedInUserLanding.HomeCommunicator
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.Workmanager.ShortlistedJobDeleteWorker
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
+import com.bdjobs.app.databases.internal.BdjobsDB
+import com.bdjobs.app.databases.internal.ShortListedJobs
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
@@ -35,7 +36,6 @@ import org.jetbrains.anko.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -130,6 +130,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
     }
 
 
+    @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position<itemCount-1) {
             val result =  this.jobList?.get(position) // jobs
@@ -141,7 +142,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -151,12 +152,12 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                         uiThread {
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
                             if (appliedJobs.isEmpty()) {
@@ -215,7 +216,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -248,12 +249,12 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
                             if (appliedJobs.isEmpty()) {
@@ -272,7 +273,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                     val jobsVH = holder as FeaturedListVH
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -307,24 +308,19 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     doAsync {
                         val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+//                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                         uiThread {
 
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
-                            if (appliedJobs.isEmpty()) {
-                                //jobsVH.appliedBadge.hide()
-                            } else {
-                                //jobsVH.appliedBadge.show()
-                            }
                         }
                     }
 
@@ -337,7 +333,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                     Ads.showNativeAd(jobsVH.adSmallTemplate, context)
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -372,24 +368,24 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     doAsync {
                         val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(result?.jobid)
-                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
+//                        val appliedJobs = bdJobsDB.appliedJobDao().getAppliedJobsById(result?.jobid)
                         uiThread {
 
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
-                            if (appliedJobs.isEmpty()) {
-                                //jobsVH.appliedBadge.hide()
-                            } else {
-                                //jobsVH.appliedBadge.show()
-                            }
+//                            if (appliedJobs.isEmpty()) {
+//                                //jobsVH.appliedBadge.hide()
+//                            } else {
+//                                //jobsVH.appliedBadge.show()
+//                            }
                         }
                     }
 
@@ -405,7 +401,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -438,12 +434,12 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
                             if (appliedJobs.isEmpty()) {
@@ -466,7 +462,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                     jobsVH.tvPosName.text = result?.jobTitle
                     jobsVH.tvComName.text = result?.companyName
-                    jobsVH.tvDeadline.text = result?.deadline
+                    jobsVH.tvDeadline.text = formatDate(result)
                     jobsVH.tvEducation.text = result?.eduRec
                     jobsVH.tvExperience.text = result?.experience
 
@@ -476,12 +472,12 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                         uiThread {
                             if (homeCommunicator == null) {
                                 if (shortListed) {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                                 } else {
-                                    jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star))
+                                    jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star))
                                 }
                             } else {
-                                jobsVH.shortListIconIV.setImageDrawable(context.getDrawable(R.drawable.ic_star_filled))
+                                jobsVH.shortListIconIV.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_star_filled))
                             }
 
                             if (appliedJobs.isEmpty()) {
@@ -517,6 +513,16 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
     }
 
+    @SuppressLint("SimpleDateFormat")
+    private fun formatDate(result: JobListModelData?) :String {
+        return if (result?.deadlineDB!=null && result.deadlineDB!= "") {
+            SimpleDateFormat("M/d/yyyy").parse(result.deadlineDB)!!.toSimpleDateString()
+        } else {
+            result?.deadline?:""
+        }
+    }
+
+
     private fun deleteShortListedJobwithUndo(position: Int) {
         //Log.d("czcx", "position: $position")
 
@@ -526,7 +532,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                 jobList?.removeAt(position)
                 notifyItemRemoved(position)
                 notifyItemRangeRemoved(position, jobList?.size!!)
-                val actv = context as Activity
+//                val actv = context as Activity
 
                 val constraints = Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -578,19 +584,19 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                 val shortListed = bdJobsDB.shortListedJobDao().isItShortListed(jobList?.get(position)?.jobid)
                 uiThread {
                     if (shortListed || homeCommunicator != null) {
-                        context?.alert("Are you sure you want to remove this job from shortlisted jobs?", "Confirmation") {
+                        context.alert("Are you sure you want to remove this job from shortlisted jobs?", "Confirmation") {
                             yesButton {
                                 if (homeCommunicator != null) {
                                     deleteShortListedJobwithUndo(position)
                                 } else {
                                     val constraints = Constraints.Builder()
-                                            .setRequiredNetworkType(NetworkType.CONNECTED)
-                                            .build()
+                                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                                        .build()
 
                                     val shortlistedJobDeleteData = workDataOf("jobId" to jobList?.get(position)?.jobid)
                                     val shortlistedJobDeleteRequest = OneTimeWorkRequestBuilder<ShortlistedJobDeleteWorker>().setInputData(shortlistedJobDeleteData).setConstraints(constraints).build()
                                     WorkManager.getInstance(context).enqueue(shortlistedJobDeleteRequest)
-//                                    ShortListedJobDeleteJob.runJobImmediately(jobList?.get(position)?.jobid!!)
+                    //                                    ShortListedJobDeleteJob.runJobImmediately(jobList?.get(position)?.jobid!!)
                                     doAsync {
                                         bdJobsDB.shortListedJobDao().deleteShortListedJobsByJobID(jobList?.get(position)?.jobid!!)
                                     }
@@ -638,9 +644,9 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
                                 doAsync {
 
-                                    var deadline: Date? = null
+                                    var deadlineDate: Date? = null
                                     try {
-                                        deadline = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB!!)
+                                        deadlineDate = SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(jobList?.get(position)?.deadlineDB!!)
                                     } catch (e: Exception) {
                                         logException(e)
                                     }
@@ -649,7 +655,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
                                             jobid = jobList?.get(position)?.jobid!!,
                                             jobtitle = jobList?.get(position)?.jobTitle!!,
                                             companyname = jobList?.get(position)?.companyName!!,
-                                            deadline = deadline,
+                                            deadline = deadlineDate,
                                             eduRec = jobList?.get(position)?.eduRec!!,
                                             experience = jobList?.get(position)?.experience!!,
                                             standout = jobList?.get(position)?.standout!!,
@@ -678,7 +684,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
         val totalJobCount = if (homeCommunicator==null) jobCommunicator?.getTotalJobCount() else homeCommunicator?.getTotalShortlistedJobCounter()
 
-        Timber.d("Position: $position .. ItemCount: $itemCount Total: $totalJobCount")
+//        Timber.d("Position: $position .. ItemCount: $itemCount Total: $totalJobCount")
 
         if ( position<itemCount-1) {
             if (showAD && (position % 3 == 0) && position != 0 && position < 21) {
@@ -780,7 +786,7 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
 
     }
 
-    private fun getItem(position: Int): JobListModelData? {
+    private fun getItem(position: Int): JobListModelData {
         return this.jobList!![position]
     }
 
@@ -883,8 +889,8 @@ class JobListAdapter(val context: Context, var onUpdateCounter: OnUpdateCounter)
     }
 
     private class LoadingVH(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var mProgressBar: ProgressBar? = itemView.findViewById(R.id.loadmore_progress) as ProgressBar?
-        private var mRetryBtn: ImageButton? = itemView.findViewById(R.id.loadmore_retry) as ImageButton?
+//        var mProgressBar: ProgressBar? = itemView.findViewById(R.id.loadmore_progress) as ProgressBar?
+//        private var mRetryBtn: ImageButton? = itemView.findViewById(R.id.loadmore_retry) as ImageButton?
         var mErrorTxt: TextView? = itemView.findViewById(R.id.loadmore_errortxt) as TextView?
         var mErrorLayout: LinearLayout? = itemView.findViewById(R.id.loadmore_errorlayout) as LinearLayout?
         override fun onClick(view: View) {

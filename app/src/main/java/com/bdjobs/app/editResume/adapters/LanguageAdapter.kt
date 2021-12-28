@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.d
+import com.bdjobs.app.utilities.d
 import com.bdjobs.app.editResume.adapters.models.LanguageDataModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 

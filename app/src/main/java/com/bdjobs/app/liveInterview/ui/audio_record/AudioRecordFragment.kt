@@ -1,26 +1,21 @@
 package com.bdjobs.app.liveInterview.ui.audio_record
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.Handler
-import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.Utilities.toFormattedSeconds
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.toFormattedSeconds
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentAudioRecordBinding
 import com.bdjobs.app.videoInterview.util.EventObserver
@@ -240,14 +235,6 @@ class AudioRecordFragment : Fragment() {
 //        super.onWindowFocusChanged(hasFocus)
 //        handler.post(updater)
 //    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-//        handler.removeCallbacks(updater)
-//        recorder.stop()
-//        recorder.reset()
-//        recorder.release()
-    }
 
     private lateinit var snackbar: Snackbar
 }

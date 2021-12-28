@@ -41,7 +41,7 @@ class ChooseScheduleFragment : Fragment() {
             binding.scheduleRv.adapter = ScheduleListAdapter(requireNotNull(context), viewLifecycleOwner, ScheduleClickListener {
                 findNavController().navigate(ChooseScheduleFragmentDirections.actionChooseScheduleFragmentToBookingOverviewFragment(it))
             })
-            binding.scheduleRv?.adapter?.notifyDataSetChanged()
+            binding.scheduleRv.adapter?.notifyDataSetChanged()
         } catch (e: Exception) {
             //Log.d("rakib", e.message)
         }
@@ -56,7 +56,7 @@ class ChooseScheduleFragment : Fragment() {
         }
 
 
-        binding.filterImg?.setOnClickListener {
+        binding.filterImg.setOnClickListener {
             findNavController().navigate(R.id.action_chooseScheduleFragment_to_scheduleFilterFragment)
         }
 

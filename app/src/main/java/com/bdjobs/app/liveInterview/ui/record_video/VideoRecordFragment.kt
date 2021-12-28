@@ -12,9 +12,9 @@ import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
-import com.bdjobs.app.Utilities.toFormattedSeconds
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
+import com.bdjobs.app.utilities.toFormattedSeconds
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.databinding.FragmentVideoRecordBinding
 import com.bdjobs.app.liveInterview.SharedViewModel

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.getString
+import com.bdjobs.app.utilities.getString
 import com.bdjobs.app.assessment.adapters.ModuleListAdapter
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_module_view.*

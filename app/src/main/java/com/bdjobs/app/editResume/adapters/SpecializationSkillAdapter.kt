@@ -1,7 +1,6 @@
 package com.bdjobs.app.editResume.adapters
 
 import android.app.Activity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.d
+import com.bdjobs.app.utilities.d
 import com.bdjobs.app.editResume.adapters.models.Skill
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import com.bdjobs.app.editResume.otherInfo.OtherInfoBaseActivity
@@ -27,7 +26,7 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
     }
 
     override fun onBindViewHolder(holder: SpecializationSkillViewHolder, position: Int) {
-        holder.experienceValueTV.text = items?.get(position)?.skillName
+        holder.experienceValueTV.text = items.get(position)?.skillName
         holder.workExperienceTV.text = "skill - ${position + 1}"
         /* holder.experienceInstructionTV.text = "কিভাবে '${items?.get(position)?.workExp}' কাজের দক্ষতাটি শিখেছেন?"*/
         /*//Log.d("fdhbjh", "workExp ${items?.get(position)?.skillName}")
@@ -41,7 +40,7 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
         var fourthText = ""
         var fifthText = ""
 
-        val list = items?.get(position)?.skillBy!!
+        val list = items.get(position)?.skillBy!!
         list.forEachIndexed { index, s ->
             //Log.d("expTest", "exp: $s")
             when (s.toString()) {
@@ -130,7 +129,7 @@ class SpecializationSkillAdapter(private val context: Activity, private val item
     }
 
     override fun getItemCount(): Int {
-        return items!!.size
+        return items.size
     }
 
 

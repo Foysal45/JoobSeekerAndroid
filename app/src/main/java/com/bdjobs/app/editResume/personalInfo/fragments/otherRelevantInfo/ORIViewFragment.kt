@@ -11,7 +11,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.adapters.models.GetORIResponse
 import com.bdjobs.app.editResume.adapters.models.ORIdataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
@@ -76,7 +76,7 @@ class ORIViewFragment : Fragment() {
                         clORIMainLayout?.show()
                         val respo = response.body()
                         oriCallBack.passOriData(respo?.data?.get(0)!!)
-                        setupView(respo?.data?.get(0)!!)
+                        setupView(respo.data.get(0)!!)
                         oriCallBack.setEditButton(true, "editORI")
                     }
                 } catch (e: Exception) {
@@ -92,10 +92,10 @@ class ORIViewFragment : Fragment() {
 
     private fun setupView(data: ORIdataItem) {
         //Log.d("rakib", "${data.keywords?.length}")
-        tvORICareerSummary.text = data?.careerSummery
-        tvORISpecialQualificaiton.text = data?.specialQualifications
+        tvORICareerSummary.text = data.careerSummery
+        tvORISpecialQualificaiton.text = data.specialQualifications
         //Log.d("rakib", "total commas ${data?.keywords?.countCommas()}")
-        val keywords = data?.keywords?.removeLastComma()
+        val keywords = data.keywords?.removeLastComma()
         val keyArray: List<String>? = keywords?.split(",")?.map { it.trim() }
         Timber.d("Total Keywords: ${keyArray?.size}")
         removeChips()

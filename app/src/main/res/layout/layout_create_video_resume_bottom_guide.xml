@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@drawable/bg_video_interview_guide"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_submit">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_video_resume"
+            android:src="@drawable/ic_video_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="0dp"
+            android:paddingEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_video_resume_title"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_video_resume_title"/>
+
+        <TextView
+            android:id="@+id/tv_video_resume_title"
+            android:text="Create Video Resume"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="@dimen/text_14"
+            android:textColor="#9D0191"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_video_resume"/>
+
+        <TextView
+            android:id="@+id/tv_video_resume_subtitle"
+            android:text="You can build a Video Resume from Bdjobs platform to visually represent yourself to all employers."
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:textSize="@dimen/text_12"
+            android:paddingTop="5dp"
+            android:paddingEnd="25dp"
+            android:paddingStart="0dp"
+            android:textColor="#9D0191"
+            app:layout_constraintTop_toBottomOf="@+id/tv_video_resume_title"
+            app:layout_constraintStart_toEndOf="@+id/iv_video_resume"/>
+
+        <TextView
+            android:id="@+id/tv_learn_more_label"
+            android:text="@string/learn_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="@dimen/text_12"
+            android:layout_marginTop="8dp"
+            android:textColor="#9D0191"
+            android:drawablePadding="3dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_video_resume_subtitle"
+            app:layout_constraintStart_toEndOf="@+id/iv_video_resume"
+            app:drawableEndCompat="@drawable/ic_open_in_new" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -3,7 +3,6 @@ package com.bdjobs.app.LoggedInUserLanding
 import android.app.Fragment
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.fragment_hotjobs_layout.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,7 +24,7 @@ class HotJobsFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_hotjobs_layout, container, false)!!
+        return inflater.inflate(R.layout.fragment_hotjobs_layout, container, false)!!
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

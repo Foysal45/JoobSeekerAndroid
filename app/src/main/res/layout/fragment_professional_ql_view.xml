@@ -3,13 +3,14 @@
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".editResume.educationInfo.fragments.professionalQualification.ProfessionalQLFragment">
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_professional_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:itemCount="10"
+        tools:listitem="@layout/item_reference_list"
         android:padding="10dp" />
 
     <com.facebook.shimmer.ShimmerFrameLayout

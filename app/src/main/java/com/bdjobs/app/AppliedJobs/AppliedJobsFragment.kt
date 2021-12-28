@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,19 +16,17 @@ import com.bdjobs.app.API.ModelClasses.AppliedJobModel
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelData
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
-import com.bdjobs.app.Ads.Ads
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.google.android.gms.ads.AdRequest
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.fragment_applied_jobs.*
 import kotlinx.android.synthetic.main.layout_no_data_found.*
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
+import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -59,11 +56,6 @@ class AppliedJobsFragment : Fragment() {
 
     lateinit var messageValidDate: Date
     lateinit var currentDate: Date
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -146,6 +138,8 @@ class AppliedJobsFragment : Fragment() {
     }
 
     private fun loadFirstPage(activityDate: String) {
+
+        Timber.d("Loading first page: $activityDate")
 //
         try {
             appliedJobsRV?.hide()
@@ -190,8 +184,9 @@ class AppliedJobsFragment : Fragment() {
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Job Applied"
                             favCountTV?.text = Html.fromHtml(styledText)
 
-
+                        }
                             if (appliedJobsCommunicator.getTime() == "1") {
+                                Timber.d("I am here at 1")
                                 availableJobsCountTV?.show()
 
                                 daysRemainingCountTV?.show()
@@ -205,8 +200,8 @@ class AppliedJobsFragment : Fragment() {
                                 }
 
                                 availableJobs = jobApplyLimit - totalRecords.toInt()
-//                                //Log.d("rakib", "load ${availableJobs}")
 
+                                Timber.d("Available Jobs: $availableJobs")
 
                                 if (availableJobs > 1) {
                                     val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
@@ -216,11 +211,13 @@ class AppliedJobsFragment : Fragment() {
                                     availableJobsCountTV?.text = HtmlCompat.fromHtml(availableJobsText, HtmlCompat.FROM_HTML_MODE_LEGACY)
                                 }
                             } else {
+
+                                Timber.d("I am here at 2")
                                 availableJobsCountTV?.hide()
 
                                 daysRemainingCountTV?.hide()
                             }
-                        }
+
 
 
 
@@ -228,18 +225,18 @@ class AppliedJobsFragment : Fragment() {
                         TOTAL_PAGES = response.body()?.common?.totalNumberOfPage?.toInt()
                         //   TOTAL_PAGES = 5
 
-                        jobsAppliedSize = totalRecords?.toInt()!!
+                        jobsAppliedSize = totalRecords.toInt()
 
 
-                        if (!response?.body()?.data.isNullOrEmpty()) {
+                        if (!response.body()?.data.isNullOrEmpty()) {
 
                             status_card_ll?.show()
                             job_status_ll?.show()
 
 
-                            Constants.totalContacted = response?.body()?.activity?.get(0)?.totalContacted!!.toInt()
-                            Constants.totalNotContacted = response?.body()?.activity?.get(0)?.totalNotContacted!!.toInt()
-                            Constants.totalHired = response?.body()?.activity?.get(0)?.totalHired!!.toInt()
+                            Constants.totalContacted = response.body()?.activity?.get(0)?.totalContacted!!.toInt()
+                            Constants.totalNotContacted = response.body()?.activity?.get(0)?.totalNotContacted!!.toInt()
+                            Constants.totalHired = response.body()?.activity?.get(0)?.totalHired!!.toInt()
 
                             not_contacted_count_tv?.text = "${Constants.totalNotContacted}"
                             contacted_count_tv?.text = "${Constants.totalContacted}"
@@ -255,7 +252,7 @@ class AppliedJobsFragment : Fragment() {
                             experienceList?.addAll(response.body()?.exprience as List<AppliedJobModelExprience>)
                             //Log.d("callAppliURlex", "size = ${value?.size}")
                             appliedJobsCommunicator.setexperienceList(experienceList!!)
-                            jobsAppliedSize = totalRecords?.toInt()!!
+                            jobsAppliedSize = totalRecords.toInt()
 
 
                             if (pgNo == TOTAL_PAGES!!) {
@@ -280,7 +277,7 @@ class AppliedJobsFragment : Fragment() {
                         /* val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs Applied"
                          favCountTV.text = Html.fromHtml(styledText)*/
 
-                        if (totalRecords?.toInt()!! > 1) {
+                        if (totalRecords.toInt() > 1) {
                             val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Jobs applied"
                             favCountTV?.text = Html.fromHtml(styledText)
                         } else {
@@ -304,6 +301,12 @@ class AppliedJobsFragment : Fragment() {
                                 availableJobsCountTV?.show()
 
                                 availableJobs = jobApplyLimit - totalRecords.toInt()
+
+                                if (availableJobs>50) {
+                                    daysRemainingCountTV?.hide()
+                                } else {
+                                    daysRemainingCountTV?.show()
+                                }
 
                                 if (availableJobs > 1) {
                                     val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"
@@ -329,7 +332,13 @@ class AppliedJobsFragment : Fragment() {
                     appliedJobsRV?.show()
                     favCountTV?.show()
                     availableJobsCountTV?.show()
-                    daysRemainingCountTV?.show()
+                    if (availableJobs>50) {
+                        Timber.d("Available job is greater than 50")
+                        daysRemainingCountTV?.visibility = View.GONE
+                    } else {
+                        Timber.d("Available job is lesser than 50")
+                        daysRemainingCountTV?.visibility = View.VISIBLE
+                    }
                     shimmer_view_container_appliedJobList?.hide()
                     shimmer_view_container_appliedJobList?.stopShimmer()
                 }
@@ -377,7 +386,7 @@ class AppliedJobsFragment : Fragment() {
                         appliedJobsAdapter?.removeLoadingFooter()
                         isLoadings = false
 
-                        appliedJobsAdapter?.addAll((response?.body()?.data as List<AppliedJobModelData>?)!!)
+                        appliedJobsAdapter?.addAll((response.body()?.data as List<AppliedJobModelData>?)!!)
 
 
                         if (pgNo < TOTAL_PAGES!!)
@@ -440,6 +449,13 @@ class AppliedJobsFragment : Fragment() {
     fun incrementAvailableJobCount() {
         try {
             availableJobs = jobApplyLimit - jobsAppliedSize
+
+            if (availableJobs>50) {
+                daysRemainingCountTV?.hide()
+            } else {
+                daysRemainingCountTV?.show()
+            }
+
             if (appliedJobsCommunicator.getTime() == "1") {
                 if (availableJobs > 1) {
                     val availableJobsText = "<b><font color='#B740AD'>${availableJobs}</font></b> Available jobs"

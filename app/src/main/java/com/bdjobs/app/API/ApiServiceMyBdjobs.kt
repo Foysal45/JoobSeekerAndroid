@@ -2,30 +2,33 @@ package com.bdjobs.app.API
 
 import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.BuildConfig
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_agent_log
-import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
-import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_signinprocess
-import com.bdjobs.app.Utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.Constants.Companion.api_mybdjobs_app_agent_log
+import com.bdjobs.app.utilities.Constants.Companion.api_mybdjobs_app_favouritejob_count
+import com.bdjobs.app.utilities.Constants.Companion.api_mybdjobs_app_signinprocess
+import com.bdjobs.app.utilities.Constants.Companion.api_mybdjobs_app_social_agent_log
 import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.liveInterview.data.models.*
 import com.bdjobs.app.resume_dashboard.data.models.*
 import com.bdjobs.app.sms.data.model.PaymentInfoAfterGateway
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
-import com.bdjobs.app.transaction.data.model.TransactionList
 import com.bdjobs.app.sms.data.model.SMSSettings
+import com.bdjobs.app.training.data.models.TrainingList
+import com.bdjobs.app.transaction.data.model.TransactionList
 import com.bdjobs.app.videoInterview.data.models.CommonResponse
 import com.bdjobs.app.videoInterview.data.models.InterviewFeedback
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import com.google.gson.GsonBuilder
+//import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.logging.HttpLoggingInterceptor
+//import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -804,6 +807,7 @@ interface ApiServiceMyBdjobs {
         @Field("toDate") toDate: String? = "",
         @Field("compName") compName: String? = "",
         @Field("txtStatus") txtStatus: String? = "",
+        @Field("isActivityDate") isActivityDate: String? = "",
     ): Call<EmpViewedResumeModel>
 
     @FormUrlEncoded
@@ -1061,14 +1065,14 @@ interface ApiServiceMyBdjobs {
 
     @FormUrlEncoded
     @POST("app_training.asp")
-    fun getTrainingList(
+    suspend fun getTrainingList(
         @Field("userID") userID: String?,
         @Field("decodeID") decodeID: String? = "",
         @Field("traingId") traingId: String? = "",
         @Field("AppsDate") AppsDate: String? = "",
         @Field("appId") appId: String? = Constants.APP_ID
 
-    ): Call<TrainingList>
+    ): Response<TrainingList>
 
     @FormUrlEncoded
     @POST("apps_SendEmailCV.aspx")
@@ -1397,58 +1401,22 @@ interface ApiServiceMyBdjobs {
             return retrofit?.create(ApiServiceMyBdjobs::class.java)!!
         }
 
-        @Synchronized
-        fun createChat(): ApiServiceMyBdjobs {
-
-            retrofit ?: synchronized(this) {
-                retrofit = buildRetrofitChat()
-            }
-
-            return retrofit?.create(ApiServiceMyBdjobs::class.java)!!
-        }
-
         private fun buildRetrofit(): Retrofit {
 
             val gson = GsonBuilder()
                 .setLenient()
                 .create()
 
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
-
+//            val interceptor = HttpLoggingInterceptor()
+//            interceptor.level = HttpLoggingInterceptor.Level.BODY
+//
             val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(interceptor)
+//                .addInterceptor(interceptor)
+//                .addInterceptor(OkHttpProfilerInterceptor())
                 .build()
 
             return Retrofit.Builder().apply {
                 baseUrl(Constants.baseUrlMyBdjobs)
-                addConverterFactory(GsonConverterFactory.create(gson)).addConverterFactory(
-                    MoshiConverterFactory.create(moshi)
-                )
-                if (BuildConfig.DEBUG) {
-                    client(okHttpClient)
-                }
-            }.build()
-        }
-
-        private fun buildRetrofitChat(): Retrofit {
-
-            val gson = GsonBuilder()
-                .setLenient()
-                .create()
-
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
-
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .build()
-
-            return Retrofit.Builder().apply {
-                baseUrl(Constants.baseUrlMyBdjobsChat)
                 addConverterFactory(GsonConverterFactory.create(gson)).addConverterFactory(
                     MoshiConverterFactory.create(moshi)
                 )

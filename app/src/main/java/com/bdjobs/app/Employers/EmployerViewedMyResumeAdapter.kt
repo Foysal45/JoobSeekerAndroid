@@ -9,10 +9,10 @@ import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.DataEmpV
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.toSimpleDateString
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.toSimpleDateString
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.textview.MaterialTextView
 import java.text.SimpleDateFormat
@@ -73,17 +73,17 @@ class EmployerViewedMyResumeAdapter(private val context: Context) : RecyclerView
                 val ResumeLoadingVH = holder as ResumeLoadingVH
 
                 if (retryPageLoad) {
-                    ResumeLoadingVH?.mErrorLayout?.visibility = View.VISIBLE
-                    ResumeLoadingVH?.mProgressBar?.visibility = View.GONE
+                    ResumeLoadingVH.mErrorLayout.visibility = View.VISIBLE
+                    ResumeLoadingVH.mProgressBar.visibility = View.GONE
 
-                    ResumeLoadingVH?.mErrorTxt?.text = if (errorMsg != null)
+                    ResumeLoadingVH.mErrorTxt.text = if (errorMsg != null)
                         errorMsg
                     else
-                        context?.getString(R.string.error_msg_unknown)
+                        context.getString(R.string.error_msg_unknown)
 
                 } else {
-                    ResumeLoadingVH?.mErrorLayout?.visibility = View.GONE
-                    ResumeLoadingVH?.mProgressBar?.visibility = View.VISIBLE
+                    ResumeLoadingVH.mErrorLayout.visibility = View.GONE
+                    ResumeLoadingVH.mProgressBar.visibility = View.VISIBLE
                 }
             }
             ITEM_WITH_AD -> {

@@ -6,15 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bdjobs.app.API.ModelClasses.InviteCodeOwnerStatementModelData
-import com.bdjobs.app.API.ModelClasses.OwnerInviteListModelData
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.loadCircularImageFromUrl
-import com.bdjobs.app.Utilities.toBanglaDigit
+import com.bdjobs.app.utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.toBanglaDigit
 import java.util.ArrayList
 
 class OwnerStatementAdapter(ctx: Context, private val inviteCodeOwnerStatementModelData: ArrayList<InviteCodeOwnerStatementModelData>) : BaseAdapter() {
@@ -53,9 +50,9 @@ class OwnerStatementAdapter(ctx: Context, private val inviteCodeOwnerStatementMo
         }
 
 
-        vh.dateTV.setText(date)
-        vh.moneyTV.setText(money)
-        vh.balanceTV.setText(balance)
+        vh.dateTV.text = date
+        vh.moneyTV.text = money
+        vh.balanceTV.text = balance
 
         if (inviteCodeOwnerStatementModelData.get(position).type.equalIgnoreCase("In")) {
             vh.moneyTV.setTextColor(Color.parseColor("#43A047"))

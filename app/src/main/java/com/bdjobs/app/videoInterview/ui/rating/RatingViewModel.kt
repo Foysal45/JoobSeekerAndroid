@@ -1,6 +1,7 @@
 package com.bdjobs.app.videoInterview.ui.rating
 
 import android.text.Editable
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,6 +30,11 @@ class RatingViewModel(
 
     val navigateToListEvent = MutableLiveData<Event<Boolean>>()
 
+
+    private val _showSnackbar = MutableLiveData<Event<String>>()
+    val showSnackbar : LiveData<Event<String>>
+        get() = _showSnackbar
+
     fun afterFeedbackTextChanged(editable: Editable) {
         checkValidation()
     }
@@ -39,7 +45,7 @@ class RatingViewModel(
     }
 
     fun checkValidation() {
-        enableSubmitButton.value = !feedback.value.isNullOrBlank() && rating.value!!.toInt() > 0
+        enableSubmitButton.value = !feedback.value.isNullOrBlank() || rating.value!!.toInt() > 0
     }
 
     fun onMessageEmployerButtonClick() {
@@ -53,14 +59,16 @@ class RatingViewModel(
     private fun postFeedback() {
         Timber.d("${rating.value} ${feedback.value}")
         viewModelScope.launch {
-            val resposne = repository.submitVideoInterviewFeedback(
+            val response = repository.submitVideoInterviewFeedback(
                     applyId = applyId,
                     jobId = jobId,
                     feedbackComment = feedback.value,
                     rating = rating.value.toString()
             )
-            if(resposne.statuscode == "4"){
+            if(response.statuscode == "4"){
                 navigateToListEvent.value = Event(true)
+            }else{
+                _showSnackbar.value = Event(response.message.toString())
             }
         }
     }

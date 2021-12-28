@@ -6,7 +6,7 @@ import androidx.work.WorkerParameters
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.Notification.NotificationHelper
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import timber.log.Timber

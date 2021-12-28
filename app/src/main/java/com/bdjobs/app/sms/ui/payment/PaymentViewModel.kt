@@ -2,7 +2,7 @@ package com.bdjobs.app.sms.ui.payment
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.sms.data.model.PaymentInfoBeforeGateway
 import com.bdjobs.app.sms.data.repository.SMSRepository
 import com.sslwireless.sslcommerzlibrary.model.initializer.CustomerInfoInitializer
@@ -66,7 +66,8 @@ class PaymentViewModel(val repository: SMSRepository,
     private fun getPaymentInfoBeforeGateway() {
         viewModelScope.launch {
             try {
-                val response = repository.callPaymentInfoBeforeGatewayApi(totalSMS, totalAmountIntTaka.value, isFree)
+                Timber.d("Total Sms with Bonus: ${totalSMS?.plus(bonusSMS?:0)}")
+                val response = repository.callPaymentInfoBeforeGatewayApi(totalSMS?.plus(bonusSMS?:0), totalAmountIntTaka.value, isFree)
                 if (response.statuscode == "0") {
                     paymentInfoData = response.data?.get(0)!!
                     Constants.isSMSFree = paymentInfoData.isSMSFree.toString()

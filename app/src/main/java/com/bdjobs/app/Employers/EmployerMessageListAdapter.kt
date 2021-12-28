@@ -2,7 +2,6 @@ package com.bdjobs.app.Employers
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,9 @@ import com.bdjobs.app.API.ModelClasses.AppliedJobModelActivity
 import com.bdjobs.app.API.ModelClasses.MessageDataModel
 import com.bdjobs.app.AppliedJobs.LoadingVH
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.d
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.toSimpleDateString
+import com.bdjobs.app.utilities.d
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.toSimpleDateString
 import java.text.SimpleDateFormat
 import java.util.*
 

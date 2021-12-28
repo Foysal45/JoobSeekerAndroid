@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_advance_search_layout.*
@@ -74,7 +74,7 @@ class AdvanceSearchFragment : Fragment() {
             showHideCrossButton(keywordET)
             if (text.isBlank()) {
                 //Log.d("catTest", "typedData : isBlank")
-                jobCommunicator?.setKeyword("")
+                jobCommunicator.setKeyword("")
             }
         }
 
@@ -82,7 +82,7 @@ class AdvanceSearchFragment : Fragment() {
             showHideCrossButton(loacationET)
             if (text.isBlank()) {
                 //Log.d("catTest", "typedData : isBlank")
-                jobCommunicator?.setLocation("")
+                jobCommunicator.setLocation("")
             }
         }
 
@@ -90,40 +90,40 @@ class AdvanceSearchFragment : Fragment() {
             showHideCrossButton(newsPaperET)
             if (text.isBlank()) {
                 //Log.d("catTest", "typedData : isBlank")
-                jobCommunicator?.setNewsPaper("")
+                jobCommunicator.setNewsPaper("")
             }
         }
         industryET?.easyOnTextChangedListener { text ->
             showHideCrossButton(industryET)
             if (text.isBlank()) {
                 //Log.d("catTest", "typedData : isBlank")
-                jobCommunicator?.setIndustry("")
+                jobCommunicator.setIndustry("")
             }
         }
 
 
         backIV?.setOnClickListener {
-            jobCommunicator?.backButtonPressesd()
+            jobCommunicator.backButtonPressesd()
         }
         keywordET?.setOnClickListener {
-            jobCommunicator?.goToSuggestiveSearch(Constants.key_jobtitleET, keywordET?.text?.toString())
+            jobCommunicator.goToSuggestiveSearch(Constants.key_jobtitleET, keywordET?.text?.toString())
         }
         generalCatET?.setOnClickListener {
-            jobCommunicator?.goToSuggestiveSearch(Constants.key_categoryET, generalCatET?.text?.toString())
+            jobCommunicator.goToSuggestiveSearch(Constants.key_categoryET, generalCatET?.text?.toString())
         }
         specialCatET?.setOnClickListener {
-            jobCommunicator?.goToSuggestiveSearch(Constants.key_special_categoryET, specialCatET?.text?.toString())
+            jobCommunicator.goToSuggestiveSearch(Constants.key_special_categoryET, specialCatET?.text?.toString())
         }
         loacationET?.setOnClickListener {
-            jobCommunicator?.goToSuggestiveSearch(Constants.key_loacationET, loacationET?.text?.toString())
+            jobCommunicator.goToSuggestiveSearch(Constants.key_loacationET, loacationET?.text?.toString())
         }
 
         newsPaperET?.setOnClickListener {
-            jobCommunicator?.goToSuggestiveSearch(Constants.key_newspaperET, newsPaperET?.text?.toString())
+            jobCommunicator.goToSuggestiveSearch(Constants.key_newspaperET, newsPaperET?.text?.toString())
         }
 
         industryET?.setOnClickListener {
-            jobCommunicator?.goToSuggestiveSearch(Constants.key_industryET, industryET?.text?.toString())
+            jobCommunicator.goToSuggestiveSearch(Constants.key_industryET, industryET?.text?.toString())
         }
 
         getDataFromChipGroup(orgCG)
@@ -215,10 +215,10 @@ class AdvanceSearchFragment : Fragment() {
                         jobCommunicator.setPostedWithin(dataStorage.getPostedWithinIDByName(data))
                     }
                     R.id.deadlineCG -> {
-                        jobCommunicator.setDeadline(dataStorage?.getDeadlineIDByNAme(data))
+                        jobCommunicator.setDeadline(dataStorage.getDeadlineIDByNAme(data))
                     }
                     R.id.ageRangeCG -> {
-                        jobCommunicator.setAge(dataStorage?.getAgeRangeIDByName(data))
+                        jobCommunicator.setAge(dataStorage.getAgeRangeIDByName(data))
                     }
                     R.id.armyCG -> {
                         jobCommunicator.setArmy("1")
@@ -288,11 +288,11 @@ class AdvanceSearchFragment : Fragment() {
             val catid = jobCommunicator.getCategory()?.trim()?.toInt()
             if (catid!! > 60 || catid == -11) {
                 //Log.d("eryfdh", "blue")
-                specialCatET?.setText(dataStorage?.getCategoryBanglaNameByID(jobCommunicator?.getCategory()))
+                specialCatET?.setText(dataStorage.getCategoryBanglaNameByID(jobCommunicator.getCategory()))
                 generalCatET.text?.clear()
             } else if (catid in 1..30 || catid == -10) {
                 //Log.d("eryfdh", "white")
-                generalCatET?.setText(dataStorage?.getCategoryNameByID(jobCommunicator?.getCategory()))
+                generalCatET?.setText(dataStorage.getCategoryNameByID(jobCommunicator.getCategory()))
                 specialCatET?.text?.clear()
             }
         } catch (e: Exception) {
@@ -300,23 +300,27 @@ class AdvanceSearchFragment : Fragment() {
         }
 
 
-        loacationET?.setText(dataStorage?.getLocationNameByID(jobCommunicator?.getLocation()))
-        newsPaperET?.setText(dataStorage?.getNewspaperNameById(jobCommunicator?.getNewsPaper()))
-        industryET?.setText(dataStorage?.getJobSearcIndustryNameByID(jobCommunicator?.getIndustry()))
+        loacationET?.setText(dataStorage.getLocationNameByID(jobCommunicator.getLocation()))
+        newsPaperET?.setText(dataStorage.getNewspaperNameById(jobCommunicator.getNewsPaper()))
+        industryET?.setText(dataStorage.getJobSearcIndustryNameByID(jobCommunicator.getIndustry()))
         try {
-            selectChip(orgCG, dataStorage?.getJobSearcOrgTypeByID(jobCommunicator?.getOrganization()))
-            selectChip(experienceCG, dataStorage?.getJobExperineceByID(jobCommunicator?.getExperience()))
-            selectChip(jobTypeCG, dataStorage?.getJobTypeByID(jobCommunicator?.getJobType()))
-            selectChip(jobLevelCG, dataStorage?.getJobLevelByID(jobCommunicator?.getJobLevel()))
-            selectChip(jobNatureCG, dataStorage?.getJobNatureByID(jobCommunicator?.getJobNature()))
-            selectChip(postedWithinCG, dataStorage?.getPostedWithinNameByID(jobCommunicator?.getPostedWithin()))
-            selectChip(deadlineCG, dataStorage?.getDedlineNameByID(jobCommunicator?.getDeadline()))
-            selectChip(ageRangeCG, dataStorage?.getAgeRangeNameByID(jobCommunicator?.getAge()))
+            selectChip(orgCG, dataStorage.getJobSearcOrgTypeByID(jobCommunicator.getOrganization()))
+            selectChip(experienceCG,
+                dataStorage.getJobExperineceByID(jobCommunicator.getExperience())
+            )
+            selectChip(jobTypeCG, dataStorage.getJobTypeByID(jobCommunicator.getJobType()))
+            selectChip(jobLevelCG, dataStorage.getJobLevelByID(jobCommunicator.getJobLevel()))
+            selectChip(jobNatureCG, dataStorage.getJobNatureByID(jobCommunicator.getJobNature()))
+            selectChip(postedWithinCG,
+                dataStorage.getPostedWithinNameByID(jobCommunicator.getPostedWithin())
+            )
+            selectChip(deadlineCG, dataStorage.getDedlineNameByID(jobCommunicator.getDeadline()))
+            selectChip(ageRangeCG, dataStorage.getAgeRangeNameByID(jobCommunicator.getAge()))
         } catch (e: Exception) {
             logException(e)
         }
 
-        if (jobCommunicator?.getArmy() == "1") {
+        if (jobCommunicator.getArmy() == "1") {
             selectChip(armyCG, "Yes")
         }
 
@@ -366,10 +370,10 @@ class AdvanceSearchFragment : Fragment() {
     private fun showHideCrossButton(editText: EditText?) {
         try {
             if (editText?.text?.isBlank()!!) {
-                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_advance_search_24dp, 0)
+                editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_advance_search_24dp, 0)
             } else {
-                editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
-                editText?.clearTextOnDrawableRightClick()
+                editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_ash, 0)
+                editText.clearTextOnDrawableRightClick()
             }
         } catch (e: Exception) {
             logException(e)

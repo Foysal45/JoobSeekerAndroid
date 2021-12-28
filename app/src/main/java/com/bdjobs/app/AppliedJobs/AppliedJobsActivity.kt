@@ -1,15 +1,14 @@
 package com.bdjobs.app.AppliedJobs
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.API.ModelClasses.AppliedJobModelExprience
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.transitFragment
-import com.bdjobs.app.Utilities.transitFragmentX
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.transitFragment
+import com.bdjobs.app.utilities.transitFragmentX
 import com.bdjobs.app.ajkerDeal.ui.home.page_home.HomeNewFragment
 import kotlinx.android.synthetic.main.activity_applied_jobs.*
 import org.jetbrains.anko.startActivity
@@ -72,7 +71,8 @@ class AppliedJobsActivity : AppCompatActivity(), AppliedJobsCommunicator {
 
 
     override fun gotoEmployerInteractionFragment() {
-        transitFragment(employerInteractionFragment, R.id.fragmentHolder, true)
+        transitFragmentX(employerInteractionFragment, R.id.fragmentHolder, true)
+
     }
 
     override fun gotoInterviewInvitationDetails(from: String, jobID: String, companyName: String, jobTitle: String) {

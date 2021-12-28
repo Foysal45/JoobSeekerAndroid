@@ -2,7 +2,7 @@ package com.bdjobs.app.SessionManger
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 
 //
 // Created by Soumik on 7/12/2021.

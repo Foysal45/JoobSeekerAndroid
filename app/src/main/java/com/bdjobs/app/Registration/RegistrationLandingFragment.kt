@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.callHelpLine
+import com.bdjobs.app.utilities.callHelpLine
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_registration_landing.*
 

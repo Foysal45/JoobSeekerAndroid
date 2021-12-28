@@ -3,26 +3,20 @@ package com.bdjobs.app.Employers
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerListModelClass
 import com.bdjobs.app.API.ModelClasses.EmployerListModelData
-import com.bdjobs.app.API.ModelClasses.TestJsonModel
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.google.gson.Gson
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.fragment_employer_list.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 
 class EmployerListFragment : Fragment() {
     // TODO: Rename and change types of parameters
@@ -54,7 +48,7 @@ class EmployerListFragment : Fragment() {
         bdjobsUserSession = BdjobsUserSession(activity)
 
         backIV.setOnClickListener {
-            listCommunicator?.backButtonPressed()
+            listCommunicator.backButtonPressed()
         }
         initPagination()
     }
@@ -86,7 +80,7 @@ class EmployerListFragment : Fragment() {
                 isLoadings = false
                 initPagination()
             } else {
-                searchBTN?.setEnabled(true);
+                searchBTN?.isEnabled = true
             }
         }
     }
@@ -96,7 +90,7 @@ class EmployerListFragment : Fragment() {
         employerList_RV?.setHasFixedSize(true)
         employerList_RV?.adapter = employerListAdapter
         layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
-        employerList_RV?.layoutManager = layoutManager as RecyclerView.LayoutManager?
+        employerList_RV?.layoutManager = layoutManager
         //Log.d("initPag", "called")
         employerList_RV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
 
@@ -185,18 +179,18 @@ class EmployerListFragment : Fragment() {
 
                 try {
                     //Log.d("callAppliURl", "url: ${call?.request()} and $orgname")
-                    TOTAL_PAGES = response?.body()?.common?.totalpages?.toInt()
-                    var totalRecords = response?.body()?.common?.totalrecordsfound
+                    TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
+                    var totalRecords = response.body()?.common?.totalrecordsfound
                     //Log.d("resresdata", " =${response?.body()?.data}")
 
-                    if (!response?.body()?.data.isNullOrEmpty()) {
+                    if (!response.body()?.data.isNullOrEmpty()) {
                         employerList_RV!!.visibility = View.VISIBLE
-                        employerListAdapter?.removeAll()
-                        employerListAdapter?.addAll((response?.body()?.data as List<EmployerListModelData>?)!!)
+                        employerListAdapter.removeAll()
+                        employerListAdapter.addAll((response.body()?.data as List<EmployerListModelData>?)!!)
 
                         if (pgNo <= TOTAL_PAGES!! && TOTAL_PAGES!! > 1) {
                             //Log.d("loadif", "$TOTAL_PAGES and $pgNo ")
-                            employerListAdapter?.addLoadingFooter()
+                            employerListAdapter.addLoadingFooter()
                         } else {
                             //Log.d("loadelse", "$TOTAL_PAGES and $pgNo ")
                             isLastPages = true
@@ -242,14 +236,14 @@ class EmployerListFragment : Fragment() {
                     //Log.d("callAppliURl", "url: ${call?.request()} and $pgNo")
 
                     TOTAL_PAGES = response.body()?.common?.totalpages?.toInt()
-                    employerListAdapter?.removeLoadingFooter()
+                    employerListAdapter.removeLoadingFooter()
                     isLoadings = false
 
-                    employerListAdapter?.addAll((response?.body()?.data as List<EmployerListModelData>?)!!)
+                    employerListAdapter.addAll((response.body()?.data as List<EmployerListModelData>?)!!)
 
 
                     if (pgNo != TOTAL_PAGES)
-                        employerListAdapter?.addLoadingFooter()
+                        employerListAdapter.addLoadingFooter()
                     else {
                         isLastPages = true
                     }

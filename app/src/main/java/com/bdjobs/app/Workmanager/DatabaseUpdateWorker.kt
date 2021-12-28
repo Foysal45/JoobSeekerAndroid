@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import androidx.work.ListenableWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.bdjobs.app.API.ApiServiceJobs
@@ -13,19 +12,18 @@ import com.bdjobs.app.API.ModelClasses.*
 import com.bdjobs.app.databases.External.DBHelper
 import com.bdjobs.app.databases.internal.*
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
-import com.bdjobs.app.Utilities.Constants.Companion.LIVE_INTERVIEW_COUNT
-import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
-import com.bdjobs.app.Utilities.Constants.Companion.certificationSynced
-import com.bdjobs.app.Utilities.Constants.Companion.favSearchFiltersSynced
-import com.bdjobs.app.Utilities.Constants.Companion.followedEmployerSynced
-import com.bdjobs.app.Utilities.Constants.Companion.jobInvitationSynced
-import com.bdjobs.app.Utilities.Constants.Companion.liveInvitationSynced
-import com.bdjobs.app.Utilities.Constants.Companion.videoInvitationSynced
-import com.bdjobs.app.Utilities.debug
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
+import com.bdjobs.app.utilities.Constants.Companion.api_request_result_code_ok
+import com.bdjobs.app.utilities.Constants.Companion.certificationSynced
+import com.bdjobs.app.utilities.Constants.Companion.favSearchFiltersSynced
+import com.bdjobs.app.utilities.Constants.Companion.followedEmployerSynced
+import com.bdjobs.app.utilities.Constants.Companion.jobInvitationSynced
+import com.bdjobs.app.utilities.Constants.Companion.liveInvitationSynced
+import com.bdjobs.app.utilities.Constants.Companion.videoInvitationSynced
+import com.bdjobs.app.utilities.debug
+import com.bdjobs.app.utilities.error
+import com.bdjobs.app.utilities.logException
 import com.bdjobs.app.liveInterview.data.models.LiveInterviewList
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
 import okhttp3.ResponseBody
@@ -99,31 +97,31 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                             //Log.d("createdon", "created on: $cratedOn \n updatedOn on: $updatedOn")
 
                             val favouriteSearch = FavouriteSearch(
-                                    filterid = item?.filterid,
-                                    filtername = item?.filtername,
-                                    industrialCat = item?.industrialCat,
-                                    functionalCat = item?.functionalCat,
-                                    location = item?.location,
-                                    organization = item?.organization,
-                                    jobnature = item?.jobnature,
-                                    joblevel = item?.joblevel,
-                                    postedon = item?.postedon,
-                                    deadline = item?.deadline,
-                                    keyword = item?.keyword,
-                                    newspaper = item?.newspaper,
-                                    gender = item?.gender,
-                                    genderb = item?.genderb,
-                                    experience = item?.experience,
-                                    age = item?.age,
-                                    jobtype = item?.jobtype,
-                                    retiredarmy = item?.retiredarmy,
+                                    filterid = item.filterid,
+                                    filtername = item.filtername,
+                                    industrialCat = item.industrialCat,
+                                    functionalCat = item.functionalCat,
+                                    location = item.location,
+                                    organization = item.organization,
+                                    jobnature = item.jobnature,
+                                    joblevel = item.joblevel,
+                                    postedon = item.postedon,
+                                    deadline = item.deadline,
+                                    keyword = item.keyword,
+                                    newspaper = item.newspaper,
+                                    gender = item.gender,
+                                    genderb = item.genderb,
+                                    experience = item.experience,
+                                    age = item.age,
+                                    jobtype = item.jobtype,
+                                    retiredarmy = item.retiredarmy,
                                     createdon = cratedOn,
                                     updatedon = updatedOn,
-                                    totaljobs = item?.totaljobs,
-                                    isSubscribed = item?.isSubscribed,
-                                    workPlace = item?.workPlace,
-                                    personWithDisability = item?.personWithDisability,
-                                    facilitiesForPWD = item?.facilityForPWD
+                                    totaljobs = item.totaljobs,
+                                    isSubscribed = item.isSubscribed,
+                                    workPlace = item.workPlace,
+                                    personWithDisability = item.personWithDisability,
+                                    facilitiesForPWD = item.facilityForPWD
 
                             )
                             bdjobsInternalDB.favouriteSearchFilterDao().insertFavouriteSearchFilter(favouriteSearch)
@@ -432,7 +430,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                 outputStream = FileOutputStream(dbFile)
 
                 while (true) {
-                    val read = inputStream!!.read(fileReader)
+                    val read = inputStream.read(fileReader)
 
                     if (read == -1) {
                         break
@@ -502,6 +500,8 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
 
             override fun onResponse(call: Call<StatsModelClass>, response: Response<StatsModelClass>) {
 
+                Timber.d("Here at mybdjobs count")
+
                 try {
                     var jobsApplied: String? = ""
                     var emailResume: String? = ""
@@ -513,31 +513,31 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                     var liveInvitation: String? = ""
 
 
-                    response?.body()?.data?.forEach { itt ->
+                    response.body()?.data?.forEach { itt ->
                         when (itt?.title) {
                             Constants.session_key_mybdjobscount_jobs_applied -> {
-                                jobsApplied = itt?.count
+                                jobsApplied = itt.count
                             }
                             Constants.session_key_mybdjobscount_times_emailed_resume -> {
-                                emailResume = itt?.count
+                                emailResume = itt.count
                             }
                             Constants.session_key_mybdjobscount_employers_viwed_resume -> {
-                                viewdResume = itt?.count
+                                viewdResume = itt.count
                             }
                             Constants.session_key_mybdjobscount_employers_followed -> {
-                                followedEmployers = itt?.count
+                                followedEmployers = itt.count
                             }
                             Constants.session_key_mybdjobscount_interview_invitation -> {
-                                interviewInvitation = itt?.count
+                                interviewInvitation = itt.count
                             }
                             Constants.session_key_mybdjobscount_message_by_employers -> {
-                                employerMessage = itt?.count
+                                employerMessage = itt.count
                             }
                             Constants.session_key_mybdjobscount_video_invitation -> {
-                                videoInvitation = itt?.count
+                                videoInvitation = itt.count
                             }
                             Constants.session_key_mybdjobscount_live_invitation -> {
-                                liveInvitation = itt?.count
+                                liveInvitation = itt.count
                             }
                         }
 
@@ -659,7 +659,7 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
                         for (item in items) {
                             var followedOn: Date? = null
                             try {
-                                followedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item?.followedOn)
+                                followedOn = SimpleDateFormat("MM/dd/yyyy h:mm:ss a").parse(item.followedOn)
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }
@@ -667,9 +667,10 @@ class DatabaseUpdateWorker(val appContext: Context, workerParams: WorkerParamete
 
                             val followedEmployer = FollowedEmployer(
                                     CompanyID = item.companyID,
-                                    CompanyName = item?.companyName,
+                                    CompanyName = item.companyName,
                                     FollowedOn = followedOn,
-                                    JobCount = item?.jobCount)
+                                    JobCount = item.jobCount
+                            )
                             bdjobsInternalDB.followedEmployerDao().insertFollowedEmployer(followedEmployer)
                         }
 

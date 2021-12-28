@@ -1,45 +1,51 @@
 package com.bdjobs.app.videoInterview.ui.rating
 
 import android.app.Application
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bdjobs.app.R
+import com.bdjobs.app.ajkerDeal.utilities.hideKeyboard
 import com.bdjobs.app.databinding.FragmentRatingBinding
 import com.bdjobs.app.videoInterview.data.repository.VideoInterviewRepository
-import com.bdjobs.app.videoInterview.ui.interview_details.VideoInterviewDetailsViewModel
 import com.bdjobs.app.videoInterview.util.EventObserver
+import com.bdjobs.app.videoResume.VideoResumeActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_rating.*
-import kotlinx.android.synthetic.main.fragment_rating.tool_bar
+import kotlinx.android.synthetic.main.layout_create_video_resume_bottom_guide.view.*
 import org.jetbrains.anko.sdk27.coroutines.onRatingBarChange
 
 class RatingFragment : Fragment() {
 
-    private val questionDetailsViewModel: VideoInterviewDetailsViewModel by navGraphViewModels(R.id.videoInterviewDetailsFragment)
+    private val args : RatingFragmentArgs by navArgs()
     private val ratingViewModel: RatingViewModel by viewModels {
         RatingViewModelFactory(
                 VideoInterviewRepository(requireActivity().application as Application),
-                questionDetailsViewModel.applyId.value, questionDetailsViewModel.jobId.value
+                args.applyID, args.jobID
         )
     }
 
     lateinit var binding: FragmentRatingBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = FragmentRatingBinding.inflate(inflater).apply {
             viewModel = ratingViewModel
             lifecycleOwner = viewLifecycleOwner
         }
+
+
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,7 +56,7 @@ class RatingFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         tool_bar?.setupWithNavController(navController, appBarConfiguration)
 
-        tool_bar?.title = questionDetailsViewModel.jobTitle.value
+        tool_bar?.title = args.jobTitle
 
         rating?.onRatingBarChange { _, rating, _ ->
             ratingViewModel.apply {
@@ -59,9 +65,27 @@ class RatingFragment : Fragment() {
             }
         }
 
+        scrollview_feedback.viewTreeObserver.addOnScrollChangedListener {
+            hideKeyboard()
+        }
+
+        ratingViewModel.showSnackbar.observe(viewLifecycleOwner, { it ->
+            it?.getContentIfNotHandled()?.let {
+                Snackbar.make(cl_root,it, Snackbar.LENGTH_SHORT).show()
+            }
+        })
+
         ratingViewModel.navigateToListEvent.observe(viewLifecycleOwner,EventObserver {
             if (it)
-                findNavController().popBackStack(R.id.videoInterviewListFragment,false)
+                findNavController().navigate(R.id.afterSubmitFragment)
         })
+
+        video_resume_guide.tv_learn_more_label.setOnClickListener {
+            requireContext().startActivity(
+                Intent(requireContext(),
+                    VideoResumeActivity::class.java)
+            )
+        }
     }
+
 }

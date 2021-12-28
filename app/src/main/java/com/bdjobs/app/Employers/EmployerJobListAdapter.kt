@@ -13,8 +13,12 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.Jobs.JobBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
+import com.bdjobs.app.utilities.toSimpleDateString
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.singleTop
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapter<EmployerJobListViewHolder>() {
 
@@ -40,7 +44,8 @@ class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapt
     }
     override fun onBindViewHolder(holder: EmployerJobListViewHolder, position: Int) {
         holder.employerCompany.text = employerJobList?.get(position)?.jobtitle
-        holder.deadline.text = employerJobList?.get(position)?.deadline
+        val deadlineValue = employerJobList?.get(position)?.deadline
+        holder.deadline.text = formatDate(deadlineValue)
         holder.itemView.setOnClickListener {
             val jobids = ArrayList<String>()
             val lns = ArrayList<String>()
@@ -55,6 +60,14 @@ class EmployerJobListAdapter (private val context: Context) : RecyclerView.Adapt
         }
 
     }
+
+    private fun formatDate(deadline: String?):String {
+        return if (deadline!=null && deadline!="") {
+            SimpleDateFormat("MMM dd, yyyy", Locale.US).parse(deadline)!!.toSimpleDateString()
+        } else deadline?:""
+
+    }
+
     override fun getItemCount(): Int {
         return return if (employerJobList == null) 0 else employerJobList!!.size
     }

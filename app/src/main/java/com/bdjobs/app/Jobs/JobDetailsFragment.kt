@@ -16,10 +16,10 @@ import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_jobdetail_layout.*
@@ -32,7 +32,7 @@ import timber.log.Timber
 
 class JobDetailsFragment : Fragment() {
 
-    private var layoutManager: RecyclerView.LayoutManager? = null
+    private var layoutManager: CustomLayoutManager? = null
     var jobDetailAdapter: JobDetailAdapter? = null
     private var currentPage = 1
     private lateinit var communicator: JobCommunicator
@@ -95,8 +95,7 @@ class JobDetailsFragment : Fragment() {
 
         (snapHelper as PagerSnapHelper).attachToRecyclerView(jobDetailRecyclerView)
         jobDetailRecyclerView.setHasFixedSize(true)
-
-        layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+        layoutManager = CustomLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         jobDetailRecyclerView?.layoutManager = layoutManager
         //Log.d("PositionTest", "snapHelper   ${snapHelper!!.getSnapPosition(jobDetailRecyclerView)}")
         jobDetailAdapter = JobDetailAdapter(activity!!)
@@ -490,11 +489,11 @@ class JobDetailsFragment : Fragment() {
         }
 
         shortListIMGV?.setOnClickListener {
-            jobDetailAdapter!!.shorlistAndUnshortlistJob(shareJobPosition)
+            jobDetailAdapter!!.shortlistAndNoShortlistedJobs(shareJobPosition)
 
         }
         shortListIMGV2?.setOnClickListener {
-            jobDetailAdapter!!.reportthisJob(shareJobPosition)
+            jobDetailAdapter!!.reportThisJob(shareJobPosition)
 
         }
     }

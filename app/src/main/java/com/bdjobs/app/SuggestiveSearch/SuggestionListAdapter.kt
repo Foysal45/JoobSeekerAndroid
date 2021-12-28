@@ -10,7 +10,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.logException
 import java.util.*
 
 class SuggestionListAdapter(var itemList: ArrayList<String>, private val context: Context) : BaseAdapter(), Filterable {
@@ -99,7 +99,7 @@ class SuggestionListAdapter(var itemList: ArrayList<String>, private val context
         try {
             vh.itemTV?.text = filteredItems?.get(position)
             vh.itemTV?.setOnClickListener {
-                communicator?.suggestionSelected(vh?.itemTV?.text.toString())
+                communicator?.suggestionSelected(vh.itemTV.text.toString())
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -122,6 +122,6 @@ class SuggestionListAdapter(var itemList: ArrayList<String>, private val context
     }
 
     inner class ListRowHolder(row: View) {
-        val itemTV = row?.findViewById<TextView>(R.id.itemNameTV)
+        val itemTV = row.findViewById<TextView>(R.id.itemNameTV)
     }
 }

@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import com.bdjobs.app.InterviewInvitation.InterviewInvitationBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.databases.internal.*
 import com.bdjobs.app.liveInterview.LiveInterviewActivity
 import com.bdjobs.app.videoInterview.VideoInterviewActivity
@@ -237,7 +237,7 @@ class NightNotificationReceiver : BroadcastReceiver() {
             is VideoInvitation -> {
                 try {
                     val simpleDateFormat = SimpleDateFormat("d MMM yyyy",Locale.ENGLISH)
-                    val deadlineString = simpleDateFormat.format(data?.deadline)
+                    val deadlineString = simpleDateFormat.format(data.deadline)
                     val notificationText = "Submit your recorded Video Interview within tomorrow, $deadlineString"
                     doAsync {
                         bdjobsInternalDB.notificationDao().insertNotification(Notification(type = "vi", serverId = data.jobId, seen = false, arrivalTime = date, seenTime = date, payload = "", imageLink = "", link = "", isDeleted = false, jobTitle = data.jobTitle, title = "", body = notificationText, companyName = data.companyName, notificationId = "", lanType = "", deadline = data.dateStringForSubmission.toString()))

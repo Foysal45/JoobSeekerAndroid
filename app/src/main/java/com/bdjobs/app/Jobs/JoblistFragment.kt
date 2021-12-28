@@ -18,11 +18,11 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.JobListModel
 import com.bdjobs.app.API.ModelClasses.JobListModelData
 import com.bdjobs.app.API.ModelClasses.SaveUpdateFavFilterModel
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.ENCODED_JOBS
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.ENCODED_JOBS
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.FavouriteSearch
 import com.bdjobs.app.databases.internal.LastSearch

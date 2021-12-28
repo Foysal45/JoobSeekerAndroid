@@ -13,10 +13,10 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.CompoundButton
 import androidx.core.view.isVisible
-import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.databases.External.DataStorage
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.footer_bc_layout.*
@@ -251,46 +251,43 @@ class BCEducationFragment : Fragment() {
     }
 
     private fun checkValidity() {
-        if (TextUtils.isEmpty(bcEduLevelTIET.getString())) {
-            bcEduLevelTIL?.showError("সর্বশেষ শিক্ষা পর্যায় নির্বাচন করুন")
-        } else {
-            bcEduLevelTIL?.isErrorEnabled = false
-        }
-        if (TextUtils.isEmpty(bcEduDegreeTIET.getString())) {
-            bcEduDegreeTIL?.showError("পরীক্ষা/ডিগ্রীর নাম নির্বাচন করুন")
-        } else {
-            bcEduDegreeTIL?.isErrorEnabled = false
-        }
-        if (TextUtils.isEmpty(bcInstituteNameTIET.getString())) {
-            bcInstituteNameTIL?.showError("শিক্ষা প্রতিষ্ঠানের  নাম লিখুন")
-            requestFocus(bcInstituteNameTIET)
-        } else {
-            bcInstituteNameTIL?.isErrorEnabled = false
-        }
-        if (TextUtils.isEmpty(bcPassingYearTIET.getString())) {
-            bcPassingYearTIL?.showError("পাশ করার বছর লিখুন")
-            requestFocus(bcPassingYearTIET)
-            //scrollview.scrollTo(0, bcPassingYearTIET.bottom)
 
-        } else {
-            bcPassingYearTIL?.isErrorEnabled = false
-        }
-        if (bcEduDegreeOtherTIL.isVisible) {
+        if (TextUtils.isEmpty(bcEduLevelTIET.getString())){
+            bcEduLevelTIL?.showError("সর্বশেষ শিক্ষা পর্যায় নির্বাচন করুন")
+
+        }else if (TextUtils.isEmpty(bcEduDegreeTIET.getString())){
+            bcEduDegreeTIL?.showError("পরীক্ষা/ডিগ্রীর নাম নির্বাচন করুন")
+
+        }else if(bcEduDegreeOtherTIL.isVisible && TextUtils.isEmpty(bcEduDegreeOtherTIET.getString())){
             if (TextUtils.isEmpty(bcEduDegreeOtherTIET.getString())) {
                 bcEduDegreeOtherTIL?.showError("পরীক্ষা/ডিগ্রীর নাম লিখুন")
                 requestFocus(bcEduDegreeOtherTIET)
             } else {
                 bcEduDegreeOtherTIL?.isErrorEnabled = false
             }
-        }
-
-        if (bcEduBoardTIL.isVisible) {
+        }else if (bcEduBoardTIL.isVisible && TextUtils.isEmpty(bcEduBoardTIET.getString())){
             if (TextUtils.isEmpty(bcEduBoardTIET.getString())) {
                 bcEduBoardTIL?.showError("বোর্ডের নাম লিখুন")
                 requestFocus(bcEduBoardTIET)
             } else {
                 bcEduBoardTIL?.isErrorEnabled = false
             }
+        }else if (TextUtils.isEmpty(bcInstituteNameTIET.getString())){
+
+            bcInstituteNameTIL?.showError("শিক্ষা প্রতিষ্ঠানের  নাম লিখুন")
+            requestFocus(bcInstituteNameTIET)
+
+        }else if (TextUtils.isEmpty(bcPassingYearTIET.getString())){
+
+            bcPassingYearTIL?.showError("পাশ করার বছর লিখুন")
+            requestFocus(bcPassingYearTIET)
+
+        }
+        else{
+            bcEduLevelTIL?.isErrorEnabled = false
+            bcEduDegreeTIL?.isErrorEnabled = false
+            bcInstituteNameTIL?.isErrorEnabled = false
+            bcPassingYearTIL?.isErrorEnabled = false
         }
 
 
@@ -361,18 +358,22 @@ class BCEducationFragment : Fragment() {
                     ) { dialog, which ->
                         editText.setText(data[which].trim())
 
-                        if (data[which].equals("Other", ignoreCase = true)) {
-                            bcEduDegreeOtherTIET?.show()
-                            bcEduDegreeOtherTIL?.show()
-                            bcEduDegreeOtherTIET?.clear()
-                            bcEduDegreeTIL?.isErrorEnabled = false
-                            bcEduDegreeOtherTIL?.isErrorEnabled = false
-                            /* registrationCommunicator.setEducationType("5")*/
-
-                        } else {
-                            bcEduDegreeOtherTIET?.hide()
-                            bcEduDegreeOtherTIL?.hide()
+                        if (title.equals("পরীক্ষা/ডিগ্রীর নাম")){
+                            if (data[which].equals("Other", ignoreCase = true)) {
+                              //  Toast.makeText(activity, "other = show", Toast.LENGTH_SHORT).show()
+                                bcEduDegreeOtherTIET?.show()
+                                bcEduDegreeOtherTIL?.show()
+                                bcEduDegreeOtherTIET?.clear()
+                                bcEduDegreeTIL?.isErrorEnabled = false
+                                bcEduDegreeOtherTIL?.isErrorEnabled = false
+                                /* registrationCommunicator.setEducationType("5")*/
+                            }
+                            else {
+                                bcEduDegreeOtherTIET?.hide()
+                                bcEduDegreeOtherTIL?.hide()
+                            }
                         }
+
 
                         if (editText.id == R.id.bcEduLevelTIET) {
 

@@ -2,7 +2,6 @@ package com.bdjobs.app.Registration.blue_collar_registration
 
 
 import android.app.Activity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,8 @@ import com.bdjobs.app.API.ModelClasses.AddExpModel
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationBaseActivity
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import com.google.android.material.chip.Chip
 import java.util.*
 
@@ -53,7 +52,7 @@ class BCSkillAdapter(private val context: Activity, private val items: ArrayList
                     holder.filter_chip4.show()
                 }
                 "5" -> {
-                    holder.filter_chip5.text = "NTVQF:${items?.get(position)?.NTVQF}"
+                    holder.filter_chip5.text = "NTVQF:${items.get(position).NTVQF}"
                     holder.filter_chip5.show()
                 }
                 "-1" -> {
@@ -82,9 +81,9 @@ class BCSkillAdapter(private val context: Activity, private val items: ArrayList
 
 
         holder.skillDeleteIcon.setOnClickListener {
-            items?.removeAt(position)
+            items.removeAt(position)
             notifyItemRemoved(position)
-            notifyItemRangeRemoved(position, items?.size!!)
+            notifyItemRangeRemoved(position, items.size)
 
         }
 

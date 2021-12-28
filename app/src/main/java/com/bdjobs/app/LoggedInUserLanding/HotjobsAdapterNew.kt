@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bdjobs.app.API.ModelClasses.HotJobsData
 import com.bdjobs.app.API.ModelClasses.HotJobsJobTitle
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.material.button.MaterialButton
 
@@ -222,5 +222,5 @@ class HotJobsAdViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val hotjobtitles_RV = view.findViewById(R.id.hotjobtitles_RV) as RecyclerView
     val companyLogo_IV = view.findViewById(R.id.companyLogo_IV) as ImageView
     val expandBtn = view.findViewById(R.id.button2) as MaterialButton
-    val ad_small_template: TemplateView = view?.findViewById(R.id.ad_small_template) as TemplateView
+    val ad_small_template: TemplateView = view.findViewById(R.id.ad_small_template) as TemplateView
 }

@@ -28,11 +28,10 @@ import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.SessionManger.DeviceProtectedSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.name_sharedPref
 import com.bdjobs.app.Workmanager.DatabaseUpdateWorker
 import com.fondesa.kpermissions.*
-import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.extension.send
 import com.fondesa.kpermissions.request.PermissionRequest
@@ -44,8 +43,6 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
@@ -105,6 +102,14 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         val deviceProtectedSession = DeviceProtectedSession(this)
         deviceProtectedSession.isLoggedIn = bdjobsUserSession.isLoggedIn
 
+        if (!bdjobsUserSession.isFirstInstall!!) {
+            if (this.isFirstInstall() || this.isInstallFromUpdate()) {
+                Timber.d("Splash: FirstInstall")
+                bdjobsUserSession.isFirstInstall = true
+                bdjobsUserSession.firstInstallAt = currentDate
+            }
+        }
+
     }
 
     private fun setRemoteConfigValues() {
@@ -159,36 +164,6 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         agreedBtn?.setOnClickListener {
             Timber.d("Agreed button clicked")
 
-//            request = permissionsBuilder(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE).build()
-//            request.send()
-//            request.listeners {
-//
-//                onAccepted { permissions ->
-//                    Timber.d("Accepted access")
-//                    // Notified when the permissions are accepted.
-//                    dataStorage = DataStorage(this@SplashActivity) // don't delete this line. It is used to copy db
-//                    firstDialog?.dismiss()
-//                    //Log.d("rakib", "on accepted")
-//                    doWork(connectionStatus)
-//                }
-//
-//                onDenied { permissions ->
-//                    // Notified when the permissions are denied.
-//                }
-//
-//                onPermanentlyDenied { permissions ->
-//                    // Notified when the permissions are permanently denied.
-//                    //Log.d("rakib", "permanently denied")
-//                    showPermanentlyDeniedPopup(firstDialog as Dialog)
-//
-//                }
-//
-//                onShouldShowRationale { permissions, nonce ->
-//                    // Notified when the permissions should show a rationale.
-//                    // The nonce can be used to request the permissions again.
-//                }
-//            }
-
             permissionsBuilder(Manifest.permission.WRITE_EXTERNAL_STORAGE).build().send { result ->
                 when {
                     result.allGranted() -> {
@@ -220,8 +195,8 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         //Log.d("rakib", "take decisions called")
 
         if (isConnected) {
-            if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+            if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
             ) {
                 showExplanationFirstTimePopup(isConnected)
             } else {
@@ -245,7 +220,7 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
         val agreedBtn = dialog?.findViewById<Button>(R.id.btn_next)
 
         agreedBtn?.setOnClickListener {
-            firstDialog?.dismiss()
+            firstDialog.dismiss()
             val intent = createAppSettingsIntent()
             startActivity(intent)
         }
@@ -357,17 +332,17 @@ class SplashActivity : FragmentActivity(), ConnectivityReceiver.ConnectivityRece
 
     private fun checkUpdate() {
         val appUpdateManager = AppUpdateManagerFactory.create(this@SplashActivity)
-        val appUpdateInfoTask = appUpdateManager?.appUpdateInfo
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
-        appUpdateInfoTask?.addOnCompleteListener {
+        appUpdateInfoTask.addOnCompleteListener {
             if (it.isSuccessful) {
                 if (it.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                        it.result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                    appUpdateManager?.startUpdateFlowForResult(
-                            it.result,
-                            AppUpdateType.IMMEDIATE,
-                            this@SplashActivity,
-                            APP_UPDATE_REQUEST_CODE)
+                    it.result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                    appUpdateManager.startUpdateFlowForResult(
+                        it.result,
+                        AppUpdateType.IMMEDIATE,
+                        this@SplashActivity,
+                        APP_UPDATE_REQUEST_CODE)
                 } else {
                     //Log.d("UpdateCheck", "UPDATE_IS_NOT_AVAILABLE")
                     goToNextActivity()

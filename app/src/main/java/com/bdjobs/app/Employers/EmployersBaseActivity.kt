@@ -1,16 +1,15 @@
 package com.bdjobs.app.Employers
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.FollowEmployerListData
 import com.bdjobs.app.API.ModelClasses.MessageDataModel
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.activity_employers_base.*
 import org.jetbrains.anko.doAsync
 import retrofit2.Call
@@ -208,7 +207,7 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
         bdjobsUserSession = BdjobsUserSession(applicationContext)
 
         try {
-            time = intent.getStringExtra("time") ?: "1"
+            time = intent.getStringExtra("time") ?: "0"
         } catch (e: Exception) {
         }
 
@@ -258,7 +257,7 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
         } else if (value?.equals("joblist")) {
             transitFragment(employerJobListFragment, R.id.fragmentHolder)
         } else if (value?.equals("vwdMyResume")) {
-            transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+            transitFragmentX(employerViewedMyResumeFragment, R.id.fragmentHolder,false)
         } else if (value?.equals("notificationList")) {
 
             if (!seen) {
@@ -292,7 +291,7 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
                 }
             }
 
-            transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
+            transitFragmentX(employerViewedMyResumeFragment, R.id.fragmentHolder,false)
 
         } else if (value?.equals("notification")) {
 
@@ -333,8 +332,8 @@ class EmployersBaseActivity : AppCompatActivity(), EmployersCommunicator {
                 bdjobsUserSession.updateNotificationCount(count)
                 //Log.d("rakib", "noti count $count $jobId")
             }
-            transitFragment(employerViewedMyResumeFragment, R.id.fragmentHolder)
-        } else if (value?.equals("employerMessageList")) {
+            transitFragmentX(employerViewedMyResumeFragment, R.id.fragmentHolder,false)
+        } else if (value.equals("employerMessageList")) {
             transitFragment(employerMessageListFragment, R.id.fragmentHolder)
         }
 

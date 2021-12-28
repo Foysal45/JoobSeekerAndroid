@@ -19,14 +19,14 @@ import com.bdjobs.app.Login.LoginBaseActivity
 import com.bdjobs.app.Login2.Login2BaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SuggestiveSearch.SuggestiveSearchActivity
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.BdjobsUserRequestCode
-import com.bdjobs.app.Utilities.Constants.Companion.key_categoryET
-import com.bdjobs.app.Utilities.Constants.Companion.key_from
-import com.bdjobs.app.Utilities.Constants.Companion.key_go_to_home
-import com.bdjobs.app.Utilities.Constants.Companion.key_jobtitleET
-import com.bdjobs.app.Utilities.Constants.Companion.key_loacationET
-import com.bdjobs.app.Utilities.Constants.Companion.key_typedData
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.BdjobsUserRequestCode
+import com.bdjobs.app.utilities.Constants.Companion.key_categoryET
+import com.bdjobs.app.utilities.Constants.Companion.key_from
+import com.bdjobs.app.utilities.Constants.Companion.key_go_to_home
+import com.bdjobs.app.utilities.Constants.Companion.key_jobtitleET
+import com.bdjobs.app.utilities.Constants.Companion.key_loacationET
+import com.bdjobs.app.utilities.Constants.Companion.key_typedData
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_guest_user_job_search.*
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -52,11 +52,6 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
             version_name_tv?.show()
         }
 //        secretTV?.isEnabled = true
-
-    }
-
-    override fun onResume() {
-        super.onResume()
 
     }
 
@@ -163,19 +158,19 @@ class GuestUserJobSearchActivity : Activity(), ConnectivityReceiver.Connectivity
 
     private fun openDialog() {
         val dialog = Dialog(this)
-        dialog?.setContentView(R.layout.dialog_pass)
-        dialog?.setCancelable(false)
-        dialog?.show()
-        val passET = dialog?.findViewById<EditText>(R.id.pass_et)
-        val okBtn = dialog?.findViewById<Button>(R.id.ok_btn)
+        dialog.setContentView(R.layout.dialog_pass)
+        dialog.setCancelable(false)
+        dialog.show()
+        val passET = dialog.findViewById<EditText>(R.id.pass_et)
+        val okBtn = dialog.findViewById<Button>(R.id.ok_btn)
 
         okBtn.setOnClickListener {
             passET?.let {
                 if (passET.text.toString() == "secret") {
-                    dialog?.dismiss()
+                    dialog.dismiss()
                     startActivity(intentFor<Login2BaseActivity>(key_go_to_home to true))
                 } else {
-                    dialog?.dismiss()
+                    dialog.dismiss()
                 }
             }
 

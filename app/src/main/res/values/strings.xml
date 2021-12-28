@@ -493,7 +493,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="personal_details">Personal Details</string>
     <string name="academic_qualification">Academic Qualification</string>
     <string name="training">Training</string>
-    <string name="professional_qualification">Professional Qualification</string>
+    <string name="professional_qualification">Professional Certification</string>
     <string name="experience">Experience</string>
     <string name="specialization">Specialization</string>
     <string name="reference">Reference</string>
@@ -510,7 +510,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="completed_questions">Completed Questions</string>
     <string name="label_join_interview_30_mins">You will get Join Interview button <b>before 30 mins of interview.</b></string>
     <string name="tab_label_shortlisted_jobs">Shortlisted Jobs</string>
-    <string name="tab_label_followed_employers">Followed Employers</string>
+    <string name="tab_label_followed_employers">Followed Employer(s)</string>
     <string name="tab_label_favourite_search">Favourite Search</string>
     <string name="label_steps_sms_job_alert">Steps of receiving SMS Job Alert of your choice</string>
     <string name="label_available_packages">Available Packages</string>
@@ -531,7 +531,7 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="label_receive_sms_package_benefit">Receive SMS according to Matched jobs by default</string>
     <string name="label_sms_fav_search_benefit">Get SMS Job Alert from Favorite Job Search you have subscribed</string>
     <string name="label_sms_following_emp_benefit">Get SMS Job Alert from the Following Employer you have subscribed</string>
-    <string name="label_duration_unlimited">Duration: Unlimited</string>
+    <string name="label_duration_unlimited">Duration: 12 Months (Above 200 SMS)</string>
     <string name="label_get_customized_sms_packs">Get Customized SMS Packs</string>
     <string name="label_customized_sms_pack">Customized SMS Pack</string>
     <string name="_20_sms">20 SMS</string>
@@ -548,9 +548,11 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="duration_12_month">Duration: 12 Month</string>
 
     <string name="followed_emp_step_3">- Tap <font color="#13A10E"><b>+ Follow</b></font> button.</string>
-    <string name="followed_emp_instruction">You can also follow employers from Company Information in job details page by tapping <font color="#13A10E"><b>+ Follow</b></font> button.</string>
+    <string name="followed_emp_instruction">You can also follow employers from Company Information in job details page by tapping\n<font color="#13A10E"><b>+ Follow</b></font> button.</string>
 
     <string name="favourite_search_step_3">- Tap ❤<font color ="#979797"> Save Search</font> button.</string>
+
+    <string name="label_video_resume_encouragement">This Employer has encouraged you to submit your Video Resume. <b>Submit Now</b></string>
 
     <string-array name="spinnerFilterItemEmailResume">
         <item>All</item>
@@ -594,5 +596,6 @@ Example: MBA, BBA, Photography, Computer Diploma, Visual Basic, Visual C++, Java
     <string name="title_sms_settings">SMS Settings</string>
 
     <string name="video_resume_encouragement">Applicants are encouraged to submit Video Resume. <u>Learn more about Video Resume</u></string>
+    <string name="learn_more"><u>Learn More</u></string>
 
 </resources>

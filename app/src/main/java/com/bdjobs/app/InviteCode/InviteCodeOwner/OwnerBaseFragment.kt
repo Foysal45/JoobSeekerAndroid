@@ -11,8 +11,8 @@ import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.InviteCode.InviteCodeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.getBlueCollarUserId
-import com.bdjobs.app.Utilities.loadCircularImageFromUrl
+import com.bdjobs.app.utilities.getBlueCollarUserId
+import com.bdjobs.app.utilities.loadCircularImageFromUrl
 import kotlinx.android.synthetic.main.invite_code_owner_base_fragment_layout.*
 
 class OwnerBaseFragment : Fragment(){

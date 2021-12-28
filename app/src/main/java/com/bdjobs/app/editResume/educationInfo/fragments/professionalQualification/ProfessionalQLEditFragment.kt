@@ -2,8 +2,8 @@ package com.bdjobs.app.editResume.educationInfo.fragments.professionalQualificat
 
 import android.app.DatePickerDialog
 import android.app.Fragment
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import android.view.WindowManager
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.adapters.models.ProfessionalModel
 import com.bdjobs.app.editResume.callbacks.EduInfo
@@ -92,7 +92,7 @@ class ProfessionalQLEditFragment : Fragment() {
         updateDateInView(0)
     }
     private val endDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-        calendar?.set(Calendar.YEAR, year)
+        calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, monthOfYear)
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
@@ -148,34 +148,17 @@ class ProfessionalQLEditFragment : Fragment() {
                 }
                 date?.let {
                     cal.time = date
-                    pickDate(activity, cal, startDateSetListener)
+                    showDatePicker(activity, cal, startDateSetListener,"start")
                 }
             } else {
                 if (etPqStartDate.text.toString().isNullOrEmpty())
-                    pickDate(activity, cal, startDateSetListener)
+                    showDatePicker(activity, cal, startDateSetListener,"start")
                 else {
                     date = formatter.parse(etPqStartDate.text.toString())
                     cal.time = date
-                    pickDate(activity, cal, startDateSetListener)
+                    showDatePicker(activity, cal, startDateSetListener,"start")
                 }
             }
-
-//            val mYear = calendar!!.get(Calendar.YEAR)
-//            val mMonth = calendar!!.get(Calendar.MONTH)
-//            val mDay = calendar!!.get(Calendar.DAY_OF_MONTH)
-//            datePickerDialog = DatePickerDialog(activity,
-//                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-//
-//                        val date = "${monthOfYear + 1}/$dayOfMonth/$year"
-//                        //Log.d("Test", " date default ${date} ")
-//                        etPqStartDate.setText(date)
-//
-//
-//                    }, mYear, mMonth, mDay)
-//
-//            datePickerDialog.show()
-
-
         }
         etPqEndDate?.setOnClickListener {
 
@@ -184,7 +167,7 @@ class ProfessionalQLEditFragment : Fragment() {
 
             if (isEdit) {
                 try {
-                    date = if (eduCB?.getProfessionalData().to == "Continuing") {
+                    date = if (eduCB.getProfessionalData().to == "Continuing") {
                         if (!etPqEndDate.text.toString().isNullOrEmpty()) {
                             formatter.parse(etPqEndDate.text.toString())
                         } else {
@@ -195,7 +178,7 @@ class ProfessionalQLEditFragment : Fragment() {
                     }
                     date?.let {
                         cal.time = date
-                        pickDate(activity, cal, endDateSetListener)
+                        showDatePicker(activity, cal, endDateSetListener)
                     }
                 } catch (e: ParseException) {
                     e.printStackTrace()
@@ -206,34 +189,32 @@ class ProfessionalQLEditFragment : Fragment() {
                     if (!etPqEndDate.text.toString().isNullOrEmpty()){
                         date = formatter.parse(etPqEndDate.text.toString())
                         cal.time = date
-                        pickDate(activity, cal, endDateSetListener)
+                        showDatePicker(activity, cal, endDateSetListener)
                     } else {
-                        pickDate(activity, cal, endDateSetListener)
+                        showDatePicker(activity, cal, endDateSetListener)
                     }
                 } catch (e: Exception) {
                 }
 
             }
 
-//            val mYear = calendar!!.get(Calendar.YEAR)
-//            val mMonth = calendar!!.get(Calendar.MONTH)
-//            val mDay = calendar!!.get(Calendar.DAY_OF_MONTH)
-//            // date picker dialog
-//            datePickerDialog = DatePickerDialog(activity,
-//                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-//
-//                        val date = "${monthOfYear + 1}/$dayOfMonth/$year"
-//                        //Log.d("Test", " date default ${date} ")
-//                        etPqEndDate.setText(date)
-//
-//                    }, mYear, mMonth, mDay)
-//
-//            datePickerDialog.show()
-
-
         }
     }
 
+
+    private fun showDatePicker(c: Context, cal: Calendar, listener: DatePickerDialog.OnDateSetListener,from:String = "") {
+        val dpd = DatePickerDialog(
+            c,
+            listener,
+            // set DatePickerDialog to point to today's date when it loads up
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        )
+
+        if (from == "start") dpd.datePicker.maxDate = Date().time
+        dpd.show()
+    }
 
     private fun addTextChangedListener(editText: TextInputEditText, inputLayout: TextInputLayout) {
         editText.easyOnTextChangedListener { charSequence ->
@@ -287,15 +268,15 @@ class ProfessionalQLEditFragment : Fragment() {
                 activity.toast("Start Date cannot be greater than End Date!")
             } else {
 
-                if (date1 == date2) {
-
-                    activity.toast("Start Date and End Date cannot be equal!")
-                    return false
-
-                } else {
+//                if (date1 == date2) {
+//
+//                    activity.toast("Start Date and End Date cannot be equal!")
+//                    return false
+//
+//                } else {
 
                     return true
-                }
+//                }
 
 
             }

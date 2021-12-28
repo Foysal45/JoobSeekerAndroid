@@ -1,6 +1,5 @@
 package com.bdjobs.app.SessionManger
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.AlarmManager
@@ -9,17 +8,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.edit
 import com.bdjobs.app.API.ModelClasses.DataLoginPasswordModel
 import com.bdjobs.app.BroadCastReceivers.MorningNotificationReceiver
 import com.bdjobs.app.BroadCastReceivers.NightNotificationReceiver
 import com.bdjobs.app.GuestUserLanding.GuestUserJobSearchActivity
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.Constants.Companion.isDeviceInfromationSent
-import com.bdjobs.app.Utilities.Constants.Companion.name_sharedPref
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.Constants.Companion.isDeviceInfromationSent
+import com.bdjobs.app.utilities.Constants.Companion.name_sharedPref
+import com.bdjobs.app.utilities.logException
 import com.bdjobs.app.databases.internal.BdjobsDB
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -474,7 +471,7 @@ class BdjobsUserSession(val context: Context) {
             val value = pref?.getString(key, "0")
             val count = (value?.toInt()!! + 1).toString()
             //Log.d("rakib", "$key -> $count")
-            pref?.edit() {
+            pref?.edit {
                 putString(key, count)
             }
         } catch (e: Exception) {
@@ -488,7 +485,7 @@ class BdjobsUserSession(val context: Context) {
             if (value?.toInt()!! > 0) {
                 val count = (value.toInt() - 1).toString()
                 //Log.d("rakib", "$key -> $count")
-                pref?.edit() {
+                pref?.edit {
                     putString(key, count)
                 }
             }
@@ -607,7 +604,7 @@ class BdjobsUserSession(val context: Context) {
         set(value) {pref!!.edit().putString("PresentPostOffice",value).apply()}
 
     var adTypeMyBdJobs : String?
-    get() = pref!!.getString("AD_IN_MYBDJOBS","2")
+    get() = pref!!.getString("AD_IN_MYBDJOBS","0")
     set(value) {pref!!.edit().putString("AD_IN_MYBDJOBS",value).apply()}
 
     var adTypeJobList : String?
@@ -617,6 +614,28 @@ class BdjobsUserSession(val context: Context) {
     var adTypeLanding : String?
         get() = pref!!.getString("AD_IN_MAIN_LANDING","0")
         set(value) {pref!!.edit().putString("AD_IN_MAIN_LANDING",value).apply()}
+
+    var liveInterviewConfirmStatus : String?
+        get() = pref!!.getString("AD_IN_MAIN_LANDING","0")
+        set(value) {pref!!.edit().putString("AD_IN_MAIN_LANDING",value).apply()}
+
+    fun getliveInterviewConfirmStatus(invitationId : String) : String{
+      return pref!!.getString(invitationId,"0").toString()
+    }
+    fun setliveInterviewConfirmStatus(invitationId : String, value : String){
+        pref!!.edit().putString(invitationId,value).apply()
+    }
+    var isFirstInstall: Boolean?
+        get() = pref!!.getBoolean("IS_FIRST_INSTALL",false)
+        set(value) {pref!!.edit().putBoolean("IS_FIRST_INSTALL",value!!).commit()}
+
+    var firstInstallAt: String?
+    get() = pref!!.getString("FIRST_INSTALL_DATE","")
+    set(value) {pref!!.edit().putString("FIRST_INSTALL_DATE",value).commit()}
+
+    var isExpirationMessageShown : Boolean
+    get() = pref!!.getBoolean("EXP_MSG_SHOWN",false)
+    set(value) {pref!!.edit().putBoolean("EXP_MSG_SHOWN",value).commit()}
 
 
 }

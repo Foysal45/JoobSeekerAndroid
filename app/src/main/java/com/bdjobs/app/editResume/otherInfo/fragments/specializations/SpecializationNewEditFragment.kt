@@ -10,7 +10,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.callbacks.OtherInfo
 import kotlinx.android.synthetic.main.fragment_specialization_new_edit.*
@@ -102,7 +102,7 @@ class SpecializationNewEditFragment : Fragment() {
         activity?.showProgressBar(newSpecializationLoadingProgressBar)
         val call = ApiServiceMyBdjobs.create().updateExtraCuriculam(session.userId, session.decodId,
                 session.IsResumeUpdate, etSkillDescription.getString(), etCaricular.getString())
-        call?.enqueue(object : Callback<AddorUpdateModel> {
+        call.enqueue(object : Callback<AddorUpdateModel> {
             override fun onFailure(call: Call<AddorUpdateModel>, t: Throwable) {
                 try {
                     activity?.stopProgressBar(newSpecializationLoadingProgressBar)

@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,10 +24,8 @@ import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.InviteCode.InviteCodeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.google.android.material.snackbar.Snackbar
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.invite_code_owner_invite_code_fragment.*
 import kotlinx.android.synthetic.main.invite_code_owner_invite_list_fragment.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import retrofit2.Call
@@ -154,12 +151,12 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
                                 }
 
                             }
-                            numberTV.setText(account_data)
+                            numberTV.text = account_data
 
 
                             if (response.body() != null && response.body()!!.data.isNotEmpty()) {
-                                dataArray = response?.body()?.data as ArrayList<OwnerInviteListModelData>
-                                val accountListAdapter = InvitecodeInviteListAdapter(activity!!, response?.body()?.data as ArrayList<OwnerInviteListModelData>, state)
+                                dataArray = response.body()?.data as ArrayList<OwnerInviteListModelData>
+                                val accountListAdapter = InvitecodeInviteListAdapter(activity!!, response.body()?.data as ArrayList<OwnerInviteListModelData>, state)
                                 accountLV.adapter = accountListAdapter
                                 accountLV.show()
 
@@ -243,7 +240,7 @@ class OwnerInviteListFragment : Fragment(), ConnectivityReceiver.ConnectivityRec
                                         response.body()!!.data[0].educationInfo,
                                         response.body()!!.data[0].photoInfo,
                                         response.body()!!.data[0].createdDate,
-                                        response?.body()?.data?.get(0)?.skills!!
+                                        response.body()?.data?.get(0)?.skills!!
                                 )
                             }
                         } catch (e: Exception) {

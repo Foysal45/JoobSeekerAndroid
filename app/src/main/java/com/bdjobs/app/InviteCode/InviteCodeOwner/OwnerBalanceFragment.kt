@@ -5,7 +5,6 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +16,9 @@ import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.InviteCode.InviteCodeCommunicator
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.toBanglaDigit
+import com.bdjobs.app.utilities.error
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.toBanglaDigit
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,7 +26,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.invite_code_owner_balance_fragment.*
-import kotlinx.android.synthetic.main.no_internet.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,12 +55,6 @@ class OwnerBalanceFragment : Fragment(), OnMapReadyCallback, ConnectivityReceive
         googleMap.uiSettings.isMapToolbarEnabled = true
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15f))
         mapView.onResume()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        //Log.d("rakib", "onCreate $i++")
-        super.onCreate(savedInstanceState)
-
     }
 
     override fun onPause() {

@@ -15,7 +15,7 @@ import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 //import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_employer_message_list.*
 //import kotlinx.android.synthetic.main.fragment_employer_message_list.adView
@@ -125,7 +125,7 @@ class EmployerMessageListFragment : Fragment() {
         }
 
         backIMV?.setOnClickListener {
-            employersCommunicator?.backButtonPressed()
+            employersCommunicator.backButtonPressed()
         }
 
 
@@ -137,7 +137,7 @@ class EmployerMessageListFragment : Fragment() {
             employerMessageRV?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
 
 
-            if (employersCommunicator?.getEmployerMessageList().isNullOrEmpty()) {
+            if (employersCommunicator.getEmployerMessageList().isNullOrEmpty()) {
                 shimmer_view_container_employerMessage?.show()
                 shimmer_view_container_employerMessage?.startShimmer()
                 //Log.d("rakib", "came here first page")
@@ -146,16 +146,20 @@ class EmployerMessageListFragment : Fragment() {
                 try {
                     //Log.d("rakib", "came here not first page ${messagelistSize}")
                     if (employersCommunicator.getTotalRecords()!! > 1) {
-                        val styledText = "<b><font color='#13A10E'>${employersCommunicator?.getTotalRecords().toString()}</font></b> Messages from Employer(s)"
+                        val styledText = "<b><font color='#13A10E'>${
+                            employersCommunicator.getTotalRecords().toString()}</font></b> Messages from Employer(s)"
                         messageCountTV?.text = Html.fromHtml(styledText)
-                    } else if (employersCommunicator?.getTotalRecords()?.toInt()!! <= 1 || employersCommunicator?.getTotalRecords()?.toInt()!! == null || employersCommunicator?.getTotalRecords().toString() == "0") {
-                        val styledText = "<b><font color='#13A10E'>${employersCommunicator?.getTotalRecords().toString()}</font></b> Message from Employer(s)"
+                    } else if (employersCommunicator.getTotalRecords()?.toInt()!! <= 1 || employersCommunicator.getTotalRecords()
+                            ?.toInt()!! == null || employersCommunicator.getTotalRecords()
+                            .toString() == "0") {
+                        val styledText = "<b><font color='#13A10E'>${
+                            employersCommunicator.getTotalRecords().toString()}</font></b> Message from Employer(s)"
                         messageCountTV?.text = Html.fromHtml(styledText)
                     }
                     employerMessageListAdapter?.removeAll()
-                    employerMessageListAdapter?.addAll(employersCommunicator?.getEmployerMessageList()!!)
-                    employerMessageRV?.layoutManager?.scrollToPosition(employersCommunicator?.getPositionClicked()!!)
-                    pgNo = employersCommunicator?.getCurrentPage()!!
+                    employerMessageListAdapter?.addAll(employersCommunicator.getEmployerMessageList()!!)
+                    employerMessageRV?.layoutManager?.scrollToPosition(employersCommunicator.getPositionClicked()!!)
+                    pgNo = employersCommunicator.getCurrentPage()!!
 //                    TOTAL_PAGES = employersCommunicator?.getTotalPage()!!
 //                    isLoadings = employersCommunicator.getIsloading()!!
 //                    isLastPages = employersCommunicator.getIsLastPage()!!
@@ -197,17 +201,6 @@ class EmployerMessageListFragment : Fragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-//        val adRequest = AdRequest.Builder().build()
-//        adView?.loadAd(adRequest)
-//        Ads.loadAdaptiveBanner(activity.applicationContext,adView)
-
-        //Log.d("rakib", "${employersCommunicator?.getPositionClicked()}")
-
-
-    }
-
     private fun loadFirstPage(activityDate: String) {
 
 //        PAGE_START = 1
@@ -246,12 +239,12 @@ class EmployerMessageListFragment : Fragment() {
                         shimmer_view_container_employerMessage?.hide()
                         shimmer_view_container_employerMessage?.stopShimmer()
 
-                        employerMessageList = response?.body()?.data as ArrayList<MessageDataModel>
+                        employerMessageList = response.body()?.data as ArrayList<MessageDataModel>
                         var totalRecords = response.body()?.common?.totalMessage.toString()
-                        messagelistSize = response?.body()?.common?.totalpages?.toInt()!!
+                        messagelistSize = response.body()?.common?.totalpages?.toInt()!!
                         TOTAL_PAGES = response.body()?.common?.totalpages
 
-                        employersCommunicator?.setTotalRecords(totalRecords.toInt())
+                        employersCommunicator.setTotalRecords(totalRecords.toInt())
 
                         if (!response.body()?.data.isNullOrEmpty()) {
 
@@ -283,10 +276,10 @@ class EmployerMessageListFragment : Fragment() {
 //                        val styledText = "<b><font color='#13A10E'>${totalRecords}</font></b> Messages from Employer(s)"
 //                        messageCountTV.text = Html.fromHtml(styledText)
 
-                        if (totalRecords?.toInt() > 1) {
+                        if (totalRecords.toInt() > 1) {
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Messages from Employer(s)"
                             messageCountTV?.text = Html.fromHtml(styledText)
-                        } else if (totalRecords?.toInt()!! <= 1 || totalRecords.toInt()!! == null || totalRecords.toString() == "0") {
+                        } else if (totalRecords.toInt() <= 1 || totalRecords.toInt() == null || totalRecords.toString() == "0") {
                             val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Message from Employer(s)"
                             messageCountTV?.text = Html.fromHtml(styledText)
                         }

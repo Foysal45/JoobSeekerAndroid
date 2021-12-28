@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.logException
 import java.util.*
 
 class HistoryListAdapter(var itemList: ArrayList<String>, private val context: Context) : BaseAdapter() {
@@ -32,9 +32,9 @@ class HistoryListAdapter(var itemList: ArrayList<String>, private val context: C
         }
 
         try {
-            vh.itemTV?.text =  itemList?.get(position)
+            vh.itemTV?.text = itemList.get(position)
             vh.itemTV?.setOnClickListener {
-                communicator?.suggestionSelected(vh?.itemTV?.text.toString())
+                communicator?.suggestionSelected(vh.itemTV.text.toString())
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -45,7 +45,7 @@ class HistoryListAdapter(var itemList: ArrayList<String>, private val context: C
     }
 
     override fun getItem(position: Int): Any {
-        return itemList?.get(position)
+        return itemList.get(position)
     }
 
     override fun getItemId(position: Int): Long {
@@ -53,10 +53,10 @@ class HistoryListAdapter(var itemList: ArrayList<String>, private val context: C
     }
 
     override fun getCount(): Int {
-        return itemList?.size
+        return itemList.size
     }
 
     inner class ListRowHolder(row: View) {
-        val itemTV = row?.findViewById<TextView>(R.id.itemNameTV)
+        val itemTV = row.findViewById<TextView>(R.id.itemNameTV)
     }
 }

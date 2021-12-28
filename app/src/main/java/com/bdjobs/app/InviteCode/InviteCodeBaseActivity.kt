@@ -1,24 +1,15 @@
 package com.bdjobs.app.InviteCode
 
 import android.content.Intent
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import com.bdjobs.app.API.ModelClasses.InviteCodeOwnerStatementModel
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
-import com.bdjobs.app.InviteCode.InviteCodeOwner.OwnerStatementFragment
 import com.bdjobs.app.LoggedInUserLanding.MainLandingActivity
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.transitFragment
+import com.bdjobs.app.utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.logException
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_invite_code_base.*
 import kotlinx.android.synthetic.main.no_internet.*
@@ -75,11 +66,6 @@ class InviteCodeBaseActivity : FragmentActivity(), InviteCodeCommunicator{
         navHostFragment?.navController?.graph = graph!!
 
         flag = 1
-    }
-
-    override fun onResume() {
-        super.onResume()
-
     }
 
     override fun getPaymentMethod(): String? {

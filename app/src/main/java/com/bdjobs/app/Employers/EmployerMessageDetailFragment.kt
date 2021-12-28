@@ -3,7 +3,6 @@ package com.bdjobs.app.Employers
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,10 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.MessageDetailModel
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.d
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.d
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.show
 import kotlinx.android.synthetic.main.fragment_employer_message_detail.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast
@@ -126,26 +125,26 @@ class EmployerMessageDetailFragment : Fragment() {
 
                         if (!response.body()?.data.isNullOrEmpty()) {
 
-                            subjectTV?.text = response?.body()?.data?.get(0)?.subject
+                            subjectTV?.text = response.body()?.data?.get(0)?.subject
 
-                            val from = Html.fromHtml(response?.body()?.data?.get(0)?.from)
+                            val from = Html.fromHtml(response.body()?.data?.get(0)?.from)
 
                             fromTV?.text = from
-                            d("jobtitle onResponse called jobtitle: ${response?.body()?.data?.get(0)?.jobtitle}")
+                            d("jobtitle onResponse called jobtitle: ${response.body()?.data?.get(0)?.jobtitle}")
 
 
 
 
-                            messageDateTV?.text = response?.body()?.data?.get(0)?.mailedon
+                            messageDateTV?.text = response.body()?.data?.get(0)?.mailedon
 
-                            val  messageBody = Html.fromHtml(response?.body()?.data?.get(0)?.msgBody)
+                            val  messageBody = Html.fromHtml(response.body()?.data?.get(0)?.msgBody)
 
                             messageBodyTV?.text = messageBody
-                            lastContentTV?.text = response?.body()!!.data!![0]!!.lastcontent
+                            lastContentTV?.text = response.body()!!.data!![0]!!.lastcontent
                             shimmer_view_container_employerMessageDetail?.hide()
                             shimmer_view_container_employerMessageDetail?.stopShimmer()
                             linearLayoutMain.show()
-                            if (response?.body()?.data?.get(0)?.jobtitle!!.trim() == ""){
+                            if (response.body()?.data?.get(0)?.jobtitle!!.trim() == ""){
 
                                 //Log.d("uuuuuuuu", "dd  $toogleStatus")
 
@@ -167,7 +166,7 @@ class EmployerMessageDetailFragment : Fragment() {
                             } else {
 
                                 //Log.d("uuuuuuuu", "dd fgjh $toogleStatus")
-                                positionTV?.text = response?.body()?.data?.get(0)?.jobtitle
+                                positionTV?.text = response.body()?.data?.get(0)?.jobtitle
 
                                 positionDataNullStatus = false
 

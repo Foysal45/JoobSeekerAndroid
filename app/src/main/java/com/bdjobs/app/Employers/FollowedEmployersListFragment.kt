@@ -23,10 +23,10 @@ import com.bdjobs.app.API.ModelClasses.FollowEmployerListModelClass
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.Constants
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.sms.SmsBaseActivity
 import com.google.android.material.button.MaterialButton
@@ -222,13 +222,21 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
 
         ).enqueue(object : Callback<FollowEmployerListModelClass> {
             override fun onFailure(call: Call<FollowEmployerListModelClass>, t: Throwable) {
-                shimmer_view_container_JobList?.hide()
-                shimmer_view_container_JobList?.stopShimmer()
-                Toast.makeText(
-                    requireContext(),
-                    "Something went wrong! Please try again later",
-                    Toast.LENGTH_SHORT
-                ).show()
+                try {
+                    if (isAdded) {
+                        shimmer_view_container_JobList?.hide()
+                        shimmer_view_container_JobList?.stopShimmer()
+                        Toast.makeText(
+                            requireContext(),
+                            "Something went wrong! Please try again later",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                } catch (e:Exception) {
+
+                }
+
             }
 
             override fun onResponse(call: Call<FollowEmployerListModelClass>, response: Response<FollowEmployerListModelClass>) {
@@ -267,17 +275,20 @@ class FollowedEmployersListFragment : Fragment(),FollowedEmployersAdapter.OnUpda
 
                 } catch (e: Exception) {
                     try {
-                        shimmer_view_container_JobList?.hide()
-                        shimmer_view_container_JobList?.stopShimmer()
-                        followedRV?.hide()
-                        followEmployerNoDataLL?.hide()
-                        cl_total_count.hide()
-                        Toast.makeText(
-                            requireContext(),
-                            "Something went wrong! Please try again later",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        logException(e)
+                        if (isAdded) {
+                            shimmer_view_container_JobList?.hide()
+                            shimmer_view_container_JobList?.stopShimmer()
+                            followedRV?.hide()
+                            followEmployerNoDataLL?.hide()
+                            cl_total_count.hide()
+                            Toast.makeText(
+                                requireContext(),
+                                "Something went wrong! Please try again later",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            logException(e)
+                        }
+
                     } catch (e: Exception) {
                     }
                 }

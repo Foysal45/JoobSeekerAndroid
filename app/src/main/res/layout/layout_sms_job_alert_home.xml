@@ -195,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:visibility="gone"
-                tools:visibility="gone"
+                tools:visibility="visible"
                 android:gravity="center"
                 android:id="@+id/ll_remaining_sms_home"
                 android:orientation="horizontal">

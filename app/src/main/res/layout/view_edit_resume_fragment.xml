@@ -343,7 +343,7 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tv_video_resume_label"
+                                android:id="@+id/tv_video_resume_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="10dp"
@@ -387,7 +387,7 @@
                                 app:indicatorColor="@color/green"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tv_video_resume_label"
+                                app:layout_constraintTop_toBottomOf="@id/tv_video_resume_title"
                                 app:trackColor="#E6E6E6"
                                 app:trackCornerRadius="10dp" />
 
@@ -665,6 +665,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
+                            android:gravity="center_vertical"
                             tools:text="Mybdjobs.pdf" />
 
                         <com.google.android.material.textview.MaterialTextView

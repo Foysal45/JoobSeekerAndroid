@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.videoInterview.data.models.*
 import com.bdjobs.app.videoInterview.data.remote.VideoInterviewApiService
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +64,7 @@ class VideoInterviewRepository(val application: Application) {
     }
 
     suspend fun postVideoToRemote(): CommonResponse {
-        val file: File? = Constants?.file?.absoluteFile
+        val file: File? = Constants.file?.absoluteFile
         Log.d("rakib", "$file")
         val userId = session.userId?.toRequestBody()
         val decodeId = session.decodId?.toRequestBody()

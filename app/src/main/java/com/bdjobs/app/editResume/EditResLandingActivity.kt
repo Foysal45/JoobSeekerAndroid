@@ -6,10 +6,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import com.bdjobs.app.API.ApiServiceMyBdjobs
-import com.bdjobs.app.ManageResume.utils.formatDateVP
+import com.bdjobs.app.manageResume.utils.formatDateVP
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.Web.WebActivity
 import com.bdjobs.app.editResume.educationInfo.AcademicBaseActivity
 import com.bdjobs.app.editResume.employmentHistory.EmploymentHistoryActivity

@@ -3,7 +3,6 @@ package com.bdjobs.app.Employers
 import android.app.Fragment
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,7 @@ import com.bdjobs.app.API.ApiServiceJobs
 import com.bdjobs.app.API.ModelClasses.EmployerJobListsModel
 import com.bdjobs.app.API.ModelClasses.EmployerJobListsModelData
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.*
-import com.google.android.gms.ads.AdRequest
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.fragment_employer_job_list.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,10 +24,6 @@ class EmployerJobListFragment : Fragment() {
     private lateinit var communicator: EmployersCommunicator
 
     //  private var listener: OnFragmentInteractionListener? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,10 +38,10 @@ class EmployerJobListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         communicator = activity as EmployersCommunicator
         backIMV?.setOnClickListener {
-            communicator?.backButtonPressed()
+            communicator.backButtonPressed()
         }
 
-        suggestiveSearchET?.text = communicator?.getCompanyName()
+        suggestiveSearchET?.text = communicator.getCompanyName()
         loadJobList()
 //        val adRequest = AdRequest.Builder().build()
 //        adView?.loadAd(adRequest)
@@ -95,7 +89,7 @@ class EmployerJobListFragment : Fragment() {
                         totalRecords = 0
                     }
 
-                    if (totalRecords?.toInt()!! > 1){
+                    if (totalRecords.toInt() > 1){
                         val styledText = "<b><font color='#13A10E'>$totalRecords</font></b> Jobs"
                         favCountTV?.text = Html.fromHtml(styledText)
                     }

@@ -8,10 +8,10 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.adapters.models.*
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
 import com.bdjobs.app.editResume.personalInfo.fragments.carrerDetails.CareerEditFragment

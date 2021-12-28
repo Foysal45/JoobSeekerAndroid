@@ -4,14 +4,13 @@ import android.app.DatePickerDialog
 import android.app.Fragment
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.footer_bc_layout.*
@@ -204,13 +203,7 @@ class BCBirthDateFragment : Fragment() {
                 } catch (e: Exception) {
                 }
                 //Log.d("Test", " age in age ${age}")
-                if (age in 12..85) {
-                    //Log.d("Test", " true ")
-                    ageLimit = true
-                } else {
-                    //Log.d("Test", " false ")
-                    ageLimit = false
-                }
+                ageLimit = age in 12..85
                 if (ageLimit) {
                     til.hideError()
                     bcBirthDateTIET?.clear()

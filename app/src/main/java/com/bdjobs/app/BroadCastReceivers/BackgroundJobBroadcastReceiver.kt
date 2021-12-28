@@ -3,8 +3,7 @@ package com.bdjobs.app.BroadCastReceivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import com.bdjobs.app.Utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
+import com.bdjobs.app.utilities.Constants.Companion.BROADCAST_DATABASE_UPDATE_JOB
 
 
 class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
@@ -14,8 +13,8 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
 
             //Log.d("rakib", "Broadcast $action")
 
-            val job = intent?.getStringExtra("job")
-            val notification = intent?.getStringExtra("notification")
+            val job = intent.getStringExtra("job")
+            val notification = intent.getStringExtra("notification")
 
             //Log.d("rakib", "Broadcast $job $notification")
 
@@ -46,7 +45,10 @@ class BackgroundJobBroadcastReceiver : BroadcastReceiver() {
             if (notificationUpdateListener != null){
                 if (notification == "insertOrUpdateNotification"){
                     //Log.d("rakib", "inside broadcast")
-                    notificationUpdateListener!!.onUpdateNotification()
+                    try {
+                        notificationUpdateListener!!.onUpdateNotification()
+                    } catch (e: Exception) {
+                    }
                 }
             }
         }

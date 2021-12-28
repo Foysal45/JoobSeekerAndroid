@@ -27,9 +27,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bdjobs.app.BroadCastReceivers.ConnectivityReceiver
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.changeColor
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.changeColor
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.databinding.FragmentInterviewSessionBinding
 import com.bdjobs.app.liveInterview.data.models.Instructions
 import com.bdjobs.app.liveInterview.data.models.Messages
@@ -223,7 +223,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
         binding.viewPagerGuideline.adapter = InstructionAdapter(requireContext(), instructions)
         setupIndicators()
         setCurrentIndicator(0)
-        binding.viewPagerGuideline?.registerOnPageChangeCallback(object :
+        binding.viewPagerGuideline.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -623,8 +623,8 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
             .createPeerConnectionFactory()
 
         WebRtcAudioUtils.setWebRtcBasedNoiseSuppressor(true)
-        WebRtcAudioUtils.setWebRtcBasedAcousticEchoCanceler(true);
-        WebRtcAudioUtils.setWebRtcBasedAutomaticGainControl(true);
+        WebRtcAudioUtils.setWebRtcBasedAcousticEchoCanceler(true)
+        WebRtcAudioUtils.setWebRtcBasedAutomaticGainControl(true)
 
         localAudioSource = peerConnectionFactory?.createAudioSource(audioConstraints)
         localAudioTrack = peerConnectionFactory?.createAudioTrack("101", localAudioSource)
@@ -778,7 +778,7 @@ class InterviewSessionFragment : Fragment(), ConnectivityReceiver.ConnectivityRe
 
         val peerConnection = getOrCreatePeerConnection(mRemoteSocketId, "R")
 
-        peerConnection?.createAnswer(object : CustomSdpObserver() {
+        peerConnection.createAnswer(object : CustomSdpObserver() {
             override fun onCreateSuccess(sessionDescription: SessionDescription?) {
                 peerConnection.setLocalDescription(CustomSdpObserver(), sessionDescription)
                 if (sessionDescription != null) {

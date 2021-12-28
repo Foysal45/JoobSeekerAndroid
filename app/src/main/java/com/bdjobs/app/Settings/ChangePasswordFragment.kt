@@ -11,9 +11,9 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.ChangePassword
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.easyOnTextChangedListener
-import com.bdjobs.app.Utilities.error
-import com.bdjobs.app.Utilities.logException
+import com.bdjobs.app.utilities.easyOnTextChangedListener
+import com.bdjobs.app.utilities.error
+import com.bdjobs.app.utilities.logException
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_change_password.*

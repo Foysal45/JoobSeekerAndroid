@@ -2,7 +2,6 @@ package com.bdjobs.app.transaction.ui
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.pickDate
+import com.bdjobs.app.utilities.pickDate
 import com.bdjobs.app.databinding.TransactionFilterFragmentBinding
 import com.bdjobs.app.videoInterview.util.ViewModelFactoryUtil
 import kotlinx.android.synthetic.main.transaction_filter_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.toast
+import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -87,7 +87,7 @@ class TransactionFilterFragment : Fragment() {
 
         } catch (e: Exception) {
 
-            Log.d("OnTransaction", "Exception ${e.message}")
+            Timber.e("Exception onTransaction: ${e.localizedMessage}")
         }
 
         binding.packageTypeTIET.onClick {
@@ -97,7 +97,7 @@ class TransactionFilterFragment : Fragment() {
 
             }
         }
-        binding.startDateTIET?.setOnClickListener {
+        binding.startDateTIET.setOnClickListener {
             if (startDateTIET.text.toString().isEmpty())
                 pickDate(requireContext(), cal, startDateSetListener)
             else {
@@ -108,7 +108,7 @@ class TransactionFilterFragment : Fragment() {
 
 
         }
-        binding.endDateTIET?.setOnClickListener {
+        binding.endDateTIET.setOnClickListener {
             if (endDateTIET.text.toString().isNotEmpty()) {
                 date = formatter.parse(endDate)
                 cal.time = date
@@ -119,7 +119,7 @@ class TransactionFilterFragment : Fragment() {
 
 
         }
-        binding.transactionFilterFab?.onClick {
+        binding.transactionFilterFab.onClick {
 
             var startDate = ""
             var endDate = ""
@@ -155,12 +155,6 @@ class TransactionFilterFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
     }
 
 

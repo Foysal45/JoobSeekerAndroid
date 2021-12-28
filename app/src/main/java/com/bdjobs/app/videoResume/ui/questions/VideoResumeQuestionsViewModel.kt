@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bdjobs.app.Utilities.equalIgnoreCase
 import com.bdjobs.app.videoInterview.util.Event
 import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
@@ -68,8 +67,13 @@ class VideoResumeQuestionsViewModel(
         viewModelScope.launch {
             try {
                 val response = videoResumeRepository.getQuestionListFromRemote()
-                _questionListData.value = response.data
-                _dataLoading.value = false
+                if (response.isSuccessful && response.code()==200)  {
+                    _questionListData.value = response.body()?.data
+                    _dataLoading.value = false
+                } else {
+                    _dataLoading.value = false
+                }
+
             } catch (e: Exception) {
 
             }
@@ -80,19 +84,21 @@ class VideoResumeQuestionsViewModel(
         viewModelScope.launch {
             try {
                 val response = videoResumeRepository.getStatisticsFromRemote()
-                val data = response.data?.get(0)
+                if (response.isSuccessful && response.code()==200) {
+                    val data = response.body()?.data?.get(0)
 
-                _totalAnswered.value = data?.totalAnswered
-                _threshold.value = data?.threshold
-                _isAlertOn.value =  data?.resumeVisibility
-                _isVideoResumeVisible.value = data?.resumeVisibility == "1"
+                    _totalAnswered.value = data?.totalAnswered
+                    _threshold.value = data?.threshold
+                    _isAlertOn.value =  data?.resumeVisibility
+                    _isVideoResumeVisible.value = data?.resumeVisibility == "1"
 
-                showVideoResumeToEmployers.value = totalAnswered.value!!.toInt() >= threshold.value!!.toInt()
+                    showVideoResumeToEmployers.value = totalAnswered.value!!.toInt() >= threshold.value!!.toInt()
+
+                }
 
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                AsyncHttpClient.log.d("Salvin", "Got exception")
             }
         }
     }

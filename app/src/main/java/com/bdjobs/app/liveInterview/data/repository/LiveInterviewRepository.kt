@@ -5,7 +5,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.databases.internal.BdjobsDB
 import com.bdjobs.app.databases.internal.LiveInvitation
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.liveInterview.data.models.*
 import com.bdjobs.app.videoInterview.data.models.InterviewFeedback
 import kotlinx.coroutines.Dispatchers

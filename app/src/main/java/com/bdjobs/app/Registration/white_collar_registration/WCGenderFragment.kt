@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.callHelpLine
-import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.callHelpLine
+import com.bdjobs.app.utilities.equalIgnoreCase
 import kotlinx.android.synthetic.main.footer_wc_layout.*
 import kotlinx.android.synthetic.main.fragment_wc_gender.*
 import org.jetbrains.anko.toast

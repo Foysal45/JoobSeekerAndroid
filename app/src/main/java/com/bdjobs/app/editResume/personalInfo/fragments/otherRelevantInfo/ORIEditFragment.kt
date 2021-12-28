@@ -15,7 +15,7 @@ import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.editResume.adapters.models.AddorUpdateModel
 import com.bdjobs.app.editResume.adapters.models.ORIdataItem
 import com.bdjobs.app.editResume.callbacks.PersonalInfo
@@ -62,10 +62,6 @@ class ORIEditFragment : Fragment() {
 
         doWork()
 
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     private fun doWork() {
@@ -115,7 +111,7 @@ class ORIEditFragment : Fragment() {
         Timber.d("KeyWords: $keywords")
 
         keywords?.let {
-            toatalLength = keywords!!.length
+            toatalLength = keywords.length
         }
 
         //Log.d("qqqqq", "total length $toatalLength")

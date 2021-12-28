@@ -18,7 +18,7 @@ import com.bdjobs.app.Jobs.JobListAdapter
 import com.bdjobs.app.Jobs.PaginationScrollListener
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.bdjobs.app.databases.internal.BdjobsDB
 import kotlinx.android.synthetic.main.fragment_shortlisted_job_layout.*
 import org.jetbrains.anko.support.v4.selector
@@ -39,6 +39,7 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
     var totalRecordsFound = 0
     private var layoutManager: RecyclerView.LayoutManager? = null
     var favListSize = 0
+    private var shortListFilterText:String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -88,15 +89,18 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
 
     override fun onResume() {
         super.onResume()
+        Timber.d("onResume")
         val shortListFilter = homeCommunicator.getShortListFilter()
         showShortListFilterList(shortListFilter)
     }
 
     private fun showShortListFilterList(shortListFilter: String) {
+        Timber.d("ShortlistFilter: $shortListFilter")
         filterTV.text = shortListFilter
         homeCommunicator.setShortListFilter(shortListFilter)
         when (shortListFilter) {
             "" -> {
+                Timber.d("here")
                 crossBTN.hide()
                 getShortListedJobsByDeadline("")
             }
@@ -172,7 +176,7 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
         shortListRV.hide()
         jobCountTV.hide()
         filterTV.hide()
-        crossBTN.hide()
+//        crossBTN.hide()
         shimmer_view_container_JobList?.show()
         shimmer_view_container_JobList?.startShimmer()
 
@@ -193,7 +197,6 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
                         shimmer_view_container_JobList?.stopShimmer()
                         jobCountTV.show()
                         filterTV.show()
-                        crossBTN.show()
 
                         val jobResponse = response.body()
                         val totalJobs = jobResponse?.common?.totalRecordsFound
@@ -201,22 +204,21 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
                         if (totalJobs!! > 0) {
                             noDataLL?.hide()
                             jobCountTV.show()
-                            crossBTN.show()
                             shortListRV?.show()
-                            //Log.d("totalJobs", "data ase")
                         } else {
                             shortListRV?.hide()
                             noDataLL?.show()
                             jobCountTV.hide()
-                            crossBTN.hide()
 
-                            //Log.d("totalJobs", "zero")
+                            if (filterTV.text == "") {
+                                filterTV.hide()
+                            } else {
+                                filterTV.show()
+                            }
                         }
 
                         totalPages = jobResponse.common.totalpages
 
-
-                        //communicator.totalJobCount(jobResponse?.common?.totalRecordsFound)
                         val results = response.body()?.data
 
                         if (!results.isNullOrEmpty()) {
@@ -243,7 +245,6 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
 
                         totalRecordsFound = jobResponse.common.totalRecordsFound
                         homeCommunicator.setTotalShortlistedJobCounter(totalRecordsFound)
-//                        favListSize = totalRecordsFound
                         favListSize = homeCommunicator.getTotalShortlistedJobCounter()
                         Timber.d("Fav list size: $favListSize")
                     } else {
@@ -280,7 +281,6 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
             }
 
             override fun onFailure(call: Call<JobListModel>?, t: Throwable) {
-                //Log.d("TAG", "not successful!! onFail")
                 error("onFailure", t)
 
                 if (isAdded) {
@@ -379,7 +379,6 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
         if (count > 0) {
 
             jobCountTV.show()
-            crossBTN.show()
             val styledText = "<b><font color='#13A10E'>$count</font></b> Shortlisted job"
             jobCountTV?.text = Html.fromHtml(styledText)
         } else {
@@ -388,7 +387,12 @@ class ShortListedJobFragment : Fragment(), JobListAdapter.OnUpdateCounter {
             noDataLL?.show()
             shortListRV?.hide()
             jobCountTV.hide()
-            crossBTN.hide()
+
+            if (filterTV.text == "") {
+                filterTV.hide()
+            } else {
+                filterTV.show()
+            }
         }
 
     }

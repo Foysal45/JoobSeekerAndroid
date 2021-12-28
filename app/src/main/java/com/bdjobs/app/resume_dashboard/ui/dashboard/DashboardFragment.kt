@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.bdjobs.app.SessionManger.BdjobsUserSession
 import com.bdjobs.app.Settings.SettingBaseActivity
-import com.bdjobs.app.Utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.equalIgnoreCase
 import com.bdjobs.app.databinding.DashboardFragmentBinding
 import com.bdjobs.app.resume_dashboard.data.repositories.ResumeDashboardRepository
 import org.jetbrains.anko.support.v4.startActivity

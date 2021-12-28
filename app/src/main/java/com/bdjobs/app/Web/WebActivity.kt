@@ -4,17 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.webkit.*
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.CookieModel
-import com.bdjobs.app.ManageResume.ManageResumeActivity
+import com.bdjobs.app.manageResume.ManageResumeActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.google.android.gms.ads.AdRequest
+import com.bdjobs.app.utilities.*
 import kotlinx.android.synthetic.main.activity_web.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
@@ -44,8 +41,8 @@ class WebActivity : Activity() {
 
         cookieSyncManager = CookieSyncManager.createInstance(bdjobsWeb.context)
         cookieManager = CookieManager.getInstance()
-        cookieManager?.setAcceptCookie(true)
-        cookieManager?.removeSessionCookie()
+        cookieManager.setAcceptCookie(true)
+        cookieManager.removeSessionCookie()
 
     }
 
@@ -148,7 +145,7 @@ class WebActivity : Activity() {
             }
 
             "setUserId"->{
-                suggestiveSearchET.text = "Set/Change User Id"
+                suggestiveSearchET.text = "Set/Change User ID"
                 loadUrlWithCookie(url)
             }
 

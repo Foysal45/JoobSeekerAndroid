@@ -11,8 +11,8 @@ import com.bdjobs.app.InviteCode.InviteCodeBaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import kotlinx.android.synthetic.main.fragment_bc_congratulation.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity

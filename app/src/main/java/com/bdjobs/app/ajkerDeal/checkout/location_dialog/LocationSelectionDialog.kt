@@ -267,20 +267,20 @@ class LocationSelectionDialog : BottomSheetDialogFragment() {
         dialog?.setCanceledOnTouchOutside(false)
         val bottomSheet: FrameLayout = dialog?.findViewById(com.google.android.material.R.id.design_bottom_sheet)!!
         val metrics = resources.displayMetrics
-        BottomSheetBehavior.from(bottomSheet)?.peekHeight = metrics.heightPixels / 2
-        BottomSheetBehavior.from(bottomSheet)?.state = BottomSheetBehavior.STATE_EXPANDED
-        BottomSheetBehavior.from(bottomSheet)?.skipCollapsed = true
-        BottomSheetBehavior.from(bottomSheet)?.isHideable = false
+        BottomSheetBehavior.from(bottomSheet).peekHeight = metrics.heightPixels / 2
+        BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
+        BottomSheetBehavior.from(bottomSheet).skipCollapsed = true
+        BottomSheetBehavior.from(bottomSheet).isHideable = false
         BottomSheetBehavior.from(bottomSheet)
-            ?.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            .setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onSlide(p0: View, p1: Float) {
-                    BottomSheetBehavior.from(bottomSheet)?.state =
+                    BottomSheetBehavior.from(bottomSheet).state =
                         BottomSheetBehavior.STATE_EXPANDED
                 }
 
                 override fun onStateChanged(p0: View, p1: Int) {
                     if (p1 == BottomSheetBehavior.STATE_DRAGGING) {
-                        BottomSheetBehavior.from(bottomSheet)?.state =
+                        BottomSheetBehavior.from(bottomSheet).state =
                             BottomSheetBehavior.STATE_EXPANDED
                     }
                 }

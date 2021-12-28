@@ -33,12 +33,12 @@ class TestLocationFragment : Fragment() {
 
         binding.viewModel = testLocationViewModel
 
-        binding.testHomeCard?.setOnClickListener {
+        binding.testHomeCard.setOnClickListener {
             snackbar = Snackbar.make(binding.testLocationCl, getString(R.string.assessment_requirement_instruction), Snackbar.LENGTH_LONG)
             snackbar.show()
         }
 
-        binding.testCenterCard?.setOnClickListener {
+        binding.testCenterCard.setOnClickListener {
             findNavController().navigate(R.id.action_testLocationFragment_to_chooseScheduleFragment)
         }
 

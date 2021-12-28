@@ -1,9 +1,8 @@
 package com.bdjobs.app.videoResume.data.repository
 
 import android.app.Application
-import android.util.Log
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.Constants
+import com.bdjobs.app.utilities.Constants
 import com.bdjobs.app.videoResume.data.models.*
 import com.bdjobs.app.videoResume.data.remote.VideoResumeApiService
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +11,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Response
 import java.io.File
 
 class VideoResumeRepository(private val application: Application) {
@@ -20,27 +20,27 @@ class VideoResumeRepository(private val application: Application) {
 
     fun getAllQuestionsFromDB() : List<Question> {
         return listOf(
-                Question("1","Introduce Yourself.","00:30", isNew = false, isSubmitted = false),
-                Question("2","Tell about your academic qualification and trainings (if any).","00:30", isNew = false, isSubmitted = false),
-                Question("3","Discuss about your Job Experience (if any) or Skills.","00:30", isNew = false, isSubmitted = false),
-                Question("4","What are your strengths and  weaknesses ?","00:30", isNew = false, isSubmitted = false),
-                Question("5","Describe about your career goals ?","00:30", isNew = false, isSubmitted = false),
-                Question("6","If you have any achievement or extra-curricular activities, please tell.","00:30", isNew = false, isSubmitted = false),
+                Question("1","Introduce Yourself.","30 sec", isNew = false, isSubmitted = false),
+                Question("2","Tell about your academic qualification and trainings (if any).","30 sec", isNew = false, isSubmitted = false),
+                Question("3","Discuss about your Job Experience (if any) or Skills.","60 sec", isNew = false, isSubmitted = false),
+                Question("4","What are your strengths and  weaknesses ?","30 sec", isNew = false, isSubmitted = false),
+                Question("5","Describe about your career goals ?","30 sec", isNew = false, isSubmitted = false),
+                Question("6","If you have any achievement or extra-curricular activities, please tell.","30 sec", isNew = false, isSubmitted = false),
         )
     }
 
     fun getAllQuestionsFromDBInBn() : List<Question> {
         return listOf(
-            Question("১","নিজের সম্পর্কে কিছু বলুন","০০:৩০", isNew = false, isSubmitted = false),
-            Question("২","আপনার শিক্ষাগত যোগ্যতা বা ট্রেনিং সম্পর্কে বলুন (যদি থাকে)","০০:৩০", isNew = false, isSubmitted = false),
-            Question("৩","আপনার চাকরির অভিজ্ঞতা(যদি থাকে) অথবা দক্ষতা সম্পর্কে বলুন।","০০:৩০", isNew = false, isSubmitted = false),
-            Question("৪","আপনার ভাল দিক এবং দুর্বল দিকগুলো সম্পর্কে বলুন ?","০০:৩০", isNew = false, isSubmitted = false),
-            Question("৫","আপনার কর্মজীবনের লক্ষ্য সম্পর্কে বলুন ?","০০:৩০", isNew = false, isSubmitted = false),
-            Question("৬","আপনার অর্জন এবং এক্সট্রা কারিকুলার এক্টিভিটিস সম্পর্কে বলুন (যদি থাকে)","০০:৩০", isNew = false, isSubmitted = false),
+            Question("১","নিজের সম্পর্কে কিছু বলুন","৩০ সেকেন্ড", isNew = false, isSubmitted = false),
+            Question("২","আপনার শিক্ষাগত যোগ্যতা বা ট্রেনিং সম্পর্কে বলুন (যদি থাকে)","৩০ সেকেন্ড", isNew = false, isSubmitted = false),
+            Question("৩","আপনার চাকরির অভিজ্ঞতা(যদি থাকে) অথবা দক্ষতা সম্পর্কে বলুন।","৬০ সেকেন্ড", isNew = false, isSubmitted = false),
+            Question("৪","আপনার ভাল দিক এবং দুর্বল দিকগুলো সম্পর্কে বলুন ?","৩০ সেকেন্ড", isNew = false, isSubmitted = false),
+            Question("৫","আপনার কর্মজীবনের লক্ষ্য সম্পর্কে বলুন ?","৩০ সেকেন্ড", isNew = false, isSubmitted = false),
+            Question("৬","আপনার অর্জন এবং এক্সট্রা কারিকুলার এক্টিভিটিস সম্পর্কে বলুন (যদি থাকে)","৩০ সেকেন্ড", isNew = false, isSubmitted = false),
         )
     }
 
-    suspend fun getStatisticsFromRemote(): VideoResumeStatistics {
+    suspend fun getStatisticsFromRemote(): Response<VideoResumeStatistics> {
         return withContext(Dispatchers.IO) {
             VideoResumeApiService.create(application).getVideoResumeStatistics(
                     userID = session.userId,
@@ -51,7 +51,7 @@ class VideoResumeRepository(private val application: Application) {
         }
     }
 
-    suspend fun getQuestionListFromRemote(): VideoResumeQuestionList {
+    suspend fun getQuestionListFromRemote(): Response<VideoResumeQuestionList> {
         return withContext(Dispatchers.IO) {
             VideoResumeApiService.create(application).getVideoResumeQuestionList(
                     userID = session.userId,
@@ -62,7 +62,7 @@ class VideoResumeRepository(private val application: Application) {
         }
     }
 
-    suspend fun submitStatusVisibility(isVisible : String?): CommonResponse {
+    suspend fun submitStatusVisibility(isVisible : String?): Response<CommonResponse> {
         return withContext(Dispatchers.IO) {
             VideoResumeApiService.create(application).submitStatusVisibility(
                     userID = session.userId,
@@ -74,7 +74,7 @@ class VideoResumeRepository(private val application: Application) {
         }
     }
 
-    suspend fun deleteSingleVideoOfResume(videoResumeManager: VideoResumeManager): CommonResponse {
+    suspend fun deleteSingleVideoOfResume(videoResumeManager: VideoResumeManager): Response<CommonResponse> {
         return withContext(Dispatchers.IO) {
             VideoResumeApiService.create(application,1).deleteSingleVideoOfResume(
                     userID = session.userId,
@@ -87,9 +87,8 @@ class VideoResumeRepository(private val application: Application) {
         }
     }
 
-    suspend fun postVideoResumeToRemote(): CommonResponse {
-        val file: File? = Constants?.file?.absoluteFile
-        Log.d("salvin-resume", "$file")
+    suspend fun postVideoResumeToRemote(): Response<CommonResponse> {
+        val file: File? = Constants.file?.absoluteFile
         val userId = session.userId?.toRequestBody()
         val decodeId = session.decodId?.toRequestBody()
         val questionId = Constants.quesId?.toRequestBody()

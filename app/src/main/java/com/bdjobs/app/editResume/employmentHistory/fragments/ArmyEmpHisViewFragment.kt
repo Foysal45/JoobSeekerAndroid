@@ -3,17 +3,16 @@ package com.bdjobs.app.editResume.employmentHistory.fragments
 
 import android.app.Fragment
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.d
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.logException
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.d
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.logException
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.editResume.adapters.models.ArmydataItem
 import com.bdjobs.app.editResume.adapters.models.GetArmyEmpHis
 import com.bdjobs.app.editResume.callbacks.EmpHisCB
@@ -102,7 +101,7 @@ class ArmyEmpHisViewFragment : Fragment() {
                             empHisCB.passArmyData(dModel)
                             setupViews(dModel)
                         } else {
-                            empHisCB?.passArmyData(null)
+                            empHisCB.passArmyData(null)
                             armyMainCl?.hide()
                             noData = true
                             nsArmyEmp.hide()

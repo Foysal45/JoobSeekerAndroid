@@ -100,10 +100,109 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:visibility="@{viewModel.isDataFound ? View.GONE : View.VISIBLE}"
+                    android:id="@+id/cl_feature_root_top"
+                    tools:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_sms_job_alert_status_view"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/sms_package_benefits_tv_top"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/label_features_of_sms_job_alert"
+                        android:textColor="#393939"
+                        android:textSize="16sp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/benefits_card_free_trial_top"
+                        style="@style/Widget.MaterialComponents.CardView"
+                        android:layout_width="0dp"
+                        android:layout_height="119dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
+                        app:cardBackgroundColor="@color/colorWhite"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sms_package_benefits_tv_top">
+                        <!--
+                                            android:visibility="@{viewModel.isSMSFree() ? View.VISIBLE : View.GONE}"-->
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <View
+                                android:id="@+id/first_dot_benefits_free_trial_top"
+                                android:layout_width="6dp"
+                                android:layout_height="6dp"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginTop="20dp"
+                                android:background="#000000"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/benefits_text1_tv_free_trial_top"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/label_subscription_feature_sms_job_alert"
+                                android:textColor="#000000"
+                                android:textSize="14sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/first_dot_benefits_free_trial_top"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:id="@+id/second_dot_benefits_free_trial_top"
+                                android:layout_width="6dp"
+                                android:layout_height="6dp"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginTop="20dp"
+                                android:background="#000000"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/benefits_text1_tv_free_trial_top" />
+
+                            <TextView
+                                android:id="@+id/benefits_text2_tv_free_trial_top"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/label_receive_sms_feature_sms_job_alert"
+                                android:textColor="#000000"
+                                android:textSize="14sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/second_dot_benefits_free_trial_top"
+                                app:layout_constraintTop_toBottomOf="@id/benefits_text1_tv_free_trial_top" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     android:visibility="@{viewModel.isDataFound ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_sms_job_alert_status_view"
+                    app:layout_constraintTop_toBottomOf="@id/cl_feature_root_top"
                     android:id="@+id/cl_sms_step_view_top">
 
                     <com.google.android.material.textview.MaterialTextView
@@ -642,65 +741,68 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
                             android:id="@+id/iv_minus_custom_package"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_minus_sms_package"
+                            android:layout_marginStart="5dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true"
                             android:focusable="true"
                             android:onClick="@{()->viewModel.onCustomSMSMinusClicked()}"
-                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="10dp"
+                            app:layout_constraintBottom_toBottomOf="@id/img_sms_custom"
                             app:layout_constraintStart_toEndOf="@id/img_sms_custom"
                             app:layout_constraintTop_toTopOf="@id/img_sms_custom"
-                            app:layout_constraintBottom_toBottomOf="@id/img_sms_custom"
-                            android:layout_marginStart="15dp"/>
+                            app:srcCompat="@drawable/ic_minus_sms_package" />
 
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_total_sms_custom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="5dp"
                             android:background="@drawable/border_blue_round"
-                            android:paddingVertical="5dp"
-                            android:paddingHorizontal="8dp"
                             android:fontFamily="@font/roboto_bold"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="5dp"
                             android:text="@{viewModel.customSmsAmount.toString()}"
-                            tools:text="@string/label_500"
                             android:textColor="#110D0D"
                             android:textSize="18sp"
-                            app:layout_constraintStart_toEndOf="@id/iv_minus_custom_package"
                             app:layout_constraintBottom_toBottomOf="@id/img_sms_custom"
-                            app:layout_constraintTop_toTopOf="@id/img_sms_custom" />
+                            app:layout_constraintStart_toEndOf="@id/iv_minus_custom_package"
+                            app:layout_constraintTop_toTopOf="@id/img_sms_custom"
+                            tools:text="@string/label_500" />
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
                             android:id="@+id/iv_add_custom_package"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_plus_sms_package"
+                            android:layout_marginStart="5dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true"
                             android:focusable="true"
                             android:onClick="@{()->viewModel.onCustomSMSAddClicked()}"
+                            android:padding="10dp"
+                            app:layout_constraintBottom_toBottomOf="@id/img_sms_custom"
                             app:layout_constraintStart_toEndOf="@id/tv_total_sms_custom"
                             app:layout_constraintTop_toTopOf="@id/img_sms_custom"
-                            app:layout_constraintBottom_toBottomOf="@id/img_sms_custom"
-                            android:layout_marginStart="15dp"/>
+                            app:srcCompat="@drawable/ic_plus_sms_package" />
 
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_bonus_sms_custom"
+                            setCustomBonusText="@{viewModel.customSmsAmount}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
                             android:fontFamily="@font/roboto_medium"
-                            tools:text="Get Bonus from 200 SMS"
-                            setCustomBonusText="@{viewModel.customSmsAmount}"
                             android:textColor="#0645AD"
                             android:textSize="12sp"
                             app:fontFamily="@font/roboto_bold"
+                            app:layout_constraintEnd_toEndOf="@+id/iv_add_custom_package"
                             app:layout_constraintStart_toStartOf="@id/iv_minus_custom_package"
-                            app:layout_constraintTop_toBottomOf="@id/tv_total_sms_custom" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_total_sms_custom"
+                            tools:text="Get Bonus from 200 SMS" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_total_taka_custom"
@@ -741,6 +843,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:visibility="@{viewModel.isDataFound ? View.VISIBLE : View.GONE}"
                     android:layout_marginTop="15dp"
+                    tools:visibility="visible"
                     app:layout_constraintTop_toBottomOf="@id/card_sms_pack_custom"
                     android:id="@+id/cl_sms_step_view">
 
@@ -767,91 +870,104 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/sms_package_benefits_tv"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/label_features_of_sms_job_alert"
-                    android:textColor="#393939"
-                    android:textSize="16sp"
+                    android:visibility="@{viewModel.isDataFound ? View.VISIBLE : View.GONE}"
+                    android:id="@+id/cl_feature_root"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cl_sms_step_view" />
+                    app:layout_constraintTop_toBottomOf="@+id/cl_sms_step_view"
+                    app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/benefits_card_free_trial"
-                    style="@style/Widget.MaterialComponents.CardView"
-                    android:layout_width="0dp"
-                    android:layout_height="119dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    app:cardBackgroundColor="@color/colorWhite"
-                    app:cardCornerRadius="4dp"
-                    app:cardElevation="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sms_package_benefits_tv">
-<!--
-                    android:visibility="@{viewModel.isSMSFree() ? View.VISIBLE : View.GONE}"-->
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/sms_package_benefits_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/label_features_of_sms_job_alert"
+                        android:textColor="#393939"
+                        android:textSize="16sp" />
 
-                        <View
-                            android:id="@+id/first_dot_benefits_free_trial"
-                            android:layout_width="6dp"
-                            android:layout_height="6dp"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="20dp"
-                            android:background="#000000"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/benefits_card_free_trial"
+                        style="@style/Widget.MaterialComponents.CardView"
+                        android:layout_width="0dp"
+                        android:layout_height="119dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
+                        app:cardBackgroundColor="@color/colorWhite"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sms_package_benefits_tv">
+                        <!--
+                                            android:visibility="@{viewModel.isSMSFree() ? View.VISIBLE : View.GONE}"-->
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/benefits_text1_tv_free_trial"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:fontFamily="@font/roboto"
-                            android:text="@string/label_subscription_feature_sms_job_alert"
-                            android:textColor="#000000"
-                            android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/first_dot_benefits_free_trial"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            <View
+                                android:id="@+id/first_dot_benefits_free_trial"
+                                android:layout_width="6dp"
+                                android:layout_height="6dp"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginTop="20dp"
+                                android:background="#000000"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                        <View
-                            android:id="@+id/second_dot_benefits_free_trial"
-                            android:layout_width="6dp"
-                            android:layout_height="6dp"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="20dp"
-                            android:background="#000000"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/benefits_text1_tv_free_trial" />
+                            <TextView
+                                android:id="@+id/benefits_text1_tv_free_trial"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/label_subscription_feature_sms_job_alert"
+                                android:textColor="#000000"
+                                android:textSize="14sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/first_dot_benefits_free_trial"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/benefits_text2_tv_free_trial"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:fontFamily="@font/roboto"
-                            android:text="@string/label_receive_sms_feature_sms_job_alert"
-                            android:textColor="#000000"
-                            android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/second_dot_benefits_free_trial"
-                            app:layout_constraintTop_toBottomOf="@id/benefits_text1_tv_free_trial" />
+                            <View
+                                android:id="@+id/second_dot_benefits_free_trial"
+                                android:layout_width="6dp"
+                                android:layout_height="6dp"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginTop="20dp"
+                                android:background="#000000"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/benefits_text1_tv_free_trial" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            <TextView
+                                android:id="@+id/benefits_text2_tv_free_trial"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/label_receive_sms_feature_sms_job_alert"
+                                android:textColor="#000000"
+                                android:textSize="14sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/second_dot_benefits_free_trial"
+                                app:layout_constraintTop_toBottomOf="@id/benefits_text1_tv_free_trial" />
 
-                </com.google.android.material.card.MaterialCardView>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

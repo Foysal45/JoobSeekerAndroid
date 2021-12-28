@@ -11,8 +11,8 @@ import android.widget.Toast
 import com.bdjobs.app.databases.External.DataStorage
 import com.bdjobs.app.R
 import com.bdjobs.app.Registration.RegistrationCommunicator
-import com.bdjobs.app.Utilities.callHelpLine
-import com.bdjobs.app.Utilities.showError
+import com.bdjobs.app.utilities.callHelpLine
+import com.bdjobs.app.utilities.showError
 import kotlinx.android.synthetic.main.footer_bc_layout.*
 import kotlinx.android.synthetic.main.fragment_bc_experience.*
 import java.util.*

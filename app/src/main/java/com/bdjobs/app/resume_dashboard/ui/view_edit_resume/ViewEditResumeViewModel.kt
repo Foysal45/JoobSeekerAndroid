@@ -118,38 +118,41 @@ class ViewEditResumeViewModel(private val repository: ResumeDashboardRepository)
         viewModelScope.launch {
             try {
                 val response = repository.getQuestionListFromRemote()
-                val data = response.data
-                if (data!!.isNotEmpty()) {
-                    showVideoResumeSteps.value = _detailsResumeStat.value?.videoStatusPercentage != "100"
-                    for (i in data.indices) {
-                        when (i) {
-                            0 -> {
-                                videoResumeQ1.value = data[i]?.buttonStatus
-                                videoResumeQ1EN.value = data[i]?.questionText
-                            }
-                            1 -> {
-                                videoResumeQ2.value = data[i]?.buttonStatus
-                                videoResumeQ2EN.value = data[i]?.questionText
-                            }
-                            2 -> {
-                                videoResumeQ3.value = data[i]?.buttonStatus
-                                videoResumeQ3EN.value = data[i]?.questionText
-                            }
-                            3 -> {
-                                videoResumeQ4.value = data[i]?.buttonStatus
-                                videoResumeQ4EN.value = data[i]?.questionText
-                            }
-                            4 -> {
-                                videoResumeQ5.value = data[i]?.buttonStatus
-                                videoResumeQ5EN.value = data[i]?.questionText
-                            }
-                            5 -> {
-                                videoResumeQ6.value = data[i]?.buttonStatus
-                                videoResumeQ6EN.value = data[i]?.questionText
+                if (response.isSuccessful && response.code()==200) {
+                    val data = response.body()?.data
+                    if (data!!.isNotEmpty()) {
+                        showVideoResumeSteps.value = _detailsResumeStat.value?.videoStatusPercentage != "100"
+                        for (i in data.indices) {
+                            when (i) {
+                                0 -> {
+                                    videoResumeQ1.value = data[i]?.buttonStatus
+                                    videoResumeQ1EN.value = data[i]?.questionText
+                                }
+                                1 -> {
+                                    videoResumeQ2.value = data[i]?.buttonStatus
+                                    videoResumeQ2EN.value = data[i]?.questionText
+                                }
+                                2 -> {
+                                    videoResumeQ3.value = data[i]?.buttonStatus
+                                    videoResumeQ3EN.value = data[i]?.questionText
+                                }
+                                3 -> {
+                                    videoResumeQ4.value = data[i]?.buttonStatus
+                                    videoResumeQ4EN.value = data[i]?.questionText
+                                }
+                                4 -> {
+                                    videoResumeQ5.value = data[i]?.buttonStatus
+                                    videoResumeQ5EN.value = data[i]?.questionText
+                                }
+                                5 -> {
+                                    videoResumeQ6.value = data[i]?.buttonStatus
+                                    videoResumeQ6EN.value = data[i]?.questionText
+                                }
                             }
                         }
                     }
                 }
+
             } catch (e: Exception) {
                 Timber.e("Exception while fetching video resume question: ${e.localizedMessage}")
             }

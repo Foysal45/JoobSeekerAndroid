@@ -32,10 +32,10 @@ import androidx.core.view.isVisible
 import com.bdjobs.app.API.ApiServiceMyBdjobs
 import com.bdjobs.app.API.ModelClasses.PhotoInfoModel
 import com.bdjobs.app.API.ModelClasses.PhotoUploadResponseModel
-import com.bdjobs.app.Ads.Ads
+import com.bdjobs.app.ads.Ads
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
+import com.bdjobs.app.utilities.*
 import com.google.android.ads.nativetemplates.TemplateView
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
@@ -45,7 +45,6 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoTools
 import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_photo_upload.*
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -171,7 +170,7 @@ class PhotoUploadActivity : Activity() {
                         editResPhotoUploadButton?.hide()
                         editResChangePhotoButton?.show()
                         photoDeleteButton?.show()
-                        progressDialog?.dismiss()
+                        progressDialog.dismiss()
 
                         if (ic_edit_photo.isVisible) {
                             PicassoTools().clearCache(Picasso.get())
@@ -185,7 +184,7 @@ class PhotoUploadActivity : Activity() {
                         ic_edit_photo?.show()
                     } catch (e: Exception) {
 
-                        progressDialog?.dismiss()
+                        progressDialog.dismiss()
                         Timber.tag("PhotoUploadActivity").d("Upload response error $e")
 
                     }
@@ -200,7 +199,7 @@ class PhotoUploadActivity : Activity() {
                 ) {
                     try {
                         error?.message?.let { Log.e("photoAPI", it) }
-                        progressDialog?.dismiss()
+                        progressDialog.dismiss()
                     } catch (e: Exception) {
                         Timber.e(e)
                     }
@@ -219,7 +218,7 @@ class PhotoUploadActivity : Activity() {
             .enqueue(object : Callback<PhotoInfoModel> {
                 override fun onFailure(call: Call<PhotoInfoModel>, t: Throwable) {
                     error("onFailure", t)
-                    progressDialog?.dismiss()
+                    progressDialog.dismiss()
                 }
 
                 override fun onResponse(
@@ -253,7 +252,7 @@ class PhotoUploadActivity : Activity() {
                         }
                     } catch (e: Exception) {
                         Timber.e(e)
-                        progressDialog?.dismiss()
+                        progressDialog.dismiss()
                     }
                 }
             })
@@ -324,9 +323,9 @@ class PhotoUploadActivity : Activity() {
 
 
         val dialog = builder.create()
-        dialog?.setCancelable(false)
-        dialog?.setTitle("Are you sure to delete this photo?")
-        dialog?.show()
+        dialog.setCancelable(false)
+        dialog.setTitle("Are you sure to delete this photo?")
+        dialog.show()
 
     }
 
@@ -356,7 +355,7 @@ class PhotoUploadActivity : Activity() {
                         val photoUploadModel =
                             gson.fromJson(response, PhotoUploadResponseModel::class.java)
 
-                        progressDialog?.dismiss()
+                        progressDialog.dismiss()
                         noPhotoTV?.text = "No photo is uploaded yet"
                         photoInfoTV?.text = "Upload JPG, GIF, PNG or BMP Max size of photo is 3MB"
                         photoInfoTV?.show()
@@ -612,7 +611,7 @@ class PhotoUploadActivity : Activity() {
             if (requestCode == REQ_CAMERA_IMAGE && resultCode == RESULT_OK && data != null) {
 
                 val imageBitmap = data.extras?.get("data") as Bitmap
-                val tempUri = getImageUri(this@PhotoUploadActivity, imageBitmap!!)
+                val tempUri = getImageUri(this@PhotoUploadActivity, imageBitmap)
                 editResPhotoUploadImageView.loadCircularImageFromUrlWithoutCach(
                     tempUri.toString()
                 )

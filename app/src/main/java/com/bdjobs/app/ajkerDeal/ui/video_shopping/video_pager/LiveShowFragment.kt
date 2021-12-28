@@ -59,7 +59,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.math.abs
 
 @SuppressLint("SetTextI18n")
-class LiveShowFragment() : Fragment() {
+class LiveShowFragment : Fragment() {
 
     private var binding: FragmentLiveShowBinding? = null
     private var position: Int = -1

@@ -23,15 +23,16 @@ class VideoResumeActivity : AppCompatActivity() {
 
         Timber.d("From: $from")
 
-//        val navController = findNavController(R.id.videoResumeNavHostFragment)
 
         val navHostFragment = videoResumeNavHostFragment as NavHostFragment
         val inflater = navHostFragment.navController.navInflater
         val graph = inflater.inflate(R.navigation.video_resume_nav_graph)
 
-        if (from == "ViewEditResume") graph.startDestination = R.id.videoResumeQuestionsFragment
-        else if (from == "JobDetails") graph.startDestination = R.id.guidelineFragment
-        else graph.startDestination = R.id.videoResumeLandingFragment
+        when (from) {
+            "ViewEditResume" -> graph.startDestination = R.id.videoResumeQuestionsFragment
+            "JobDetails" -> graph.startDestination = R.id.guidelineFragment
+            else -> graph.startDestination = R.id.videoResumeLandingFragment
+        }
 
         navHostFragment.navController.graph = graph
 

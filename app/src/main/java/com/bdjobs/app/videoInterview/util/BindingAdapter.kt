@@ -1,7 +1,7 @@
 package com.bdjobs.app.videoInterview.util
 
+import android.annotation.SuppressLint
 import android.graphics.Color
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -10,12 +10,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.equalIgnoreCase
-import com.bdjobs.app.Utilities.hide
-import com.bdjobs.app.Utilities.show
+import com.bdjobs.app.utilities.equalIgnoreCase
+import com.bdjobs.app.utilities.hide
+import com.bdjobs.app.utilities.show
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewDetails
 import com.bdjobs.app.videoInterview.data.models.VideoInterviewList
-import com.bdjobs.app.videoResume.data.models.VideoResumeManager
 import com.bdjobs.app.videoResume.data.models.VideoResumeQuestionList
 import com.google.android.material.button.MaterialButton
 
@@ -274,6 +273,7 @@ fun bindInviteStatus(view: View, videoInvitationData: VideoInterviewList.Data) {
     }
 }
 
+@SuppressLint("SetTextI18n")
 @BindingAdapter("employerSeenStatus")
 fun bindEmployerSeenStatus(view: View, employerSeenDate: String) {
     if (employerSeenDate == "") {
@@ -292,7 +292,7 @@ fun bindEmployerSeenStatus(view: View, employerSeenDate: String) {
             }
             is TextView -> {
                 view.show()
-                view.text = "Seen by: ${employerSeenDate}"
+                view.text = "Seen: $employerSeenDate"
                 view.setTextColor(Color.parseColor("#393939"))
             }
         }
@@ -358,7 +358,7 @@ fun bindOneHourInfoVisibility(view: ConstraintLayout, remainingTime: String?, us
 
 @BindingAdapter("videoResumeButtonStatus")
 fun bindVRButton(button: Button, videoResumeQuestionList: VideoResumeQuestionList.Data) {
-    videoResumeQuestionList?.let {
+    videoResumeQuestionList.let {
         if (it.buttonStatus == "1") {
             button.setBackgroundColor(Color.parseColor("#9D0191"))
         } else {

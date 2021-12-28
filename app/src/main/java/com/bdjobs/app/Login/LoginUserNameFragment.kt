@@ -3,10 +3,8 @@ package com.bdjobs.app.Login
 import android.app.Dialog
 import android.app.Fragment
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,17 +18,17 @@ import com.bdjobs.app.API.ModelClasses.SocialLoginAccountListModel
 import com.bdjobs.app.Login2.Login2BaseActivity
 import com.bdjobs.app.R
 import com.bdjobs.app.SessionManger.BdjobsUserSession
-import com.bdjobs.app.Utilities.*
-import com.bdjobs.app.Utilities.Constants.Companion.FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY
-import com.bdjobs.app.Utilities.Constants.Companion.FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING
-import com.bdjobs.app.Utilities.Constants.Companion.FB_KEY_EMAIL
-import com.bdjobs.app.Utilities.Constants.Companion.FB_KEY_ID
-import com.bdjobs.app.Utilities.Constants.Companion.RC_SIGN_IN
-import com.bdjobs.app.Utilities.Constants.Companion.SOCIAL_MEDIA_FACEBOOK
-import com.bdjobs.app.Utilities.Constants.Companion.SOCIAL_MEDIA_GOOGLE
-import com.bdjobs.app.Utilities.Constants.Companion.api_request_result_code_ok
-import com.bdjobs.app.Utilities.Constants.Companion.key_false
-import com.bdjobs.app.Utilities.Constants.Companion.key_true
+import com.bdjobs.app.utilities.*
+import com.bdjobs.app.utilities.Constants.Companion.FACEBOOK_GRAPH_REQUEST_PERMISSION_KEY
+import com.bdjobs.app.utilities.Constants.Companion.FACEBOOK_GRAPH_REQUEST_PERMISSION_STRING
+import com.bdjobs.app.utilities.Constants.Companion.FB_KEY_EMAIL
+import com.bdjobs.app.utilities.Constants.Companion.FB_KEY_ID
+import com.bdjobs.app.utilities.Constants.Companion.RC_SIGN_IN
+import com.bdjobs.app.utilities.Constants.Companion.SOCIAL_MEDIA_FACEBOOK
+import com.bdjobs.app.utilities.Constants.Companion.SOCIAL_MEDIA_GOOGLE
+import com.bdjobs.app.utilities.Constants.Companion.api_request_result_code_ok
+import com.bdjobs.app.utilities.Constants.Companion.key_false
+import com.bdjobs.app.utilities.Constants.Companion.key_true
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -308,7 +306,7 @@ class LoginUserNameFragment : Fragment() {
             }
 
             if (count == 7) {
-                rootView?.view?.isEnabled = false
+                rootView.view?.isEnabled = false
                 openDialog()
             }
         }
@@ -473,22 +471,22 @@ class LoginUserNameFragment : Fragment() {
 
     private fun openDialog() {
         val dialog = Dialog(activity)
-        dialog?.setContentView(R.layout.dialog_pass)
-        dialog?.setCancelable(false)
-        dialog?.show()
-        val passET = dialog?.findViewById<EditText>(R.id.pass_et)
-        val okBtn = dialog?.findViewById<Button>(R.id.ok_btn)
+        dialog.setContentView(R.layout.dialog_pass)
+        dialog.setCancelable(false)
+        dialog.show()
+        val passET = dialog.findViewById<EditText>(R.id.pass_et)
+        val okBtn = dialog.findViewById<Button>(R.id.ok_btn)
 
         okBtn.setOnClickListener {
             passET?.let {
                 //Log.d("rakib", "${Base64.encodeToString(passET.text.toString().toByteArray(), Base64.NO_WRAP)} ${R.string.pass}")
                 if (Base64.encodeToString(passET.text.toString().toByteArray(), Base64.NO_WRAP) == getString(R.string.pass)) {
-                    dialog?.dismiss()
+                    dialog.dismiss()
                     startActivity(intentFor<Login2BaseActivity>(Constants.key_go_to_home to true))
                 } else {
-                    dialog?.dismiss()
+                    dialog.dismiss()
                 }
-                dialog?.dismiss()
+                dialog.dismiss()
             }
 
         }

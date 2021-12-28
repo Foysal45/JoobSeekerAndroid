@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.bdjobs.app.API.ModelClasses.InviteCodeCategoryAmountModelData
 import com.bdjobs.app.R
-import com.bdjobs.app.Utilities.toBanglaDigit
+import com.bdjobs.app.utilities.toBanglaDigit
 import java.util.*
 
 class InvitecodeCategoryListAdapter(ctx: Context?, private val categoryAmountList: ArrayList<InviteCodeCategoryAmountModelData>) : BaseAdapter() {
@@ -28,8 +28,8 @@ class InvitecodeCategoryListAdapter(ctx: Context?, private val categoryAmountLis
             vh = view.tag as ListRowHolder
         }
 
-        vh.categoryNameTV?.text = categoryAmountList.get(position).categoryName
-        vh.categoryMoneyTV?.text = categoryAmountList.get(position).ownerAmount.toBanglaDigit() + "/-"
+        vh.categoryNameTV.text = categoryAmountList.get(position).categoryName
+        vh.categoryMoneyTV.text = categoryAmountList.get(position).ownerAmount.toBanglaDigit() + "/-"
 
         return view
     }
